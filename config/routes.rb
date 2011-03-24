@@ -1,6 +1,8 @@
 BridgeTroll::Application.routes.draw do
   
-  resources :events
+  resources :events do
+    resources :registrations
+  end
   
   root :to => 'home#index'
   

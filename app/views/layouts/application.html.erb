@@ -3,6 +3,8 @@
 <head>
   <title>Bridge Troll</title>
   <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag 'jquery-1.5.1.min.js' %>
+  
   <%= csrf_meta_tag %>
 </head>
 <body>
@@ -11,9 +13,6 @@
       <div id="logo">
         <%= link_to 'Railsbridge Outreach Events', root_url %>
       </div>
-      <ul id="navigation">
-        <li><%= link_to 'Events', '#' %></li>
-      </ul>
     </div>
     
     <%= yield %>

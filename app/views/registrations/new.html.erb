@@ -1,0 +1,217 @@
+<div id="registrations_new">
+  
+  <h1>Welcome to Railsbridge!  You're signing up for <%= @event.name %>.</h1>
+  
+  <%= form_for [@event, @registration] do |f| %>
+    <%= f.hidden_field :class_level %>
+    
+    <div id="name_step">
+      <h2>First, let's get your name.</h2>
+
+      <%= f.label :registrant_name, 'Name' %>
+      <%= f.text_field :registrant_name %>
+      <br />
+
+      <%= f.label :registrant_email, 'Email' %>
+      <%= f.text_field :registrant_email %>
+      <br />
+
+      <button type="button">Okay</button>
+    </div>
+    
+    <div id="sorting_step">
+      
+      <h2>Which class?</h2>
+      <p>The Railsbridge Outreach workshop is open to all women, regardless of technical experience.  However, so that we can cater to your particular background and goals, we've designed three slightly different curriculums depending on where you're coming from.</p>
+      <p>Here's a really short quiz that will help you figure out where you belong.  It's okay if you don't know the answers to these questions!</p>
+      <button id="sorting_quiz_start" type="button">Okay</button>
+    
+      <div id="introductory_question" class="sorting_question">
+        <%= label_tag "Can you write a program that adds up all the numbers between 0 and 100, in any programming language?" %>
+        <button id="introductory_question_yes" type="button">Yes</button>
+        <button id="introductory_question_no" type="button">No</button>
+        <br />
+      </div>
+  
+      <div id="advanced_question" class="sorting_question">
+        <%= label_tag "Have you ever written and deployed a web application?" %>
+        <button id="advanced_question_yes" type="button">Yes</button>
+        <button id="advanced_question_no" type="button">No</button>
+        <br />
+      </div>
+    
+      <div id="introductory" class="class_description">
+        <h2>We think you should take our introductory course.</h2>
+      
+        <div>
+          <p><strong>Here's you:</strong></p>
+          <ul>
+            <li>You have minimal experience with the command line, but you want to learn how to use it like the hackers.</li>
+            <li>You have minimal programming exprience, but you're ready to learn the basics.</li>
+            <li>You might work in a non-technical role and want to understand enough about code to speak Developer...</li>
+            <li>or you might want to start learning to program to eventually get work doing technical stuff.</li>
+          </ul>
+        </div>
+      
+        <div>
+          <p><strong>Here's what you'll learn:</strong></p>
+          <ul>
+            <li>How to use the command line</li>
+            <li>How to run a program from a file</li>
+            <li>Variables, data types, objects, and functions</li>
+            <li>Boolean logic, conditionals, and loops</li>
+            <li>How the Internet and websites work at a high level and what people mean when they talk about "the cloud"</li>
+            <li>Terms, tools, and best practices of the software engineer</li>
+          </ul>
+        </div>
+
+        <button id="introductory_choose" type="button">Sounds perfect!</button>
+        <button id="introductory_harder" type="button">Let's see the next-hardest course</button>
+
+      
+      </div>
+
+
+      <div id="intermediate" class="class_description">
+        <h2>We think you should take our intermediate course.</h2>
+      
+        <div>
+          <p><strong>Here's you:</strong></p>
+          <ul>
+            <li>You're comfortable navigating around and manipulating files with the command line.</li>
+            <li>You've written some code before, and you understand how to use variables, functions, arrays, and conditional logic to make it do what you want.</li>
+            <li>You want to learn about Ruby, Object-Oriented Programming, best testing practices, or how to create a working web application from scratch.</li>
+          </ul>
+        </div>
+      
+        <div>
+          <p><strong>Here's what you'll learn:</strong></p>
+          <ul>
+            <li>Arrays and hashes in Ruby</li>
+            <li>Classes, methods, instance variables, and other concepts from Object-Oriented Programming</li>
+            <li>The software architecture pattern called MVC</li>
+            <li>What a Rails application looks like and how all of its parts work together</li>
+            <li>How to use Test-Driven Development to write code that won't break</li>
+          </ul>
+        </div>
+      
+        <button id="intermediate_easier" type="button">Let's see something more basic</button>
+        <button id="intermediate_choose" type="button">Sounds perfect!</button>
+        <button id="intermediate_harder" type="button">Let's see the next-hardest course</button>
+      </div>
+
+
+      <div id="advanced" class="class_description">
+        <h2>We think you should take our advanced course.</h2>
+      
+        <div>
+          <p><strong>Here's you:</strong></p>
+          <ul>
+            <li>You can think in Ruby or another object-oriented language, and you pick up new syntax quickly.</li>
+            <li>You're conceptually familiar with application architectures; you may have built web applications using other frameworks, like Cake, Django, or Struts.</li>
+            <li>You're curious about Rails and you want to know how it compares to other frameworks.</li>
+          </ul>
+        </div>
+      
+        <div>
+          <p><strong>Here's what you'll learn:</strong></p>
+          <ul>
+            <li>The Rails application architecture, and how it implements MVC</li>
+            <li>The ins and outs of using ActiveRecord as your ORM</li>
+            <li>Data modeling</li>
+            <li>RESTful architecture</li>
+            <li>Ruby testing frameworks: RSpec and Cucumber</li>
+          </ul>
+        </div>
+      
+        <button id="advanced_easier" type="button">Let's see something more basic</button>
+        <button id="advanced_choose" type="button">Sounds perfect!</button>
+      </div>
+    </div>
+      
+
+    <div id="signup_step">
+      <%= f.submit "Sign me up!" %>
+    </div>
+  
+  <% end %>
+  
+</div>
+
+<script>
+  $(document).ready(function() {
+    // Set form to initial state
+    $('#sorting_step').hide();
+    $('.sorting_question').hide();
+    $('.class_description').hide();
+    
+    $('#signup_step').hide();
+    
+    // Button handlers
+    $('#name_step button').bind('click', function() {
+      $('#sorting_step').show();
+    });
+    
+    $('#sorting_quiz_start').bind('click', function() {
+      $('#introductory_question').show();
+    });
+    
+    $('#introductory_question_no').bind('click', function() {
+      $('#introductory.class_description').show();
+    });
+    
+    $('#introductory_question_yes').bind('click', function() {
+      $('#advanced_question').show();
+    });
+    
+    $('#advanced_question_no').bind('click', function() {
+      $('#intermediate.class_description').show();
+    });
+    
+    $('#advanced_question_yes').bind('click', function() {
+      $('#advanced.class_description').show();
+    });
+    
+    
+    
+    $('#introductory_choose').bind('click', function() {
+      $('#registration[class_level]').val(0);
+      $('#signup_step').show();
+    });
+    
+    $('#introductory_harder').bind('click', function() {
+      $('#introductory.class_description').hide();
+      $('#intermediate.class_description').show();
+    });
+    
+    
+    
+    $('#intermediate_choose').bind('click', function() {
+      $('#registration[class_level]').val(1);
+      $('#signup_step').show();
+    });
+    
+    $('#intermediate_easier').bind('click', function() {
+      $('#intermediate.class_description').hide();
+      $('#introductory.class_description').show();
+    });
+    
+    $('#intermediate_harder').bind('click', function() {
+      $('#intermediate.class_description').hide();
+      $('#advanced.class_description').show();
+    });
+    
+    
+    
+    $('#advanced_choose').bind('click', function() {
+      $('#registration[class_level]').val(2);
+      $('#signup_step').show();
+    });
+    
+    $('#advanced_easier').bind('click', function() {
+      $('#advanced.class_description').hide();
+      $('#intermediate.class_description').show();
+    });
+    
+  });
+</script>
