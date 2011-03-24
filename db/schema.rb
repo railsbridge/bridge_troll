@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110324060633) do
+ActiveRecord::Schema.define(:version => 20110324061803) do
 
   create_table "events", :force => true do |t|
     t.string   "name",                           :null => false
@@ -35,5 +35,20 @@ ActiveRecord::Schema.define(:version => 20110324060633) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "registrations", :force => true do |t|
+    t.integer  "event_id",                                  :null => false
+    t.boolean  "waitlisted",             :default => false
+    t.datetime "withdrawn_at"
+    t.string   "registrant_name",                           :null => false
+    t.string   "registrant_email",                          :null => false
+    t.string   "registrant_description"
+    t.integer  "inviter_id"
+    t.integer  "class_level",            :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "registrations", ["event_id"], :name => "index_registrations_on_event_id"
 
 end
