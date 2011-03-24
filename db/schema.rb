@@ -10,7 +10,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110324060159) do
+ActiveRecord::Schema.define(:version => 20110324060633) do
+
+  create_table "events", :force => true do |t|
+    t.string   "name",                           :null => false
+    t.integer  "location_id",                    :null => false
+    t.datetime "start_time",                     :null => false
+    t.datetime "end_time",                       :null => false
+    t.text     "description"
+    t.integer  "capacity",        :default => 1, :null => false
+    t.integer  "guests_per_user", :default => 0, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["location_id"], :name => "index_events_on_location_id"
 
   create_table "locations", :force => true do |t|
     t.string   "name",       :null => false
