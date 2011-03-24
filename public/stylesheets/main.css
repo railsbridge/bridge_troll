@@ -135,14 +135,17 @@ li {
       list-style-type: circle;
       padding: 5px 0; }
 #registrations_new #sorting_step .class_description .button_row {
-  text-align: center; }
+  text-align: center;
+  margin-bottom: 100px; }
   #registrations_new #sorting_step .class_description .button_row button {
     display: inline;
     width: auto; }
-#registrations_new #miscellaneous_step #registration_submit {
-  margin: 0 auto;
-  display: block;
-  width: 100px;
-  height: 30px;
-  font-size: 18px;
-  font-weight: bold; }
+#registrations_new #miscellaneous_step {
+  margin-bottom: 100px; }
+  #registrations_new #miscellaneous_step #registration_submit {
+    margin: 0 auto;
+    display: block;
+    width: 100px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold; }
