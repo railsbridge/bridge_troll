@@ -1,0 +1,106 @@
+body {
+  font: 12px "Helvetica Neue", Helvetica; }
+
+#container {
+  width: 960px;
+  margin: 0 auto; }
+
+#header {
+  font-size: 12px;
+  background-color: #e0e0e0;
+  padding: 10px;
+  margin-bottom: 10px;
+  overflow: hidden; }
+  #header #logo {
+    float: left;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); }
+    #header #logo a {
+      text-decoration: none; }
+  #header .navigation {
+    clear: both;
+    list-style-type: none;
+    overflow: hidden; }
+    #header .navigation li {
+      display: inline;
+      margin-right: 20px; }
+    #header .navigation li:last-child {
+      margin-right: 0; }
+
+#footer {
+  font-size: 12px;
+  background-color: #e0e0e0;
+  padding: 10px;
+  margin-top: 10px;
+  overflow: hidden; }
+  #footer .navigation {
+    text-align: center;
+    clear: both;
+    list-style-type: none;
+    overflow: hidden; }
+    #footer .navigation li {
+      display: inline;
+      margin-right: 20px; }
+    #footer .navigation li:last-child {
+      margin-right: 0; }
+
+li {
+  list-style-type: none; }
+
+#networkToolbar {
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  position: relative; }
+
+#networkToolbarMargin {
+  height: 5px;
+  background: #800219; }
+
+#networkToolbarTriger {
+  height: 20px;
+  position: absolute;
+  margin-left: 760px; }
+
+#networkToolbarContainer {
+  width: 960px;
+  margin: 0 auto; }
+
+#toolbarContainer {
+  width: 100%;
+  background: #333333 url(../images/rbnShadow.png) repeat-x 0 bottom; }
+
+#menuToolbarContent {
+  width: 100%;
+  padding: 20px 0 20px;
+  color: #999999;
+  text-align: center; }
+
+#menuToolbarContent a {
+  color: #ffff99;
+  font-weight: bold;
+  margin: 10px 5px 0; }
+
+#home_index h1 {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); }
+#home_index h2 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); }
+#home_index #photos {
+  margin: 0 auto;
+  background-color: #eeeeee;
+  width: 600px;
+  height: 200px;
+  padding-top: 200px;
+  text-align: center;
+  color: #777777; }
