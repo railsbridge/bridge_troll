@@ -7,6 +7,14 @@ class RegistrationsController < ApplicationController
   end
   
   def create
+    @registration = Registration.new(params[:registration])
+    @registration.event_id = @event.id
+    
+    if @registration.save
+      redirect_to @event
+    else
+      # aughhh
+    end
   end
   
   

@@ -14,6 +14,9 @@ class Registration < ActiveRecord::Base
   
   before_create :sets_waitlisted
   
+  validate :event_id, :presence => true
+  validate :registrant_name, :presence => true
+  validate :registrant_email, :presence => true
   
   private
 
