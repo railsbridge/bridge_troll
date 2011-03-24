@@ -69,3 +69,80 @@ li {
   padding-top: 200px;
   text-align: center;
   color: #777777; }
+
+#registrations_new button {
+  margin: 0 auto;
+  display: block;
+  width: 100px;
+  height: 30px;
+  font-size: 15px; }
+#registrations_new p {
+  font-size: 14px;
+  padding: 5px;
+  line-height: 16px; }
+#registrations_new h2 {
+  margin: 20px 0; }
+#registrations_new .big_question {
+  padding: 10px;
+  text-align: center; }
+  #registrations_new .big_question p {
+    text-align: center;
+    color: #555555;
+    font-weight: bold;
+    font-size: 18px; }
+  #registrations_new .big_question button {
+    display: inline; }
+  #registrations_new .big_question label {
+    font-size: 16px; }
+  #registrations_new .big_question textarea {
+    width: 300px;
+    height: 70px; }
+#registrations_new #name_step #name_form_area {
+  text-align: center; }
+  #registrations_new #name_step #name_form_area .big_field {
+    margin: 0 auto 10px;
+    overflow: hidden;
+    width: 400px; }
+    #registrations_new #name_step #name_form_area .big_field label {
+      color: #555555;
+      font-weight: bold;
+      font-size: 18px;
+      float: left;
+      width: 60px;
+      text-align: right;
+      margin-right: 10px;
+      height: 40px;
+      padding-top: 10px; }
+    #registrations_new #name_step #name_form_area .big_field input {
+      float: left;
+      height: 40px;
+      width: 300px;
+      font-size: 18px; }
+#registrations_new #sorting_step .class_description table {
+  margin: 0 auto 10px;
+  border-top: 1px black solid;
+  border-left: 1px black solid; }
+  #registrations_new #sorting_step .class_description table th, #registrations_new #sorting_step .class_description table td {
+    border-right: 1px black solid;
+    border-bottom: 1px black solid;
+    width: 300px;
+    padding: 10px;
+    font-size: 14px; }
+    #registrations_new #sorting_step .class_description table th li, #registrations_new #sorting_step .class_description table td li {
+      font-size: 14px;
+      line-height: 16px;
+      margin-left: 25px;
+      list-style-type: circle;
+      padding: 5px 0; }
+#registrations_new #sorting_step .class_description .button_row {
+  text-align: center; }
+  #registrations_new #sorting_step .class_description .button_row button {
+    display: inline;
+    width: auto; }
+#registrations_new #miscellaneous_step #registration_submit {
+  margin: 0 auto;
+  display: block;
+  width: 100px;
+  height: 30px;
+  font-size: 18px;
+  font-weight: bold; }
