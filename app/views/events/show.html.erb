@@ -1,0 +1,19 @@
+<div id="events_show">
+  <h1><%= @event.name %></h1>
+  <p><%= @event.description %></p>
+  
+  <hr />
+  
+  <h4>Attending:</h4>
+  <% @event.registrations.attending.each do |registration| %>
+    <%= registration.name %>
+  <% end %>
+  
+  <h4>On Waitlist:</h4>
+  
+  <% @event.registrations.waitlisted.each do |registration| %>
+    <%= registration.name %>
+  <% end %>
+  
+</div>
+
