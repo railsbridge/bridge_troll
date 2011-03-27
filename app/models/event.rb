@@ -18,7 +18,7 @@ class Event < ActiveRecord::Base
   validates :guests_per_user, :numericality => { :greater_than_or_equal_to => 0 }
   
   def full?
-    registrations.active >= capacity
+    registrations.active.size >= capacity
   end
   
   

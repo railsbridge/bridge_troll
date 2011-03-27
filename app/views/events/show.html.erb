@@ -6,13 +6,13 @@
   
   <h4>Attending:</h4>
   <% @event.registrations.attending.each do |registration| %>
-    <%= registration.name %>
+    <%= registration.registrant_name %>
   <% end %>
   
   <h4>On Waitlist:</h4>
   
   <% @event.registrations.waitlisted.each do |registration| %>
-    <%= registration.name %>
+    <%= registration.registrant_name %>
   <% end %>
   
 </div>

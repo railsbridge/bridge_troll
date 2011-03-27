@@ -22,7 +22,7 @@ class Registration < ActiveRecord::Base
 
   def validate_uniqueness_of_active_registration
     if new_record?
-      errors.add(:user_id, "has already registered for this event") if Registration.exists?(["user_id = ? AND event_id = ? AND withdrawn_at IS NULL", user_id, event_id])
+      errors.add(:registrant_email, "has already registered for this event") if Registration.exists?(["registrant_email = ? AND event_id = ? AND withdrawn_at IS NULL", registrant_email, event_id])
     end
   end
 
