@@ -1,0 +1,87 @@
+<%= form_for(@tshirt_coupon) do |f| %>
+  <% if @tshirt_coupon.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tshirt_coupon.errors.count, "error") %> prohibited this tshirt_coupon from being saved:</h2>
+
+      <ul>
+      <% @tshirt_coupon.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>One of the near-term goals for the Workshop organizers is to keep better track of our volunteers, particularly volunteers who come back again and again to multiple workshops. Tell us a little bit about your incredible powers below:</p>
+  
+  <h2>My Incredible Powers</h2>
+
+  <div class="field">
+    <%= f.check_box :skill_teaching %>
+    <%= f.label :skill_teaching, 'Teaching' %>
+    I'm comfortable leading a full-day workshop.
+    I'm familiar enough with Ruby and Rails to teach the basics.
+  </div>
+  <div class="field">
+    <%= f.check_box :skill_taing %>
+    <%= f.label :skill_taing, 'TAing' %>
+    I'm willing to assist workshop teachers, and I'm comfortable taking participants aside and working with them one-on-one.
+    I'm familiar enough with Ruby and Rails to teach the basics.
+  </div>
+  <div class="field">
+    <%= f.check_box :skill_coordinating %>
+    <%= f.label :skill_coordinating, 'Coordinating' %>
+    I can be counted on to organize one of our monthly workshops.
+    Taking care of the operations and logistics and delegating where necessary is no problem for me.
+  </div>
+  <div class="field">
+    <%= f.check_box :skill_childcaring %>
+    <%= f.label :skill_childcaring, 'Childcaring' %>
+    I take care of children professionally or at home.
+    I'm happy to care for the children of Workshop participants during events.
+  </div>
+  <div class="field">
+    <%= f.check_box :skill_writing %>
+    <%= f.label :skill_writing, 'Writing' %>
+    I'm good with words, and the spelling error in this sentance jumped out at me immediately.
+    I can write or edit copy and help maintain the Railsbridge Outreach Workshop Wiki.
+  </div>
+  <div class="field">
+    <%= f.check_box :skill_hacking %>
+    <%= f.label :skill_hacking, 'Hacking' %>
+    I know HTML/JavaScript/CSS, Rails, or both.
+    I want to build software that will help the Workshops continue to run and scale smoothly. 
+  </div>
+  <div class="field">
+    <%= f.check_box :skill_designing %>
+    <%= f.label :skill_designing, 'Designing' %>
+    I have a sharp eye for design and think about user experience all the time.
+    I want to design the websites that keep the Workshop running smoothly. 
+  </div>
+  <div class="field">
+    <%= f.check_box :skill_evangelizing %>
+    <%= f.label :skill_evangelizing, 'Evangelizing' %>
+    I'm a blogger or I have contacts in the PR/marketing world.
+    I can help get the word out when there's news about the Workshop.
+  </div>
+  <div class="field">
+    <%= f.check_box :skill_mentoring %>
+    <%= f.label :skill_mentoring, 'Mentoring' %>
+    I have experience with several workshops in different roles.
+    I'm willing to spend phone, email, or face time with founding Railsbridge Outreach Workshops organizers in other cities to help them get their operations off the ground.
+  </div>
+  <div class="field">
+    <%= check_box_tag :skill_other %>
+    <%= f.label :skill_other, 'Other' %>
+    <%= f.text_field :skill_other %>
+  </div>
+
+  <h2>My T-Shirt Size</h2>
+
+  <div class="field">
+    <%= f.label :tshirt_size %><br />
+    <%= f.select :tshirt_size, options_for_select(%w(XS S M L XL)) %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Lock it in!" %>
+  </div>
+<% end %>

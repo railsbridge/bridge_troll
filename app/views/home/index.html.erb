@@ -4,8 +4,10 @@
   
   <% if !user_signed_in? %>
   <p><%= link_to 'Sign up!', new_user_registration_url %></p>
+  <% elsif current_user.tshirt_coupon.nil? %>
+  <p><%= link_to 'I signed up. Gimme my shirt!', new_tshirt_coupon_url %></p>
   <% else %>
-  <h3>YOU IS SIGNED IN!</h3>
+  <p>Oh, wait, you already did! Find Raph at the Installfest or Workshop and he'll hook you up with some sweet gear.</p>
   <% end %>
 </div>
 

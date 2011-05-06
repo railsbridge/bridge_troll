@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110506051629) do
+ActiveRecord::Schema.define(:version => 20110506055140) do
 
   create_table "events", :force => true do |t|
     t.string   "name",                           :null => false
@@ -50,6 +50,26 @@ ActiveRecord::Schema.define(:version => 20110506051629) do
   end
 
   add_index "registrations", ["event_id"], :name => "index_registrations_on_event_id"
+
+  create_table "tshirt_coupons", :force => true do |t|
+    t.integer  "user_id",            :null => false
+    t.boolean  "skill_teaching"
+    t.boolean  "skill_taing"
+    t.boolean  "skill_coordinating"
+    t.boolean  "skill_mentoring"
+    t.boolean  "skill_hacking"
+    t.boolean  "skill_designing"
+    t.boolean  "skill_writing"
+    t.boolean  "skill_evangelizing"
+    t.boolean  "skill_childcaring"
+    t.string   "skill_other"
+    t.string   "tshirt_size",        :null => false
+    t.datetime "received_shirt_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tshirt_coupons", ["user_id"], :name => "index_tshirt_coupons_on_user_id", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "", :null => false

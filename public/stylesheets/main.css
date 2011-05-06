@@ -1,5 +1,5 @@
-body {
-  font: 12px "Helvetica Neue", Helvetica; }
+body, p {
+  font: 13px "Helvetica Neue", Helvetica; }
 
 #container {
   width: 960px;
@@ -69,6 +69,8 @@ li {
   padding-top: 200px;
   text-align: center;
   color: #777777; }
+#home_index p {
+  text-align: center; }
 
 #registrations_new button {
   margin: 0 auto;
@@ -149,3 +151,6 @@ li {
     height: 30px;
     font-size: 18px;
     font-weight: bold; }
+
+#tshirt_coupons_new label {
+  font-weight: bold; }
