@@ -1,9 +1,11 @@
 <div id="home_index">
-  <h1>Got a catchy tagline?</h1>
-  <h2>Please replace me, I am a placeholder.</h2>
+  <h1>Workshop volunteers, we want to give you a t-shirt.</h1>
+  <h2>But you need to sign up here to get one.</h2>
   
-  <div id="photos">
-    AWESOME PICTURE SLIDER TO COME HERE
-  </div>
+  <% if !user_signed_in? %>
+  <p><%= link_to 'Sign up!', new_user_registration_url %></p>
+  <% else %>
+  <h3>YOU IS SIGNED IN!</h3>
+  <% end %>
 </div>
 

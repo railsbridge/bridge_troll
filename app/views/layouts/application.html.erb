@@ -11,8 +11,20 @@
   <div id="container">
     <div id="header">
       <div id="logo">
-        <%= link_to 'Railsbridge Outreach Events', root_url %>
+        <%= link_to 'Railsbridge Outreach Workshop for Women', root_url %>
       </div>
+      <ul id="nav">
+        <li></li>
+        
+        <% if !user_signed_in? %>
+        <li><%= link_to 'Sign up', new_user_registration_url %></li>
+        <li><%= link_to 'Log in', new_user_session_url %></li>
+        <% else %>
+        <li><%= link_to 'Log out', destroy_user_session_url %></li>
+        <% end %>
+        
+        
+      </ul>
     </div>
     
     <%= yield %>

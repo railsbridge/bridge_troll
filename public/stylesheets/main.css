@@ -19,14 +19,14 @@ body {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); }
     #header #logo a {
       text-decoration: none; }
-  #header .navigation {
-    clear: both;
+  #header #nav {
+    float: right;
     list-style-type: none;
     overflow: hidden; }
-    #header .navigation li {
+    #header #nav li {
       display: inline;
       margin-right: 20px; }
-    #header .navigation li:last-child {
+    #header #nav li:last-child {
       margin-right: 0; }
 
 #footer {

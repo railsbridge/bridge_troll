@@ -1,5 +1,7 @@
 BridgeTroll::Application.routes.draw do
   
+  resources :tshirt_coupons
+
   devise_for :users
 
   resources :events do
