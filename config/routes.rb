@@ -1,5 +1,7 @@
 BridgeTroll::Application.routes.draw do
   
+  devise_for :users
+
   resources :events do
     resources :registrations
   end
