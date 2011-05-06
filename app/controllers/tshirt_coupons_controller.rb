@@ -1,5 +1,6 @@
 class TshirtCouponsController < ApplicationController
-  before_filter :authenticate_user!, :only => [:new, :create]
+  before_filter :authenticate_user!, :except => :shirt_received
+  before_filter :only_allow_admins, :only => [:index]
   
   # GET /tshirt_coupons
   # GET /tshirt_coupons.xml
@@ -12,20 +13,11 @@ class TshirtCouponsController < ApplicationController
     end
   end
 
-  # GET /tshirt_coupons/1
-  # GET /tshirt_coupons/1.xml
-  def show
-    @tshirt_coupon = TshirtCoupon.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @tshirt_coupon }
-    end
-  end
-
   # GET /tshirt_coupons/new
   # GET /tshirt_coupons/new.xml
   def new
+    redirect_to root_url unless current_user.tshirt_coupon.nil?
+    
     @tshirt_coupon = TshirtCoupon.new
 
     respond_to do |format|
@@ -49,5 +41,14 @@ class TshirtCouponsController < ApplicationController
         format.xml  { render :xml => @tshirt_coupon.errors, :status => :unprocessable_entity }
       end
     end
+  end
+  
+  def shirt_received
+    if request.xhr?
+      receiver = TshirtCoupon.find_by_id(params[:id])
+      receiver.received_shirt_at = Time.now
+      receiver.save
+    end
+    head :ok
   end
 end

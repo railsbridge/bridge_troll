@@ -1,6 +1,10 @@
 BridgeTroll::Application.routes.draw do
   
-  resources :tshirt_coupons
+  resources :tshirt_coupons do
+    member do
+      post 'shirt_received'
+    end
+  end
 
   devise_for :users
 

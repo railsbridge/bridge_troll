@@ -1,13 +1,17 @@
 <div id="home_index">
   <h1>Workshop volunteers, we want to give you a t-shirt.</h1>
   <h2>But you need to sign up here to get one.</h2>
+
+  <% if flash[:notice] %>
+  <p id="flash_notice"><%= flash[:notice] %></p>
+  <% end %>
   
   <% if !user_signed_in? %>
-  <p><%= link_to 'Sign up!', new_user_registration_url %></p>
+  <p class="shirt_alert"><%= link_to 'Sign up!', new_user_registration_url %></p>
   <% elsif current_user.tshirt_coupon.nil? %>
-  <p><%= link_to 'I signed up. Gimme my shirt!', new_tshirt_coupon_url %></p>
+  <p class="shirt_alert"><%= link_to 'I signed up. Gimme my shirt!', new_tshirt_coupon_url %></p>
   <% else %>
-  <p>Oh, wait, you already did! Find Raph at the Installfest or Workshop and he'll hook you up with some sweet gear.</p>
+  <p class="shirt_alert">You've filled out the survey and specified your t-shirt size! Find Raph at the Installfest or Workshop and he'll hook you up with some sweet gear.</p>
   <% end %>
 </div>
 

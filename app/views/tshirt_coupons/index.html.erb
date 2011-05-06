@@ -1,43 +1,54 @@
 <div id="tshirt_coupons_index">
-  <h1>Listing tshirt_coupons</h1>
+  <h1>People who want T-Shirts</h1>
 
   <table>
     <tr>
       <th>User</th>
-      <th>Skill teaching</th>
-      <th>Skill coordinating</th>
-      <th>Skill mentoring</th>
-      <th>Skill hacking</th>
-      <th>Skill designing</th>
-      <th>Skill evangelizing</th>
-      <th>Skill childcaring</th>
-      <th>Skill other</th>
-      <th>Tshirt size</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>Teaching</th>
+      <th>TAing</th>
+      <th>Coordinating</th>
+      <th>Childcaring</th>
+      <th>Writing</th>
+      <th>Hacking</th>
+      <th>Designing</th>
+      <th>Evangelizing</th>
+      <th>Mentoring</th>
+      <th>Other</th>
+      <th>Size</th>
+      <th>Received?</th>
     </tr>
 
   <% @tshirt_coupons.each do |tshirt_coupon| %>
     <tr>
-      <td><%= tshirt_coupon.user_id %></td>
+      <td><%= tshirt_coupon.user.email %></td>
       <td><%= tshirt_coupon.skill_teaching %></td>
+      <td><%= tshirt_coupon.skill_taing %></td>
       <td><%= tshirt_coupon.skill_coordinating %></td>
-      <td><%= tshirt_coupon.skill_mentoring %></td>
+      <td><%= tshirt_coupon.skill_childcaring %></td>
+      <td><%= tshirt_coupon.skill_writing %></td>
       <td><%= tshirt_coupon.skill_hacking %></td>
       <td><%= tshirt_coupon.skill_designing %></td>
       <td><%= tshirt_coupon.skill_evangelizing %></td>
-      <td><%= tshirt_coupon.skill_childcaring %></td>
+      <td><%= tshirt_coupon.skill_mentoring %></td>
       <td><%= tshirt_coupon.skill_other %></td>
       <td><%= tshirt_coupon.tshirt_size %></td>
-      <td><%= link_to 'Show', tshirt_coupon %></td>
-      <td><%= link_to 'Edit', edit_tshirt_coupon_path(tshirt_coupon) %></td>
-      <td><%= link_to 'Destroy', tshirt_coupon, :confirm => 'Are you sure?', :method => :delete %></td>
+      <td id="received_<%= tshirt_coupon.id %>">
+        <% if tshirt_coupon.received_shirt? %>
+        true
+        <% else %>
+        <%= link_to 'not yet', '', :onclick => "markShirtReceived(#{tshirt_coupon.id}); return false;" %>
+        <% end %>
+      </td>
     </tr>
   <% end %>
   </table>
 
-  <br />
-
-  <%= link_to 'New Tshirt coupon', new_tshirt_coupon_path %>
 </div>
+
+<script>
+  function markShirtReceived(couponId) {
+    $.post('/tshirt_coupons/' + couponId + '/shirt_received', function(data) {
+      $('#received_' + couponId).html('true');
+    });
+  }
+</script>

@@ -71,6 +71,15 @@ li {
   color: #777777; }
 #home_index p {
   text-align: center; }
+  #home_index p#flash_notice {
+    width: 450px;
+    margin: 0 auto 20px;
+    padding: 10px;
+    color: #333333;
+    background-color: #fff9d8;
+    border: 1px dashed brown; }
+  #home_index p.shirt_alert {
+    font-size: 18px; }
 
 #registrations_new button {
   margin: 0 auto;
