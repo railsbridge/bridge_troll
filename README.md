@@ -17,5 +17,6 @@
 git clone git@github.com:railsbridge/bridge_troll
 cd bridge_troll
 bundle install
+rake db:seed
 rails s
 ```
