@@ -15,3 +15,6 @@ Event.create!({
   :capacity => 30,
   :guests_per_user => 1
 })
+
+Role.create({:name => "Organizer"})
+Role.create({:name => "Volunteer"})
