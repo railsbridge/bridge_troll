@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111019070053) do
+ActiveRecord::Schema.define(:version => 20111019070502) do
 
   create_table "events", :force => true do |t|
     t.string   "name",                           :null => false
@@ -76,6 +76,13 @@ ActiveRecord::Schema.define(:version => 20111019070053) do
   end
 
   add_index "tshirt_coupons", ["user_id"], :name => "index_tshirt_coupons_on_user_id", :unique => true
+
+  create_table "user_roles", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                                 :default => "",    :null => false
