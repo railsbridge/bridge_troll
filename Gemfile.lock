@@ -31,6 +31,7 @@ GEM
     arel (2.0.9)
     bcrypt-ruby (2.1.4)
     builder (2.1.2)
+    cancan (1.6.7)
     capybara (1.1.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -56,6 +57,7 @@ GEM
       i18n (~> 0.4)
     ffi (1.0.9)
     gem_plugin (0.2.3)
+    haml (3.1.3)
     i18n (0.5.0)
     json_pure (1.6.1)
     mail (2.2.15)
@@ -124,10 +126,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  cancan
   capybara
   devise
   factory_girl_rails
   faker
+  haml
   mongrel (>= 1.2.0.pre2)
   mysql2
   rails (= 3.0.5)

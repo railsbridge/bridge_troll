@@ -7,6 +7,7 @@ gem 'sass', '~> 3.1.0.alpha.252'
 
 gem 'devise'
 gem 'haml'
+gem 'cancan'
 
 group :development do
   gem 'mongrel', '>= 1.2.0.pre2'
