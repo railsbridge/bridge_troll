@@ -7,7 +7,7 @@ class EventsController < ApplicationController
     @event = Event.new(params[:event])
     if @event.save
       flash[:notice] = "Event successfully saved!"
-      raedirect_to event_path @event
+      redirect_to event_path @event
     else
       redirect_to new_event_path
     end
