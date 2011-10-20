@@ -7,8 +7,11 @@ class Event < ActiveRecord::Base
 
   belongs_to :location
   has_many :registrations
+
   has_many :volunteers, :through => :volunteerings, :source => "user"
   has_many :volunteerings
+
+  has_many :users, :through => :registrations
 
   validates :name, :presence => true
   validates :location_id, :presence => true, :numericality => true
@@ -23,5 +26,11 @@ class Event < ActiveRecord::Base
 
   def to_s
     name
+  end
+
+  def self.from_form(params)
+    params[:start_time] = DateTime.parse(params[:start_time])
+    params[:end_time] = DateTime.parse(params[:end_time])
+    return params
   end
 end

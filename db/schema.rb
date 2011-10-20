@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20111020045555) do
     t.integer  "class_level",            :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   add_index "registrations", ["event_id"], :name => "index_registrations_on_event_id"

@@ -1,34 +1,36 @@
 <div id="events_show">
   <h1><%= @event.name %></h1>
   <p><%= @event.description %></p>
-  <% if @already_volunteering %>
-    <p>You are volunteering for this event!</p>
-  <% elsif user_signed_in? %>
+
+  <% if user_signed_in? && !@already_volunteering %>
     <%= form_for @volunteering do |f| %>
       <%= f.hidden_field :event_id %>
       <%= f.hidden_field :user_id %>
       <p><%= f.submit "Volunteer" %>
     <% end %>
   <% end %>
+
   <hr />
-  
+
+  <p>
+    <%=link_to "Register for this event", new_event_registration_path(@event) %>
+  </p>
+
   <h4>Attending:</h4>
   <% @event.registrations.attending.each do |registration| %>
     <%= registration.registrant_name %>
   <% end %>
-  
+
   <h4>On Waitlist:</h4>
-  
+
   <% @event.registrations.waitlisted.each do |registration| %>
     <%= registration.registrant_name %>
   <% end %>
 
   <h4>Volunteers:</h4>
   <div class="volunteers">
-  <% @event.volunteers.each do |volunteer| %>
-    <%= volunteer.name || volunteer.email %>
-  <% end %>
+    <% @event.volunteers.each do |volunteer| %>
+      <%= volunteer.name || volunteer.email %>
+    <% end %>
   </div>
-    
 </div>
-
