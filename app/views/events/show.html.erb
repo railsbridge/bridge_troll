@@ -1,19 +1,22 @@
 <div id="events_show">
   <h1><%= @event.name %></h1>
   <p><%= @event.description %></p>
-  
+
   <hr />
-  
+
+  <p>
+    <%=link_to "Register for this event", new_event_registration_path(@event) %>
+  </p>
+
   <h4>Attending:</h4>
   <% @event.registrations.attending.each do |registration| %>
     <%= registration.registrant_name %>
   <% end %>
-  
+
   <h4>On Waitlist:</h4>
-  
+
   <% @event.registrations.waitlisted.each do |registration| %>
     <%= registration.registrant_name %>
   <% end %>
-  
-</div>
 
+</div>
