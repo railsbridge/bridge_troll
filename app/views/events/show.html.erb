@@ -1,7 +1,11 @@
 <div id="events_show">
   <h1><%= @event.name %></h1>
   <p><%= @event.description %></p>
-  
+  <%= form_for @volunteering do |f| %>
+    <%= f.hidden_field :event_id %>
+    <%= f.hidden_field :user_id %>
+    <p><%= f.submit "Volunteer" %>
+  <% end %>
   <hr />
   
   <h4>Attending:</h4>
@@ -13,6 +17,12 @@
   
   <% @event.registrations.waitlisted.each do |registration| %>
     <%= registration.registrant_name %>
+  <% end %>
+
+  <h4>Volunteers:</h4>
+
+  <% @event.volunteers.each do |volunteer| %>
+    <%= volunteer.name || volunteer.email %>
   <% end %>
   
 </div>

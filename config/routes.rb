@@ -11,6 +11,8 @@ BridgeTroll::Application.routes.draw do
   resources :events do
     resources :registrations
   end
+
+  resources :volunteerings, :only => [:create]
   
   root :to => 'home#index'
   

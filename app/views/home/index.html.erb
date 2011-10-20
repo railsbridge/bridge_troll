@@ -19,7 +19,7 @@
 <h1>Upcoming Events</h1>
 <% if @upcoming.any? %>
   <% @upcoming.each do |event| %>
-    <%= link_to event %>
+    <%= link_for event %>
   <% end %>
 <% else %>
   <p>None scheduled!</p>

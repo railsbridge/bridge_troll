@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'user_spec_helper'
-require 'event_spec_helper'
 
 describe "Creating a new event" do
   it "should be able to create a new event" do
