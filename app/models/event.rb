@@ -18,4 +18,8 @@ class Event < ActiveRecord::Base
   def full?
     registrations.active.size >= capacity
   end
+
+  def to_s
+    name
+  end
 end
