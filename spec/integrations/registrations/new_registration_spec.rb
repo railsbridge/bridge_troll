@@ -4,6 +4,7 @@ describe "Making a new registration" do
   include CoreHelper
 
   before :each do
+    visit new_event_path
     @event = create_event
   end
 

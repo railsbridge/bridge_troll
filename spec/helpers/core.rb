@@ -1,7 +1,5 @@
 module CoreHelper
   def create_event(options = {})
-    visit new_event_path
-
     name = defaulted_option(options[:name], "test")
     fill_in "event[name]", :with => options[:name] || "test"
 
