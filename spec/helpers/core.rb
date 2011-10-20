@@ -9,6 +9,7 @@ module CoreHelper
     select(location, :from => "event[location_id]")
 
     click_button "Create event"
+    return Event.last
   end
 
   def defaulted_option(option, default)
