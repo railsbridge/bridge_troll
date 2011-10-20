@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'user_spec_helper'
+require 'event_spec_helper'
 
 describe "Creating a new event" do
   it "should be able to create a new event" do
@@ -7,5 +9,11 @@ describe "Creating a new event" do
     fill_in "event[name]", :with => "test"
     click_button "Create event"
     old_events.length.should < Event.all.length
+  end
+
+  it "should be linked off the dashboard" do
+    event = create_event
+    sign_in
+    click_link event.name
   end
 end
