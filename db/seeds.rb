@@ -19,4 +19,6 @@ Event.create!({
 Role.find_or_create_by_name("Organizer")
 Role.find_or_create_by_name("Volunteer")
 
-Location.find_or_create_by_name("Pivotal Labs HQ")
+Location.find_or_create_by_name("Pivotal Labs")
+Location.find_or_create_by_name("Square")
+Location.find_or_create_by_name("Engine Yard")
