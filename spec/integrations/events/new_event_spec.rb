@@ -27,6 +27,14 @@ describe "Creating a new event" do
 
   it "should be able to create an event with a specific datetime to start" do
     visit new_event_path
-    create_event({:start_time => 5.days.from_now})
+    time = 5.days.from_now
+    create_event({:start_time => time})
+    Event.last.start_time.to_s.should == time.to_s
+  end
+
+  it "should be able to create an event with a human readable format for dates" do
+    visit new_event_path
+    create_event({:start_time => "June 8, 2011"})
+    Event.last.start_time.should == DateTime.parse("June 8, 2011")
   end
 end
