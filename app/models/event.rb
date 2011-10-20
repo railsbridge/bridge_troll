@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :location
   has_many :registrations
-  has_many :volunteers, :through => :volunteerings, :class_name => "User", :source => "user"
+  has_many :volunteers, :through => :volunteerings, :source => "user"
   has_many :volunteerings
 
   validates :name, :presence => true

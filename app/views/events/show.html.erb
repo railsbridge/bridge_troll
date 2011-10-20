@@ -1,10 +1,14 @@
 <div id="events_show">
   <h1><%= @event.name %></h1>
   <p><%= @event.description %></p>
-  <%= form_for @volunteering do |f| %>
-    <%= f.hidden_field :event_id %>
-    <%= f.hidden_field :user_id %>
-    <p><%= f.submit "Volunteer" %>
+  <% if @already_volunteering %>
+    <p>You are volunteering for this event!</p>
+  <% else %>
+    <%= form_for @volunteering do |f| %>
+      <%= f.hidden_field :event_id %>
+      <%= f.hidden_field :user_id %>
+      <p><%= f.submit "Volunteer" %>
+    <% end %>
   <% end %>
   <hr />
   
@@ -20,10 +24,11 @@
   <% end %>
 
   <h4>Volunteers:</h4>
-
+  <div class="volunteers">
   <% @event.volunteers.each do |volunteer| %>
     <%= volunteer.name || volunteer.email %>
   <% end %>
-  
+  </div>
+    
 </div>
 
