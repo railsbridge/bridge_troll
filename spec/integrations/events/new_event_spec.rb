@@ -10,7 +10,6 @@ describe "Creating a new event" do
   end
 
   it "should be able to select a different location" do
-    visit new_event_path
     new_location = Location.last.name
     create_event({:location => new_location})
     Event.last.location.name.should == new_location

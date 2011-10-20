@@ -10,6 +10,5 @@ describe "Making a new registration" do
   it "should be able to land on the registration page" do
     visit event_path @event
     click_link "Register for this event"
-    page.should have_content "You're signing up for #{@event.name}."
-  end
+   end
 end
