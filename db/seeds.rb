@@ -16,5 +16,7 @@ Event.create!({
   :guests_per_user => 1
 })
 
-Role.create({:name => "Organizer"})
-Role.create({:name => "Volunteer"})
+Role.find_or_create_by_name("Organizer")
+Role.find_or_create_by_name("Volunteer")
+
+Location.find_or_create_by_name("Pivotal Labs HQ")
