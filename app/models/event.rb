@@ -7,6 +7,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :location
   has_many :registrations
+  has_many :users, :through => :registrations
 
   validates :name, :presence => true
   validates :location_id, :presence => true, :numericality => true

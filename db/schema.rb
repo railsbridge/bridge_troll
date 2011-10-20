@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111019070502) do
+ActiveRecord::Schema.define(:version => 20111020023322) do
 
   create_table "events", :force => true do |t|
     t.string   "name",                           :null => false
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20111019070502) do
     t.integer  "class_level",            :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   add_index "registrations", ["event_id"], :name => "index_registrations_on_event_id"
