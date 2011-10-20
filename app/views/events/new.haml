@@ -3,7 +3,8 @@
     = f.label :name
     = f.text_field :name
   .field_contain
-    = f.hidden_field :location_id, :value => Location.first.id
+    = f.label :location
+    = select "event", "location_id", Location.all.collect { |l| [l.name, l.id]}
   .field_contain
     = f.hidden_field :start_time, :value => Time.now
   .field_contain
