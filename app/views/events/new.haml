@@ -7,10 +7,10 @@
     = select "event", "location_id", Location.all.collect { |l| [l.name, l.id]}
   .field_contain
     = f.label :start_time
-    = f.text_field :start_time
+    = f.text_field :start_time, :value => Time.now
   .field_contain
     = f.label :end_time
-    = f.text_field :end_time
+    = f.text_field :end_time, :value => Time.now
   .field_contain
     = f.hidden_field :capacity, :value => 25
   .field_contain
