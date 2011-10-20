@@ -19,4 +19,8 @@ class Event < ActiveRecord::Base
   def full?
     registrations.active.size >= capacity
   end
+
+  def self.from_form(params)
+    return params
+  end
 end

@@ -24,4 +24,9 @@ describe "Creating a new event" do
     create_event
     old_events.length.should < Event.all.length
   end
+
+  it "should be able to create an event with a specific datetime to start" do
+    visit new_event_path
+    create_event({:start_time => 5.days.from_now})
+  end
 end
