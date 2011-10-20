@@ -16,6 +16,7 @@ end
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails', '~> 2.4.1'
+  gem 'ruby-debug19'
 
   gem 'capybara'
   gem 'selenium-client'
