@@ -3,7 +3,7 @@
   <p><%= @event.description %></p>
   <% if @already_volunteering %>
     <p>You are volunteering for this event!</p>
-  <% else %>
+  <% elsif user_signed_in? %>
     <%= form_for @volunteering do |f| %>
       <%= f.hidden_field :event_id %>
       <%= f.hidden_field :user_id %>
