@@ -1,11 +1,9 @@
 require 'spec_helper'
 
 describe "Making a new registration" do
-  include CoreHelper
-
   before :each do
     visit new_event_path
-    @event = create_event
+    @event = create_event_with_app
   end
 
   it "should be able to land on the registration page" do

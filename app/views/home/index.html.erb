@@ -7,12 +7,21 @@
   <% end %>
 
   <% if !user_signed_in? %>
-  <p class="shirt_alert"><%= link_to 'Sign up!', new_user_registration_url %></p>
+    <p class="shirt_alert"><%= link_to 'Sign up!', new_user_registration_url %></p>
   <% elsif current_user.tshirt_coupon.nil? %>
-  <p class="shirt_alert"><%= link_to 'I signed up. Gimme my shirt!', new_tshirt_coupon_url %></p>
+    <p class="shirt_alert"><%= link_to 'I signed up. Gimme my shirt!', new_tshirt_coupon_url %></p>
   <% else %>
-  <p class="shirt_alert">You've filled out the survey and specified your t-shirt size! Find Raph at the Installfest or Workshop and he'll hook you up with some sweet gear.</p>
+    <p class="shirt_alert">You've filled out the survey and specified your t-shirt size! Find Raph at the Installfest or Workshop and he'll hook you up with some sweet gear.</p>
   <% end %>
-
-  <%= link_to "Create a workshop", new_event_path %>
 </div>
+
+<%= link_to "Create a workshop", new_event_path %>
+
+<h1>Upcoming Events</h1>
+<% if @upcoming.any? %>
+  <% @upcoming.each do |event| %>
+    <%= link_for event %>
+  <% end %>
+<% else %>
+  <p>None scheduled!</p>
+<% end %>

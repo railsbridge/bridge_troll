@@ -2,6 +2,14 @@
   <h1><%= @event.name %></h1>
   <p><%= @event.description %></p>
 
+  <% if user_signed_in? && !@already_volunteering %>
+    <%= form_for @volunteering do |f| %>
+      <%= f.hidden_field :event_id %>
+      <%= f.hidden_field :user_id %>
+      <p><%= f.submit "Volunteer" %>
+    <% end %>
+  <% end %>
+
   <hr />
 
   <p>
@@ -19,4 +27,10 @@
     <%= registration.registrant_name %>
   <% end %>
 
+  <h4>Volunteers:</h4>
+  <div class="volunteers">
+    <% @event.volunteers.each do |volunteer| %>
+      <%= volunteer.name || volunteer.email %>
+    <% end %>
+  </div>
 </div>
