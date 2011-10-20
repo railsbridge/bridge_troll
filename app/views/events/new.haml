@@ -6,9 +6,11 @@
     = f.label :location
     = select "event", "location_id", Location.all.collect { |l| [l.name, l.id]}
   .field_contain
-    = f.hidden_field :start_time, :value => Time.now
+    = f.label :start_time
+    = datetime_select("event", "start_time", :ampm => true, :prompt => {:day => "Day", :month => "Month", :year => "Year", :hour => "Hour", :minute => "Minute"})
   .field_contain
-    = f.hidden_field :end_time, :value => Time.now.advance({:days => 2})
+    = f.label :end_time
+    = datetime_select("event", "end_time", :ampm => true, :prompt => {:day => "Day", :month => "Month", :year => "Year", :hour => "Hour", :minute => "Minute"})
   .field_contain
     = f.hidden_field :capacity, :value => 25
   .field_contain
