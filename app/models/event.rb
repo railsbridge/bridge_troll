@@ -21,8 +21,8 @@ class Event < ActiveRecord::Base
   end
 
   def self.from_form(params)
-    params[:start_time] = Time.parse(params[:start_time])
-    params[:end_time] = Time.parse(params[:end_time])
+    params[:start_time] = DateTime.parse(params[:start_time])
+    params[:end_time] = DateTime.parse(params[:end_time])
     return params
   end
 end
