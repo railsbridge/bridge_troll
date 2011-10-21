@@ -6,14 +6,15 @@
     <strong>End:</strong> <%= day_date_time(@event.end_time) %><br/>
   </p>
 
-  <% if user_signed_in? && !@already_volunteering %>
-    <%= form_for @volunteering do |f| %>
-      <%= f.hidden_field :event_id %>
-      <%= f.hidden_field :user_id %>
-      <p>
-        <%=link_to "Register for this event", new_event_registration_path(@event), :class => "button green bigrounded" %>
+  <%= form_for @volunteering do |f| %>
+    <%= f.hidden_field :event_id %>
+    <%= f.hidden_field :user_id %>
+    <p>
+      <%=link_to "Register for this event", new_event_registration_path(@event), :class => "button green bigrounded" %>
+      <% if user_signed_in? && !@already_volunteering %>
         <%= f.submit "Volunteer", :class => "button black bigrounded" %>
-    <% end %>
+      <% end %>
+    </p>
   <% end %>
 
   <hr />
