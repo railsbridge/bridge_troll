@@ -9,6 +9,14 @@ module ApplicationHelper
     time.strftime("%A %B ") + 
     ordinalize(time.day) + 
     time.strftime(" %Y at %l:%M") + 
+    am_pm(time)
+  end
+
+  def numeric_date_and_time(time)
+    "#{time.month}/#{time.day}" + time.strftime("%l:%M") + am_pm(time)
+  end
+
+  def am_pm(time)
     time.strftime("%p").downcase
   end
 end
