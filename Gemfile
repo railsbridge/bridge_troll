@@ -2,7 +2,6 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.5'
 
-gem 'mysql2'
 gem 'sass', '~> 3.1.0.alpha.252'
 
 gem 'devise'
@@ -15,6 +14,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'sqlite3'
   gem 'rspec'
   gem 'rspec-rails', '~> 2.4.1'
   gem 'ruby-debug19'
@@ -25,3 +25,8 @@ group :development, :test do
   gem 'faker'
   gem 'factory_girl_rails'
 end
+
+group :production do
+  gem 'pg'
+end
+	
