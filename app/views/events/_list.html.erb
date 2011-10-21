@@ -1,0 +1,10 @@
+<% if events.any? %>
+  <% events.each do |event| %>
+    <p>
+      <%= numeric_date_and_time(event.start_time) %>
+      <%= link_for event %>
+    </p>
+  <% end %>
+<% else %>
+  <p>None scheduled!</p>
+<% end %>

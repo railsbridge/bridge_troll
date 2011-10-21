@@ -20,6 +20,9 @@ class Event < ActiveRecord::Base
   validates :capacity, :numericality => { :greater_than_or_equal_to => 0 }
   validates :guests_per_user, :numericality => { :greater_than_or_equal_to => 0 }
 
+  scope :upcoming, where("end_time > ?", Time.now).order(:start_time)
+  scope :past, where("end_time <= ?", Time.now).order(:start_time).reverse_order
+
   def full?
     registrations.active.size >= capacity
   end

@@ -18,10 +18,7 @@
 <%= link_to "Create a workshop", new_event_path %>
 
 <h1>Upcoming Events</h1>
-<% if @upcoming.any? %>
-  <% @upcoming.each do |event| %>
-    <%= link_for event %>
-  <% end %>
-<% else %>
-  <p>None scheduled!</p>
-<% end %>
+<%= render :partial => "events/list", :locals => {:events => @upcoming} %>
+
+<h1>Past Events</h1>
+<%= render :partial => "events/list", :locals => {:events => @past} %>
