@@ -1,6 +1,9 @@
 body, p {
   font: 13px "Helvetica Neue", Helvetica; }
 
+p {
+  margin: 1em 0;
+}
 #container {
   width: 960px;
   margin: 0 auto; }

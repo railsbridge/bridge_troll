@@ -1,20 +1,22 @@
 <div id="events_show">
   <h1><%= @event.name %></h1>
   <p><%= @event.description %></p>
+  <p>
+    <strong>Start:</strong> <%= day_date_time(@event.start_time) %><br/>
+    <strong>End:</strong> <%= day_date_time(@event.end_time) %><br/>
+  </p>
 
   <% if user_signed_in? && !@already_volunteering %>
     <%= form_for @volunteering do |f| %>
       <%= f.hidden_field :event_id %>
       <%= f.hidden_field :user_id %>
-      <p><%= f.submit "Volunteer" %>
+      <p>
+        <%=link_to "Register for this event", new_event_registration_path(@event), :class => "button green bigrounded" %>
+        <%= f.submit "Volunteer", :class => "button black bigrounded" %>
     <% end %>
   <% end %>
 
   <hr />
-
-  <p>
-    <%=link_to "Register for this event", new_event_registration_path(@event) %>
-  </p>
 
   <h4>Attending:</h4>
   <% @event.registrations.attending.each do |registration| %>
