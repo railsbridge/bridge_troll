@@ -4,7 +4,7 @@ class RegistrationsController < ApplicationController
   before_filter :require_signup, :only => [:new]
 
   def new
-    @registration = Registration.new
+    @registration = Registration.new(:registrant_name => current_user.name, :registrant_email => current_user.email)
   end
   
   def create
