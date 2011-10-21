@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-  def index
-    @upcoming = Event.all
+  def create
   end
 end

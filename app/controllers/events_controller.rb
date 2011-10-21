@@ -16,5 +16,7 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id], :include => [:registrations, :location])
+    @volunteering = Volunteering.new(:event => @event, :user => current_user)
+    @already_volunteering = @event.volunteers.include? current_user
   end
 end
