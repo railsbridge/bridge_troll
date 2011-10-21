@@ -15,10 +15,10 @@
   <% end %>
 </div>
 
-<%= link_to "Create a workshop", new_event_path %>
-
 <h1>Upcoming Events</h1>
 <%= render :partial => "events/list", :locals => {:events => @upcoming} %>
 
 <h1>Past Events</h1>
 <%= render :partial => "events/list", :locals => {:events => @past} %>
+
+<p><%= link_to "Create a workshop", new_event_path, :class => "bigrounded black button" %></p>
