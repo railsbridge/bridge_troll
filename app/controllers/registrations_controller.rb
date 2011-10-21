@@ -1,7 +1,8 @@
 class RegistrationsController < ApplicationController
   
   before_filter :set_event
-  
+  before_filter :require_signup, :only => [:new]
+
   def new
     @registration = Registration.new
   end
@@ -16,7 +17,6 @@ class RegistrationsController < ApplicationController
       # aughhh
     end
   end
-  
   
   private
   
