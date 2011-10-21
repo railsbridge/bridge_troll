@@ -3,6 +3,10 @@
 
 /* button 
 ---------------------------------------------- */
+a:visited.button {
+  color: white;
+}
+
 .button {
   display: inline-block;
   zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
@@ -204,7 +208,7 @@
 
 /* green */
 .green {
-  color: #e8f0de;
+  color: white;
   border: solid 1px #538312;
   background: #64991e;
   background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));
