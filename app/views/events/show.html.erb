@@ -23,11 +23,9 @@
   <% if current_user != nil and current_user.admin? %>
     <%= @event.registrations.attending.map(&:registrant_name).join(", ") %>
   <% else %>
-    <ul>
-    <% @event.registrations.order(:class_level).each do |reg| %>
-      <li><%= "#{reg.class_level} #{reg.registrant_name}" %></li>
-    <% end %>
-    </ul>
+    <%= render :partial => "class_registrations", :locals => { :registrations => @event.registrations.where(:class_level => 1), :class_label => "A" } %>
+    <%= render :partial => "class_registrations", :locals => { :registrations => @event.registrations.where(:class_level => 2), :class_label => "B" } %>
+    <%= render :partial => "class_registrations", :locals => { :registrations => @event.registrations.where(:class_level => 3), :class_label => "C" } %>
   <% end %>
 
   <% unless @event.registrations.waitlisted.empty? %>

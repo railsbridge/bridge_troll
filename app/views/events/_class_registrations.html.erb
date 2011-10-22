@@ -1,0 +1,8 @@
+<div class="group_list">
+  <div><%= "Group #{class_label}"%></div>
+  <ul>
+    <% registrations.each do |reg| %>
+      <li><%= "#{reg.registrant_name}"%></li>
+    <% end %>
+  </ul>
+</div>
