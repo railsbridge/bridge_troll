@@ -20,11 +20,21 @@
   <hr />
 
   <h4>Attending:</h4>
-  <%= @event.registrations.attending.map(&:registrant_name).join(", ") %>
+  <% if current_user != nil and current_user.admin? %>
+    <%= @event.registrations.attending.map(&:registrant_name).join(", ") %>
+  <% else %>
+    <ul>
+    <% @event.registrations.order(:class_level).each do |reg| %>
+      <li><%= "#{reg.class_level} #{reg.registrant_name}" %></li>
+    <% end %>
+    </ul>
+  <% end %>
 
+  <% unless @event.registrations.waitlisted.empty? %>
   <h4>On Waitlist:</h4>
 
   <%= @event.registrations.waitlisted.map(&:registrant_name).join(", ") %>
+  <% end %>
 
   <h4>Volunteers:</h4>
   <div class="volunteers">
