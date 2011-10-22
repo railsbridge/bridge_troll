@@ -14,6 +14,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'heroku'
   gem 'sqlite3'
   gem 'rspec'
   gem 'rspec-rails', '~> 2.4.1'
