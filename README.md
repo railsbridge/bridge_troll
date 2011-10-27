@@ -17,8 +17,11 @@ This repository has source code for an application which is designed to help Rai
 * [The running app](http://bridgetroll.herokuapp.com/)
 * [Pivotal Tracker project](https://www.pivotaltracker.com/projects/388105)
 
+# Volunteer Contributors
 
-# setting up for development
+Pick a story to work on, fork the project, and then make your changes and send a pull request.  Note: change git clone below to be *your* repo.
+
+## Setting up for development
 
 rvm is expected.  We're using 1.9.2 -- there's an rvmrc which should help make sure you are using the right ruby version.
 
