@@ -10,9 +10,12 @@
                                                                 \_/__/
 
 ```
+# What is this?
 
-the running app is here: http://bridgetroll.herokuapp.com/
-Pivotal Tracker is here: https://www.pivotaltracker.com/projects/388105
+```
+
+* The running app is here: http://bridgetroll.herokuapp.com/
+* Pivotal Tracker is here: https://www.pivotaltracker.com/projects/388105
 
 ```
 # setting up for development
