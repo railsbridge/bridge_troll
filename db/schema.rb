@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111027030148) do
+ActiveRecord::Schema.define(:version => 20111027043132) do
 
   create_table "events", :force => true do |t|
     t.string    "name",                           :null => false
@@ -109,6 +109,9 @@ ActiveRecord::Schema.define(:version => 20111027030148) do
     t.boolean  "skill_writing",                         :default => false
     t.boolean  "skill_evangelizing",                    :default => false
     t.boolean  "skill_childcaring",                     :default => false
+    t.string   "skill_other"
+    t.string   "tshirt_size"
+    t.datetime "received_shirt_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

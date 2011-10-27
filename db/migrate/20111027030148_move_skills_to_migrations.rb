@@ -13,18 +13,23 @@ class MoveSkillsToMigrations < ActiveRecord::Migration
             "skill_evangelizing",
             "skill_childcaring"]
 
+  KEYS = SKILLS + ["skill_other", "tshirt_size", "received_shirt_at"]
+
   def self.up
     SKILLS.each do |skill| 
       add_column :users, skill, :boolean, :default => false
     end
+    add_column :users, "skill_other", :string
+    add_column :users, "tshirt_size", :string
+    add_column :users, "received_shirt_at", :datetime
 
     TshirtCoupon.all.each do |coupon|
-      copy_attributes(SKILLS, coupon, coupon.user) if coupon.user
+      copy_attributes(KEYS, coupon, coupon.user) if coupon.user
     end
   end
 
   def self.down
-    SKILLS.each do |skill| 
+    KEYS.each do |skill| 
       remove_column :users, skill
     end
   end
