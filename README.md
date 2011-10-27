@@ -14,8 +14,8 @@
 
 ```
 
-* The running app is here: http://bridgetroll.herokuapp.com/
-* Pivotal Tracker is here: https://www.pivotaltracker.com/projects/388105
+* The running app is here: [http://bridgetroll.herokuapp.com/](http://bridgetroll.herokuapp.com/)
+* Pivotal Tracker is here: [https://www.pivotaltracker.com/projects/388105](https://www.pivotaltracker.com/projects/388105)
 
 ```
 # setting up for development
