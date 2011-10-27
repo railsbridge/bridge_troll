@@ -12,12 +12,10 @@
 ```
 # What is this?
 
-```
-
 * [The running app](http://bridgetroll.herokuapp.com/)
 * [Pivotal Tracker project](https://www.pivotaltracker.com/projects/388105)
 
-```
+
 # setting up for development
 
 ```
