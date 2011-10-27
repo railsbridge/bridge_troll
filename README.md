@@ -11,7 +11,11 @@
 
 ```
 
-# init
+the running app is here: http://bridgetroll.herokuapp.com/
+Pivotal Tracker is here: https://www.pivotaltracker.com/projects/388105
+
+```
+# setting up for development
 
 ```
 git clone git@github.com:railsbridge/bridge_troll
