@@ -12,11 +12,15 @@
 ```
 # What is this?
 
+This repository has source code for an application which is designed to help RailsBridge organizers with knowing how is available to help with a workshop and who the students are, and in the future also help organizers follow-up with students and volunteers.
+
 * [The running app](http://bridgetroll.herokuapp.com/)
 * [Pivotal Tracker project](https://www.pivotaltracker.com/projects/388105)
 
 
 # setting up for development
+
+rvm is expected.  We're using 1.9.2 -- there's an rvmrc which should help make sure you are using the right ruby version.
 
 ```
 git clone git@github.com:railsbridge/bridge_troll
