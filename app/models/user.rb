@@ -19,8 +19,6 @@ class User < ActiveRecord::Base
 
   validates_presence_of :name
 
-  has_one :tshirt_coupon
-
   has_many :user_roles
   has_many :roles, :through => :user_roles
 

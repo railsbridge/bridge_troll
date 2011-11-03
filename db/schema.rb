@@ -13,56 +13,56 @@
 ActiveRecord::Schema.define(:version => 20111027043132) do
 
   create_table "events", :force => true do |t|
-    t.string    "name",                           :null => false
-    t.integer   "location_id",                    :null => false
-    t.timestamp "start_time",                     :null => false
-    t.timestamp "end_time",                       :null => false
-    t.text      "description"
-    t.integer   "capacity",        :default => 1, :null => false
-    t.integer   "guests_per_user", :default => 0, :null => false
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.string   "name",                           :null => false
+    t.integer  "location_id",                    :null => false
+    t.datetime "start_time",                     :null => false
+    t.datetime "end_time",                       :null => false
+    t.text     "description"
+    t.integer  "capacity",        :default => 1, :null => false
+    t.integer  "guests_per_user", :default => 0, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "events", ["location_id"], :name => "index_events_on_location_id"
 
   create_table "locations", :force => true do |t|
-    t.string    "name",       :null => false
-    t.string    "address"
-    t.string    "city"
-    t.string    "state"
-    t.string    "zipcode"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.string   "name",       :null => false
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zipcode"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "registrations", :force => true do |t|
-    t.integer   "event_id",                                  :null => false
-    t.boolean   "waitlisted",             :default => false
-    t.timestamp "withdrawn_at"
-    t.string    "registrant_name",                           :null => false
-    t.string    "registrant_email",                          :null => false
-    t.string    "registrant_description"
-    t.integer   "inviter_id"
-    t.integer   "class_level",            :default => 0
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "user_id"
+    t.integer  "event_id",                                  :null => false
+    t.boolean  "waitlisted",             :default => false
+    t.datetime "withdrawn_at"
+    t.string   "registrant_name",                           :null => false
+    t.string   "registrant_email",                          :null => false
+    t.string   "registrant_description"
+    t.integer  "inviter_id"
+    t.integer  "class_level",            :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   add_index "registrations", ["event_id"], :name => "index_registrations_on_event_id"
 
   create_table "roles", :force => true do |t|
-    t.string    "name"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_roles", :force => true do |t|
-    t.integer   "user_id"
-    t.integer   "role_id"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
@@ -98,10 +98,10 @@ ActiveRecord::Schema.define(:version => 20111027043132) do
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "volunteerings", :force => true do |t|
-    t.integer   "user_id"
-    t.integer   "event_id"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
