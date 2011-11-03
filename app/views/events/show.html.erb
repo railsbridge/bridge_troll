@@ -35,7 +35,9 @@
   <% end %>
 
   <h4>Volunteers:</h4>
-  <div class="volunteers">
-    <%= @event.volunteers.map(&:name).join(", ") %>
-  </div>
+  <ul class="volunteers">
+    <% @event.volunteers.each do |volunteer| %>
+      <li><%= volunteer.name %> (<%= volunteer.skills.join(', ')%>)</li>
+    <% end %>
+  </ul>
 </div>

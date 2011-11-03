@@ -58,26 +58,6 @@ ActiveRecord::Schema.define(:version => 20111027043132) do
     t.timestamp "updated_at"
   end
 
-  create_table "tshirt_coupons", :force => true do |t|
-    t.integer   "user_id",            :null => false
-    t.boolean   "skill_teaching"
-    t.boolean   "skill_taing"
-    t.boolean   "skill_coordinating"
-    t.boolean   "skill_mentoring"
-    t.boolean   "skill_hacking"
-    t.boolean   "skill_designing"
-    t.boolean   "skill_writing"
-    t.boolean   "skill_evangelizing"
-    t.boolean   "skill_childcaring"
-    t.string    "skill_other"
-    t.string    "tshirt_size",        :null => false
-    t.timestamp "received_shirt_at"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-  end
-
-  add_index "tshirt_coupons", ["user_id"], :name => "index_tshirt_coupons_on_user_id", :unique => true
-
   create_table "user_roles", :force => true do |t|
     t.integer   "user_id"
     t.integer   "role_id"

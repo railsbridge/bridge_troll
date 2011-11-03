@@ -27,7 +27,7 @@ class MoveSkillsToMigrations < ActiveRecord::Migration
       copy_attributes(KEYS, coupon, coupon.user) if coupon.user
     end
   end
-
+  
   def self.down
     KEYS.each do |skill| 
       remove_column :users, skill

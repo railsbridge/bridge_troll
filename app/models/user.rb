@@ -1,4 +1,14 @@
 class User < ActiveRecord::Base
+  SKILLS = ["teaching",
+            "taing",
+            "coordinating",
+            "mentoring",
+            "hacking",
+            "designing",
+            "writing",
+            "evangelizing",
+            "childcaring"]
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -16,4 +26,10 @@ class User < ActiveRecord::Base
 
   has_many :registrations
   has_many :events, :through => :registrations
+
+  def skills
+    SKILLS.reject do |skill|
+      !send("skill_" + skill)
+    end
+  end
 end
