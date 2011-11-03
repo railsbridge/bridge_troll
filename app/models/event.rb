@@ -11,7 +11,7 @@ class Event < ActiveRecord::Base
   has_many :volunteers, :through => :volunteerings, :source => "user"
   has_many :volunteerings
 
-  has_many :users, :through => :registrations
+  has_many :users, :through => :registrations, :order => "created_at asc"
 
   validates :name, :presence => true
   validates :location_id, :presence => true, :numericality => true
@@ -22,6 +22,14 @@ class Event < ActiveRecord::Base
 
   scope :upcoming, where("end_time > ?", Time.now).order(:start_time)
   scope :past, where("end_time <= ?", Time.now).order(:start_time).reverse_order
+
+  def registered_users
+    users[0,capacity]
+  end
+
+  def waitlisted_users
+    users[capacity,users.count]
+  end 
 
   def full?
     registrations.active.size >= capacity

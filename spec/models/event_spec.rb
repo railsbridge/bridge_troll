@@ -8,4 +8,21 @@ describe Event do
     new_params = Event.from_form(params)
     new_params[:start_time].class.should == DateTime && new_params[:end_time].class.should == DateTime
   end
+
+  describe "with two users signed up and only capacity for one" do
+    before do
+      @event = Event.new :capacity => 1
+      @first = mock User
+      @second = mock User
+      @event.stub! :users => [@first, @second]
+    end
+
+    it "should recognize the first one as registered" do
+      @event.registered_users.should == [@first]
+    end
+
+    it "should waitlist the second" do
+      @event.waitlisted_users.should == [@second]
+    end
+  end
 end

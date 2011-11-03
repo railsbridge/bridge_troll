@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name
-  SKILLS.each {|skill| attr_accessible "skill_" + s }
+  SKILLS.each {|skill| attr_accessible "skill_" + skill }
 
   validates_presence_of :name
 
