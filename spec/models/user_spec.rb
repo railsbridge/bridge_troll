@@ -20,4 +20,11 @@ describe User do
       make_user(:email => "blerg").should_not be_valid
     end
   end
+
+  describe "with hacking skills" do
+    it "should show hacking in the skills array" do
+      user = make_user(:skill_hacking => true)
+      user.skills.should == ["hacking"]
+    end
+  end
 end
