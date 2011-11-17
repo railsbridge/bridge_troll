@@ -16,13 +16,5 @@ describe Event do
       @second = mock User
       @event.stub! :users => [@first, @second]
     end
-
-    it "should recognize the first one as registered" do
-      @event.registered_users.should == [@first]
-    end
-
-    it "should waitlist the second" do
-      @event.waitlisted_users.should == [@second]
-    end
   end
 end
