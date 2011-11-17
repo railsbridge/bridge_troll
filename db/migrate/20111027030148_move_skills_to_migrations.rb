@@ -22,10 +22,6 @@ class MoveSkillsToMigrations < ActiveRecord::Migration
     add_column :users, "skill_other", :string
     add_column :users, "tshirt_size", :string
     add_column :users, "received_shirt_at", :datetime
-
-    TshirtCoupon.all.each do |coupon|
-      copy_attributes(KEYS, coupon, coupon.user) if coupon.user
-    end
   end
   
   def self.down
