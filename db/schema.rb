@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(:version => 20111027043132) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",                                                     :null => false
+    t.string   "name",                                  :default => "",    :null => false
     t.boolean  "admin",                                 :default => false
     t.boolean  "skill_teaching",                        :default => false
     t.boolean  "skill_taing",                           :default => false
