@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_and_return(path)
-    session[:return_to] = request.request_uri
+    session[:return_to] = request.fullpath
     redirect_to path
   end
   
