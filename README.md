@@ -20,6 +20,8 @@ This repository has source code for an application which is designed to help Rai
 
 # Volunteer Contributors
 
+Please join the [google group](http://groups.google.com/group/railsbridge-apps)
+
 Pick a story to work on, fork the project, and then make your changes and send a pull request.  Note: change git clone below to be *your* repo.
 
 ## Setting up for development
