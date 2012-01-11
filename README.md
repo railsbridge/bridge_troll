@@ -15,6 +15,7 @@
 This repository has source code for an application which is designed to help RailsBridge organizers with knowing how is available to help with a workshop and who the students are, and in the future also help organizers follow-up with students and volunteers.
 
 * [The running app](http://bridgetroll.herokuapp.com/)
+* [The staging server](http://bridgetroll-staging.herokuapp.com/)
 * [Pivotal Tracker project](https://www.pivotaltracker.com/projects/388105)
 
 # Volunteer Contributors
