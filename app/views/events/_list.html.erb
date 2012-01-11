@@ -1,10 +1,16 @@
-<% if events.any? %>
-  <% events.each do |event| %>
-    <p>
-      <%= numeric_date_and_time(event.start_time) %>
-      <%= link_for event %>
-    </p>
+<div class='events'>
+  <% if events.any? %>
+    <% events.each do |event| %>
+    <div class='workshop_row'>
+      <div class='date'>
+        <%= numeric_date_and_time(event.start_time) %>
+      </div>
+      <div class='link'>
+        <%= link_for event %>
+      </div>
+    </div>
+    <% end %>
+  <% else %>
+    <p>None scheduled!</p>
   <% end %>
-<% else %>
-  <p>None scheduled!</p>
-<% end %>
+</div>
