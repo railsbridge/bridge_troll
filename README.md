@@ -35,3 +35,10 @@ rake db:migrate
 rake db:seed
 rails s
 ```
+
+Note: we're using sass, so if you need to change stylesheets, you can make them automatically re-compile if you keep this running in another terminal window:
+
+```
+sass --watch public/stylesheets/sass/ public/stylesheets/
+```
+
