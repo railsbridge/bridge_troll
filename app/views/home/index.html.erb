@@ -2,12 +2,14 @@
   <% if flash[:notice] %>
   <p id="flash_notice"><%= flash[:notice] %></p>
   <% end %>
+
+  <h1>Upcoming Events</h1>
+  <%= render :partial => "events/list", :locals => {:events => @upcoming} %>
+
+  <h1>Past Events</h1>
+  <%= render :partial => "events/list", :locals => {:events => @past} %>
+
+  <div class='create_workshop'>
+    <%= link_to "Create a workshop", new_event_path, :class => "bigrounded black button marginated" %>
+  </div>
 </div>
-
-<h1>Upcoming Events</h1>
-<%= render :partial => "events/list", :locals => {:events => @upcoming} %>
-
-<h1>Past Events</h1>
-<%= render :partial => "events/list", :locals => {:events => @past} %>
-
-<p><%= link_to "Create a workshop", new_event_path, :class => "bigrounded black button" %></p>

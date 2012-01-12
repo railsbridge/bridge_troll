@@ -1,7 +1,10 @@
 .bundle
+.sass-cache
+.idea/*
 db/*.sqlite3
 log/*.log
 tmp/**/*
 .DS_Store
 .rvmrc
 config/database.yml
+.sass-cache/
