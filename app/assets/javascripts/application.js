@@ -1,3 +1,10 @@
+//= require jquery
+//= require jquery-ui
+//= require jquery_ujs
+//= require_self
+//= require_tree .
+
+
 var bridge_troll = (function(bridge_troll, $) {
   $(function(){
     $(".date_picker").datepicker();
