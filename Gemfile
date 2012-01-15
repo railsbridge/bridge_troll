@@ -16,8 +16,8 @@ end
 group :development, :test do
   gem 'heroku'
   gem 'sqlite3'
-  gem 'rspec'
-  gem 'rspec-rails', '~> 2.4.1'
+  gem 'rspec', '~> 2.6.0'
+  gem 'rspec-rails', '~> 2.6.0'
   gem 'ruby-debug19'
 
   gem 'capybara'
