@@ -24,6 +24,7 @@ end
 group :development, :test do
   gem 'heroku'
   gem 'sqlite3'
+
   gem 'rspec'
   gem 'rspec-rails', '~> 2.8.1'
   gem 'ruby-debug19'
