@@ -34,4 +34,10 @@ BridgeTroll::Application.configure do
   config.active_support.deprecation = :stderr
   
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+  #Configure static assets server for tests with Cache-Control for performance
+  config.serve_static_assets = true
+  config.static_cache_control = "public, max-age=3600"
+
+  #Allow pass debug_paramete=true
 end

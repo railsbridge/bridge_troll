@@ -49,6 +49,10 @@ a:visited.button {
   padding: .2em 1em .275em;
 }
 
+.marginated {
+  margin-top: 10px;
+}
+
 /* color styles 
 ---------------------------------------------- */
 
