@@ -19,7 +19,7 @@
 
   <hr />
 
-  <h4>Attending:</h4>
+  <h4>Attending: (<%= @event.registrations.active.count %> of <%= @event.capacity %>) </h4>
   <% if current_user != nil and current_user.admin? %>
     <%= @event.registrations.attending.map(&:registrant_name).join(", ") %>
   <% else %>
@@ -29,7 +29,7 @@
   <% end %>
 
   <% unless @event.registrations.waitlisted.empty? %>
-  <h4>On Waitlist:</h4>
+  <h4>On Waitlist: (<%= @event.registrations.waitlisted.count %>) </h4>
 
   <%= @event.registrations.waitlisted.map(&:registrant_name).join(", ") %>
   <% end %>
