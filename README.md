@@ -1,18 +1,6 @@
-```
-                   ___            __               __
-               __ /\_ \          /\ \             /\ \  __
- _ __    __   /\_\\//\ \     ____\ \ \____  _ __  \_\ \/\_\     __      __
-/\`'__\/'__`\ \/\ \ \ \ \   /',__\\ \ '__`\/\`'__\/'_` \/\ \  /'_ `\  /'__`\
-\ \ \//\ \L\.\_\ \ \ \_\ \_/\__, `\\ \ \L\ \ \ \//\ \L\ \ \ \/\ \L\ \/\  __/
- \ \_\\ \__/.\_\\ \_\/\____\/\____/ \ \_,__/\ \_\\ \___,_\ \_\ \____ \ \____\
-  \/_/ \/__/\/_/ \/_/\/____/\/___/   \/___/  \/_/ \/__,_ /\/_/\/___L\ \/____/
-                                                                /\____/
-                                                                \_/__/
+# Bridge Troll
 
-```
 [![Build Status](https://secure.travis-ci.org/railsbridge/bridge_troll.png)](http://travis-ci.org/railsbridge/bridge_troll)
-
-# What is this?
 
 This is a Rails app that helps organizers of RailsBridge workshops plan their events. We're planning to add fea/tures eventually that help organizers follow up with students and volunteers.
 
@@ -22,7 +10,7 @@ This is a Rails app that helps organizers of RailsBridge workshops plan their ev
   travis-ci.org](http://travis-ci.org/railsbridge/bridge_troll)
 * [Pivotal Tracker project](https://www.pivotaltracker.com/projects/388105)
 
-# Volunteer Contributors
+## Want to help out?
 
 Please join the [google group](http://groups.google.com/group/railsbridge-apps)
 
