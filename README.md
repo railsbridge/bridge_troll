@@ -2,7 +2,9 @@
 
 [![Build Status](https://secure.travis-ci.org/railsbridge/bridge_troll.png)](http://travis-ci.org/railsbridge/bridge_troll)
 
-This is a Rails app that helps organizers of RailsBridge workshops plan their events. We're planning to add features eventually to make it easier for organizers follow up with students and volunteers.
+This is a Rails app that helps RailsBridge workshop organizers plan their events. We also use it as a teaching tool and an open-source community testbed. 
+
+The feature set is currently pretty minimal - definitely *pre-alpha*. Eventually, we'd like to fill out the organizer feature set, as well as incorporate ways for organizers follow up with students and volunteers.
 
 * [The running app](http://bridgetroll.herokuapp.com/)
 * [The staging server](http://bridgetroll-staging.herokuapp.com/)
@@ -12,13 +14,15 @@ This is a Rails app that helps organizers of RailsBridge workshops plan their ev
 
 ## Want to help out?
 
-Please join the [google group](http://groups.google.com/group/railsbridge-apps)
+Please join the [google group](http://groups.google.com/group/railsbridge-apps) and send a quick note introducing yourself.
 
-Pick a story to work on, fork the project, and then make your changes and send a pull request.  Note: change git clone below to be *your* repo.
+Then, have a look at [our Tracker project](https://www.pivotaltracker.com/projects/388105). Pick a story to work on, fork the project, and then make your changes and send a pull request.  Note: change git clone below to be *your* repo.
 
 ## Setting up for development
 
-rvm is expected.  We're using 1.9.2 -- there's an rvmrc which should help make sure you are using the right ruby version.
+You'll need [rvm](http://rvm.beginrescueend.com).  We're using Ruby 1.9.2, and there's an `.rvmrc` file which should help make sure you are using the right Ruby version.
+
+## Quickstart
 
 ```
 git clone git@github.com:railsbridge/bridge_troll
