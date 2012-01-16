@@ -19,6 +19,7 @@ gem 'jquery-rails'
 
 group :development do
   gem 'mongrel', '>= 1.2.0.pre2'
+  gem 'ruby-debug19'
 end
 
 group :development, :test do
@@ -27,7 +28,6 @@ group :development, :test do
 
   gem 'rspec'
   gem 'rspec-rails', '~> 2.8.1'
-  gem 'ruby-debug19'
 
   gem 'capybara'
   gem 'selenium-client'

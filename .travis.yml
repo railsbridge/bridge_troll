@@ -4,4 +4,5 @@ rvm:
 branches:
   only:
     - 'master'
+bundler_args: "--without development"
 before_script: "./config/before-travis.sh"
