@@ -10,12 +10,16 @@
                                                                 \_/__/
 
 ```
+[![Build Status](https://secure.travis-ci.org/railsbridge/bridge_troll.png)](http://travis-ci.org/railsbridge/bridge_troll)
+
 # What is this?
 
-This repository has source code for an application which is designed to help RailsBridge organizers with knowing how is available to help with a workshop and who the students are, and in the future also help organizers follow-up with students and volunteers.
+This is a Rails app that helps organizers of RailsBridge workshops plan their events. We're planning to add fea/tures eventually that help organizers follow up with students and volunteers.
 
 * [The running app](http://bridgetroll.herokuapp.com/)
 * [The staging server](http://bridgetroll-staging.herokuapp.com/)
+* [Continuous integration on
+  travis-ci.org](http://travis-ci.org/railsbridge/bridge_troll)
 * [Pivotal Tracker project](https://www.pivotaltracker.com/projects/388105)
 
 # Volunteer Contributors
