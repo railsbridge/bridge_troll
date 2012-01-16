@@ -5,7 +5,7 @@ require File.expand_path('../application', __FILE__)
 BridgeTroll::Application.initialize!
 
 # Optionally require the debugger
-unless Rails.env == "production"
+if Rails.env == "development"
   require "ruby-debug" 
   Debugger.start
   Debugger.settings[:autoeval] = true
