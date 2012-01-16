@@ -6,3 +6,4 @@ branches:
     - 'master'
 bundler_args: "--without development"
 before_script: "./config/before-travis.sh"
+script: "export DISPLAY=:99.0 && bundle exec rake"
