@@ -1,4 +1,7 @@
 language: ruby
 rvm:
   - 1.9.2
-before_script: "bundle exec rake db:migrate"
+branches:
+  only:
+    - 'master'
+before_script: "./config/before-travis.sh"
