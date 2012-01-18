@@ -11,5 +11,5 @@ add this to the Gemfile
 
 $ bundle
 
-
-
+$ rails g scaffold event title:string
+$ rake db:migrate
