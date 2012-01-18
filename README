@@ -18,10 +18,9 @@ $ rails generate devise:install
       create  config/initializers/devise.rb
       create  config/locales/devise.en.yml
 
-Some setup you must do manually if you haven't yet:
+Setup you must do manually if you haven't yet:
 
-  1. Setup default url options for your specific environment. Here is an
-     example of development environment:
+  1. In config/environments/development.rb development environment:
 
        config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
@@ -31,7 +30,7 @@ Some setup you must do manually if you haven't yet:
   2. Ensure you have defined root_url to *something* in your config/routes.rb.
      For example:
 
-       root :to => "home#index"
+       root :to => "events#index"
 
   3. Ensure you have flash messages in app/views/layouts/application.html.erb.
      For example:
