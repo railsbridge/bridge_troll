@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
   has_many :events, :through => :registrations
 
   def skills
-    SKILLS.reject do |skill|
-      !send("skill_" + skill)
+    SKILLS.select do |skill|
+      send("skill_" + skill)
     end
   end
 end
