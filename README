@@ -1,6 +1,22 @@
 =======
 OMG RAILS IS SO AWESOME
 
+== Up and running
+This app is done with ruby 1.9.2 and rails 3.1.
+
+Assumptions
+You have rvm installed; if not, you should check out http://beginrescueend.com/rvm/install/
+
+First you need to get the code, install gems and create database:
+$ git clone https://github.com/ultrasaurus/bridgetroll.git
+$ cd bridgetroll
+$ bundle install
+# if you get an error and don't have a bundler installed run $gem install bundler
+$ rake db:migrate
+$ rails server
+
+Go to http://localhost:3000/ and you can play with the app.
+
 == Steps done on 1/17/12:
 
 $ rails new bridgetroll -T
