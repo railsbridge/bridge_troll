@@ -1,10 +1,19 @@
 <p id="notice"><%= notice %></p>
 
-<p>
+<div>
   <b>Title:</b>
   <%= @event.title %> on <%= @event.date %>
-</p>
+  <div>
+    <% if(!@event.location.nil?) %>
 
+      Takes place at <%= @event.location.name %> at address:<br />
+      <%= @event.location.address %>
+    <% else %>
+      This event currently has no location!
+    <% end %>
+
+  </div>
+</div>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>

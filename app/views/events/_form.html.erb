@@ -19,6 +19,10 @@
     <%= f.label :date %><br />
     <%= f.datetime_select :date %>
   </div>
+  <div class="field">
+    <%= f.label :location_id %><br />
+    <%= collection_select(:event, :location_id, Location.all, :id, :name, :prompt => true) %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
