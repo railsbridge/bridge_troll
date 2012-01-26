@@ -3,6 +3,7 @@
 <table>
   <tr>
     <th>Title</th>
+    <th>Date</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,6 +12,7 @@
 <% @events.each do |event| %>
   <tr>
     <td><%= event.title %></td>
+    <td><%= event.date %></td>
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>
     <td><%= link_to 'Destroy', event, confirm: 'Are you sure?', method: :delete %></td>
