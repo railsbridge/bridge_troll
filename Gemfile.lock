@@ -58,7 +58,17 @@ GEM
     erubis (2.7.0)
     execjs (1.2.13)
       multi_json (~> 1.0)
+    factory_girl (2.5.0)
+      activesupport
+    factory_girl_rails (1.6.0)
+      factory_girl (~> 2.5.0)
+      railties (>= 3.0.0)
     ffi (1.0.11)
+    guard (1.0.0)
+      ffi (>= 0.5.0)
+      thor (~> 0.14.6)
+    guard-rspec (0.6.0)
+      guard (>= 0.10.0)
     hike (1.2.1)
     i18n (0.6.0)
     jquery-rails (1.0.19)
@@ -155,6 +165,8 @@ DEPENDENCIES
   coffee-rails (~> 3.1.1)
   database_cleaner
   devise
+  factory_girl_rails
+  guard-rspec
   jquery-rails
   launchy
   rails (= 3.1.3)
