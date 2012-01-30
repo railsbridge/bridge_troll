@@ -38,6 +38,8 @@ describe "existing user", :js => true do
 
     page.should have_content("Thanks for submitting your skills")
 
+    page.should have_no_content("Become A Volunteer")
+
     @user.skills.should == ["Coordinating", "Teaching", "TAing", "Mentoring", "Hacking", "Designing", "Childcaring", "Writing"]
 
     page.should have_content("Update your skills")
