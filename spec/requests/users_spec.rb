@@ -58,6 +58,10 @@ describe "existing user", :js => true do
       check "Designing"
       page.should have_content("Evangelizing")
       page.should have_content("Mentoring")
+      page.should have_content("Mac OS X")
+      page.should have_content("Windows")
+      page.should have_content("Linux/Ubuntu")
+
       fill_in "Other", :with => "Speaking Spanish"
 
       click_button "Submit"
