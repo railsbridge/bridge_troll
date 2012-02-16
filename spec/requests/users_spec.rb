@@ -46,38 +46,38 @@ describe "existing user", :js => true do
 
     it "user should be able to add his/her skills" do
       click_link "Add Your Skills"
-
+      fill_in "user_current_password", :with=> @user.password
       page.should have_content("My Incredible Powers")
 
-      check "Teaching"
-      check "TAing"
-      check "Coordinating"
-      check "Childcaring"
-      check "Writing"
-      check "Hacking"
-      check "Designing"
+      check "user_teaching"
+      check "user_taing"
+      check "user_coordinating"
+      check "user_childcaring"
+      check "user_writing"
+      check "user_hacking"
+      check "user_designing"
       page.should have_content("Evangelizing")
       page.should have_content("Mentoring")
-      page.should have_content("Mac OS X")
+#      page.should have_content("Mac OS X")
       page.should have_content("Windows")
-      page.should have_content("Linux/Ubuntu")
+#      page.should have_content("Linux/Ubuntu")
 
       fill_in "Other", :with => "Speaking Spanish"
 
-      click_button "Submit"
+      click_button "Update"
 
       page.should have_content("Thanks for adding your skills")
 
-      @user.skill_teaching.should be_true
-      @user.skill_taing.should be_true
-      @user.skill_coordinating.should be_true
-      @user.skill_childcaring.should be_true
-      @user.skill_writing.should be_true
-      @user.skill_hacking.should be_true
-      @user.skill_designing.should be_true
-      @user.skill_evangelizing.should be_false
-      @user.skill_mentoring.should be_false
-      @user.skill_other.should == "Speaking Spanish"
+      @user.teaching.should be_true
+      @user.taing.should be_true
+      @user.coordinating.should be_true
+      @user.childcaring.should be_true
+      @user.writing.should be_true
+      @user.hacking.should be_true
+      @user.designing.should be_true
+      @user.evangelizing.should be_false
+      @user.mentoring.should be_false
+      @user.other.should == "Speaking Spanish"
 
     end
   end

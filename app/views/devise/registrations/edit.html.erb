@@ -1,3 +1,4 @@
+<h1>My Incredible Powers</h1>
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
@@ -15,6 +16,64 @@
   <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
   <%= f.password_field :current_password %></div>
 
+  <h3>Skills</h3>
+  <div>    
+    <%= f.check_box :writing %>
+    <%= f.label :writing %>
+  </div>
+  <div>
+    <%= f.check_box :teaching %>
+    <%= f.label :teaching %>
+  </div>
+  <div>
+    <%= f.check_box :taing %>
+    <%= f.label :taing %>
+  </div>
+  <div>
+    <%= f.check_box :coordinating %>
+    <%= f.label :coordinating %>    
+  </div>
+  <div>
+    <%= f.check_box :childcaring %>
+    <%= f.label :childcaring %>
+  </div>
+  <div>
+    <%= f.check_box :hacking %>
+        <%= f.label :hacking %>
+  </div>
+  <div>
+    <%= f.check_box :designing %>
+        <%= f.label :designing %>
+  </div>
+  <div>
+    <%= f.check_box :evangelizing %>
+        <%= f.label :evangelizing %>
+  </div>
+  <div>
+    <%= f.check_box :mentoring %>
+        <%= f.label :mentoring %>
+  </div>
+    <div>
+    <%= f.check_box :macosx %>
+        <%= f.label :macosx %>
+  </div>
+  <div>
+    <%= f.check_box :windows %>
+        <%= f.label :windows %>
+  </div>
+  <div>
+    <%= f.check_box :mentoring %>
+        <%= f.label :mentoring %>
+  </div>
+  <div>
+    <%= f.check_box :linux %>
+        <%= f.label :linux %>
+  </div>
+  <div>
+    <%= f.label :other %>:
+    <%= f.text_field :other %>
+  </div>
+
   <div><%= f.submit "Update" %></div>
 <% end %>
 
@@ -23,3 +82,5 @@
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
 
 <%= link_to "Back", :back %>
+
+
