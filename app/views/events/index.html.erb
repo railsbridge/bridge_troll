@@ -16,6 +16,12 @@
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>
     <td><%= link_to 'Destroy', event, confirm: 'Are you sure?', method: :delete %></td>
+    <% if user_signed_in? and check_volunteer_status(event)%>
+      <td><%= link_to 'Volunteer', volunteer_path(event)%></td>
+    <% end %>
+    <% if user_signed_in? and not check_volunteer_status(event)%>
+      <td>You are signed up to volunteer for this event.</td>
+    <% end %>
   </tr>
 <% end %>
 </table>

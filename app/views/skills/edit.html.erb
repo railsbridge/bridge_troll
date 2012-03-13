@@ -1,0 +1,10 @@
+<h1>My Incredible Powers</h1>
+
+<%= form_for(@user) do |f| %>
+  
+  <%=check_box("new",  "writing") %> writing
+  
+    <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

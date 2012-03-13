@@ -80,4 +80,20 @@ class EventsController < ApplicationController
       format.json { head :ok }
     end
   end
+  
+  def volunteer
+    @rsvp = VolunteerRsvp.new
+    @rsvp.event_id = params[:id]
+    @rsvp.user_id = current_user
+    @rsvp.attending = true
+    @events = Event.all
+    respond_to do |format|
+      if @rsvp.save
+        format.html { redirect_to events_path, notice: 'Thanks for volunteering!' }
+        #redirect_to events
+      else
+        format.html { redirect_to events_path, notice: 'You are already registered to volunteer for the event!' }
+      end
+    end
+  end
 end
