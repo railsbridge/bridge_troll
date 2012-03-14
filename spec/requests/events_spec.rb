@@ -29,6 +29,19 @@ describe "Events" do
     fill_in "Password", :with => @user.password
     click_button "Sign in"
     visit events_path
+    click_link "New Event"
+    fill_in "Title", :with => "March Event"
+    select "February",:from =>"event[date(2i)]"
+    click_button "Create Event"
+    visit events_path
+
+    page.should have_content("March Event")
+    page.should have_content("Volunteer")
+    @event = Event.where(:title=> 'March Event').first
+    visit volunteer_path(@event)
+    page.should have_content("Thanks for volunteering")
+    @rsvp = VolunteerRsvp.where(:event_id=> @event_id, :user_id => @user.id).first
+#    @rsvp.should_not equal(nil)
     
   end
 
