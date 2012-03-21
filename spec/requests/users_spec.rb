@@ -68,6 +68,7 @@ describe "existing user", :js => true do
 
       page.should have_content("Thanks for adding your skills")
 
+
       @user.teaching.should be_true
       @user.taing.should be_true
       @user.coordinating.should be_true
@@ -78,6 +79,21 @@ describe "existing user", :js => true do
       @user.evangelizing.should be_false
       @user.mentoring.should be_false
       @user.other.should == "Speaking Spanish"
+
+      #after submitting user needs to be re-fetched:
+      #http://stackoverflow.com/questions/5751835/devise-rspec-user-expectations
+#      @user = User.find(@user.id)
+
+#      @user.skill_teaching.should be_true
+#      @user.skill_taing.should be_true
+#      @user.skill_coordinating.should be_true
+#      @user.skill_childcaring.should be_true
+#      @user.skill_writing.should be_true
+#      @user.skill_hacking.should be_true
+#      @user.skill_designing.should be_true
+#      @user.skill_evangelizing.should be_false
+#      @user.skill_mentoring.should be_false
+#      @user.skill_other.should == "Speaking Spanish"
 
     end
   end
