@@ -44,5 +44,29 @@ describe "Events" do
 #    @rsvp.should_not equal(nil)
     
   end
+  
+  it "should show list of volunteers for event" do
+    @user1 = Factory(:user)
+    @user1.confirm!
+    visit new_user_session_path
+    @user1.hacking = true
+    @user1.taing = true
+    @user2 = Factory(:user)
+    @user2.confirm!
+    
+    @event = Event.new
+    @event.title = 'New workshop'
+    @event.save
+    
+    @rsvp = VolunteerRsvp.new
+    @rsvp.user_id = @user1.id
+    @rsvp.event_id = @event.id
+    @rsvp.attending = true
+    @rsvp.save
+    
+    visit '/events/' + @event.id.to_s
+    page.should have_content("Volunteers")
+    page.should have_content(@user1.email)
+  end
 
 end
