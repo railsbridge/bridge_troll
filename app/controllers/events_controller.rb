@@ -14,8 +14,10 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
-
+    @volunteers = VolunteerRsvp.where(:event_id => params[:id], :attending => true)
+  
     respond_to do |format|
+      
       format.html # show.html.erb
       format.json { render json: @event }
     end
@@ -82,17 +84,42 @@ class EventsController < ApplicationController
   end
   
   def volunteer
-    @rsvp = VolunteerRsvp.new
+    
+    @rsvp = VolunteerRsvp.where(:event_id => params[:id], :user_id => current_user).first
+    debugger
+    if(@rsvp.nil?)
+      @rsvp = VolunteerRsvp.new
+    end
+    debugger
     @rsvp.event_id = params[:id]
-    @rsvp.user_id = current_user
+    @rsvp.user_id = current_user.id
+    debugger
     @rsvp.attending = true
     @events = Event.all
     respond_to do |format|
       if @rsvp.save
+        debugger
         format.html { redirect_to events_path, notice: 'Thanks for volunteering!' }
         #redirect_to events
       else
+        debugger
         format.html { redirect_to events_path, notice: 'You are already registered to volunteer for the event!' }
+      end
+    end
+  end
+  
+  def unvolunteer
+    @rsvp = VolunteerRsvp.where(:event_id => params[:id], :user_id => current_user).first
+    @events = Event.all
+#    debugger
+    respond_to do |format|
+      if not @rsvp.nil? and @rsvp.update_attribute(:attending, false)
+#        debugger
+        format.html { redirect_to events_path, notice: 'Sorry to hear you can not volunteer. We hope you can make it to our next event!' }
+        #redirect_to events
+      else
+#        debugger
+        format.html { redirect_to events_path, notice: 'You are not signed up to volunteer for this event' }
       end
     end
   end

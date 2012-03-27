@@ -11,6 +11,25 @@
     <% end %>
 
   </div>
+  <div>
+    <h3>Volunteers</h3>
+      <% if @volunteers.length == 0 %>
+        No volunteers are currently signed up for this event.
+      <% else %>
+    <table>
+      <tr>
+        <th>Email</th>
+        <th>Skills</th>
+      </tr>
+      <% @volunteers.each do |volunteer| %>
+      <tr>
+        <td><%= User.find(volunteer.user_id).email %></td>
+        <td><%= get_volunteer_skills(volunteer.user_id) %></td>
+      </tr>
+      <% end %>
+    </table>
+  <% end %>
+  </div>
 </div>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |

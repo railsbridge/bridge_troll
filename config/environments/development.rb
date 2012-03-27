@@ -31,5 +31,6 @@ Bridgetroll::Application.configure do
   # Setup default url options for your specific environment.
   #   Here is an example of development environment:
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-
+  require 'ruby-debug'
+  Debugger.start
 end
