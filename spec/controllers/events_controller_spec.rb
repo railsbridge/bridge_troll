@@ -9,7 +9,6 @@ describe EventsController do
     context "there is already a rsvp for the volunteer/event" do
       before do
         @user = Factory(:user)
-        @user.confirm!
         sign_in @user
 
         @rsvp = VolunteerRsvp.create(:user_id => @user.id, :event_id => @event.id, :attending => false)
