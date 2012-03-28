@@ -17,7 +17,6 @@ describe "Events" do
     visit events_path
 
     page.should have_content("February Event")
-
   end
   
   it "should allow user to volunteer for event" do
