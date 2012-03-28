@@ -85,17 +85,15 @@ class EventsController < ApplicationController
 
   def volunteer
     redirect_to "/events" and return if !user_signed_in?
-    @rsvp = VolunteerRsvp.where(:event_id => params[:id], :user_id => current_user.id).first
-    @rsvp ||= VolunteerRsvp.new(:event_id => params[:id], :user_id => current_user.id, :attending => true)
 
-    #@events = Event.all
+    opts = {:event_id => params[:id], :user_id => current_user.id}
+    @rsvp = VolunteerRsvp.where(opts).first || VolunteerRsvp.new(opts)
+    @rsvp.attending = true
 
-    respond_to do |format|
-      if @rsvp.save
-        format.html { redirect_to events_path, notice: 'Thanks for volunteering!' }
-      else
-        format.html { redirect_to events_path, notice: 'You are already registered to volunteer for the event!' }
-      end
+    if @rsvp.save
+      redirect_to events_path, notice: 'Thanks for volunteering!'
+    else
+      redirect_to events_path, notice: 'You are already registered to volunteer for the event!'
     end
   end
 

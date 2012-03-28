@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe EventsController do
-  include Devise::TestHelpers
-
   describe "volunteer" do
     before do
       @event = Factory(:event)
@@ -10,9 +8,18 @@ describe EventsController do
 
     context "there is already a rsvp for the volunteer/event" do
       before do
-        #sign_in @user
+        @user = Factory(:user)
+        @user.confirm!
+        sign_in @user
+
+        @rsvp = VolunteerRsvp.create(:user_id => @user.id, :event_id => @event.id, :attending => false)
       end
-      it "changes the attending attribute on the rsvp to true"
+
+      it "changes the attending attribute on the rsvp to true" do
+        get :volunteer, {:id => @event.id}
+        @rsvp.reload.attending.should == true
+      end
+
       it "does not create a new rsvp"
       it "redirects to the event page related to the rsvp"
       it "flashes a confirmation"
