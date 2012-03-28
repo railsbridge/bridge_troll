@@ -21,7 +21,11 @@ describe EventsController do
 
       it "does not create a new rsvp"
       it "redirects to the event page related to the rsvp"
-      it "flashes a confirmation"
+
+      it "flashes a confirmation" do
+        get :volunteer, {:id => @event.id}
+        flash[:notice].should match(/volunteer/i)
+      end
     end
 
     context "there is no rsvp for the volunteer/event" do
