@@ -12,10 +12,24 @@
 
   </div>
   <div>
-    <h3>Volunteers</h3>
+    <h2>Volunteers Listing</h2>
       <% if @volunteers.length == 0 %>
         No volunteers are currently signed up for this event.
       <% else %>
+        <h3>Willing to teach: <%= @teachers.length %></h3>
+        <ol>
+        <% @teachers.each do |t| %>
+          <li><%= User.find(t.id).email %></li>
+        <% end %>
+        </ol>
+        
+        <h3>Willing to TA: <%= @tas.length %></h3>
+        <ol>
+        <% @tas.each do |t| %>
+          <li><%= User.find(t.id).email %></li>
+        <% end %>
+        </ol>
+        <h3>All Volunteers: <%= @volunteers.length %></h3>
     <table>
       <tr>
         <th>Email</th>

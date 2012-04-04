@@ -15,6 +15,22 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id])
     @volunteers = VolunteerRsvp.where(:event_id => params[:id], :attending => true)
+    @teachers = []
+    @tas = []
+    
+    @volunteers.each do |v|
+      user = User.find(v.user_id)
+      if (user.teaching)
+        @teachers << user
+      end
+    end
+    
+    @volunteers.each do |v|
+      user = User.find(v.user_id)
+      if (user.taing)
+        @tas << user
+      end
+    end
   
     respond_to do |format|
       
