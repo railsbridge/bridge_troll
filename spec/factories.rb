@@ -6,4 +6,5 @@ end
 
 Factory.define :event do |e|
   e.sequence(:title) { |n| "Event #{n}" }
+  e.date DateTime.now 
 end

@@ -55,15 +55,17 @@ describe "Events" do
     
     @event = Event.new
     @event.title = 'New workshop'
-    @event.save
+    @event.date = DateTime.now
+    @event.save!
     
     @rsvp = VolunteerRsvp.new
     @rsvp.user_id = @user1.id
     @rsvp.event_id = @event.id
     @rsvp.attending = true
-    @rsvp.save
-    
+    @rsvp.save!
+
     visit '/events/' + @event.id.to_s
+    
     page.should have_content("Volunteers")
     page.should have_content(@user1.email)
   end
