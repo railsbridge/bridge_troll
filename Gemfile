@@ -28,13 +28,19 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
- gem 'ruby-debug19', :require => 'ruby-debug'
 
-gem 'rspec-rails', :group => [:development, :test]
 group :test do
   gem "factory_girl_rails"
   gem 'capybara'
   gem "guard-rspec"
   gem "launchy"
   gem "database_cleaner"
+end
+
+group :test, :development do
+  gem 'rspec-rails'
+end
+
+group :development do
+  gem 'ruby-debug19', :require => 'ruby-debug'
 end
