@@ -16,3 +16,6 @@
 
 # Ignore Rubymine created folder
 .idea
+
+# Ignore Redcar directory
+/.redcar/ 
