@@ -42,5 +42,8 @@ group :test, :development do
 end
 
 group :development do
-  gem 'ruby-debug19', :require => 'ruby-debug'
+  gem 'ruby-debug19', :require => false
+  # when we want to debug we need to
+  # require 'ruby-debug'
+  # debugger
 end
