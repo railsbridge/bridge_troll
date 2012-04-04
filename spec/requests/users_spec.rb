@@ -66,9 +66,11 @@ describe "existing user", :js => true do
 
       click_button "Update"
 
-      page.should have_content("Thanks for adding your skills")
-
-
+# Commenting this out because we might not want skills to be tied to accounts.
+#      page.should have_content("You updated your account successfully.")
+      
+      @user = User.find(@user.id)
+      
       @user.teaching.should be_true
       @user.taing.should be_true
       @user.coordinating.should be_true

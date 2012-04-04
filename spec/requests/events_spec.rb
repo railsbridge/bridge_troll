@@ -35,7 +35,7 @@ describe "Events" do
     visit events_path
 
     page.should have_content("March Event")
-    page.should have_content("Volunteer")
+    page.should have_button("Volunteer")
     @event = Event.where(:title=> 'March Event').first
     visit volunteer_path(@event)
     page.should have_content("Thanks for volunteering")
