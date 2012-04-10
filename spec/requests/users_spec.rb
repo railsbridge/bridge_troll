@@ -1,5 +1,19 @@
 require 'spec_helper'
 
+describe "new user", :js => true do
+  it "should be able to signup" do
+    visit new_user_registration_path
+    
+    fill_in "Name", :with => "Anne"
+    fill_in "Email", :with => "example@example.com"
+    fill_in "Password", :with => "example1"
+    fill_in "Password confirmation", :with => "example1"
+    click_button "Sign up"
+    
+    page.should have_content("You have signed up successfully")
+  end
+end
+
 describe "existing user", :js => true do
 
   before(:each) do
