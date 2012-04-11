@@ -1,15 +1,18 @@
 require 'spec_helper'
 
+
 describe "new user", :js => true do
   it "should be able to signup" do
+    @user = User.new(:name=>"Anne", :email=>"example@example.com", :password=>"booboo")
+
     visit new_user_registration_path
-    
-    fill_in "Name", :with => "Anne"
-    fill_in "Email", :with => "example@example.com"
-    fill_in "Password", :with => "example1"
-    fill_in "Password confirmation", :with => "example1"
+
+    fill_in "Name", :with => @user.name
+    fill_in "Email", :with => @user.email
+    fill_in "Password", :with => @user.password
+    fill_in "Password confirmation", :with => @user.password
     click_button "Sign up"
-    
+
     page.should have_content("You have signed up successfully")
   end
 end
@@ -18,7 +21,6 @@ describe "existing user", :js => true do
 
   before(:each) do
     @user = Factory(:user)
-    @user.confirm!
   end
 
   it "should see sign in link on the home page" do
@@ -82,9 +84,9 @@ describe "existing user", :js => true do
 
 # Commenting this out because we might not want skills to be tied to accounts.
 #      page.should have_content("You updated your account successfully.")
-      
+
       @user = User.find(@user.id)
-      
+
       @user.teaching.should be_true
       @user.taing.should be_true
       @user.coordinating.should be_true
