@@ -1,4 +1,5 @@
 Factory.define :user do |f|
+  f.name "Anne"
   f.sequence(:email) { |n| "example0#{n}@example.com"}
   f.confirmed_at DateTime.now # all users are confirmed by default
   f.password "test123"
