@@ -1,1 +1,1 @@
-rvm use ruby-1.9.2-p290@bridgetroll --create
+rvm ruby-1.9.2-p290@bridgetroll
