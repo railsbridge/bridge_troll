@@ -18,4 +18,4 @@
 .idea
 
 # Ignore Redcar directory
-/.redcar/ 
+.redcar/*
