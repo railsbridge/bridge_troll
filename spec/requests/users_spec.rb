@@ -7,14 +7,14 @@ describe "existing user", :js => true do
     @user.confirm!
   end
 
-  it "should see sign in link on the home page" do
+  it "should see sign in button on the home page" do
     visit '/'
-    page.should have_link("Sign In")
+    page.should have_button("Sign In")
   end
 
-  it "should see be able to sign in from the home page" do
+  it "should be able to sign in from the home page" do
     visit '/'
-    click_link("Sign In")
+    click_button("Sign In")
     current_path.should == new_user_session_path
   end
 
@@ -27,6 +27,17 @@ describe "existing user", :js => true do
 
     page.should have_content("Signed in successfully")
     page.should have_link("Sign Out")
+  end
+  
+  it "should see sign up button on the home page" do
+    visit '/'
+    page.should have_button("Sign Up")
+  end
+  
+  it "should be able to sign up from the home page" do
+    visit '/'
+    click_button("Sign Up")
+    current_path.should == new_user_registration_path
   end
 
   describe "skills" do
