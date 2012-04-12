@@ -14,12 +14,17 @@
     <td><%= location.name %></td>
     <td><%= location.address %></td>
     <td><%= link_to 'Show', location %></td>
-    <td><%= link_to 'Edit', edit_location_path(location) %></td>
-    <td><%= link_to 'Destroy', location, confirm: 'Are you sure?', method: :delete %></td>
+    <% if user_signed_in? %>
+      <td><%= link_to 'Edit', edit_location_path(location) %></td>
+      <td><%= link_to 'Destroy', location, confirm: 'Are you sure?', method: :delete %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Location', new_location_path %>
+<% if user_signed_in? %>
+  <%= link_to 'New Location', new_location_path %> |
+<% end %>
+<%= link_to 'Events', events_path %>

@@ -8,7 +8,12 @@
     <th></th>
     <th></th>
   </tr>
-
+  
+  <% if @events.length == 0 %>
+    <tr>
+      <td colspan="5">There are no events.</td>
+    </tr>
+  <% end %>
 <% @events.each do |event| %>
   <tr>
     <td><%= event.title %></td>
@@ -29,9 +34,10 @@
 
 <br />
 
-<%= link_to 'New Event', new_event_path %>
-|
-<%= link_to 'Add Your Skills',edit_user_registration_path %>
-| 
-<%= link_to 'Manage Locations', locations_path %>
-
+<% if user_signed_in? %>
+  <%= link_to 'New Event', new_event_path %>
+  |
+  <%= link_to 'Add Your Skills',edit_user_registration_path %>
+  | 
+  <%= link_to 'Manage Locations', locations_path %>
+<% end %>
