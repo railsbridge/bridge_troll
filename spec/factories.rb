@@ -9,3 +9,7 @@ Factory.define :event do |e|
   e.sequence(:title) { |n| "Event #{n}" }
   e.date DateTime.now 
 end
+
+Factory.define :role do |r|
+  r.sequence(:title) { |n| "Role #{n}" }
+end
