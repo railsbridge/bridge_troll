@@ -5,4 +5,9 @@ describe Event do
     event = Factory.build(:event, :title => nil)
     event.should_not be_valid
   end
+  
+  it "must have a date" do
+    event = Factory.build(:event, :date => nil)
+    event.should_not be_valid
+  end
 end
