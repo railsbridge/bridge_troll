@@ -4,6 +4,7 @@
   </li>
 <% else %>
   <li>
-  <%= link_to('Sign In', new_user_session_path)  %>
+  <div id = "sign_in"><%= link_to('Sign In', new_user_session_path)  %> </div>
+  <div id = "sign_up"><%= link_to('Sign Up', new_user_registration_path) %></div>
   </li>
 <% end %>
