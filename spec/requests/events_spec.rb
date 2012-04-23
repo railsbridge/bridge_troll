@@ -40,8 +40,7 @@ describe "Events" do
     visit volunteer_path(@event)
     page.should have_content("Thanks for volunteering")
     @rsvp = VolunteerRsvp.where(:event_id=> @event_id, :user_id => @user.id).first
-#    @rsvp.should_not equal(nil)
-    
+     
   end
   
   it "should show list of volunteers for event" do
