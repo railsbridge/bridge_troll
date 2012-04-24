@@ -24,14 +24,20 @@ describe Event do
     
     it "should not create duplicate volunteer_rsvps" do
       @event.volunteer(@user)
-
+      
+      #this method is useful for detecting if there is actually a new duplicate record generated in the database
+      expect {        
+      @event.volunteer(@user)
+      }.should_not change(VolunteerRsvp, :count).by(1)
+     
+      #this method is useful for detecting when VolunteerRSVP model validation breaks
       duplicate_volunteer_rsvp = VolunteerRsvp.new(:user_id => @user.id, :event_id => @event.id, :attending => true)
       duplicate_volunteer_rsvp.should_not be_valid
-       
+      
     end
     
     it "should create a volunteer_rsvp" do
-      lambda {        
+      expect {        
       @event.volunteer(@user)
       }.should change(VolunteerRsvp, :count).by(1)
     end
