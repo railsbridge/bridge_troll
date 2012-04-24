@@ -15,10 +15,10 @@
     <td><%= event.date %></td>
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>
-    <% if user_signed_in? and check_volunteer_status(event)%>
+    <% if user_signed_in? and not event.volunteering?(current_user)%>
       <td><%= button_to 'Volunteer', volunteer_path(event)%></td>
     <% end %>
-    <% if user_signed_in? and not check_volunteer_status(event)%>
+    <% if user_signed_in? and event.volunteering?(current_user)%>
       <td>
         You are signed up to volunteer for this event!<%= button_to 'Unvolunteer', unvolunteer_path(event)%>
       </td> 
