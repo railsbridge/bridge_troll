@@ -8,4 +8,7 @@ class Event < ActiveRecord::Base
   def ymd
 	self.date.strftime('%-m/%e/%Y')
   end
+  def hm
+	self.date.strftime('%l:%M %P')
+  end
 end
