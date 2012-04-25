@@ -3,6 +3,13 @@ require 'spec_helper'
 describe "Events" do
 
   it "should create a new event" do
+    @user = Factory(:user)
+    @user.confirm!
+    visit new_user_session_path
+    fill_in "Email", :with => @user.email
+    fill_in "Password", :with => @user.password
+    click_button "Sign in"
+        
     # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
     visit events_path
     click_link "New Event"
@@ -17,6 +24,11 @@ describe "Events" do
     visit events_path
 
     page.should have_content("February Event")
+  end
+ 
+  it "should not create an event if user is not logged in" do
+    visit new_event_path
+    page.should have_content("You need to sign in or sign up before continuing")
   end
   
   it "should allow user to volunteer for event" do

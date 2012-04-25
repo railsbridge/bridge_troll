@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20120410060636
+#
+# Table name: events
+#
+#  id          :integer         not null, primary key
+#  title       :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  date        :datetime
+#  location_id :integer
+#
+
 class Event < ActiveRecord::Base
   belongs_to :location
   has_many :volunteer_rsvps, :foreign_key => "event_id"

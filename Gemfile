@@ -35,9 +35,11 @@ group :test do
   gem "guard-rspec"
   gem "launchy"
   gem "database_cleaner"
+  gem 'simplecov', :require => false
 end
 
 group :test, :development do
+  gem 'annotate', '~> 2.4.1.beta'
   gem 'rspec-rails'
 end
 
