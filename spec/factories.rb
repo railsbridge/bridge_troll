@@ -10,6 +10,7 @@ Factory.define :event do |e|
   e.date DateTime.now 
 end
 
-Factory.define :role do |r|
-  r.sequence(:title) { |n| "Role #{n}" }
+Factory.define :location do |l|
+  l.sequence(:name) { |n| "Location #{n}" }
+  l.sequence(:address) { |n| "#{n} Street San Francisco, CA 94108" }
 end
