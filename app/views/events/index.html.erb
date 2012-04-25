@@ -17,7 +17,8 @@
 <% @events.each do |event| %>
   <tr>
     <td><%= event.title %></td>
-    <td><%= event.date %></td>
+<!--    <td><%= event.date.strftime('%-m/%e/%Y') %></td>  -->
+    <td><%= event.ymd %></td>
     <td><%= event.location.name %></td>
     <td><%= link_to 'Show', event %></td>
     <td><%= link_to 'Edit', edit_event_path(event) %></td>

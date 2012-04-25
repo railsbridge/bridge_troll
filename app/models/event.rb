@@ -4,4 +4,8 @@ class Event < ActiveRecord::Base
   has_many :users, :through => :volunteerRsvps
   validates_presence_of :title
   validates_presence_of :date
+  
+  def ymd
+	self.date.strftime('%-m/%e/%Y')
+  end
 end
