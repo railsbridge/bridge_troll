@@ -7,7 +7,9 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <%= render :partial => 'devise/menu/login_items' %>
+  <div class='actions'> 
+    <%= render :partial => 'devise/menu/login_items' %>
+  </div>
 <hr/>
   <p id="notice" class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>

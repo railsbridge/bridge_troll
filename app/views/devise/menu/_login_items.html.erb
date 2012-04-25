@@ -1,10 +1,5 @@
 <% if user_signed_in? %>
-  <li>
-  <%= link_to('Sign Out', destroy_user_session_path, :method => :delete) %>
-  </li>
+    <%= link_to 'Add Your Skills',edit_user_registration_path %> | <%= link_to('Sign Out', destroy_user_session_path, :method => :delete) %> 
 <% else %>
-  <li>
-  <div id = "sign_in"><%= link_to('Sign In', new_user_session_path)  %> </div>
-  <div id = "sign_up"><%= link_to('Sign Up', new_user_registration_path) %></div>
-  </li>
+    <%= link_to('Sign In', new_user_session_path)  %> | <%= link_to('Sign Up', new_user_registration_path) %>
 <% end %>
