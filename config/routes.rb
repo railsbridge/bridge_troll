@@ -21,7 +21,8 @@ Bridgetroll::Application.routes.draw do
   match 'events/:id/volunteer', :to => 'events#volunteer', :as => :volunteer
   match 'events/:id/unvolunteer', :to => 'events#unvolunteer', :as => :unvolunteer
   
-  match 'volunteer/search', :to => 'volunteerrsvps#index', :as => :volunteersearch
+  match 'volunteer/search', :to => 'volunteerrsvps#index', :as => :volunteersearch 
+ 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 
