@@ -7,7 +7,9 @@ describe Role do
   end
   
   it "should create a new Role given valid attributes" do
-    Role.create!(@attr)
+    expect do
+      Role.create!(@attr)
+    end.to change(Role, :count).by(1)
   end
   
   it "should have a title" do
