@@ -1,9 +1,11 @@
 class EventsController < ApplicationController
+ # require 'date'
   before_filter :authenticate_user!, :except => [:show, :index, :volunteer]
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+#   @events = Event.all
+	@events = Event.upcoming
 
     respond_to do |format|
       format.html # index.html.erb

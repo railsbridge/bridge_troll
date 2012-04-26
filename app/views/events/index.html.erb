@@ -1,4 +1,4 @@
-<h1>Listing events</h1>
+<h1>Upcoming events</h1>
 
 <table>
   <tr>
@@ -18,13 +18,11 @@
 <% @events.each do |event| %>
   <tr>
     <td><%= link_to event.title, event %></td>
-<!--    <td><%= event.date.strftime('%-m/%e/%Y') %></td>  -->
     <td><%= event.ymd %></td>
 	<td><%= event.hm %></td>
     <td><%= event.location.name %></td>
-    <td><%= link_to 'Edit', edit_event_path(event) %></td>
+	<!--   <td><%= link_to 'Edit', edit_event_path(event) %></td>  -->
     <% if user_signed_in? and check_volunteer_status(event)%>
- <!--     <td><%= button_to 'Volunteer', volunteer_path(event)%></td>  -->
       <td><%= link_to 'Volunteer', volunteer_path(event), :method => :post%></td>
     <% end %>
     <% if user_signed_in? and not check_volunteer_status(event)%>

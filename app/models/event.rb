@@ -11,4 +11,5 @@ class Event < ActiveRecord::Base
   def hm
 	self.date.strftime('%l:%M %P')
   end
+  scope :upcoming, lambda { where('date >= ?', DateTime.now) }
 end
