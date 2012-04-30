@@ -29,7 +29,7 @@ class Event < ActiveRecord::Base
   def unvolunteer!(user) 
     @rsvp = VolunteerRsvp.find_by_event_id_and_user_id(self.id, user.id)
     
-    if not @rsvp==nil and @rsvp.valid? 
+    if @rsvp and @rsvp.valid? 
       @rsvp.update_attributes(:attending => false)
     end
     @rsvp
@@ -37,7 +37,6 @@ class Event < ActiveRecord::Base
   end
   
   def volunteering?(user)
-    @attr = {:event_id => self.id, :user_id => user.id, :attending => true}
-    VolunteerRsvp.where(@attr).present?
+    VolunteerRsvp.where(:event_id => self.id, :user_id => user.id, :attending => true).present?
   end
 end

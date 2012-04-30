@@ -69,7 +69,7 @@ describe EventsController do
       
       it "should flash a confirmation" do
         get :volunteer, {:id => @event.id}
-        flash[:notice].should match(/Thanks for volunteering!/i)      
+        flash[:notice].should match(/thanks/i)      
       end
     end
   end
