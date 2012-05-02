@@ -80,6 +80,8 @@ class EventsController < ApplicationController
       
      if @rsvp.persisted?
        redirect_to @event, notice: 'Thanks for volunteering!'
+     else
+       redirect_to "/events", notice: "Oops!  Something went wrong.  Check to see if you're signed up or try again."
      end
   end
   
