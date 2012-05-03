@@ -2,9 +2,13 @@
 <html>
   <head>
     <title>Bridgetroll</title>
+    <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
-    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <![endif]-->
+    <%= stylesheet_link_tag  "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <div class="navbar navbar-fixed-top">
@@ -32,11 +36,17 @@
         </div>
       </div>
     </div>
-    <hr/>
-      <p id="notice" class="notice"><%= notice %></p>
-      <!-- <p class="alert"><%= alert %></p> -->
-    <div class="container-fluid center"> 
-      <%=yield %>
+    <div class="container-fluid center">
+      <% flash.each do |name, msg| %>
+          <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+            <%= msg  %>
+          </div>
+      <% end %>
+      <div class="row-fluid">
+        <div class="span8">
+          <%=yield %>
+        </div>
+      </div>
     </div>
   </body>
 </html>

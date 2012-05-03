@@ -1,16 +1,16 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
-gem 'simple_form'
-gem 'haml-rails'
 gem 'sqlite3'
 gem 'devise'
+gem 'pg'
 
 group :assets do
-  gem 'sass-rails',   '~> 3.1.5'
+  gem 'sass-rails', '3.1.4'
   gem 'coffee-rails', '~> 3.1.1'
   gem 'uglifier', '>= 1.0.3'
   gem 'twitter-bootstrap-rails'
+  gem 'bootstrap-sass'
   gem 'therubyracer'
 end
 
