@@ -16,21 +16,10 @@
         <div class="container">
           <a class="btn btn-navbar" "data-target"= ".nav-collapse" "data-toggle"= "collapse">
           </a>
-          <a class="brand" :href= "">Bridgetroll</a>
+          <a class="brand" href=<%= events_path %>>Bridgetroll</a>
           <div class="nav-collapse">
-            <ul class="nav", :style= "float:right">
-              <li>
-                <% if user_signed_in? %>
-                  <%= link_to "Log Out", destroy_user_session_path, :method => :delete %>
-                <% else %>
-                  <%= link_to "Log In", new_user_session_path %>
-                <% end %>
-              </li>
-              <% if !user_signed_in? %>
-                <li>
-                  <%= link_to "Sign Up", new_user_registration_path %>
-                </li>
-              <% end %>
+            <ul class="nav", style= "float:right">
+              <%= render :partial => "devise/menu/login_items" %>
             </ul>
           </div>
         </div>
