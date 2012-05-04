@@ -57,6 +57,6 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
              attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :teaching, :taing, :coordinating, :childcaring, :writing, :hacking, :designing, :evangelizing, :mentoring, :macosx, :windows, :linux, :other
-  validates :email, presence: true
   validates :name,  presence: true
+  # Devise provides user e-mail validation
 end
