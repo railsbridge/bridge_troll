@@ -51,6 +51,12 @@ describe Event do
       @event.volunteer!(@user)
       }.should change(VolunteerRsvp, :count).by(1)
     end
+    
+    it "should create a volunteer_rsvp that persists and is valid" do
+      @rsvp = @event.volunteer!(@user)
+      @rsvp.should be_persisted
+      @rsvp.should be_valid
+    end
      
     it "should give the new volunteer_rsvp with correct attributes" do
       @rsvp = @event.volunteer!(@user)
