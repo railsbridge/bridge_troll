@@ -19,7 +19,7 @@ end
 describe "existing user", :js => true do
 
   before(:each) do
-    @user = Factory(:user)
+    @user = create(:user)
   end
 
   it "should see Sign In and should not see Add Your Skills link on the home page" do
