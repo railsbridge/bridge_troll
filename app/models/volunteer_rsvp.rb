@@ -1,5 +1,4 @@
 # == Schema Information
-# Schema version: 20120410060636
 #
 # Table name: volunteer_rsvps
 #
@@ -9,6 +8,7 @@
 #  attending  :boolean
 #  created_at :datetime
 #  updated_at :datetime
+#  role_id    :integer
 #
 
 class VolunteerRsvp < ActiveRecord::Base
