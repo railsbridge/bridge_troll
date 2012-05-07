@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe User do
   
-    before { @user = Factory :user, :name=>"Anne" }
+    before { @user = create(:user, :name=>"Anne") }
 
     subject { @user }
 

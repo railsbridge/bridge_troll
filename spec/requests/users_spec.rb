@@ -19,7 +19,7 @@ end
 describe "existing user", :js => true do
 
   before(:each) do
-    @user = Factory(:user)
+    @user = create(:user)
   end
 
   it "should see Sign In and should not see Add Your Skills link on the home page" do
@@ -31,6 +31,7 @@ describe "existing user", :js => true do
   it "should be able to sign in from the home page" do
     visit '/'
     click_link("Sign In")
+    page.should have_content("Sign in")
     current_path.should == new_user_session_path
   end
 
@@ -68,6 +69,7 @@ describe "existing user", :js => true do
   it "should be able to sign up from the home page" do
     visit '/'
     click_link("Sign Up")
+    page.should have_content("Sign up")
     current_path.should == new_user_registration_path
   end
 

@@ -2,8 +2,7 @@ require 'spec_helper'
 
 describe 'Locations' do
   it "should create a new location" do
-    @user = Factory(:user)
-    @user.confirm!
+    @user = create(:user)
     visit new_user_session_path
     fill_in "Email", :with => @user.email
     fill_in "Password", :with => @user.password
@@ -30,8 +29,8 @@ describe 'Locations' do
   end
   
   it "should not allow location editing if user is not signed in" do
-    @location = Factory(:location)
-    visit '/locations/' + @location.id.to_s + '/edit'
+    @location = create(:location)
+    visit edit_location_path(@location.id)
     page.should have_content("You need to sign in or sign up before continuing")
   end
 end
