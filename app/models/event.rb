@@ -19,6 +19,10 @@ class Event < ActiveRecord::Base
   validates_presence_of :date
   
     
+  def rsvp_for_user(user)
+    self.volunteer_rsvps.find_by_user_id(user.id)
+  end
+
   def volunteer!(user)
     @rsvp = VolunteerRsvp.find_or_create_by_event_id_and_user_id(self.id, user.id)
     @rsvp.attending = true

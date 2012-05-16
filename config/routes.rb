@@ -5,6 +5,8 @@ Bridgetroll::Application.routes.draw do
 
   resources :events
 
+  resources :volunteer_rsvps, :only => [:create,:update]
+
   root :to => "events#index"
   
 
