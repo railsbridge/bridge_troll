@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120410060636) do
+ActiveRecord::Schema.define(:version => 20120424060752) do
 
   create_table "events", :force => true do |t|
     t.string   "title"
@@ -24,6 +24,12 @@ ActiveRecord::Schema.define(:version => 20120410060636) do
   create_table "locations", :force => true do |t|
     t.string   "name"
     t.text     "address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles", :force => true do |t|
+    t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -75,6 +81,9 @@ ActiveRecord::Schema.define(:version => 20120410060636) do
     t.boolean  "attending"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "role_id"
   end
+
+  add_index "volunteer_rsvps", ["user_id", "event_id"], :name => "index_volunteer_rsvps_on_user_id_and_event_id", :unique => true
 
 end

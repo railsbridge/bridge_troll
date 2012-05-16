@@ -12,25 +12,26 @@ describe "new user", :js => true do
     fill_in "Password", :with => @user.password
     fill_in "Password confirmation", :with => @user.password
     click_button "Sign up"
-
-    page.should have_content("You have signed up successfully")
+    page.should have_content("A message with a confirmation link has been sent to your email address. Please open the link to activate your account.")
   end
 end
 
 describe "existing user", :js => true do
 
   before(:each) do
-    @user = Factory(:user)
+    @user = create(:user)
   end
 
-  it "should see sign in link on the home page" do
+  it "should see Sign In and should not see Add Your Skills link on the home page" do
     visit '/'
     page.should have_link("Sign In")
+    page.should_not have_link("Add Your Skills")
   end
 
   it "should be able to sign in from the home page" do
     visit '/'
     click_link("Sign In")
+    page.should have_content("Sign in")
     current_path.should == new_user_session_path
   end
 
@@ -42,7 +43,22 @@ describe "existing user", :js => true do
     click_button "Sign in"
 
     page.should have_content("Signed in successfully")
-    page.should have_link("Sign Out")
+  end
+  
+  describe " is signed in" do
+    before :each do
+      visit new_user_session_path
+
+      fill_in "Email", :with => @user.email
+      fill_in "Password", :with => @user.password
+      click_button "Sign in"
+    end
+    it "should see Sign Out link and Add Your Skills links and not see Sign In/Up links" do
+      page.should have_link("Add Your Skills")
+      page.should have_link("Sign Out")
+      page.should_not have_link("Sign In")
+      page.should_not have_link("Sign Up")
+    end  
   end
   
   it "should see sign up link on the home page" do
@@ -53,6 +69,7 @@ describe "existing user", :js => true do
   it "should be able to sign up from the home page" do
     visit '/'
     click_link("Sign Up")
+    page.should have_content("Sign up")
     current_path.should == new_user_registration_path
   end
 
@@ -85,16 +102,11 @@ describe "existing user", :js => true do
       check "user_designing"
       page.should have_content("Evangelizing")
       page.should have_content("Mentoring")
-#      page.should have_content("Mac OS X")
       page.should have_content("Windows")
-#      page.should have_content("Linux/Ubuntu")
 
       fill_in "Other", :with => "Speaking Spanish"
 
       click_button "Update"
-
-# Commenting this out because we might not want skills to be tied to accounts.
-#      page.should have_content("You updated your account successfully.")
 
       @user = User.find(@user.id)
 
@@ -108,22 +120,6 @@ describe "existing user", :js => true do
       @user.evangelizing.should be_false
       @user.mentoring.should be_false
       @user.other.should == "Speaking Spanish"
-
-      #after submitting user needs to be re-fetched:
-      #http://stackoverflow.com/questions/5751835/devise-rspec-user-expectations
-#      @user = User.find(@user.id)
-
-#      @user.skill_teaching.should be_true
-#      @user.skill_taing.should be_true
-#      @user.skill_coordinating.should be_true
-#      @user.skill_childcaring.should be_true
-#      @user.skill_writing.should be_true
-#      @user.skill_hacking.should be_true
-#      @user.skill_designing.should be_true
-#      @user.skill_evangelizing.should be_false
-#      @user.skill_mentoring.should be_false
-#      @user.skill_other.should == "Speaking Spanish"
-
     end
   end
 end

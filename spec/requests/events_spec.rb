@@ -3,8 +3,7 @@ require 'spec_helper'
 describe "Events" do
 
   it "should create a new event" do
-    @user = Factory(:user)
-    @user.confirm!
+    @user = create(:user)
     visit new_user_session_path
     fill_in "Email", :with => @user.email
     fill_in "Password", :with => @user.password
@@ -32,8 +31,7 @@ describe "Events" do
   end
   
   it "should allow user to volunteer for event" do
-    @user = Factory(:user)
-    @user.confirm!
+    @user = create(:user)
     visit new_user_session_path
 
     fill_in "Email", :with => @user.email
@@ -52,18 +50,15 @@ describe "Events" do
     visit volunteer_path(@event)
     page.should have_content("Thanks for volunteering")
     @rsvp = VolunteerRsvp.where(:event_id=> @event_id, :user_id => @user.id).first
-#    @rsvp.should_not equal(nil)
-    
+     
   end
   
   it "should show list of volunteers for event" do
-    @user1 = Factory(:user)
-    @user1.confirm!
+    @user1 = create(:user)
     visit new_user_session_path
     @user1.hacking = true
     @user1.taing = true
-    @user2 = Factory(:user)
-    @user2.confirm!
+    @user2 = create(:user)
     
     @event = Event.new
     @event.title = 'New workshop'
@@ -80,6 +75,7 @@ describe "Events" do
     
     page.should have_content("Volunteers")
     page.should have_content(@user1.email)
+    page.should_not have_content(@user2.email)
   end
 
 end
