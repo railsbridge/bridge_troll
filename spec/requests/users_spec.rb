@@ -12,7 +12,7 @@ describe "new user", :js => true do
     fill_in "Password", :with => @user.password
     fill_in "Password confirmation", :with => @user.password
     click_button "Sign up"
-    page.should have_content("A message with a confirmation link has been sent to your email address. Please open the link to activate your account.")
+    page.should have_content("Welcome! You have signed up successfully")
   end
 end
 
@@ -123,3 +123,62 @@ describe "existing user", :js => true do
     end
   end
 end
+
+  describe "unconfirmed user" do
+    before do
+      visit new_user_registration_path
+
+      fill_in "Name", :with => 'Test User 1'
+      fill_in "Email", :with => 'TestUser@email.com'
+      fill_in "Password", :with => '123456'
+      fill_in "Password confirmation", :with => '123456'
+      click_button "Sign up"
+
+    end
+    
+    it "should be able to volunteer" do
+      @event = Event.new(:title => 'Test Event1', :date => Date.today)
+      @event.save
+      visit "/events/#{@event.id}/volunteer"
+      page.should have_content("Thanks for volunteering!")
+    end
+    
+    it "should be able to create an event" do
+      visit new_event_path
+      fill_in "Title", :with=>"February Event"
+      select "February",:from =>"event[date(2i)]"
+      click_button "Create Event"
+
+      page.should have_content("February Event")
+      page.should have_content("This event currently has no location!")
+
+      visit events_path
+
+      page.should have_content("February Event")
+    end
+  end
+  
+  describe "expired unconfirmed user" do
+    before do
+      @user = User.new
+      @user.email = 'abc@abc.com'
+      @user.name = 'abc'
+      @user.confirmation_sent_at = Date.today - 368.days
+      @user.confirmed_at = nil
+      @user.save
+      puts @user.confirmation_sent_at
+      puts @user.confirmed_at
+    end
+    
+    it "should not be able to log in" do
+      visit new_user_session_path
+      fill_in "Email", :with => @user.email
+      fill_in "Password", :with => @user.password
+      click_button "Sign in"
+      page.should have_content("You have to confirm your account before continuing.")
+    end
+    
+    it "should not be able to volunteer" do
+      
+    end
+  end
