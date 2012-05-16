@@ -10,7 +10,7 @@ describe EventsController do
     context "without logging in, I am redirected from the page" do
       it "redirects to the events page" do
         get :volunteer, {:id => @event.id}
-        response.should redirect_to("/events")
+        response.should redirect_to(events_path)
       end
 
       it "does not create any new rsvps" do
@@ -98,5 +98,59 @@ describe EventsController do
         @rsvp.reload.attending.should == false
       end  
     end
-  end  
+  end 
+
+  describe "permissions" do
+    context "a user that is not logged in" do
+      it "should be able to see the events index page" do
+        get :index
+        response.should be_success
+      end
+      it "should be redirected to the sign in page if they try to edit an event" do
+        get :edit, {:id => @event.id}
+        response.should redirect_to(new_user_session_path)
+        
+        put :update, {:id => @event.id}
+        response.should redirect_to(new_user_session_path)
+      end
+      it "should not be able to add a new event" do
+        get :new
+        response.should redirect_to(new_user_session_path)
+
+        post :create, :event => {}
+        response.should redirect_to(new_user_session_path)
+      end
+      it "should not be able to delete an event" do
+        delete :destroy, {:id => @event.id}
+        response.should redirect_to(new_user_session_path)
+      end
+    end
+    
+    context "a user that is logged in" do
+      before do
+        @user = create(:user)
+        sign_in @user
+      end
+      it "should be able to see the events index page" do
+        get :index
+        response.should be_success
+      end
+      it "should be able to create a new event" do
+        get :new
+        response.should be_success
+        
+        expect { post :create, :event => {:title => "Great Event", :date => DateTime.now} }.to change(Event, :count).by(1)
+      end
+      it "should be able to edit an event" do
+        get :edit, {:id => @event.id}
+        response.should be_success
+        
+        put :update, {:id => @event.id}
+        response.should redirect_to(event_path(@event))
+      end
+      it "should be able to delete an event" do
+        expect { delete :destroy, {:id => @event.id} }.to change(Event, :count).by(-1)
+      end
+    end
+  end
 end
