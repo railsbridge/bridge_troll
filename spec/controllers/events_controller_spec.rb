@@ -10,7 +10,7 @@ describe EventsController do
     context "without logging in, I am redirected from the page" do
       it "redirects to the events page" do
         get :volunteer, {:id => @event.id}
-        response.should redirect_to("/events")
+        response.should redirect_to(events_path)
       end
 
       it "does not create any new rsvps" do
@@ -108,21 +108,21 @@ describe EventsController do
       end
       it "should be redirected to the sign in page if they try to edit an event" do
         get :edit, {:id => @event.id}
-        response.should redirect_to("/users/sign_in")
+        response.should redirect_to(new_user_session_path)
         
         put :update, {:id => @event.id}
         response.should redirect_to(new_user_session_path)
       end
       it "should not be able to add a new event" do
         get :new
-        response.should redirect_to("/users/sign_in")
+        response.should redirect_to(new_user_session_path)
 
         post :create, :event => {}
-        response.should redirect_to("/users/sign_in")
+        response.should redirect_to(new_user_session_path)
       end
       it "should not be able to delete an event" do
         delete :destroy, {:id => @event.id}
-        response.should redirect_to("/users/sign_in")
+        response.should redirect_to(new_user_session_path)
       end
     end
     

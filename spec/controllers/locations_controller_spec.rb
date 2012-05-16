@@ -9,15 +9,15 @@ describe LocationsController do
     context "a user that is not logged in" do
       it "should not be able to create a new location" do
         get :new
-        response.should redirect_to("/users/sign_in")
+        response.should redirect_to(new_user_session_path)
       end
       it "should not be able to edit a location" do
         get :edit, {:id => @location.id}
-        response.should redirect_to("/users/sign_in")
+        response.should redirect_to(new_user_session_path)
       end
       it "should not be able to delete a location" do
         delete :destroy, {:id => @location.id}
-        response.should redirect_to("/users/sign_in")
+        response.should redirect_to(new_user_session_path)
       end
     end
     context "a user that is logged in" do
