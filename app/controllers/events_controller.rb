@@ -77,10 +77,9 @@ class EventsController < ApplicationController
      
      @event = Event.find(params[:id])
      @rsvp = @event.volunteer!(current_user)
-      
-     if @rsvp.persisted?
-       redirect_to @event, notice: 'Thanks for volunteering!'
-     end
+
+     redirect_to @event, notice: 'Thanks for volunteering!'
+     
   end
   
   def unvolunteer
