@@ -48,7 +48,7 @@ describe Event do
           @event.rsvp_for_user(@user).should == @event.volunteer_rsvps.find_by_user_id(@user.id)
         end
       end
-
     end
+
   end
 end
