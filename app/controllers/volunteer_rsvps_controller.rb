@@ -16,15 +16,13 @@ class VolunteerRsvpsController < ApplicationController
 
   def update
     @rsvp = VolunteerRsvp.find(params[:id])
-    if !@rsvp.attending?
-      redirect_to events_path, notice: 'You are not signed up to volunteer for this event'
+    redirect_to events_path, notice: 'You are not signed up to volunteer for this event' and return unless @rsvp.attending?
+
+    @rsvp.attending = false
+    if @rsvp.save
+      redirect_to events_path, notice: 'Sorry to hear you can not volunteer. We hope you can make it to our next event!'
     else
-      @rsvp.attending = false
-      if @rsvp.save
-        redirect_to events_path, notice: 'Sorry to hear you can not volunteer. We hope you can make it to our next event!'
-      else
-        redirect_to events_path, error: 'There was a problem updating your rsvp, please try again.'
-      end
+      redirect_to events_path, error: 'There was a problem updating your rsvp, please try again.'
     end
   end
 

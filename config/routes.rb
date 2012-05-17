@@ -20,8 +20,6 @@ Bridgetroll::Application.routes.draw do
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
-  #match 'events/:id/volunteer', :to => 'events#volunteer', :as => :volunteer
-  #match 'events/:id/unvolunteer', :to => 'events#unvolunteer', :as => :unvolunteer
 
   match 'volunteer/search', :to => 'volunteerrsvps#index', :as => :volunteersearch
  
