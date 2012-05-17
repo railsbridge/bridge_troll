@@ -17,6 +17,10 @@ body { padding-top: 60px; }
   color: #FFF;
 }
 
+table tr td .btn {
+  margin: 0 20px;
+}
+
 // Your custom LESS stylesheets goes here
 //
 // Since bootstrap was imported above you have access to its mixins which
