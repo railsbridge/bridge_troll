@@ -8,7 +8,7 @@ describe VolunteerRsvpsController do
   describe "#create" do
 
     context "without logging in, I am redirected from the page" do
-      it "redirects to the events page" do
+      it "redirects to the sign in page" do
         assigns[:current_user].should be_nil
         post :create, { :event_id => @event.id }
         response.should redirect_to("/users/sign_in")

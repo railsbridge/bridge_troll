@@ -2,8 +2,10 @@ class VolunteerRsvpsController < ApplicationController
 
   before_filter :authenticate_user!
 
+  def index; end
+
   def create
-    redirect_to "/events" and return if !user_signed_in?
+    #redirect_to "/events" and return if !user_signed_in?
     @rsvp = VolunteerRsvp.find_or_initialize_by_event_id_and_user_id(params[:event_id],current_user.id)
     @rsvp.attending = true
     if @rsvp.save
