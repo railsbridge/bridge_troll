@@ -5,7 +5,7 @@
     <th>Title</th>
     <th>Date</th>
     <th>Location</th>
-    <th></th>
+    <th>Time</th>
     <th></th>
   </tr>
   
@@ -17,7 +17,8 @@
 <% @events.each do |event| %>
   <tr>
     <td><%= link_to event.title, event %></td>
-    <td><%= event.date %></td>
+    <td><%= l event.date, :format => :date_as_ymd %></td>
+    <td><%= l event.date, :format => :time_as_hm_ampm %></td>
     <td><%= event.location.name %></td>
     <td><%= link_to 'Show', event %></td>
     <% if user_signed_in? %>
