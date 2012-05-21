@@ -16,11 +16,10 @@
   <% end %>
 <% @events.each do |event| %>
   <tr>
-    <td><%= event.title %></td>
+    <td><%= link_to event.title, event %></td>
     <td><%= event.date %></td>
     <td><%= event.location.name %></td>
     <td><%= link_to 'Show', event %></td>
-    <td><%= link_to 'Edit', edit_event_path(event) %></td>
     <% if user_signed_in? %>
       <% if event.volunteering?(current_user)%>
         <td>
