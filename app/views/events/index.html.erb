@@ -24,10 +24,12 @@
     <% if user_signed_in? %>
       <% if event.volunteering?(current_user)%>
         <td>
-          You are signed up to volunteer for this event!<%= button_to 'Unvolunteer', unvolunteer_path(event)%>
+ 	  You are signed up to volunteer for this event! <%= link_to 'Unvolunteer', unvolunteer_path(event),
+            :method => :post %>
         </td>
       <% else %>
-        <td><%= button_to 'Volunteer', volunteer_path(event)%></td> 
+	<td><%= link_to 'Volunteer', volunteer_path(event), 
+            :method => :post %></td> 
       <% end %>
     <% end %>
   </tr>
