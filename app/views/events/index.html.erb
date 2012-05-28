@@ -1,11 +1,11 @@
-<h1>Events</h1>
+<h1>Upcoming events</h1>
 
 <table class="table table-striped table-bordered table-condensed">
   <tr>
     <th>Title</th>
     <th>Date</th>
-    <th></th>
-    <th></th>
+    <th>Time</th>
+    <th>Location</th>
     <th></th>
   </tr>
   
@@ -16,17 +16,19 @@
   <% end %>
 <% @events.each do |event| %>
   <tr>
-    <td><%= event.title %></td>
-    <td><%= event.date %></td>
-    <td><%= link_to 'Show', event %></td>
-    <td><%= link_to 'Edit', edit_event_path(event) %></td>
+    <td><%= link_to event.title, event %></td>
+    <td><%= l event.date, :format => :date_as_ymd %></td>
+    <td><%= l event.date, :format => :time_as_hm_ampm %></td>
+    <td><%= event.location.name rescue nil %></td>
     <% if user_signed_in? %>
       <% if event.volunteering?(current_user)%>
         <td>
-          You are signed up to volunteer for this event!<%= button_to 'Unvolunteer', unvolunteer_path(event)%>
+ 	  You are signed up to volunteer for this event! <%= link_to 'Unvolunteer', unvolunteer_path(event),
+            :method => :post %>
         </td>
       <% else %>
-        <td><%= button_to 'Volunteer', volunteer_path(event)%></td> 
+	<td><%= link_to 'Volunteer', volunteer_path(event), 
+            :method => :post %></td> 
       <% end %>
     <% end %>
   </tr>

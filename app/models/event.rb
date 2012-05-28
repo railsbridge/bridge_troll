@@ -39,4 +39,6 @@ class Event < ActiveRecord::Base
   def volunteering?(user)
     VolunteerRsvp.where(:event_id => self.id, :user_id => user.id, :attending => true).present?
   end
+  
+  scope :upcoming, lambda { where('date >= ?', Time.now.utc.beginning_of_day) }
 end

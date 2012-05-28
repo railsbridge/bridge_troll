@@ -102,4 +102,25 @@ describe Event do
       end
     end
   end
+
+  describe "upcoming?" do
+    before do
+      @event_past = create(:event, :date => Date.yesterday)
+      @event_future = create(:event, :date => Date.tomorrow)
+      @event_beginning_of_today = create(:event, :date => Date.today.beginning_of_day.utc)
+      @event_end_of_yesterday = create(:event, :date => Date.today.beginning_of_day.utc - 1)
+    end
+    it "should not include events earlier than today" do
+      Event.upcoming.should_not include(@event_past)
+    end
+     it "should include events later than today" do
+      Event.upcoming.should include(@event_future)
+    end
+     it "should include events from earlier today" do           # edge case to pass
+      Event.upcoming.should include(@event_beginning_of_today)
+    end
+    it "should not include events from end of yesterday" do     # edge case to fail
+      Event.upcoming.should_not include(@event_end_of_yesterday)
+    end
+ end
 end
