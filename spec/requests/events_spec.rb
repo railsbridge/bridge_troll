@@ -1,6 +1,24 @@
 require 'spec_helper'
 
 describe "Events" do
+  
+  it "listing should show blank Location if no location_id exists" do
+    location = create(:location, :name => 'locname')
+    event = create(:event, :location_id => nil, :title => 'mytitle')
+    visit events_path
+    page.should have_content('Upcoming events')
+  end
+
+  it "listing should show formatted dates and times" do
+    event = create(:event, :location_id => nil, :title => 'mytitle2',
+      :date => Time.new(2013, 01, 31, 13, 20).utc)
+    visit events_path
+    page.should have_content('1/31/2013')
+    page.should have_content('9:20 pm')
+# Note - this method of specifying time for this test is brittle but we intend
+# to switch to displaying (and collecting) local time in the near future, and
+# this test will probably have to change anyway when we do.
+  end
 
   it "should create a new event" do
     @user = create(:user)
@@ -15,6 +33,7 @@ describe "Events" do
 
     fill_in "Title", :with=>"February Event"
     select "February",:from =>"event[date(2i)]"
+    select (Time.now.year + 1).to_s,:from =>"event[date(1i)]"   # so it will be "upcoming"
     click_button "Create Event"
 
     page.should have_content("February Event")
@@ -40,12 +59,13 @@ describe "Events" do
     visit events_path
     click_link "New Event"
     fill_in "Title", :with => "March Event"
-    select "February",:from =>"event[date(2i)]"
+    select "March",:from =>"event[date(2i)]"
+    select (Time.now.year + 1).to_s,:from =>"event[date(1i)]"   # so it will be "upcoming"
     click_button "Create Event"
     visit events_path
 
     page.should have_content("March Event")
-    page.should have_button("Volunteer")
+    page.should have_link("Volunteer")
     @event = Event.where(:title=> 'March Event').first
     visit volunteer_path(@event)
     page.should have_content("Thanks for volunteering")

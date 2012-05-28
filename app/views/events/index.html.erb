@@ -19,7 +19,7 @@
     <td><%= link_to event.title, event %></td>
     <td><%= l event.date, :format => :date_as_ymd %></td>
     <td><%= l event.date, :format => :time_as_hm_ampm %></td>
-    <td><%= event.location.name %></td>
+    <td><%= event.location.name rescue nil %></td>
     <td><%= link_to 'Show', event %></td>
     <% if user_signed_in? %>
       <% if event.volunteering?(current_user)%>
