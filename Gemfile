@@ -1,7 +1,6 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
-gem 'sqlite3'
 gem 'devise'
 gem 'pg'
 
@@ -26,6 +25,7 @@ group :test do
 end
 
 group :test, :development do
+  gem 'sqlite3'
   gem 'annotate', '~> 2.4.1.beta'
   gem 'rspec-rails'
 end
