@@ -158,27 +158,4 @@ end
     end
   end
   
-  describe "expired unconfirmed user" do
-    before do
-      @user = User.new
-      @user.email = 'abc@abc.com'
-      @user.name = 'abc'
-      @user.confirmation_sent_at = Date.today - 368.days
-      @user.confirmed_at = nil
-      @user.save
-      puts @user.confirmation_sent_at
-      puts @user.confirmed_at
-    end
-    
-    it "should not be able to log in" do
-      visit new_user_session_path
-      fill_in "Email", :with => @user.email
-      fill_in "Password", :with => @user.password
-      click_button "Sign in"
-      page.should have_content("You have to confirm your account before continuing.")
-    end
-    
-    it "should not be able to volunteer" do
-      
-    end
-  end
+
