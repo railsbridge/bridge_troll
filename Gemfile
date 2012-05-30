@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
 gem 'devise'
-gem 'pg'
+
 
 group :assets do
   gem 'sass-rails', '3.1.4'
@@ -14,6 +14,10 @@ group :assets do
 end
 
 gem 'jquery-rails'
+
+group :production do
+#  gem 'pg'
+end
 
 group :test do
   gem "factory_girl_rails"
