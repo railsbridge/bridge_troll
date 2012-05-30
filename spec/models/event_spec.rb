@@ -107,8 +107,8 @@ describe Event do
     before do
       @event_past = create(:event, :date => Date.yesterday)
       @event_future = create(:event, :date => Date.tomorrow)
-      @event_beginning_of_today = create(:event, :date => Date.today.beginning_of_day.utc)
-      @event_end_of_yesterday = create(:event, :date => Date.today.beginning_of_day.utc - 1)
+      @event_beginning_of_today = create(:event, :date => Time.now.utc.beginning_of_day)
+      @event_end_of_yesterday = create(:event, :date => Time.now.utc.beginning_of_day - 1)
     end
     it "should not include events earlier than today" do
       Event.upcoming.should_not include(@event_past)
