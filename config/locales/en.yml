@@ -3,3 +3,8 @@
 
 en:
   hello: "Hello world"
+  
+  time:
+    formats:
+      date_as_ymd: "%1m/%1d/%Y"
+      time_as_hm_ampm: "%l:%M %P"
