@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
-gem 'devise'
+gem 'devise', '2.0.4' # later versions use a different migration DSL and schema
 gem 'pg'
 
 group :assets do
