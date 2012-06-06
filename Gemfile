@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
-gem 'devise'
+gem 'devise', '2.0.4'
 gem 'pg'
 
 group :assets do
