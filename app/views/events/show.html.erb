@@ -1,50 +1,29 @@
 <div>
-  <b>Title:</b>
-  <%= @event.title %> on <%= @event.date %>
+  <h1>Event: <%= @event.title %></h1>
+  <h2>Date: <%= l @event.date, :format => :date_as_ymd %></h2>
+  <h2>Time: <%= l @event.date, :format => :time_as_hm_ampm %></h2>
   <div>
     <% if(!@event.location.nil?) %>
-
-      Takes place at <%= @event.location.name %> at address:<br />
-      <%= @event.location.address %>
+      <h2>Location: <%= @event.location.name %>, <%=@event.location.address %></h2>
     <% else %>
       This event currently has no location!
     <% end %>
 
   </div>
   <div>
-    <h2>Volunteers Listing</h2>
+    <h2>Volunteers:</h2>
       <% if @volunteers.length == 0 %>
         No volunteers are currently signed up for this event.
       <% else %>
-        <h3>Willing to teach: <%= @teachers.length %></h3>
-        <ol>
-        <% @teachers.each do |t| %>
-          <li><%= User.find(t.id).email %></li>
+        <ul>
+        <% @volunteers.each do |volunteer| %>
+          <li><%= User.find(volunteer.user_id).name %></li>
         <% end %>
-        </ol>
-        
-        <h3>Willing to TA: <%= @tas.length %></h3>
-        <ol>
-        <% @tas.each do |t| %>
-          <li><%= User.find(t.id).email %></li>
-        <% end %>
-        </ol>
-        <h3>All Volunteers: <%= @volunteers.length %></h3>
-    <table>
-      <tr>
-        <th>Email</th>
-        <th>Skills</th>
-      </tr>
-      <% @volunteers.each do |volunteer| %>
-      <tr>
-        <td><%= User.find(volunteer.user_id).email %></td>
-        <td><%= get_volunteer_skills(volunteer.user_id) %></td>
-      </tr>
-      <% end %>
-    </table>
+        </ul>
   <% end %>
   </div>
 </div>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<% if user_signed_in? %>
+  <%= link_to 'Edit', edit_event_path(@event) %>
+<% end %>

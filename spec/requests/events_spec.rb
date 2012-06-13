@@ -70,7 +70,10 @@ describe "Events" do
     click_link("Volunteer")
     page.should have_content("Thanks for volunteering")
     @rsvp = VolunteerRsvp.where(:event_id=> @event_id, :user_id => @user.id).first
-     
+
+    page.should have_link('Edit')
+    click_link 'Edit'
+    page.should have_content('Editing event')
   end
   
   it "should show list of volunteers for event" do
@@ -93,9 +96,49 @@ describe "Events" do
 
     visit '/events/' + @event.id.to_s
     
-    page.should have_content("Volunteers")
-    page.should have_content(@user1.email)
-    page.should_not have_content(@user2.email)
+    page.should have_content("This event currently has no location!")
+    page.should have_selector('h2', text: 'Volunteers:')
+    page.should have_content(@user1.name)
+    page.should have_content(@user2.name)
+  end
+
+  it "should show Event: name and formatted Date: and Time: and Location:" do
+    @user1 = create(:user)
+    visit new_user_session_path
+    @user2 = create(:user)
+    
+    @location = Location.new
+    @location.name = 'StackMob'
+    @location.address = '841 8th Street'
+    @location.save!
+    
+    @event = Event.new
+    @event.title = 'New workshop'
+    @event.date = Time.new(2013, 01, 31, 13, 20).utc
+    @event.location_id = @location.id
+    @event.save!
+    
+    @rsvp = VolunteerRsvp.new
+    @rsvp.user_id = @user1.id
+    @rsvp.event_id = @event.id
+    @rsvp.attending = true
+    @rsvp.save!
+
+    visit '/events/' + @event.id.to_s
+    
+    page.should have_content("Event:")
+    page.should have_content("Date:")
+    page.should have_content("Time:")
+    page.should have_content("Location:")
+    page.should have_content('1/31/2013')
+    page.should have_content('9:20 pm')
+# Note - this method of specifying time for this test is brittle but we intend
+# to switch to displaying (and collecting) local time in the near future, and
+# this test will probably have to change anyway when we do.
+
+    page.should have_selector('h2', text: 'Volunteers:')
+    page.should have_content(@user1.name)
+    page.should have_content(@user2.name)
   end
 
 end
