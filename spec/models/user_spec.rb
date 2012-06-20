@@ -32,5 +32,9 @@ describe User do
 
       it { should be_admin }
     end
-    
+
+    it "should protect admin attribute" do
+      hacked_admin = User.new(:name => "Riley", :admin => true)
+      hacked_admin.admin.should_not be_true
+    end
 end
