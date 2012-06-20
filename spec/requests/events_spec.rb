@@ -10,8 +10,11 @@ describe "Events" do
   end
 
   it "listing should show formatted dates and times" do
-    event = create(:event, :location_id => nil, :title => 'mytitle2',
-      :date => Time.new(2013, 01, 31, 13, 20).utc)
+    event = create(:event, 
+      :location_id => nil, 
+      :title => 'mytitle2',
+      :date => Time.new(2013, 01, 31, 13, 20)
+    )
     visit events_path
     page.should have_content('1/31/2013')
     page.should have_content('9:20 pm')
