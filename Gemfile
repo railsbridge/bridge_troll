@@ -2,7 +2,10 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
 gem 'devise', '2.0.4' # later versions use a different migration DSL and schema
-gem 'pg'
+
+group :production, :staging do
+  gem 'pg'
+end
 
 group :assets do
   gem 'sass-rails', '3.1.4'
