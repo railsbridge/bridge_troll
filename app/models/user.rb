@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :token_authenticatable, :confirmable, :lockable, :timeoutable
+         :token_authenticatable, :lockable, :timeoutable
   has_many :volunteer_rsvps
   has_many :events, :through => :volunteer_rsvps
 
