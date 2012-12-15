@@ -13,7 +13,7 @@ The feature set is currently pretty minimal - definitely *pre-alpha*. Eventually
 * [The running app](http://bridgetroll.herokuapp.com/)
 * [The staging server](http://bridgetroll-staging.herokuapp.com/)
 * [Continuous integration on travis-ci.org](http://travis-ci.org/railsbridge/bridge_troll)
-* [Issues](/railsbridge/bridge_troll/issues)
+* [Bugs](/railsbridge/bridge_troll/issues)
  
 
 ## Want to help out?
@@ -22,7 +22,7 @@ The feature set is currently pretty minimal - definitely *pre-alpha*. Eventually
 Please join the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) and send a quick note introducing yourself.
  
 
-Then, have a look at our [issues](https://www.pivotaltracker.com/projects/608983). Pick an issue to work on, fork the project, and then make your changes and send a pull request.
+Then, have a look at our [feature backlog](https://www.pivotaltracker.com/projects/608983). Pick an issue to work on, fork the project, and then make your changes and send a pull request.
  
 
 ## Setting up for development
