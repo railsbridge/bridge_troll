@@ -34,7 +34,6 @@ describe User do
     end
 
     it "should protect admin attribute" do
-      hacked_admin = User.new(:name => "Riley", :admin => true)
-      hacked_admin.admin.should_not be_true
+      expect { User.new(:name => "Riley", :admin => true)}.to raise_error
     end
 end
