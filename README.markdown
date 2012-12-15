@@ -22,7 +22,7 @@ The feature set is currently pretty minimal - definitely *pre-alpha*. Eventually
 Please join the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) and send a quick note introducing yourself.
  
 
-Then, have a look at our [issues](https://www.pivotaltracker.com/projects/608983). Pick an issue to work on, fork the project, and then make your changes and send a pull request.  Note: change git clone below to be *your* repo.
+Then, have a look at our [issues](https://www.pivotaltracker.com/projects/608983). Pick an issue to work on, fork the project, and then make your changes and send a pull request.
  
 
 ## Setting up for development
@@ -33,8 +33,7 @@ You'll need [rvm](http://rvm.beginrescueend.com).  We're using Ruby 1.9.2 and R
 
 ## Quickstart
 
-
-Fork the repository
+Note: change `git clone` below to be *your* repo.
 
 ```
 git clone git@github.com:yourname/bridge_troll
