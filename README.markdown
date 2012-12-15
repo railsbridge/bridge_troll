@@ -19,10 +19,10 @@ The feature set is currently pretty minimal - definitely *pre-alpha*. Eventually
 ## Want to help out?
 
  
-Please join the [google group](http://groups.google.com/group/railsbridge-apps) and send a quick note introducing yourself.
+Please join the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) and send a quick note introducing yourself.
  
 
-Then, have a look at our [issues](/railsbridge/bridge_troll/issues). Pick an issue to work on, fork the project, and then make your changes and send a pull request.  Note: change git clone below to be *your* repo.
+Then, have a look at our [issues](https://www.pivotaltracker.com/projects/608983). Pick an issue to work on, fork the project, and then make your changes and send a pull request.  Note: change git clone below to be *your* repo.
  
 
 ## Setting up for development
