@@ -47,8 +47,16 @@ rails s
 
 Go to http://localhost:3000/ and you can play with the app.
 
-=======
-OMG RAILS IS SO AWESOME
+## Running tests
 
+You will need to install phantomjs for tests to run successfully. On OSX with Homebrew, try
+```
+brew update
+brew install phantomjs
+```
 
+Then you can run tests by doing
+```
+rake
+```
 
