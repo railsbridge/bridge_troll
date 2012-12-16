@@ -12,7 +12,7 @@ describe "new user", :js => true do
     fill_in "Password", :with => @user.password
     fill_in "Password confirmation", :with => @user.password
     click_button "Sign up"
-    page.should have_content("A message with a confirmation link has been sent to your email address. Please open the link to activate your account.")
+    page.should have_content("Welcome! You have signed up successfully.")
   end
 end
 
