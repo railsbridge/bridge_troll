@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.2.8'
-gem 'devise', '2.0.4' # later versions use a different migration DSL and schema
+gem 'devise', '2.1.2'
 
 group :production do
   gem 'pg'
@@ -22,7 +22,6 @@ group :test do
   gem "poltergeist"
   gem "launchy"
   gem "database_cleaner"
-  gem 'simplecov', :require => false
 end
 
 group :test, :development do

@@ -52,11 +52,11 @@ GEM
       execjs
     coffee-script-source (1.4.0)
     database_cleaner (0.9.1)
-    devise (2.0.4)
+    devise (2.1.2)
       bcrypt-ruby (~> 3.0)
-      orm_adapter (~> 0.0.3)
+      orm_adapter (~> 0.1)
       railties (~> 3.1)
-      warden (~> 1.1.1)
+      warden (~> 1.2.1)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     eventmachine (1.0.0)
@@ -90,7 +90,7 @@ GEM
     mime-types (1.19)
     multi_json (1.5.0)
     nokogiri (1.5.5)
-    orm_adapter (0.0.7)
+    orm_adapter (0.4.0)
     pg (0.14.1)
     poltergeist (1.0.2)
       capybara (~> 1.1)
@@ -146,10 +146,6 @@ GEM
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
-    simplecov (0.7.1)
-      multi_json (~> 1.0)
-      simplecov-html (~> 0.7.1)
-    simplecov-html (0.7.1)
     sprockets (2.1.3)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -164,7 +160,7 @@ GEM
     uglifier (1.3.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
-    warden (1.1.1)
+    warden (1.2.1)
       rack (>= 1.0)
     websocket (1.0.4)
     xpath (0.1.4)
@@ -178,7 +174,7 @@ DEPENDENCIES
   capybara
   coffee-rails
   database_cleaner
-  devise (= 2.0.4)
+  devise (= 2.1.2)
   factory_girl_rails
   jquery-rails
   launchy
@@ -187,6 +183,5 @@ DEPENDENCIES
   rails (= 3.2.8)
   rspec-rails
   sass-rails
-  simplecov
   sqlite3
   uglifier
