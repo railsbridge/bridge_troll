@@ -19,5 +19,3 @@
 
 # Ignore Redcar directory
 .redcar/*
-
-/coverage
