@@ -9,20 +9,6 @@ describe "Events" do
     page.should have_content('Upcoming events')
   end
 
-  it "listing should show formatted dates and times" do
-    event = create(:event, 
-      :location_id => nil, 
-      :title => 'mytitle2',
-      :date => Time.new(2013, 01, 31, 13, 20)
-    )
-    visit events_path
-    page.should have_content('1/31/2013')
-    page.should have_content('9:20 pm')
-# Note - this method of specifying time for this test is brittle but we intend
-# to switch to displaying (and collecting) local time in the near future, and
-# this test will probably have to change anyway when we do.
-  end
-
   it "should create a new event" do
     @user = create(:user)
     visit new_user_session_path
