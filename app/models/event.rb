@@ -1,7 +1,10 @@
 class Event < ActiveRecord::Base
+
   belongs_to :location
+
   has_many :volunteer_rsvps, :foreign_key => "event_id"
   has_many :volunteers, :through => :volunteer_rsvps, :source => :user
+
   validates_presence_of :title
   validates_presence_of :date
   

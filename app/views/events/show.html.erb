@@ -1,50 +1,54 @@
-<div>
-  <b>Title:</b>
-  <%= @event.title %> on <%= @event.date %>
-  <div>
-    <% if(!@event.location.nil?) %>
+  <h2><%= @event.title %></h2>
+  <strong>When:</strong>
+  <%= " #{@event.date.strftime('%F')} at #{@event.date.strftime('%T')}"                 %>
 
-      Takes place at <%= @event.location.name %> at address:<br />
+  <br /> <br />
+
+    <% if(!@event.location.nil?) %>
+      <strong>Location: </strong><%= @event.location.name %> at address:<br />
       <%= @event.location.address %>
     <% else %>
       This event currently has no location!
     <% end %>
+    <br /> <br />
 
-  </div>
-  <div>
-    <h2>Volunteers Listing</h2>
-      <% if @volunteers.length == 0 %>
+    <h3>Volunteers:</h3>
+      <% if @event.volunteers.length == 0 %>
         No volunteers are currently signed up for this event.
       <% else %>
-        <h3>Willing to teach: <%= @teachers.length %></h3>
+        <h4>Willing to Teach: <%= teachers(@event.volunteers) %></h4>
         <ol>
-        <% @teachers.each do |t| %>
-          <li><%= User.find(t.id).email %></li>
+        <% @event.volunteers.each do |volunteer| %>
+          <% if volunteer.teaching %>
+            <li><%= volunteer.email %></li>
+          <% end %>
         <% end %>
         </ol>
         
-        <h3>Willing to TA: <%= @tas.length %></h3>
+        <h4>Willing to TA: <%= tas(@event.volunteers) %></h4>
         <ol>
-        <% @tas.each do |t| %>
-          <li><%= User.find(t.id).email %></li>
+        <% @event.volunteers.each do |volunteer| %>
+          <% if volunteer.taing %>
+            <li><%= volunteer.email %></li>
+          <% end %>
         <% end %>
         </ol>
-        <h3>All Volunteers: <%= @volunteers.length %></h3>
-    <table>
+
+        <h4>All Volunteers: <%= @event.volunteers.length %></h4>
+
+    <table class = "table">
       <tr>
         <th>Email</th>
         <th>Skills</th>
       </tr>
-      <% @volunteers.each do |volunteer| %>
+      <% @event.volunteers.each do |volunteer| %>
       <tr>
-        <td><%= User.find(volunteer.user_id).email %></td>
-        <td><%= get_volunteer_skills(volunteer.user_id) %></td>
+        <td><%= volunteer.email %></td>
+        <td><%= get_volunteer_skills(volunteer) %></td>
       </tr>
       <% end %>
     </table>
   <% end %>
-  </div>
-</div>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>

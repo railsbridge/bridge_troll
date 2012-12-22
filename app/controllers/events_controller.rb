@@ -16,26 +16,11 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     @event = Event.find(params[:id])
-    @volunteers = VolunteerRsvp.where(:event_id => params[:id], :attending => true)
-    @teachers = []
-    @tas = []
-    
-    @volunteers.each do |v|
-      user = User.find(v.user_id)
-      if (user.teaching)
-        @teachers << user
-      end
+    if @event.volunteers.length > 0
+      #if the event has volunteers then eager load the volunteers
+      @event = Event.includes(:volunteer_rsvps => :user).where("volunteer_rsvps.attending" => true).find(params[:id])
     end
-    
-    @volunteers.each do |v|
-      user = User.find(v.user_id)
-      if (user.taing)
-        @tas << user
-      end
-    end
-  
     respond_to do |format|
-      
       format.html # show.html.erb
       format.json { render json: @event }
     end

@@ -1,44 +1,35 @@
 module EventsHelper
-  
-  def get_volunteer_skills(user_id)
-    @user = User.find(user_id)
+  def get_volunteer_skills(volunteer)
     @skills = []
-    if(@user.teaching)
-      @skills << 'Teaching'
-    end
-    if(@user.taing)
-      @skills << 'TA-ing'
-    end
-    if(@user.coordinating)
-      @skills << 'Coordinating'
-    end
-    if(@user.childcaring)
-      @skills << 'Childcaring'
-    end
-    if(@user.writing)
-      @skills << 'Writing'
-    end    
-    if(@user.hacking)
-      @skills << 'Hacking'
-    end
-    if(@user.designing)
-      @skills << 'Designing'
-    end
-    if(@user.evangelizing)
-      @skills << 'Evangelizing'
-    end
-    if(@user.mentoring)
-      @skills << 'Mentoring'
-    end
-    if(@user.macosx)
-      @skills << 'Mac OS X'
-    end
-    if(@user.windows)
-      @skills << 'Windows'
-    end
-    if(@user.linux)
-      @skills << 'Linux'
-    end    
+    @skills << 'Teaching'     if(volunteer.teaching)
+    @skills << 'TA-ing'       if(volunteer.taing)
+    @skills << 'Coordinating' if(volunteer.coordinating)
+    @skills << 'Childcare'    if(volunteer.childcaring)
+    @skills << 'Writing'      if(volunteer.writing)
+    @skills << 'Hacking'      if(volunteer.hacking)
+    @skills << 'Designing'    if(volunteer.designing)
+    @skills << 'Evangelizing' if(volunteer.evangelizing)
+    @skills << 'Mentoring'    if(volunteer.mentoring)
+    @skills << 'Mac OS X'     if(volunteer.macosx)
+    @skills << 'Windows'      if(volunteer.windows)
+    @skills << 'Linux'        if(volunteer.linux)
     @skills.join(', ')
   end
+
+  def teachers(volunteers)
+    count = 0
+    volunteers.each do |volunteer|
+      count += volunteer.teaching ? 1 : 0
+    end
+    count
+  end
+
+  def tas(volunteers)
+    count = 0
+    volunteers.each do |volunteer|
+      count += volunteer.taing ? 1 : 0
+    end
+    count
+  end
+
 end
