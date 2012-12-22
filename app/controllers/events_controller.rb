@@ -1,5 +1,8 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :index, :volunteer]
+  before_filter :require_organizer,  :except => [:new, :create, :show, :index]
+
+
   # GET /events
   # GET /events.json
   def index
@@ -38,10 +41,7 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    @event = Event.find(params[:id])
-    unless allow_access
-      redirect_to event_path(@event)
-    end
+    @event ||= Event.find(params[:id])
   end
 
   # POST /events
@@ -64,10 +64,10 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
-    @event = Event.find(params[:id])
+    @event ||= Event.find(params[:id])
 
     respond_to do |format|
-      if allow_access and @event.update_attributes(params[:event])
+      if @event.update_attributes(params[:event])
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { head :ok }
       else
@@ -80,10 +80,8 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
-    @event = Event.find(params[:id])
-    if allow_access
-      @event.destroy
-    end
+    @event ||= Event.find(params[:id])
+    @event.destroy
 
     respond_to do |format|
       format.html { redirect_to events_url }
@@ -92,6 +90,14 @@ class EventsController < ApplicationController
   end
 
   private
+  def require_organizer
+    @event = Event.find(params[:id])
+    unless allow_access
+      flash[:error] = "You must be an organizer for the even or an Admin to update or delete an event"
+      redirect_to events_path # halts request cycle
+    end
+  end
+
   def allow_access
      EventOrganizer.organizer?(@event.id, current_user.id) || current_user.admin
   end
