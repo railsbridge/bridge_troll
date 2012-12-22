@@ -30,7 +30,6 @@ class EventsController < ApplicationController
   # GET /events/new.json
   def new
     @event = Event.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @event }
@@ -40,6 +39,9 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     @event = Event.find(params[:id])
+    unless allow_access
+      redirect_to event_path(@event)
+    end
   end
 
   # POST /events
@@ -49,6 +51,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
+        @event.organizers << current_user
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
@@ -64,11 +67,11 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
 
     respond_to do |format|
-      if @event.update_attributes(params[:event])
+      if allow_access and @event.update_attributes(params[:event])
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render action: "edit" }
+        format.html { render status: :unprocessable_entity, action: "edit" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
@@ -78,11 +81,19 @@ class EventsController < ApplicationController
   # DELETE /events/1.json
   def destroy
     @event = Event.find(params[:id])
-    @event.destroy
+    if allow_access
+      @event.destroy
+    end
 
     respond_to do |format|
       format.html { redirect_to events_url }
       format.json { head :ok }
     end
   end
+
+  private
+  def allow_access
+     EventOrganizer.organizer?(@event.id, current_user.id) || current_user.admin
+  end
+
 end

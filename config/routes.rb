@@ -1,4 +1,6 @@
 Bridgetroll::Application.routes.draw do
+  resources :organizers
+
   resources :locations
 
   devise_for :users
