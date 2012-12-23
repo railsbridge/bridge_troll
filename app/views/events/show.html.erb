@@ -1,6 +1,6 @@
   <h2><%= @event.title %></h2>
   <strong>When:</strong>
-  <%= " #{@event.date.strftime('%F')} at #{@event.date.strftime('%T')}"                 %>
+  <%= " #{@event.date.strftime('%F')} at #{@event.date.localtime.strftime('%l:%M %P %Z')}"                 %>
 
   <br /> <br />
 
@@ -25,38 +25,65 @@
       <% if @event.volunteers.length == 0 %>
         No volunteers are currently signed up for this event.
       <% else %>
-        <h4>Willing to Teach: <%= teachers(@event.volunteers) %></h4>
-        <ol>
-        <% @event.volunteers.each do |volunteer| %>
-          <% if volunteer.teaching %>
-            <li><%= volunteer.email %></li>
-          <% end %>
-        <% end %>
-        </ol>
-        
-        <h4>Willing to TA: <%= tas(@event.volunteers) %></h4>
-        <ol>
-        <% @event.volunteers.each do |volunteer| %>
-          <% if volunteer.taing %>
-            <li><%= volunteer.email %></li>
-          <% end %>
-        <% end %>
-        </ol>
+      <% if @organizer %>
+          <h4>Willing to Teach: <%= teachers_count(@event.volunteers) %></h4>
+          <ol>
+            <% @event.volunteers.each do |volunteer| %>
+                <%= volunteer_display(volunteer, "teaching") %>
+            <% end %>
+          </ol>
+
+          <h4>Willing to TA: <%= tas_count(@event.volunteers) %></h4>
+          <ol>
+            <% @event.volunteers.each do |volunteer| %>
+                <%= volunteer_display(volunteer, "taing") %>
+            <% end %>
+          </ol>
+
+          <h4>Willing to Teach or TA: <%= teach_or_ta_count(@event.volunteers) %></h4>
+          <ol>
+            <% @event.volunteers.each do |volunteer| %>
+                <%= volunteer_display(volunteer, "taing", "teaching") %>
+            <% end %>
+          </ol>
+
+          <h4>Not Interested in Teaching: <%= not_teach_or_ta_count(@event.volunteers) %></h4>
+          <ol>
+            <% @event.volunteers.each do |volunteer| %>
+                <%= volunteer_display(volunteer) %>
+            <% end %>
+          </ol>
+
+
+
+
 
         <h4>All Volunteers: <%= @event.volunteers.length %></h4>
-
-    <table class = "table">
-      <tr>
-        <th>Email</th>
-        <th>Skills</th>
-      </tr>
-      <% @event.volunteers.each do |volunteer| %>
-      <tr>
-        <td><%= volunteer.email %></td>
-        <td><%= get_volunteer_skills(volunteer) %></td>
-      </tr>
       <% end %>
-    </table>
+
+      <table class = "table">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <% if @organizer  %>
+            <th>Email</th>
+          <% end %>
+          <th>Skills</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @event.volunteers.each do |volunteer| %>
+            <tr>
+              <td><%= volunteer.name %></td>
+              <% if @organizer  %>
+                <td><%= volunteer.email %></td>
+              <% end %>
+              <td><%= get_volunteer_skills(volunteer) %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+
   <% end %>
 
 <br />
