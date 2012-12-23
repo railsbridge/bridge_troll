@@ -19,4 +19,5 @@ class Event < ActiveRecord::Base
   end
   
   scope :upcoming, lambda { where('date >= ?', Time.now.utc.beginning_of_day) }
+
 end

@@ -158,16 +158,16 @@ describe "Events" do
 
   describe "four categories for volunteer's teaching preference" do
     before do
-      @user1 = create(:user, email: "user1@mail.com", name: "user-1")
-      @user2 = create(:user, email: "user2@mail.com", name: "user-2")
-      @user3 = create(:user, email: "user3@mail.com", name: "user-3")
-      @user4 = create(:user, email: "user4@mail.com", name: "user-4")
-      @user5 = create(:user, email: "user5@mail.com", name: "user-5")
-      @user6 = create(:user, email: "user6@mail.com", name: "user-6")
-      @user7 = create(:user, email: "user7@mail.com", name: "user-7")
-      @user8 = create(:user, email: "user8@mail.com", name: "user-8")
-      @user9 = create(:user, email: "user9@mail.com", name: "user-9")
-      @user10 = create(:user, email: "user10@mail.com", name: "user-10")
+      @user1 = create!(:user, email: "user1@mail.com", name: "user-1")
+      @user2 = create!(:user, email: "user2@mail.com", name: "user-2")
+      @user3 = create!(:user, email: "user3@mail.com", name: "user-3")
+      @user4 = create!(:user, email: "user4@mail.com", name: "user-4")
+      @user5 = create!(:user, email: "user5@mail.com", name: "user-5")
+      @user6 = create!(:user, email: "user6@mail.com", name: "user-6")
+      @user7 = create!(:user, email: "user7@mail.com", name: "user-7")
+      @user8 = create!(:user, email: "user8@mail.com", name: "user-8")
+      @user9 = create!(:user, email: "user9@mail.com", name: "user-9")
+      @user10 = create!(:user, email: "user10@mail.com", name: "user-10")
 
       @user1.update_attributes(:hacking => true, :teaching => true)
       @user2.update_attributes(:hacking => true, :teaching => true)
@@ -186,26 +186,16 @@ describe "Events" do
       @event =  Event.new(:title => 'New workshop', :date => DateTime.now + 1.fortnight)
       @event.save!
 
-      rsvp = VolunteerRsvp.new(:user_id => @user1.id, :event_id => @event.id, :attending => true)
-      rsvp.save!
-      rsvp = VolunteerRsvp.new(:user_id => @user2.id, :event_id => @event.id, :attending => true)
-      rsvp.save!
-      rsvp = VolunteerRsvp.new(:user_id => @user3.id, :event_id => @event.id, :attending => true)
-      rsvp.save!
-      rsvp = VolunteerRsvp.new(:user_id => @user4.id, :event_id => @event.id, :attending => true)
-      rsvp.save!
-      rsvp = VolunteerRsvp.new(:user_id => @user5.id, :event_id => @event.id, :attending => true)
-      rsvp.save!
-      rsvp = VolunteerRsvp.new(:user_id => @user6.id, :event_id => @event.id, :attending => true)
-      rsvp.save!
-      rsvp = VolunteerRsvp.new(:user_id => @user7.id, :event_id => @event.id, :attending => true)
-      rsvp.save!
-      rsvp = VolunteerRsvp.new(:user_id => @user8.id, :event_id => @event.id, :attending => true)
-      rsvp.save!
-      rsvp = VolunteerRsvp.new(:user_id => @user9.id, :event_id => @event.id, :attending => true)
-      rsvp.save!
-      rsvp = VolunteerRsvp.new(:user_id => @user10.id, :event_id => @event.id, :attending => true)
-      rsvp.save!
+      VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
+      VolunteerRsvp.create!(:user_id => @user2.id, :event_id => @event.id, :attending => true)
+      VolunteerRsvp.create!(:user_id => @user3.id, :event_id => @event.id, :attending => true)
+      VolunteerRsvp.create!(:user_id => @user4.id, :event_id => @event.id, :attending => true)
+      VolunteerRsvp.create!(:user_id => @user5.id, :event_id => @event.id, :attending => true)
+      VolunteerRsvp.create!(:user_id => @user6.id, :event_id => @event.id, :attending => true)
+      VolunteerRsvp.create!(:user_id => @user7.id, :event_id => @event.id, :attending => true)
+      VolunteerRsvp.create!(:user_id => @user8.id, :event_id => @event.id, :attending => true)
+      VolunteerRsvp.create!(:user_id => @user9.id, :event_id => @event.id, :attending => true)
+      VolunteerRsvp.create!(:user_id => @user10.id, :event_id => @event.id, :attending => true)
     end
 
     it "should display the four teacher preference section headings and count for an organizer" do
@@ -245,9 +235,6 @@ describe "Events" do
       page.should have_selector('.none',  :count => 1)
     end
 
-
-
-
     it "should not display the four teacher preference sections for a non-organizer" do
       visit '/events/' + @event.id.to_s
 
@@ -258,16 +245,5 @@ describe "Events" do
     end
 
   end
-
-
-
-
-
-
-
-
-
-
-
 
 end

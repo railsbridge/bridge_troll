@@ -4,15 +4,20 @@
 
   <br /> <br />
 
+  <p>
     <% if(!@event.location.nil?) %>
       <strong>Location: </strong><%= @event.location.name %> at address:<br />
       <%= @event.location.address %>
     <% else %>
       This event currently has no location!
     <% end %>
-    <br /> <br />
+  </p>
 
-    <h3><%= organizer_title %></h3>
+  <strong>Details:</strong> <br />
+  <p><%= @event.details %></p>
+
+
+    <strong><%= organizer_title %></strong> <br />
     <ul>
       <% organizer_list.each do |organizer| %>
         <li>
@@ -53,10 +58,6 @@
                 <%= volunteer_display(volunteer) %>
             <% end %>
           </ol>
-
-
-
-
 
         <h4>All Volunteers: <%= @event.volunteers.length %></h4>
       <% end %>

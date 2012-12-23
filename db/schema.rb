@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121222192639) do
+ActiveRecord::Schema.define(:version => 20121223185427) do
 
   create_table "event_organizers", :force => true do |t|
     t.integer  "user_id"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20121222192639) do
     t.datetime "updated_at",  :null => false
     t.datetime "date"
     t.integer  "location_id"
+    t.text     "details"
   end
 
   create_table "locations", :force => true do |t|
