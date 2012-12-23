@@ -32,4 +32,12 @@ module EventsHelper
     count
   end
 
+  def organizer_title
+   @event.organizers.length > 1 ? "Organizers:" : "Organizer:"
+  end
+
+  def organizer_list
+    @event.organizers.length == 0 ?  [{:name => "No Organizer Assigned"}] : @event.organizers
+  end
+
 end

@@ -12,6 +12,15 @@
     <% end %>
     <br /> <br />
 
+    <h3><%= organizer_title %></h3>
+    <ul>
+      <% organizer_list.each do |organizer| %>
+        <li>
+          <%= organizer[:name] %>
+        </li>
+      <% end %>
+    </ul>
+
     <h3>Volunteers:</h3>
       <% if @event.volunteers.length == 0 %>
         No volunteers are currently signed up for this event.
@@ -50,5 +59,8 @@
     </table>
   <% end %>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
+<br />
+<% if @organizer  %>
+  <%= link_to 'Edit', edit_event_path(@event) %> |
+<% end %>
 <%= link_to 'Back', events_path %>

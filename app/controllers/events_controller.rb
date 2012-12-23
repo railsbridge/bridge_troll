@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :index, :volunteer]
+  before_filter :allow_access,       :except => [:new, :create, :index]
   before_filter :require_organizer,  :except => [:new, :create, :show, :index]
 
 
@@ -18,7 +19,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @event = Event.find(params[:id])
+    @event ||= Event.find(params[:id])
     if @event.volunteers.length > 0
       #if the event has volunteers then eager load the volunteers
       @event = Event.includes(:volunteer_rsvps => :user).where("volunteer_rsvps.attending" => true).find(params[:id])
@@ -99,7 +100,12 @@ class EventsController < ApplicationController
   end
 
   def allow_access
-     EventOrganizer.organizer?(@event.id, current_user.id) || current_user.admin
+     @event ||=  Event.find(params[:id])
+     if user_signed_in?
+       @organizer = EventOrganizer.organizer?(@event.id, current_user.id) || current_user.admin
+     else
+       @organizer = false
+     end
   end
 
 end
