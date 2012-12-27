@@ -94,18 +94,20 @@ class EventsController < ApplicationController
   def require_organizer
     @event = Event.find(params[:id])
     unless allow_access
-      flash[:error] = "You must be an organizer for the even or an Admin to update or delete an event"
+      flash[:error] = "You must be an organizer for the event or an Admin to update or delete an event"
       redirect_to events_path # halts request cycle
     end
   end
 
   def allow_access
-     @event ||=  Event.find(params[:id])
-     if user_signed_in?
-       @organizer = EventOrganizer.organizer?(@event.id, current_user.id) || current_user.admin
-     else
-       @organizer = false
-     end
+    @event ||= Event.find(params[:event_id]) if     params[:id].blank?
+    @event ||= Event.find(params[:id])       unless params[:id].blank?
+
+    if user_signed_in?
+      @organizer = EventOrganizer.organizer?(@event.id, current_user.id) || current_user.admin
+    else
+      @organizer = false
+    end
   end
 
 end

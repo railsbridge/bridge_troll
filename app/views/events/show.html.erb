@@ -1,8 +1,8 @@
   <h2><%= @event.title %></h2>
   <strong>When:</strong>
-  <%= " #{@event.date.strftime('%F')} at #{@event.date.localtime.strftime('%l:%M %P %Z')}"                 %>
-
+  <%= "#{l @event.date.localtime, :format => :date_as_ymd} #{l @event.date.localtime, :format => :time_as_hm_ampm}" %>
   <br /> <br />
+
 
   <p>
     <% if(!@event.location.nil?) %>
@@ -92,3 +92,7 @@
   <%= link_to 'Edit', edit_event_path(@event) %> |
 <% end %>
 <%= link_to 'Back', events_path %>
+
+<% if @organizer %>
+  | <%= link_to 'Manage Organizers', event_organizers_path('event_id' => @event.id) %>
+<% end %>

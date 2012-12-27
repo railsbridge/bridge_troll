@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :date %><br />
-    <%= f.datetime_select :date %>
+    <%= f.datetime_select :date, {} ,:class => "input-small"  %>
   </div>
   <div class="field">
     <%= f.label :location_id %><br />
@@ -26,7 +26,7 @@
 
     <div class="field">
       <%= f.label :details %><br />
-      <%= f.text_area :details %>
+      <%= f.text_area :details, :rows => 4, :class => "input-xxlarge"%>
     </div>
 
     <div class="actions">
