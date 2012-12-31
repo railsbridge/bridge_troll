@@ -14,30 +14,8 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :teaching, :taing, :coordinating, :childcaring, :writing, :hacking, :designing, :evangelizing, :mentoring, :macosx, :windows, :linux, :other
   validates :name,  presence: true
 
-  # Devise provides user e-mail validation
-
-
-
-
-  def self.not_assigned_as_organizer(event_id)
-    users =   order('name asc, email asc').where('name != ?', 'admin')
-    organizers = EventOrganizer.where("event_id = ?", event_id)
-    duplicate_users = []
-    users.each do |user|
-      unless organizers.select {|organizer| organizer["user_id"] == user.id}.blank?
-        duplicate_users << user.id
-      end
-    end
-
-    scrubbed_user_list = []
-    users.each do |user|
-      if duplicate_users.index(user.id).blank?
-        scrubbed_user_list << user
-      end
-    end
-
-    scrubbed_user_list
+  def self.not_assigned_as_organizer(event)
+    users = order('name asc, email asc')
+    users - event.organizers
   end
-
-
 end

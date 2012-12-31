@@ -7,9 +7,4 @@ class EventOrganizer < ActiveRecord::Base
 
   belongs_to :event
   belongs_to :user
-
-  def self.organizer?(event_id, user_id)
-    !where("event_id = ? and user_id =?", event_id, user_id).blank?
-  end
-
 end

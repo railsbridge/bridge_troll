@@ -3,8 +3,8 @@ class OrganizersController < ApplicationController
   before_filter :validate_organizer!
 
   def index
-    @organizers = EventOrganizer.where('event_id = ?', params[:event_id])
-    @users = User.not_assigned_as_organizer(params[:event_id])
+    @organizers = @event.event_organizers
+    @users = User.not_assigned_as_organizer(@event)
   end
 
   def create
@@ -23,9 +23,9 @@ class OrganizersController < ApplicationController
 
   def validate_organizer!
     @event = Event.find(params[:event_id])
-    @organizer = EventOrganizer.organizer?(@event.id, current_user.id) || current_user.admin
+    organizer = @event.organizer?(current_user) || current_user.admin?
 
-    unless @organizer
+    unless organizer
       redirect_to "/events"
       false
     end

@@ -10,6 +10,8 @@ class Event < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :date
 
+  scope :upcoming, lambda { where('date >= ?', Time.now.utc.beginning_of_day) }
+
   def rsvp_for_user(user)
     self.volunteer_rsvps.find_by_user_id(user.id)
   end
@@ -17,7 +19,8 @@ class Event < ActiveRecord::Base
   def volunteering?(user)
     self.volunteer_rsvps.find{|r| r.user_id == user.id && r.attending}.present?
   end
-  
-  scope :upcoming, lambda { where('date >= ?', Time.now.utc.beginning_of_day) }
 
+  def organizer?(user)
+    self.organizers.find { |organizer| organizer == user }.present?
+  end
 end
