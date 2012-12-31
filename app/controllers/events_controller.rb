@@ -1,13 +1,9 @@
 class EventsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :index, :volunteer]
-  before_filter :allow_access,       :except => [:new, :create, :index]
-  before_filter :require_organizer,  :except => [:new, :create, :show, :index]
+  before_filter :authenticate_user!, :except => [:show, :index]
+  before_filter :assign_organizer,   :except => [:new, :create, :index]
+  before_filter :require_organizer,  :only => [:edit, :update, :destroy]
 
-
-  # GET /events
-  # GET /events.json
   def index
-# binding.pry    
     @events = Event.upcoming
 
     respond_to do |format|
@@ -16,22 +12,14 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/1
-  # GET /events/1.json
   def show
     @event ||= Event.find(params[:id])
-    if @event.volunteers.length > 0
-      #if the event has volunteers then eager load the volunteers
-      @event = Event.includes(:volunteer_rsvps => :user).where("volunteer_rsvps.attending" => true).find(params[:id])
-    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @event }
     end
   end
 
-  # GET /events/new
-  # GET /events/new.json
   def new
     @event = Event.new
     respond_to do |format|
@@ -40,13 +28,10 @@ class EventsController < ApplicationController
     end
   end
 
-  # GET /events/1/edit
   def edit
     @event ||= Event.find(params[:id])
   end
 
-  # POST /events
-  # POST /events.json
   def create
     @event = Event.new(params[:event])
 
@@ -62,8 +47,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # PUT /events/1
-  # PUT /events/1.json
   def update
     @event ||= Event.find(params[:id])
 
@@ -78,8 +61,6 @@ class EventsController < ApplicationController
     end
   end
 
-  # DELETE /events/1
-  # DELETE /events/1.json
   def destroy
     @event ||= Event.find(params[:id])
     @event.destroy
@@ -91,23 +72,22 @@ class EventsController < ApplicationController
   end
 
   private
+
   def require_organizer
-    @event = Event.find(params[:id])
-    unless allow_access
+    @event ||= Event.find(params[:id])
+    unless assign_organizer
       flash[:error] = "You must be an organizer for the event or an Admin to update or delete an event"
       redirect_to events_path # halts request cycle
     end
   end
 
-  def allow_access
-    @event ||= Event.find(params[:event_id]) if     params[:id].blank?
-    @event ||= Event.find(params[:id])       unless params[:id].blank?
+  def assign_organizer
+    @event ||= Event.find(params[:id])
 
     if user_signed_in?
-      @organizer = EventOrganizer.organizer?(@event.id, current_user.id) || current_user.admin
+      @organizer = @event.organizer?(current_user) || current_user.admin?
     else
       @organizer = false
     end
   end
-
 end
