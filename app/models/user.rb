@@ -18,4 +18,20 @@ class User < ActiveRecord::Base
     users = order('name asc, email asc')
     users - event.organizers
   end
+
+  def teaching_and_taing?
+    teaching? && taing?
+  end
+
+  def teaching_only?
+    teaching? && !taing?
+  end
+
+  def taing_only?
+    taing? && !teaching?
+  end
+
+  def neither_teaching_nor_taing?
+    !taing? && !teaching?
+  end
 end
