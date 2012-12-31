@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe "Events" do
-  
   it "listing should show blank Location if no location_id exists" do
-    location = create(:location, :name => 'locname')
-    event = create(:event, :location_id => nil, :title => 'mytitle')
+    create(:location, :name => 'locname')
+    create(:event, :location_id => nil, :title => 'mytitle')
     visit events_path
     page.should have_content('Upcoming events')
   end
@@ -12,10 +11,8 @@ describe "Events" do
   it "should create a new event" do
     @user = create(:user)
     details_note = "This is a note in the detail text box"
-    visit new_user_session_path
-    fill_in "Email", :with => @user.email
-    fill_in "Password", :with => @user.password
-    click_button "Sign in"
+
+    sign_in_as(@user)
 
     visit events_path
     click_link "New Event"
@@ -42,11 +39,9 @@ describe "Events" do
   
   it "should allow user to volunteer for event" do
     @user = create(:user)
-    visit new_user_session_path
 
-    fill_in "Email", :with => @user.email
-    fill_in "Password", :with => @user.password
-    click_button "Sign in"
+    sign_in_as(@user)
+
     visit events_path
     click_link "New Event"
     fill_in "Title", :with => "March Event"
@@ -64,10 +59,7 @@ describe "Events" do
   end
   
   it "should show list of volunteers for event" do
-    @user1 = create(:user, name: "Shirlee")
-    visit new_user_session_path
-    @user1.hacking = true
-    @user1.taing = true
+    @user1 = create(:user, name: "Shirlee", hacking: true, taing: true)
     @user2 = create(:user)
 
     @event = Event.create!(:title => "New workshop", :date => DateTime.now + 1.fortnight, :details => "Note of type detail")
@@ -81,7 +73,6 @@ describe "Events" do
     page.should_not have_content(@user2.name)
   end
 
-
   it "should not display the Manage Organizers link if the user is not an organizer for the event" do
     @event = create(:event, title: "Pick Me")
 
@@ -94,11 +85,8 @@ describe "Events" do
     @event = create(:event, title: "Click Me")
     @user = create(:user)
     @event.organizers << @user
-    visit new_user_session_path
 
-    fill_in "Email", :with => @user.email
-    fill_in "Password", :with => @user.password
-    click_button "Sign in"
+    sign_in_as(@user)
 
     click_link "Click Me"
 
@@ -108,11 +96,8 @@ describe "Events" do
   it "should display the Manage Organizers link if the user is an admin" do
     @event = create(:event, title: "Click Me")
     @user = create(:user, admin: true)
-    visit new_user_session_path
 
-    fill_in "Email", :with => @user.email
-    fill_in "Password", :with => @user.password
-    click_button "Sign in"
+    sign_in_as(@user)
 
     click_link "Click Me"
 
@@ -124,11 +109,8 @@ describe "Events" do
       @event = create(:event, title: "Click Me")
       @user = create(:user)
       @event.organizers << @user
-      visit new_user_session_path
 
-      fill_in "Email", :with => @user.email
-      fill_in "Password", :with => @user.password
-      click_button "Sign in"
+      sign_in_as(@user)
 
       click_link "Click Me"
     end
@@ -138,22 +120,16 @@ describe "Events" do
 
       page.should have_content("Organizer Assignment")
     end
-
-
   end
 
   it "should not display the edit link if the user is not an organizer for the event" do
     @event = create(:event, title: "Click Me")
     @user = create(:user)
-    visit new_user_session_path
 
-    fill_in "Email", :with => @user.email
-    fill_in "Password", :with => @user.password
-    click_button "Sign in"
+    sign_in_as(@user)
 
     click_link "Click Me"
     page.should_not have_content("Edit")
-
   end
 
   it "should display the edit link and render the edit form if the user is an organizer for the event" do
@@ -161,36 +137,26 @@ describe "Events" do
     @user = create(:user)
     @event.organizers << @user
 
-    visit new_user_session_path
-
-    fill_in "Email", :with => @user.email
-    fill_in "Password", :with => @user.password
-    click_button "Sign in"
+    sign_in_as(@user)
 
     click_link "Pick Me"
     page.should have_content("Edit")
 
     click_link "Edit"
     page.should_not have_content("Update Event")
-
   end
 
   it "should display the edit link and render the edit form if the user is an admin" do
     @admin = create(:user, admin: true)
     @event = create(:event, title: "Pick Me")
 
-    visit new_user_session_path
-
-    fill_in "Email", :with => @admin.email
-    fill_in "Password", :with => @admin.password
-    click_button "Sign in"
+    sign_in_as(@admin)
 
     click_link "Pick Me"
     page.should have_content("Edit")
 
     click_link "Edit"
     page.should_not have_content("Update Event")
-
   end
 
   it "should display 'No Organizer Assigned' if no organizer is linked to the event" do
@@ -226,7 +192,6 @@ describe "Events" do
     page.should have_content("Joel Cairo")
   end
 
-
   describe "organizer vs. non-organizer differences" do
     before do
       @user1 = create(:user, email: "user1@mail.com", name: "Sam Spade")
@@ -235,14 +200,11 @@ describe "Events" do
       @user1.update_attributes(:hacking => true, :teaching => true)
       @user2.update_attributes(:hacking => true, :taing    => true)
 
-
       @event =  Event.new(:title => 'New workshop', :date => DateTime.now + 1.fortnight)
       @event.save!
 
-      @rsvp1 = VolunteerRsvp.new(:user_id => @user1.id, :event_id => @event.id, :attending => true)
-      @rsvp1.save!
-      @rsvp2 = VolunteerRsvp.new(:user_id => @user2.id, :event_id => @event.id, :attending => true)
-      @rsvp2.save!
+      @rsvp1 = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
+      @rsvp2 = VolunteerRsvp.create!(:user_id => @user2.id, :event_id => @event.id, :attending => true)
     end
 
     it "should only display the name of a volunteer for non organizers" do
@@ -256,17 +218,12 @@ describe "Events" do
       @user_organizer = create(:user)
       @event.organizers << @user_organizer
 
-      visit new_user_session_path
-
-      fill_in "Email", :with => @user_organizer.email
-      fill_in "Password", :with => @user_organizer.password
-      click_button "Sign in"
+      sign_in_as(@user_organizer)
 
       visit '/events/' + @event.id.to_s
 
       page.should have_content(@user1.email)
       page.should have_content(@user1.name)
-
     end
 
     it "should not display the teaching preference to a non-organizer" do
@@ -282,11 +239,7 @@ describe "Events" do
       @user_organizer = create(:user)
       @event.organizers << @user_organizer
 
-      visit new_user_session_path
-
-      fill_in "Email", :with => @user_organizer.email
-      fill_in "Password", :with => @user_organizer.password
-      click_button "Sign in"
+      sign_in_as(@user_organizer)
 
       visit '/events/' + @event.id.to_s
       page.should have_content("Willing to Teach:")
@@ -323,8 +276,7 @@ describe "Events" do
 
       @user10.update_attributes(:hacking => true)
 
-      @event =  Event.new(:title => 'New workshop', :date => DateTime.now + 1.fortnight)
-      @event.save!
+      @event =  Event.create!(:title => 'New workshop', :date => DateTime.now + 1.fortnight)
 
       VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
       VolunteerRsvp.create!(:user_id => @user2.id, :event_id => @event.id, :attending => true)
@@ -342,11 +294,7 @@ describe "Events" do
       @user_organizer = create(:user)
       @event.organizers << @user_organizer
 
-      visit new_user_session_path
-
-      fill_in "Email", :with => @user_organizer.email
-      fill_in "Password", :with => @user_organizer.password
-      click_button "Sign in"
+      sign_in_as(@user_organizer)
 
       visit '/events/' + @event.id.to_s
 
@@ -361,11 +309,7 @@ describe "Events" do
       @user_organizer = create(:user)
       @event.organizers << @user_organizer
 
-      visit new_user_session_path
-
-      fill_in "Email", :with => @user_organizer.email
-      fill_in "Password", :with => @user_organizer.password
-      click_button "Sign in"
+      sign_in_as(@user_organizer)
 
       visit '/events/' + @event.id.to_s
 
