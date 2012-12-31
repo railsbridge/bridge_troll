@@ -15,7 +15,7 @@ describe "Event Organizers" do
 
     sign_in_as(@user_organizer)
 
-    visit "/event_organizers?event_id=#{ @event.id.to_s}"
+    visit "/events/#{@event.id}/organizers"
   end
 
   it "should display the Manage Organizers Page" do
@@ -56,7 +56,7 @@ describe "Event Organizers" do
 
   it "should remove the organizer the table of organizers" do
     @event.organizers << @user1
-    visit "/event_organizers?event_id=#{ @event.id.to_s}"
+    visit "/events/#{@event.id}/organizers"
 
     page.should have_content("user1@mail.com")
     page.should have_selector('input[value="Remove"]')
@@ -69,7 +69,7 @@ describe "Event Organizers" do
 
   it "should remove the organizer and display the removed organizer int the user select" do
     @event.organizers << @user1
-    visit "/event_organizers?event_id=#{ @event.id.to_s}"
+    visit "/events/#{@event.id}/organizers"
 
     click_button "Remove"
 
