@@ -78,7 +78,5 @@ describe EventOrganizersController do
         expect { delete :destroy, :id => event_co_organizer.id, :_method => "delete" }.to change(EventOrganizer, :count).by(-1)
       end
     end
-
-
   end
 end

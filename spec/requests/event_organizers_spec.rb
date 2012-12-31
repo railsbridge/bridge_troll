@@ -7,20 +7,15 @@ describe "Event Organizers" do
 
     @user1.update_attributes(:hacking => true, :teaching => true)
 
-    @event =  Event.create!(:title => 'New workshop', :date => DateTime.now + 1.fortnight)
+    @event = Event.create!(:title => 'New workshop', :date => DateTime.now + 1.fortnight)
 
     @rsvp1 = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
 
     @event.organizers << @user_organizer
 
-    visit new_user_session_path
-
-    fill_in "Email",    :with => @user_organizer.email
-    fill_in "Password", :with => @user_organizer.password
-    click_button "Sign in"
+    sign_in_as(@user_organizer)
 
     visit "/event_organizers?event_id=#{ @event.id.to_s}"
-
   end
 
   it "should display the Manage Organizers Page" do
@@ -70,7 +65,6 @@ describe "Event Organizers" do
 
     page.should_not have_content("user1@mail.com")
     page.should_not have_selector('input[value="Remove"]')
-
   end
 
   it "should remove the organizer and display the removed organizer int the user select" do
@@ -83,7 +77,4 @@ describe "Event Organizers" do
     removed_user.value.should eq(@user1.id.to_s)
     removed_user.text.should eq(@user1.name)
   end
-
-
-
 end

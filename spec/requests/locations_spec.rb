@@ -3,12 +3,9 @@ require 'spec_helper'
 describe 'Locations' do
   it "should create a new location" do
     @user = create(:user)
-    visit new_user_session_path
-    fill_in "Email", :with => @user.email
-    fill_in "Password", :with => @user.password
-    click_button "Sign in"
+
+    sign_in_as(@user)
         
-    # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
     visit locations_path
     click_link "New Location"
 
