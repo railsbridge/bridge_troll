@@ -4,4 +4,5 @@
 
 <%= link_to 'Show', @event %> |
 <%= link_to 'Back', events_path %> | 
-<%= link_to 'Manage Locations', locations_path %>
+<%= link_to 'Manage Locations', locations_path %>  |
+<%= link_to 'Manage Organizers', event_organizers_path('event_id' => @event.id) %>

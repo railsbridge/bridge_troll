@@ -1,0 +1,42 @@
+<h3>Organizer Assignments</h3>
+<br />
+<h4>Event: <%= link_to " #{@event.title}", event_path(@event)%></h4>
+<h4>
+  <%= "When: #{l @event.date.localtime, :format => :date_as_ymd} #{l @event.date.localtime, :format => :time_as_hm_ampm}" %>
+</h4>
+<br /><br />
+
+
+<h5>Users</h5>
+<%= form_tag('/event_organizers', :method => :post)  do %>
+    <%= select("event_organizer", "user_id", @users.collect {|u| [ u.name, u.id ] }, {:include_blank => ''}) %>
+    <%= submit_tag "Assign", :class => "btn btn-primary" %>
+    <%= hidden_field_tag "[event_organizer]event_id", @event.id%>
+<% end %>
+
+<h5>Assigned Organizers</h5>
+<table class="table">
+  <thead>
+  <tr>
+    <td>Name</td>
+    <td>Email</td>
+    <td></td>
+  </tr>
+  </thead>
+  <tbody>
+  <% @organizers.each do |organizer|  %>
+      <tr>
+        <td><%= organizer.user.name %></td>
+        <td><%= organizer.user.email %></td>
+        <% if organizer.user_id != current_user.id %>
+            <td> <%= button_to 'Remove', organizer, method: :delete,
+                               :form => {:style => "margin-bottom : 0;"}, :class => "btn btn-mini",
+                               :event_id => organizer.event_id %></td>
+        <% else %>
+            <td></td>
+        <% end %>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
