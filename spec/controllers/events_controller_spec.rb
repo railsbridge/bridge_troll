@@ -60,11 +60,6 @@ describe EventsController do
 
         expect { delete :destroy, {:id => @event.id} }.to change(Event, :count).by(-1)
       end
-
-
-
     end
-    
-    
   end
 end

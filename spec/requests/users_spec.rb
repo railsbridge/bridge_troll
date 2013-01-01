@@ -17,8 +17,7 @@ describe "new user", :js => true do
 end
 
 describe "existing user", :js => true do
-
-  before(:each) do
+  before do
     @user = create(:user)
   end
 
@@ -34,25 +33,12 @@ describe "existing user", :js => true do
     page.should have_content("Sign in")
     current_path.should == new_user_session_path
   end
-
-  it "should be able to sign in from the sign in page" do
-    visit new_user_session_path
-
-    fill_in "Email", :with => @user.email
-    fill_in "Password", :with => @user.password
-    click_button "Sign in"
-
-    page.should have_content("Signed in successfully")
-  end
   
-  describe " is signed in" do
-    before :each do
-      visit new_user_session_path
-
-      fill_in "Email", :with => @user.email
-      fill_in "Password", :with => @user.password
-      click_button "Sign in"
+  describe "is signed in" do
+    before do
+      sign_in_as(@user)
     end
+
     it "should see Sign Out link and Add Your Skills links and not see Sign In/Up links" do
       page.should have_link("Add Your Skills")
       page.should have_link("Sign Out")
@@ -75,13 +61,7 @@ describe "existing user", :js => true do
 
   describe "skills" do
     before do
-      visit new_user_session_path
-
-      fill_in "Email", :with => @user.email
-      fill_in "Password", :with => @user.password
-      click_button "Sign in"
-
-      wait_until{page.has_content?("Signed in successfully")}
+      sign_in_as(@user)
     end
 
     it "link to add skills should be present on the home page for logged in user" do
