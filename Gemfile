@@ -2,7 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.2.8'
 gem 'devise', '2.1.2'
-
+gem 'thin'
+gem 'jquery-rails'
 
 group :production do
   gem 'pg'
@@ -15,7 +16,9 @@ group :assets do
   gem 'bootstrap-sass-rails'
 end
 
-gem 'jquery-rails'
+group :development do
+  gem 'quiet_assets'
+end
 
 group :test do
   gem "factory_girl_rails"

@@ -27,10 +27,11 @@ Bridgetroll::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Send to local mailserver for viewing mail with mailcatcher
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
   
   # Setup default url options for your specific environment.
-  #   Here is an example of development environment:
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
-  #require 'ruby-debug'
-  #Debugger.start
 end
