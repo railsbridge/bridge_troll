@@ -57,4 +57,9 @@ Bridgetroll::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  # Turn off mailing until someone configures a real mailserver
+  config.action_mailer.delivery_method = :test
+
+  config.action_mailer.default_url_options = { :host => 'bridgetroll-staging.herokuapp.com' }
 end
