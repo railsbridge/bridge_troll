@@ -6,7 +6,7 @@ describe Event do
     event = build(:event, :title => nil)
     event.should_not be_valid
   end
-  
+
   it "must have a date" do
     event = build(:event, :date => nil)
     event.should_not be_valid
@@ -16,30 +16,30 @@ describe Event do
     before do
       @event = create(:event)
     end
-  
-    describe "volunteer rsvps role" do    
+
+    describe "volunteer rsvps role" do
       it "should have a volunteer_rsvp method" do
         @event.should respond_to(:volunteer_rsvps)
-      end   
+      end
     end
-  
+
     describe "with existing user" do
       before do
         @user = create(:user)
-      end 
+      end
 
       describe "volunteering?" do
         it "should have a volunteering? method" do
-           @event.should respond_to(:volunteering?)
+          @event.should respond_to(:volunteering?)
         end
-    
+
         it "should be true when a user is volunteering at an event" do
           VolunteerRsvp.create(:event_id => @event.id, :user_id => @user.id, :attending => true)
           @event.volunteering?(@user).should == true
         end
-    
+
         it "should be false when a user is not volunteering at an event" do
-          @event.volunteering?(@user).should == false        
+          @event.volunteering?(@user).should == false
         end
       end
 
@@ -62,14 +62,14 @@ describe Event do
     it "should not include events earlier than today" do
       Event.upcoming.should_not include(@event_past)
     end
-     it "should include events later than today" do
+    it "should include events later than today" do
       Event.upcoming.should include(@event_future)
     end
-     it "should include events from earlier today" do           # edge case to pass
+    it "should include events from earlier today" do           # edge case to pass
       Event.upcoming.should include(@event_beginning_of_today)
     end
     it "should not include events from end of yesterday" do     # edge case to fail
       Event.upcoming.should_not include(@event_end_of_yesterday)
     end
- end
+  end
 end

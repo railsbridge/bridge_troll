@@ -1,5 +1,9 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :index, :volunteer]
+  before_filter :allow_access,       :except => [:new, :create, :index]
+  before_filter :require_organizer,  :except => [:new, :create, :show, :index]
+
+
   # GET /events
   # GET /events.json
   def index
@@ -15,27 +19,12 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @event = Event.find(params[:id])
-    @volunteers = VolunteerRsvp.where(:event_id => params[:id], :attending => true)
-    @teachers = []
-    @tas = []
-    
-    @volunteers.each do |v|
-      user = User.find(v.user_id)
-      if (user.teaching)
-        @teachers << user
-      end
+    @event ||= Event.find(params[:id])
+    if @event.volunteers.length > 0
+      #if the event has volunteers then eager load the volunteers
+      @event = Event.includes(:volunteer_rsvps => :user).where("volunteer_rsvps.attending" => true).find(params[:id])
     end
-    
-    @volunteers.each do |v|
-      user = User.find(v.user_id)
-      if (user.taing)
-        @tas << user
-      end
-    end
-  
     respond_to do |format|
-      
       format.html # show.html.erb
       format.json { render json: @event }
     end
@@ -45,7 +34,6 @@ class EventsController < ApplicationController
   # GET /events/new.json
   def new
     @event = Event.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @event }
@@ -54,7 +42,7 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    @event = Event.find(params[:id])
+    @event ||= Event.find(params[:id])
   end
 
   # POST /events
@@ -64,6 +52,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
+        @event.organizers << current_user
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render json: @event, status: :created, location: @event }
       else
@@ -76,14 +65,14 @@ class EventsController < ApplicationController
   # PUT /events/1
   # PUT /events/1.json
   def update
-    @event = Event.find(params[:id])
+    @event ||= Event.find(params[:id])
 
     respond_to do |format|
       if @event.update_attributes(params[:event])
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render action: "edit" }
+        format.html { render status: :unprocessable_entity, action: "edit" }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
@@ -92,7 +81,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   # DELETE /events/1.json
   def destroy
-    @event = Event.find(params[:id])
+    @event ||= Event.find(params[:id])
     @event.destroy
 
     respond_to do |format|
@@ -100,4 +89,25 @@ class EventsController < ApplicationController
       format.json { head :ok }
     end
   end
+
+  private
+  def require_organizer
+    @event = Event.find(params[:id])
+    unless allow_access
+      flash[:error] = "You must be an organizer for the event or an Admin to update or delete an event"
+      redirect_to events_path # halts request cycle
+    end
+  end
+
+  def allow_access
+    @event ||= Event.find(params[:event_id]) if     params[:id].blank?
+    @event ||= Event.find(params[:id])       unless params[:id].blank?
+
+    if user_signed_in?
+      @organizer = EventOrganizer.organizer?(@event.id, current_user.id) || current_user.admin
+    else
+      @organizer = false
+    end
+  end
+
 end

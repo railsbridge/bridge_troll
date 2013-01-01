@@ -1,50 +1,98 @@
-<div>
-  <b>Title:</b>
-  <%= @event.title %> on <%= @event.date %>
-  <div>
-    <% if(!@event.location.nil?) %>
+  <h2><%= @event.title %></h2>
+  <strong>When:</strong>
+  <%= "#{l @event.date.localtime, :format => :date_as_ymd} #{l @event.date.localtime, :format => :time_as_hm_ampm}" %>
+  <br /> <br />
 
-      Takes place at <%= @event.location.name %> at address:<br />
+
+  <p>
+    <% if(!@event.location.nil?) %>
+      <strong>Location: </strong><%= @event.location.name %> at address:<br />
       <%= @event.location.address %>
     <% else %>
       This event currently has no location!
     <% end %>
+  </p>
 
-  </div>
-  <div>
-    <h2>Volunteers Listing</h2>
-      <% if @volunteers.length == 0 %>
+  <strong>Details:</strong> <br />
+  <p><%= @event.details %></p>
+
+
+    <strong><%= organizer_title %></strong> <br />
+    <ul>
+      <% organizer_list.each do |organizer| %>
+        <li>
+          <%= organizer[:name] %>
+        </li>
+      <% end %>
+    </ul>
+
+    <h3>Volunteers:</h3>
+      <% if @event.volunteers.length == 0 %>
         No volunteers are currently signed up for this event.
       <% else %>
-        <h3>Willing to teach: <%= @teachers.length %></h3>
-        <ol>
-        <% @teachers.each do |t| %>
-          <li><%= User.find(t.id).email %></li>
-        <% end %>
-        </ol>
-        
-        <h3>Willing to TA: <%= @tas.length %></h3>
-        <ol>
-        <% @tas.each do |t| %>
-          <li><%= User.find(t.id).email %></li>
-        <% end %>
-        </ol>
-        <h3>All Volunteers: <%= @volunteers.length %></h3>
-    <table>
-      <tr>
-        <th>Email</th>
-        <th>Skills</th>
-      </tr>
-      <% @volunteers.each do |volunteer| %>
-      <tr>
-        <td><%= User.find(volunteer.user_id).email %></td>
-        <td><%= get_volunteer_skills(volunteer.user_id) %></td>
-      </tr>
-      <% end %>
-    </table>
-  <% end %>
-  </div>
-</div>
+      <% if @organizer %>
+          <h4>Willing to Teach: <%= teachers_count(@event.volunteers) %></h4>
+          <ol>
+            <% @event.volunteers.each do |volunteer| %>
+                <%= volunteer_display(volunteer, "teaching") %>
+            <% end %>
+          </ol>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
+          <h4>Willing to TA: <%= tas_count(@event.volunteers) %></h4>
+          <ol>
+            <% @event.volunteers.each do |volunteer| %>
+                <%= volunteer_display(volunteer, "taing") %>
+            <% end %>
+          </ol>
+
+          <h4>Willing to Teach or TA: <%= teach_or_ta_count(@event.volunteers) %></h4>
+          <ol>
+            <% @event.volunteers.each do |volunteer| %>
+                <%= volunteer_display(volunteer, "taing", "teaching") %>
+            <% end %>
+          </ol>
+
+          <h4>Not Interested in Teaching: <%= not_teach_or_ta_count(@event.volunteers) %></h4>
+          <ol>
+            <% @event.volunteers.each do |volunteer| %>
+                <%= volunteer_display(volunteer) %>
+            <% end %>
+          </ol>
+
+        <h4>All Volunteers: <%= @event.volunteers.length %></h4>
+      <% end %>
+
+      <table class = "table">
+        <thead>
+        <tr>
+          <th>Name</th>
+          <% if @organizer  %>
+            <th>Email</th>
+          <% end %>
+          <th>Skills</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @event.volunteers.each do |volunteer| %>
+            <tr>
+              <td><%= volunteer.name %></td>
+              <% if @organizer  %>
+                <td><%= volunteer.email %></td>
+              <% end %>
+              <td><%= get_volunteer_skills(volunteer) %></td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+  <% end %>
+
+<br />
+<% if @organizer  %>
+  <%= link_to 'Edit', edit_event_path(@event) %> |
+<% end %>
 <%= link_to 'Back', events_path %>
+
+<% if @organizer %>
+  | <%= link_to 'Manage Organizers', event_organizers_path('event_id' => @event.id) %>
+<% end %>
