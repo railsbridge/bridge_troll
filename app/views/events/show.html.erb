@@ -3,7 +3,6 @@
   <%= "#{l @event.date.localtime, :format => :date_as_ymd} #{l @event.date.localtime, :format => :time_as_hm_ampm}" %>
   <br /> <br />
 
-
   <p>
     <% if(!@event.location.nil?) %>
       <strong>Location: </strong><%= @event.location.name %> at address:<br />
@@ -15,7 +14,6 @@
 
   <strong>Details:</strong> <br />
   <p><%= @event.details %></p>
-
 
     <strong><%= organizer_title %></strong> <br />
     <ul>
@@ -32,32 +30,16 @@
       <% else %>
       <% if @organizer %>
           <h4>Willing to Teach: <%= teachers_count(@event.volunteers) %></h4>
-          <ol>
-            <% @event.volunteers.each do |volunteer| %>
-                <%= volunteer_display(volunteer, "teaching") %>
-            <% end %>
-          </ol>
+          <%= partitioned_volunteer_list(@event.volunteers, :teaching_only?) %>
 
           <h4>Willing to TA: <%= tas_count(@event.volunteers) %></h4>
-          <ol>
-            <% @event.volunteers.each do |volunteer| %>
-                <%= volunteer_display(volunteer, "taing") %>
-            <% end %>
-          </ol>
+          <%= partitioned_volunteer_list(@event.volunteers, :taing_only?) %>
 
           <h4>Willing to Teach or TA: <%= teach_or_ta_count(@event.volunteers) %></h4>
-          <ol>
-            <% @event.volunteers.each do |volunteer| %>
-                <%= volunteer_display(volunteer, "taing", "teaching") %>
-            <% end %>
-          </ol>
+          <%= partitioned_volunteer_list(@event.volunteers, :teaching_and_taing?) %>
 
           <h4>Not Interested in Teaching: <%= not_teach_or_ta_count(@event.volunteers) %></h4>
-          <ol>
-            <% @event.volunteers.each do |volunteer| %>
-                <%= volunteer_display(volunteer) %>
-            <% end %>
-          </ol>
+          <%= partitioned_volunteer_list(@event.volunteers, :neither_teaching_nor_taing?) %>
 
         <h4>All Volunteers: <%= @event.volunteers.length %></h4>
       <% end %>

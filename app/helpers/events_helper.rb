@@ -17,78 +17,46 @@ module EventsHelper
   end
 
   def teachers_count(volunteers)
-    count = 0
-    volunteers.each do |volunteer|
-      count += volunteer.teaching && !volunteer.taing ? 1 : 0
-    end
-    count
+    volunteers.select(&:teaching_only?).count
   end
 
   def tas_count(volunteers)
-    count = 0
-    volunteers.each do |volunteer|
-      count += volunteer.taing && !volunteer.teaching ? 1 : 0
-    end
-    count
+    volunteers.select(&:taing_only?).count
   end
 
   def teach_or_ta_count(volunteers)
-    count = 0
-    volunteers.each do |volunteer|
-      count += volunteer.taing && volunteer.teaching ? 1 : 0
-    end
-    count
+    volunteers.select(&:teaching_and_taing?).count
   end
 
   def not_teach_or_ta_count(volunteers)
-    count = 0
-    volunteers.each do |volunteer|
-      count += !volunteer.taing && !volunteer.teaching ? 1 : 0
-    end
-    count
+    volunteers.select(&:neither_teaching_nor_taing?).count
   end
 
-
   def organizer_title
-   @event.organizers.length > 1 ? "Organizers:" : "Organizer:"
+    @event.organizers.length > 1 ? "Organizers:" : "Organizer:"
   end
 
   def organizer_list
     @event.organizers.length == 0 ?  [{:name => "No Organizer Assigned"}] : @event.organizers
   end
 
-  def volunteer_display(volunteer, *attributes)
-    volunteer_class = ""
-    if attributes.length == 2
-      if volunteer.send(attributes[0]) && volunteer.send(attributes[1])
-        volunteer_class = "both"
-      end
+  def partitioned_volunteer_list(volunteers, type)
+    partition = volunteers.select(&type)
+    content_tag "ol" do
+      partition.map { |v| partitioned_volunteer_tag(v) }.join('').html_safe
     end
+  end
 
-    if attributes.length == 1 && attributes[0] == "teaching"
-      if volunteer.send(attributes[0]) && !volunteer.taing
-        volunteer_class = "teach"
-      end
-    end
-
-    if attributes.length == 1 && attributes[0] == "taing"
-      if volunteer.send(attributes[0]) && !volunteer.teaching
-        volunteer_class = "ta"
-      end
-    end
-
-    if attributes.length == 0
-      if !volunteer.taing && !volunteer.teaching
-        volunteer_class = "none"
-      end
-    end
-    get_tag volunteer, volunteer_class unless volunteer_class.empty?
+  def partitioned_volunteer_tag(volunteer)
+    content_tag "li","#{volunteer.name} - #{volunteer.email}", :class => volunteer_class(volunteer)
   end
 
   private
 
-  def get_tag(volunteer, volunteer_class)
-    content_tag "li","#{volunteer.name} - #{volunteer.email}", :class => volunteer_class
+  def volunteer_class(volunteer)
+    return "both"  if volunteer.teaching_and_taing?
+    return "teach" if volunteer.teaching_only?
+    return "ta"    if volunteer.taing_only?
+    return "none"  if volunteer.neither_teaching_nor_taing?
   end
-
 end
