@@ -59,7 +59,8 @@ describe "Events" do
   end
 
   it "should show list of volunteers for event" do
-    @user1 = create(:user, name: "Shirlee", hacking: true, taing: true)
+    @user1 = create(:user, name: "Shirlee")
+    profile = @user1.profile.update_attributes(:hacking => true, :taing => true)
     @user2 = create(:user)
 
     @event = Event.create!(:title => "New workshop", :date => DateTime.now + 1.fortnight, :details => "Note of type detail")
