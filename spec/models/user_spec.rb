@@ -37,4 +37,12 @@ describe User do
       hacked_admin = User.new(:name => "Riley", :admin => true)
       hacked_admin.admin.should_not be_true
     end
+
+    it "should create a profile" do
+      Profile.count.should == 1
+    end
+
+    it "should create a profile linked to the user" do
+      Profile.last.user_id.should == @user.id
+    end
 end

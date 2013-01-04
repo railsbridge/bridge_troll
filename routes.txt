@@ -1,0 +1,381 @@
+                    root        /                                                events#index
+        new_user_session GET    /users/sign_in(.:format)                         devise/sessions#new
+            user_session POST   /users/sign_in(.:format)                         devise/sessions#create
+    destroy_user_session DELETE /users/sign_out(.:format)                        devise/sessions#destroy
+           user_password POST   /users/password(.:format)                        devise/passwords#create
+       new_user_password GET    /users/password/new(.:format)                    devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format)                   devise/passwords#edit
+                         PUT    /users/password(.:format)                        devise/passwords#update
+cancel_user_registration GET    /users/cancel(.:format)                          devise/registrations#cancel
+       user_registration POST   /users(.:format)                                 devise/registrations#create
+   new_user_registration GET    /users/sign_up(.:format)                         devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)                            devise/registrations#edit
+                         PUT    /users(.:format)                                 devise/registrations#update
+                         DELETE /users(.:format)                                 devise/registrations#destroy
+       user_confirmation POST   /users/confirmation(.:format)                    devise/confirmations#create
+   new_user_confirmation GET    /users/confirmation/new(.:format)                devise/confirmations#new
+                         GET    /users/confirmation(.:format)                    devise/confirmations#show
+        event_organizers GET    /event_organizers(.:format)                      event_organizers#index
+                         POST   /event_organizers(.:format)                      event_organizers#create
+         event_organizer DELETE /event_organizers/:id(.:format)                  event_organizers#destroy
+               locations GET    /locations(.:format)                             locations#index
+                         POST   /locations(.:format)                             locations#create
+            new_location GET    /locations/new(.:format)                         locations#new
+           edit_location GET    /locations/:id/edit(.:format)                    locations#edit
+                location GET    /locations/:id(.:format)                         locations#show
+                         PUT    /locations/:id(.:format)                         locations#update
+                         DELETE /locations/:id(.:format)                         locations#destroy
+  event_event_organizers GET    /events/:event_id/event_organizers(.:format)     event_organizers#index
+                         POST   /events/:event_id/event_organizers(.:format)     event_organizers#create
+   event_event_organizer DELETE /events/:event_id/event_organizers/:id(.:format) event_organizers#destroy
+                  events GET    /events(.:format)                                events#index
+                         POST   /events(.:format)                                events#create
+               new_event GET    /events/new(.:format)                            events#new
+              edit_event GET    /events/:id/edit(.:format)                       events#edit
+                   event GET    /events/:id(.:format)                            events#show
+                         PUT    /events/:id(.:format)                            events#update
+                         DELETE /events/:id(.:format)                            events#destroy
+         volunteer_rsvps GET    /volunteer_rsvps(.:format)                       volunteer_rsvps#index
+                         POST   /volunteer_rsvps(.:format)                       volunteer_rsvps#create
+          volunteer_rsvp PUT    /volunteer_rsvps/:id(.:format)                   volunteer_rsvps#update
+         volunteersearch        /volunteer/search(.:format)                      volunteer_rsvps#index
+                profiles GET    /profiles(.:format)                        profiles#index
+                         POST   /profiles(.:format)                        profiles#create
+             new_profile GET    /profiles/new(.:format)                    profiles#new
+            edit_profile GET    /profiles/:id/edit(.:format)               profiles#edit
+                 profile GET    /profiles/:id(.:format)                    profiles#show
+                         PUT    /profiles/:id(.:format)                    profiles#update
+                         DELETE /profiles/:id(.:format)                    profiles#destroy
+                    root        /                                          events#index
+                         GET    /profiles(.:format)                        profiles#index
+                         POST   /profiles(.:format)                        profiles#create
+                         GET    /profiles/new(.:format)                    profiles#new
+                         GET    /profiles/:id/edit(.:format)               profiles#edit
+                         GET    /profiles/:id(.:format)                    profiles#show
+                         PUT    /profiles/:id(.:format)                    profiles#update
+                         DELETE /profiles/:id(.:format)                    profiles#destroy
+        new_user_session GET    /users/sign_in(.:format)                   devise/sessions#new
+            user_session POST   /users/sign_in(.:format)                   devise/sessions#create
+    destroy_user_session DELETE /users/sign_out(.:format)                  devise/sessions#destroy
+           user_password POST   /users/password(.:format)                  devise/passwords#create
+       new_user_password GET    /users/password/new(.:format)              devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format)             devise/passwords#edit
+                         PUT    /users/password(.:format)                  devise/passwords#update
+cancel_user_registration GET    /users/cancel(.:format)                    devise/registrations#cancel
+       user_registration POST   /users(.:format)                           devise/registrations#create
+   new_user_registration GET    /users/sign_up(.:format)                   devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)                      devise/registrations#edit
+                         PUT    /users(.:format)                           devise/registrations#update
+                         DELETE /users(.:format)                           devise/registrations#destroy
+       user_confirmation POST   /users/confirmation(.:format)              devise/confirmations#create
+   new_user_confirmation GET    /users/confirmation/new(.:format)          devise/confirmations#new
+                         GET    /users/confirmation(.:format)              devise/confirmations#show
+               locations GET    /locations(.:format)                       locations#index
+                         POST   /locations(.:format)                       locations#create
+            new_location GET    /locations/new(.:format)                   locations#new
+           edit_location GET    /locations/:id/edit(.:format)              locations#edit
+                location GET    /locations/:id(.:format)                   locations#show
+                         PUT    /locations/:id(.:format)                   locations#update
+                         DELETE /locations/:id(.:format)                   locations#destroy
+        event_organizers GET    /events/:event_id/organizers(.:format)     organizers#index
+                         POST   /events/:event_id/organizers(.:format)     organizers#create
+         event_organizer DELETE /events/:event_id/organizers/:id(.:format) organizers#destroy
+                  events GET    /events(.:format)                          events#index
+                         POST   /events(.:format)                          events#create
+               new_event GET    /events/new(.:format)                      events#new
+              edit_event GET    /events/:id/edit(.:format)                 events#edit
+                   event GET    /events/:id(.:format)                      events#show
+                         PUT    /events/:id(.:format)                      events#update
+                         DELETE /events/:id(.:format)                      events#destroy
+         volunteer_rsvps POST   /volunteer_rsvps(.:format)                 volunteer_rsvps#create
+          volunteer_rsvp PUT    /volunteer_rsvps/:id(.:format)             volunteer_rsvps#update
+         volunteersearch        /volunteer/search(.:format)                volunteer_rsvps#index
+                    root        /                                          events#index
+                profiles GET    /profiles(.:format)                        profiles#index
+                         POST   /profiles(.:format)                        profiles#create
+             new_profile GET    /profiles/new(.:format)                    profiles#new
+            edit_profile GET    /profiles/:id/edit(.:format)               profiles#edit
+                 profile GET    /profiles/:id(.:format)                    profiles#show
+                         PUT    /profiles/:id(.:format)                    profiles#update
+                         DELETE /profiles/:id(.:format)                    profiles#destroy
+        new_user_session GET    /users/sign_in(.:format)                   devise/sessions#new
+            user_session POST   /users/sign_in(.:format)                   devise/sessions#create
+    destroy_user_session DELETE /users/sign_out(.:format)                  devise/sessions#destroy
+           user_password POST   /users/password(.:format)                  devise/passwords#create
+       new_user_password GET    /users/password/new(.:format)              devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format)             devise/passwords#edit
+                         PUT    /users/password(.:format)                  devise/passwords#update
+cancel_user_registration GET    /users/cancel(.:format)                    devise/registrations#cancel
+       user_registration POST   /users(.:format)                           devise/registrations#create
+   new_user_registration GET    /users/sign_up(.:format)                   devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)                      devise/registrations#edit
+                         PUT    /users(.:format)                           devise/registrations#update
+                         DELETE /users(.:format)                           devise/registrations#destroy
+       user_confirmation POST   /users/confirmation(.:format)              devise/confirmations#create
+   new_user_confirmation GET    /users/confirmation/new(.:format)          devise/confirmations#new
+                         GET    /users/confirmation(.:format)              devise/confirmations#show
+               locations GET    /locations(.:format)                       locations#index
+                         POST   /locations(.:format)                       locations#create
+            new_location GET    /locations/new(.:format)                   locations#new
+           edit_location GET    /locations/:id/edit(.:format)              locations#edit
+                location GET    /locations/:id(.:format)                   locations#show
+                         PUT    /locations/:id(.:format)                   locations#update
+                         DELETE /locations/:id(.:format)                   locations#destroy
+        event_organizers GET    /events/:event_id/organizers(.:format)     organizers#index
+                         POST   /events/:event_id/organizers(.:format)     organizers#create
+         event_organizer DELETE /events/:event_id/organizers/:id(.:format) organizers#destroy
+                  events GET    /events(.:format)                          events#index
+                         POST   /events(.:format)                          events#create
+               new_event GET    /events/new(.:format)                      events#new
+              edit_event GET    /events/:id/edit(.:format)                 events#edit
+                   event GET    /events/:id(.:format)                      events#show
+                         PUT    /events/:id(.:format)                      events#update
+                         DELETE /events/:id(.:format)                      events#destroy
+         volunteer_rsvps POST   /volunteer_rsvps(.:format)                 volunteer_rsvps#create
+          volunteer_rsvp PUT    /volunteer_rsvps/:id(.:format)             volunteer_rsvps#update
+         volunteersearch        /volunteer/search(.:format)                volunteer_rsvps#index
+                    root        /                                           events#index
+        new_user_session GET    /users/sign_in(.:format)                    devise/sessions#new
+            user_session POST   /users/sign_in(.:format)                    devise/sessions#create
+    destroy_user_session DELETE /users/sign_out(.:format)                   devise/sessions#destroy
+           user_password POST   /users/password(.:format)                   devise/passwords#create
+       new_user_password GET    /users/password/new(.:format)               devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format)              devise/passwords#edit
+                         PUT    /users/password(.:format)                   devise/passwords#update
+cancel_user_registration GET    /users/cancel(.:format)                     devise/registrations#cancel
+       user_registration POST   /users(.:format)                            devise/registrations#create
+   new_user_registration GET    /users/sign_up(.:format)                    devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)                       devise/registrations#edit
+                         PUT    /users(.:format)                            devise/registrations#update
+                         DELETE /users(.:format)                            devise/registrations#destroy
+       user_confirmation POST   /users/confirmation(.:format)               devise/confirmations#create
+   new_user_confirmation GET    /users/confirmation/new(.:format)           devise/confirmations#new
+                         GET    /users/confirmation(.:format)               devise/confirmations#show
+           user_profiles GET    /users/:user_id/profiles(.:format)          profiles#index
+                         POST   /users/:user_id/profiles(.:format)          profiles#create
+        new_user_profile GET    /users/:user_id/profiles/new(.:format)      profiles#new
+       edit_user_profile GET    /users/:user_id/profiles/:id/edit(.:format) profiles#edit
+            user_profile GET    /users/:user_id/profiles/:id(.:format)      profiles#show
+                         PUT    /users/:user_id/profiles/:id(.:format)      profiles#update
+                         DELETE /users/:user_id/profiles/:id(.:format)      profiles#destroy
+                   users GET    /users(.:format)                            users#index
+                         POST   /users(.:format)                            users#create
+                new_user GET    /users/new(.:format)                        users#new
+               edit_user GET    /users/:id/edit(.:format)                   users#edit
+                    user GET    /users/:id(.:format)                        users#show
+                         PUT    /users/:id(.:format)                        users#update
+                         DELETE /users/:id(.:format)                        users#destroy
+               locations GET    /locations(.:format)                        locations#index
+                         POST   /locations(.:format)                        locations#create
+            new_location GET    /locations/new(.:format)                    locations#new
+           edit_location GET    /locations/:id/edit(.:format)               locations#edit
+                location GET    /locations/:id(.:format)                    locations#show
+                         PUT    /locations/:id(.:format)                    locations#update
+                         DELETE /locations/:id(.:format)                    locations#destroy
+        event_organizers GET    /events/:event_id/organizers(.:format)      organizers#index
+                         POST   /events/:event_id/organizers(.:format)      organizers#create
+         event_organizer DELETE /events/:event_id/organizers/:id(.:format)  organizers#destroy
+                  events GET    /events(.:format)                           events#index
+                         POST   /events(.:format)                           events#create
+               new_event GET    /events/new(.:format)                       events#new
+              edit_event GET    /events/:id/edit(.:format)                  events#edit
+                   event GET    /events/:id(.:format)                       events#show
+                         PUT    /events/:id(.:format)                       events#update
+                         DELETE /events/:id(.:format)                       events#destroy
+         volunteer_rsvps POST   /volunteer_rsvps(.:format)                  volunteer_rsvps#create
+          volunteer_rsvp PUT    /volunteer_rsvps/:id(.:format)              volunteer_rsvps#update
+         volunteersearch        /volunteer/search(.:format)                 volunteer_rsvps#index
+                    root        /                                           events#index
+        new_user_session GET    /users/sign_in(.:format)                    devise/sessions#new
+            user_session POST   /users/sign_in(.:format)                    devise/sessions#create
+    destroy_user_session DELETE /users/sign_out(.:format)                   devise/sessions#destroy
+           user_password POST   /users/password(.:format)                   devise/passwords#create
+       new_user_password GET    /users/password/new(.:format)               devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format)              devise/passwords#edit
+                         PUT    /users/password(.:format)                   devise/passwords#update
+cancel_user_registration GET    /users/cancel(.:format)                     devise/registrations#cancel
+       user_registration POST   /users(.:format)                            devise/registrations#create
+   new_user_registration GET    /users/sign_up(.:format)                    devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)                       devise/registrations#edit
+                         PUT    /users(.:format)                            devise/registrations#update
+                         DELETE /users(.:format)                            devise/registrations#destroy
+       user_confirmation POST   /users/confirmation(.:format)               devise/confirmations#create
+   new_user_confirmation GET    /users/confirmation/new(.:format)           devise/confirmations#new
+                         GET    /users/confirmation(.:format)               devise/confirmations#show
+           user_profiles POST   /users/:user_id/profiles(.:format)          profiles#create
+       edit_user_profile GET    /users/:user_id/profiles/:id/edit(.:format) profiles#edit
+            user_profile GET    /users/:user_id/profiles/:id(.:format)      profiles#show
+                   users GET    /users(.:format)                            users#index
+                         POST   /users(.:format)                            users#create
+                new_user GET    /users/new(.:format)                        users#new
+               edit_user GET    /users/:id/edit(.:format)                   users#edit
+                    user GET    /users/:id(.:format)                        users#show
+                         PUT    /users/:id(.:format)                        users#update
+                         DELETE /users/:id(.:format)                        users#destroy
+               locations GET    /locations(.:format)                        locations#index
+                         POST   /locations(.:format)                        locations#create
+            new_location GET    /locations/new(.:format)                    locations#new
+           edit_location GET    /locations/:id/edit(.:format)               locations#edit
+                location GET    /locations/:id(.:format)                    locations#show
+                         PUT    /locations/:id(.:format)                    locations#update
+                         DELETE /locations/:id(.:format)                    locations#destroy
+        event_organizers GET    /events/:event_id/organizers(.:format)      organizers#index
+                         POST   /events/:event_id/organizers(.:format)      organizers#create
+         event_organizer DELETE /events/:event_id/organizers/:id(.:format)  organizers#destroy
+                  events GET    /events(.:format)                           events#index
+                         POST   /events(.:format)                           events#create
+               new_event GET    /events/new(.:format)                       events#new
+              edit_event GET    /events/:id/edit(.:format)                  events#edit
+                   event GET    /events/:id(.:format)                       events#show
+                         PUT    /events/:id(.:format)                       events#update
+                         DELETE /events/:id(.:format)                       events#destroy
+         volunteer_rsvps POST   /volunteer_rsvps(.:format)                  volunteer_rsvps#create
+          volunteer_rsvp PUT    /volunteer_rsvps/:id(.:format)              volunteer_rsvps#update
+         volunteersearch        /volunteer/search(.:format)                 volunteer_rsvps#index
+                    root        /                                          events#index
+        new_user_session GET    /users/sign_in(.:format)                   devise/sessions#new
+            user_session POST   /users/sign_in(.:format)                   devise/sessions#create
+    destroy_user_session DELETE /users/sign_out(.:format)                  devise/sessions#destroy
+           user_password POST   /users/password(.:format)                  devise/passwords#create
+       new_user_password GET    /users/password/new(.:format)              devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format)             devise/passwords#edit
+                         PUT    /users/password(.:format)                  devise/passwords#update
+cancel_user_registration GET    /users/cancel(.:format)                    devise/registrations#cancel
+       user_registration POST   /users(.:format)                           devise/registrations#create
+   new_user_registration GET    /users/sign_up(.:format)                   devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)                      devise/registrations#edit
+                         PUT    /users(.:format)                           devise/registrations#update
+                         DELETE /users(.:format)                           devise/registrations#destroy
+       user_confirmation POST   /users/confirmation(.:format)              devise/confirmations#create
+   new_user_confirmation GET    /users/confirmation/new(.:format)          devise/confirmations#new
+                         GET    /users/confirmation(.:format)              devise/confirmations#show
+           user_profiles POST   /users/:user_id/profiles(.:format)         profiles#create
+      edit_user_profiles GET    /users/:user_id/profiles/edit(.:format)    profiles#edit
+                         GET    /users/:user_id/profiles(.:format)         profiles#show
+                   users GET    /users(.:format)                           users#index
+                         POST   /users(.:format)                           users#create
+                new_user GET    /users/new(.:format)                       users#new
+               edit_user GET    /users/:id/edit(.:format)                  users#edit
+                    user GET    /users/:id(.:format)                       users#show
+                         PUT    /users/:id(.:format)                       users#update
+                         DELETE /users/:id(.:format)                       users#destroy
+               locations GET    /locations(.:format)                       locations#index
+                         POST   /locations(.:format)                       locations#create
+            new_location GET    /locations/new(.:format)                   locations#new
+           edit_location GET    /locations/:id/edit(.:format)              locations#edit
+                location GET    /locations/:id(.:format)                   locations#show
+                         PUT    /locations/:id(.:format)                   locations#update
+                         DELETE /locations/:id(.:format)                   locations#destroy
+        event_organizers GET    /events/:event_id/organizers(.:format)     organizers#index
+                         POST   /events/:event_id/organizers(.:format)     organizers#create
+         event_organizer DELETE /events/:event_id/organizers/:id(.:format) organizers#destroy
+                  events GET    /events(.:format)                          events#index
+                         POST   /events(.:format)                          events#create
+               new_event GET    /events/new(.:format)                      events#new
+              edit_event GET    /events/:id/edit(.:format)                 events#edit
+                   event GET    /events/:id(.:format)                      events#show
+                         PUT    /events/:id(.:format)                      events#update
+                         DELETE /events/:id(.:format)                      events#destroy
+         volunteer_rsvps POST   /volunteer_rsvps(.:format)                 volunteer_rsvps#create
+          volunteer_rsvp PUT    /volunteer_rsvps/:id(.:format)             volunteer_rsvps#update
+         volunteersearch        /volunteer/search(.:format)                volunteer_rsvps#index
+                    root        /                                          events#index
+        new_user_session GET    /users/sign_in(.:format)                   devise/sessions#new
+            user_session POST   /users/sign_in(.:format)                   devise/sessions#create
+    destroy_user_session DELETE /users/sign_out(.:format)                  devise/sessions#destroy
+           user_password POST   /users/password(.:format)                  devise/passwords#create
+       new_user_password GET    /users/password/new(.:format)              devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format)             devise/passwords#edit
+                         PUT    /users/password(.:format)                  devise/passwords#update
+cancel_user_registration GET    /users/cancel(.:format)                    devise/registrations#cancel
+       user_registration POST   /users(.:format)                           devise/registrations#create
+   new_user_registration GET    /users/sign_up(.:format)                   devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)                      devise/registrations#edit
+                         PUT    /users(.:format)                           devise/registrations#update
+                         DELETE /users(.:format)                           devise/registrations#destroy
+       user_confirmation POST   /users/confirmation(.:format)              devise/confirmations#create
+   new_user_confirmation GET    /users/confirmation/new(.:format)          devise/confirmations#new
+                         GET    /users/confirmation(.:format)              devise/confirmations#show
+           user_profiles POST   /users/:user_id/profiles(.:format)         profiles#create
+       new_user_profiles GET    /users/:user_id/profiles/new(.:format)     profiles#new
+      edit_user_profiles GET    /users/:user_id/profiles/edit(.:format)    profiles#edit
+                         GET    /users/:user_id/profiles(.:format)         profiles#show
+                         PUT    /users/:user_id/profiles(.:format)         profiles#update
+                         DELETE /users/:user_id/profiles(.:format)         profiles#destroy
+                   users GET    /users(.:format)                           users#index
+                         POST   /users(.:format)                           users#create
+                new_user GET    /users/new(.:format)                       users#new
+               edit_user GET    /users/:id/edit(.:format)                  users#edit
+                    user GET    /users/:id(.:format)                       users#show
+                         PUT    /users/:id(.:format)                       users#update
+                         DELETE /users/:id(.:format)                       users#destroy
+               locations GET    /locations(.:format)                       locations#index
+                         POST   /locations(.:format)                       locations#create
+            new_location GET    /locations/new(.:format)                   locations#new
+           edit_location GET    /locations/:id/edit(.:format)              locations#edit
+                location GET    /locations/:id(.:format)                   locations#show
+                         PUT    /locations/:id(.:format)                   locations#update
+                         DELETE /locations/:id(.:format)                   locations#destroy
+        event_organizers GET    /events/:event_id/organizers(.:format)     organizers#index
+                         POST   /events/:event_id/organizers(.:format)     organizers#create
+         event_organizer DELETE /events/:event_id/organizers/:id(.:format) organizers#destroy
+                  events GET    /events(.:format)                          events#index
+                         POST   /events(.:format)                          events#create
+               new_event GET    /events/new(.:format)                      events#new
+              edit_event GET    /events/:id/edit(.:format)                 events#edit
+                   event GET    /events/:id(.:format)                      events#show
+                         PUT    /events/:id(.:format)                      events#update
+                         DELETE /events/:id(.:format)                      events#destroy
+         volunteer_rsvps POST   /volunteer_rsvps(.:format)                 volunteer_rsvps#create
+          volunteer_rsvp PUT    /volunteer_rsvps/:id(.:format)             volunteer_rsvps#update
+         volunteersearch        /volunteer/search(.:format)                volunteer_rsvps#index
+                    root        /                                          events#index
+        new_user_session GET    /users/sign_in(.:format)                   devise/sessions#new
+            user_session POST   /users/sign_in(.:format)                   devise/sessions#create
+    destroy_user_session DELETE /users/sign_out(.:format)                  devise/sessions#destroy
+           user_password POST   /users/password(.:format)                  devise/passwords#create
+       new_user_password GET    /users/password/new(.:format)              devise/passwords#new
+      edit_user_password GET    /users/password/edit(.:format)             devise/passwords#edit
+                         PUT    /users/password(.:format)                  devise/passwords#update
+cancel_user_registration GET    /users/cancel(.:format)                    devise/registrations#cancel
+       user_registration POST   /users(.:format)                           devise/registrations#create
+   new_user_registration GET    /users/sign_up(.:format)                   devise/registrations#new
+  edit_user_registration GET    /users/edit(.:format)                      devise/registrations#edit
+                         PUT    /users(.:format)                           devise/registrations#update
+                         DELETE /users(.:format)                           devise/registrations#destroy
+       user_confirmation POST   /users/confirmation(.:format)              devise/confirmations#create
+   new_user_confirmation GET    /users/confirmation/new(.:format)          devise/confirmations#new
+                         GET    /users/confirmation(.:format)              devise/confirmations#show
+            user_profile POST   /users/:user_id/profile(.:format)          profiles#create
+        new_user_profile GET    /users/:user_id/profile/new(.:format)      profiles#new
+       edit_user_profile GET    /users/:user_id/profile/edit(.:format)     profiles#edit
+                         GET    /users/:user_id/profile(.:format)          profiles#show
+                         PUT    /users/:user_id/profile(.:format)          profiles#update
+                         DELETE /users/:user_id/profile(.:format)          profiles#destroy
+                   users GET    /users(.:format)                           users#index
+                         POST   /users(.:format)                           users#create
+                new_user GET    /users/new(.:format)                       users#new
+               edit_user GET    /users/:id/edit(.:format)                  users#edit
+                    user GET    /users/:id(.:format)                       users#show
+                         PUT    /users/:id(.:format)                       users#update
+                         DELETE /users/:id(.:format)                       users#destroy
+               locations GET    /locations(.:format)                       locations#index
+                         POST   /locations(.:format)                       locations#create
+            new_location GET    /locations/new(.:format)                   locations#new
+           edit_location GET    /locations/:id/edit(.:format)              locations#edit
+                location GET    /locations/:id(.:format)                   locations#show
+                         PUT    /locations/:id(.:format)                   locations#update
+                         DELETE /locations/:id(.:format)                   locations#destroy
+        event_organizers GET    /events/:event_id/organizers(.:format)     organizers#index
+                         POST   /events/:event_id/organizers(.:format)     organizers#create
+         event_organizer DELETE /events/:event_id/organizers/:id(.:format) organizers#destroy
+                  events GET    /events(.:format)                          events#index
+                         POST   /events(.:format)                          events#create
+               new_event GET    /events/new(.:format)                      events#new
+              edit_event GET    /events/:id/edit(.:format)                 events#edit
+                   event GET    /events/:id(.:format)                      events#show
+                         PUT    /events/:id(.:format)                      events#update
+                         DELETE /events/:id(.:format)                      events#destroy
+         volunteer_rsvps POST   /volunteer_rsvps(.:format)                 volunteer_rsvps#create
+          volunteer_rsvp PUT    /volunteer_rsvps/:id(.:format)             volunteer_rsvps#update
+         volunteersearch        /volunteer/search(.:format)                volunteer_rsvps#index
