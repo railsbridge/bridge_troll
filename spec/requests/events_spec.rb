@@ -31,12 +31,12 @@ describe "Events" do
 
     page.should have_content("February Event")
   end
- 
+
   it "should not create an event if user is not logged in" do
     visit new_event_path
     page.should have_content("You need to sign in or sign up before continuing")
   end
-  
+
   it "should allow user to volunteer for event" do
     @user = create(:user)
 
@@ -57,9 +57,10 @@ describe "Events" do
     page.should have_content("Thanks for volunteering")
     @rsvp = VolunteerRsvp.where(:event_id=> @event_id, :user_id => @user.id).first
   end
-  
+
   it "should show list of volunteers for event" do
-    @user1 = create(:user, name: "Shirlee", hacking: true, taing: true)
+    @user1 = create(:user, name: "Shirlee")
+    profile = @user1.profile.update_attributes(:hacking => true, :taing => true)
     @user2 = create(:user)
 
     @event = Event.create!(:title => "New workshop", :date => DateTime.now + 1.fortnight, :details => "Note of type detail")
@@ -250,10 +251,14 @@ describe "Events" do
   end
 
   describe "four categories for volunteer's teaching preference" do
+
+
+
     def add_volunteer_to_event(event, attributes)
       user = create(:user, attributes)
       VolunteerRsvp.create!(user_id: user.id, event_id: event.id, attending: true)
     end
+
 
     before do
       @event =  Event.create!(:title => 'New workshop', :date => DateTime.now + 1.fortnight)
