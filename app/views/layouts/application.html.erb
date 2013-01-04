@@ -14,11 +14,10 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="btn btn-navbar" "data-target"= ".nav-collapse" "data-toggle"= "collapse">
-          </a>
+          <a class="btn btn-navbar" data-target="nav-collapse" data-toggle="collapse"></a>
           <a class="brand" href=<%= events_path %>>Bridgetroll</a>
           <div class="nav-collapse">
-            <ul class="nav", style= "float:right">
+            <ul class="nav" style= "float:right">
               <%= render :partial => "devise/menu/login_items" %>
             </ul>
           </div>
