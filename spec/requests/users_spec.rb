@@ -70,21 +70,20 @@ describe "existing user", :js => true do
 
     it "user should be able to add his/her skills" do
       click_link "Add Your Skills"
-      fill_in "user_current_password", :with=> @user.password
       page.should have_content("My Incredible Powers")
 
-      check "user_teaching"
-      check "user_taing"
-      check "user_coordinating"
-      check "user_childcaring"
-      check "user_writing"
-      check "user_hacking"
-      check "user_designing"
+      check "profile_teaching"
+      check "profile_taing"
+      check "profile_coordinating"
+      check "profile_childcaring"
+      check "profile_writing"
+      check "profile_hacking"
+      check "profile_designing"
       page.should have_content("Evangelizing")
       page.should have_content("Mentoring")
       page.should have_content("Windows")
 
-      fill_in "Other", :with => "Speaking Spanish"
+      fill_in "profile_other", :with => "Speaking Spanish"
 
       click_button "Update"
 

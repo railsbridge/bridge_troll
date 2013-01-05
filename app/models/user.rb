@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
+
+  after_create :make_empty_profile
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable, :confirmable, :timeoutable
@@ -10,9 +13,29 @@ class User < ActiveRecord::Base
   has_many :event_organizers
   has_many :organizers, :through => :event_organizers, :source => :event
 
+  has_one :profile
+
+  accepts_nested_attributes_for :profile
+
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :teaching, :taing, :coordinating, :childcaring, :writing, :hacking, :designing, :evangelizing, :mentoring, :macosx, :windows, :linux, :other
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :profile, :profile_attributes
+
   validates :name,  presence: true
+
+  delegate :childcaring,
+           :coordinating,
+           :designing,
+           :evangelizing,
+           :hacking,
+           :linux,
+           :macosx,
+           :mentoring,
+           :other,
+           :taing,
+           :teaching,
+           :windows,
+           :writing,
+           :to => :profile
 
   def self.not_assigned_as_organizer(event)
     users = order('name asc, email asc')
@@ -20,18 +43,26 @@ class User < ActiveRecord::Base
   end
 
   def teaching_and_taing?
-    teaching? && taing?
+    self.profile.teaching? && self.profile.taing?
   end
 
   def teaching_only?
-    teaching? && !taing?
+    self.profile.teaching? && !self.profile.taing?
   end
 
   def taing_only?
-    taing? && !teaching?
+    self.profile.taing? && !self.profile.teaching?
   end
 
   def neither_teaching_nor_taing?
-    !taing? && !teaching?
+    !self.profile.taing? && !self.profile.teaching?
   end
+
+
+  private
+  def make_empty_profile
+    self.build_profile
+    self.profile.save
+  end
+
 end

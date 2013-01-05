@@ -1,0 +1,62 @@
+<%= form_for([@user, @profile],  :url => {:action => "update"}, :html => {:class => "form-horizontal"} ) do |f| %>
+    <h3>Skills</h3>
+
+    <label class="checkbox">Writing
+      <%= f.check_box :writing, :class => "checkbox" %>
+    </label>
+
+    <label class="checkbox">Teaching
+      <%= f.check_box :teaching %>
+    </label>
+
+    <label class="checkbox">Teacher Assistant
+      <%= f.check_box :taing %>
+    </label>
+
+    <label class="checkbox">Coordinating
+      <%= f.check_box :coordinating %>
+    </label>
+
+    <label class="checkbox">Childcare
+      <%= f.check_box :childcaring %>
+    </label>
+
+    <label class="checkbox">Hacking
+      <%= f.check_box :hacking %>
+    </label>
+
+    <label class="checkbox">Designing
+      <%= f.check_box :designing %>
+    </label>
+
+    <label class="checkbox">Evangelizing
+      <%= f.check_box :evangelizing %>
+    </label>
+
+    <label class="checkbox">Mentoring
+      <%= f.check_box :mentoring %>
+    </label>
+
+    <label class="checkbox">Mac OS X
+      <%= f.check_box :macosx %>
+    </label>
+
+    <label class="checkbox">Windows
+      <%= f.check_box :windows %>
+    </label>
+
+    <label class="checkbox">Linux
+      <%= f.check_box :linux %>
+    </label>
+
+    <div>
+      <%= f.label :other %>
+      <%= f.text_area :other, :rows => 3 %>
+    </div>
+    <br />
+
+    <div><%= f.submit "Update" %></div>
+<% end %>
+
+<%= link_to "Back", :back %>
+

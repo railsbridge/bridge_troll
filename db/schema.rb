@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121223185427) do
+ActiveRecord::Schema.define(:version => 20130102185450) do
 
   create_table "event_organizers", :force => true do |t|
     t.integer  "user_id"
@@ -36,6 +36,25 @@ ActiveRecord::Schema.define(:version => 20121223185427) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "profiles", :force => true do |t|
+    t.integer  "user_id"
+    t.boolean  "teaching"
+    t.boolean  "taing"
+    t.boolean  "coordinating"
+    t.boolean  "childcaring"
+    t.boolean  "writing"
+    t.boolean  "hacking"
+    t.boolean  "designing"
+    t.boolean  "evangelizing"
+    t.boolean  "mentoring"
+    t.boolean  "macosx"
+    t.boolean  "windows"
+    t.boolean  "linux"
+    t.text     "other"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "roles", :force => true do |t|
     t.string   "title"
     t.datetime "created_at", :null => false
@@ -58,19 +77,6 @@ ActiveRecord::Schema.define(:version => 20121223185427) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
-    t.boolean  "teaching"
-    t.boolean  "taing"
-    t.boolean  "coordinating"
-    t.boolean  "childcaring"
-    t.boolean  "writing"
-    t.boolean  "hacking"
-    t.boolean  "designing"
-    t.boolean  "evangelizing"
-    t.boolean  "mentoring"
-    t.boolean  "macosx"
-    t.boolean  "windows"
-    t.boolean  "linux"
-    t.string   "other"
     t.string   "name"
     t.boolean  "admin",                  :default => false
   end
