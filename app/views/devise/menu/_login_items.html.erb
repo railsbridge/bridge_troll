@@ -10,8 +10,11 @@
     <%= link_to "Sign Up", new_user_registration_path %>
   <% end %>
 </li>
-<li>
-  <% if user_signed_in? %>
-    <%= link_to 'Add Your Skills',edit_user_registration_path %>
-  <% end %>
-</li>
+<% if user_signed_in? %>
+    <li>
+      <%= link_to 'Account',edit_user_registration_path %>
+    </li>
+    <li>
+      <%= link_to 'Add Your Skills', edit_user_profile_path(current_user.id) %>
+    </li>
+<% end %>

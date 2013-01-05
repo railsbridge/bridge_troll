@@ -59,7 +59,8 @@ describe "Events" do
   end
   
   it "should show list of volunteers for event" do
-    @user1 = create(:user, name: "Shirlee", hacking: true, taing: true)
+    @user1 = create(:user, name: "Shirlee")
+    @user1.profile.update_attributes(:hacking => true, :taing => true)
     @user2 = create(:user)
 
     @event = Event.create!(:title => "New workshop", :date => DateTime.now + 1.fortnight, :details => "Note of type detail")
@@ -251,7 +252,8 @@ describe "Events" do
 
   describe "four categories for volunteer's teaching preference" do
     def add_volunteer_to_event(event, attributes)
-      user = create(:user, attributes)
+      user = create(:user)
+      user.profile.update_attributes(attributes)
       VolunteerRsvp.create!(user_id: user.id, event_id: event.id, attending: true)
     end
 
