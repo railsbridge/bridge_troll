@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 describe "new user", :js => true do
   it "should be able to signup" do
     @user = User.new(:name=>"Anne", :email=>"example@example.com", :password=>"booboo")
@@ -87,18 +86,19 @@ describe "existing user", :js => true do
 
       click_button "Update"
 
-      @user = User.find(@user.id)
+      user = User.find(@user.id)
+      profile = user.profile
 
-      @user.teaching.should be_true
-      @user.taing.should be_true
-      @user.coordinating.should be_true
-      @user.childcaring.should be_true
-      @user.writing.should be_true
-      @user.hacking.should be_true
-      @user.designing.should be_true
-      @user.evangelizing.should be_false
-      @user.mentoring.should be_false
-      @user.other.should == "Speaking Spanish"
+      profile.teaching.should be_true
+      profile.taing.should be_true
+      profile.coordinating.should be_true
+      profile.childcaring.should be_true
+      profile.writing.should be_true
+      profile.hacking.should be_true
+      profile.designing.should be_true
+      profile.evangelizing.should be_false
+      profile.mentoring.should be_false
+      profile.other.should == "Speaking Spanish"
     end
   end
 end

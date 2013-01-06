@@ -15,27 +15,9 @@ class User < ActiveRecord::Base
 
   has_one :profile
 
-  accepts_nested_attributes_for :profile
-
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :profile, :profile_attributes
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
 
   validates :name,  presence: true
-
-  delegate :childcaring,
-           :coordinating,
-           :designing,
-           :evangelizing,
-           :hacking,
-           :linux,
-           :macosx,
-           :mentoring,
-           :other,
-           :taing,
-           :teaching,
-           :windows,
-           :writing,
-           :to => :profile
 
   def self.not_assigned_as_organizer(event)
     users = order('name asc, email asc')
@@ -43,26 +25,25 @@ class User < ActiveRecord::Base
   end
 
   def teaching_and_taing?
-    self.profile.teaching? && self.profile.taing?
+    profile.teaching? && profile.taing?
   end
 
   def teaching_only?
-    self.profile.teaching? && !self.profile.taing?
+    profile.teaching? && !profile.taing?
   end
 
   def taing_only?
-    self.profile.taing? && !self.profile.teaching?
+    profile.taing? && !profile.teaching?
   end
 
   def neither_teaching_nor_taing?
-    !self.profile.taing? && !self.profile.teaching?
+    !profile.taing? && !profile.teaching?
   end
 
-
   private
+
   def make_empty_profile
     self.build_profile
     self.profile.save
   end
-
 end

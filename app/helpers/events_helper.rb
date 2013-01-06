@@ -1,18 +1,19 @@
 module EventsHelper
   def get_volunteer_skills(volunteer)
+    profile = volunteer.profile
     @skills = []
-    @skills << 'Teaching'     if(volunteer.teaching)
-    @skills << 'TA-ing'       if(volunteer.taing)
-    @skills << 'Coordinating' if(volunteer.coordinating)
-    @skills << 'Childcare'    if(volunteer.childcaring)
-    @skills << 'Writing'      if(volunteer.writing)
-    @skills << 'Hacking'      if(volunteer.hacking)
-    @skills << 'Designing'    if(volunteer.designing)
-    @skills << 'Evangelizing' if(volunteer.evangelizing)
-    @skills << 'Mentoring'    if(volunteer.mentoring)
-    @skills << 'Mac OS X'     if(volunteer.macosx)
-    @skills << 'Windows'      if(volunteer.windows)
-    @skills << 'Linux'        if(volunteer.linux)
+    @skills << 'Teaching'     if(profile.teaching)
+    @skills << 'TA-ing'       if(profile.taing)
+    @skills << 'Coordinating' if(profile.coordinating)
+    @skills << 'Childcare'    if(profile.childcaring)
+    @skills << 'Writing'      if(profile.writing)
+    @skills << 'Hacking'      if(profile.hacking)
+    @skills << 'Designing'    if(profile.designing)
+    @skills << 'Evangelizing' if(profile.evangelizing)
+    @skills << 'Mentoring'    if(profile.mentoring)
+    @skills << 'Mac OS X'     if(profile.macosx)
+    @skills << 'Windows'      if(profile.windows)
+    @skills << 'Linux'        if(profile.linux)
     @skills.join(', ')
   end
 
