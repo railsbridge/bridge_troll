@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe VolunteerRsvpsController do
   before do
-    @event = create(:event)
+    @event = create(:event, title: 'The Best Railsbridge')
   end
 
   describe "#create" do
@@ -86,7 +86,7 @@ describe VolunteerRsvpsController do
 
   end
 
-  describe "#update" do
+  describe "#destroy" do
     before do
       @user = create(:user)
       sign_in @user
@@ -96,27 +96,24 @@ describe VolunteerRsvpsController do
       before do
         @rsvp = VolunteerRsvp.create(:event_id => @event.id, :user_id => @user.id, :attending => true)
       end
-      it "should change the attending attribute on the rsvp to false" do
+      it "should destroy the rsvp" do
         expect {
-          put :update, { :id => @rsvp.id }
-        }.to change {VolunteerRsvp.count }.by(0)
-        @rsvp.reload.attending.should be_false
-        flash[:notice].should match(/Sorry to hear you can not volunteer. We hope you can make it to our next event/i)
+          delete :destroy, { :id => @rsvp.id }
+        }.to change {VolunteerRsvp.count }.by(-1)
+        expect {
+          @rsvp.reload
+        }.to raise_error(ActiveRecord::RecordNotFound)
+        flash[:notice].should match(/no longer signed up.*The Best Railsbridge/i)
       end
     end
 
     context "there is no rsvp record for this user at this event" do
-      before do
-        @rsvp = VolunteerRsvp.create(:event_id => @event.id, :user_id => @user.id, :attending => false)
-      end
       it "should notify the user s/he has not signed up to volunteer for the event" do
         expect {
-          put :update, { :id => @rsvp.id }
+          delete :destroy, { :id => 29101 }
         }.to change {VolunteerRsvp.count }.by(0)
-        @rsvp.reload.attending.should be_false
         flash[:notice].should match(/You are not signed up to volunteer/i)
       end
     end
-
   end
 end

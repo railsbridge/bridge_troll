@@ -13,8 +13,5 @@ Bridgetroll::Application.routes.draw do
     resources :organizers, :only => [:index, :create, :destroy]
   end
 
-  resources :volunteer_rsvps, :only => [:create,:update]
-
-  match 'volunteer/search', :to => 'volunteer_rsvps#index', :as => :volunteersearch
- 
+  resources :volunteer_rsvps, :only => [:create,:destroy]
 end
