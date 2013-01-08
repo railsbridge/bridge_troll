@@ -2,11 +2,12 @@ require 'spec_helper'
 
 describe "new user", :js => true do
   it "should be able to signup" do
-    @user = User.new(:name=>"Anne", :email=>"example@example.com", :password=>"booboo")
+    @user = User.new(:first_name=>"Anne", :last_name =>"Hall", :email=>"example@example.com", :password=>"booboo")
 
     visit new_user_registration_path
 
-    fill_in "Name", :with => @user.name
+    fill_in "user_first_name", :with => @user.first_name
+    fill_in "user_last_name",  :with => @user.last_name
     fill_in "Email", :with => @user.email
     fill_in "Password", :with => @user.password
     fill_in "Password confirmation", :with => @user.password

@@ -59,7 +59,7 @@ describe "Events" do
   end
   
   it "should show list of volunteers for event" do
-    @user1 = create(:user, name: "Shirlee")
+    @user1 = create(:user, first_name: "Shirlee", last_name: "Smith")
     @user1.profile.update_attributes(:hacking => true, :taing => true)
     @user2 = create(:user)
 
@@ -70,8 +70,8 @@ describe "Events" do
     visit '/events/' + @event.id.to_s
 
     page.should have_content("Volunteers")
-    page.should have_content(@user1.name)
-    page.should_not have_content(@user2.name)
+    page.should have_content("#{@user1.full_name}")
+    page.should_not have_content(@user2.full_name)
   end
 
   it "should not display the Manage Organizers link if the user is not an organizer for the event" do
@@ -170,7 +170,7 @@ describe "Events" do
 
   it "should display 'Organizer:' and the organizers name if the event has only one organizer" do
     @event = create(:event, title: "Pick Me")
-    @user = create(:user, name: "Sam Spade")
+    @user = create(:user, first_name: "Sam", last_name: "Spade")
     @event.organizers << @user
 
     visit '/events'
@@ -181,8 +181,8 @@ describe "Events" do
 
   it "should display 'Organizers:' and the organizers names if the event has more than one organizer" do
     @event = create(:event, title: "Pick Me")
-    @user1 = create(:user, name: "Sam Spade")
-    @user2 = create(:user, name: "Joel Cairo")
+    @user1 = create(:user, first_name: "Sam", last_name: "Spade")
+    @user2 = create(:user, first_name: "Joel", last_name: "Cairo")
     @event.organizers << @user1
     @event.organizers << @user2
 
@@ -195,8 +195,8 @@ describe "Events" do
 
   describe "organizer vs. non-organizer differences" do
     before do
-      @user1 = create(:user, email: "user1@mail.com", name: "Sam Spade")
-      @user2 = create(:user, email: "user2@mail.com", name: "Joe Cairo")
+      @user1 = create(:user, email: "user1@mail.com", first_name: "Sam", last_name: "Spade")
+      @user2 = create(:user, email: "user2@mail.com", first_name: "Joel", last_name: "Cairo")
 
       @user1.update_attributes(:hacking => true, :teaching => true)
       @user2.update_attributes(:hacking => true, :taing    => true)
@@ -212,7 +212,7 @@ describe "Events" do
       visit '/events/' + @event.id.to_s
 
       page.should_not have_content(@user1.email)
-      page.should have_content(@user1.name)
+      page.should have_content("#{@user1.full_name}")
     end
 
     it "should display the email addresses of volunteers for an organizer" do
@@ -224,7 +224,7 @@ describe "Events" do
       visit '/events/' + @event.id.to_s
 
       page.should have_content(@user1.email)
-      page.should have_content(@user1.name)
+      page.should have_content("#{@user1.full_name}")
     end
 
     it "should not display the teaching preference to a non-organizer" do
@@ -232,8 +232,8 @@ describe "Events" do
 
       page.should_not have_content("Willing to Teach:")
       page.should_not have_content("Willing to TA:")
-      page.should_not have_content("#{@user1.name} - #{@user1.email}")
-      page.should_not have_content("#{@user2.name} - #{@user2.email}")
+      page.should_not have_content("#{@user1.full_name} - #{@user1.email}")
+      page.should_not have_content("#{@user2.full_name} - #{@user2.email}")
     end
 
     it "should display the teaching preference to an organizer" do
@@ -245,8 +245,8 @@ describe "Events" do
       visit '/events/' + @event.id.to_s
       page.should have_content("Willing to Teach:")
       page.should have_content("Willing to TA:")
-      page.should have_content("#{@user1.name} - #{@user1.email}")
-      page.should have_content("#{@user2.name} - #{@user2.email}")
+      page.should have_content("#{@user1.full_name} - #{@user1.email}")
+      page.should have_content("#{@user2.full_name} - #{@user2.email}")
     end
   end
 

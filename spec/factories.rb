@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :user do
-    name "Anne"
+    first_name "Anne"
+    last_name "Hall"
     sequence(:email) { |n| "example0#{n}@example.com"}
     confirmed_at DateTime.now # all users are confirmed by default
     password "test123"
