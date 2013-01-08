@@ -17,10 +17,14 @@
 
     <strong><%= organizer_title %></strong> <br />
     <ul>
-      <% organizer_list.each do |organizer| %>
-        <li>
-          <%= organizer[:name] %>
-        </li>
+      <% if organizer_list.length > 0 %>
+        <% organizer_list.each do |organizer| %>
+          <li>
+            <%= organizer.full_name %>
+          </li>
+        <% end %>
+      <% else %>
+        <li> No Organizer Assigned </li>
       <% end %>
     </ul>
 
@@ -57,7 +61,7 @@
         <tbody>
         <% @event.volunteers.each do |volunteer| %>
             <tr>
-              <td><%= volunteer.name %></td>
+              <td><%= volunteer.full_name %></td>
               <% if @organizer  %>
                 <td><%= volunteer.email %></td>
               <% end %>

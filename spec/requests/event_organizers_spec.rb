@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe "Event Organizers" do
   before do
-    @user_organizer = create(:user, email: "orgainzer@mail.com", name: "Sam Spade")
-    @user1 = create(:user, email: "user1@mail.com", name: "Joe Cairo")
+    @user_organizer = create(:user, email: "orgainzer@mail.com", first_name: "Sam", last_name: "Spade")
+    @user1 = create(:user, email: "user1@mail.com", first_name: "Joe", last_name: "Cairo")
 
     @user1.update_attributes(:hacking => true, :teaching => true)
 
@@ -75,6 +75,6 @@ describe "Event Organizers" do
 
     removed_user = find("option[#{@user1.id.to_s}]")
     removed_user.value.should eq(@user1.id.to_s)
-    removed_user.text.should eq(@user1.name)
+    removed_user.text.should eq(@user1.full_name)
   end
 end

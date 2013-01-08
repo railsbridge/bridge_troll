@@ -2,22 +2,32 @@ require 'spec_helper'
 
 describe User do
 
-    before { @user = create(:user, :name=>"Anne") }
+    before { @user = create(:user, :first_name=>"Anne", :last_name => "Hall") }
 
     subject { @user }
 
-    it { should respond_to(:name) }
+    it { should respond_to(:first_name) }
+    it { should respond_to(:last_name) }
     it { should respond_to(:email) }
     it { should respond_to(:admin) }
     it { should be_valid }
     it { should_not be_admin }
     
-    it "should return name" do
-      @user.name.should == "Anne"
+    it "should return first_name" do
+      @user.first_name.should == "Anne"
     end
-    
-    describe "when name is not present" do
-      before { @user.name = " " }
+
+    it "should return last_name" do
+      @user.last_name.should == "Hall"
+    end
+
+    describe "when first_name is not present" do
+      before { @user.first_name = " " }
+      it { should_not be_valid }
+    end
+
+    describe "when last_name is not present" do
+      before { @user.last_name = " " }
       it { should_not be_valid }
     end
     
@@ -44,5 +54,9 @@ describe User do
 
     it "should create a profile linked to the user" do
       Profile.last.user_id.should == @user.id
+    end
+
+    it "should return the user's full name" do
+      @user.full_name.should == "Anne Hall"
     end
 end
