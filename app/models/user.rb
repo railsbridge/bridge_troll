@@ -15,12 +15,12 @@ class User < ActiveRecord::Base
 
   has_one :profile
 
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me
 
-  validates :name,  presence: true
+  validates_presence_of :first_name, :last_name
 
   def self.not_assigned_as_organizer(event)
-    users = order('name asc, email asc')
+    users = order('last_name asc, first_name asc, email asc')
     users - event.organizers
   end
 
@@ -38,6 +38,10 @@ class User < ActiveRecord::Base
 
   def neither_teaching_nor_taing?
     !profile.taing? && !profile.teaching?
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
   end
 
   private

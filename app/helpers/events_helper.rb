@@ -38,18 +38,19 @@ module EventsHelper
   end
 
   def organizer_list
-    @event.organizers.length == 0 ?  [{:name => "No Organizer Assigned"}] : @event.organizers
+    @event.organizers.length == 0 ?  [] : @event.organizers
   end
 
   def partitioned_volunteer_list(volunteers, type)
-    partition = volunteers.select(&type)
+    partition = volunteers.select(&type)   # partition = volunteers.select {|volunteer| volunteer.send(type)}
+
     content_tag "ol" do
       partition.map { |v| partitioned_volunteer_tag(v) }.join('').html_safe
     end
   end
 
   def partitioned_volunteer_tag(volunteer)
-    content_tag "li","#{volunteer.name} - #{volunteer.email}", :class => volunteer_class(volunteer)
+    content_tag "li","#{volunteer.full_name} - #{volunteer.email}", :class => volunteer_class(volunteer)
   end
 
   private

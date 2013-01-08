@@ -9,7 +9,7 @@
 
 <h5>Users</h5>
 <%= form_tag(event_organizers_path(@event), :method => :post)  do %>
-    <%= select("event_organizer", "user_id", @users.collect {|u| [ u.name, u.id ] }, {:include_blank => ''}) %>
+    <%= select("event_organizer", "user_id", @users.collect {|u| [ u.full_name, u.id ] }, {:include_blank => ''}) %>
     <%= submit_tag "Assign", :class => "btn btn-primary" %>
     <%= hidden_field_tag "[event_organizer]event_id", @event.id%>
 <% end %>
@@ -26,7 +26,7 @@
   <tbody>
   <% @organizers.each do |organizer|  %>
       <tr>
-        <td><%= organizer.user.name %></td>
+        <td><%= organizer.user.full_name %></td>
         <td><%= organizer.user.email %></td>
         <% if organizer.user_id != current_user.id %>
             <td><%= button_to 'Remove', event_organizer_path(@event, organizer), method: :delete,
