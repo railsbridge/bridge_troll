@@ -7,13 +7,13 @@ describe Event do
   end
 
   it { should validate_presence_of(:title) }
-  it { should validate_presence_of(:date) }
   
   it { should belong_to(:location) }
   it { should have_many(:volunteer_rsvps) }
   it { should have_many(:volunteers).through(:volunteer_rsvps) }
   it { should have_many(:event_organizers) }
   it { should have_many(:organizers).through(:event_organizers) }
+  it { should have_many(:event_sessions) }
 
   describe "#volunteering?" do
     it "is true when a user is volunteering at an event" do
@@ -34,26 +34,26 @@ describe Event do
 
   describe ".upcoming" do
     before do
-      @event_past = create(:event, :date => Date.yesterday)
-      @event_future = create(:event, :date => Date.tomorrow)
-      @event_beginning_of_today = create(:event, :date => Time.now.utc.beginning_of_day)
-      @event_end_of_yesterday = create(:event, :date => Time.now.utc.beginning_of_day - 1)
+      @event_past = create(:event)
+      create(:event_session, event: @event_past, starts_at: 4.weeks.ago, ends_at: 3.weeks.ago)
+      
+      @event_future = create(:event)
+      create(:event_session, event: @event_future, starts_at: 3.weeks.from_now, ends_at: 4.weeks.from_now)
+      
+      @event_in_progress = create(:event)
+      create(:event_session, event: @event_in_progress, starts_at: 2.days.ago, ends_at: 2.days.from_now)
     end
   
-    it "should not include events earlier than today" do
+    it "should not include events that have already ended" do
       Event.upcoming.should_not include(@event_past)
     end
   
-    it "should include events later than today" do
+    it "should include events that have not started" do
       Event.upcoming.should include(@event_future)
     end
   
-    it "should include events from earlier today" do           # edge case to pass
-      Event.upcoming.should include(@event_beginning_of_today)
-    end
-  
-    it "should not include events from end of yesterday" do     # edge case to fail
-      Event.upcoming.should_not include(@event_end_of_yesterday)
+    it "should include events in progress" do 
+      Event.upcoming.should include(@event_in_progress)
     end
   end
 end

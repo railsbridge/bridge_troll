@@ -6,12 +6,14 @@ class Event < ActiveRecord::Base
   has_many :volunteers, :through => :volunteer_rsvps, :source => :user
   has_many :event_organizers
   has_many :organizers, :through => :event_organizers, :source => :user
+  has_many :event_sessions
 
   validates_presence_of :title
-  validates_presence_of :date
 
-  scope :upcoming, lambda { where('date >= ?', Time.now.utc.beginning_of_day) }
-
+  def self.upcoming
+    include(:event_sessions).where('event_sessions.starts_at >= ?', Time.now.utc.beginning_of_day)
+  end
+  
   def rsvp_for_user(user)
     self.volunteer_rsvps.find_by_user_id(user.id)
   end

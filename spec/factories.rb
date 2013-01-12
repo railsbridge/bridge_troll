@@ -9,12 +9,16 @@ FactoryGirl.define do
 
   factory :event do
     sequence(:title) { |n| "Event #{n}" }
-    date DateTime.now
     details "This is note in the details attribute."
   end
 
   factory :location do
     sequence(:name) { |n| "Location #{n}" }
     sequence(:address) { |n| "#{n} Street San Francisco, CA 94108" }
+  end
+  
+  factory :event_session do
+    starts_at DateTime.now
+    ends_at (DateTime.now + 1.day)
   end
 end

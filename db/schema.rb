@@ -24,9 +24,9 @@ ActiveRecord::Schema.define(:version => 20130106232216) do
     t.string   "title"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.datetime "date"
     t.integer  "location_id"
     t.text     "details"
+    t.datetime "date"
   end
 
   create_table "locations", :force => true do |t|
