@@ -21,6 +21,7 @@ describe Event do
 
     event.event_sessions << EventSession.new(starts_at: Time.now, ends_at: 2.hours.from_now)
     event.should be_valid
+
   end
 
   it "must have a time zone" do
