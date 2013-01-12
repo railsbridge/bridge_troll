@@ -12,9 +12,10 @@
     <% end %>
   </p>
 
-  <strong>Details:</strong> <br />
-  <p><%= @event.details %></p>
-
+  <div class="details">
+    <strong>Details:</strong> <br />
+    <%= simple_format(@event.details) %>
+  </div>
     <strong><%= organizer_title %></strong> <br />
     <ul>
       <% if organizer_list.length > 0 %>
