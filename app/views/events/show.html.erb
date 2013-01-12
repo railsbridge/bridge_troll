@@ -2,10 +2,10 @@
   <strong>When:</strong>
 
   <ul>
-	<% @event.days.each do |day| %>
-      <li><%= format_date(day.date) %><br />
-		  Start time: <%= format_time(day.start_time) %><br />
-          End time: <%= format_time(day.end_time) %></li>
+	<% @event.event_sessions.each do |event_session| %>
+      <li><%= format_date(event_session.starts_at) %><br />
+		  Start time: <%= format_time(event_session.starts_at) %><br />
+          End time: <%= format_time(event_session.ends_at) %></li>
     <% end %>
   </ul>
   
@@ -20,9 +20,10 @@
     <% end %>
   </p>
 
-  <strong>Details:</strong> <br />
-  <p><%= @event.details %></p>
-
+  <div class="details">
+    <strong>Details:</strong> <br />
+    <%= simple_format(@event.details) %>
+  </div>
     <strong><%= organizer_title %></strong> <br />
     <ul>
       <% if organizer_list.length > 0 %>

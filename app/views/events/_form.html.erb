@@ -16,15 +16,13 @@
     <%= f.text_field :title %>
   </div>
   <div class="field days">
-	<%= f.fields_for :days do |days_form| %>
-	  <%= days_form.label :date %><br />
-	  <%= days_form.date_select :date, {}, :class => "input-small event_date" %>
-	  <%= days_form.label :start_time %><br />
-	  <%= days_form.time_select :start_time, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
-	  <%= days_form.label :end_time %><br />
-	  <%= days_form.time_select :end_time, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
+	<%= f.fields_for :event_sessions do |days_form| %>
+	  <%= days_form.label :starts_at %><br />
+	  <%= days_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
+	  <%= days_form.label :ends_at %><br />
+	  <%= days_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
 	<% end %>
-	<p><%= f.link_to_add "Add a day", :days, :id => 'add_day' %></p>
+	<p><%= f.link_to_add "Add a day", :event_sessions, :id => 'add_day' %></p>
   </div>
   <div class="field">
     <%= f.label :location_id %><br />

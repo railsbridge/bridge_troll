@@ -6,13 +6,16 @@ class Event < ActiveRecord::Base
   has_many :volunteers, :through => :volunteer_rsvps, :source => :user
   has_many :event_organizers
   has_many :organizers, :through => :event_organizers, :source => :user
-  has_many :days
-  accepts_nested_attributes_for :days, :allow_destroy => true
+
+  has_many :event_sessions  
+  accepts_nested_attributes_for :event_sessions, :allow_destroy => true
 
   validates_presence_of :title
 
-  scope :upcoming, lambda { where('date >= ?', Time.now.utc.beginning_of_day) }
-
+  def self.upcoming
+    includes(:event_sessions).where('event_sessions.ends_at > ?', Time.now.utc)
+  end
+  
   def rsvp_for_user(user)
     self.volunteer_rsvps.find_by_user_id(user.id)
   end
