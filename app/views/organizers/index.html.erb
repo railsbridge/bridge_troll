@@ -2,7 +2,7 @@
 <br />
 <h4>Event: <%= link_to " #{@event.title}", event_path(@event)%></h4>
 <h4>
-  <%= "When: #{l @event.date.localtime, :format => :date_as_ymd} #{l @event.date.localtime, :format => :time_as_hm_ampm}" %>
+  <%= "When: #{l @event.event_sessions.first.starts_at.localtime, :format => :date_as_ymd} #{l @event.event_sessions.first.starts_at.localtime, :format => :time_as_hm_ampm}" %>
 </h4>
 <br /><br />
 

@@ -7,7 +7,8 @@ describe "Event Organizers" do
 
     @user1.update_attributes(:hacking => true, :teaching => true)
 
-    @event = Event.create!(:title => 'New workshop', :date => DateTime.now + 1.fortnight)
+    @event = Event.create!(:title => 'New workshop')
+    create(:event_session, event: @event, starts_at: 2.weeks.from_now, ends_at: 3.weeks.from_now)
 
     @rsvp1 = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
 
