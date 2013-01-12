@@ -29,8 +29,7 @@ describe EventsController do
       it "should be able to create a new event" do
         get :new
         response.should be_success
-
-        expect { post :create, :event => {:title => "Fabulous Event", :date => Time.now + 1.fortnight} }.
+        expect { post :create, :event => build(:event).attributes }.
             to change(Event, :count).by(1)
       end
       it "should be not be able to edit an event the user is not an organizer of" do
