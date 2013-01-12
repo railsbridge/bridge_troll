@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Events" do
+describe "Events", :js => true do
   it "listing should show blank Location if no location_id exists" do
     create(:location, :name => 'locname')
     create(:event, :location_id => nil, :title => 'mytitle')
@@ -18,8 +18,16 @@ describe "Events" do
     click_link "New Event"
 
     fill_in "Title", :with=>"February Event"
-    select "February",:from =>"event[date(2i)]"
-    select (Time.now.year + 1).to_s,:from =>"event[date(1i)]"   # so it will be "upcoming"
+    click_link "#add_day"
+    within ".days" do
+      find('.event_date')[0].select "2015"
+      find('.event_date')[1].select "January"
+      find('.event_date')[2].select "12"
+      find('.start_time')[0].select "03 PM"
+      find('.start_time')[1].select "15"
+      find('.end_time')[0].select "06 PM"
+      find('.end_time')[1].select "30"
+    end
     fill_in "event_details", :with => details_note
     click_button "Create Event"
 
