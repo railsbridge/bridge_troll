@@ -8,9 +8,9 @@ describe "Events" do
     page.should have_content('Upcoming events')
   end
 
-  it "should create a new event" do
+  it "creates a new event" do
     @user = create(:user)
-    details_note = "This is a note in the detail text box"
+    details_note = "This is a note in the detail text box\n With a new line!"
 
     sign_in_as(@user)
 
@@ -25,7 +25,8 @@ describe "Events" do
 
     page.should have_content("February Event")
     page.should have_content("This event currently has no location!")
-    page.should have_content(details_note)
+    page.should have_content("This is a note in the detail text box")
+    page.should have_css(".details p", text: 'With a new line!')
 
     visit events_path
 
