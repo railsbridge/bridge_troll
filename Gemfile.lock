@@ -95,6 +95,7 @@ GEM
     mocha (0.10.5)
       metaclass (~> 0.0.1)
     multi_json (1.5.0)
+    nested_form (0.3.1)
     nokogiri (1.5.5)
     orm_adapter (0.4.0)
     pg (0.14.1)
@@ -193,6 +194,7 @@ DEPENDENCIES
   factory_girl_rails
   jquery-rails
   launchy
+  nested_form
   pg
   poltergeist
   quiet_assets

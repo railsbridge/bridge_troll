@@ -1,4 +1,4 @@
-<%= form_for(@event) do |f| %>
+<%= nested_form_for @event do |f| %>
   <% if @event.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
@@ -16,8 +16,15 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :date %><br />
-    <%= f.datetime_select :date, {} ,:class => "input-small"  %>
+	<%= f.fields_for :days do |days_form| %>
+	  <%= days_form.label :date %><br />
+	  <%= days_form.date_select :date, :class => "input-small" %>
+	  <%= days_form.label :start_time %><br />
+	  <%= days_form.time_select :start_time, :ampm => true, :minute_step => 15, :class => "input-small" %>
+	  <%= days_form.label :end_time %><br />
+	  <%= days_form.time_select :end_time, :ampm => true, :minute_step => 15, :class => "input-small" %>
+	<% end %>
+	<p><%= f.link_to_add "Add a day", :days %></p>
   </div>
   <div class="field">
     <%= f.label :location_id %><br />

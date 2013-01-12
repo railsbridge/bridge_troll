@@ -4,6 +4,7 @@ gem 'rails', '3.2.8'
 gem 'devise', '2.1.2'
 gem 'thin'
 gem 'jquery-rails'
+gem 'nested_form'
 
 group :production do
   gem 'pg'

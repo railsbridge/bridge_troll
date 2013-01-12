@@ -1,7 +1,15 @@
   <h2><%= @event.title %></h2>
   <strong>When:</strong>
-  <%= "#{l @event.date.localtime, :format => :date_as_ymd} #{l @event.date.localtime, :format => :time_as_hm_ampm}" %>
-  <br /> <br />
+
+  <ul>
+	<% @event.days.each do |day| %>
+      <li><%= format_date(day.date) %><br />
+		  Start time: <%= format_time(day.start_time) %><br />
+          End time: <%= format_time(day.end_time) %></li>
+    <% end %>
+  </ul>
+  
+    <br /> <br />
 
   <p>
     <% if(!@event.location.nil?) %>
