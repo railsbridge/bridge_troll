@@ -19,9 +19,8 @@ describe Event do
     event.event_sessions.destroy_all
     event.should_not be_valid
 
-    event.event_sessions << EventSession.new(starts_at: Time.now, ends_at: 2.hours.from_now)
-    event.should be_valid
-
+    event.event_sessions << build(:event_session)
+    event.should be_valid  
   end
 
   it "must have a time zone" do
