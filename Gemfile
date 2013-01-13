@@ -1,10 +1,11 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.11'
 gem 'devise', '2.1.2'
 gem 'thin'
 gem 'jquery-rails'
 gem 'nested_form'
+gem 'select2-rails'
 
 group :production do
   gem 'pg'

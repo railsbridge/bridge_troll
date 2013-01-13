@@ -14,12 +14,13 @@ describe "Events", :js => true do
     @user = create(:user)
     details_note = "This is a note in the detail text box\n With a new line!"
 
+    title = "February Event"
     sign_in_as(@user)
 
     visit events_path
     click_link "New Event"
 
-    fill_in "Title", with: "February Event"
+    fill_in "Title", with: title
 
     click_link "Add a session"
     within ".event-sessions" do
@@ -42,7 +43,7 @@ describe "Events", :js => true do
 
     click_button "Create Event"
 
-    page.should have_content("February Event")
+    page.should have_content(title)
     page.should have_content("This event currently has no location!")
     page.should have_content("This is a note in the detail text box")
     page.should have_css(".details p", text: 'With a new line!')
@@ -59,39 +60,15 @@ describe "Events", :js => true do
   
   it "should allow user to volunteer for event" do
     @user = create(:user)
+    @event = create(:event)
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 
     sign_in_as(@user)
 
-    visit events_path
-    click_link "New Event"
-    fill_in "Title", :with => "March Event"
-
-    click_link "Add a session"
-    within ".event-sessions" do
-      start_time_selects = all('.start_time')
-      start_time_selects[0].select "2015"
-      start_time_selects[1].select "March"
-      start_time_selects[2].select "12"
-      start_time_selects[3].select "03 PM"
-      start_time_selects[4].select "15"
-
-      end_time_selects = all('.end_time')
-      end_time_selects[0].select "2015"
-      end_time_selects[1].select "March"
-      end_time_selects[2].select "12"
-      end_time_selects[3].select "05 PM"
-      end_time_selects[4].select "45"
-    end
-
-    click_button "Create Event"
-    visit events_path
-
-    page.should have_content("March Event")
     page.should have_link("Volunteer")
-    @event = Event.where(:title=> 'March Event').first
     click_link("Volunteer")
     page.should have_content("Thanks for volunteering")
-    @rsvp = VolunteerRsvp.where(:event_id=> @event_id, :user_id => @user.id).first
+    @rsvp = VolunteerRsvp.where(:event_id=> @event.id, :user_id => @user.id).first
   end
   
   it "should show list of volunteers for event" do
@@ -99,7 +76,7 @@ describe "Events", :js => true do
     @user1.profile.update_attributes(:hacking => true, :taing => true)
     @user2 = create(:user)
 
-    @event = Event.create!(:title => "New workshop", :details => "Note of type detail")
+    @event = create(:event)
     create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 
     @rsvp = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
@@ -255,7 +232,7 @@ describe "Events", :js => true do
       @user1.update_attributes(:hacking => true, :teaching => true)
       @user2.update_attributes(:hacking => true, :taing    => true)
 
-      @event =  create(:event, title: 'New workshop')
+      @event =  create(:event)
       create(:event_session, event: @event, starts_at: 2.weeks.from_now, ends_at: 3.weeks.from_now)
 
       @rsvp1 = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
@@ -312,7 +289,7 @@ describe "Events", :js => true do
     end
 
     before do
-      @event =  Event.create!(:title => 'New workshop')
+      @event = create(:event)
       create(:event_session, event: @event, starts_at: 2.weeks.from_now, ends_at: 3.weeks.from_now)
 
       4.times { add_volunteer_to_event(@event, hacking: true, teaching: true) }

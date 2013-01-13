@@ -1,6 +1,11 @@
 @import "twitter/bootstrap";
 @import 'twitter/bootstrap/responsive';
+@import "select2";
 
 .remove-organizer form {
   margin-bottom: 0;
+}
+
+.container-fluid {
+  margin-top: 40px;
 }
