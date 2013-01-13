@@ -28,12 +28,12 @@ Then, have a look at our [feature backlog](https://www.pivotaltracker.com/projec
 ## Setting up for development
 
 
-You'll need [rvm](http://rvm.beginrescueend.com).  We're using Ruby 1.9.2 and Rails 3.1, and there's an `.rvmrc` file which should help make sure you are using the right Ruby version.
+You'll need [rvm](http://rvm.beginrescueend.com).  We're using Ruby 1.9.3 and Rails 3.2, and there's an `.rvmrc` file which should help make sure you are using the right Ruby version.
 
 
 ## Quickstart
 
-Note: change `git clone` below to be *your* repo.
+Fork the bridge_troll repo.  Note: change `git clone` below to be *your* repo.
 
 ```
 git clone git@github.com:yourname/bridge_troll
@@ -46,6 +46,10 @@ rails s
 ```
 
 Go to http://localhost:3000/ and you can play with the app.
+
+## Adding features
+
+For details on how to add a feature, click <a href="wiki/How-to-add-features.md">here</a>.
 
 ## Running tests
 
