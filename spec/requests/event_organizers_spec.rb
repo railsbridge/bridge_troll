@@ -2,16 +2,13 @@ require 'spec_helper'
 
 describe "Event Organizers" do
   before do
-    @user_organizer = create(:user, email: "orgainzer@mail.com", first_name: "Sam", last_name: "Spade")
-    @user1 = create(:user, email: "user1@mail.com", first_name: "Joe", last_name: "Cairo")
-
-    @user1.update_attributes(:hacking => true, :teaching => true)
-
     @event = create(:event)
-
-    @rsvp1 = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
-
+    @user_organizer = create(:user, email: "orgainzer@mail.com", first_name: "Sam", last_name: "Spade")
     @event.organizers << @user_organizer
+
+    @user1 = create(:user, email: "user1@mail.com", first_name: "Joe", last_name: "Cairo")
+    @user1.update_attributes(:hacking => true, :teaching => true)
+    @rsvp1 = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
 
     sign_in_as(@user_organizer)
 

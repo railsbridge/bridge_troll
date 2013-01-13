@@ -1,9 +1,11 @@
 require 'spec_helper'
 
-describe "Events" do
+describe "Events", :js => true do
   it "listing should show blank Location if no location_id exists" do
     create(:location, :name => 'locname')
-    create(:event, :location_id => nil, :title => 'mytitle')
+    event = create(:event, :location_id => nil, :title => 'mytitle')
+    create(:event_session, event: event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
+
     visit events_path
     page.should have_content('Upcoming events')
   end
@@ -18,10 +20,27 @@ describe "Events" do
     visit events_path
     click_link "New Event"
 
-    fill_in "Title", :with=> title
-    select "February",:from =>"event[date(2i)]"
-    select (Time.now.year + 1).to_s,:from =>"event[date(1i)]"   # so it will be "upcoming"
-    fill_in "Details", :with => details_note
+    fill_in "Title", with: title
+
+    click_link "Add a session"
+    within ".event-sessions" do
+      start_time_selects = all('.start_time')
+      start_time_selects[0].select "2015"
+      start_time_selects[1].select "January"
+      start_time_selects[2].select "12"
+      start_time_selects[3].select "03 PM"
+      start_time_selects[4].select "15"
+
+      end_time_selects = all('.end_time')
+      end_time_selects[0].select "2015"
+      end_time_selects[1].select "January"
+      end_time_selects[2].select "12"
+      end_time_selects[3].select "05 PM"
+      end_time_selects[4].select "45"
+    end
+
+    fill_in "event_details", :with => details_note
+
     click_button "Create Event"
 
     page.should have_content(title)
@@ -42,6 +61,7 @@ describe "Events" do
   it "should allow user to volunteer for event" do
     @user = create(:user)
     @event = create(:event)
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 
     sign_in_as(@user)
 
@@ -57,6 +77,7 @@ describe "Events" do
     @user2 = create(:user)
 
     @event = create(:event)
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 
     @rsvp = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
 
@@ -69,6 +90,7 @@ describe "Events" do
 
   it "should not display the Manage Organizers link if the user is not an organizer for the event" do
     @event = create(:event, title: "Pick Me")
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 
     visit '/events'
     click_link "Pick Me"
@@ -77,6 +99,8 @@ describe "Events" do
 
   it "should display the Manage Organizers link if the user is an organizer for the event" do
     @event = create(:event, title: "Click Me")
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
+
     @user = create(:user)
     @event.organizers << @user
 
@@ -89,6 +113,8 @@ describe "Events" do
 
   it "should display the Manage Organizers link if the user is an admin" do
     @event = create(:event, title: "Click Me")
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
+
     @user = create(:user, admin: true)
 
     sign_in_as(@user)
@@ -100,13 +126,15 @@ describe "Events" do
 
   describe "Organizer Assignment" do
     before do
-      @event = create(:event, title: "Click Me")
+      @event = create(:event, title: "Exciting Awesome Event")
+      create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
+
       @user = create(:user)
       @event.organizers << @user
 
       sign_in_as(@user)
 
-      click_link "Click Me"
+      click_link "Exciting Awesome Event"
     end
 
     it "should display the Organizer Assignment page" do
@@ -118,6 +146,8 @@ describe "Events" do
 
   it "should not display the edit link if the user is not an organizer for the event" do
     @event = create(:event, title: "Click Me")
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
+
     @user = create(:user)
 
     sign_in_as(@user)
@@ -128,6 +158,8 @@ describe "Events" do
 
   it "should display the edit link and render the edit form if the user is an organizer for the event" do
     @event = create(:event, title: "Pick Me")
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
+
     @user = create(:user)
     @event.organizers << @user
 
@@ -143,6 +175,7 @@ describe "Events" do
   it "should display the edit link and render the edit form if the user is an admin" do
     @admin = create(:user, admin: true)
     @event = create(:event, title: "Pick Me")
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 
     sign_in_as(@admin)
 
@@ -155,6 +188,7 @@ describe "Events" do
 
   it "should display 'No Organizer Assigned' if no organizer is linked to the event" do
     @event = create(:event, title: "Pick Me")
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 
     visit '/events'
     click_link "Pick Me"
@@ -163,6 +197,8 @@ describe "Events" do
 
   it "should display 'Organizer:' and the organizers name if the event has only one organizer" do
     @event = create(:event, title: "Pick Me")
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
+
     @user = create(:user, first_name: "Sam", last_name: "Spade")
     @event.organizers << @user
 
@@ -174,6 +210,8 @@ describe "Events" do
 
   it "should display 'Organizers:' and the organizers names if the event has more than one organizer" do
     @event = create(:event, title: "Pick Me")
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
+
     @user1 = create(:user, first_name: "Sam", last_name: "Spade")
     @user2 = create(:user, first_name: "Joel", last_name: "Cairo")
     @event.organizers << @user1
@@ -195,6 +233,7 @@ describe "Events" do
       @user2.update_attributes(:hacking => true, :taing    => true)
 
       @event =  create(:event)
+      create(:event_session, event: @event, starts_at: 2.weeks.from_now, ends_at: 3.weeks.from_now)
 
       @rsvp1 = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
       @rsvp2 = VolunteerRsvp.create!(:user_id => @user2.id, :event_id => @event.id, :attending => true)
@@ -251,6 +290,7 @@ describe "Events" do
 
     before do
       @event = create(:event)
+      create(:event_session, event: @event, starts_at: 2.weeks.from_now, ends_at: 3.weeks.from_now)
 
       4.times { add_volunteer_to_event(@event, hacking: true, teaching: true) }
       3.times { add_volunteer_to_event(@event, hacking: true, taing: true) }

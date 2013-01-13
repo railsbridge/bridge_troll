@@ -29,9 +29,34 @@ describe EventsController do
       it "should be able to create a new event" do
         get :new
         response.should be_success
-        expect { post :create, :event => build(:event).attributes }.
-            to change(Event, :count).by(1)
+
+        create_params = {
+          "event" => {
+            "title" => "asdfasdfasdf", 
+            "event_sessions_attributes" => {
+              "0" => {
+                "starts_at(1i)" => "2013", 
+                "starts_at(2i)" => "1", 
+                "starts_at(3i)" => "12", 
+                "starts_at(4i)" => "12", 
+                "starts_at(5i)" => "30", 
+                "ends_at(1i)" => "2013", 
+                "ends_at(2i)" => "1", 
+                "ends_at(3i)" => "12", 
+                "ends_at(4i)" => "22", 
+                "ends_at(5i)" => "30"
+              }
+            }, 
+            "location_id"=>"1", 
+            "details"=>"sdfasdfasdf"
+          }
+        }
+
+        expect { 
+          post :create, create_params 
+        }.to change(Event, :count).by(1)
       end
+      
       it "should be not be able to edit an event the user is not an organizer of" do
         get :edit, {:id => @event.id}
         response.should_not be_success
