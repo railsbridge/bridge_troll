@@ -4,6 +4,7 @@ gem 'rails', '3.2.11'
 gem 'devise', '2.1.2'
 gem 'thin'
 gem 'jquery-rails'
+gem 'nested_form'
 gem 'select2-rails'
 
 group :production do
@@ -27,6 +28,7 @@ group :test do
   gem "poltergeist"
   gem "launchy"
   gem "database_cleaner"
+  gem 'shoulda-matchers'
 end
 
 group :test, :development do
