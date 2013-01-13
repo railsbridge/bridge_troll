@@ -49,7 +49,7 @@ Go to http://localhost:3000/ and you can play with the app.
 
 ## Adding features
 
-For details on how to add a feature, click [here](wiki/How-to-add-features.md).
+For details on how to add a feature, click <a href="wiki/How-to-add-features.md">here</a>.
 
 ## Running tests
 
