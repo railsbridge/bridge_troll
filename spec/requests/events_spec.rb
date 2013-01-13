@@ -21,18 +21,21 @@ describe "Events", :js => true do
 
     fill_in "Title", with: "February Event"
 
-    click_link "Add a day"
-    within ".days" do
-      find('.start_time')[0].select "2015"
-      find('.start_time')[1].select "January"
-      find('.start_time')[2].select "12"
-      find('.start_time')[3].select "03 PM"
-      find('.start_time')[4].select "15"
-      find('.end_time')[0].select "2015"
-      find('.end_time')[1].select "January"
-      find('.end_time')[2].select "12"
-      find('.end_time')[3].select "05 PM"
-      find('.end_time')[4].select "45"
+    click_link "Add a session"
+    within ".event-sessions" do
+      start_time_selects = all('.start_time')
+      start_time_selects[0].select "2015"
+      start_time_selects[1].select "January"
+      start_time_selects[2].select "12"
+      start_time_selects[3].select "03 PM"
+      start_time_selects[4].select "15"
+
+      end_time_selects = all('.end_time')
+      end_time_selects[0].select "2015"
+      end_time_selects[1].select "January"
+      end_time_selects[2].select "12"
+      end_time_selects[3].select "05 PM"
+      end_time_selects[4].select "45"
     end
 
     fill_in "event_details", :with => details_note
@@ -62,8 +65,24 @@ describe "Events", :js => true do
     visit events_path
     click_link "New Event"
     fill_in "Title", :with => "March Event"
-    select "March",:from =>"event[date(2i)]"
-    select (Time.now.year + 1).to_s,:from =>"event[date(1i)]"   # so it will be "upcoming"
+
+    click_link "Add a session"
+    within ".event-sessions" do
+      start_time_selects = all('.start_time')
+      start_time_selects[0].select "2015"
+      start_time_selects[1].select "March"
+      start_time_selects[2].select "12"
+      start_time_selects[3].select "03 PM"
+      start_time_selects[4].select "15"
+
+      end_time_selects = all('.end_time')
+      end_time_selects[0].select "2015"
+      end_time_selects[1].select "March"
+      end_time_selects[2].select "12"
+      end_time_selects[3].select "05 PM"
+      end_time_selects[4].select "45"
+    end
+
     click_button "Create Event"
     visit events_path
 

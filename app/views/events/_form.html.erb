@@ -15,15 +15,19 @@
     <%= f.label :title %><br />
     <%= f.text_field :title %>
   </div>
-  <div class="field days">
-	<%= f.fields_for :event_sessions do |days_form| %>
-	  <%= days_form.label :starts_at %><br />
-	  <%= days_form.datetime_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
-	  <%= days_form.label :ends_at %><br />
-	  <%= days_form.datetime_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
+
+  <div class="field event-sessions">
+	<%= f.fields_for :event_sessions do |event_sessions_form| %>
+	  <%= event_sessions_form.label :starts_at %><br />
+	  <%= event_sessions_form.datetime_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
+	  <%= event_sessions_form.label :ends_at %><br />
+	  <%= event_sessions_form.datetime_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
 	<% end %>
-	<p><%= f.link_to_add "Add a day", :event_sessions, :id => 'add_day' %></p>
+	<p>
+      <%= f.link_to_add "Add a session", :event_sessions %>
+    </p>
   </div>
+
   <div class="field">
     <%= f.label :location_id %><br />
     <%= collection_select(:event, :location_id, Location.all, :id, :name, :prompt => true) %>
