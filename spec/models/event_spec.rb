@@ -15,11 +15,25 @@ describe Event do
 
   it { should validate_presence_of(:title) }
   it "validates that there is at least one event session" do
-    event = Event.new(title: "Foo")
+    event = create(:event)
+    event.event_sessions.destroy_all
     event.should_not be_valid
 
     event.event_sessions << EventSession.new(starts_at: Time.now, ends_at: 2.hours.from_now)
     event.should be_valid
+  end
+
+  it "must have a time zone" do
+    event = build(:event, :time_zone => nil)
+    event.should have(1).error_on(:time_zone)
+  end
+
+  it "must have a valid time zone" do
+    event = build(:event, :time_zone => "xxx")
+    event.should have(1).error_on(:time_zone)
+
+    event = build(:event, :time_zone => 'Hawaii')
+    event.should have(0).errors
   end
 
   describe "#volunteering?" do

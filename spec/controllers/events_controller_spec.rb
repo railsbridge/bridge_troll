@@ -98,6 +98,7 @@ describe EventsController do
           {
             "event" => {
               "title" => "asdfasdfasdf",
+              "time_zone" => "Alaska",
               "event_sessions_attributes" => {
                 "0" => {
                   "starts_at(1i)" => "2013",
@@ -122,6 +123,11 @@ describe EventsController do
           expect {
             make_request(create_params)
           }.to change(Event, :count).by(1)
+        end
+
+        it "sets the event's session times in the event's time zone" do
+          make_request(create_params)
+          Event.last.event_sessions.last.starts_at.zone.should == 'AKST'
         end
 
         it "adds the current user to the organizers of the event" do
@@ -177,7 +183,8 @@ describe EventsController do
         let(:update_params) {
           {
             "title" => "Updated event title",
-            "details" => "Updated event details"
+            "details" => "Updated event details",
+            "time_zone" => "Caracas"
           }
         }
 
@@ -186,6 +193,12 @@ describe EventsController do
           @event.reload
           @event.title.should == "Updated event title"
           @event.details.should == "Updated event details"
+        end
+
+        it "sets the event's session times in the event's time zone" do
+          make_request(update_params)
+          event_session = @event.reload.event_sessions.last
+          event_session.starts_at.zone.should == 'VET'
         end
 
         it "redirects to the event page" do

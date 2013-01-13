@@ -10,6 +10,7 @@ FactoryGirl.define do
   factory :event do
     sequence(:title) { |n| "Event #{n}" }
     details "This is note in the details attribute."
+    time_zone "Hawaii"
 
     before(:create) do |event|
       event.event_sessions << create(:event_session)

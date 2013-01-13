@@ -4,11 +4,11 @@
 <ul>
   <% @event.event_sessions.each do |event_session| %>
       <li>
-        <%= format_date(event_session.starts_at) %>
+        <%= formatted_session_date(event_session) %>
         <br/>
-        Start time: <%= format_time(event_session.starts_at) %>
+        Start time: <%= formatted_session_time(event_session, :starts_at) %>
         <br/>
-        End time: <%= format_time(event_session.ends_at) %>
+        End time: <%= formatted_session_time(event_session, :ends_at) %>
       </li>
   <% end %>
 </ul>

@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   before_filter :find_event, only: [:show, :edit, :update, :destroy]
   before_filter :require_organizer, only: [:edit, :update, :destroy]
   before_filter :assign_organizer, only: [:show, :edit, :update, :destroy]
+  before_filter :set_time_zone, only: [:create, :update]
 
   def index
     @events = Event.upcoming
@@ -43,6 +44,12 @@ class EventsController < ApplicationController
   end
 
   protected
+
+  def set_time_zone
+    if params[:event] && params[:event][:time_zone]
+      Time.zone = params[:event][:time_zone]
+    end
+  end
 
   def require_organizer
     unless assign_organizer

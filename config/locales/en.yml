@@ -1,10 +1,7 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: "Hello world"
-
   time:
     formats:
-      date_as_ymd: "%1m/%1d/%Y"
+      date_as_mdy: "%1m/%1d/%Y"
       time_as_hm_ampm: "%l:%M %P %Z"
+      time_as_hm_ampm_no_zone: "%l:%M %P"
+      time_zone: "%Z"

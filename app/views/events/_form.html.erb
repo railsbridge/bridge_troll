@@ -29,6 +29,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :time_zone %>
+    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
+  </div>
+
+  <div class="field">
     <%= f.label :location_id %>
     <%= collection_select(:event, :location_id, Location.all, :id, :name, :prompt => true) %>
   </div>

@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20130114214614) do
     t.datetime "updated_at",  :null => false
     t.integer  "location_id"
     t.text     "details"
+    t.string   "time_zone"
   end
 
   create_table "locations", :force => true do |t|
