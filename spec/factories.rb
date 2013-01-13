@@ -9,7 +9,7 @@ FactoryGirl.define do
 
   factory :event do
     sequence(:title) { |n| "Event #{n}" }
-    date DateTime.now
+    date 1.year.from_now
     details "This is note in the details attribute."
   end
 

@@ -12,18 +12,19 @@ describe "Events" do
     @user = create(:user)
     details_note = "This is a note in the detail text box\n With a new line!"
 
+    title = "February Event"
     sign_in_as(@user)
 
     visit events_path
     click_link "New Event"
 
-    fill_in "Title", :with=>"February Event"
+    fill_in "Title", :with=> title
     select "February",:from =>"event[date(2i)]"
     select (Time.now.year + 1).to_s,:from =>"event[date(1i)]"   # so it will be "upcoming"
-    fill_in "event_details", :with => details_note
+    fill_in "Details", :with => details_note
     click_button "Create Event"
 
-    page.should have_content("February Event")
+    page.should have_content(title)
     page.should have_content("This event currently has no location!")
     page.should have_content("This is a note in the detail text box")
     page.should have_css(".details p", text: 'With a new line!')
@@ -40,23 +41,14 @@ describe "Events" do
   
   it "should allow user to volunteer for event" do
     @user = create(:user)
+    @event = create(:event)
 
     sign_in_as(@user)
 
-    visit events_path
-    click_link "New Event"
-    fill_in "Title", :with => "March Event"
-    select "March",:from =>"event[date(2i)]"
-    select (Time.now.year + 1).to_s,:from =>"event[date(1i)]"   # so it will be "upcoming"
-    click_button "Create Event"
-    visit events_path
-
-    page.should have_content("March Event")
     page.should have_link("Volunteer")
-    @event = Event.where(:title=> 'March Event').first
     click_link("Volunteer")
     page.should have_content("Thanks for volunteering")
-    @rsvp = VolunteerRsvp.where(:event_id=> @event_id, :user_id => @user.id).first
+    @rsvp = VolunteerRsvp.where(:event_id=> @event.id, :user_id => @user.id).first
   end
   
   it "should show list of volunteers for event" do
@@ -64,7 +56,7 @@ describe "Events" do
     @user1.profile.update_attributes(:hacking => true, :taing => true)
     @user2 = create(:user)
 
-    @event = Event.create!(:title => "New workshop", :date => DateTime.now + 1.fortnight, :details => "Note of type detail")
+    @event = create(:event)
 
     @rsvp = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
 
@@ -202,8 +194,7 @@ describe "Events" do
       @user1.update_attributes(:hacking => true, :teaching => true)
       @user2.update_attributes(:hacking => true, :taing    => true)
 
-      @event =  Event.new(:title => 'New workshop', :date => DateTime.now + 1.fortnight)
-      @event.save!
+      @event =  create(:event)
 
       @rsvp1 = VolunteerRsvp.create!(:user_id => @user1.id, :event_id => @event.id, :attending => true)
       @rsvp2 = VolunteerRsvp.create!(:user_id => @user2.id, :event_id => @event.id, :attending => true)
@@ -259,7 +250,7 @@ describe "Events" do
     end
 
     before do
-      @event =  Event.create!(:title => 'New workshop', :date => DateTime.now + 1.fortnight)
+      @event = create(:event)
 
       4.times { add_volunteer_to_event(@event, hacking: true, teaching: true) }
       3.times { add_volunteer_to_event(@event, hacking: true, taing: true) }
