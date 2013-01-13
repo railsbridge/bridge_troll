@@ -1,5 +1,4 @@
 class Event < ActiveRecord::Base
-
   belongs_to :location
   
   has_many :volunteer_rsvps, :foreign_key => "event_id"
@@ -9,6 +8,7 @@ class Event < ActiveRecord::Base
 
   has_many :event_sessions  
   accepts_nested_attributes_for :event_sessions, :allow_destroy => true
+  validates :event_sessions, length: { minimum: 1 }
 
   validates_presence_of :title
 

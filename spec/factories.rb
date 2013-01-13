@@ -10,6 +10,16 @@ FactoryGirl.define do
   factory :event do
     sequence(:title) { |n| "Event #{n}" }
     details "This is note in the details attribute."
+
+    before(:create) do |event|
+      event.event_sessions << create(:event_session)
+    end
+
+    factory :event_with_no_sessions do
+      before(:create) do |event|
+        event.event_sessions.destroy_all
+      end
+    end
   end
 
   factory :location do
