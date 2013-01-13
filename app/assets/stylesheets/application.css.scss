@@ -1,6 +1,24 @@
+$navbarBackground: black;
+$navbarBackgroundHighlight: #888;
+$navbarText: #eee;
+$navbarLinkColor: #eee;
+
 @import "twitter/bootstrap";
 @import 'twitter/bootstrap/responsive';
 @import "select2";
+
+.navbar .brand {
+  color: #FFF;
+  margin-left: 0;
+}
+
+table tr td .btn {
+  margin: 0 20px;
+}
+
+.remove-organizer form {
+  margin-bottom: 0;
+}
 
 .remove-organizer form {
   margin-bottom: 0;
