@@ -19,16 +19,14 @@
         </ul>
       </div>
     </div>
-    <div class="container-fluid center">
+    <div class="container-fluid center bridgetroll-content">
       <% flash.each do |name, msg| %>
           <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
             <%= msg  %>
           </div>
       <% end %>
       <div class="row-fluid">
-        <div class="span8">
           <%=yield %>
-        </div>
       </div>
     </div>
   </body>
