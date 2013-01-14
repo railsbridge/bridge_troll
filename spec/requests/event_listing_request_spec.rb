@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "the event listing page", :js => true do
+describe "the event listing page" do
   it "listing should show blank Location if no location_id exists" do
     create(:location, :name => 'locname')
     event = create(:event, :location_id => nil, :title => 'mytitle')
@@ -10,7 +10,7 @@ describe "the event listing page", :js => true do
     page.should have_content('Upcoming events')
   end
 
-  it "allows a logged-in user to create a new event" do
+  it "allows a logged-in user to create a new event", js: true do
     sign_in_as(create(:user))
     visit events_path
     click_link "New Event"

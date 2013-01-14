@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "new user", :js => true do
+describe "new user" do
   it "should be able to signup" do
     @user = User.new(:first_name=>"Anne", :last_name =>"Hall", :email=>"example@example.com", :password=>"booboo")
 
@@ -16,7 +16,7 @@ describe "new user", :js => true do
   end
 end
 
-describe "existing user", :js => true do
+describe "existing user" do
   before do
     @user = create(:user)
   end

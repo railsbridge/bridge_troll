@@ -6,7 +6,7 @@ def add_volunteer_to_event(event, attributes)
   VolunteerRsvp.create!(user: user, event: event, attending: true)
 end
 
-describe "the individual event page", :js => true do
+describe "the individual event page" do
   context "user is not logged in" do
     before do
       @event = create(:event)
