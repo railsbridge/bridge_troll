@@ -1,44 +1,14 @@
 require 'spec_helper'
 
 describe EventOrganizer do
-  describe "with new Event Organizer" do
-    before do
-      @attr = {:user_id => 1, :event_id => 1}
-    end
+  it { should belong_to(:event) }
+  it { should belong_to(:user) }
 
-    it "must have a user id" do
-      organizer_missing_user_id = EventOrganizer.new(@attr.merge(:user_id => nil))
-      organizer_missing_user_id.should_not be_valid
-    end
+  it { should allow_mass_assignment_of(:event_id) }
+  it { should allow_mass_assignment_of(:user_id) }
 
-    it "must have an event id" do
-      organizer_missing_event_id = EventOrganizer.new(@attr.merge(:event_id => nil))
-      organizer_missing_event_id.should_not be_valid
-    end
+  it { should validate_presence_of(:event_id) }
+  it { should validate_presence_of(:user_id) }
 
-    it "must be a unique user and event pair" do
-      organizer_original  = EventOrganizer.create(@attr)
-      organizer_duplicate =  EventOrganizer.new(@attr)
-      organizer_duplicate.should_not be_valid
-    end
-  end
-
-  describe "event and user creating an event organizer" do
-    it "will be created from event and user" do
-      event = create(:event)
-      user  = create(:user)
-      event.organizers << user
-      organizer = EventOrganizer.where("user_id = ? and event_id = ?", user.id, event.id)
-      organizer[0].should be_valid
-    end
-
-    it "will be created from user and event" do
-      event = create(:event)
-      user  = create(:user)
-      user.organizers << event
-      organizer = EventOrganizer.where("user_id = ? and event_id = ?", user.id, event.id)
-      organizer[0].should be_valid
-    end
-  end
-
+  it { should validate_uniqueness_of(:user_id).scoped_to(:event_id) }
 end
