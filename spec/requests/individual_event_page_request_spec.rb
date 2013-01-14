@@ -41,13 +41,9 @@ describe "the individual event page" do
       end
     end
 
-    it "does not display the Manage Organizers link" do
+    it "does not display the Manage Organizers link or Edit link" do
       visit event_path(@event)
       page.should_not have_content("Manage Organizers")
-    end
-
-    it "does not display the edit link" do
-      visit event_path(@event)
       page.should_not have_content("Edit")
     end
   end
@@ -58,13 +54,9 @@ describe "the individual event page" do
       sign_in_as(create(:user))
     end
 
-    it "does not display the Manage Organizers link" do
+    it "does not display the Manage Organizers link or Edit link" do
       visit event_path(@event)
       page.should_not have_content("Manage Organizers")
-    end
-
-    it "does not display the edit link" do
-      visit event_path(@event)
       page.should_not have_content("Edit")
     end
 
