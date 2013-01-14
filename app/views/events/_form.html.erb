@@ -12,15 +12,15 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :title %><br />
+    <%= f.label :title %>
     <%= f.text_field :title %>
   </div>
 
   <div class="field event-sessions">
 	<%= f.fields_for :event_sessions do |event_sessions_form| %>
-	  <%= event_sessions_form.label :starts_at %><br />
+	  <%= event_sessions_form.label :starts_at %>
 	  <%= event_sessions_form.datetime_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
-	  <%= event_sessions_form.label :ends_at %><br />
+	  <%= event_sessions_form.label :ends_at %>
 	  <%= event_sessions_form.datetime_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
 	<% end %>
 	<p>
@@ -29,16 +29,16 @@
   </div>
 
   <div class="field">
-    <%= f.label :location_id %><br />
+    <%= f.label :location_id %>
     <%= collection_select(:event, :location_id, Location.all, :id, :name, :prompt => true) %>
   </div>
 
-    <div class="field">
-      <%= f.label :details %><br />
-      <%= f.text_area :details, :rows => 4, :class => "input-xxlarge"%>
-    </div>
+  <div class="field">
+    <%= f.label :details %>
+    <%= f.text_area :details, :rows => 4, :class => "input-xxlarge"%>
+  </div>
 
-    <div class="actions">
+  <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
