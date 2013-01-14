@@ -1,10 +1,10 @@
 FactoryGirl.define do
   factory :user do
-    first_name "Anne"
+    sequence(:first_name) { "Anne#{n}" }
     last_name "Hall"
-    sequence(:email) { |n| "example0#{n}@example.com"}
+    sequence(:email) { |n| "example#{n}@example.com"}
     confirmed_at DateTime.now
-    password "test123"
+    password "password"
   end
 
   factory :event do
