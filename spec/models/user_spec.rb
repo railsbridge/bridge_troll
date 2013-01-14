@@ -1,62 +1,33 @@
 require 'spec_helper'
 
 describe User do
+  before { @user = create(:user) }
 
-    before { @user = create(:user, :first_name=>"Anne", :last_name => "Hall") }
+  it { should have_many(:volunteer_rsvps) }
+  it { should have_many(:events).through(:volunteer_rsvps) }
+  it { should have_many(:event_organizers) }
+  it { should have_many(:organizers).through(:event_organizers) }
+  it { should have_one(:profile) }
 
-    subject { @user }
+  it { should allow_mass_assignment_of(:first_name) }
+  it { should allow_mass_assignment_of(:last_name) }
+  it { should allow_mass_assignment_of(:email) }
+  it { should allow_mass_assignment_of(:password) }
+  it { should allow_mass_assignment_of(:password_confirmation) }
+  it { should allow_mass_assignment_of(:remember_me) }
+  it { should_not allow_mass_assignment_of(:admin) }
 
-    it { should respond_to(:first_name) }
-    it { should respond_to(:last_name) }
-    it { should respond_to(:email) }
-    it { should respond_to(:admin) }
-    it { should be_valid }
-    it { should_not be_admin }
-    
-    it "should return first_name" do
-      @user.first_name.should == "Anne"
+  it { should validate_presence_of(:first_name) }
+  it { should validate_presence_of(:last_name) }
+  it { should validate_presence_of(:email) } # devise adds this
+
+  it "creates a profile when the user is created" do
+    @user.profile.should_not be_nil
+  end
+
+  describe "#full_name" do
+    it "returns the user's full name" do
+      @user.full_name.should == "#{@user.first_name} #{@user.last_name}"
     end
-
-    it "should return last_name" do
-      @user.last_name.should == "Hall"
-    end
-
-    describe "when first_name is not present" do
-      before { @user.first_name = " " }
-      it { should_not be_valid }
-    end
-
-    describe "when last_name is not present" do
-      before { @user.last_name = " " }
-      it { should_not be_valid }
-    end
-    
-    # Devise provides user e-mail validation
-    describe "when email is not present" do
-      before { @user.email = " " }
-      it { should_not be_valid }
-    end
-    
-    describe "with admin attribute set to 'true'" do
-      before { @user.toggle!(:admin) }
-
-      it { should be_admin }
-    end
-
-    it "should protect admin attribute" do
-      hacked_admin = User.new(:name => "Riley", :admin => true)
-      hacked_admin.admin.should_not be_true
-    end
-
-    it "should create a profile" do
-      Profile.count.should == 1
-    end
-
-    it "should create a profile linked to the user" do
-      Profile.last.user_id.should == @user.id
-    end
-
-    it "should return the user's full name" do
-      @user.full_name.should == "Anne Hall"
-    end
+  end
 end

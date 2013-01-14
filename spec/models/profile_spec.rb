@@ -1,23 +1,23 @@
 require 'spec_helper'
 
-
 describe Profile do
-  before do
-    @attr = {:user_id => 1}
-  end
+  it { should belong_to(:user) }
+  it { should validate_presence_of(:user_id) }
+  it { should validate_uniqueness_of(:user_id) }
 
-  it "should be valid" do
-    valid_profile = Profile.new(@attr)
-    valid_profile.should be_valid
-  end
-  it "should have a user id" do
-    profile_missing_user_id = Profile.new(@attr.merge(:user_id => nil))
-    profile_missing_user_id.should_not be_valid
-  end
-  it "should not allow a duplicate user id" do
-    valid_profile = Profile.create!(@attr)
-    profile_duplicate_user_id = Profile.new(@attr)
-    profile_duplicate_user_id.should_not be_valid
-  end
+  it { should allow_mass_assignment_of(:childcaring) }
+  it { should allow_mass_assignment_of(:coordinating) }
+  it { should allow_mass_assignment_of(:designing) }
+  it { should allow_mass_assignment_of(:evangelizing) }
+  it { should allow_mass_assignment_of(:hacking) }
+  it { should allow_mass_assignment_of(:linux) }
+  it { should allow_mass_assignment_of(:macosx) }
+  it { should allow_mass_assignment_of(:mentoring) }
+  it { should allow_mass_assignment_of(:other) }
+  it { should allow_mass_assignment_of(:taing) }
+  it { should allow_mass_assignment_of(:teaching) }
+  it { should allow_mass_assignment_of(:user_id) }
+  it { should allow_mass_assignment_of(:windows) }
+  it { should allow_mass_assignment_of(:writing) }
 end
 
