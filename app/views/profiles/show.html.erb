@@ -1,0 +1,40 @@
+<h3>Profile for <%= current_user.full_name %></h3>
+<div class='pull-right'>
+<%= link_to "edit profile", edit_user_profile_path(@profile) %>   <br />
+</div>
+<div>
+  <strong>Skills</strong>
+</div>
+
+<ul>
+  <% skills.each do |skill| %>
+      <%=  content_tag(:li, skill_title(skill)) if current_user.profile[skill_symbol(skill)] %>
+  <% end %>
+</ul>
+<br />
+
+<strong>Other</strong>
+<div>
+  <%=  @profile.other %>
+</div>
+<br />
+
+<strong>Bio</strong>
+<div>
+  <%= @profile.bio %>
+</div>
+<br />
+
+<strong>Workshop History</strong>
+<table class='table'>
+  <thead>
+  <tr>
+    <td>Role</td>
+    <td>Date</td>
+    <td>Venue</td>
+  </tr>
+  </thead>
+
+
+
+</table>

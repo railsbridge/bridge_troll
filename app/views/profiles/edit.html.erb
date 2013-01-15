@@ -1,4 +1,27 @@
-<h1>My Incredible Powers</h1>
-<h2>Edit <%= "#{@user.first_name} #{@user.last_name}"  %></h2>
+<h3>Profile edit <%= "#{@user.first_name} #{@user.last_name}"  %></h3>
 
-<%= render 'form' %>
+<%= form_for([@user, @profile],  :url => {:action => "update"}, :html => {:class => "form-horizontal"} ) do |f| %>
+    <h3>Skills</h3>
+
+    <% skills.each do |skill| %>
+        <label class = checkbox><%= "#{skill_title(skill)}" %>
+          <%= f.check_box skill_symbol(skill) %>
+        </label>
+    <% end %>
+
+    <div>
+      <%= f.label :other, "Other Skills" %>
+      <%= f.text_area :other, :rows => 3 %>
+    </div>
+    <br />
+
+    <div>
+      <%= f.label :bio %>
+      <%= f.text_area :bio, :rows => 3 %>
+    </div>
+    <br />
+
+    <div><%= f.submit "Update" %></div>
+<% end %>
+
+<%= link_to "Back", :back %>

@@ -19,5 +19,6 @@ describe Profile do
   it { should allow_mass_assignment_of(:user_id) }
   it { should allow_mass_assignment_of(:windows) }
   it { should allow_mass_assignment_of(:writing) }
+  it { should allow_mass_assignment_of(:bio) }
 end
 

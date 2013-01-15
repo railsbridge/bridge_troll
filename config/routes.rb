@@ -4,7 +4,7 @@ Bridgetroll::Application.routes.draw do
   devise_for :users
 
   resources :users do
-    resource :profile, :only => [:edit, :update]
+    resource :profile, :only => [:edit, :update, :show]
   end
 
   resources :locations
