@@ -11,11 +11,15 @@ class Event < ActiveRecord::Base
   validates :event_sessions, length: { minimum: 1 }
 
   validates_presence_of :title
+  validates_presence_of :time_zone
+  validates_inclusion_of :time_zone,
+                         in: ActiveSupport::TimeZone.all.map(&:name),
+                         if: lambda { |event| event.time_zone.present? }
 
   def self.upcoming
     includes(:event_sessions).where('event_sessions.ends_at > ?', Time.now.utc)
   end
-  
+
   def rsvp_for_user(user)
     self.volunteer_rsvps.find_by_user_id(user.id)
   end
