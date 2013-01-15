@@ -21,6 +21,7 @@ end
 group :development do
   gem 'quiet_assets'
   gem 'guard-rspec'
+  gem 'rb-fsevent'
   gem 'terminal-notifier-guard'
 end
 

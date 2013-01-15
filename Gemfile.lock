@@ -147,6 +147,7 @@ GEM
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
     rake (10.0.3)
+    rb-fsevent (0.9.3)
     rdoc (3.12)
       json (~> 1.4)
     rspec (2.12.0)
@@ -225,6 +226,7 @@ DEPENDENCIES
   poltergeist
   quiet_assets
   rails (= 3.2.11)
+  rb-fsevent
   rspec-rails
   sass-rails
   select2-rails
