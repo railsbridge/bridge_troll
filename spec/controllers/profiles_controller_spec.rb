@@ -7,12 +7,17 @@ describe ProfilesController do
       sign_in @user
     end
 
-    it "should be able to see edit their profile" do
+    it "should be able to edit their profile" do
       get :edit , {:user_id => @user.id}
       response.should be_success
     end
 
-    it "should be able to their profile" do
+    it "should be able to see their profile" do
+      get :show , {:user_id => @user.id}
+      response.should be_success
+    end
+
+    it "should be able to update their profile" do
       put :update, {:user_id => @user.id, :profile => {:childcaring => true,
                                                        :coordinating => true,
                                                        :designing => true,
@@ -26,9 +31,10 @@ describe ProfilesController do
                                                        :user_id => true,
                                                        :windows => true,
                                                        :writing => true,
-                                                       :other => "This is a user created note."
+                                                       :other => "This is a user created note.",
+                                                       :bio => "This is my biography. It all started in a small town..."
       }}
-      response.should redirect_to(edit_user_registration_path)
+      response.should redirect_to(user_profile_path)
     end
 
   end

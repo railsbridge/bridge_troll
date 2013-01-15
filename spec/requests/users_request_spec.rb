@@ -21,10 +21,10 @@ describe "existing user" do
     @user = create(:user)
   end
 
-  it "should see Sign In and should not see Add Your Skills link on the home page" do
+  it "should see Sign In and should not see Profile link on the home page" do
     visit '/'
     page.should have_link("Sign In")
-    page.should_not have_link("Add Your Skills")
+    page.should_not have_link("Profile")
   end
 
   it "should be able to sign in from the home page" do
@@ -39,8 +39,8 @@ describe "existing user" do
       sign_in_as(@user)
     end
 
-    it "should see Sign Out link and Add Your Skills links and not see Sign In/Up links" do
-      page.should have_link("Add Your Skills")
+    it "should see Sign Out link and Profile links and not see Sign In/Up links" do
+      page.should have_link("Profile")
       page.should have_link("Sign Out")
       page.should_not have_link("Sign In")
       page.should_not have_link("Sign Up")
@@ -65,41 +65,7 @@ describe "existing user" do
     end
 
     it "link to add skills should be present on the home page for logged in user" do
-      page.should have_link("Add Your Skills")
-    end
-
-    it "user should be able to add his/her skills" do
-      click_link "Add Your Skills"
-      page.should have_content("My Incredible Powers")
-
-      check "profile_teaching"
-      check "profile_taing"
-      check "profile_coordinating"
-      check "profile_childcaring"
-      check "profile_writing"
-      check "profile_hacking"
-      check "profile_designing"
-      page.should have_content("Evangelizing")
-      page.should have_content("Mentoring")
-      page.should have_content("Windows")
-
-      fill_in "profile_other", :with => "Speaking Spanish"
-
-      click_button "Update"
-
-      user = User.find(@user.id)
-      profile = user.profile
-
-      profile.teaching.should be_true
-      profile.taing.should be_true
-      profile.coordinating.should be_true
-      profile.childcaring.should be_true
-      profile.writing.should be_true
-      profile.hacking.should be_true
-      profile.designing.should be_true
-      profile.evangelizing.should be_false
-      profile.mentoring.should be_false
-      profile.other.should == "Speaking Spanish"
+      page.should have_link("Profile")
     end
   end
 end
