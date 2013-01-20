@@ -37,4 +37,9 @@ FactoryGirl.define do
     sequence(:title) { "Teacher Level #{n}" }
   end
 
+  factory :volunteer_rsvp do
+    user 
+    event
+    attending true
+  end
 end

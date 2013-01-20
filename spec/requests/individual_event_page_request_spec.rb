@@ -3,7 +3,7 @@ require 'spec_helper'
 def add_volunteer_to_event(event, attributes)
   user = create(:user)
   user.profile.update_attributes!(attributes)
-  VolunteerRsvp.create!(user: user, event: event, attending: true)
+  create(:volunteer_rsvp, :user => user, :event => event)
 end
 
 describe "the individual event page" do
@@ -15,7 +15,7 @@ describe "the individual event page" do
     it "shows a list of volunteers for the event" do
       user1 = create(:user)
       user2 = create(:user)
-      VolunteerRsvp.create!(user_id: user1.id, event_id: @event.id, attending: true)
+      create(:volunteer_rsvp, :user => user1, :event => @event)
       visit event_path(@event)
 
       page.should have_content("Volunteers")
@@ -61,9 +61,9 @@ describe "the individual event page" do
     end
 
     it "doesn't display sensitive volunteer information" do
-      volunteer = create(:user)
+      rsvp = create(:volunteer_rsvp, event: @event)
+      volunteer = rsvp.user
       volunteer.update_attributes!(hacking: true, teaching: true)
-      VolunteerRsvp.create!(user: volunteer, event: @event, attending: true)
 
       visit event_path(@event)
       page.should have_content(volunteer.full_name)
@@ -108,7 +108,7 @@ describe "the individual event page" do
 
       volunteer = create(:user)
       volunteer.profile.update_attributes!(hacking: true, teaching: true)
-      VolunteerRsvp.create!(user: volunteer, event: @event, attending: true)
+      create(:volunteer_rsvp, user: volunteer, event: @event)
 
       visit event_path(@event)
       page.should have_content(volunteer.email)
@@ -157,7 +157,7 @@ describe "the individual event page" do
 
       volunteer = create(:user)
       volunteer.profile.update_attributes!(hacking: true, teaching: true)
-      VolunteerRsvp.create!(user: volunteer, event: @event, attending: true)
+      create(:volunteer_rsvp, user: volunteer, event: @event)
 
       visit event_path(@event)
       page.should have_content(volunteer.email)

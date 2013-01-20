@@ -38,7 +38,7 @@ describe Event do
 
   describe "#volunteering?" do
     it "is true when a user is volunteering at an event" do
-      VolunteerRsvp.create(event_id: @event.id, user_id: @user.id, attending: true)
+      create(:volunteer_rsvp, :user => @user, :event => @event)
       @event.volunteering?(@user).should == true
     end
 
