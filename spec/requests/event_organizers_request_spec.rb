@@ -5,8 +5,7 @@ describe "Event Organizers" do
     @user_organizer = create(:user, email: "orgainzer@mail.com", first_name: "Sam", last_name: "Spade")
     @user1 = create(:user, email: "user1@mail.com", first_name: "Joe", last_name: "Cairo")
 
-    rsvp = create(:volunteer_rsvp)
-    @event = rsvp.event
+    @event = create(:event)
     @event.organizers << @user_organizer
     
     sign_in_as(@user_organizer)
