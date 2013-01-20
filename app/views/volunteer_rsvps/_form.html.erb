@@ -1,0 +1,11 @@
+<%= form_for(@rsvp) do |f| %>
+  <div class="field">
+    <%= f.label :about_you %>
+    <%= f.text_area :about_you %>
+  </div>
+
+  <div class="actions">
+    <%= f.hidden_field :event_id %>
+    <%= f.submit "Submit"%>
+  </div>
+<% end %>
