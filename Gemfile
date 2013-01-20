@@ -32,6 +32,7 @@ group :test do
   gem "launchy"
   gem "database_cleaner"
   gem 'shoulda-matchers'
+  gem "faker"
 end
 
 group :test, :development do
