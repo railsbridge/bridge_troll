@@ -17,11 +17,8 @@
 <% @events.each do |event| %>
   <tr>
     <td><%= link_to event.title, event %></td>
-    <td><%= l event.event_sessions.first.starts_at.localtime, :format => :date_as_ymd %></td>
-    <td>
-      <%= l event.event_sessions.first.starts_at.localtime, :format => :time_as_hm_ampm %> - 
-      <%= l event.event_sessions.first.ends_at.localtime, :format => :time_as_hm_ampm %> 
-	</td>
+    <td><%= formatted_session_date(event.event_sessions.first) %></td>
+    <td><%= formatted_session_timerange(event.event_sessions.first) %></td>
     <td><%= event.location.name rescue nil %></td>
     <% if user_signed_in? %>
       <% if event.volunteering?(current_user)%>

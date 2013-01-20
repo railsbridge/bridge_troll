@@ -10,6 +10,22 @@ describe "the event listing page" do
     page.should have_content('Upcoming events')
   end
 
+  it "listing should show formatted dates and times" do
+    next_year = Time.now.year + 1
+    event = build(:event_with_no_sessions,
+                  location_id: nil,
+                  title: 'mytitle2',
+                  time_zone: 'Pacific Time (US & Canada)')
+    event.event_sessions << create(:event_session,
+                                   starts_at: Time.utc(next_year, 01, 31, 11, 20),
+                                   ends_at: Time.utc(next_year, 01, 31, 11, 55))
+    event.save!
+
+    visit events_path
+    page.should have_content("1/31/#{next_year}")
+    page.should have_content('3:55 am PST')
+  end
+
   it "allows a logged-in user to create a new event", js: true do
     sign_in_as(create(:user))
     visit events_path
@@ -34,6 +50,7 @@ describe "the event listing page" do
       end_time_selects[4].select "45"
     end
 
+    select "Alaska", from: 'event_time_zone'
     fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!"
 
     click_button "Create Event"
@@ -46,6 +63,7 @@ describe "the event listing page" do
     visit events_path
 
     page.should have_content("February Event")
+    page.should have_content("AKST") # alaska time code!
   end
 
   it "allows a logged-in user to volunteer for an event" do
