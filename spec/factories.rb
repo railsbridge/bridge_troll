@@ -37,9 +37,9 @@ FactoryGirl.define do
     sequence(:title) { "Teacher Level #{n}" }
   end
 
-  factory :volunteer_rsvp do
+  factory :rsvp do
     user 
     event
-    attending true
+    role Role.find_by_title('Volunteer')
   end
 end

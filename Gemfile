@@ -6,6 +6,7 @@ gem 'thin'
 gem 'jquery-rails'
 gem 'nested_form'
 gem 'select2-rails'
+gem 'active_hash'
 
 group :production do
   gem 'pg'

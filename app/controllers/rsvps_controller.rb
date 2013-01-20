@@ -1,21 +1,17 @@
-class VolunteerRsvpsController < ApplicationController
+class RsvpsController < ApplicationController
   before_filter :authenticate_user!
 
   def new
     flash[:notice] = "AWESOME - you're almost signed up"
     @event = Event.find(params[:event_id])
-    @rsvp = @event.volunteer_rsvps.build
-
-    if old_rsvp = VolunteerRsvp.find_by_user_id_and_event_id(current_user.id, params[:event_id])
-      redirect_to edit_volunteer_rsvp_path(old_rsvp) and return
-    end
+    @rsvp = @event.rsvps.build
   end
 
   def create
-    @rsvp = VolunteerRsvp.new(params[:volunteer_rsvp])
-    @rsvp.event = Event.find(params[:volunteer_rsvp][:event_id])
+    @rsvp = Rsvp.new(params[:rsvp])
+    @rsvp.event = Event.find(params[:rsvp][:event_id])
     @rsvp.user = current_user
-    @rsvp.attending = true
+    @rsvp.role_id = Role.id_for 'Volunteer'
     if @rsvp.save
       redirect_to @rsvp.event, notice: 'Thanks for volunteering!'
     else
@@ -28,8 +24,8 @@ class VolunteerRsvpsController < ApplicationController
   end
 
   def update
-    @rsvp = VolunteerRsvp.find(params[:id])
-    if @rsvp.update_attributes(params[:volunteer_rsvp].merge(:attending => true))
+    @rsvp = Rsvp.find(params[:id])
+    if @rsvp.update_attributes(params[:rsvp])
       redirect_to event_path(@rsvp.event_id)
     else
       flash[:error] = 'There was an error saving your rsvp'
@@ -38,7 +34,7 @@ class VolunteerRsvpsController < ApplicationController
   end
 
   def destroy
-    @rsvp = VolunteerRsvp.find_by_id(params[:id])
+    @rsvp = Rsvp.find_by_id(params[:id])
     redirect_to events_path, notice: 'You are not signed up to volunteer for this event' and return unless @rsvp
 
     event = @rsvp.event

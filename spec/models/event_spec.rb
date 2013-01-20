@@ -7,8 +7,8 @@ describe Event do
   end
 
   it { should belong_to(:location) }
-  it { should have_many(:volunteer_rsvps) }
-  it { should have_many(:volunteers).through(:volunteer_rsvps) }
+  it { should have_many(:rsvps) }
+  it { should have_many(:volunteers).through(:rsvps) }
   it { should have_many(:event_organizers) }
   it { should have_many(:organizers).through(:event_organizers) }
   it { should have_many(:event_sessions) }
@@ -38,7 +38,7 @@ describe Event do
 
   describe "#volunteering?" do
     it "is true when a user is volunteering at an event" do
-      create(:volunteer_rsvp, :user => @user, :event => @event)
+      create(:rsvp, :user => @user, :event => @event)
       @event.volunteering?(@user).should == true
     end
 
@@ -48,8 +48,8 @@ describe Event do
   end
 
   describe "#rsvp_for_user" do
-    it "should return the volunteer_rsvp for a user" do
-      @event.rsvp_for_user(@user).should == @event.volunteer_rsvps.find_by_user_id(@user.id)
+    it "should return the rsvp for a user" do
+      @event.rsvp_for_user(@user).should == @event.rsvps.find_by_user_id(@user.id)
     end
   end
 

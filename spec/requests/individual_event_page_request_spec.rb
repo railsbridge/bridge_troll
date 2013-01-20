@@ -3,19 +3,19 @@ require 'spec_helper'
 def add_volunteer_to_event(event, attributes)
   user = create(:user)
   user.profile.update_attributes!(attributes)
-  create(:volunteer_rsvp, :user => user, :event => event)
+  create(:rsvp, :user => user, :event => event)
 end
 
 describe "the individual event page" do
+  before do
+    @event = create(:event)
+  end
+  
   context "user is not logged in" do
-    before do
-      @event = create(:event)
-    end
-
     it "shows a list of volunteers for the event" do
       user1 = create(:user)
       user2 = create(:user)
-      create(:volunteer_rsvp, :user => user1, :event => @event)
+      create(:rsvp, :user => user1, :event => @event)
       visit event_path(@event)
 
       page.should have_content("Volunteers")
@@ -50,7 +50,6 @@ describe "the individual event page" do
 
   context "user is logged in but is not an organizer for the event" do
     before do
-      @event = create(:event)
       sign_in_as(create(:user))
     end
 
@@ -61,7 +60,7 @@ describe "the individual event page" do
     end
 
     it "doesn't display sensitive volunteer information" do
-      rsvp = create(:volunteer_rsvp, event: @event)
+      rsvp = create(:rsvp, event: @event)
       volunteer = rsvp.user
       volunteer.update_attributes!(hacking: true, teaching: true)
 
@@ -78,7 +77,6 @@ describe "the individual event page" do
 
   context "user is logged in and is an organizer of the event" do
     before do
-      @event = create(:event)
       user = create(:user)
       @event.organizers << user
       sign_in_as(user)
@@ -108,7 +106,7 @@ describe "the individual event page" do
 
       volunteer = create(:user)
       volunteer.profile.update_attributes!(hacking: true, teaching: true)
-      create(:volunteer_rsvp, user: volunteer, event: @event)
+      create(:rsvp, user: volunteer, event: @event)
 
       visit event_path(@event)
       page.should have_content(volunteer.email)
@@ -130,7 +128,6 @@ describe "the individual event page" do
 
   context "user is logged in and is an admin" do
     before do
-      @event = create(:event)
       sign_in_as(create(:user, admin: true))
       visit event_path(@event)
     end
@@ -157,7 +154,7 @@ describe "the individual event page" do
 
       volunteer = create(:user)
       volunteer.profile.update_attributes!(hacking: true, teaching: true)
-      create(:volunteer_rsvp, user: volunteer, event: @event)
+      create(:rsvp, user: volunteer, event: @event)
 
       visit event_path(@event)
       page.should have_content(volunteer.email)

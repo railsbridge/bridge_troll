@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable, :confirmable, :timeoutable
 
-  has_many :volunteer_rsvps
-  has_many :events, through: :volunteer_rsvps
+  has_many :rsvps
+  has_many :events, through: :rsvps
   has_many :event_organizers
   has_many :organizers, through: :event_organizers, source: :event
 

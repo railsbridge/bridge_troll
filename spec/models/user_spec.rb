@@ -3,8 +3,8 @@ require 'spec_helper'
 describe User do
   before { @user = create(:user) }
 
-  it { should have_many(:volunteer_rsvps) }
-  it { should have_many(:events).through(:volunteer_rsvps) }
+  it { should have_many(:rsvps) }
+  it { should have_many(:events).through(:rsvps) }
   it { should have_many(:event_organizers) }
   it { should have_many(:organizers).through(:event_organizers) }
   it { should have_one(:profile) }
