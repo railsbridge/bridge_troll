@@ -20,6 +20,9 @@ end
 
 group :development do
   gem 'quiet_assets'
+  gem 'guard-rspec'
+  gem 'rb-fsevent'
+  gem 'terminal-notifier-guard'
 end
 
 group :test do
@@ -29,6 +32,7 @@ group :test do
   gem "launchy"
   gem "database_cleaner"
   gem 'shoulda-matchers'
+  gem "faker"
 end
 
 group :test, :development do

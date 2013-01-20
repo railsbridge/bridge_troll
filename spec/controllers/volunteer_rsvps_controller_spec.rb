@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe VolunteerRsvpsController do
+  def extract_rsvp_params(rsvp)
+    rsvp.attributes.except *%w{user_id id created_at updated_at}
+  end
+
   before do
     @event = create(:event, title: 'The Best Railsbridge')
   end
@@ -25,32 +29,32 @@ describe VolunteerRsvpsController do
       before do
         @user = create(:user)
         sign_in @user
+        @rsvp_params = extract_rsvp_params build(:volunteer_rsvp, :event => @event)
       end
 
       context "as a logged in user I should be able to volunteer for an event" do
         it "should allow the user to newly volunteer for an event" do
           expect {
-            post :create, { :event_id => @event.id }
+            post :create, @rsvp_params
           }.to change {VolunteerRsvp.count }.by(1)
         end
 
         it "redirects to the event page related to the rsvp with flash confirmation" do
-          post :create, { :event_id => @event.id }
+          post :create, @rsvp_params
           response.should redirect_to(event_path(@event))
           flash[:notice].should match(/thanks/i)
         end
 
         it "should create a volunteer_rsvp that persists and is valid" do
-          post :create, { :event_id => @event.id}
+          post :create, @rsvp_params
           assigns[:rsvp].should be_persisted
           assigns[:rsvp].should be_valid
         end
 
-        it "should set the new volunteer_rsvp with the selected event, current user, and attending true" do
-          post :create, { :event_id => @event.id}
+        it "should set the new volunteer_rsvp with the selected event, and current user" do
+          post :create, @rsvp_params
           assigns[:rsvp].user_id.should == assigns[:current_user].id
           assigns[:rsvp].event_id.should == @event.id
-          assigns[:rsvp].attending.should == true
         end
       end
     end
@@ -60,24 +64,24 @@ describe VolunteerRsvpsController do
       before do
         @user = create(:user)
         sign_in @user
-        @rsvp = VolunteerRsvp.create(:user_id => @user.id, :event_id => @event.id, :attending => false)
+        @rsvp = create(:volunteer_rsvp, user: @user, event: @event)
+        @rsvp_params = extract_rsvp_params @rsvp
       end
 
       it "should allow the user to re-volunteer for an event" do
         expect {
-          post :create, { :event_id => @event.id}
+          post :create, @rsvp_params
         }.to change {VolunteerRsvp.count }.by(0)
-        @rsvp.reload.attending.should == true
       end
 
       it "does not create any new rsvps" do
         expect {
-          post :create, { :event_id => @event.id}
+          post :create, @rsvp_params
         }.to_not change { VolunteerRsvp.count }
       end
 
       it "redirects to the event page related to the rsvp with flash confirmation" do
-        post :create, { :event_id => @event.id}
+        post :create, @rsvp_params
         response.should redirect_to(event_path(@event))
         flash[:notice].should match(/Thanks for volunteering!/i)
       end
@@ -94,7 +98,7 @@ describe VolunteerRsvpsController do
 
     context "the user has signed up to volunteer and changed his/her mind" do
       before do
-        @rsvp = VolunteerRsvp.create(:event_id => @event.id, :user_id => @user.id, :attending => true)
+        @rsvp = create(:volunteer_rsvp)
       end
       it "should destroy the rsvp" do
         expect {
@@ -103,7 +107,7 @@ describe VolunteerRsvpsController do
         expect {
           @rsvp.reload
         }.to raise_error(ActiveRecord::RecordNotFound)
-        flash[:notice].should match(/no longer signed up.*The Best Railsbridge/i)
+        flash[:notice].should match(/no longer signed up to volunteer/i)
       end
     end
 
