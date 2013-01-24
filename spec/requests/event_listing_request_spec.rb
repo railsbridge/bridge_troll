@@ -73,6 +73,10 @@ describe "the event listing page" do
 
     visit events_path
     click_link("Volunteer")
+    page.should have_content("almost signed up")
+    fill_in "About you", :with => "I am cool and I use a Mac (but those two things are not related)"
+    #TODO: add more fields
+    click_button "Submit"
     page.should have_content("Thanks for volunteering")
   end
 end

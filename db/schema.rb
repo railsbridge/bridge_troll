@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130114214614) do
+ActiveRecord::Schema.define(:version => 20130120194900) do
 
   create_table "event_organizers", :force => true do |t|
     t.integer  "user_id"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(:version => 20130114214614) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "role_id"
+    t.text     "about_you"
   end
 
   add_index "volunteer_rsvps", ["user_id", "event_id"], :name => "index_volunteer_rsvps_on_user_id_and_event_id", :unique => true
