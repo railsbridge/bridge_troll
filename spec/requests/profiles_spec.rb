@@ -3,9 +3,7 @@ require 'spec_helper'
 describe "Profile" do
   before do
     @user = create(:user)
-    @user.profile.update_attributes( :teaching => true,
-                                     :taing => true,
-                                     :coordinating => true,
+    @user.profile.update_attributes( :coordinating => true,
                                      :childcaring => true,
                                      :writing => true,
                                      :hacking => true,
@@ -34,8 +32,6 @@ describe "Profile" do
     click_link "Profile"
     page.should have_content(@user.full_name)
     page.should have_content(@user.profile.bio)
-    page.should have_content("Teacher")
-    page.should have_content("Teacher Assistant")
     page.should have_content("Coordinator")
     page.should have_content("Childcare")
     page.should have_content("Writer")
@@ -56,8 +52,6 @@ describe "Profile" do
     click_link "edit profile"
     page.should have_content("Profile edit #{@user.full_name}")
 
-    check "profile_teaching"
-    check "profile_taing"
     uncheck "profile_coordinating"
     uncheck "profile_childcaring"
     uncheck "profile_writing"
@@ -75,8 +69,6 @@ describe "Profile" do
     click_button "Update"
 
     page.should have_content("Profile was successfully updated.")
-    page.should have_content("Teacher")
-    page.should have_content("Teacher Assistant")
     page.should_not have_content("Coordinator")
     page.should_not have_content("Childcare")
     page.should_not have_content("Writer")

@@ -4,6 +4,18 @@
     <%= f.text_area :about_you %>
   </div>
 
+  <div class="field">
+    <%= f.label :teaching, class: 'checkbox' do %>
+      <%= f.check_box :teaching %> Teaching
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= f.label :taing, class: 'checkbox' do %>
+      <%= f.check_box :taing %> Taing
+    <% end %>
+  </div>
+
   <div class="actions">
     <%= f.hidden_field :event_id %>
     <%= f.submit "Submit"%>

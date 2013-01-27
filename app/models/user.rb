@@ -22,22 +22,6 @@ class User < ActiveRecord::Base
     users - event.organizers
   end
 
-  def teaching_and_taing?
-    profile.teaching? && profile.taing?
-  end
-
-  def teaching_only?
-    profile.teaching? && !profile.taing?
-  end
-
-  def taing_only?
-    profile.taing? && !profile.teaching?
-  end
-
-  def neither_teaching_nor_taing?
-    !profile.taing? && !profile.teaching?
-  end
-
   def full_name
     "#{first_name} #{last_name}"
   end

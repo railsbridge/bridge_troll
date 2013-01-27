@@ -1,6 +1,6 @@
 class Profile < ActiveRecord::Base
   attr_accessible :childcaring, :coordinating, :designing, :evangelizing, :hacking, :linux, :macosx, :mentoring,
-                  :other, :taing, :teaching, :user_id, :windows, :writing, :bio
+                  :other, :user_id, :windows, :writing, :bio
 
   belongs_to :user
 

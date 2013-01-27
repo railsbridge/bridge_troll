@@ -26,8 +26,6 @@ describe ProfilesController do
                                                        :linux => true,
                                                        :macosx => true,
                                                        :mentoring => true,
-                                                       :taing => true,
-                                                       :teaching => true,
                                                        :user_id => true,
                                                        :windows => true,
                                                        :writing => true,

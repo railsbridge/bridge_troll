@@ -14,8 +14,6 @@ describe Profile do
   it { should allow_mass_assignment_of(:macosx) }
   it { should allow_mass_assignment_of(:mentoring) }
   it { should allow_mass_assignment_of(:other) }
-  it { should allow_mass_assignment_of(:taing) }
-  it { should allow_mass_assignment_of(:teaching) }
   it { should allow_mass_assignment_of(:user_id) }
   it { should allow_mass_assignment_of(:windows) }
   it { should allow_mass_assignment_of(:writing) }

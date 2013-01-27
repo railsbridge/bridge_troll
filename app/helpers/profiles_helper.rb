@@ -1,18 +1,18 @@
 module ProfilesHelper
 
   def skills
-    [[:teaching, "Teacher"],
-     [:taing, "Teacher Assistant"],
-     [:coordinating, "Coordinator"],
-     [:childcaring, "Childcare"],
-     [:writing, "Writer"],
-     [:hacking, "Hacker"],
-     [:designing, "Designer"],
-     [:evangelizing, "Evangelize"],
-     [:mentoring, "Mentor"],
-     [:macosx, "Mac OS X"],
-     [:windows],
-     [:linux]]
+    [ 
+      [:coordinating, "Coordinator"],
+      [:childcaring, "Childcare"],
+      [:writing, "Writer"],
+      [:hacking, "Hacker"],
+      [:designing, "Designer"],
+      [:evangelizing, "Evangelize"],
+      [:mentoring, "Mentor"],
+      [:macosx, "Mac OS X"],
+      [:windows],
+      [:linux]
+    ]
   end
 
   def skill_title(skill)

@@ -44,23 +44,23 @@
 </div>
 
 <h3>Volunteers:</h3>
-<% if @event.volunteers.length == 0 %>
+<% if @event.volunteer_rsvps.none? %>
     No volunteers are currently signed up for this event.
 <% else %>
     <% if @organizer %>
-        <h4>Willing to Teach: <%= teachers_count(@event.volunteers) %></h4>
-        <%= partitioned_volunteer_list(@event.volunteers, :teaching_only?) %>
+        <h4>Willing to Teach: <%= teachers_count(@event.volunteer_rsvps) %></h4>
+        <%= partitioned_volunteer_list(@event.volunteer_rsvps, :teachers) %>
 
-        <h4>Willing to TA: <%= tas_count(@event.volunteers) %></h4>
-        <%= partitioned_volunteer_list(@event.volunteers, :taing_only?) %>
+        <h4>Willing to TA: <%= tas_count(@event.volunteer_rsvps) %></h4>
+        <%= partitioned_volunteer_list(@event.volunteer_rsvps, :tas) %>
 
-        <h4>Willing to Teach or TA: <%= teach_or_ta_count(@event.volunteers) %></h4>
-        <%= partitioned_volunteer_list(@event.volunteers, :teaching_and_taing?) %>
+        <h4>Willing to Teach or TA: <%= teach_or_ta_count(@event.volunteer_rsvps) %></h4>
+        <%= partitioned_volunteer_list(@event.volunteer_rsvps, :teach_or_tas) %>
 
-        <h4>Not Interested in Teaching: <%= not_teach_or_ta_count(@event.volunteers) %></h4>
-        <%= partitioned_volunteer_list(@event.volunteers, :neither_teaching_nor_taing?) %>
+        <h4>Not Interested in Teaching: <%= not_teach_or_ta_count(@event.volunteer_rsvps) %></h4>
+        <%= partitioned_volunteer_list(@event.volunteer_rsvps, :not_teach_or_tas) %>
 
-        <h4>All Volunteers: <%= @event.volunteers.length %></h4>
+        <h4>All Volunteers: <%= @event.volunteer_rsvps.length %></h4>
     <% end %>
 
     <table class="table">
@@ -74,13 +74,13 @@
       </tr>
       </thead>
       <tbody>
-      <% @event.volunteers.each do |volunteer| %>
+      <% @event.volunteer_rsvps.each do |rsvp| %>
           <tr>
-            <td><%= volunteer.full_name %></td>
+            <td><%= rsvp.user.full_name %></td>
             <% if @organizer %>
-                <td><%= volunteer.email %></td>
+                <td><%= rsvp.user.email %></td>
             <% end %>
-            <td><%= get_volunteer_skills(volunteer) %></td>
+            <td><%= get_volunteer_skills(rsvp) %></td>
           </tr>
       <% end %>
       </tbody>

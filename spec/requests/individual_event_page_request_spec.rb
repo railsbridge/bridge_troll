@@ -1,11 +1,5 @@
 require 'spec_helper'
 
-def add_volunteer_to_event(event, attributes)
-  user = create(:user)
-  user.profile.update_attributes!(attributes)
-  create(:rsvp, :user => user, :event => event)
-end
-
 describe "the individual event page" do
   before do
     @event = create(:event)
@@ -60,9 +54,8 @@ describe "the individual event page" do
     end
 
     it "doesn't display sensitive volunteer information" do
-      rsvp = create(:rsvp, event: @event)
-      volunteer = rsvp.user
-      volunteer.update_attributes!(hacking: true, teaching: true)
+      volunteer = create(:user)
+      rsvp = create(:rsvp, user: volunteer, event: @event, teaching: true)
 
       visit event_path(@event)
       page.should have_content(volunteer.full_name)
@@ -99,14 +92,13 @@ describe "the individual event page" do
     end
 
     it "shows all volunteer information" do
-      4.times { add_volunteer_to_event(@event, hacking: true, teaching: true) }
-      3.times { add_volunteer_to_event(@event, hacking: true, taing: true) }
-      2.times { add_volunteer_to_event(@event, hacking: true, teaching: true, taing: true) }
-      1.times { add_volunteer_to_event(@event, hacking: true) }
+      4.times { create(:rsvp, event: @event, teaching: true) }
+      3.times { create(:rsvp, event: @event, taing: true) }
+      2.times { create(:rsvp, event: @event, teaching: true, taing: true) }
+      1.times { create(:rsvp, event: @event) }
 
       volunteer = create(:user)
-      volunteer.profile.update_attributes!(hacking: true, teaching: true)
-      create(:rsvp, user: volunteer, event: @event)
+      create(:rsvp, user: volunteer, event: @event, teaching: true)
 
       visit event_path(@event)
       page.should have_content(volunteer.email)
@@ -147,14 +139,13 @@ describe "the individual event page" do
     end
 
     it "shows all volunteer information" do
-      4.times { add_volunteer_to_event(@event, hacking: true, teaching: true) }
-      3.times { add_volunteer_to_event(@event, hacking: true, taing: true) }
-      2.times { add_volunteer_to_event(@event, hacking: true, teaching: true, taing: true) }
-      1.times { add_volunteer_to_event(@event, hacking: true) }
+      4.times { create(:rsvp, event: @event, teaching: true) }
+      3.times { create(:rsvp, event: @event, taing: true) }
+      2.times { create(:rsvp, event: @event, teaching: true, taing: true) }
+      1.times { create(:rsvp, event: @event) }
 
       volunteer = create(:user)
-      volunteer.profile.update_attributes!(hacking: true, teaching: true)
-      create(:rsvp, user: volunteer, event: @event)
+      create(:rsvp, user: volunteer, event: @event, teaching: true)
 
       visit event_path(@event)
       page.should have_content(volunteer.email)
