@@ -1,21 +1,10 @@
 class ProfilesController < ApplicationController
   before_filter :authenticate_user!
-
-  def show
-    @user = User.find(params[:user_id])
-    @profile = @user.profile
-  end
-
-  def edit
-    @user = User.find(params[:user_id])
-    @profile = @user.profile
-  end
+  before_filter :load_user_and_profile, :only => [:show, :edit]
 
   def update
-    @user = User.find(params[:user_id])
-    @profile = @user.profile
     respond_to do |format|
-      if @profile.update_attributes(params[:profile])
+      if current_user.profile.update_attributes(params[:profile])
         format.html { redirect_to user_profile_path, notice: 'Profile was successfully updated.' }
         format.json { head :ok }
       else
@@ -23,5 +12,12 @@ class ProfilesController < ApplicationController
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  protected
+
+  def load_user_and_profile
+    @user = current_user
+    @profile = current_user.profile
   end
 end
