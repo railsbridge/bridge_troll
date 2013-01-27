@@ -42,4 +42,9 @@ FactoryGirl.define do
     event
     role Role.find_by_title('Volunteer')
   end
+
+  factory :rsvp_session do
+    rsvp
+    event_session
+  end
 end

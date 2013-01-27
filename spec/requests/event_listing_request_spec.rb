@@ -73,6 +73,11 @@ describe "the event listing page" do
     context 'given an event' do
       before(:each) do
         @event = create(:event)
+        @session1 = @event.event_sessions.first
+        @session1.update_attributes!(starts_at: 10.days.from_now, ends_at: 11.days.from_now)
+        @event.event_sessions << create(:event_session)
+        @session2 = @event.event_sessions.last
+        @session2.update_attributes!(starts_at: 12.days.from_now, ends_at: 13.days.from_now)
       end
 
       it "allows user to volunteer for an event" do
@@ -81,6 +86,10 @@ describe "the event listing page" do
         page.should have_content("almost signed up")
         fill_in "About you", :with => "I am cool and I use a Mac (but those two things are not related)"
         check 'Teaching'
+
+        check "Session 1"
+        uncheck "Session 2"
+
         click_button "Submit"
         page.should have_content("Thanks for volunteering")
 
@@ -89,6 +98,9 @@ describe "the event listing page" do
         rsvp.should_not be_taing
         rsvp.user_id.should == @user.id
         rsvp.event_id.should == @event.id
+
+        rsvp.rsvp_sessions.length.should == 1
+        rsvp.rsvp_sessions.first.event_session.should == @session1
       end
      
       context 'given a volunteered user' do
@@ -96,6 +108,7 @@ describe "the event listing page" do
           @rsvp = create(:rsvp, event: @event, user: @user) 
           visit events_path
         end
+
         it "allows user to unvolunteer for an event" do
           click_link('Unvolunteer')
           Rsvp.find_by_id(@rsvp.id).should be_nil
@@ -105,11 +118,18 @@ describe "the event listing page" do
           click_link("Edit RSVP")
           uncheck 'Teaching'
           check 'Taing'
+
+          uncheck "Session 1"
+          check "Session 2"
+
           click_button 'Submit'
 
           @rsvp.reload
           @rsvp.should be_taing
           @rsvp.should_not be_teaching
+
+          @rsvp.rsvp_sessions.length.should == 1
+          @rsvp.rsvp_sessions.first.event_session.should == @session2
         end
       end
     end

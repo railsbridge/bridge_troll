@@ -1,20 +1,28 @@
 <%= form_for(@rsvp) do |f| %>
   <div class="field">
     <%= f.label :about_you %>
-    <%= f.text_area :about_you %>
+    <%= f.text_area :about_you, rows: 5, cols: 80 %>
   </div>
 
+  <strong>Preferences</strong>
   <div class="field">
     <%= f.label :teaching, class: 'checkbox' do %>
       <%= f.check_box :teaching %> Teaching
     <% end %>
-  </div>
-
-  <div class="field">
     <%= f.label :taing, class: 'checkbox' do %>
       <%= f.check_box :taing %> Taing
     <% end %>
   </div>
+
+  <strong>Attendances</strong>
+  <% session_enumerator = 1 %>
+  <% @rsvp.event.event_sessions.order('starts_at ASC').each do |session| %>
+    <%= label_tag do %>
+      <%= check_box_tag 'rsvp_sessions[]', session.id, @rsvp.rsvp_sessions.where(event_session_id: session.id).any? %>
+      Session <%= session_enumerator %>: <%= formatted_session_date(session) %> <%= formatted_session_timerange(session) %>
+    <% end %>
+    <% session_enumerator += 1 %>
+  <% end %>
 
   <div class="actions">
     <%= f.hidden_field :event_id %>

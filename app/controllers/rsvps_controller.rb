@@ -15,6 +15,7 @@ class RsvpsController < ApplicationController
 
     @rsvp.role_id = Role::VOLUNTEER
     if @rsvp.save
+      set_rsvp_sessions
       redirect_to @rsvp.event, notice: 'Thanks for volunteering!'
     else
       flash[:error] = 'There was an error saving your rsvp'
@@ -27,6 +28,7 @@ class RsvpsController < ApplicationController
 
   def update
     if @rsvp.update_attributes(params[:rsvp])
+      set_rsvp_sessions
       redirect_to event_path(@rsvp.event_id)
     else
       flash[:error] = 'There was an error saving your rsvp'
@@ -41,6 +43,11 @@ class RsvpsController < ApplicationController
   end
 
   protected
+
+  def set_rsvp_sessions
+    session_ids = params[:rsvp_sessions].present? ? params[:rsvp_sessions].map(&:to_i) : []
+    @rsvp.set_attending_sessions(session_ids)
+  end
 
   def load_rsvp
     @rsvp = Rsvp.find_by_id(params[:id])
