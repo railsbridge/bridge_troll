@@ -12,10 +12,12 @@ describe OrganizersController do
         get :index, :event_id => @event.id
         response.should redirect_to(new_user_session_path)
       end
+
       it "should not be able to create a new event" do
         post :create, :event_id => @event.id, :event_organizer => {:event_id => @event.id, :user_id => @user.id}
         response.should redirect_to(new_user_session_path)
       end
+
       it "should not be able to delete an event" do
         delete :destroy, :event_id => @event.id, :id => @user.id
         response.should redirect_to(new_user_session_path)
@@ -28,17 +30,19 @@ describe OrganizersController do
 
         user_organizer = create(:user)
         @event.organizers << user_organizer
-        @event_organizer = EventOrganizer.last
+        @event_organizer = Rsvp.last
       end
 
       it "should not be able to edit an event organizer" do
         get :index, {:event_id => @event.id}
         response.should redirect_to(events_path)
       end
+
       it "should not be able to create a new event organizer" do
         post :create, {:event_id => @event.id, :event_organizer => {:event_id => @event.id, :user_id => @user.id}}
         response.should redirect_to(events_path)
       end
+
       it "should not be able to delete an event organizer" do
         delete :destroy, {:event_id => @event_organizer.id, :id => @user.id}
         response.should redirect_to(events_path)
@@ -66,14 +70,17 @@ describe OrganizersController do
       end
 
       it "should be able to create an organizer assignment adding it to the table" do
-        expect { post :create, :event_id => @event.id, :event_organizer => {:user_id => @user1.id, :event_id => @event.id} }.
-            to change(EventOrganizer, :count).by(1)
+        expect {
+          post :create, :event_id => @event.id, :event_organizer => {:user_id => @user1.id, :event_id => @event.id}
+        }.to change(Rsvp, :count).by(1)
       end
 
       it "should be able to delete an event organizer" do
         @event.organizers << @user1
-        event_co_organizer = EventOrganizer.last
-        expect { delete :destroy, :event_id => @event.id, :id => event_co_organizer.id, :_method => "delete" }.to change(EventOrganizer, :count).by(-1)
+        event_co_organizer = Rsvp.last
+        expect {
+          delete :destroy, :event_id => @event.id, :id => event_co_organizer.id, :_method => "delete"
+        }.to change(Rsvp, :count).by(-1)
       end
     end
   end

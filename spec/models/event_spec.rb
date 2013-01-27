@@ -8,9 +8,6 @@ describe Event do
 
   it { should belong_to(:location) }
   it { should have_many(:rsvps) }
-  it { should have_many(:volunteers).through(:rsvps) }
-  it { should have_many(:event_organizers) }
-  it { should have_many(:organizers).through(:event_organizers) }
   it { should have_many(:event_sessions) }
 
   it { should validate_presence_of(:title) }

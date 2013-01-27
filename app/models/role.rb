@@ -1,11 +1,11 @@
 class Role < ActiveHash::Base
-  self.data = [
-    {:id => 1, :title => "Student"},
-    {:id => 2, :title => "Volunteer"}
-  ]
-  VOLUNTEER_ROLE_IDS = [2]
+  STUDENT = 1
+  VOLUNTEER = 2
+  ORGANIZER = 3
 
-  def self.id_for(role)
-    find_by_title(role).id
-  end
+  self.data = [
+    {:id => STUDENT, :title => "Student"},
+    {:id => VOLUNTEER, :title => "Volunteer"},
+    {:id => ORGANIZER, :title => "Organizer"}
+  ]
 end

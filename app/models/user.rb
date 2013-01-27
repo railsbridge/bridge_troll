@@ -10,8 +10,6 @@ class User < ActiveRecord::Base
 
   has_many :rsvps
   has_many :events, through: :rsvps
-  has_many :event_organizers
-  has_many :organizers, through: :event_organizers, source: :event
 
   has_one :profile
 

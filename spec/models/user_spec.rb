@@ -5,8 +5,6 @@ describe User do
 
   it { should have_many(:rsvps) }
   it { should have_many(:events).through(:rsvps) }
-  it { should have_many(:event_organizers) }
-  it { should have_many(:organizers).through(:event_organizers) }
   it { should have_one(:profile) }
 
   it { should allow_mass_assignment_of(:first_name) }

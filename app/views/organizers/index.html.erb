@@ -24,12 +24,12 @@
   </tr>
   </thead>
   <tbody>
-  <% @organizers.each do |organizer|  %>
+  <% @organizer_rsvps.each do |rsvp|  %>
       <tr>
-        <td><%= organizer.user.full_name %></td>
-        <td><%= organizer.user.email %></td>
-        <% if organizer.user_id != current_user.id %>
-            <td><%= button_to 'Remove', event_organizer_path(@event, organizer), method: :delete,
+        <td><%= rsvp.user.full_name %></td>
+        <td><%= rsvp.user.email %></td>
+        <% if rsvp.user_id != current_user.id %>
+            <td><%= button_to 'Remove', event_organizer_path(@event, rsvp), method: :delete,
                                :form => {:style => "margin-bottom : 0;"}, :class => "btn btn-mini" %>
             </td>
         <% else %>

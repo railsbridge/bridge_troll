@@ -2,9 +2,11 @@ class Event < ActiveRecord::Base
   belongs_to :location
   
   has_many :rsvps
-  has_many :volunteers, through: :rsvps, source: :user
-  has_many :event_organizers
-  has_many :organizers, through: :event_organizers, source: :user
+
+  has_many :volunteer_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::VOLUNTEER }
+  has_many :volunteers, through: :volunteer_rsvps, source: :user
+  has_many :organizer_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::ORGANIZER }
+  has_many :organizers, through: :organizer_rsvps, source: :user
 
   has_many :event_sessions  
   accepts_nested_attributes_for :event_sessions, allow_destroy: true
@@ -25,10 +27,10 @@ class Event < ActiveRecord::Base
   end
   
   def volunteering?(user)
-    self.rsvps.where(:user_id => user.id, :role_id => Role::VOLUNTEER_ROLE_IDS).any?
+    volunteer_rsvps.where(user_id: user.id).any?
   end
 
   def organizer?(user)
-    self.organizers.find { |organizer| organizer == user }.present?
+    organizer_rsvps.where(user_id: user.id).any?
   end
 end
