@@ -1,9 +1,9 @@
 class RemoveAttendingFromVolunteerRsvps < ActiveRecord::Migration
   def up
-    remove_column :rsvps, :attending
+    remove_column :volunteer_rsvps, :attending
   end
 
   def down
-    add_column :rsvps, :attending, :boolean
+    add_column :volunteer_rsvps, :attending, :boolean
   end
 end
