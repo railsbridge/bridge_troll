@@ -17,9 +17,17 @@ class DropEventOrganizers < ActiveRecord::Migration
   end
 
   def up
-    execute('UPDATE rsvps SET role_id = ?', Role::VOLUNTEER)
+    Rsvp.find_each do |rsvp|
+      rsvp.role_id = Role::VOLUNTEER
+      rsvp.save!
+    end
 
     EventOrganizer.find_each do |old_organizer_rsvp|
+      existing_rsvp = Rsvp.find_by_user_id_and_event_id(old_organizer_rsvp.user_id, old_organizer_rsvp.event_id)
+      if existing_rsvp
+        existing_rsvp.destroy
+      end
+
       event = old_organizer_rsvp.event
       event.rsvps.create(user_id: old_organizer_rsvp.user.id, role_id: Role::ORGANIZER)
     end
