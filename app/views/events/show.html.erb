@@ -1,80 +1,101 @@
-  <h2><%= @event.title %></h2>
-  <strong>When:</strong>
-  <%= "#{l @event.date.localtime, :format => :date_as_ymd} #{l @event.date.localtime, :format => :time_as_hm_ampm}" %>
-  <br /> <br />
+<h2><%= @event.title %></h2>
+<strong>When:</strong>
 
-  <p>
-    <% if(!@event.location.nil?) %>
-      <strong>Location: </strong><%= @event.location.name %> at address:<br />
-      <%= @event.location.address %>
-    <% else %>
-      This event currently has no location!
-    <% end %>
-  </p>
-
-  <strong>Details:</strong> <br />
-  <p><%= @event.details %></p>
-
-    <strong><%= organizer_title %></strong> <br />
-    <ul>
-      <% organizer_list.each do |organizer| %>
-        <li>
-          <%= organizer[:name] %>
-        </li>
-      <% end %>
-    </ul>
-
-    <h3>Volunteers:</h3>
-      <% if @event.volunteers.length == 0 %>
-        No volunteers are currently signed up for this event.
-      <% else %>
-      <% if @organizer %>
-          <h4>Willing to Teach: <%= teachers_count(@event.volunteers) %></h4>
-          <%= partitioned_volunteer_list(@event.volunteers, :teaching_only?) %>
-
-          <h4>Willing to TA: <%= tas_count(@event.volunteers) %></h4>
-          <%= partitioned_volunteer_list(@event.volunteers, :taing_only?) %>
-
-          <h4>Willing to Teach or TA: <%= teach_or_ta_count(@event.volunteers) %></h4>
-          <%= partitioned_volunteer_list(@event.volunteers, :teaching_and_taing?) %>
-
-          <h4>Not Interested in Teaching: <%= not_teach_or_ta_count(@event.volunteers) %></h4>
-          <%= partitioned_volunteer_list(@event.volunteers, :neither_teaching_nor_taing?) %>
-
-        <h4>All Volunteers: <%= @event.volunteers.length %></h4>
-      <% end %>
-
-      <table class = "table">
-        <thead>
-        <tr>
-          <th>Name</th>
-          <% if @organizer  %>
-            <th>Email</th>
-          <% end %>
-          <th>Skills</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @event.volunteers.each do |volunteer| %>
-            <tr>
-              <td><%= volunteer.name %></td>
-              <% if @organizer  %>
-                <td><%= volunteer.email %></td>
-              <% end %>
-              <td><%= get_volunteer_skills(volunteer) %></td>
-            </tr>
-        <% end %>
-        </tbody>
-      </table>
-
+<ul>
+  <% @event.event_sessions.each do |event_session| %>
+      <li>
+        <%= formatted_session_date(event_session) %>
+        <br/>
+        Start time: <%= formatted_session_time(event_session, :starts_at) %>
+        <br/>
+        End time: <%= formatted_session_time(event_session, :ends_at) %>
+      </li>
   <% end %>
+</ul>
 
-<br />
-<% if @organizer  %>
-  <%= link_to 'Edit', edit_event_path(@event) %> |
+<p>
+  <% if @event.location.present? %>
+      <strong>Location: </strong>
+      <%= @event.location.name %> at address:
+      <br/>
+      <%= @event.location.address %>
+  <% else %>
+      This event currently has no location!
+  <% end %>
+</p>
+
+<div class="details">
+  <strong>Details:</strong>
+  <br/>
+  <%= simple_format(@event.details) %>
+</div>
+
+<div class="organizers">
+  <strong><%= organizer_title %></strong> <br/>
+  <ul>
+    <% if organizer_list.any? %>
+        <% organizer_list.each do |organizer| %>
+            <li><%= organizer.full_name %></li>
+        <% end %>
+    <% else %>
+        <li>No Organizer Assigned</li>
+    <% end %>
+  </ul>
+</div>
+
+<h3>Volunteers:</h3>
+<% if @event.volunteer_rsvps.none? %>
+    No volunteers are currently signed up for this event.
+<% else %>
+    <% if @organizer %>
+        <h4>Willing to Teach: <%= teachers_count(@event.volunteer_rsvps) %></h4>
+        <%= partitioned_volunteer_list(@event.volunteer_rsvps, :teachers) %>
+
+        <h4>Willing to TA: <%= tas_count(@event.volunteer_rsvps) %></h4>
+        <%= partitioned_volunteer_list(@event.volunteer_rsvps, :tas) %>
+
+        <h4>Willing to Teach or TA: <%= teach_or_ta_count(@event.volunteer_rsvps) %></h4>
+        <%= partitioned_volunteer_list(@event.volunteer_rsvps, :teach_or_tas) %>
+
+        <h4>Not Interested in Teaching: <%= not_teach_or_ta_count(@event.volunteer_rsvps) %></h4>
+        <%= partitioned_volunteer_list(@event.volunteer_rsvps, :not_teach_or_tas) %>
+
+        <h4>All Volunteers: <%= @event.volunteer_rsvps.length %></h4>
+    <% end %>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <% if @organizer %>
+            <th>Email</th>
+        <% end %>
+        <th>Skills</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @event.volunteer_rsvps.each do |rsvp| %>
+          <tr>
+            <td><%= rsvp.user.full_name %></td>
+            <% if @organizer %>
+                <td><%= rsvp.user.email %></td>
+            <% end %>
+            <td><%= get_volunteer_skills(rsvp) %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+
 <% end %>
+
+<br/>
+
+<% if @organizer %>
+    <%= link_to 'Edit', edit_event_path(@event) %> |
+<% end %>
+
 <%= link_to 'Back', events_path %>
 
 <% if @organizer %>
-  | <%= link_to 'Manage Organizers', event_organizers_path('event_id' => @event.id) %>
+    | <%= link_to 'Manage Organizers', event_organizers_path('event_id' => @event.id) %>
 <% end %>

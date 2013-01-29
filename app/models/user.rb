@@ -1,37 +1,35 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
+
+  after_create :make_empty_profile
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable, :confirmable, :timeoutable
 
-  has_many :volunteer_rsvps
-  has_many :events, :through => :volunteer_rsvps
-  has_many :event_organizers
-  has_many :organizers, :through => :event_organizers, :source => :event
+  has_many :rsvps
+  has_many :events, through: :rsvps
 
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :teaching, :taing, :coordinating, :childcaring, :writing, :hacking, :designing, :evangelizing, :mentoring, :macosx, :windows, :linux, :other
-  validates :name,  presence: true
+  has_one :profile
+
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me
+
+  validates_presence_of :first_name, :last_name
 
   def self.not_assigned_as_organizer(event)
-    users = order('name asc, email asc')
+    users = order('last_name asc, first_name asc, email asc')
     users - event.organizers
   end
 
-  def teaching_and_taing?
-    teaching? && taing?
+  def full_name
+    "#{first_name} #{last_name}"
   end
 
-  def teaching_only?
-    teaching? && !taing?
-  end
+  private
 
-  def taing_only?
-    taing? && !teaching?
-  end
-
-  def neither_teaching_nor_taing?
-    !taing? && !teaching?
+  def make_empty_profile
+    self.build_profile
+    self.profile.save
   end
 end

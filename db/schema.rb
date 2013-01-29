@@ -11,10 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121223185427) do
+ActiveRecord::Schema.define(:version => 20130127054626) do
 
-  create_table "event_organizers", :force => true do |t|
-    t.integer  "user_id"
+  create_table "event_sessions", :force => true do |t|
+    t.datetime "starts_at"
+    t.datetime "ends_at"
     t.integer  "event_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -24,9 +25,9 @@ ActiveRecord::Schema.define(:version => 20121223185427) do
     t.string   "title"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.datetime "date"
     t.integer  "location_id"
     t.text     "details"
+    t.string   "time_zone"
   end
 
   create_table "locations", :force => true do |t|
@@ -36,11 +37,43 @@ ActiveRecord::Schema.define(:version => 20121223185427) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "roles", :force => true do |t|
-    t.string   "title"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "profiles", :force => true do |t|
+    t.integer  "user_id"
+    t.boolean  "coordinating"
+    t.boolean  "childcaring"
+    t.boolean  "writing"
+    t.boolean  "hacking"
+    t.boolean  "designing"
+    t.boolean  "evangelizing"
+    t.boolean  "mentoring"
+    t.boolean  "macosx"
+    t.boolean  "windows"
+    t.boolean  "linux"
+    t.text     "other"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.text     "bio"
   end
+
+  create_table "rsvp_sessions", :force => true do |t|
+    t.integer  "rsvp_id"
+    t.integer  "event_session_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  create_table "rsvps", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.integer  "role_id"
+    t.text     "about_you"
+    t.boolean  "teaching",   :default => false, :null => false
+    t.boolean  "taing",      :default => false, :null => false
+  end
+
+  add_index "rsvps", ["user_id", "event_id"], :name => "index_volunteer_rsvps_on_user_id_and_event_id", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",    :null => false
@@ -58,36 +91,13 @@ ActiveRecord::Schema.define(:version => 20121223185427) do
     t.datetime "confirmation_sent_at"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
-    t.boolean  "teaching"
-    t.boolean  "taing"
-    t.boolean  "coordinating"
-    t.boolean  "childcaring"
-    t.boolean  "writing"
-    t.boolean  "hacking"
-    t.boolean  "designing"
-    t.boolean  "evangelizing"
-    t.boolean  "mentoring"
-    t.boolean  "macosx"
-    t.boolean  "windows"
-    t.boolean  "linux"
-    t.string   "other"
-    t.string   "name"
     t.boolean  "admin",                  :default => false
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
-
-  create_table "volunteer_rsvps", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "event_id"
-    t.boolean  "attending"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "role_id"
-  end
-
-  add_index "volunteer_rsvps", ["user_id", "event_id"], :name => "index_volunteer_rsvps_on_user_id_and_event_id", :unique => true
 
 end

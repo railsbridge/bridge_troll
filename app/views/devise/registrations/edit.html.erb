@@ -4,77 +4,34 @@
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :name %><br />
-  <%= f.text_field :name %></div>
+  <div>
+    <%= f.label :first_name, "First/Given Name" %>
+    <%= f.text_field :first_name %>
+  </div>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+  <div>
+    <%= f.label :last_name, "Last/Family Name" %>
+    <%= f.text_field :last_name %>
+  </div>
 
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password %></div>
+  <div>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+  </div>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+  <div>
+    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i>
+    <%= f.password_field :password %>
+  </div>
 
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
+  <div>
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+  </div>
 
-  <h3>Skills</h3>
-  <div>    
-    <%= f.check_box :writing %>
-    <%= f.label :writing %>
-  </div>
   <div>
-    <%= f.check_box :teaching %>
-    <%= f.label :teaching %>
-  </div>
-  <div>
-    <%= f.check_box :taing %>
-    <%= f.label 'ta-ing' %>
-  </div>
-  <div>
-    <%= f.check_box :coordinating %>
-    <%= f.label :coordinating %>    
-  </div>
-  <div>
-    <%= f.check_box :childcaring %>
-    <%= f.label :childcaring %>
-  </div>
-  <div>
-    <%= f.check_box :hacking %>
-        <%= f.label :hacking %>
-  </div>
-  <div>
-    <%= f.check_box :designing %>
-        <%= f.label :designing %>
-  </div>
-  <div>
-    <%= f.check_box :evangelizing %>
-        <%= f.label :evangelizing %>
-  </div>
-  <div>
-    <%= f.check_box :mentoring %>
-        <%= f.label :mentoring %>
-  </div>
-    <div>
-    <%= f.check_box :macosx %>
-        <%= f.label :macosx %>
-  </div>
-  <div>
-    <%= f.check_box :windows %>
-        <%= f.label :windows %>
-  </div>
-  <div>
-    <%= f.check_box :mentoring %>
-        <%= f.label :mentoring %>
-  </div>
-  <div>
-    <%= f.check_box :linux %>
-        <%= f.label :linux %>
-  </div>
-  <div>
-    <%= f.label :other %>:
-    <%= f.text_field :other %>
+    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i>
+    <%= f.password_field :current_password %>
   </div>
 
   <div><%= f.submit "Update" %></div>

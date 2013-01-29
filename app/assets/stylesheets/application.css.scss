@@ -1,6 +1,62 @@
+$navbarBackground: #635D6B;
+$navbarBackgroundHighlight: #857D91;
+$navbarText: #eee;
+$navbarLinkColor: #eee;
+$navbarLinkBackgroundHover: #CDC9D1;
+$navbarBrandColor: #FFF;
+$tableBorder: #BFBFBF;
+
 @import "twitter/bootstrap";
 @import 'twitter/bootstrap/responsive';
+@import "select2";
+@import url(http://fonts.googleapis.com/css?family=Libre+Baskerville|Unica+One|Raleway:400,600|Fjalla+One|Open+Sans);
+
+body {
+  background-color: #22444D;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.navbar .brand {
+  margin-left: 0;
+}
+
+table tr td .btn {
+  margin: 0 20px;
+}
 
 .remove-organizer form {
   margin-bottom: 0;
+}
+
+.container-fluid {
+  margin-top: 80px;
+}
+
+.bridgetroll-content {
+  width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #E0E0E0;
+  border-radius: 20px;
+  padding: 10px 40px;
+}
+
+h1 {
+  font-family: 'Fjalla One', sans-serif;
+  color: #503570;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+h2 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+}
+
+a {
+  color: #22444D;
+}
+
+.field {
+  margin-bottom: 20px;
 }
