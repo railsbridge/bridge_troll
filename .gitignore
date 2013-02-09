@@ -4,6 +4,10 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile ~/.gitignore_global
 
+# Ignore zeus stuff
+zeus.json
+custom_plan.rb
+
 # Ignore bundler config
 /.bundle
 
@@ -19,3 +23,6 @@
 
 # Ignore Redcar directory
 .redcar/*
+
+# OSX
+.DS_Store

@@ -26,6 +26,11 @@ group :development do
   gem 'terminal-notifier-guard'
 end
 
+group :test, :development do
+  gem 'sqlite3'
+  gem 'rspec-rails'
+end
+
 group :test do
   gem "factory_girl_rails"
   gem 'capybara'
@@ -34,9 +39,4 @@ group :test do
   gem "database_cleaner"
   gem 'shoulda-matchers'
   gem "faker"
-end
-
-group :test, :development do
-  gem 'sqlite3'
-  gem 'rspec-rails'
 end
