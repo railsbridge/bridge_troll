@@ -13,5 +13,8 @@ Bridgetroll::Application.routes.draw do
     resources :organizers, :only => [:index, :create, :destroy]
     resources :volunteers, :only => [:index, :update]
     resources :rsvps, :except => :index
+    resources :event_sessions, :only => [] do
+      resources :checkins, :only => [:index, :create, :destroy]
+    end
   end
 end

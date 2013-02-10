@@ -96,6 +96,10 @@
 
 <ul class='actions'>
   <% if @organizer %>
+    <% @event.event_sessions.each do |session| %>
+      <li class='btn'><%= link_to "Check in for #{session.name}", event_event_session_checkins_path(@event, session) %></li>
+    <% end %>
+
     <li class='btn'><%= link_to 'Edit', edit_event_path(@event) %></li>
   <% end %>
 

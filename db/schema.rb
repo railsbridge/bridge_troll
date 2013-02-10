@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130214054737) do
+ActiveRecord::Schema.define(:version => 20130219041019) do
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
@@ -59,8 +59,9 @@ ActiveRecord::Schema.define(:version => 20130214054737) do
   create_table "rsvp_sessions", :force => true do |t|
     t.integer  "rsvp_id"
     t.integer  "event_session_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.boolean  "checked_in",       :default => false
   end
 
   create_table "rsvps", :force => true do |t|

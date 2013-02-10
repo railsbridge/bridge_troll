@@ -1,0 +1,27 @@
+<h1>Check in volunteers to <%= @session.name %></h1>
+
+<table class="table table-striped table-bordered table-condensed">
+  <tr>
+    <th>Name</th>
+    <th>Checked In?</th>
+  </tr>
+  <% @rsvp_sessions.each do |rsvp_session| %>
+    <tr>
+      <td><%= rsvp_session.rsvp.user.full_name %></td>
+      <td>
+        <%= form_for([@event, @session, rsvp_session], method: :create, url: event_event_session_checkins_path(@event, @session), remote: true) do |f| %>
+          <%= f.hidden_field :id %>
+          <% if rsvp_session.checked_in %>
+            Checked In!
+          <% else %>
+            <%= f.submit "Check In" %>
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<ul class='actions'>
+  <li class='btn'><%= link_to 'Back', event_path(@event) %></li>
+</ul>
