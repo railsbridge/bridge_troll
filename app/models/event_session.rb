@@ -1,6 +1,8 @@
 class EventSession < ActiveRecord::Base
-  attr_accessible :starts_at, :ends_at
-  validates_presence_of :starts_at, :ends_at
+  attr_accessible :starts_at, :ends_at, :name
+  validates_presence_of :starts_at, :ends_at, :name
+  validates_uniqueness_of :name, scope: [:event_id]
+
   belongs_to :event
 
   def session_date

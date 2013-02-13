@@ -1,28 +1,32 @@
 <h2><%= @event.title %></h2>
-<strong>When:</strong>
 
-<ul>
+<h4 class='event-detail-heading'>When</h4>
+
+<div class='session-display'>
   <% @event.event_sessions.each do |event_session| %>
-      <li>
-        <%= formatted_session_date(event_session) %>
-        <br/>
-        Start time: <%= formatted_session_time(event_session, :starts_at) %>
-        <br/>
-        End time: <%= formatted_session_time(event_session, :ends_at) %>
-      </li>
+    <div class='event-session'>
+      <div class='name'><%= event_session.name %></div>
+      <div class='date'><%= formatted_session_date(event_session) %></div>
+      <div class='time'>Start time: <%= formatted_session_time(event_session, :starts_at) %></div>
+      <div class='time'>End time: <%= formatted_session_time(event_session, :ends_at) %></div>
+    </div>
   <% end %>
-</ul>
+</div>
 
-<p>
+<h4 class='event-detail-heading'>Where</h4>
+
+<div class='location-display'>
   <% if @event.location.present? %>
-      <strong>Location: </strong>
-      <%= @event.location.name %> at address:
-      <br/>
-      <%= @event.location.address %>
+    <strong>Location: </strong>
+    <%= @event.location.name %> at address:
+    <br/>
+    <%= @event.location.address %>
   <% else %>
-      This event currently has no location!
+    This event currently has no location!
   <% end %>
-</p>
+</div>
+
+<h4 class='event-detail-heading'>What</h4>
 
 <div class="details">
   <strong>Details:</strong>
@@ -30,8 +34,10 @@
   <%= simple_format(@event.details) %>
 </div>
 
+<h4 class='event-detail-heading'>Who</h4>
+
 <div class="organizers">
-  <strong><%= organizer_title %></strong> <br/>
+  <h3><%= organizer_title %></h3>
   <ul>
     <% if organizer_list.any? %>
         <% organizer_list.each do |organizer| %>
@@ -88,14 +94,14 @@
 
 <% end %>
 
-<br/>
+<ul class='actions'>
+  <% if @organizer %>
+    <li class='btn'><%= link_to 'Edit', edit_event_path(@event) %></li>
+  <% end %>
 
-<% if @organizer %>
-    <%= link_to 'Edit', edit_event_path(@event) %> |
-<% end %>
+  <li class='btn'><%= link_to 'Back', events_path %></li>
 
-<%= link_to 'Back', events_path %>
-
-<% if @organizer %>
-    | <%= link_to 'Manage Organizers', event_organizers_path('event_id' => @event.id) %>
-<% end %>
+  <% if @organizer %>
+    <li class='btn'><%= link_to 'Manage Organizers', event_organizers_path('event_id' => @event.id) %></li>
+  <% end %>
+</ul>

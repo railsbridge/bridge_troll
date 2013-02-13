@@ -8,6 +8,7 @@
   <%= @location.address %>
 </p>
 
-
-<%= link_to 'Edit', edit_location_path(@location) %> |
-<%= link_to 'Back', locations_path %>
+<ul class='actions'>
+  <li class='btn'><%= link_to 'Edit', edit_location_path(@location) %></li>
+  <li class='btn'><%= link_to 'Back', locations_path %></li>
+</ul>

@@ -14,9 +14,7 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :title
   validates_presence_of :time_zone
-  validates_inclusion_of :time_zone,
-                         in: ActiveSupport::TimeZone.all.map(&:name),
-                         if: lambda { |event| event.time_zone.present? }
+  validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
   def self.upcoming
     includes(:event_sessions).where('event_sessions.ends_at > ?', Time.now.utc)

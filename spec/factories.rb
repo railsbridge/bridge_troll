@@ -29,6 +29,7 @@ FactoryGirl.define do
   end
   
   factory :event_session do
+    sequence(:name) { |n| "Test Session #{n}" }
     starts_at DateTime.now
     ends_at (DateTime.now + 1.day)
   end

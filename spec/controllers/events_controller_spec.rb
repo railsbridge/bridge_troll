@@ -101,6 +101,7 @@ describe EventsController do
               "time_zone" => "Alaska",
               "event_sessions_attributes" => {
                 "0" => {
+                  "name" => 'I am good at naming sessions',
                   "starts_at(1i)" => "2013",
                   "starts_at(2i)" => "1",
                   "starts_at(3i)" => "12",

@@ -5,26 +5,28 @@
     <th>Name</th>
     <th>Address</th>
     <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @locations.each do |location| %>
-  <tr>
-    <td><%= location.name %></td>
-    <td><%= location.address %></td>
-    <td><%= link_to 'Show', location %></td>
     <% if user_signed_in? %>
-      <td><%= link_to 'Edit', edit_location_path(location) %></td>
-      <td><%= link_to 'Destroy', location, confirm: 'Are you sure?', method: :delete %></td>
+      <th></th>
+      <th></th>
     <% end %>
   </tr>
-<% end %>
+
+  <% @locations.each do |location| %>
+    <tr>
+      <td><%= location.name %></td>
+      <td><%= location.address %></td>
+      <td><%= link_to 'Show', location %></td>
+      <% if user_signed_in? %>
+        <td><%= link_to 'Edit', edit_location_path(location) %></td>
+        <td><%= link_to 'Destroy', location, confirm: 'Are you sure?', method: :delete %></td>
+      <% end %>
+    </tr>
+  <% end %>
 </table>
 
-<br />
-
-<% if user_signed_in? %>
-  <%= link_to 'New Location', new_location_path %> |
-<% end %>
-<%= link_to 'Events', events_path %>
+<ul class='actions'>
+  <% if user_signed_in? %>
+    <li class='btn'><%= link_to 'New Location', new_location_path %></li>
+  <% end %>
+  <li class='btn'><%= link_to 'Events', events_path %></li>
+</ul>

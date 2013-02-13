@@ -2,7 +2,9 @@
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @event %> |
-<%= link_to 'Back', events_path %> | 
-<%= link_to 'Manage Locations', locations_path %>  |
-<%= link_to 'Manage Organizers', event_organizers_path('event_id' => @event.id) %>
+<ul class='actions'>
+  <li class='btn'><%= link_to 'Show', @event %></li>
+  <li class='btn'><%= link_to 'Back', events_path %></li>
+  <li class='btn'><%= link_to 'Manage Locations', locations_path %></li>
+  <li class='btn'><%= link_to 'Manage Organizers', event_organizers_path('event_id' => @event.id) %></li>
+</ul>

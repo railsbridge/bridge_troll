@@ -9,6 +9,8 @@ describe EventSession do
   it { should validate_presence_of(:starts_at) }
   it { should validate_presence_of(:ends_at) }
 
+  it { should validate_uniqueness_of(:name).scoped_to(:event_id) }
+
   describe "#date_in_time_zone" do
     before do
       @event = create(:event)

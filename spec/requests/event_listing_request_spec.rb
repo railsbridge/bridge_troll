@@ -39,6 +39,7 @@ describe "the event listing page" do
       fill_in "Title", with: "February Event"
 
       within ".event-sessions" do
+        fill_in "Session:", with: 'My Amazing Session'
         fill_in "event[event_sessions_attributes][0][session_date]", with: '01/12/2015'
 
         start_time_selects = all('.start_time')
@@ -56,6 +57,7 @@ describe "the event listing page" do
       click_button "Create Event"
 
       page.should have_content("February Event")
+      page.should have_content("My Amazing Session")
       page.should have_content("This event currently has no location!")
       page.should have_content("This is a note in the detail text box")
       page.should have_content("1/12/2015")

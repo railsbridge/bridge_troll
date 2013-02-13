@@ -47,7 +47,7 @@ class EventsController < ApplicationController
   protected
 
   def set_time_zone
-    if params[:event] && params[:event][:time_zone]
+    if params[:event] && params[:event][:time_zone].present?
       Time.zone = params[:event][:time_zone]
     end
   end
