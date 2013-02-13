@@ -6,6 +6,7 @@ $navbarLinkBackgroundHover: #CDC9D1;
 $navbarBrandColor: #FFF;
 $tableBorder: #BFBFBF;
 
+@import "jquery.ui.datepicker";
 @import "twitter/bootstrap";
 @import 'twitter/bootstrap/responsive';
 @import "select2";
@@ -14,6 +15,10 @@ $tableBorder: #BFBFBF;
 body {
   background-color: #22444D;
   font-family: 'Open Sans', sans-serif;
+}
+
+.ui-datepicker {
+  z-index: 1031 !important;
 }
 
 .navbar .brand {
@@ -59,4 +64,39 @@ a {
 
 .field {
   margin-bottom: 20px;
+}
+
+.event-sessions {
+  .fields {
+    margin: 10px 0;
+
+    .datepicker {
+      width: 85px;
+    }
+
+    .input-small:nth-of-type(odd) {
+      width: 78px;
+    }
+
+    .input-small:nth-of-type(even) {
+      width: 55px;
+    }
+  }
+
+  .add_nested_fields {
+    display: block;
+    margin-bottom: 30px;
+    outline: none;
+    text-decoration: none;
+
+    span {
+      /* colors hijacked from bootstrap navbar */
+      background-color: #777081;
+      background-image: linear-gradient(to bottom, #857D91, #635D6B);
+      border-radius: 15px;
+      color: lightgrey;
+      padding: 5px 10px;
+      box-model: border-box;
+    }
+  }
 }

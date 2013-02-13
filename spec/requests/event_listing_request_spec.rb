@@ -25,6 +25,7 @@ describe "the event listing page" do
     page.should have_content("1/31/#{next_year}")
     page.should have_content('3:55 am PST')
   end
+
   context 'as a logged in user' do
     before(:each) do 
       @user = create(:user)
@@ -37,21 +38,16 @@ describe "the event listing page" do
 
       fill_in "Title", with: "February Event"
 
-      click_link "Add a session"
       within ".event-sessions" do
+        fill_in "event[event_sessions_attributes][0][session_date]", with: '01/12/2015'
+
         start_time_selects = all('.start_time')
-        start_time_selects[0].select "2015"
-        start_time_selects[1].select "January"
-        start_time_selects[2].select "12"
-        start_time_selects[3].select "03 PM"
-        start_time_selects[4].select "15"
+        start_time_selects[0].select "03 PM"
+        start_time_selects[1].select "15"
 
         end_time_selects = all('.end_time')
-        end_time_selects[0].select "2015"
-        end_time_selects[1].select "January"
-        end_time_selects[2].select "12"
-        end_time_selects[3].select "05 PM"
-        end_time_selects[4].select "45"
+        end_time_selects[0].select "05 PM"
+        end_time_selects[1].select "45"
       end
 
       select "Alaska", from: 'event_time_zone'
@@ -62,6 +58,7 @@ describe "the event listing page" do
       page.should have_content("February Event")
       page.should have_content("This event currently has no location!")
       page.should have_content("This is a note in the detail text box")
+      page.should have_content("1/12/2015")
       page.should have_css(".details p", text: 'With a new line!')
 
       visit events_path

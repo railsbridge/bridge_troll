@@ -14,6 +14,7 @@ class EventsController < ApplicationController
 
   def new
     @event = Event.new
+    @event.event_sessions << EventSession.new
   end
 
   def edit
