@@ -6,11 +6,7 @@ class EventSession < ActiveRecord::Base
   belongs_to :event
 
   def session_date
-    if starts_at
-      starts_at.strftime('%m/%d/%Y')
-    else
-      Date.current.strftime('%m/%d/%Y')
-    end
+    (starts_at ? starts_at : Date.current).strftime('%Y-%m-%d')
   end
 
   def date_in_time_zone start_or_end

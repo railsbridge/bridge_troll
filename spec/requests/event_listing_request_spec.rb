@@ -40,7 +40,7 @@ describe "the event listing page" do
 
       within ".event-sessions" do
         fill_in "Session:", with: 'My Amazing Session'
-        fill_in "event[event_sessions_attributes][0][session_date]", with: '01/12/2015'
+        fill_in "event[event_sessions_attributes][0][session_date]", with: '2015-01-12'
 
         start_time_selects = all('.start_time')
         start_time_selects[0].select "03 PM"

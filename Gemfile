@@ -15,6 +15,7 @@ end
 group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
+  gem 'modernizr_rails', :require => 'modernizr-rails'
   gem 'uglifier'
   gem 'bootstrap-sass-rails'
   gem 'jquery-ui-rails'
