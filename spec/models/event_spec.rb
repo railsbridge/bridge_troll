@@ -33,14 +33,14 @@ describe Event do
     event.should have(0).errors
   end
 
-  describe "#volunteering?" do
+  describe "#volunteer?" do
     it "is true when a user is volunteering at an event" do
       create(:rsvp, :user => @user, :event => @event)
-      @event.volunteering?(@user).should == true
+      @event.volunteer?(@user).should == true
     end
 
     it "is false when a user is not volunteering at an event" do
-      @event.volunteering?(@user).should == false
+      @event.volunteer?(@user).should == false
     end
   end
 

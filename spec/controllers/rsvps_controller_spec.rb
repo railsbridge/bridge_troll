@@ -16,13 +16,13 @@ describe RsvpsController do
     context "without logging in, I am redirected from the page" do
       it "redirects to the sign in page" do
         assigns[:current_user].should be_nil
-        post :create, { :rsvp => @rsvp_params }
+        post :create, event_id: @event.id, rsvp: @rsvp_params
         response.should redirect_to("/users/sign_in")
       end
 
       it "does not create any new rsvps" do
         expect {
-        post :create, { :rsvp => @rsvp_params }
+          post :create, event_id: @event.id, rsvp: @rsvp_params
         }.to_not change { Rsvp.count }
       end
     end
@@ -37,24 +37,24 @@ describe RsvpsController do
       context "as a logged in user I should be able to volunteer for an event" do
         it "should allow the user to newly volunteer for an event" do
           expect {
-          post :create, { :rsvp => @rsvp_params }
+            post :create, event_id: @event.id, rsvp: @rsvp_params
           }.to change {Rsvp.count }.by(1)
         end
 
         it "redirects to the event page related to the rsvp with flash confirmation" do
-          post :create, { :rsvp => @rsvp_params }
+          post :create, event_id: @event.id, rsvp: @rsvp_params
           response.should redirect_to(event_path(@event))
           flash[:notice].should match(/thanks/i)
         end
 
         it "should create a rsvp that persists and is valid" do
-          post :create, { :rsvp => @rsvp_params }
+          post :create, event_id: @event.id, rsvp: @rsvp_params
           assigns[:rsvp].should be_persisted
           assigns[:rsvp].should be_valid
         end
 
         it "should set the new rsvp with the selected event, and current user" do
-          post :create, { :rsvp => @rsvp_params }
+          post :create, event_id: @event.id, rsvp: @rsvp_params
           assigns[:rsvp].user_id.should == assigns[:current_user].id
           assigns[:rsvp].event_id.should == @event.id
         end
@@ -72,7 +72,7 @@ describe RsvpsController do
 
       it "does not create any new rsvps" do
         expect {
-          post :create, { :rsvp => @rsvp_params }
+          post :create, event_id: @event.id, rsvp: @rsvp_params
         }.to_not change { Rsvp.count }
       end
     end
@@ -90,7 +90,7 @@ describe RsvpsController do
       end
       it "should destroy the rsvp" do
         expect {
-          delete :destroy, { :id => @rsvp.id }
+          delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
         }.to change {Rsvp.count }.by(-1)
         expect {
           @rsvp.reload
@@ -102,7 +102,7 @@ describe RsvpsController do
     context "there is no rsvp record for this user at this event" do
       it "should notify the user s/he has not signed up to volunteer for the event" do
         expect {
-          delete :destroy, { :id => 29101 }
+          delete :destroy, event_id: 3298423, id: 29101
         }.to change {Rsvp.count }.by(0)
         flash[:notice].should match(/You are not signed up to volunteer/i)
       end

@@ -21,12 +21,18 @@
     <td><%= formatted_session_timerange(event.event_sessions.first) %></td>
     <td><%= event.location.name rescue nil %></td>
     <% if user_signed_in? %>
-      <% if event.volunteering?(current_user)%>
+      <% if event.organizer?(current_user) %>
         <td>
-          You are signed up to volunteer for this event!<%= link_to 'Unvolunteer', rsvp_path(event.rsvp_for_user(current_user)), :method => :delete, :class => 'btn' %><%= link_to 'Edit RSVP', edit_rsvp_path(event.rsvp_for_user(current_user)), :class => 'btn' %>
+          You are the Organizer for this event!
+        </td>
+      <% elsif event.volunteer?(current_user) %>
+        <td>
+          You are signed up to volunteer for this event!
+          <%= link_to 'Unvolunteer', event_rsvp_path(event, event.rsvp_for_user(current_user)), :method => :delete, :class => 'btn' %>
+          <%= link_to 'Edit RSVP', edit_event_rsvp_path(event, event.rsvp_for_user(current_user)), :class => 'btn' %>
         </td>
       <% else %>
-        <td><%= link_to 'Volunteer', new_rsvp_path(:event_id => event.id), :method => :get, :class => 'btn' %></td>
+        <td><%= link_to 'Volunteer', new_event_rsvp_path(event), :method => :get, :class => 'btn' %></td>
       <% end %>
     <% end %>
   </tr>

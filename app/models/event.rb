@@ -24,7 +24,7 @@ class Event < ActiveRecord::Base
     self.rsvps.find_by_user_id(user.id)
   end
   
-  def volunteering?(user)
+  def volunteer?(user)
     volunteer_rsvps.where(user_id: user.id).any?
   end
 

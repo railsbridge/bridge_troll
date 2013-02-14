@@ -67,6 +67,7 @@ describe "the event listing page" do
 
       page.should have_content("February Event")
       page.should have_content("AKST") # alaska time code!
+      page.should have_content("You are the Organizer for this event!")
     end
 
     context 'given an event' do
