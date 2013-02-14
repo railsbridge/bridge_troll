@@ -4,12 +4,10 @@ module EventsHelper
     @skills = []
     @skills << 'Teaching'     if(volunteer_rsvp.teaching)
     @skills << 'TA-ing'       if(volunteer_rsvp.taing)
-    @skills << 'Coordinating' if(profile.coordinating)
     @skills << 'Childcare'    if(profile.childcaring)
     @skills << 'Writing'      if(profile.writing)
-    @skills << 'Hacking'      if(profile.hacking)
+    @skills << 'Outreach'      if(profile.outreach)
     @skills << 'Designing'    if(profile.designing)
-    @skills << 'Evangelizing' if(profile.evangelizing)
     @skills << 'Mentoring'    if(profile.mentoring)
     @skills << 'Mac OS X'     if(profile.macosx)
     @skills << 'Windows'      if(profile.windows)

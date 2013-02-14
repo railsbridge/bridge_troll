@@ -19,10 +19,8 @@ describe ProfilesController do
 
     it "should be able to update their profile" do
       put :update, {:user_id => @user.id, :profile => {:childcaring => true,
-                                                       :coordinating => true,
                                                        :designing => true,
-                                                       :evangelizing => true,
-                                                       :hacking => true,
+                                                       :outreach => true,
                                                        :linux => true,
                                                        :macosx => true,
                                                        :mentoring => true,

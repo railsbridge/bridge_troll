@@ -2,14 +2,12 @@ module ProfilesHelper
 
   def skills
     [ 
-      [:coordinating, "Coordinator"],
       [:childcaring, "Childcare"],
       [:writing, "Writer"],
-      [:hacking, "Hacker"],
       [:designing, "Designer"],
-      [:evangelizing, "Evangelize"],
       [:mentoring, "Mentor"],
       [:macosx, "Mac OS X"],
+      [:outreach],
       [:windows],
       [:linux]
     ]
