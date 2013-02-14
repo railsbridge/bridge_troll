@@ -6,10 +6,8 @@ describe Profile do
   it { should validate_uniqueness_of(:user_id) }
 
   it { should allow_mass_assignment_of(:childcaring) }
-  it { should allow_mass_assignment_of(:coordinating) }
   it { should allow_mass_assignment_of(:designing) }
-  it { should allow_mass_assignment_of(:evangelizing) }
-  it { should allow_mass_assignment_of(:hacking) }
+  it { should allow_mass_assignment_of(:outreach) }
   it { should allow_mass_assignment_of(:linux) }
   it { should allow_mass_assignment_of(:macosx) }
   it { should allow_mass_assignment_of(:mentoring) }

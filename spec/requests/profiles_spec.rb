@@ -3,12 +3,10 @@ require 'spec_helper'
 describe "Profile" do
   before do
     @user = create(:user)
-    @user.profile.update_attributes( :coordinating => true,
-                                     :childcaring => true,
+    @user.profile.update_attributes( :childcaring => true,
                                      :writing => true,
-                                     :hacking => true,
                                      :designing => true,
-                                     :evangelizing => true,
+                                     :outreach => true,
                                      :mentoring => true,
                                      :macosx => true,
                                      :windows => true,
@@ -32,13 +30,11 @@ describe "Profile" do
     click_link "Profile"
     page.should have_content(@user.full_name)
     page.should have_content(@user.profile.bio)
-    page.should have_content("Coordinator")
     page.should have_content("Childcare")
     page.should have_content("Writer")
-    page.should have_content("Hacker")
     page.should have_content("Designer")
-    page.should have_content("Evangelize")
     page.should have_content("Mentor")
+    page.should have_content("Outreach")
     page.should have_content("Windows")
     page.should have_content("Mac OS X")
     page.should have_content("Linux")
@@ -52,12 +48,10 @@ describe "Profile" do
     click_link "edit profile"
     page.should have_content("Profile edit #{@user.full_name}")
 
-    uncheck "profile_coordinating"
     uncheck "profile_childcaring"
     uncheck "profile_writing"
-    check "profile_hacking"
     uncheck "profile_designing"
-    check "profile_evangelizing"
+    check "profile_outreach"
     check "profile_mentoring"
     check "profile_windows"
     uncheck "profile_macosx"
@@ -69,12 +63,10 @@ describe "Profile" do
     click_button "Update"
 
     page.should have_content("Profile was successfully updated.")
-    page.should_not have_content("Coordinator")
     page.should_not have_content("Childcare")
     page.should_not have_content("Writer")
-    page.should have_content("Hacker")
+    page.should have_content("Outreach")
     page.should_not have_content("Designer")
-    page.should have_content("Evangelize")
     page.should have_content("Mentor")
     page.should have_content("Windows")
     page.should_not have_content("Mac OS X")
