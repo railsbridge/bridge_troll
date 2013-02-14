@@ -74,10 +74,10 @@ describe "the event listing page" do
       before(:each) do
         @event = create(:event)
         @session1 = @event.event_sessions.first
-        @session1.update_attributes!(starts_at: 10.days.from_now, ends_at: 11.days.from_now)
+        @session1.update_attributes!(name: 'Installfest', starts_at: 10.days.from_now, ends_at: 11.days.from_now)
         @event.event_sessions << create(:event_session)
         @session2 = @event.event_sessions.last
-        @session2.update_attributes!(starts_at: 12.days.from_now, ends_at: 13.days.from_now)
+        @session2.update_attributes!(name: 'Curriculum', starts_at: 12.days.from_now, ends_at: 13.days.from_now)
       end
 
       it "allows user to volunteer for an event" do
@@ -87,8 +87,8 @@ describe "the event listing page" do
         fill_in "About you", :with => "I am cool and I use a Mac (but those two things are not related)"
         check 'Teaching'
 
-        check "Session 1"
-        uncheck "Session 2"
+        check "Installfest"
+        uncheck "Curriculum"
 
         click_button "Submit"
         page.should have_content("Thanks for volunteering")
@@ -119,8 +119,8 @@ describe "the event listing page" do
           uncheck 'Teaching'
           check 'Taing'
 
-          uncheck "Session 1"
-          check "Session 2"
+          uncheck "Installfest"
+          check "Curriculum"
 
           click_button 'Submit'
 
