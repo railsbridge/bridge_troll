@@ -1,7 +1,7 @@
 en:
   time:
     formats:
-      date_as_mdy: "%1m/%1d/%Y"
+      date_as_day_mdy: "%a %1m/%1d/%Y"
       time_as_hm_ampm: "%l:%M %P %Z"
       time_as_hm_ampm_no_zone: "%l:%M %P"
       time_zone: "%Z"

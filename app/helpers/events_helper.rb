@@ -53,7 +53,7 @@ module EventsHelper
   end
 
   def formatted_session_date(event_session)
-    l event_session.date_in_time_zone(:starts_at), :format => :date_as_mdy
+    l event_session.date_in_time_zone(:starts_at), :format => :date_as_day_mdy
   end
 
   def formatted_session_time(event_session, start_or_end)

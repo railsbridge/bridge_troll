@@ -16,13 +16,15 @@ describe "the event listing page" do
                   location_id: nil,
                   title: 'mytitle2',
                   time_zone: 'Pacific Time (US & Canada)')
+    starts_at = Time.utc(next_year, 01, 31, 11, 20)
     event.event_sessions << create(:event_session,
-                                   starts_at: Time.utc(next_year, 01, 31, 11, 20),
+                                   starts_at: starts_at,
                                    ends_at: Time.utc(next_year, 01, 31, 11, 55))
+
     event.save!
 
     visit events_path
-    page.should have_content("1/31/#{next_year}")
+    page.should have_content(starts_at.strftime("%a %1m/%1d/%Y"))
     page.should have_content('3:55 am PST')
   end
 
