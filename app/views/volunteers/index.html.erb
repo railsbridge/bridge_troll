@@ -1,0 +1,32 @@
+<h3>Volunteer Assignments</h3>
+<h4>Event: <%= link_to " #{@event.title}", event_path(@event)%></h4>
+<h4>
+  <%= "When: #{formatted_session_datetime(@event.event_sessions.first)}" %>
+</h4>
+
+<div id="saving_indicator"></div>
+
+<table class='table table-striped table-bordered table-condensed'>
+  <th>Name</th>
+  <th>Volunteer's Preference</th>
+  <th>Assignment</th>
+<% @volunteer_rsvps.each do |rsvp| %>
+  <tr>
+    <td><%= rsvp.user.full_name %></td>
+    <td><%= rsvp.formatted_preference %></td>
+    <td>
+      <%= form_for([@event, rsvp], method: :put, url: event_volunteer_path(@event, rsvp.id), remote: true) do %>
+        <%= label_tag do %>
+          <%= radio_button_tag(:volunteer_assignment_id, VolunteerAssignment::UNASSIGNED, rsvp.volunteer_assignment_id == VolunteerAssignment::UNASSIGNED) %> Unassigned
+        <% end %>
+        <%= label_tag do %>
+          <%= radio_button_tag(:volunteer_assignment_id, VolunteerAssignment::TEACHER, rsvp.volunteer_assignment_id == VolunteerAssignment::TEACHER) %> Teacher
+        <% end %>
+        <%= label_tag do %>
+          <%= radio_button_tag(:volunteer_assignment_id, VolunteerAssignment::TA, rsvp.volunteer_assignment_id == VolunteerAssignment::TA) %> TA
+        <% end %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>
+</table>

@@ -81,6 +81,12 @@ describe "the individual event page" do
       page.should have_content("Organizer Assignment")
     end
 
+    it "lets the user manage volunteers" do
+      visit event_path(@event)
+      click_link "Manage Volunteers"
+      page.should have_content("Volunteer Assignment")
+    end
+
     it "lets the user edit the event" do
       visit event_path(@event)
       click_link "Edit"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130213222406) do
+ActiveRecord::Schema.define(:version => 20130214054737) do
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
@@ -66,12 +66,13 @@ ActiveRecord::Schema.define(:version => 20130213222406) do
   create_table "rsvps", :force => true do |t|
     t.integer  "user_id"
     t.integer  "event_id"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.integer  "role_id"
     t.text     "about_you"
-    t.boolean  "teaching",   :default => false, :null => false
-    t.boolean  "taing",      :default => false, :null => false
+    t.boolean  "teaching",                :default => false, :null => false
+    t.boolean  "taing",                   :default => false, :null => false
+    t.integer  "volunteer_assignment_id", :default => 1,     :null => false
   end
 
   add_index "rsvps", ["user_id", "event_id"], :name => "index_volunteer_rsvps_on_user_id_and_event_id", :unique => true

@@ -19,16 +19,4 @@ class OrganizersController < ApplicationController
     @event_organizer.destroy
     redirect_to event_organizers_path(@event)
   end
-
-  private
-
-  def validate_organizer!
-    @event = Event.find(params[:event_id])
-    organizer = @event.organizer?(current_user) || current_user.admin?
-
-    unless organizer
-      redirect_to "/events"
-      false
-    end
-  end
 end
