@@ -54,14 +54,16 @@ describe "the event listing page" do
       end
 
       select "Alaska", from: 'event_time_zone'
-      fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!"
+      fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injections"
 
       click_button "Create Event"
 
       page.should have_content("February Event")
       page.should have_content("My Amazing Session")
       page.should have_content("This event currently has no location!")
-      page.should have_content("This is a note in the detail text box")
+      page.should have_content("This is a note in the detail text box With a new line! and a (missing) javascript injections")
+      page.should have_css '.details br'
+      page.should_not have_css '.details script'
       page.should have_content("1/12/2015")
       page.should have_css(".details p", text: 'With a new line!')
 
