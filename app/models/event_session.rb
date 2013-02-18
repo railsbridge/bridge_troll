@@ -4,6 +4,8 @@ class EventSession < ActiveRecord::Base
   validates_uniqueness_of :name, scope: [:event_id]
 
   belongs_to :event
+  has_many :rsvp_sessions
+  has_many :rsvps, :through => :rsvp_sessions
 
   def session_date
     (starts_at ? starts_at : Date.current).strftime('%Y-%m-%d')
