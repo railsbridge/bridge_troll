@@ -26,7 +26,7 @@
 			<li>$ git remote add upstream git://github.com/railsbridge/bridge_troll.git</li>
 		</ul>
 		<h2>Work on your Code</h2>
-		<p>Make and name a new feature branch and work on your code:</p>
+		<p>Make and name a new feature branch:</p>
 		<ul>
 			<li>$ git checkout -b newfeature</li>
 		</ul>
@@ -46,7 +46,7 @@
 	</div>
 	<div id="right">
 		<h2>Prep to make a Pull Request</h2>
-		<p><span class="code">'git rebase'</span> is a command that replays all your commits since a given point, giving you the opportunity to change the commit messages or squash multiple commits into one.</p>
+		<p><span class="code">'git rebase'</span> is a command that replays all your commits since a given point, giving you the opportunity to change the commit messages or squash multiple commits into one. When you rebase you add your code changes to the end of the project history, which is cleaner than the alternatives.</p>
 		<p>Rebase against the newly updated (upstream) code:</p>
 		<ul>
 			<li>$ git fetch upstream</li>
@@ -64,7 +64,7 @@
 			<li>$ squash 92urw73 fix bad choices</li>
 			<li>$ squash dj57skg add html editing</li>
 		</ul>
-		<p>Save and quit this, and you'll get a new editor that you can use to create The Perfect Commit Message. Save and quit once you've written it, and you end up with just one nice commit.</p>
+		<p>Save and quit this, and you'll get a new editor that you can use to create the perfect commit message. Save and quit once you've written it, and you've got one nice commit on top of the most recent updates to the project.</p>
 		<h2>Submit that pull request!</h2>
 		<p>First, push your changes to your fork:</p>
 		<ul>
