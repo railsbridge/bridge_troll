@@ -1,0 +1,79 @@
+<html>
+<head>
+	<title>How to Git</title>
+	<link href="git.css" rel="stylesheet" type="text/css"></link>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans|Raleway:700,600' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div id="both" class="cf">
+		<h1>How to Git: a Brief Guide to Making Open-Source Contributions ft. Bridge Troll</h1>
+	<div id="left">
+		<h2>Get Started</h2>
+		<h3>Configure things</h3>
+		<ul>
+			<li>$ git config --global user.name "Veronica Mars"</li>
+			<li>$ git config --global user.email "veronica@marsinvestigations.com"</li>
+			<li>$ git config --global color.ui true</li>
+		</ul>
+		<h3>Clone the repo & set upstream remote</h3>
+		<p>Go to the project repo and click the Fork button. Then clone it to your machine:</p>
+		<ul>
+			<li>$ git clone https://github.com/{username}/bridge_troll.git</li>
+		</ul>
+		<p>Add the main project repo as an upstream remote so you can pull updates:</p>
+		<ul>
+			<li>$ git remote add upstream git://github.com/railsbridge/bridge_troll.git</li>
+		</ul>
+		<h2>Work on your Code</h2>
+		<p>Make and name a new feature branch and work on your code:</p>
+		<ul>
+			<li>$ git checkout -b newfeature</li>
+		</ul>
+		<p>Now write your feature, making sure to rebase onto upstream any time there's a pull request merged</p>
+		
+		<h2>Stay up to date</h2>
+		<p>You can either wait until you make your pull request to deal with any merge conflicts, or you can update your feature branch as pull requests are merged. If you update while working on your feature, you'll need to commit your work in progress.<p>
+		<p>To update your feature branch, pull in upstream changes while on that branch:</p>
+		<ul>
+			<li>$ git fetch upstream</li>
+			<li>$ git rebase upstream/master</li>
+		</ul>
+		<p>You can also do these things in a single command that fetches from the URL tracked by the current branch and immediately tries to merge in the tracked branch:</p>
+		<ul>
+			<li>$ git pull --rebase</li>
+		</ul>
+	</div>
+	<div id="right">
+		<h2>Prep to make a Pull Request</h2>
+		<p><span class="code">'git rebase'</span> is a command that replays all your commits since a given point, giving you the opportunity to change the commit messages or squash multiple commits into one.</p>
+		<p>Rebase against the newly updated (upstream) code:</p>
+		<ul>
+			<li>$ git fetch upstream</li>
+			<li>$ git rebase -i upstream/master</li>
+		</ul>
+		<p>This will open up an editor that shows you your commits that aren't on the upstream master:</p>
+		<ul>
+			<li>$ pick jfd834sf set textbox width better</li>
+			<li>$ pick 92urw73 fix bad choices</li>
+			<li>$ pick dj57skg add html editing</li>
+		</ul>
+		<p>Edit these so that that all but one say squash instead of pick:</p>
+		<ul>	
+			<li>$ pick jfd834sf set textbox width better</li>
+			<li>$ squash 92urw73 fix bad choices</li>
+			<li>$ squash dj57skg add html editing</li>
+		</ul>
+		<p>Save and quit this, and you'll get a new editor that you can use to create The Perfect Commit Message. Save and quit once you've written it, and you end up with just one nice commit.</p>
+		<h2>Submit that pull request!</h2>
+		<h3>First, push your changes to your fork:</h3>
+		<ul>
+			<li>$ git push origin newfeature</li>
+		</ul>
+		<h3>Now use the GitHub website to make the pull request</h3>
+		<p>On your fork on GitHub, switch to the branch that you just pushed to. Click the Pull Request button. Review the diff by clicking the "Files Changed" tab and make sure the diff makes sense. Write a compelling explanation of the awesome changes you made, and click Submit Pull Request. First pull request? <a href="https://help.github.com/articles/using-pull-requests">GitHub has a guide with awesome screen shots</a>.</p>
+		<h2>Make requested changes</h2>
+		<p>Most pull requests don't get merged as-is. The maintainers often have requests for code changes. Luckily, anything you push to your feature branch will be included in the pull request. (So don't do any other work on that branch once the pull request has been made. New branch!)</p>
+	</div>
+</div>
+</body>
+</html>
