@@ -45,7 +45,7 @@ describe "Profile" do
 
   it "user should be able to add his/her skills" do
     click_link "Profile"
-    click_link "edit profile"
+    click_link "Edit Profile"
     page.should have_content("Profile edit #{@user.full_name}")
 
     uncheck "profile_childcaring"

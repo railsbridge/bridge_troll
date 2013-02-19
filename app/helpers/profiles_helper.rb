@@ -6,8 +6,8 @@ module ProfilesHelper
       [:writing, "Writer"],
       [:designing, "Designer"],
       [:mentoring, "Mentor"],
-      [:macosx, "Mac OS X"],
       [:outreach],
+      [:macosx, "Mac OS X"],
       [:windows],
       [:linux]
     ]

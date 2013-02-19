@@ -1,7 +1,4 @@
 <h3>Profile for <%= current_user.full_name %></h3>
-<div class='pull-right'>
-<%= link_to "edit profile", edit_user_profile_path(@user) %>   <br />
-</div>
 <div>
   <strong>Skills</strong>
 </div>
@@ -34,7 +31,8 @@
     <td>Venue</td>
   </tr>
   </thead>
-
-
-
 </table>
+
+<ul class='actions'>
+  <li class='btn'><%= link_to "Edit Profile", edit_user_profile_path(@user) %></li>
+</ul>
