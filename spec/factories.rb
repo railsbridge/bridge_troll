@@ -12,19 +12,15 @@ FactoryGirl.define do
     sequence(:meetup_id) { |n| n }
   end
 
-  factory :event do
+  factory :event_with_no_sessions, :class => Event do
     sequence(:title) { |n| "Event #{n}" }
     details "This is note in the details attribute."
     time_zone "Hawaii"
 
-    before(:create) do |event|
-      event.event_sessions << create(:event_session)
-    end
-
-    factory :event_with_no_sessions do
-      before(:create) do |event|
-        event.event_sessions.destroy_all
-      end
+    factory :event do
+      event_sessions {
+        Array(1..4).sample.times.map { create(:event_session) }
+      }
     end
   end
 
