@@ -7,12 +7,12 @@ MEETUP_EVENTS = [
         student_event_id: 10377288
     },
     {
-        name: 'Ruby on Rails Outreach Workshop Day 1',
+        name: 'Ruby on Rails Outreach Workshop Installfest',
         volunteer_event_id: 10826791,
         student_event_id: 10804417
     },
     {
-        name: 'Ruby on Rails Outreach Workshop Day 2',
+        name: 'Ruby on Rails Outreach Workshop Workshop',
         volunteer_event_id: 10827608,
         student_event_id: 10804438
     },

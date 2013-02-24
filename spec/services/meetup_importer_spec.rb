@@ -59,4 +59,8 @@ describe MeetupImporter do
     Event.last.details.should == 'my complicated details'
     Event.last.meetup_volunteer_event_id.should == 97768552
   end
+
+  it "can sanitize invalid utf-8" do
+    MeetupImporter.new.sanitize("Here\x92s the timeline").should == 'Heres the timeline'
+  end
 end

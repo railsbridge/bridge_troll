@@ -1,7 +1,13 @@
 require 'net/http'
 require 'meetups'
+require 'iconv'
 
 class MeetupImporter
+  def sanitize str
+    @ic ||= Iconv.new('UTF-8//IGNORE', 'UTF-8')
+    @ic.iconv(str)
+  end
+
   def assert_key_exists
     return true if ENV['MEETUP_API_KEY']
 
@@ -52,7 +58,7 @@ MESSAGE
 
     event = Event.new(
         title: event_hash[:name],
-        details: event_json['description'],
+        details: sanitize(event_json['description']),
         time_zone: 'Pacific Time (US & Canada)',
         meetup_volunteer_event_id: id
     )
@@ -85,6 +91,8 @@ MESSAGE
   end
 
   def get_https_response_for url
+    sleep 1 unless Rails.env.test?
+
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
