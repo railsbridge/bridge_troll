@@ -8,35 +8,51 @@
     <th>Location</th>
     <% if user_signed_in? %><th>RSVP</th><% end %>
   </tr>
-  
+
   <% if @events.length == 0 %>
     <tr>
       <td colspan="5">There are no events.</td>
     </tr>
   <% end %>
-<% @events.each do |event| %>
-  <tr>
-    <td><%= link_to event.title, event %></td>
-    <td><%= formatted_session_date(event.event_sessions.first) %></td>
-    <td><%= formatted_session_timerange(event.event_sessions.first) %></td>
-    <td><%= event.location.name rescue nil %></td>
-    <% if user_signed_in? %>
-      <% if event.organizer?(current_user) %>
-        <td>
-          You are the Organizer for this event!
-        </td>
-      <% elsif event.volunteer?(current_user) %>
-        <td>
-          You are signed up to volunteer for this event!
-          <%= link_to 'Unvolunteer', event_rsvp_path(event, event.rsvp_for_user(current_user)), :method => :delete, :class => 'btn' %>
-          <%= link_to 'Edit RSVP', edit_event_rsvp_path(event, event.rsvp_for_user(current_user)), :class => 'btn' %>
-        </td>
-      <% else %>
-        <td><%= link_to 'Volunteer', new_event_rsvp_path(event), :method => :get, :class => 'btn' %></td>
+  <% @events.each do |event| %>
+    <tr>
+      <%= render 'event', event: event %>
+      <% if user_signed_in? %>
+        <% if event.organizer?(current_user) %>
+          <td>
+            You are the Organizer for this event!
+          </td>
+        <% elsif event.volunteer?(current_user) %>
+          <td>
+            You are signed up to volunteer for this event!
+            <%= link_to 'Unvolunteer', event_rsvp_path(event, event.rsvp_for_user(current_user)), :method => :delete, :class => 'btn' %>
+            <%= link_to 'Edit RSVP', edit_event_rsvp_path(event, event.rsvp_for_user(current_user)), :class => 'btn' %>
+          </td>
+        <% else %>
+          <td><%= link_to 'Volunteer', new_event_rsvp_path(event), :method => :get, :class => 'btn' %></td>
+        <% end %>
       <% end %>
-    <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<h1>Past events</h1>
+<table class="table table-striped table-bordered table-condensed">
+  <tr>
+    <th>Title</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Location</th>
   </tr>
-<% end %>
+
+  <% if @past_events.length == 0 %>
+    <tr>
+      <td colspan="5">There are no past events.</td>
+    </tr>
+  <% end %>
+  <% @past_events.each do |event| %>
+    <tr><%= render 'event', event: event %></tr>
+  <% end %>
 </table>
 
 <% if user_signed_in? %>

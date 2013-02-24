@@ -24,5 +24,8 @@ custom_plan.rb
 # Ignore Redcar directory
 .redcar/*
 
+# Foreman environment
+.env
+
 # OSX
 .DS_Store

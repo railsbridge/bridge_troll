@@ -20,6 +20,10 @@ class Event < ActiveRecord::Base
     includes(:event_sessions).where('event_sessions.ends_at > ?', Time.now.utc)
   end
 
+  def self.past
+    includes(:event_sessions).where('event_sessions.ends_at < ?', Time.now.utc)
+  end
+
   def rsvp_for_user(user)
     self.rsvps.find_by_user_id(user.id)
   end

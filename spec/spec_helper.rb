@@ -4,6 +4,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
+require 'webmock/rspec'
 
 Capybara.javascript_driver = :poltergeist
 
@@ -20,6 +21,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+    WebMock.disable_net_connect!(:allow_localhost => true)
   end
 
   config.after(:each) do

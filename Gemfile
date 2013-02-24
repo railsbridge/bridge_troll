@@ -31,9 +31,11 @@ end
 group :test, :development do
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'awesome_print'
 end
 
 group :test do
+  gem 'webmock'
   gem "factory_girl_rails"
   gem 'capybara'
   gem "poltergeist"

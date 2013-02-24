@@ -7,6 +7,7 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.upcoming
+    @past_events = Event.past
   end
 
   def show
