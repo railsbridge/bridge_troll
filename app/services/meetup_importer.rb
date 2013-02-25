@@ -1,11 +1,9 @@
 require 'net/http'
 require 'meetups'
-require 'iconv'
 
 class MeetupImporter
   def sanitize str
-    @ic ||= Iconv.new('UTF-8//IGNORE', 'UTF-8')
-    @ic.iconv(str)
+    str.encode('UTF-16', undef: :replace, invalid: :replace, :replace => '').encode('UTF-8')
   end
 
   def assert_key_exists
