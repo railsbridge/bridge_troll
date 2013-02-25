@@ -31,7 +31,7 @@
 <div class="details">
   <strong>Details:</strong>
   <br/>
-  <%= simple_format(@event.details, :sanitize => false) %>
+  <%= simple_format_with_html(@event.details) %>
 </div>
 
 <h4 class='event-detail-heading'>Who</h4>

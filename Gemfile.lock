@@ -178,6 +178,8 @@ GEM
       rspec-expectations (~> 2.12.0)
       rspec-mocks (~> 2.12.0)
     rubyzip (0.9.9)
+    sanitize (2.0.3)
+      nokogiri (>= 1.4.4, < 1.6)
     sass (3.2.5)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -248,6 +250,7 @@ DEPENDENCIES
   rails (= 3.2.11)
   rb-fsevent
   rspec-rails
+  sanitize
   sass-rails
   select2-rails
   shoulda-matchers

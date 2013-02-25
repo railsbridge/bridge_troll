@@ -71,6 +71,13 @@ module EventsHelper
     "#{formatted_session_date(event_session)} - #{formatted_session_timerange(event_session)}"
   end
 
+  def simple_format_with_html(string)
+    simple_format(
+      Sanitize.clean(string, Sanitize::Config::RELAXED),
+      :sanitize => false
+      )
+  end
+
   private
 
   def volunteer_class(rsvp)
