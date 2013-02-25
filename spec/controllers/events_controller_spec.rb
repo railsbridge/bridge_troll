@@ -27,6 +27,19 @@ describe EventsController do
       get :show, id: @event.id
       assigns(:event).should == @event
     end
+
+    describe "when rendering views" do
+      render_views
+      before do
+        @event.location = create(:location, name: 'Carbon Nine')
+        @event.save!
+      end
+
+      it "includes the location" do
+        get :show, id: @event.id
+        response.body.should include('Carbon Nine')
+      end
+    end
   end
 
   describe "GET new" do
