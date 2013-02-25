@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe "the event listing page" do
   it "listing should show blank Location if no location_id exists" do
-    create(:location, :name => 'locname')
     event = create(:event, :location_id => nil, :title => 'mytitle')
     create(:event_session, event: event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 

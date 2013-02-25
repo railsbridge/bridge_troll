@@ -25,7 +25,8 @@ FactoryGirl.define do
 
   factory :location do
     sequence(:name) { |n| "Location #{n}" }
-    sequence(:address) { |n| "#{n} Street San Francisco, CA 94108" }
+    sequence(:address_1) { |n| "#{n} Street" }
+    city "San Francisco"
   end
   
   factory :event_session do

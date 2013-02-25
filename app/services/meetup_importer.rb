@@ -56,10 +56,13 @@ MESSAGE
 
     return unless assert_valid_response(url, event_json)
 
+    location = create_or_update_location_from_venue(event_json['venue'])
+
     event = Event.new(
         title: event_hash[:name],
         details: sanitize(event_json['description']),
         time_zone: 'Pacific Time (US & Canada)',
+        location: location,
         meetup_volunteer_event_id: id
     )
     event_start = Time.at(event_json['time'].to_i / 1000)
@@ -98,5 +101,16 @@ MESSAGE
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     http.get(uri.request_uri)
+  end
+
+  private
+
+  def create_or_update_location_from_venue venue_json
+    location = Location.where(name: venue_json['name']).first_or_initialize
+    location_attributes = venue_json.slice('address_1', 'address_2', 'city', 'state', 'zip').reject { |_,v| v.length > 100 }
+
+    location.update_attributes(location_attributes.inject({}) { |hsh, (k, v)| hsh[k] = v.strip; hsh })
+    location.save!
+    location
   end
 end

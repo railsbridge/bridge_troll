@@ -10,7 +10,9 @@ describe 'Locations' do
     click_link "New Location"
 
     fill_in "Name", :with=>"February Event Location"
-    fill_in "Address", :with=>"123 Main Street San Francisco, CA 94101"
+    fill_in "Address 1", :with=>"123 Main Street"
+    fill_in "City", :with=>"San Francisco"
+    fill_in "State", :with=>"CA"
     click_button "Create Location"
 
     page.should have_content("February Event Location")

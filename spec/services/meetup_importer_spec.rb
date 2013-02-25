@@ -58,6 +58,19 @@ describe MeetupImporter do
     Event.last.title.should == 'Some Amazing Event'
     Event.last.details.should == 'my complicated details'
     Event.last.meetup_volunteer_event_id.should == 97768552
+
+    Event.last.location.name.should == 'Carbon Five'
+    Event.last.location.address_1.should == '585 Howard Street'
+    Event.last.location.address_2.should == 'Floor 2'
+    Event.last.location.city.should == 'San Francisco'
+    Event.last.location.state.should == 'CA'
+    Event.last.location.zip.should == '94105'
+  end
+
+  it "creates Location entries for each venue" do
+    expect {
+      MeetupImporter.new.import_event({volunteer_event_id: 97768552, name: 'Some Amazing Event'})
+    }.to change(Location, :count).by(1)
   end
 
   it "can sanitize invalid utf-8" do

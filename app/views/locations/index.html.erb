@@ -4,6 +4,9 @@
   <tr>
     <th>Name</th>
     <th>Address</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Zip</th>
     <th></th>
     <% if user_signed_in? %>
       <th></th>
@@ -14,7 +17,10 @@
   <% @locations.each do |location| %>
     <tr>
       <td><%= location.name %></td>
-      <td><%= location.address %></td>
+      <td><%= location.address_1 %><% if location.address_2.present? %> <%= location.address_2 %><% end %></td>
+      <td><%= location.city %></td>
+      <td><%= location.state %></td>
+      <td><%= location.zip %></td>
       <td><%= link_to 'Show', location %></td>
       <% if user_signed_in? %>
         <td><%= link_to 'Edit', edit_location_path(location) %></td>
