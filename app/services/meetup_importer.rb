@@ -1,9 +1,10 @@
 require 'net/http'
-require 'meetups'
+require_relative 'meetups'
 
 class MeetupImporter
   def sanitize str
-    str.encode('UTF-16', undef: :replace, invalid: :replace, :replace => '').encode('UTF-8')
+    # 'UTF-16' by itself works locally, but not on Heroku. 'LE' means 'little endian'.
+    str.encode('UTF-16LE', undef: :replace, invalid: :replace, :replace => '').encode('UTF-8')
   end
 
   def assert_key_exists
