@@ -1,0 +1,23 @@
+<h1>Meetup users</h1>
+
+<table class="datatable table table-striped table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Meetup Profile</th>
+      <th>Workshops Attended</th>
+      <th>Workshops Organized</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= link_to user.full_name, meetup_user_path(user) %></td>
+      <td><%= link_to user.meetup_id, "http://www.sfruby.info/members/#{user.meetup_id}/" %></td>
+      <td><%= user.rsvps.count %></td>
+      <td><%= user.rsvps.where(role_id: Role::ORGANIZER).count %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -7,6 +7,11 @@ FactoryGirl.define do
     password "password"
   end
 
+  factory :meetup_user do
+    full_name { "#{Faker::Name.first_name} #{Faker::Name.last_name} (Meetup)" }
+    sequence(:meetup_id) { |n| n }
+  end
+
   factory :event do
     sequence(:title) { |n| "Event #{n}" }
     details "This is note in the details attribute."

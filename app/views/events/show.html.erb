@@ -82,7 +82,7 @@
       <tbody>
       <% @event.volunteer_rsvps.each do |rsvp| %>
           <tr>
-            <td><%= rsvp.user.full_name %></td>
+            <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
             <% if @organizer %>
                 <td><%= rsvp.user.email %></td>
             <% end %>

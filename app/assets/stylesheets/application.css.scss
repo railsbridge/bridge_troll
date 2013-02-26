@@ -6,6 +6,7 @@ $navbarLinkBackgroundHover: #CDC9D1;
 $navbarBrandColor: #FFF;
 $tableBorder: #BFBFBF;
 
+@import "dataTables/jquery.dataTables.bootstrap";
 @import "jquery.ui.datepicker";
 @import "twitter/bootstrap";
 @import 'twitter/bootstrap/responsive';
@@ -131,4 +132,9 @@ a {
       box-model: border-box;
     }
   }
+}
+
+.meetup-link {
+  font-size: 8pt;
+  color: darkgrey;
 }

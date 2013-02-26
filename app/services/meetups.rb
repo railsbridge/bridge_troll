@@ -145,7 +145,7 @@ MEETUP_EVENTS = [
         student_event_id: 67298252
     },
     {
-        name: 'SAN MATEO RailsBridge Workshop for Women',
+        name: 'San Mateo RailsBridge Workshop for Women',
         volunteer_event_id: 69755072,
         student_event_id: 69860482
     },

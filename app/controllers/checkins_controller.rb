@@ -6,7 +6,7 @@ class CheckinsController < ApplicationController
     @event = Event.find(params[:event_id])
     @session = @event.event_sessions.find(params[:event_session_id])
     @rsvp_sessions = @session.rsvp_sessions.joins(
-        :rsvp => :user
+        :rsvp => :bridgetroll_user
     ).order('users.first_name asc, users.last_name asc, users.email asc')
   end
 

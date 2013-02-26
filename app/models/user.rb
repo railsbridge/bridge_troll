@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable, :confirmable, :timeoutable
 
-  has_many :rsvps
+  has_many :rsvps, conditions: { user_type: 'User' }
   has_many :events, through: :rsvps
 
   has_one :profile
@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def profile_path
+    Rails.application.routes.url_helpers.user_profile_path(self)
   end
 
   private

@@ -1,7 +1,8 @@
 class Rsvp < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
 
-  belongs_to :user
+  belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
+  belongs_to :user, polymorphic: true
   belongs_to :event
   has_many :rsvp_sessions
 

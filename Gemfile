@@ -14,6 +14,7 @@ group :production do
 end
 
 group :assets do
+  gem 'jquery-datatables-rails'
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'modernizr_rails', :require => 'modernizr-rails'

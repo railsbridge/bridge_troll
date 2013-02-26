@@ -32,11 +32,11 @@ module EventsHelper
   end
 
   def organizer_title
-    @event.organizers.length > 1 ? "Organizers:" : "Organizer:"
+    @event.organizers_with_legacy.length > 1 ? "Organizers:" : "Organizer:"
   end
 
   def organizer_list
-    @event.organizers.length == 0 ?  [] : @event.organizers
+    @event.organizers_with_legacy.length == 0 ?  [] : @event.organizers_with_legacy
   end
 
   def partitioned_volunteer_list(volunteer_rsvps, type)

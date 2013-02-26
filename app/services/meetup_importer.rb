@@ -36,43 +36,66 @@ MESSAGE
   def import
     assert_key_exists
 
-    Event.where('meetup_volunteer_event_id IS NOT NULL').find_each do |event|
-      event.destroy
-    end
-
-    MEETUP_EVENTS.each do |event|
+    MEETUP_EVENTS.each_with_index do |event, index|
+      puts "Importing event #{index+1} of #{MEETUP_EVENTS.length}"
       import_event event
     end
   end
 
   def import_event event_hash
     id = event_hash[:volunteer_event_id]
-    url = "https://api.meetup.com/2/event/#{id}?key=#{ENV['MEETUP_API_KEY']}&sign=true"
-    resp = get_https_response_for(url)
+    event_json = get_api_response_for("/2/event/#{id}")
+    return unless event_json
 
-    event_json = JSON.parse(resp.body)
+    location = import_venue(event_json['venue'])
 
-    return unless assert_valid_response(url, event_json)
-
-    location = create_or_update_location_from_venue(event_json['venue'])
-
-    event = Event.new(
+    event = Event.where(meetup_volunteer_event_id: id).first_or_initialize
+    event.update_attributes(
         title: event_hash[:name],
         details: sanitize(event_json['description']),
         time_zone: 'Pacific Time (US & Canada)',
-        location: location,
-        meetup_volunteer_event_id: id
+        location: location
     )
-    event_start = Time.at(event_json['time'].to_i / 1000)
-    event.event_sessions << EventSession.new(name: 'Installfest + Workshop', starts_at: event_start, ends_at: event_start + 1.day)
+    unless event.event_sessions.present?
+      event_start = Time.at(event_json['time'].to_i / 1000)
+      event.event_sessions << EventSession.new(name: 'Installfest + Workshop', starts_at: event_start, ends_at: event_start + 1.day)
+    end
     event.save!
+
+    import_rsvps(event)
+  end
+
+  def import_rsvps event
+    event_id = event.meetup_volunteer_event_id
+    rsvp_json = get_api_response_for('/2/rsvps', {
+      event_id: event_id,
+      fields: 'host'
+    })
+    return unless rsvp_json
+
+    rsvp_json['results'].each do |rsvp|
+      next if rsvp['response'] == 'no'
+
+      meetup_id = rsvp['member']['member_id']
+      role_id = rsvp['host'] ? Role::ORGANIZER : Role::VOLUNTEER
+
+      meetup_user = MeetupUser.where(meetup_id: meetup_id).first_or_initialize
+      meetup_user.update_attributes(full_name: rsvp['member']['name'])
+      meetup_user.save!
+      unless event.rsvps.where(user_id: meetup_user.id, user_type: 'MeetupUser').present?
+        event.rsvps.create!(user: meetup_user, role_id: role_id)
+      end
+    end
   end
 
   def dump_events
     start_milis = DateTime.parse('2009-06-01').to_i * 1000
     puts "Fetching first set of results..."
-    url = "https://api.meetup.com/2/events?key=#{ENV['MEETUP_API_KEY']}&sign=true&group_id=134063&time=#{start_milis},&status=past"
-    resp = get_https_response_for(url)
+    resp = get_api_response_for('/2/events', {
+      group_id: 134063,
+      time: "#{start_milis},",
+      status: 'past'
+    })
 
     event_jsons = JSON.parse(resp.body)['results']
 
@@ -80,8 +103,11 @@ MESSAGE
     while event_count > 1
       puts "Fetching more results... (#{event_count} results from last request)"
       start_milis = JSON.parse(resp.body)['results'].last['time'].to_i
-      url = "https://api.meetup.com/2/events?key=#{ENV['MEETUP_API_KEY']}&sign=true&group_id=134063&time=#{start_milis},&status=past"
-      resp = get_https_response_for(url)
+      resp = get_api_response_for('/2/events', {
+        group_id: 134063,
+        time: "#{start_milis},",
+        status: 'past'
+      })
 
       result_jsons = JSON.parse(resp.body)['results']
       event_jsons += result_jsons
@@ -91,19 +117,27 @@ MESSAGE
     ap event_jsons.map { |hsh| hsh.slice('id', 'name', 'description', 'event_url') }, plain: true
   end
 
-  def get_https_response_for url
+  private
+
+  def get_api_response_for path, params=nil
+    params ||= {}
+    params[:key] = ENV['MEETUP_API_KEY']
+    params[:sign] = true
+    url = "https://api.meetup.com#{path}?#{params.to_param}"
+
     sleep 1 unless Rails.env.test?
 
     uri = URI.parse(url)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-    http.get(uri.request_uri)
+    resp = http.get(uri.request_uri)
+
+    json = JSON.parse(resp.body)
+    assert_valid_response(url, json) ? json : false
   end
 
-  private
-
-  def create_or_update_location_from_venue venue_json
+  def import_venue venue_json
     location = Location.where(name: venue_json['name']).first_or_initialize
     location_attributes = venue_json.slice('address_1', 'address_2', 'city', 'state', 'zip').reject { |_,v| v.length > 100 }
 
