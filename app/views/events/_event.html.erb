@@ -1,5 +1,8 @@
 <td>
   <%= link_to event.title, event %>
+  <% if event.meetup_student_event_id %>
+    <%= link_to "[Student Meetup]", "http://www.sfruby.info/events/#{event.meetup_student_event_id}/", class: 'meetup-link' %>
+  <% end %>
   <% if event.meetup_volunteer_event_id %>
     <%= link_to "[Volunteer Meetup]", "http://www.sfruby.info/events/#{event.meetup_volunteer_event_id}/", class: 'meetup-link' %>
   <% end %>

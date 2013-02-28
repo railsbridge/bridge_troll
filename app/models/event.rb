@@ -1,7 +1,11 @@
 class Event < ActiveRecord::Base
   belongs_to :location
   
-  has_many :rsvps
+  has_many :rsvps, dependent: :destroy
+
+  has_many :student_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::STUDENT }
+  has_many :students, through: :student_rsvps, source: :user, source_type: 'User'
+  has_many :legacy_students, through: :student_rsvps, source: :user, source_type: 'MeetupUser'
 
   has_many :volunteer_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::VOLUNTEER }
   has_many :volunteers, through: :volunteer_rsvps, source: :user, source_type: 'User'

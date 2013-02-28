@@ -5,8 +5,9 @@
     <tr>
       <th>Name</th>
       <th>Meetup Profile</th>
-      <th>Workshops Attended</th>
-      <th>Workshops Organized</th>
+      <th># Attended as Student</th>
+      <th># Attended as Volunteer</th>
+      <th># Organized</th>
     </tr>
   </thead>
 
@@ -15,8 +16,11 @@
     <tr>
       <td><%= link_to user.full_name, meetup_user_path(user) %></td>
       <td><%= link_to user.meetup_id, "http://www.sfruby.info/members/#{user.meetup_id}/" %></td>
-      <td><%= user.rsvps.count %></td>
-      <td><%= user.rsvps.where(role_id: Role::ORGANIZER).count %></td>
+      <% if @attendances.present? %>
+        <td><%= @attendances[user.id][Role::STUDENT] %></td>
+        <td><%= @attendances[user.id][Role::VOLUNTEER] %></td>
+        <td><%= @attendances[user.id][Role::ORGANIZER] %></td>
+      <% end %>
     </tr>
   <% end %>
   </tbody>

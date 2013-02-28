@@ -4,7 +4,7 @@ class Rsvp < ActiveRecord::Base
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
   belongs_to :user, polymorphic: true
   belongs_to :event
-  has_many :rsvp_sessions
+  has_many :rsvp_sessions, dependent: :destroy
 
   validates_uniqueness_of :user_id, scope: :event_id
   validates_presence_of :user, :event, :role
