@@ -19,7 +19,7 @@
   <div class="event-sessions">
     <%= f.fields_for :event_sessions do |event_sessions_form| %>
       <label>Session:<%= event_sessions_form.text_field :name %></label>
-      <%= event_sessions_form.text_field :session_date, type: :date, class: 'datepicker' %>
+      <%= event_sessions_form.text_field :session_date, class: 'datepicker' %>
       <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
       -
       <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>

@@ -4,11 +4,7 @@
 dateChanged = ->
   date = $(this).val()
 
-  [month, day, year] = [null, null, null]
-  if date.match(/\d{4}-\d{2}-\d{2}/)
-    [year, month, day] = date.split('-')
-  else
-    [month, day, year] = date.split('/')
+  [year, month, day] = date.split('-')
 
   index = parseInt(this.id.match(/\d+/)[0], 10)
 
@@ -21,10 +17,7 @@ dateChanged = ->
 
 setUpDatePicker = ($el) ->
   $el.on('change', dateChanged)
-  if Modernizr.inputtypes.date
-    $el.css({width: '130px'})
-  else
-    $el.datepicker()
+  $el.datepicker()
 
 jQuery ->
   $.datepicker.setDefaults
