@@ -1,26 +1,23 @@
-<h3>Profile for <%= current_user.full_name %></h3>
+<h3>Profile for <%= @user.full_name %></h3>
 <div>
   <strong>Skills</strong>
 </div>
 
 <ul>
   <% skills.each do |skill| %>
-      <%=  content_tag(:li, skill_title(skill)) if current_user.profile[skill_symbol(skill)] %>
+    <%= content_tag(:li, skill_title(skill)) if @user.profile[skill_symbol(skill)] %>
   <% end %>
 </ul>
-<br />
 
 <strong>Other</strong>
 <div>
-  <%=  @profile.other %>
+  <%= @profile.other %>
 </div>
-<br />
 
 <strong>Bio</strong>
 <div>
   <%= @profile.bio %>
 </div>
-<br />
 
 <strong>Workshop History</strong>
 <table class='table'>
@@ -34,5 +31,7 @@
 </table>
 
 <ul class='actions'>
-  <li class='btn'><%= link_to "Edit Profile", edit_user_profile_path(@user) %></li>
+  <% if @user == current_user %>
+    <li class='btn'><%= link_to "Edit Profile", edit_user_profile_path(@user) %></li>
+  <% end %>
 </ul>

@@ -1,23 +1,27 @@
 class ProfilesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :load_user_and_profile, :only => [:show, :edit]
+  before_filter :load_user_and_profile
+  before_filter :validate_user!, only: [:edit, :update]
 
   def update
-    respond_to do |format|
-      if current_user.profile.update_attributes(params[:profile])
-        format.html { redirect_to user_profile_path, notice: 'Profile was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render status: :unprocessable_entity, action: "edit" }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
-      end
+    if @profile.update_attributes(params[:profile])
+      redirect_to user_profile_path, notice: 'Profile was successfully updated.'
+    else
+      render status: :unprocessable_entity, action: "edit"
     end
   end
 
   protected
 
   def load_user_and_profile
-    @user = current_user
-    @profile = current_user.profile
+    @user = User.find(params[:user_id])
+    @profile = @user.profile
+  end
+
+  def validate_user!
+    unless @user == current_user
+      redirect_to events_path, notice: "You're not allowed to do that. Here, look at some events instead!"
+      false
+    end
   end
 end
