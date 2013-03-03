@@ -75,11 +75,16 @@ describe "Profile" do
     page.should have_content("This is my bio...")
   end
 
-  it "should be able to see workshop history" do
-    click_link "Profile"
-    page.should have_content("Workshop History")
-    page.should have_content("Role")
-    page.should have_content("Date")
-    page.should have_content("Venue")
+  context "when the user has attended some workshops" do
+    before do
+      event = create(:event, title: 'BridgeBridge')
+      event.rsvps.create!(user: @user, role_id: Role::VOLUNTEER)
+    end
+
+    it "should be able to see workshop history" do
+      click_link "Profile"
+      page.should have_content("Workshop History")
+      page.should have_content("BridgeBridge")
+    end
   end
 end

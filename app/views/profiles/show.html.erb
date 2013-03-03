@@ -19,16 +19,9 @@
   <%= @profile.bio %>
 </div>
 
-<strong>Workshop History</strong>
-<table class='table'>
-  <thead>
-  <tr>
-    <td>Role</td>
-    <td>Date</td>
-    <td>Venue</td>
-  </tr>
-  </thead>
-</table>
+<h3>Workshop History</h3>
+
+<%= render 'shared/rsvps', rsvps: @user.rsvps %>
 
 <ul class='actions'>
   <% if @user == current_user %>

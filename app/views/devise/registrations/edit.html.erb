@@ -1,5 +1,17 @@
 <h1>Edit <%= resource_name.to_s.humanize %></h1>
 
+<div class='meetup-association'>
+
+  <% if resource.meetup_id.present? %>
+    <p>This account is associated with <%= link_to "meetup user #{resource.meetup_id}.", "http://www.meetup.com/members/#{resource.meetup_id}/" %></p>
+  <% else %>
+    <p>This account is not associated with a SFRuby Meetup account.</p>
+
+    <p>If you associate with your meetup account, Bridgetroll can show you information about past workshops you have attended.</p>
+    <%= link_to 'Associate with Meetup account', "/auth/meetup", class: 'btn' %>
+  <% end %>
+</div>
+
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
 

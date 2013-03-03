@@ -261,4 +261,54 @@ module MeetupRequestFixtures
       }
     }
   end
+
+  def self.oauth_response meetup_id
+    meetup_name = "Franz Meetuper"
+    {
+      "provider" => "meetup",
+      "uid" => meetup_id,
+      "info" => {
+        "id" => meetup_id,
+        "name" => meetup_name,
+        "photo_url" => "http://photos1.meetupstatic.com/photos/member/7/7/f/2/member_6510706.jpeg",
+        "urls" => {
+          "public_profile" => "http://www.meetup.com/members/#{meetup_id}"
+        },
+        "description" => nil,
+        "location" => "San Francisco, CA, us"
+      },
+      "credentials" => {
+        "token" => "09735fc8a27029e500206e3725b5b0af",
+        "refresh_token" => "65dfac4c388c69f3384b219920a52c65",
+        "expires_at" => 1362299003,
+        "expires" => true
+      },
+      "extra" => {
+        "raw_info" => {
+          "lon" => -122.41999816894531,
+          "link" => "http://www.meetup.com/members/#{meetup_id}",
+          "state" => "CA",
+          "self" => {
+            "common" => {}
+          },
+          "lang" => "en_US",
+          "photo" => {
+            "photo_link" => "http://photos1.meetupstatic.com/photos/member/7/7/f/2/member_6510706.jpeg",
+            "highres_link" => "http://photos1.meetupstatic.com/photos/member/7/7/f/2/highres_6510706.jpeg",
+            "thumb_link" => "http://photos1.meetupstatic.com/photos/member/7/7/f/2/thumb_6510706.jpeg",
+            "photo_id" => 6510706
+          },
+          "city" => "San Francisco",
+          "country" => "us",
+          "id" => meetup_id,
+          "visited" => 1362294758000,
+          "topics" => [],
+          "joined" => 1233104345000,
+          "name" => meetup_name,
+          "other_services" => {},
+          "lat" => 37.790000915527344
+        }
+      }
+    }
+  end
 end

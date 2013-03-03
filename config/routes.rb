@@ -18,4 +18,6 @@ Bridgetroll::Application.routes.draw do
       resources :checkins, :only => [:index, :create, :destroy]
     end
   end
+
+  get "/auth/:provider/callback" => "omniauths#callback"
 end

@@ -152,6 +152,38 @@ MESSAGE
     ap event_jsons.map { |hsh| hsh.slice('id', 'name', 'description', 'event_url') }, plain: true
   end
 
+  def associate_user bridgetroll_user, meetup_id
+    raise "User already associated with #{bridgetroll_user.meetup_id}" if bridgetroll_user.meetup_id.present?
+
+    meetup_user = MeetupUser.where(meetup_id: meetup_id).first
+    raise "No user with ID #{meetup_id}" unless meetup_user.present?
+
+    Rsvp.transaction do
+      Rsvp.where(user_type: 'MeetupUser', user_id: meetup_user.id).find_each do |rsvp|
+        rsvp.user = bridgetroll_user
+        rsvp.save!
+      end
+
+      bridgetroll_user.meetup_id = meetup_id
+      bridgetroll_user.save!
+    end
+  end
+
+  def disassociate_user bridgetroll_user
+    raise "User is not associated with a meetup account!" unless bridgetroll_user.meetup_id.present?
+
+    meetup_user = MeetupUser.where(meetup_id: bridgetroll_user.meetup_id).first
+    Rsvp.transaction do
+      Rsvp.where(user_type: 'User', user_id: bridgetroll_user.id).find_each do |rsvp|
+        rsvp.user = meetup_user
+        rsvp.save!
+      end
+
+      bridgetroll_user.meetup_id = nil
+      bridgetroll_user.save!
+    end
+  end
+
   private
 
   def get_api_response_for path, params=nil

@@ -9,6 +9,7 @@ gem 'select2-rails'
 gem 'active_hash'
 gem 'sanitize'
 gem 'gmaps4rails'
+gem 'omniauth-meetup'
 
 group :production do
   gem 'pg'
@@ -25,6 +26,7 @@ group :assets do
 end
 
 group :development do
+  gem 'sextant'
   gem 'quiet_assets'
   gem 'guard-rspec'
   gem 'rb-fsevent'

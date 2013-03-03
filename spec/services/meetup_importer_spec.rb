@@ -137,4 +137,50 @@ describe MeetupImporter do
   it "can sanitize invalid utf-8" do
     @importer.sanitize("Here\x92s the timeline").should == 'Heres the timeline'
   end
+
+  describe "association to meetup users" do
+    let(:volunteer_rsvp_response) {
+      MeetupRequestFixtures.rsvp_response(
+        event_id: volunteer_event_id,
+        attendees: [sven, sally],
+        organizer: liz
+      )
+    }
+    let(:student_rsvp_response) {
+      MeetupRequestFixtures.rsvp_response(
+        event_id: student_event_id,
+        attendees: [sven, hugh],
+        organizer: liz
+      )
+    }
+    let(:bridgetroll_user) { create(:user) }
+
+    before do
+      @importer.import_student_and_volunteer_event(event_params)
+      @event = Event.where(meetup_volunteer_event_id: volunteer_event_id).first
+
+      @sven_model = MeetupUser.where(meetup_id: sven[:id]).first
+      @sally_model = MeetupUser.where(meetup_id: sally[:id]).first
+    end
+
+    it "claims existing RSVPs when associating" do
+      @event.volunteers_with_legacy.should =~ [@sven_model, @sally_model]
+
+      @importer.associate_user(bridgetroll_user, sven[:id])
+
+      @event.reload.volunteers_with_legacy.should =~ [bridgetroll_user, @sally_model]
+    end
+
+    context "when a bridgetroll user is already associated to a meetup user" do
+      before do
+        @importer.associate_user(bridgetroll_user, sven[:id])
+      end
+
+      it "removes claim to RSVPs when disassociating" do
+        @importer.disassociate_user(bridgetroll_user)
+
+        @event.reload.volunteers_with_legacy.should =~ [@sven_model, @sally_model]
+      end
+    end
+  end
 end
