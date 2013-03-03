@@ -29,6 +29,7 @@ class LocationsController < ApplicationController
 
   def update
     @location = Location.find(params[:id])
+    @location.gmaps = false
 
     if @location.update_attributes(params[:location])
       redirect_to @location, notice: 'Location was successfully updated.'

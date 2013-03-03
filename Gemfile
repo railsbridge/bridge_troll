@@ -8,6 +8,7 @@ gem 'nested_form'
 gem 'select2-rails'
 gem 'active_hash'
 gem 'sanitize'
+gem 'gmaps4rails'
 
 group :production do
   gem 'pg'

@@ -11,7 +11,9 @@ $tableBorder: #BFBFBF;
 @import "twitter/bootstrap";
 @import 'twitter/bootstrap/responsive';
 @import "select2";
+@import "gmaps4rails";
 @import url(http://fonts.googleapis.com/css?family=Libre+Baskerville|Unica+One|Raleway:400,600|Fjalla+One|Open+Sans);
+
 
 body {
   background-color: #22444D;
@@ -137,4 +139,17 @@ a {
 .meetup-link {
   font-size: 8pt;
   color: darkgrey;
+}
+
+.map_container {
+  width: 250px;
+}
+
+.gmaps4rails_map { 
+  width: 250px;
+  height: 250px;
+}
+
+#map label { 
+  width: auto; display:inline; 
 }
