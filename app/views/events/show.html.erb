@@ -21,6 +21,7 @@
     <%= @event.location.name %> at address:
     <br/>
     <%= @event.location.address_1 %>
+    <%= render "shared/map", location: @event.location %>
   <% else %>
     This event currently has no location!
   <% end %>

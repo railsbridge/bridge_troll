@@ -14,7 +14,7 @@ class MeetupImporter
   def assert_key_exists
     return true if ENV['MEETUP_API_KEY']
 
-    show_message <<MESSAGE
+    show_message <<-MESSAGE
 No API key found!
 
 Find your Meetup account's API key at http://www.meetup.com/meetup_api/key/
@@ -26,7 +26,7 @@ MESSAGE
   def assert_valid_status url, response
     return true if response.code == '200'
 
-    show_message <<MESSAGE
+    show_message <<-MESSAGE
 The meetup API request did not return a successful status
 url: #{url}
 
@@ -39,7 +39,7 @@ MESSAGE
   def assert_valid_response url, response_json
     return true unless response_json['problem']
 
-    show_message <<MESSAGE
+    show_message <<-MESSAGE
 The meetup API request had some sort of error:
 url: #{url}
 
@@ -50,7 +50,7 @@ MESSAGE
   end
 
   def import
-    assert_key_exists
+    return unless assert_key_exists
 
     MEETUP_EVENTS.each_with_index do |event_data, index|
       puts "Importing event #{index+1} of #{MEETUP_EVENTS.length}"
