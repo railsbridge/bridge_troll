@@ -1,0 +1,12 @@
+<%= gmaps({
+    "map_options" => { 
+      "auto_adjust" => false, 
+      "zoom" => 15, 
+      "center_latitude" => location.latitude, 
+      "center_longitude" => location.longitude 
+    },
+    "markers" => { 
+      "data" => location.to_gmaps4rails 
+    }
+  })
+%>
