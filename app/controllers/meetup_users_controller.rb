@@ -2,7 +2,6 @@ class MeetupUsersController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @users = MeetupUser.order('lower(full_name)')
     @attendances = {}
 
     grouped_rsvps = Rsvp.where(user_type: 'MeetupUser').select('user_id, role_id, count(*) count').group('role_id, user_id')
@@ -14,6 +13,10 @@ class MeetupUsersController < ApplicationController
       }
       @attendances[rsvp_group.user_id][rsvp_group.role_id] = rsvp_group.count
     end
+
+    attended = @attendances.keys
+
+    @users = MeetupUser.order('lower(full_name)').select { |user| attended.include?(user.id) }
   end
 
   def show

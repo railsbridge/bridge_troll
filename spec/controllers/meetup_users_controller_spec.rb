@@ -9,6 +9,15 @@ describe MeetupUsersController do
     before do
       @user1 = create(:meetup_user)
       @user2 = create(:meetup_user)
+      @user3 = create(:meetup_user)
+
+      @event1 = create(:event)
+      @event2 = create(:event)
+
+      @event1.rsvps.create(user: @user1, role_id: Role::VOLUNTEER)
+      @event2.rsvps.create(user: @user1, role_id: Role::VOLUNTEER)
+
+      @event2.rsvps.create(user: @user2, role_id: Role::VOLUNTEER)
     end
 
     context "when rendering" do
@@ -19,17 +28,14 @@ describe MeetupUsersController do
         response.body.should include(@user1.full_name)
         response.body.should include(@user2.full_name)
       end
+
+      it "ignores users with no rsvps" do
+        get :index
+        response.body.should_not include(@user3.full_name)
+      end
     end
 
     it "calculates attendances" do
-      @event1 = create(:event)
-      @event2 = create(:event)
-
-      @event1.rsvps.create(user: @user1, role_id: Role::VOLUNTEER)
-      @event2.rsvps.create(user: @user1, role_id: Role::VOLUNTEER)
-
-      @event2.rsvps.create(user: @user2, role_id: Role::VOLUNTEER)
-
       get :index
       assigns(:attendances)[@user1.id][Role::VOLUNTEER].should == 2
       assigns(:attendances)[@user2.id][Role::VOLUNTEER].should == 1
