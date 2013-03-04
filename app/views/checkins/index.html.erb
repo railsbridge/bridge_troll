@@ -22,6 +22,6 @@
   <% end %>
 </table>
 
-<ul class='actions'>
-  <li class='btn'><%= link_to 'Back', event_path(@event) %></li>
-</ul>
+<%= render 'shared/actions', links: [
+  ['Back', event_path(@event)],
+] %>

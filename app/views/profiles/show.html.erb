@@ -23,8 +23,8 @@
 
 <%= render 'shared/rsvps', rsvps: @user.rsvps %>
 
-<ul class='actions'>
-  <% if @user == current_user %>
-    <li class='btn'><%= link_to "Edit Profile", edit_user_profile_path(@user) %></li>
-  <% end %>
-</ul>
+<% if @user == current_user %>
+  <%= render 'shared/actions', links: [
+    ["Edit Profile", edit_user_profile_path(@user)]
+  ] %>
+<% end %>

@@ -1,5 +1,7 @@
-<h1> RSVP </h1>
+<h1>RSVP</h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Back', events_path %>
+<%= render 'shared/actions', links: [
+  ['Back', events_path]
+] %>

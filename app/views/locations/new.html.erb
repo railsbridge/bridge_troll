@@ -2,6 +2,6 @@
 
 <%= render 'form' %>
 
-<ul class='actions'>
-  <li class='btn'><%= link_to 'Back', locations_path %></li>
-</ul>
+<%= render 'shared/actions', links: [
+  ['Back', locations_path]
+] %>

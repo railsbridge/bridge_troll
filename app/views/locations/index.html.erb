@@ -28,9 +28,7 @@
   <% end %>
 </table>
 
-<ul class='actions'>
-  <% if user_signed_in? %>
-    <li class='btn'><%= link_to 'New Location', new_location_path %></li>
-  <% end %>
-  <li class='btn'><%= link_to 'Events', events_path %></li>
-</ul>
+<%= render 'shared/actions', links: [
+  user_signed_in? ? ['New Location', new_location_path] : nil,
+  ['Events', events_path]
+] %>

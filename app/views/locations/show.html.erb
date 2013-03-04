@@ -10,8 +10,7 @@
 
 <%= render "shared/map", location: @location %>
 
-
-<ul class='actions'>
-  <li class='btn'><%= link_to 'Edit', edit_location_path(@location) %></li>
-  <li class='btn'><%= link_to 'Back', locations_path %></li>
-</ul>
+<%= render 'shared/actions', links: [
+  ['Edit', edit_location_path(@location)],
+  ['Back', locations_path]
+] %>

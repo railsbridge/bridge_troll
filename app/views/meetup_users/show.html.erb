@@ -2,6 +2,6 @@
 
 <%= render 'shared/rsvps', rsvps: @rsvps %>
 
-<ul class='actions'>
-  <li class='btn'><%= link_to 'Meetup User Index', meetup_users_path %></li>
-</ul>
+<%= render 'shared/actions', links: [
+  ['Meetup User Index', meetup_users_path]
+] %>

@@ -22,6 +22,6 @@
   <div><%= f.submit "Update", class: 'btn' %></div>
 <% end %>
 
-<ul class='actions'>
-  <li class='btn'><%= link_to "Back", :back %></li>
-</ul>
+<%= render 'shared/actions', links: [
+  ["Back", :back]
+] %>

@@ -56,8 +56,8 @@
 </table>
 
 <% if user_signed_in? %>
-  <ul class='actions'>
-    <li class='btn'><%= link_to 'New Event', new_event_path %></li>
-    <li class='btn'><%= link_to 'Manage Locations', locations_path %></li>
-  </ul>
+  <%= render 'shared/actions', links: [
+    ['New Event', new_event_path],
+    ['Manage Locations', locations_path]
+  ] %>
 <% end %>

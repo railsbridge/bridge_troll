@@ -99,6 +99,11 @@ a {
 
 .actions {
   margin: 20px 0 0 0;
+  list-style-type: none;
+
+  li {
+    display: inline-block;
+  }
 }
 
 .event-sessions {
