@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.11'
-gem 'devise', '2.1.2'
+gem 'rails', '3.2.12'
+gem 'devise', '~> 2.2.3'
 gem 'thin'
 gem 'jquery-rails'
 gem 'nested_form'
@@ -42,7 +42,7 @@ end
 group :test do
   gem 'webmock'
   gem "factory_girl_rails"
-  gem 'capybara'
+  gem 'capybara', '~> 1.1.4'
   gem "poltergeist"
   gem "launchy"
   gem "database_cleaner"
