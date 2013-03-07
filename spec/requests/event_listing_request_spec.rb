@@ -28,14 +28,14 @@ describe "the event listing page" do
   end
 
   context 'as a logged in user' do
-    before(:each) do 
+    before(:each) do
       @user = create(:user)
       sign_in_as(@user)
     end
 
     it "allows user to create a new event", js: true do
       visit events_path
-      click_link "New Event"
+      click_link "Organize Event"
 
       fill_in "Title", with: "February Event"
 
@@ -106,10 +106,10 @@ describe "the event listing page" do
         rsvp.rsvp_sessions.length.should == 1
         rsvp.rsvp_sessions.first.event_session.should == @session1
       end
-     
+
       context 'given a volunteered user' do
-        before(:each) do 
-          @rsvp = create(:rsvp, event: @event, user: @user) 
+        before(:each) do
+          @rsvp = create(:rsvp, event: @event, user: @user)
           visit events_path
         end
 
