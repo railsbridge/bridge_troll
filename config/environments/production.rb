@@ -68,5 +68,5 @@ Bridgetroll::Application.configure do
   }
   config.action_mailer.delivery_method ||= :smtp
 
-  config.action_mailer.default_url_options = { :host => 'bridgetroll-staging.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => ENV['HOST_URL'] }
 end
