@@ -16,7 +16,7 @@
     <%= f.text_area :about_you, rows: 5, cols: 80 %>
   </div>
 
-  <strong>Preferences</strong>
+  <strong>Teaching preference?</strong>
   <div class="field">
     <%= f.label :teaching, class: 'checkbox' do %>
       <%= f.check_box :teaching %> Teaching
@@ -26,7 +26,7 @@
     <% end %>
   </div>
 
-  <strong>Attendances</strong>
+  <strong>Sessions you're attending</strong>
   <% @rsvp.event.event_sessions.order('starts_at ASC').each do |session| %>
     <%= label_tag do %>
       <%= check_box_tag 'rsvp_sessions[]', session.id, @rsvp.rsvp_sessions.where(event_session_id: session.id).any? %>
