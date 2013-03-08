@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "the individual event page" do
   before do
-    @event = create(:event)
+    @event = create(:event, :public_email => "public_email@example.org")
   end
   
   context "user is not logged in" do
@@ -40,6 +40,11 @@ describe "the individual event page" do
       page.should_not have_content("Manage Organizers")
       page.should_not have_content("Edit")
     end
+
+    it "does not display the event public email" do
+      visit event_path(@event)
+      page.should_not have_content("public_email@example.org")
+    end
   end
 
   context "user is logged in but is not an organizer for the event" do
@@ -51,6 +56,11 @@ describe "the individual event page" do
       visit event_path(@event)
       page.should_not have_content("Manage Organizers")
       page.should_not have_content("Edit")
+    end
+
+    it "displays the event public email" do
+      visit event_path(@event)
+      page.should have_content("public_email@example.org")
     end
 
     it "doesn't display sensitive volunteer information" do
