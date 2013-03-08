@@ -6,6 +6,8 @@ describe Rsvp do
   it { should validate_uniqueness_of(:user_id).scoped_to(:event_id) }
   it { should validate_presence_of(:user)}
   it { should validate_presence_of(:event)}
+  it { should validate_presence_of(:subject_experience)}
+  it { should ensure_length_of(:subject_experience).is_at_most(250).is_at_least(10) }
 
   describe '#set_attending_sessions' do
     before do
