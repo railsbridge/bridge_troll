@@ -29,3 +29,6 @@ custom_plan.rb
 
 # OSX
 .DS_Store
+
+# Vim swap files
+**/*.swp
