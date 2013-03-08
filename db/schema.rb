@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20130317031753) do
     t.string   "time_zone"
     t.integer  "meetup_volunteer_event_id"
     t.integer  "meetup_student_event_id"
+    t.text     "volunteer_details"
     t.string   "public_email"
   end
 

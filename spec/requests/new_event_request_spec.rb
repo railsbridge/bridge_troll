@@ -19,4 +19,8 @@ describe "New Event" do
     page.should have_field(label)
     page.field_labeled(label)[:value].should == "organizer@mail.com" 
   end
+
+  it "should have 'Volunteer Details'" do
+    page.should have_field("Volunteer Details")
+  end
 end
