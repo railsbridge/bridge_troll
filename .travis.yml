@@ -1,9 +1,6 @@
 language: ruby
 rvm:
   - 1.9.3
-branches:
-  only:
-    - 'master'
 bundler_args: "--without development"
 before_script: "./config/before-travis.sh"
 script: "export DISPLAY=:99.0 && bundle exec rake"
