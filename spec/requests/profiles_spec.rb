@@ -78,7 +78,7 @@ describe "Profile" do
   context "when the user has attended some workshops" do
     before do
       event = create(:event, title: 'BridgeBridge')
-      event.rsvps.create!(user: @user, role_id: Role::VOLUNTEER)
+      event.rsvps << create(:rsvp, user: @user, event: event)
     end
 
     it "should be able to see workshop history" do

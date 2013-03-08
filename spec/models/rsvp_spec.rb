@@ -6,6 +6,15 @@ describe Rsvp do
   it { should validate_uniqueness_of(:user_id).scoped_to(:event_id) }
   it { should validate_presence_of(:user)}
   it { should validate_presence_of(:event)}
+  
+  context 'for volunteers' do
+    subject { Rsvp.new :role_id => Role::VOLUNTEER}
+
+    it { should validate_presence_of(:teaching_experience) }
+    it { should ensure_length_of(:teaching_experience).is_at_least(10).is_at_most(250) }
+    it { should validate_presence_of(:subject_experience)}
+    it { should ensure_length_of(:subject_experience).is_at_most(250).is_at_least(10) }
+  end
 
   describe '#set_attending_sessions' do
     before do

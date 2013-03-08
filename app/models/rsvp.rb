@@ -8,6 +8,13 @@ class Rsvp < ActiveRecord::Base
 
   validates_uniqueness_of :user_id, scope: :event_id
   validates_presence_of :user, :event, :role
+
+  MAX_EXPERIENCE_LENGTH = 250
+  with_options(if: Proc.new {|rsvp| rsvp.role_id == Role::VOLUNTEER && rsvp.user_type == 'User' }) do |for_volunteers|
+    for_volunteers.validates_presence_of :teaching_experience, :subject_experience
+    for_volunteers.validates_length_of :teaching_experience, :subject_experience, :in => 10..MAX_EXPERIENCE_LENGTH
+  end
+  
   belongs_to_active_hash :role
   belongs_to_active_hash :volunteer_assignment
 
