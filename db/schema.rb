@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130303204435) do
+ActiveRecord::Schema.define(:version => 20130308040330) do
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
@@ -83,13 +83,13 @@ ActiveRecord::Schema.define(:version => 20130303204435) do
   create_table "rsvps", :force => true do |t|
     t.integer  "user_id"
     t.integer  "event_id"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.datetime "created_at",                                                :null => false
+    t.datetime "updated_at",                                                :null => false
     t.integer  "role_id"
-    t.text     "about_you"
-    t.boolean  "teaching",                :default => false, :null => false
-    t.boolean  "taing",                   :default => false, :null => false
-    t.integer  "volunteer_assignment_id", :default => 1,     :null => false
+    t.string   "subject_experience",      :limit => 250
+    t.boolean  "teaching",                               :default => false, :null => false
+    t.boolean  "taing",                                  :default => false, :null => false
+    t.integer  "volunteer_assignment_id",                :default => 1,     :null => false
     t.string   "user_type"
   end
 
