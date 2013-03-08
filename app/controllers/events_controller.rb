@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!, only: [:new, :edit, :create, :update, :destroy]
-  before_filter :find_event, only: [:show, :edit, :update, :destroy]
+  before_filter :find_event, only: [:show, :edit, :update, :destroy, :volunteer_emails]
   before_filter :require_organizer, only: [:edit, :update, :destroy]
   before_filter :assign_organizer, only: [:show, :edit, :update, :destroy]
   before_filter :set_time_zone, only: [:create, :update]
@@ -43,6 +43,10 @@ class EventsController < ApplicationController
   def destroy
     @event.destroy
     redirect_to events_url
+  end
+
+  def volunteer_emails
+    @volunteers = @event.volunteers
   end
 
   protected

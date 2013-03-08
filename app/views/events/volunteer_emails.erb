@@ -1,0 +1,12 @@
+<h2>Volunteer Emails for <%= @event.title %></h2>
+
+<p>Copy these addresses into your email to contact the volunteers.</p>
+
+<table>
+  <% @volunteers.each do |volunteer| %>
+    <tr>
+      <td><%= volunteer.first_name %> <%= volunteer.last_name %>: </td>
+      <td><%= volunteer.email %></td>
+    </tr>
+  <% end %>
+</table>
