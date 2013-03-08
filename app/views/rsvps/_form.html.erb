@@ -18,7 +18,8 @@
 
   <div class="field">
     <%= f.label :experience, "Teaching Experience" %>
-    <%= f.text_area :experience, rows: 5, cols: 80 %>
+    <%= f.text_area :experience, rows: 5, cols: 80, 
+          maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
   </div>
 
   <strong>Teaching preference?</strong>
