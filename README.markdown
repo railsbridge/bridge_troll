@@ -13,7 +13,7 @@ The feature set is currently pretty minimal - definitely *pre-alpha*. Eventually
 * [The running app](http://bridgetroll.herokuapp.com/)
 * [The staging server](http://bridgetroll-staging.herokuapp.com/)
 * [Continuous integration on travis-ci.org](http://travis-ci.org/railsbridge/bridge_troll)
-* [Bugs](/railsbridge/bridge_troll/issues)
+* [Bugs](http://github.com/railsbridge/bridge_troll/issues)
  
 
 ## Want to help out?
