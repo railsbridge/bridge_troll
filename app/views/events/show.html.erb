@@ -48,6 +48,11 @@
         <li>No Organizer Assigned</li>
     <% end %>
   </ul>
+  <% if user_signed_in? && @event.public_email.present? %>
+    <p>Questions? Email 
+      <%= mail_to @event.public_email %>
+    </p>
+  <% end %>
 </div>
 
 <h3>Volunteers:</h3>

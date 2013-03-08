@@ -9,11 +9,12 @@ describe "New Event" do
     visit "/events/new"
   end
 
-  
-
   it "should pre-fill the event details textarea" do
     page.should have_field('General Event Details')
     page.field_labeled('General Event Details')[:value].should =~ /Workshop Description/
   end
 
+  it "should have a public organizer email field" do
+    page.should have_field("What email address should users contact you at with questions?")
+  end
 end
