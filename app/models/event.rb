@@ -1,4 +1,6 @@
 class Event < ActiveRecord::Base
+  after_initialize :set_defaults
+
   belongs_to :location
   
   has_many :rsvps, dependent: :destroy
@@ -50,4 +52,24 @@ class Event < ActiveRecord::Base
   def organizer?(user)
     organizer_rsvps.where(user_id: user.id).any?
   end
+
+  private
+
+  def set_defaults
+    self.details ||= Event::DEFAULT_DETAILS
+  end
+
+  DEFAULT_DETAILS = <<-END
+<h2>Workshop Description</h2>
+
+<h2>Location and Sponsors</h2>
+
+<h2>Transportation and Parking</h2>
+
+<h2>Food and Drinks</h2>
+
+<h2>Childcare</h2>
+
+<h2>Afterparty</h2>
+  END
 end
