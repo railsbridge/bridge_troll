@@ -7,7 +7,8 @@ class Rsvp < ActiveRecord::Base
   has_many :rsvp_sessions, dependent: :destroy
 
   validates_uniqueness_of :user_id, scope: :event_id
-  validates_presence_of :user, :event, :role
+  validates_presence_of :user, :event, :role, :experience
+  validates_length_of :experience, :in => 10..250
   belongs_to_active_hash :role
   belongs_to_active_hash :volunteer_assignment
 
