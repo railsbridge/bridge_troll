@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "New Event" do
   before do
-    @user_organizer = create(:user, email: "orgainzer@mail.com", first_name: "Sam", last_name: "Spade")
+    @user_organizer = create(:user, email: "organizer@mail.com", first_name: "Sam", last_name: "Spade")
     
     sign_in_as(@user_organizer)
 
@@ -15,6 +15,8 @@ describe "New Event" do
   end
 
   it "should have a public organizer email field" do
-    page.should have_field("What email address should users contact you at with questions?")
+    label = "What email address should users contact you at with questions?"
+    page.should have_field(label)
+    page.field_labeled(label)[:value].should == "organizer@mail.com" 
   end
 end
