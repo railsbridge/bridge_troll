@@ -1,5 +1,26 @@
 #!/bin/sh
 
+if ! which phantomjs >/dev/null 2>&1; then
+	cat <<'MESSAGE'
+You don't have phantomjs installed, which means you won't be able to run
+our full test suite.
+MESSAGE
+	if [ "$(uname)" = "Darwin" ]; then
+		cat <<'MESSAGE'
+Since you're on Mac OS X. You can install it with Homebrew using
+	brew install phantomjs
+
+If you don't have homebrew, check out http://mxcl.github.com/homebrew/
+MESSAGE
+	else
+		cat <<'MESSAGE'
+Use your system's package manager to install phantomjs.
+	http://phantomjs.org/"
+MESSAGE
+	fi
+	exit 1
+fi
+
 
 if which ruby > /dev/null 2>&1; then
 	if ! ruby -v | grep '^ruby 1.9.3' > /dev/null; then
@@ -11,6 +32,8 @@ Hey, you're missing Ruby!
 You can install ruby by going to http://rvm.io and following the
 instructions there."
 MESSAGE
+
+	exit 1
 fi
 
 if ! which bundle > /dev/null 2>&1; then
