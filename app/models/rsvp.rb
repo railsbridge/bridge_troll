@@ -7,8 +7,13 @@ class Rsvp < ActiveRecord::Base
   has_many :rsvp_sessions, dependent: :destroy
 
   validates_uniqueness_of :user_id, scope: :event_id
-  validates_presence_of :user, :event, :role, :experience
-  validates_length_of :experience, :in => 10..250
+  validates_presence_of :user, :event, :role
+
+  with_options(if: Proc.new {|rsvp| rsvp.role_id == Role::VOLUNTEER }) do |for_volunteers|
+    for_volunteers.validates_presence_of :experience
+    for_volunteers.validates_length_of :experience, :in => 10..250
+  end
+  
   belongs_to_active_hash :role
   belongs_to_active_hash :volunteer_assignment
 

@@ -121,7 +121,7 @@ MESSAGE
       if existing_rsvp.present?
         existing_rsvp.update_attribute(:role_id, Role::ORGANIZER) if role_id == Role::ORGANIZER
       else
-        event.rsvps.create!(user: meetup_user, role_id: role_id)
+        save_rsvp event.rsvps.build(user: meetup_user, role_id: role_id)
       end
     end
   end
@@ -161,7 +161,7 @@ MESSAGE
     Rsvp.transaction do
       Rsvp.where(user_type: 'MeetupUser', user_id: meetup_user.id).find_each do |rsvp|
         rsvp.user = bridgetroll_user
-        rsvp.save!
+        save_rsvp rsvp
       end
 
       bridgetroll_user.meetup_id = meetup_id
@@ -176,7 +176,7 @@ MESSAGE
     Rsvp.transaction do
       Rsvp.where(user_type: 'User', user_id: bridgetroll_user.id).find_each do |rsvp|
         rsvp.user = meetup_user
-        rsvp.save!
+        save_rsvp rsvp
       end
 
       bridgetroll_user.meetup_id = nil
@@ -213,4 +213,12 @@ MESSAGE
     location.update_attributes(location_attributes.inject({}) { |hsh, (k, v)| hsh[k] = v.strip; hsh })
     location
   end
+
+  def save_rsvp rsvp
+    if rsvp.role_id == Role::VOLUNTEER
+      rsvp.save validate: false
+    else
+      rsvp.save!
+    end
+  end 
 end
