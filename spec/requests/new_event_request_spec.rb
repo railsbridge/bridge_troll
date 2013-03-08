@@ -18,4 +18,8 @@ describe "New Event" do
     page.should have_field("Volunteer Details")
   end
 
+  it "should have a public organizer email field" do
+    page.should have_field("What email address should users contact you at with questions?")
+  end
+
 end
