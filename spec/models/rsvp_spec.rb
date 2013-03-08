@@ -8,7 +8,7 @@ describe Rsvp do
   it { should validate_presence_of(:event)}
   
   context 'for volunteers' do
-    subject { Rsvp.new :role_id => Role::VOLUNTEER}
+    subject { build(:rsvp) }
 
     it { should validate_presence_of(:teaching_experience) }
     it { should ensure_length_of(:teaching_experience).is_at_least(10).is_at_most(250) }
