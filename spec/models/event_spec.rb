@@ -77,4 +77,10 @@ describe Event do
       Event.upcoming.should_not include(@event_past)
     end
   end
+  
+  describe "#details" do
+    it "has default content" do
+      Event.new.details.should =~ /Workshop Description/
+    end
+  end
 end
