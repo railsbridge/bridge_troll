@@ -28,5 +28,4 @@ then add it to your .env file as MEETUP_API_KEY=your_api_key_goes_here
 MESSAGE
 fi
 
-bundle exec rake db:create:all || exit $?
 bundle exec rake db:migrate || exit $?
