@@ -25,13 +25,13 @@ describe MeetupUsersController do
 
       it "shows a bunch of user names" do
         get :index
-        response.body.should include(@user1.full_name)
-        response.body.should include(@user2.full_name)
+        response.body.should include(ERB::Util.html_escape @user1.full_name)
+        response.body.should include(ERB::Util.html_escape @user2.full_name)
       end
 
       it "ignores users with no rsvps" do
         get :index
-        response.body.should_not include(@user3.full_name)
+        response.body.should_not include(ERB::Util.html_escape @user3.full_name)
       end
     end
 
