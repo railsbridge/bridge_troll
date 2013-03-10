@@ -14,6 +14,16 @@ describe Rsvp do
     it { should ensure_length_of(:teaching_experience).is_at_least(10).is_at_most(250) }
     it { should validate_presence_of(:subject_experience)}
     it { should ensure_length_of(:subject_experience).is_at_most(250).is_at_least(10) }
+
+    it "allows rsvps from the same user ID but different user type" do
+      @event = create(:event)
+      @bridgetroll_user = create(:user, id: 2001)
+      @meetup_user = create(:meetup_user, id: 2001)
+      rsvp1 = create(:rsvp, user: @bridgetroll_user, event: @event, role_id: Role::VOLUNTEER)
+      rsvp2 = create(:rsvp, user: @meetup_user, event: @event, role_id: Role::VOLUNTEER)
+      rsvp1.should be_valid
+      rsvp2.should be_valid
+    end
   end
 
   describe '#set_attending_sessions' do

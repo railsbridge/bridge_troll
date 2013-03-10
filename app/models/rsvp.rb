@@ -9,7 +9,7 @@ class Rsvp < ActiveRecord::Base
 
   has_many :rsvp_sessions, dependent: :destroy
 
-  validates_uniqueness_of :user_id, scope: :event_id
+  validates_uniqueness_of :user_id, scope: [:event_id, :user_type]
   validates_presence_of :user, :event, :role
 
   MAX_EXPERIENCE_LENGTH = 250
