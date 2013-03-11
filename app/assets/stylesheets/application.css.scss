@@ -193,3 +193,23 @@ a {
   padding: 15px;
   border-radius: 10px;
 }
+
+footer {
+  display: none;
+
+  .trollholder {
+    height: 113px;
+    width: 224px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  svg {
+    box-sizing: border-box;
+    position: absolute;
+    height: 133px;
+    width: 224px;
+    bottom: -19px;
+  }
+}

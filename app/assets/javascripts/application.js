@@ -21,4 +21,8 @@ $(document).ready(function () {
     "sPaginationType": "bootstrap",
     "iDisplayLength": 50
   });
+
+  if ($(window).height() < $('html').height()) {
+    $('footer').show();
+  }
 });
