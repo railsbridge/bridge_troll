@@ -1,6 +1,6 @@
 <h2><%= @event.title %></h2>
 
-<h4 class='event-detail-heading'>When</h4>
+<h1>When</h1>
 
 <div class='session-display'>
   <% @event.event_sessions.each do |event_session| %>
@@ -13,7 +13,7 @@
   <% end %>
 </div>
 
-<h4 class='event-detail-heading'>Where</h4>
+<h1>Where</h1>
 
 <div class='location-display'>
   <% if @event.location.present? %>
@@ -27,7 +27,7 @@
   <% end %>
 </div>
 
-<h4 class='event-detail-heading'>What</h4>
+<h1>What</h1>
 
 <div class="details">
   <strong>Details:</strong>
@@ -35,7 +35,7 @@
   <%= simple_format_with_html(@event.details) %>
 </div>
 
-<h4 class='event-detail-heading'>Who</h4>
+<h1>Who</h1>
 
 <div class="organizers">
   <h3><%= organizer_title %></h3>
