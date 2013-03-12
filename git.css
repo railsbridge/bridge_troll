@@ -52,11 +52,6 @@ p {
 	margin-bottom: .3em;
 }
 
-.subhead {
-	text-align: center;
-	font-size: 16px;
-}
-
 h2 {
 	font-size: 16px;
 	text-transform: uppercase;
@@ -65,15 +60,6 @@ h2 {
 	font-weight: 700;
 	margin-top: .8em;
 	margin-bottom: .5em;
-}
-
-h3 {
-	font-size: 12px;
-}
-
-.comment {
-	font-family: arial;
-	font-size: 12px;
 }
 
 li {
