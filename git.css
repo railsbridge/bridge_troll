@@ -35,14 +35,14 @@
 
 body {
 	font-size: 12px;
-	font-family: arial;
+	font-family: "Helvetica Neue", "Helvetica", "Liberation Sans", sans-serif;
 	background-image: url('px_by_Gre3g.png');
 }
 
 h1 {
 	text-align: center;
 	font-size: 18px;
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Raleway', "Helvetica", "Liberation Sans", sans-serif;
 	font-weight: 700;
 	color: #052a6e;
 }
@@ -62,17 +62,15 @@ h2 {
 	margin-bottom: .5em;
 }
 
-li {
-	font-family: courier;
-	font-size: 12px;
-	color: white;
-	background-color: black;
-}
-
 ul {
+	color: white;
 	list-style-type: none;
+	background-color: black;
+	padding: 3px;
+	border-radius: 7px;
 }
 
-.code {
-	font-family: courier;
+ul, .code {
+	font-family: "Consolas", "Menlo", "Monaco", "Inconsolata", "Courier New", monospace;
 }
+
