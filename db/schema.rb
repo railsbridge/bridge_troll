@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130303204435) do
+ActiveRecord::Schema.define(:version => 20130310073101) do
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20130303204435) do
     t.string   "time_zone"
     t.integer  "meetup_volunteer_event_id"
     t.integer  "meetup_student_event_id"
+    t.string   "public_email"
   end
 
   create_table "locations", :force => true do |t|
@@ -83,17 +84,18 @@ ActiveRecord::Schema.define(:version => 20130303204435) do
   create_table "rsvps", :force => true do |t|
     t.integer  "user_id"
     t.integer  "event_id"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
+    t.datetime "created_at",                                                :null => false
+    t.datetime "updated_at",                                                :null => false
     t.integer  "role_id"
-    t.text     "about_you"
-    t.boolean  "teaching",                :default => false, :null => false
-    t.boolean  "taing",                   :default => false, :null => false
-    t.integer  "volunteer_assignment_id", :default => 1,     :null => false
+    t.string   "subject_experience",      :limit => 250
+    t.boolean  "teaching",                               :default => false, :null => false
+    t.boolean  "taing",                                  :default => false, :null => false
+    t.integer  "volunteer_assignment_id",                :default => 1,     :null => false
     t.string   "user_type"
+    t.string   "teaching_experience",     :limit => 250
   end
 
-  add_index "rsvps", ["user_id", "event_id"], :name => "index_volunteer_rsvps_on_user_id_and_event_id", :unique => true
+  add_index "rsvps", ["user_id", "event_id", "user_type"], :name => "index_rsvps_on_user_id_and_event_id_and_event_type", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",    :null => false

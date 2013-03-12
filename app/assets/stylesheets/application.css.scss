@@ -1,10 +1,6 @@
-$navbarBackground: #635D6B;
-$navbarBackgroundHighlight: #857D91;
-$navbarText: #eee;
-$navbarLinkColor: #eee;
-$navbarLinkBackgroundHover: #CDC9D1;
-$navbarBrandColor: #FFF;
 $tableBorder: #BFBFBF;
+
+@import "constants";
 
 @import "dataTables/jquery.dataTables.bootstrap";
 @import "jquery.ui.datepicker";
@@ -12,24 +8,40 @@ $tableBorder: #BFBFBF;
 @import 'twitter/bootstrap/responsive';
 @import "select2";
 @import "gmaps4rails";
-@import url(http://fonts.googleapis.com/css?family=Libre+Baskerville|Unica+One|Raleway:400,600|Fjalla+One|Open+Sans);
 
+@import "header";
+@import "fonts";
+@import "style_guide";
 
 body {
-  background-color: #22444D;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'AmbleLight', sans-serif;
+  background-image: url('/assets/background.png');
 }
 
 .ui-datepicker {
   z-index: 1031 !important;
 }
 
-.navbar .brand {
-  margin-left: 0;
-}
-
 table tr td .btn {
   margin: 0 20px;
+}
+
+.btn {
+  font-size: 16px;
+  font-family: 'AmbleLight';
+  padding: 9px 16px;
+  border-radius: 0;
+
+  background: $darkblue-color;
+  color: white;
+  border: none;
+  text-shadow: none;
+  box-shadow: none;
+
+  &.btn-primary {
+    background: $blue-color;
+    text-shadow: none;
+  }
 }
 
 .remove-organizer form {
@@ -44,21 +56,47 @@ table tr td .btn {
   width: 1000px;
   margin-left: auto;
   margin-right: auto;
-  background-color: #E0E0E0;
+  background-color: $content-background-color;
   border-radius: 20px;
   padding: 10px 40px;
 }
 
+h1, h2, h3, h4, h5 {
+  font-weight: normal;
+  line-height: 120%;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+
 h1 {
-  font-family: 'Fjalla One', sans-serif;
-  color: #503570;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  font-family: 'Freehand521BT-RegularC', sans-serif;
+  font-size: 32px;
 }
 
 h2 {
-  font-family: 'Raleway', sans-serif;
-  font-weight: 600;
+  font-family: 'AmbleLight', sans-serif;
+  font-size: 24px;
+}
+
+h3 {
+  font-family: 'AmbleLight', sans-serif;
+  font-size: 18px;
+}
+
+h4 {
+  font-family: 'AmbleRegular', sans-serif;
+  font-size: 14px;
+}
+
+h5 {
+  font-family: 'AmbleBold', sans-serif;
+  font-size: 14px;
+}
+
+p {
+  font-family: 'AmbleLight', sans-serif;
+  line-height: 140%;
+  font-size: 15px;
 }
 
 a {
@@ -81,19 +119,6 @@ a {
     .date {
       font-weight: bold;
     }
-  }
-}
-
-.event-detail-heading {
-  font-size: 24pt;
-  line-height: 40pt;
-  background-color: rgb(114, 107, 123);
-  text-align: center;
-  border-radius: 10px;
-  width: 50%;
-
-&:after, &:before {
-    content: '☆';
   }
 }
 
@@ -167,4 +192,24 @@ a {
   text-align: center;
   padding: 15px;
   border-radius: 10px;
+}
+
+footer {
+  display: none;
+
+  .trollholder {
+    height: 113px;
+    width: 224px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  svg {
+    box-sizing: border-box;
+    position: absolute;
+    height: 133px;
+    width: 224px;
+    bottom: -19px;
+  }
 }

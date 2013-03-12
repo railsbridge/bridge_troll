@@ -12,8 +12,15 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :about_you %>
-    <%= f.text_area :about_you, rows: 5, cols: 80 %>
+    <%= f.label :subject_experience, "What's your experience with this workshop's subject matter?" %>
+    <%= f.text_area :subject_experience, rows: 5, cols: 80,
+          maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
+  </div>
+
+  <div class="field">
+    <%= f.label :teaching_experience, "Teaching Experience" %>
+    <%= f.text_area :teaching_experience, rows: 5, cols: 80, 
+          maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
   </div>
 
   <strong>Teaching preference?</strong>

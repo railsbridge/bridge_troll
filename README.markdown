@@ -13,7 +13,7 @@ The feature set is currently pretty minimal - definitely *pre-alpha*. Eventually
 * [The running app](http://bridgetroll.herokuapp.com/)
 * [The staging server](http://bridgetroll-staging.herokuapp.com/)
 * [Continuous integration on travis-ci.org](http://travis-ci.org/railsbridge/bridge_troll)
-* [Bugs](/railsbridge/bridge_troll/issues)
+* [Bugs](http://github.com/railsbridge/bridge_troll/issues)
  
 
 ## Want to help out?
@@ -38,10 +38,7 @@ Note: change `git clone` below to be *your* repo.
 ```
 git clone git@github.com:yourname/bridge_troll
 cd bridge_troll
-bundle install
-# if you get an error and don't have a bundler installed run: gem install bundler
-rake db:create:all
-rake db:migrate
+script/bootstrap
 rails s
 ```
 
@@ -57,6 +54,6 @@ brew install phantomjs
 
 Then you can run tests by doing
 ```
-rake
+script/test
 ```
 

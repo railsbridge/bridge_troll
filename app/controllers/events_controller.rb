@@ -14,7 +14,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new
+    @event = Event.new(:public_email => current_user.email) 
     @event.event_sessions << EventSession.new
   end
 

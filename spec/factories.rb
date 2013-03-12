@@ -48,10 +48,12 @@ FactoryGirl.define do
     user 
     event
     role Role.find_by_title('Volunteer')
+    teaching_experience "Quite experienced"
+    subject_experience "Use professionally"
   end
 
   factory :rsvp_session do
     rsvp
     event_session
-  end
+  end 
 end

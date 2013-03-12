@@ -1,0 +1,33 @@
+.navbar {
+  .navbar-inner {
+    background: #333;
+  }
+
+  .nav li a {
+    color: white;
+    text-shadow: none;
+    margin-right: 20px;
+    margin-top: 7px;
+
+    &:hover {
+      background: $orange-color;
+    }
+  }
+
+  .app-name {
+    background-color: $red-color;
+    color: white;
+    display: inline-block;
+    text-decoration: none;
+    padding-top: 10px;
+
+    svg {
+      width: 170px;
+      height: 40px;
+
+      path {
+        fill: white;
+      }
+    }
+  }
+}

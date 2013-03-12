@@ -40,7 +40,12 @@
   </div>
 
   <div class="field">
-    <%= f.label :details, 'Details (some html allowed)' %>
+    <%= f.label :public_email, 'What email address should users contact you at with questions?' %>
+    <%= f.text_field :public_email, :class => "input-xxlarge"%>
+  </div>
+
+  <div class="field">
+    <%= f.label :details, 'General Event Details (some html allowed)' %>
     <%= f.text_area :details, :rows => 4, :class => "input-xxlarge"%>
   </div>
 

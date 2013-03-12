@@ -67,7 +67,7 @@ GEM
       warden (~> 1.2.1)
     diff-lcs (1.2.1)
     erubis (2.7.0)
-    eventmachine (1.0.1)
+    eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
     factory_girl (4.2.0)

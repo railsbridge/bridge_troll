@@ -1,0 +1,45 @@
+.style-guide {
+  ul.swatches {
+    list-style-type: none;
+
+    li {
+      display: inline-block;
+    }
+
+    .swatch {
+      width: 60px;
+      height: 60px;
+      margin-right: 30px;
+
+      &.red-color {
+        background-color: $red-color;
+      }
+      &.orange-color {
+        background-color: $orange-color;
+      }
+      &.yellow-color {
+        background-color: $yellow-color;
+      }
+      &.green-color {
+        background-color: $green-color;
+      }
+      &.blue-color {
+        background-color: $blue-color;
+      }
+      &.black-color {
+        background-color: $black-color;
+      }
+    }
+  }
+
+  .background-swatch {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    background-image: url('/assets/background.png');
+  }
+
+  .paragraph-sample {
+   margin-top: 30px;
+  }
+}

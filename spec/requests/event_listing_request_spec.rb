@@ -88,7 +88,8 @@ describe "the event listing page" do
         visit events_path
         click_link("Volunteer")
         page.should have_content("almost signed up")
-        fill_in "About you", :with => "I am cool and I use a Mac (but those two things are not related)"
+        fill_in "rsvp_subject_experience", :with => "I am cool and I use a Mac (but those two things are not related)"
+        fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
         check 'Teaching'
 
         check "Installfest"

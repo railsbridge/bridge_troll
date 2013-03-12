@@ -4,10 +4,20 @@ class Rsvp < ActiveRecord::Base
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
   belongs_to :user, polymorphic: true
   belongs_to :event
+
+  delegate :historical?, to: :event
+
   has_many :rsvp_sessions, dependent: :destroy
 
-  validates_uniqueness_of :user_id, scope: :event_id
+  validates_uniqueness_of :user_id, scope: [:event_id, :user_type]
   validates_presence_of :user, :event, :role
+
+  MAX_EXPERIENCE_LENGTH = 250
+  with_options(if: Proc.new {|rsvp| rsvp.role_id == Role::VOLUNTEER && !rsvp.historical? }) do |for_volunteers|
+    for_volunteers.validates_presence_of :teaching_experience, :subject_experience
+    for_volunteers.validates_length_of :teaching_experience, :subject_experience, :in => 10..MAX_EXPERIENCE_LENGTH
+  end
+  
   belongs_to_active_hash :role
   belongs_to_active_hash :volunteer_assignment
 
@@ -31,4 +41,6 @@ class Rsvp < ActiveRecord::Base
       rsvp_sessions.create(event_session_id: session_id)
     end
   end
+
+
 end

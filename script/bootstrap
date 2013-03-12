@@ -1,0 +1,54 @@
+#!/bin/sh
+
+if ! which phantomjs >/dev/null 2>&1; then
+	cat <<'MESSAGE'
+You don't have phantomjs installed, which means you won't be able to run
+our full test suite.
+MESSAGE
+	if [ "$(uname)" = "Darwin" ]; then
+		cat <<'MESSAGE'
+Since you're on Mac OS X. You can install it with Homebrew using
+	brew install phantomjs
+
+If you don't have homebrew, check out http://mxcl.github.com/homebrew/
+MESSAGE
+	else
+		cat <<'MESSAGE'
+Use your system's package manager to install phantomjs.
+	http://phantomjs.org/"
+MESSAGE
+	fi
+	exit 1
+fi
+
+
+if which ruby > /dev/null 2>&1; then
+	if ! ruby -v | grep '^ruby 1.9.3' > /dev/null; then
+		echo "You're not using Ruby 1.9.3. You should install or switch to it!"
+	fi
+else
+	cat <<'MESSAGE'
+Hey, you're missing Ruby!
+You can install ruby by going to http://rvm.io and following the
+instructions there."
+MESSAGE
+
+	exit 1
+fi
+
+if ! which bundle > /dev/null 2>&1; then
+	echo "Installing bundler"
+	gem install bundler || exit $?
+fi
+
+bundle install || exit $?
+
+if [ -z "$MEETUP_API_KEY" ]; then
+	cat <<'MESSAGE'
+You don't have Meetup credentials in your environment.
+Find your Meetup account's API key at http://www.meetup.com/meetup_api/key/
+then add it to your .env file as MEETUP_API_KEY=your_api_key_goes_here
+MESSAGE
+fi
+
+bundle exec rake db:migrate || exit $?
