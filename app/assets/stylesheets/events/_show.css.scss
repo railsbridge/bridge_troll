@@ -1,0 +1,23 @@
+.location-display {
+  margin-bottom: 40px;
+}
+
+.critical-details {
+  margin-bottom: 20px;
+  font-size: 18px;
+
+  span {
+    display: block;
+
+    &:first-child {
+      padding-bottom: 10px;
+      font-size: 30px;
+      font-weight: 600;
+
+      &::before {
+        content: "@";
+        color: $darkgray-color;
+      }
+    }
+  }
+}

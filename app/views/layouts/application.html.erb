@@ -19,15 +19,13 @@
         </ul>
       </div>
     </div>
-    <div class="container-fluid center bridgetroll-content">
+    <div class="container center bridgetroll-content">
       <% flash.each do |name, msg| %>
           <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
             <%= msg  %>
           </div>
       <% end %>
-      <div class="row-fluid">
-          <%=yield %>
-      </div>
+      <%= yield %>
       <%= yield :scripts %>
     </div>
     <footer><div class="trollholder"><%= render 'shared/troll' %></div></footer>
