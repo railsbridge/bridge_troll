@@ -78,6 +78,30 @@ module EventsHelper
       )
   end
 
+  def formatted_event_date_range(event)
+    first_date = event.event_sessions.map { |s| s.date_in_time_zone(:starts_at) }.min
+    last_date  = event.event_sessions.map { |s| s.date_in_time_zone(:ends_at)   }.max
+
+    if first_date.year == last_date.year
+      if first_date.month == last_date.month
+        t :range_as_month_dayrange_year, 
+          :month => l(first_date, format: :date_as_m), 
+          first_day: first_date.day, 
+          last_day: last_date.day,
+          year: first_date.year
+      else
+        t :range_as_monthrange_year,
+          :first_month_day => l(first_date, format: :date_as_m_d),
+          :last_month_day => l(last_date, format: :date_as_m_d),
+          :year => first_date.year
+      end
+    else
+      t :range_as_yearrange, 
+        :first_date => l(first_date, format: :date_as_m_d_y),
+        :last_date => l(last_date, format: :date_as_m_d_y)
+    end
+  end
+
   private
 
   def volunteer_class(rsvp)

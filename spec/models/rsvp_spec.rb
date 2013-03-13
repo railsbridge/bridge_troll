@@ -29,7 +29,9 @@ describe Rsvp do
   describe '#set_attending_sessions' do
     before do
       @event = create(:event)
+      #ensure there are at least two sessions
       @event.event_sessions << create(:event_session)
+      @num_sessions = @event.event_sessions.length
       @rsvp = create(:rsvp, event: @event)
 
       @session1 = @event.event_sessions.first
@@ -37,9 +39,11 @@ describe Rsvp do
     end
 
     it "allows " do
+
+
       expect {
         @rsvp.set_attending_sessions(@event.event_sessions.map(&:id))
-      }.to change { @rsvp.rsvp_sessions.count }.by(2)
+      }.to change { @rsvp.rsvp_sessions.count }.by(@num_sessions)
       @rsvp.rsvp_sessions.map(&:event_session_id).should =~ @event.event_sessions.map(&:id)
     end
 
