@@ -1,3 +1,5 @@
+<%= render 'events/header' %>
+
 <h3>Organizer Assignments</h3>
 <br />
 <h4>Event: <%= link_to " #{@event.title}", event_path(@event)%></h4>
@@ -41,5 +43,5 @@
 </table>
 
 <%= render 'shared/actions', links: [
-  ['Back', event_path(@event)]
+  ['Back', organize_event_path(@event)]
 ] %>

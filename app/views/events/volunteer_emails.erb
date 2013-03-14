@@ -1,6 +1,10 @@
-<h2>Volunteer Emails for <%= @event.title %></h2>
+<%= render 'events/header' %>
+
+<h2>Volunteer Emails</h2>
 
 <p>Copy these addresses into your email to contact the volunteers.</p>
+
+<p>It's probably a good practice to BCC everyone for privacy's sake (and avoiding terrible reply-all fests).</p>
 
 <table>
   <% @volunteers.each do |volunteer| %>
@@ -10,3 +14,7 @@
     </tr>
   <% end %>
 </table>
+
+<%= render 'shared/actions', links: [
+  ['Back', organize_event_path(@event)]
+] %>

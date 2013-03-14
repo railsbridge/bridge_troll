@@ -1,4 +1,4 @@
-<ul class='actions'>
+<ul class='actions <% if local_assigns[:additional_class] %><%= additional_class %><% end %>'>
   <% links.each do |link_data| %>
     <% next unless link_data %>
     <li><%= link_to link_data[0], link_data[1], class: 'btn' %></li>

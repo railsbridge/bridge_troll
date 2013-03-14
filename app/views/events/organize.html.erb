@@ -1,0 +1,64 @@
+<%= render 'header' %>
+
+<h2>Super Secret Organizer Mission Control Console</h2>
+
+<% checkin_links = [] %>
+
+<% @event.event_sessions.each do |session| %>
+  <% checkin_links << ["Check in for #{session.name}", event_event_session_checkins_path(@event, session)] %>
+<% end %>
+<%= render 'shared/actions', links: checkin_links, additional_class: 'mission-control-actions' %>
+
+<%= render 'shared/actions', additional_class: 'mission-control-actions', links: [
+  ['Manage Organizers', event_organizers_path(@event)],
+  ['Manage Volunteers', event_volunteers_path(@event)],
+  ['Email Volunteers', volunteer_emails_event_path(@event)]
+] %>
+
+<%= render 'shared/actions', additional_class: 'mission-control-actions', links: [
+  ['Edit Event', edit_event_path(@event)],
+  ['View Event', event_path(@event)],
+] %>
+
+<h2>Volunteer Teaching Preference Totals</h2>
+<p>You can assign people's roles on the Manage Volunteers page.</p>
+ <table class="table">
+  <thead>
+    <tr>
+      <th>Wants to teach</th>
+      <th>Wants to TA</th>
+      <th>No preference</th>
+      <th>Non-teaching volunteer</th>
+      <th>Total volunteers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= teachers_count(@event.volunteer_rsvps) %></td>
+      <td><%= tas_count(@event.volunteer_rsvps) %></td>
+      <td><%= teach_or_ta_count(@event.volunteer_rsvps) %></td>
+      <td><%= not_teach_or_ta_count(@event.volunteer_rsvps) %></td>
+      <td><%= @event.volunteer_rsvps.length %></td>
+    </tr>
+  </tbody>
+</table>
+
+<div>
+  <h4>Willing to Teach: <%= teachers_count(@event.volunteer_rsvps) %></h4>
+  <%= partitioned_volunteer_list(@event.volunteer_rsvps, :teachers) %>
+
+  <h4>Willing to TA: <%= tas_count(@event.volunteer_rsvps) %></h4>
+  <%= partitioned_volunteer_list(@event.volunteer_rsvps, :tas) %>
+
+  <h4>Willing to Teach or TA: <%= teach_or_ta_count(@event.volunteer_rsvps) %></h4>
+  <%= partitioned_volunteer_list(@event.volunteer_rsvps, :teach_or_tas) %>
+
+  <h4>Not Interested in Teaching: <%= not_teach_or_ta_count(@event.volunteer_rsvps) %></h4>
+  <%= partitioned_volunteer_list(@event.volunteer_rsvps, :not_teach_or_tas) %>
+
+  <h4>All Volunteers: <%= @event.volunteer_rsvps.length %></h4>
+</div>
+
+<%= render 'shared/actions', links: [
+  ['Back', events_path],
+] %>
