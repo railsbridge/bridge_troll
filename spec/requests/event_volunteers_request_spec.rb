@@ -22,20 +22,27 @@ describe "Event Volunteers", js: true do
     visit "/events/#{@event.id}/volunteers"
   end
 
+  def wait_for_save
+    within '#saving_indicator' do
+      page.should have_content 'Saved!'
+    end
+  end
+
   it 'allows organizers to change volunteer assignments' do
     within "#edit_rsvp_#{@rsvp1.id}" do
       choose('TA')
     end
+    wait_for_save
+
     within "#edit_rsvp_#{@rsvp2.id}" do
       choose('Unassigned')
     end
+    wait_for_save
+
     within "#edit_rsvp_#{@rsvp3.id}" do
       choose('Teacher')
     end
-
-    within '#saving_indicator' do
-      page.should have_content 'Saved!'
-    end
+    wait_for_save
 
     [@rsvp1, @rsvp2, @rsvp3].map { |rsvp| rsvp.reload.volunteer_assignment_id }.should == [
         VolunteerAssignment::TA,

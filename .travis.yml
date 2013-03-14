@@ -7,6 +7,4 @@ before_script: "./config/before-travis.sh"
 script: "bundle exec rake"
 
 notifications:
-  irc:
-    channels:
-      - 'irc.freenode.org:6667#railsbridge'
+  email: false
