@@ -1,9 +1,10 @@
 language: ruby
 rvm:
+  - 2.0.0
   - 1.9.3
 bundler_args: "--without development"
 before_script: "./config/before-travis.sh"
-script: "export DISPLAY=:99.0 && bundle exec rake"
+script: "bundle exec rake"
 
 notifications:
   irc:
