@@ -1,12 +1,11 @@
+<%= render 'events/header' %>
+
 <h1>Editing event</h1>
 
 <%= render 'form' %>
 
 <%= render 'shared/actions', links: [
-  ['Show', @event],
-  ['Back', events_path],
+  ['Back', @event],
   ['Manage Locations', locations_path],
-  ['Manage Organizers', event_organizers_path(@event)],
-  ['Manage Volunteers', event_volunteers_path(@event)]
 ] %>
 

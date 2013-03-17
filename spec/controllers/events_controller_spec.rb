@@ -179,6 +179,27 @@ describe EventsController do
     end
   end
 
+  describe "GET organize" do
+    def make_request(params = {})
+      get :organize, id: @event.id
+    end
+
+    it_behaves_like "an event action that requires an organizer"
+
+    context "organizer is logged in" do
+      before do
+        user = create(:user)
+        @event.organizers << user
+        sign_in user
+      end
+
+      it "should be successful" do
+        make_request
+        response.should be_success
+      end
+    end
+  end
+
   describe "PUT update" do
     def make_request(params = {})
       put :update, id: @event.id, event: params
