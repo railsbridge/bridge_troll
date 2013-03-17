@@ -122,7 +122,7 @@ describe "the event listing page" do
         it "allows user to edit volunteer responsibilities" do
           click_link("Edit RSVP")
           uncheck 'Teaching'
-          check 'Taing'
+          check 'TAing'
 
           uncheck "Installfest"
           check "Curriculum"

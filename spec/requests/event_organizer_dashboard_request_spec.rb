@@ -25,32 +25,6 @@ describe "the organizer dashboard" do
     page.should have_content("Volunteer Assignment")
   end
 
-  it "shows all volunteer information" do
-    4.times { create(:rsvp, event: @event, teaching: true) }
-    3.times { create(:rsvp, event: @event, taing: true) }
-    2.times { create(:rsvp, event: @event, teaching: true, taing: true) }
-    1.times { create(:rsvp, event: @event) }
-
-    volunteer = create(:user)
-    create(:rsvp, user: volunteer, event: @event, teaching: true)
-
-    visit organize_event_path(@event)
-    page.should have_content(volunteer.email)
-    page.should have_content(volunteer.full_name)
-    page.should have_content("#{volunteer.full_name} - #{volunteer.email}")
-
-    page.should have_content("Willing to Teach: 5")
-    page.should have_content("Willing to TA: 3")
-    page.should have_content("Willing to Teach or TA: 2")
-    page.should have_content("Not Interested in Teaching: 1")
-    page.should have_content("All Volunteers: 11")
-
-    page.should have_css('.teach', count: 5)
-    page.should have_css('.ta', count: 3)
-    page.should have_css('.both', count: 2)
-    page.should have_css('.none', count: 1)
-  end
-
   it "lets the user check in volunteers", js: true do
     user1 = create(:user, first_name: 'Anthony')
     user2 = create(:user, first_name: 'Bapp')
