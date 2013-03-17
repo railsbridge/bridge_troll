@@ -22,7 +22,7 @@
           <% if user_signed_in? %>
             <% if event.organizer?(current_user) %>
               <td>
-                You are the Organizer for this event!
+                <%= link_to 'Organizer Console', organize_event_path(event), :class => 'btn' %>
               </td>
             <% elsif event.volunteer?(current_user) %>
               <td>

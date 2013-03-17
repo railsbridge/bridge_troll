@@ -17,8 +17,8 @@ Bridgetroll::Application.routes.draw do
     resources :event_sessions, :only => [] do
       resources :checkins, :only => [:index, :create, :destroy]
     end
-
     get "volunteer_emails" => "events#volunteer_emails", :on => :member
+    get "organize", :on => :member
   end
 
   get "/auth/:provider/callback" => "omniauths#callback"

@@ -18,7 +18,7 @@
     <div class='session-display'>
       <% @event.event_sessions.each do |event_session| %>
         <div class='event-session'>
-          <div class='name'><%= event_session.name %></div>
+          <h2 class='name'><%= event_session.name %></h2>
           <div class='date'><%= formatted_session_date(event_session) %></div>
           <div class='time'>Start time: <%= formatted_session_time(event_session, :starts_at) %></div>
           <div class='time'>End time: <%= formatted_session_time(event_session, :ends_at) %></div>
@@ -27,73 +27,17 @@
     </div>
 
     <div class="details">
-      <strong>Details:</strong>
-      <br/>
       <%= simple_format_with_html(@event.details) %>
     </div>
-
-    <h3>Volunteers:</h3>
-    <% if @event.volunteer_rsvps.none? %>
-        No volunteers are currently signed up for this event.
-    <% else %>
-        <% if @organizer %>
-            <h4>Willing to Teach: <%= teachers_count(@event.volunteer_rsvps) %></h4>
-            <%= partitioned_volunteer_list(@event.volunteer_rsvps, :teachers) %>
-
-            <h4>Willing to TA: <%= tas_count(@event.volunteer_rsvps) %></h4>
-            <%= partitioned_volunteer_list(@event.volunteer_rsvps, :tas) %>
-
-            <h4>Willing to Teach or TA: <%= teach_or_ta_count(@event.volunteer_rsvps) %></h4>
-            <%= partitioned_volunteer_list(@event.volunteer_rsvps, :teach_or_tas) %>
-
-            <h4>Not Interested in Teaching: <%= not_teach_or_ta_count(@event.volunteer_rsvps) %></h4>
-            <%= partitioned_volunteer_list(@event.volunteer_rsvps, :not_teach_or_tas) %>
-
-            <h4>All Volunteers: <%= @event.volunteer_rsvps.length %></h4>
-        <% end %>
-
-        <table class="table">
-          <thead>
-          <tr>
-            <th>Name</th>
-            <% if @organizer %>
-                <th>Email</th>
-            <% end %>
-            <th>Skills</th>
-          </tr>
-          </thead>
-          <tbody>
-          <% @event.volunteer_rsvps.each do |rsvp| %>
-              <tr>
-                <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
-                <% if @organizer %>
-                    <td><%= rsvp.user.email %></td>
-                <% end %>
-                <td><%= get_volunteer_skills(rsvp) %></td>
-              </tr>
-          <% end %>
-          </tbody>
-        </table>
-
-    <% end %>
 
     <% links = [] %>
 
     <% if @organizer %>
-      <% @event.event_sessions.each do |session| %>
-        <% links << ["Check in for #{session.name}", event_event_session_checkins_path(@event, session)] %>
-      <% end %>
-
       <% links << ['Edit', edit_event_path(@event)] %>
+      <% links << ['Organizer Console', organize_event_path(@event)] %>
     <% end %>
 
     <% links << ['Back', events_path] %>
-
-    <% if @organizer %>
-      <% links << ['Manage Organizers', event_organizers_path(@event)] %>
-      <% links << ['Manage Volunteers', event_volunteers_path(@event)] %>
-      <% links << ['Email Volunteers', volunteer_emails_event_path(@event)] %>
-    <% end %>
 
     <%= render 'shared/actions', links: links %>
 
@@ -107,7 +51,7 @@
     </div>
 
     <div class="organizers">
-      <h3><%= organizer_title %></h3>
+      <h3>Organized By:</h3>
       <ul>
         <% if organizer_list.any? %>
             <% organizer_list.each do |organizer| %>
@@ -123,6 +67,26 @@
         </p>
       <% end %>
     </div>
-
+    <h3>Who's volunteering?</h3>
+    <% if @event.volunteer_rsvps.none? %>
+        No volunteers are currently signed up for this event.
+    <% else %>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Skills</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @event.volunteer_rsvps.each do |rsvp| %>
+              <tr>
+                <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
+                <td><%= get_volunteer_skills(rsvp) %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+    <% end %>
   </div>
 </div>
