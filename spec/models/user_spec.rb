@@ -19,6 +19,14 @@ describe User do
   it { should validate_presence_of(:last_name) }
   it { should validate_presence_of(:email) } # devise adds this
 
+  it "must have a valid time zone" do
+    user = build(:user, :time_zone => "xxx")
+    user.should have(1).error_on(:time_zone)
+
+    user = build(:user, :time_zone => 'Hawaii')
+    user.should have(0).errors_on(:time_zone)
+  end
+
   it "creates a profile when the user is created" do
     @user.profile.should_not be_nil
   end

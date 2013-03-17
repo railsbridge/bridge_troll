@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130310073101) do
+ActiveRecord::Schema.define(:version => 20130317031753) do
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(:version => 20130310073101) do
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "meetup_id"
+    t.string   "time_zone"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

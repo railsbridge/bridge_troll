@@ -51,7 +51,7 @@ describe EventsController do
 
     context "when a user is logged in" do
       before do
-        @user = create(:user)
+        @user = create(:user, time_zone: 'Alaska')
         sign_in @user
       end
 
@@ -63,6 +63,11 @@ describe EventsController do
       it "assigns an event" do
         get :new
         assigns(:event).should be_new_record
+      end
+
+      it "uses the logged in user's time zone as the event's time zone" do
+        get :new
+        assigns(:event).time_zone.should == 'Alaska'
       end
     end
   end

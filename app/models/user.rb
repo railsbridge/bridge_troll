@@ -1,7 +1,4 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-
   after_create :make_empty_profile
 
   devise :database_authenticatable, :registerable,
@@ -13,9 +10,10 @@ class User < ActiveRecord::Base
 
   has_one :profile
 
-  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :time_zone
 
   validates_presence_of :first_name, :last_name
+  validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
   def self.not_assigned_as_organizer(event)
     users = order('last_name asc, first_name asc, email asc')

@@ -31,8 +31,9 @@
   </div>
 
   <div>
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i>
+    <%= f.label :password %>
     <%= f.password_field :password %>
+    <span class="help-block">(leave blank if you don't want to change it)</span>
   </div>
 
   <div>
@@ -41,8 +42,14 @@
   </div>
 
   <div>
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i>
+    <%= f.label :current_password %>
     <%= f.password_field :current_password %>
+    <span class="help-block">(we need your current password to confirm your changes)</span>
+  </div>
+
+  <div>
+    <%= f.label :time_zone %>
+    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
   </div>
 
   <div><%= f.submit "Update" %></div>
