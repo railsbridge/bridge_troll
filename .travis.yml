@@ -3,7 +3,11 @@ rvm:
   - 2.0.0
   - 1.9.3
 bundler_args: "--without development"
-before_script: "./config/before-travis.sh"
+before_script:
+  - ci/install_phantomjs
+  - "export PATH=`pwd`/phantomjs/bin:$PATH"
+  - phantomjs --version
+  - "./config/before-travis.sh"
 script: "bundle exec rake"
 
 notifications:
