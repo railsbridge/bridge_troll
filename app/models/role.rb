@@ -1,11 +1,9 @@
 class Role < ActiveHash::Base
-  STUDENT = 1
-  VOLUNTEER = 2
-  ORGANIZER = 3
-
+  include ActiveHash::Enum
   self.data = [
-    {:id => STUDENT, :title => "Student"},
-    {:id => VOLUNTEER, :title => "Volunteer"},
-    {:id => ORGANIZER, :title => "Organizer"}
+    {id: 1, name: 'STUDENT', title: "Student"},
+    {id: 2, name: 'VOLUNTEER', title: "Volunteer"},
+    {id: 3, name: 'ORGANIZER', title: "Organizer"}
   ]
+  enum_accessor :name
 end

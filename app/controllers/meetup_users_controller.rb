@@ -3,14 +3,14 @@ class MeetupUsersController < ApplicationController
 
   def index
     @attendances = {}
+    empty_attendance_hash = Role.all.inject({}) do |hsh, role|
+      hsh[role.id] = 0
+      hsh
+    end
 
     grouped_rsvps = Rsvp.where(user_type: 'MeetupUser').select('user_id, role_id, count(*) count').group('role_id, user_id')
     grouped_rsvps.all.each do |rsvp_group|
-      @attendances[rsvp_group.user_id] ||= {
-        Role::VOLUNTEER => 0,
-        Role::STUDENT => 0,
-        Role::ORGANIZER => 0
-      }
+      @attendances[rsvp_group.user_id] ||= empty_attendance_hash.clone
       @attendances[rsvp_group.user_id][rsvp_group.role_id] = rsvp_group.count
     end
 

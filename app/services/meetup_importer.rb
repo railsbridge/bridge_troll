@@ -63,14 +63,14 @@ MESSAGE
       name: event_data[:name],
       event_id: event_data[:volunteer_event_id],
       finder_key: :meetup_volunteer_event_id,
-      rsvp_role_id: Role::VOLUNTEER
+      rsvp_role: Role::VOLUNTEER
     )
     import_event(
       name: event_data[:name],
       event_id: event_data[:student_event_id],
       event: event,
       finder_key: :meetup_student_event_id,
-      rsvp_role_id: Role::STUDENT
+      rsvp_role: Role::STUDENT
     )
   end
 
@@ -95,12 +95,12 @@ MESSAGE
     end
     event.save!
 
-    import_rsvps(event, options[:finder_key], options[:rsvp_role_id])
+    import_rsvps(event, options[:finder_key], options[:rsvp_role])
 
     event
   end
 
-  def import_rsvps event, finder_key, rsvp_role_id
+  def import_rsvps event, finder_key, rsvp_role
     event_id = event.send(finder_key)
     rsvp_json = get_api_response_for('/2/rsvps', {
       event_id: event_id,
@@ -112,16 +112,16 @@ MESSAGE
       next if rsvp['response'] == 'no'
 
       meetup_id = rsvp['member']['member_id']
-      role_id = rsvp['host'] ? Role::ORGANIZER : rsvp_role_id
+      role = rsvp['host'] ? Role::ORGANIZER : rsvp_role
 
       meetup_user = MeetupUser.where(meetup_id: meetup_id).first_or_initialize
       meetup_user.update_attributes(full_name: rsvp['member']['name'])
 
       existing_rsvp = event.rsvps.where(user_id: meetup_user.id, user_type: 'MeetupUser').first
       if existing_rsvp.present?
-        existing_rsvp.update_attribute(:role_id, Role::ORGANIZER) if role_id == Role::ORGANIZER
+        existing_rsvp.update_attribute(:role, Role::ORGANIZER) if role == Role::ORGANIZER
       else
-        event.rsvps.create!(user: meetup_user, role_id: role_id)
+        event.rsvps.create!(user: meetup_user, role: role)
       end
     end
   end

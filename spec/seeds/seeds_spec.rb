@@ -32,4 +32,16 @@ describe "#seed_event" do
     Seeder::seed_event
     Event.count.should == 1
   end
+
+  it 'does not destroy users that get accidentally associated to the event' do
+    other_event = create(:event)
+    innocent_user = create(:user)
+    other_event.organizers << innocent_user
+
+    event = Seeder::seed_event
+    event.organizers << innocent_user
+
+    Seeder::destroy_event(event)
+    User.find_by_id(innocent_user.id).should_not be_nil
+  end
 end

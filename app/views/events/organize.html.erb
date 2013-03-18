@@ -34,10 +34,10 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= teachers_count(@event.volunteer_rsvps) %></td>
-      <td><%= tas_count(@event.volunteer_rsvps) %></td>
-      <td><%= teach_or_ta_count(@event.volunteer_rsvps) %></td>
-      <td><%= not_teach_or_ta_count(@event.volunteer_rsvps) %></td>
+      <td><%= @volunteer_preference_counts[VolunteerPreference::TEACHER.id] %></td>
+      <td><%= @volunteer_preference_counts[VolunteerPreference::TA.id] %></td>
+      <td><%= @volunteer_preference_counts[VolunteerPreference::BOTH.id] %></td>
+      <td><%= @volunteer_preference_counts[VolunteerPreference::NEITHER.id] %></td>
       <td><%= @event.volunteer_rsvps.length %></td>
     </tr>
   </tbody>
@@ -54,9 +54,9 @@
   </thead>
   <tbody>
     <tr>
-      <td><%= @volunteer_counts[VolunteerAssignment::UNASSIGNED] %></td>      
-      <td><%= @volunteer_counts[VolunteerAssignment::TEACHER] %></td>
-      <td><%= @volunteer_counts[VolunteerAssignment::TA] %></td>
+      <td><%= @volunteer_assignment_counts[VolunteerAssignment::UNASSIGNED.id] %></td>
+      <td><%= @volunteer_assignment_counts[VolunteerAssignment::TEACHER.id] %></td>
+      <td><%= @volunteer_assignment_counts[VolunteerAssignment::TA.id] %></td>
     </tr>
   </tbody>
 </table>

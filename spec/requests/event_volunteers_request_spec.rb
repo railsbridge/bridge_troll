@@ -44,7 +44,7 @@ describe "Event Volunteers", js: true do
     end
     wait_for_save
 
-    [@rsvp1, @rsvp2, @rsvp3].map { |rsvp| rsvp.reload.volunteer_assignment_id }.should == [
+    [@rsvp1, @rsvp2, @rsvp3].map { |rsvp| rsvp.reload.volunteer_assignment }.should == [
         VolunteerAssignment::TA,
         VolunteerAssignment::UNASSIGNED,
         VolunteerAssignment::TEACHER

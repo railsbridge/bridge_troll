@@ -38,10 +38,10 @@ describe VolunteersController do
 
     describe 'update' do
       it "should be able to assign volunteer roles" do
-        put :update, event_id: @event.id, id: @rsvp1.id, volunteer_assignment_id: VolunteerAssignment::TA
+        put :update, event_id: @event.id, id: @rsvp1.id, volunteer_assignment_id: VolunteerAssignment::TA.id
         response.should be_success
 
-        @rsvp1.reload.volunteer_assignment_id.should == VolunteerAssignment::TA
+        @rsvp1.reload.volunteer_assignment.should == VolunteerAssignment::TA
       end
     end
   end

@@ -16,8 +16,8 @@ module Seeder
     rsvp = Rsvp.create!(
       event: options[:event],
       user: options[:user],
-      role_id: Role::VOLUNTEER,
-      volunteer_assignment_id: options[:assignment],
+      role: Role::VOLUNTEER,
+      volunteer_assignment: options[:assignment],
       subject_experience: Faker::Lorem.sentence,
       teaching_experience: Faker::Lorem.sentence
     )
@@ -28,7 +28,9 @@ module Seeder
 
   def self.destroy_event event
     event.rsvps.each do |rsvp|
-      rsvp.user.destroy
+      if rsvp.user.rsvps.length == 1
+        rsvp.user.destroy
+      end
     end
     event.location.destroy if event.location.present?
     event.destroy
@@ -103,5 +105,7 @@ DETAILS
 
     unassigned2 = create_user('unassigned2@example.com')
     create_volunteer_rsvp(event: event, user: unassigned2, assignment: VolunteerAssignment::UNASSIGNED)
+
+    event
   end
 end

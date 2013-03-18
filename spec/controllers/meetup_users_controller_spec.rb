@@ -37,8 +37,8 @@ describe MeetupUsersController do
 
     it "calculates attendances" do
       get :index
-      assigns(:attendances)[@user1.id][Role::VOLUNTEER].should == 2
-      assigns(:attendances)[@user2.id][Role::VOLUNTEER].should == 1
+      assigns(:attendances)[@user1.id][Role::VOLUNTEER.id].should == 2
+      assigns(:attendances)[@user2.id][Role::VOLUNTEER.id].should == 1
     end
   end
 end

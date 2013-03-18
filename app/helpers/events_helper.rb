@@ -15,41 +15,8 @@ module EventsHelper
     @skills.join(', ')
   end
 
-  def teachers_count(volunteer_rsvps)
-    teachers(volunteer_rsvps).count
-  end
-
-  def tas_count(volunteer_rsvps)
-    tas(volunteer_rsvps).count
-  end
-
-  def teach_or_ta_count(volunteer_rsvps)
-    teach_or_tas(volunteer_rsvps).count
-  end
-
-  def not_teach_or_ta_count(volunteer_rsvps)
-    not_teach_or_tas(volunteer_rsvps).count
-  end
-
-  def organizer_title
-    @event.organizers_with_legacy.length > 1 ? "Organizers:" : "Organizer:"
-  end
-
   def organizer_list
     @event.organizers_with_legacy.length == 0 ?  [] : @event.organizers_with_legacy
-  end
-
-  def partitioned_volunteer_list(volunteer_rsvps, type)
-    partitioned_rsvps = send(type, volunteer_rsvps)
-
-    content_tag "ol" do
-      partitioned_rsvps.map { |v| partitioned_volunteer_tag(v) }.join('').html_safe
-    end
-  end
-
-  def partitioned_volunteer_tag(rsvp)
-    volunteer = rsvp.user
-    content_tag "li","#{volunteer.full_name} - #{volunteer.email}", :class => volunteer_class(rsvp)
   end
 
   def formatted_session_date(event_session)
@@ -100,31 +67,5 @@ module EventsHelper
         :first_date => l(first_date, format: :date_as_m_d_y),
         :last_date => l(last_date, format: :date_as_m_d_y)
     end
-  end
-
-  private
-
-  def volunteer_class(rsvp)
-    return "both"  if rsvp.teaching && rsvp.taing
-    return "teach" if rsvp.teaching
-    return "ta"    if rsvp.taing
-    #else...
-    "none" 
-  end
-
-  def teachers(volunteer_rsvps)
-    volunteer_rsvps.where(teaching: true, taing: false)
-  end
-
-  def tas(volunteer_rsvps)
-    volunteer_rsvps.where(teaching: false, taing: true)
-  end
-
-  def teach_or_tas(volunteer_rsvps)
-    volunteer_rsvps.where(teaching: true, taing: true)
-  end
-
-  def not_teach_or_tas(volunteer_rsvps)
-    volunteer_rsvps.where(teaching: false, taing: false)
   end
 end

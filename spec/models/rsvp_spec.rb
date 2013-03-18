@@ -19,8 +19,8 @@ describe Rsvp do
       @event = create(:event)
       @bridgetroll_user = create(:user, id: 2001)
       @meetup_user = create(:meetup_user, id: 2001)
-      rsvp1 = create(:rsvp, user: @bridgetroll_user, event: @event, role_id: Role::VOLUNTEER)
-      rsvp2 = create(:rsvp, user: @meetup_user, event: @event, role_id: Role::VOLUNTEER)
+      rsvp1 = create(:rsvp, user: @bridgetroll_user, event: @event, role: Role::VOLUNTEER)
+      rsvp2 = create(:rsvp, user: @meetup_user, event: @event, role: Role::VOLUNTEER)
       rsvp1.should be_valid
       rsvp2.should be_valid
     end

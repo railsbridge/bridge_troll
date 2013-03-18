@@ -51,13 +51,17 @@ class EventsController < ApplicationController
 
   def organize
     @volunteer_rsvps = @event.volunteer_rsvps
-    @volunteer_counts = {
-      VolunteerAssignment::UNASSIGNED => 0,
-      VolunteerAssignment::TEACHER => 0,
-      VolunteerAssignment::TA => 0,
-    }
+    @volunteer_preference_counts = VolunteerPreference.all.inject({}) do |hsh, pref|
+      hsh[pref.id] = 0
+      hsh
+    end
+    @volunteer_assignment_counts = VolunteerAssignment.all.inject({}) do |hsh, assn|
+      hsh[assn.id] = 0
+      hsh
+    end
     @volunteer_rsvps.each do |rsvp|
-      @volunteer_counts[rsvp.volunteer_assignment_id] += 1
+      @volunteer_assignment_counts[rsvp.volunteer_assignment_id] += 1
+      @volunteer_preference_counts[rsvp.volunteer_preference_id] += 1
     end
   end
 
@@ -72,7 +76,7 @@ class EventsController < ApplicationController
   def require_organizer
     unless assign_organizer
       flash[:error] = "You must be an organizer for the event or an Admin to update or delete an event"
-      redirect_to events_path # halts request cycle
+      redirect_to events_path
     end
   end
 

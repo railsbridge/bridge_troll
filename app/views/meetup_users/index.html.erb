@@ -17,9 +17,9 @@
       <td><%= link_to user.full_name, meetup_user_path(user) %></td>
       <td><%= link_to user.meetup_id, "http://www.sfruby.info/members/#{user.meetup_id}/" %></td>
       <% if @attendances.present? %>
-        <td><%= @attendances[user.id][Role::STUDENT] %></td>
-        <td><%= @attendances[user.id][Role::VOLUNTEER] %></td>
-        <td><%= @attendances[user.id][Role::ORGANIZER] %></td>
+        <td><%= @attendances[user.id][Role::STUDENT.id] %></td>
+        <td><%= @attendances[user.id][Role::VOLUNTEER.id] %></td>
+        <td><%= @attendances[user.id][Role::ORGANIZER.id] %></td>
       <% end %>
     </tr>
   <% end %>

@@ -19,13 +19,13 @@
     <td class='wide'>
       <%= form_for([@event, rsvp], method: :put, url: event_volunteer_path(@event, rsvp.id), remote: true) do %>
         <%= label_tag do %>
-          <%= radio_button_tag(:volunteer_assignment_id, VolunteerAssignment::UNASSIGNED, rsvp.volunteer_assignment_id == VolunteerAssignment::UNASSIGNED) %> Unassigned
+          <%= radio_button_tag(:volunteer_assignment_id, VolunteerAssignment::UNASSIGNED.id, rsvp.volunteer_assignment == VolunteerAssignment::UNASSIGNED) %> Unassigned
         <% end %>
         <%= label_tag do %>
-          <%= radio_button_tag(:volunteer_assignment_id, VolunteerAssignment::TEACHER, rsvp.volunteer_assignment_id == VolunteerAssignment::TEACHER) %> Teacher
+          <%= radio_button_tag(:volunteer_assignment_id, VolunteerAssignment::TEACHER.id, rsvp.volunteer_assignment == VolunteerAssignment::TEACHER) %> Teacher
         <% end %>
         <%= label_tag do %>
-          <%= radio_button_tag(:volunteer_assignment_id, VolunteerAssignment::TA, rsvp.volunteer_assignment_id == VolunteerAssignment::TA) %> TA
+          <%= radio_button_tag(:volunteer_assignment_id, VolunteerAssignment::TA.id, rsvp.volunteer_assignment == VolunteerAssignment::TA) %> TA
         <% end %>
       <% end %>
     </td>

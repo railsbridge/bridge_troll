@@ -12,8 +12,8 @@ class RsvpsController < ApplicationController
     @rsvp = Rsvp.new(params[:rsvp])
     @rsvp.event = @event
     @rsvp.user = current_user
+    @rsvp.role = Role::VOLUNTEER
 
-    @rsvp.role_id = Role::VOLUNTEER
     if @rsvp.save
       set_rsvp_sessions
       redirect_to @event, notice: 'Thanks for volunteering!'

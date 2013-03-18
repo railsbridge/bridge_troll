@@ -6,12 +6,12 @@ describe "the volunteer email page" do
     create(:event_session, event: event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 
     organizer = create(:user)
-    rsvp1 = create(:rsvp, user: organizer, event: event, role_id: Role::ORGANIZER)
+    rsvp1 = create(:rsvp, user: organizer, event: event, role: Role::ORGANIZER)
 
     guy1 = create(:user, :email => 'guy1@email.com')
-    rsvp1 = create(:rsvp, user: guy1, event: event, role_id: Role::VOLUNTEER)
+    rsvp1 = create(:rsvp, user: guy1, event: event, role: Role::VOLUNTEER)
     guy2 = create(:user, :email => 'guy2@email.com')
-    rsvp2 = create(:rsvp, user: guy2, event: event, role_id: Role::VOLUNTEER)
+    rsvp2 = create(:rsvp, user: guy2, event: event, role: Role::VOLUNTEER)
 
     guy3 = create(:user, :email => 'guy3@email.com')
 

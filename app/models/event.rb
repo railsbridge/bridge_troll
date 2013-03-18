@@ -5,15 +5,15 @@ class Event < ActiveRecord::Base
   
   has_many :rsvps, dependent: :destroy
 
-  has_many :student_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::STUDENT }
+  has_many :student_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::STUDENT.id }
   has_many :students, through: :student_rsvps, source: :user, source_type: 'User'
   has_many :legacy_students, through: :student_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :volunteer_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::VOLUNTEER }
+  has_many :volunteer_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::VOLUNTEER.id }
   has_many :volunteers, through: :volunteer_rsvps, source: :user, source_type: 'User'
   has_many :legacy_volunteers, through: :volunteer_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :organizer_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::ORGANIZER }
+  has_many :organizer_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::ORGANIZER.id }
   has_many :organizers, through: :organizer_rsvps, source: :user, source_type: 'User'
   has_many :legacy_organizers, through: :organizer_rsvps, source: :user, source_type: 'MeetupUser'
 
