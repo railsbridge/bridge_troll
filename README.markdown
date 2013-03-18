@@ -28,7 +28,7 @@ Then, have a look at our [feature backlog](https://www.pivotaltracker.com/projec
 ## Setting up for development
 
 
-You'll need [rvm](http://rvm.beginrescueend.com).  We're using Ruby 1.9.2 and Rails 3.1, and there's an `.rvmrc` file which should help make sure you are using the right Ruby version.
+You'll need [rvm](http://rvm.beginrescueend.com). The `.rvmrc` file should help make sure you are using the right Ruby version.
 
 
 ## Quickstart
