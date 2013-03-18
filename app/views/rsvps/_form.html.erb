@@ -18,18 +18,19 @@
   </div>
 
   <div class="field">
-    <%= f.label :teaching_experience, "Teaching Experience" %>
+    <%= f.label :teaching_experience, "What's your experience with teaching?" %>
     <%= f.text_area :teaching_experience, rows: 5, cols: 80, 
           maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
   </div>
 
   <strong>Teaching preference?</strong>
+  <p>If you're happy to do either, leave this section blank.</p>
   <div class="field">
     <%= f.label :teaching, class: 'checkbox' do %>
       <%= f.check_box :teaching %> Teaching
     <% end %>
     <%= f.label :taing, class: 'checkbox' do %>
-      <%= f.check_box :taing %> Taing
+      <%= f.check_box :taing %> TAing
     <% end %>
   </div>
 
