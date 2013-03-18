@@ -21,7 +21,7 @@
 ] %>
 
 <h2>Volunteer Teaching Preference Totals</h2>
-<p>You can assign people's roles on the Manage Volunteers page.</p>
+<p>You can see individual preferences and assign teaching roles on the <%= link_to('Manage Volunteers', event_volunteers_path(@event)) %> page.</p>
  <table class="table">
   <thead>
     <tr>
@@ -43,21 +43,23 @@
   </tbody>
 </table>
 
-<div>
-  <h4>Willing to Teach: <%= teachers_count(@event.volunteer_rsvps) %></h4>
-  <%= partitioned_volunteer_list(@event.volunteer_rsvps, :teachers) %>
-
-  <h4>Willing to TA: <%= tas_count(@event.volunteer_rsvps) %></h4>
-  <%= partitioned_volunteer_list(@event.volunteer_rsvps, :tas) %>
-
-  <h4>Willing to Teach or TA: <%= teach_or_ta_count(@event.volunteer_rsvps) %></h4>
-  <%= partitioned_volunteer_list(@event.volunteer_rsvps, :teach_or_tas) %>
-
-  <h4>Not Interested in Teaching: <%= not_teach_or_ta_count(@event.volunteer_rsvps) %></h4>
-  <%= partitioned_volunteer_list(@event.volunteer_rsvps, :not_teach_or_tas) %>
-
-  <h4>All Volunteers: <%= @event.volunteer_rsvps.length %></h4>
-</div>
+<h2>Volunteer Assignment Totals</h2>
+ <table class="table">
+  <thead>
+    <tr>
+      <th>Unassigned</th>
+      <th>Teachers</th>
+      <th>TAs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @volunteer_counts[VolunteerAssignment::UNASSIGNED] %></td>      
+      <td><%= @volunteer_counts[VolunteerAssignment::TEACHER] %></td>
+      <td><%= @volunteer_counts[VolunteerAssignment::TA] %></td>
+    </tr>
+  </tbody>
+</table>
 
 <%= render 'shared/actions', links: [
   ['Back', events_path],

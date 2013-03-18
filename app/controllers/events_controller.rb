@@ -50,6 +50,15 @@ class EventsController < ApplicationController
   end
 
   def organize
+    @volunteer_rsvps = @event.volunteer_rsvps
+    @volunteer_counts = {
+      VolunteerAssignment::UNASSIGNED => 0,
+      VolunteerAssignment::TEACHER => 0,
+      VolunteerAssignment::TA => 0,
+    }
+    @volunteer_rsvps.each do |rsvp|
+      @volunteer_counts[rsvp.volunteer_assignment_id] += 1
+    end
   end
 
   protected
