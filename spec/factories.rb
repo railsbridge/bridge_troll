@@ -18,9 +18,7 @@ FactoryGirl.define do
     time_zone "Hawaii"
 
     factory :event do
-      event_sessions {
-        Array(1..4).sample.times.map { create(:event_session) }
-      }
+      event_sessions { [create(:event_session)] }
     end
   end
 

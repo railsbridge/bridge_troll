@@ -1,0 +1,11 @@
+.session-attendance {
+  display: inline-block;
+  margin-right: 30px;
+
+  .btn.btn-small {
+    font-size: 12px;
+    background: $orange-color;
+    color: $blue-color;
+    padding: 3px 4px;
+  }
+}

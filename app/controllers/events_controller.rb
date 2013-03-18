@@ -63,6 +63,14 @@ class EventsController < ApplicationController
       @volunteer_assignment_counts[rsvp.volunteer_assignment_id] += 1
       @volunteer_preference_counts[rsvp.volunteer_preference_id] += 1
     end
+
+    @session_rsvp_counts = {}
+    @session_checkin_counts = {}
+
+    @event.event_sessions.each do |session|
+      @session_rsvp_counts[session.id] = session.rsvp_sessions.count
+      @session_checkin_counts[session.id] = session.rsvp_sessions.where(checked_in: true).count
+    end
   end
 
   protected

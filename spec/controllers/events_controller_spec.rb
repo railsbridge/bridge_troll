@@ -202,6 +202,40 @@ describe EventsController do
         make_request
         response.should be_success
       end
+
+      describe "checked in user counts" do
+        before do
+          @session1 = @event.event_sessions.first
+          @event.event_sessions << create(:event_session)
+          @session2 = @event.event_sessions.last
+
+          attendee1 = create(:user)
+          rsvp1 = create(:rsvp, event: @event, user: attendee1, role: Role::VOLUNTEER)
+          create(:rsvp_session, rsvp: rsvp1, event_session: @session1, checked_in: true)
+          create(:rsvp_session, rsvp: rsvp1, event_session: @session2, checked_in: true)
+
+          attendee2 = create(:user)
+          rsvp2 = create(:rsvp, event: @event, user: attendee2, role: Role::VOLUNTEER)
+          create(:rsvp_session, rsvp: rsvp2, event_session: @session1, checked_in: true)
+          create(:rsvp_session, rsvp: rsvp2, event_session: @session2, checked_in: false)
+
+          attendee3 = create(:user)
+          rsvp3 = create(:rsvp, event: @event, user: attendee3, role: Role::VOLUNTEER)
+          create(:rsvp_session, rsvp: rsvp3, event_session: @session1, checked_in: true)
+        end
+
+        it "sends checked in user counts to the view" do
+          make_request
+          assigns(:session_rsvp_counts).should == {
+            @session1.id => 3,
+            @session2.id => 2
+          }
+          assigns(:session_checkin_counts).should == {
+            @session1.id => 3,
+            @session2.id => 1
+          }
+        end
+      end
     end
   end
 
