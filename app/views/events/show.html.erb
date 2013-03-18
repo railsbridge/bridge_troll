@@ -70,14 +70,12 @@
           <thead>
           <tr>
             <th>Name</th>
-            <th>Skills</th>
           </tr>
           </thead>
           <tbody>
           <% @event.volunteer_rsvps.each do |rsvp| %>
               <tr>
                 <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
-                <td><%= get_volunteer_skills(rsvp) %></td>
               </tr>
           <% end %>
           </tbody>
