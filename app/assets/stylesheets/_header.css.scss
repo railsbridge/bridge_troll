@@ -3,7 +3,7 @@
     background: #333;
   }
 
-  .nav li a {
+  .nav li a { 
     color: white;
     text-shadow: none;
     margin-right: 20px;
@@ -11,6 +11,20 @@
 
     &:hover {
       background: $orange-color;
+    }
+  }
+
+  .nav-blurb {
+    color: white;
+    font-size: 12px;
+    text-shadow: none;
+    margin-left: 15px;
+    line-height: 12px;
+    position: relative;
+    top: -20px;
+    a {
+      color: white;
+      text-decoration: underline;
     }
   }
 
