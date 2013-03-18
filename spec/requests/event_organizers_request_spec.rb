@@ -31,7 +31,7 @@ describe "Event Organizers" do
   end
 
   it "should assign the selected user as an organizer and display the name and email" do
-    user_to_assign = find("option[#{@user1.id.to_s}]")
+    user_to_assign = find("option[value='#{@user1.id}']")
     select(user_to_assign.text, :from =>'event_organizer_user_id')
 
     click_button "Assign"
@@ -41,7 +41,7 @@ describe "Event Organizers" do
   end
 
   it "should assign the selected user as an organizer and remove the selected user from the user select options" do
-    user_to_assign = find("option[#{@user1.id.to_s}]")
+    user_to_assign = find("option[value='#{@user1.id}']")
     select(user_to_assign.text, :from =>'event_organizer_user_id')
 
     click_button "Assign"
@@ -68,7 +68,7 @@ describe "Event Organizers" do
 
     click_button "Remove"
 
-    removed_user = find("option[#{@user1.id.to_s}]")
+    removed_user = find("option[value='#{@user1.id}']")
     removed_user.value.should eq(@user1.id.to_s)
     removed_user.text.should eq(@user1.full_name)
   end
