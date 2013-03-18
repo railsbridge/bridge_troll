@@ -22,7 +22,7 @@ describe "the organizer dashboard" do
   it "lets the user manage volunteers" do
     visit organize_event_path(@event)
     click_link "Manage Volunteers"
-    page.should have_content("Volunteer Assignment")
+    page.should have_content("Assign Volunteer")
   end
 
   it "lets the user check in volunteers", js: true do

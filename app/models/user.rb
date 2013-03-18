@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :rsvps, conditions: { user_type: 'User' }
   has_many :events, through: :rsvps
 
-  has_one :profile
+  has_one :profile, dependent: :destroy
 
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :time_zone
 

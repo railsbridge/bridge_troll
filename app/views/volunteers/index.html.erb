@@ -16,7 +16,7 @@
     <td><%= rsvp.subject_experience %></td>
     <td><%= rsvp.teaching_experience %></td>
     <td><%= rsvp.formatted_preference %></td>
-    <td>
+    <td class='wide'>
       <%= form_for([@event, rsvp], method: :put, url: event_volunteer_path(@event, rsvp.id), remote: true) do %>
         <%= label_tag do %>
           <%= radio_button_tag(:volunteer_assignment_id, VolunteerAssignment::UNASSIGNED, rsvp.volunteer_assignment_id == VolunteerAssignment::UNASSIGNED) %> Unassigned

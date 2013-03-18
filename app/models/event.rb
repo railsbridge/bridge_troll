@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
   has_many :organizers, through: :organizer_rsvps, source: :user, source_type: 'User'
   has_many :legacy_organizers, through: :organizer_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :event_sessions  
+  has_many :event_sessions, dependent: :destroy
   accepts_nested_attributes_for :event_sessions, allow_destroy: true
   validates :event_sessions, length: { minimum: 1 }
 
