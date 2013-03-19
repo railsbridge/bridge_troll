@@ -13,18 +13,15 @@
 
   <div class="field">
     <%= f.label :subject_experience, "What's your experience with this workshop's subject matter?" %>
-    <%= f.text_area :subject_experience, rows: 5, cols: 80,
-          maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
+    <%= f.text_area :subject_experience, rows: 3, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
   </div>
 
   <div class="field">
     <%= f.label :teaching_experience, "What's your experience with teaching?" %>
-    <%= f.text_area :teaching_experience, rows: 5, cols: 80, 
-          maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
+    <%= f.text_area :teaching_experience, rows: 3, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
   </div>
 
   <strong>Teaching preference?</strong>
-  <p>If you're happy to do either, leave this section blank.</p>
   <div class="field">
     <%= f.label :teaching, class: 'checkbox' do %>
       <%= f.check_box :teaching %> Teaching

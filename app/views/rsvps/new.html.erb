@@ -1,6 +1,8 @@
-<%= render 'events/header' %>
+<%= content_for(:header_text, @event.title) %>
 
 <h2>RSVP</h2>
+
+<h5>AWESOME - you're almost signed up!</h5>
 
 <%= render 'form' %>
 

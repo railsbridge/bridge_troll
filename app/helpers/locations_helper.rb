@@ -1,14 +1,8 @@
 module LocationsHelper
 
   def pretty_print_address location
-    loc = location_array(location)
-    pretty_address = ""
-
-    loc.each do |line|
-      pretty_address += content_tag( :span, line )
-    end
-
-    return pretty_address.html_safe
+    tags = location_array(location).map { |line| content_tag(:div, line) }
+    tags.join('').html_safe
   end
 
   private

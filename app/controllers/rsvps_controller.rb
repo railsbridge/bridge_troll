@@ -4,7 +4,6 @@ class RsvpsController < ApplicationController
   before_filter :load_rsvp, except: [:new, :create]
 
   def new
-    flash[:notice] = "AWESOME - you're almost signed up"
     @rsvp = @event.rsvps.build
   end
 

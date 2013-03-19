@@ -22,6 +22,11 @@
         </ul>
       </div>
     </div>
+    <div class='container header-container'>
+      <% if content_for(:header_text).present? %>
+        <h1><%= yield(:header_text) %></h1>
+      <% end %>
+    </div>
     <div class="container center bridgetroll-content">
       <% flash.each do |name, msg| %>
           <div class="alert alert-<%= name == :notice ? "success" : "error" %>">

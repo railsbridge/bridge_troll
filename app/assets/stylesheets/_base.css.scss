@@ -7,7 +7,7 @@ h1, h2, h3, h4, h5 {
   font-weight: normal;
   line-height: 120%;
   padding: 0;
-  margin: 10px 0 0 0;
+  margin: 0;
 }
 
 h1 {
@@ -40,6 +40,10 @@ p {
   font-family: 'AmbleLight', sans-serif;
   line-height: 140%;
   font-size: 15px;
+}
+
+textarea {
+  width: 500px;
 }
 
 a {
@@ -84,26 +88,20 @@ td.wide {
   z-index: 1031 !important;
 }
 
-.container {
+.header-container {
   margin-top: 80px;
+  width: 900px;
+
+  h1 {
+    margin-bottom: 20px;
+  }
 }
 
 .bridgetroll-content {
   width: 900px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   background-color: $content-background-color;
-  padding-left: 20px;
-  padding-bottom: 20px;
-  padding-right: 20px;
-}
-
-.has-giant-header {
-  margin-top: 160px;
-  & h1 {
-    position: absolute;
-    top: 80px;
-  }
+  padding: 20px;
 }
 
 .session-display {

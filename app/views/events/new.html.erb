@@ -1,8 +1,5 @@
-<div class="row-fluid has-giant-header">
-  <div class="span7">
-    <h1>Organize an Event</h1>
-  </div>
-</div>
+<%= content_for(:header_text, 'Organize an Event') %>
+
 <%= render 'form' %>
 
 <%= render 'shared/actions', links: [
