@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 gem 'devise', '~> 2.2.3'
 gem 'thin'
 gem 'jquery-rails'
