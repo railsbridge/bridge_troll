@@ -92,7 +92,9 @@ describe "the event listing page" do
         fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
         check 'Teaching'
 
-        check "Installfest"
+        page.find("input[type='checkbox'][value='#{@session1.id}']").should be_checked
+        page.find("input[type='checkbox'][value='#{@session2.id}']").should be_checked
+
         uncheck "Curriculum"
 
         click_button "Submit"
