@@ -4,6 +4,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
+require 'capybara-screenshot/rspec'
 require 'webmock/rspec'
 
 Capybara.javascript_driver = :poltergeist
@@ -12,7 +13,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   config.mock_with :rspec
-  
+
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
@@ -38,7 +39,7 @@ RSpec.configure do |config|
   #Uncomment if need to write tests using devise helpers
   #config.extend ControllerMacros, :type => :controller
   config.include Devise::TestHelpers, :type => :controller
-  
+
   config.include FactoryGirl::Syntax::Methods
 end
 

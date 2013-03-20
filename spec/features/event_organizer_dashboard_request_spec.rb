@@ -21,7 +21,8 @@ describe "the organizer dashboard" do
 
   it "lets the user manage volunteers" do
     visit organize_event_path(@event)
-    click_link "Manage Volunteers"
+    within('.mission-control-actions') { click_link 'Manage Volunteers' }
+
     page.should have_content("Assign Volunteer")
   end
 

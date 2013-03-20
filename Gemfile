@@ -42,10 +42,11 @@ end
 group :test do
   gem 'webmock'
   gem "factory_girl_rails"
-  gem 'capybara', '~> 1.1.4'
+  gem 'capybara', '>= 2.0.1'
   gem "poltergeist"
   gem "launchy"
   gem "database_cleaner"
   gem 'shoulda-matchers'
   gem "faker"
+  gem 'capybara-screenshot'
 end
