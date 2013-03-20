@@ -9,8 +9,8 @@ describe "new user" do
     fill_in "user_first_name", :with => @user.first_name
     fill_in "user_last_name",  :with => @user.last_name
     fill_in "Email", :with => @user.email
-    fill_in "Password", :with => @user.password
-    fill_in "Password confirmation", :with => @user.password
+    fill_in 'user_password', with: @user.password
+    fill_in 'user_password_confirmation', with: @user.password
     click_button "Sign up"
     page.should have_content("A message with a confirmation link has been sent to your email address. Please open the link to activate your account.")
   end
@@ -33,7 +33,7 @@ describe "existing user" do
     page.should have_content("Sign in")
     current_path.should == new_user_session_path
   end
-  
+
   describe "is signed in" do
     before do
       sign_in_as(@user)
@@ -44,14 +44,14 @@ describe "existing user" do
       page.should have_link("Sign Out")
       page.should_not have_link("Sign In")
       page.should_not have_link("Sign Up")
-    end  
+    end
   end
-  
+
   it "should see sign up link on the home page" do
     visit '/'
     page.should have_link("Sign Up")
   end
-  
+
   it "should be able to sign up from the home page" do
     visit '/'
     click_link("Sign Up")

@@ -7,7 +7,7 @@ describe "Event Organizers" do
 
     @event = create(:event)
     @event.organizers << @user_organizer
-    
+
     sign_in_as(@user_organizer)
 
     visit "/events/#{@event.id}/organizers"
@@ -62,7 +62,7 @@ describe "Event Organizers" do
     page.should_not have_selector('input[value="Remove"]')
   end
 
-  it "should remove the organizer and display the removed organizer int the user select" do
+  it "should remove the organizer and display the removed organizer in the user select" do
     @event.organizers << @user1
     visit "/events/#{@event.id}/organizers"
 

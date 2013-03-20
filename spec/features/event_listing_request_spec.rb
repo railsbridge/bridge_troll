@@ -52,7 +52,7 @@ describe "the event listing page" do
         end_time_selects[1].select "45"
       end
 
-      select "Alaska", from: 'event_time_zone'
+      select "(GMT-09:00) Alaska", from: 'event_time_zone'
       fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
 
       click_button "Create Event"
@@ -92,8 +92,8 @@ describe "the event listing page" do
         fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
         check 'Teaching'
 
-        page.find("input[type='checkbox'][value='#{@session1.id}']").should be_checked
-        page.find("input[type='checkbox'][value='#{@session2.id}']").should be_checked
+        page.first("input[type='checkbox'][value='#{@session1.id}']").should be_checked
+        page.first("input[type='checkbox'][value='#{@session2.id}']").should be_checked
 
         uncheck "Curriculum"
 
