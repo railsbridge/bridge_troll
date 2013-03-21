@@ -23,8 +23,8 @@ fi
 
 
 if which ruby > /dev/null 2>&1; then
-	if ! ruby -v | grep '^ruby 1.9.3' > /dev/null; then
-		echo "You're not using Ruby 1.9.3. You should install or switch to it!"
+	if ! ruby -v | grep '^ruby 2.0.0' > /dev/null; then
+		echo "You're not using Ruby 2.0.0. You should install or switch to it!"
 	fi
 else
 	cat <<'MESSAGE'
@@ -43,11 +43,16 @@ fi
 
 bundle install || exit $?
 
+if [ -e .env ]; then
+  source .env
+fi
+
 if [ -z "$MEETUP_API_KEY" ]; then
 	cat <<'MESSAGE'
 You don't have Meetup credentials in your environment.
-Find your Meetup account's API key at http://www.meetup.com/meetup_api/key/
-then add it to your .env file as MEETUP_API_KEY=your_api_key_goes_here
+If you want to import events from Meetup, find your Meetup account's API
+key at http://www.meetup.com/meetup_api/key/ then add it to your .env file
+as MEETUP_API_KEY=your_api_key_goes_here
 MESSAGE
 fi
 
