@@ -1,5 +1,16 @@
-<p>Welcome <%= @resource.email %>!</p>
+<div style="font-family: sans-serif;">
+  <h2>Welcome to Bridge Troll, <%= @resource.first_name %>!</h2>
 
-<p>You can confirm your account through the link below:</p>
+  <p>Click the link below to begin a magical journey to a RailsBridge workshop.</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>
+  <p>
+    <%= link_to confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) do %>
+      <img alt='Confirm your account!' src="http://<%= Rails.configuration.action_mailer.default_url_options[:host] %>/assets/confirm_account.gif">
+    <% end %>
+  </p>
+
+  <p>
+    P.S. Once you're confirmed, go to the Account page to link to your SF Ruby Meetup account (if you have one).
+    This will import your RailsBridge attendance history.
+  </p>
+</div>
