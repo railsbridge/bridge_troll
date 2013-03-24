@@ -62,16 +62,11 @@
         </p>
       <% end %>
     </div>
-    <h3>Who's volunteering?</h3>
+    <h3><%= pluralize(@event.volunteer_rsvps.count, "volunteer")%>!</h3>
     <% if @event.volunteer_rsvps.none? %>
         No volunteers are currently signed up for this event.
     <% else %>
         <table class="table">
-          <thead>
-          <tr>
-            <th>Name</th>
-          </tr>
-          </thead>
           <tbody>
           <% @event.volunteer_rsvps.each do |rsvp| %>
               <tr>

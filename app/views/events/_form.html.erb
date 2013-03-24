@@ -1,60 +1,69 @@
-<%= nested_form_for @event do |f| %>
-  <% if @event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+<div class="row-fluid">
+  <div class="span6">
+    <%= nested_form_for @event do |f| %>
+      <% if @event.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
 
-      <ul>
-      <% @event.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+          <ul>
+          <% @event.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-  </div>
+      <div class="field">
+        <%= f.label :title %>
+        <%= f.text_field :title %>
+      </div>
 
-  <div class="event-sessions">
-    <%= f.fields_for :event_sessions do |event_sessions_form| %>
-      <label>Session:<%= event_sessions_form.text_field :name %></label>
-      <%= event_sessions_form.text_field :session_date, class: 'datepicker' %>
-      <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
-      -
-      <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
+      <h3>Sessions</h3>
+
+      <em>There should be one session for each thing that a student or volunteer might be checked in for. This usually means 'Installfest' and 'Workshop'. If there's no Installfest, just keep the one session.</em>
+
+      <div class="event-sessions">
+        <%= f.fields_for :event_sessions do |event_sessions_form| %>
+          <%= event_sessions_form.label :name, 'Session Name' %>
+          <div><%= event_sessions_form.text_field :name %></div>
+          <%= event_sessions_form.text_field :session_date, class: 'datepicker' %>
+          <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
+          -
+          <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
+        <% end %>
+        <%= f.link_to_add :event_sessions, data: { confirm: 'Are you sure you want to add a session?' } do %>
+          <span>Add a session</span>
+        <% end %>
+      </div>
+
+      <div class="field">
+        <%= f.label :time_zone %>
+        <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
+      </div>
+
+      <div class="field">
+        <%= f.label :location_id %>
+        <%= collection_select(:event, :location_id, Location.all, :id, :name, :prompt => true) %>
+      </div>
+
+      <div class="field">
+        <%= f.label :public_email, 'What email address should users contact you at with questions?' %>
+        <%= f.text_field :public_email, :class => "input-xxlarge"%>
+      </div>
+
+      <div class="field">
+        <%= f.label :details, 'General Event Details (some html allowed)' %>
+        <%= f.text_area :details, :rows => 14, :class => "input-xxlarge"%>
+      </div>
+
+      <div class="field">
+        <%= f.label :volunteer_details, 'Volunteer Details' %>
+        <%= f.text_area :volunteer_details, :rows => 4, :class => "input-xxlarge"%>
+      </div>
+
+      <div class="actions">
+        <%= f.submit %>
+      </div>
     <% end %>
-    <%= f.link_to_add :event_sessions do %>
-      <span>Add a session</span>
-    <% end %>
   </div>
-
-  <div class="field">
-    <%= f.label :time_zone %>
-    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
-  </div>
-
-  <div class="field">
-    <%= f.label :location_id %>
-    <%= collection_select(:event, :location_id, Location.all, :id, :name, :prompt => true) %>
-  </div>
-
-  <div class="field">
-    <%= f.label :public_email, 'What email address should users contact you at with questions?' %>
-    <%= f.text_field :public_email, :class => "input-xxlarge"%>
-  </div>
-
-  <div class="field">
-    <%= f.label :details, 'General Event Details (some html allowed)' %>
-    <%= f.text_area :details, :rows => 4, :class => "input-xxlarge"%>
-  </div>
-
-  <div class="field">
-    <%= f.label :volunteer_details, 'Volunteer Details' %>
-    <%= f.text_area :volunteer_details, :rows => 4, :class => "input-xxlarge"%>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>
