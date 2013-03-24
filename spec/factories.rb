@@ -44,6 +44,7 @@ FactoryGirl.define do
     role Role.find_by_title('Volunteer')
     teaching_experience "Quite experienced"
     subject_experience "Use professionally"
+    childcare_info "Bobby: 8\nSusie: 4"
   end
 
   factory :rsvp_session do

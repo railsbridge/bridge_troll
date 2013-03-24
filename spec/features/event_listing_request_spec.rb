@@ -92,8 +92,8 @@ describe "the event listing page" do
         fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
         check 'Teaching'
 
-        page.first("input[type='checkbox'][value='#{@session1.id}']").should be_checked
-        page.first("input[type='checkbox'][value='#{@session2.id}']").should be_checked
+        page.first("input[name='rsvp_sessions[]'][type='checkbox'][value='#{@session1.id}']").should be_checked
+        page.first("input[name='rsvp_sessions[]'][type='checkbox'][value='#{@session2.id}']").should be_checked
 
         uncheck "Curriculum"
 

@@ -58,6 +58,37 @@ describe RsvpsController do
           assigns[:rsvp].user_id.should == assigns[:current_user].id
           assigns[:rsvp].event_id.should == @event.id
         end
+
+        describe "childcare information" do
+          context "when childcare_needed is unchecked" do
+            before do
+              post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
+                needs_childcare: '0', childcare_info: 'goodbye, cruel world')
+            end
+            it "should clear childcare_info" do
+              assigns[:rsvp].childcare_info.should be_blank
+            end
+          end
+
+          context "when childcare_needed is checked" do
+            it "should has validation errors for blank childcare_info" do
+              post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
+                needs_childcare: '1',
+                childcare_info: ''
+              )
+              assigns[:rsvp].should have(1).errors_on(:childcare_info)
+            end
+
+            it "updates sets childcare_info when not blank" do
+              child_info = "Johnnie Kiddo, 7\nJane Kidderino, 45"
+              post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
+                needs_childcare: '1',
+                childcare_info: child_info
+              )
+              assigns[:rsvp].childcare_info.should == child_info
+            end
+          end
+        end
       end
     end
 

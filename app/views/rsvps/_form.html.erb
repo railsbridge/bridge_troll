@@ -21,6 +21,17 @@
     <%= f.text_area :teaching_experience, rows: 3, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
   </div>
 
+  <div class="field">
+    <%= f.label :needs_childcare, class: 'checkbox' do %>
+      <%= f.check_box :needs_childcare %> Do you need childcare?
+    <% end %>
+  </div>
+
+  <div class="field<%=' hidden' unless f.object.needs_childcare? %>">
+    <%= f.label :childcare_info, "Please list your childrens' names and ages." %>
+    <%= f.text_area :childcare_info, rows: 3 %>
+  </div>
+
   <strong>Teaching preference?</strong>
   <div class="field">
     <%= f.label :teaching, class: 'checkbox' do %>
