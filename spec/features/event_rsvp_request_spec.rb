@@ -12,6 +12,11 @@ describe 'creating or editing an rsvp' do
       visit new_event_rsvp_path(@event)
     end
 
+    it "should not show checkboxes for events with only one session" do
+      @event.event_sessions.length.should == 1
+      page.should_not have_content(@event.event_sessions.first.name)
+    end
+
     it "should ask if user needs childcare ask for more info" do
       page.find("#rsvp_needs_childcare").should_not be_checked
       page.find("#rsvp_childcare_info").find(:xpath, '..')['class'].

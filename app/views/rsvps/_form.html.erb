@@ -42,11 +42,13 @@
     <% end %>
   </div>
 
-  <strong>Sessions you're attending</strong>
-  <% @rsvp.event.event_sessions.order('starts_at ASC').each do |session| %>
-    <%= label_tag do %>
-      <%= check_box_tag 'rsvp_sessions[]', session.id, @rsvp.new_record? ? true : @rsvp.rsvp_sessions.where(event_session_id: session.id).any? %>
-      <%= session.name  %>: <%= formatted_session_date(session) %> <%= formatted_session_timerange(session) %>
+  <% if @rsvp.event.event_sessions.length > 1 %>
+    <strong>Sessions you're attending</strong>
+    <% @rsvp.event.event_sessions.order('starts_at ASC').each do |session| %>
+      <%= label_tag do %>
+        <%= check_box_tag 'rsvp_sessions[]', session.id, @rsvp.new_record? ? true : @rsvp.rsvp_sessions.where(event_session_id: session.id).any? %>
+        <%= session.name  %>: <%= formatted_session_date(session) %> <%= formatted_session_timerange(session) %>
+      <% end %>
     <% end %>
   <% end %>
 

@@ -27,40 +27,54 @@ describe Rsvp do
   end
 
   describe '#set_attending_sessions' do
-    before do
-      @event = create(:event)
-      #ensure there are at least two sessions
-      @event.event_sessions << create(:event_session)
-      @num_sessions = @event.event_sessions.length
-      @rsvp = create(:rsvp, event: @event)
-
-      @session1 = @event.event_sessions.first
-      @session2 = @event.event_sessions.last
-    end
-
-    it "allows " do
-
-
-      expect {
-        @rsvp.set_attending_sessions(@event.event_sessions.map(&:id))
-      }.to change { @rsvp.rsvp_sessions.count }.by(@num_sessions)
-      @rsvp.rsvp_sessions.map(&:event_session_id).should =~ @event.event_sessions.map(&:id)
-    end
-
-    context "when some sessions are already being attended" do
+    context "when there is only one event session" do
       before do
-        create(:rsvp_session, rsvp_id: @rsvp.id, event_session_id: @session1.id)
+        @event = create(:event)
+        @event.event_sessions.length.should == 1
+        @rsvp = create(:rsvp, event: @event)
       end
 
-      it "destroys rsvps when told to set to an empty array" do
-        @rsvp.set_attending_sessions([])
-        @rsvp.rsvp_sessions.count.should == 0
+      it "creates an rsvp_session record for that session" do
+        expect {
+          @rsvp.set_attending_sessions
+        }.to change { @rsvp.rsvp_sessions.count }.by(1)
+        @rsvp.rsvp_sessions.map(&:event_session_id).should =~ @event.event_sessions.map(&:id)
+      end
+    end
+
+    context "when there are at least two sessions" do
+      before do
+        @event = create(:event)
+        @event.event_sessions << create(:event_session)
+        @num_sessions = @event.event_sessions.length
+        @rsvp = create(:rsvp, event: @event)
+
+        @session1 = @event.event_sessions.first
+        @session2 = @event.event_sessions.last
       end
 
-      it "destroys existing attendance and creates new attendances using the provided ids" do
-        @rsvp.set_attending_sessions([@session2.id])
-        @rsvp.rsvp_sessions.count.should == 1
-        @rsvp.rsvp_sessions.first.event_session.should == @session2
+      it "creates rsvp_session records for all ids sent in" do
+        expect {
+          @rsvp.set_attending_sessions(@event.event_sessions.map(&:id))
+        }.to change { @rsvp.rsvp_sessions.count }.by(@num_sessions)
+        @rsvp.rsvp_sessions.map(&:event_session_id).should =~ @event.event_sessions.map(&:id)
+      end
+
+      context "when some sessions are already being attended" do
+        before do
+          create(:rsvp_session, rsvp_id: @rsvp.id, event_session_id: @session1.id)
+        end
+
+        it "destroys rsvps when told to set to an empty array" do
+          @rsvp.set_attending_sessions([])
+          @rsvp.rsvp_sessions.count.should == 0
+        end
+
+        it "destroys existing attendance and creates new attendances using the provided ids" do
+          @rsvp.set_attending_sessions([@session2.id])
+          @rsvp.rsvp_sessions.count.should == 1
+          @rsvp.rsvp_sessions.first.event_session.should == @session2
+        end
       end
     end
   end

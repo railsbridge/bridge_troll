@@ -37,8 +37,11 @@ class Rsvp < ActiveRecord::Base
     volunteer_preference.title
   end
 
-  def set_attending_sessions session_ids
+  def set_attending_sessions session_ids=nil
     rsvp_sessions.destroy_all
+    if event.event_sessions.length == 1
+      session_ids = [event.event_sessions.first.id]
+    end
     session_ids.each do |session_id|
       rsvp_sessions.create(event_session_id: session_id)
     end
