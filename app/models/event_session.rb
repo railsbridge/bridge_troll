@@ -4,7 +4,7 @@ class EventSession < ActiveRecord::Base
   validates_uniqueness_of :name, scope: [:event_id]
 
   belongs_to :event
-  has_many :rsvp_sessions
+  has_many :rsvp_sessions, dependent: :destroy
   has_many :rsvps, :through => :rsvp_sessions
 
   def session_date
