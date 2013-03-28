@@ -90,7 +90,6 @@ td.wide {
 
 .header-container {
   margin-top: 80px;
-  width: 900px;
 
   h1 {
     margin-bottom: 20px;
@@ -98,7 +97,6 @@ td.wide {
 }
 
 .bridgetroll-content {
-  width: 900px;
   margin: 0 auto;
   background-color: $content-background-color;
   padding: 20px;
@@ -172,6 +170,10 @@ td.wide {
 .gmaps4rails_map {
   width: 300px;
   height: 300px;
+}
+
+.location-display .gmaps4rails_map {
+  width: 100%;
 }
 
 #map label {
