@@ -42,4 +42,18 @@ describe CheckinsController do
       @rsvp_session.reload.should be_checked_in
     end
   end
+
+  describe "DELETE destroy" do
+    before do
+      @vol = create(:user)
+      @rsvp = create(:rsvp, user: @vol, event: @event)
+      @rsvp_session = create(:rsvp_session, rsvp: @rsvp, event_session: @session, checked_in: true)
+    end
+
+    it "removes checked-in status for the volunteer" do
+      @rsvp_session.should be_checked_in
+      delete :destroy, event_id: @event.id, event_session_id: @session.id, id: @rsvp_session.id, rsvp_session: { id: @rsvp_session.id }
+      @rsvp_session.reload.should_not be_checked_in
+    end
+  end
 end

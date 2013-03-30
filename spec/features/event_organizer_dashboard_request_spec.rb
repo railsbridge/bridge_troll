@@ -48,16 +48,20 @@ describe "the organizer dashboard" do
     click_link("Check in for Installfest")
     page.should have_content(user1.first_name)
 
-    within "#edit_rsvp_session_#{rsvp_session1.id}" do
-      click_on 'Check In'
+    within "#rsvp_session_#{rsvp_session1.id}" do
+      within "#create_rsvp_session_#{rsvp_session1.id}" do
+        click_on 'Check In'
+      end
       page.should have_content('Checked In!')
     end
 
     rsvp_session1.reload.should be_checked_in
     rsvp_session2.reload.should_not be_checked_in
 
-    within "#edit_rsvp_session_#{rsvp_session2.id}" do
-      click_on 'Check In'
+    within "#rsvp_session_#{rsvp_session2.id}" do
+      within "#create_rsvp_session_#{rsvp_session2.id}" do
+        click_on 'Check In'
+      end
       page.should have_content('Checked In!')
     end
 
@@ -66,11 +70,20 @@ describe "the organizer dashboard" do
 
     visit event_event_session_checkins_path(@event, session1)
 
-    within "#edit_rsvp_session_#{rsvp_session1.id}" do
+    within "#rsvp_session_#{rsvp_session1.id}" do
       page.should have_content 'Checked In'
     end
-    within "#edit_rsvp_session_#{rsvp_session2.id}" do
+    within "#rsvp_session_#{rsvp_session2.id}" do
       page.should have_content 'Checked In'
     end
+
+    within "#rsvp_session_#{rsvp_session1.id}" do
+      within "#destroy_rsvp_session_#{rsvp_session1.id}" do
+        click_on 'Un-Check In'
+      end
+      page.should_not have_content 'Saving'
+    end
+
+    rsvp_session1.reload.should_not be_checked_in
   end
 end

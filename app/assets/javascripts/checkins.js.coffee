@@ -1,8 +1,9 @@
 $(document).ready ->
-  $('.edit_rsvp_session')
+  $('.toggle_rsvp_session')
     .on 'ajax:beforeSend', ->
-      $(this).empty()
-      $(this).append('<span>Saving...</span>')
+      $(this).addClass('hidden')
+      $(this).parent().append('<span id="saving_indicator">Saving...</span>')
     .on 'ajax:success', ->
-      $(this).empty()
-      $(this).append('<span>Checked In!</span>')
+      $('#saving_indicator').remove()
+      showSelector = $(this).data('shows')
+      $('#' + showSelector).removeClass('hidden')

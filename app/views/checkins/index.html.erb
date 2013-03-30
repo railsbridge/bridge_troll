@@ -9,15 +9,34 @@
   </tr>
   <% @rsvp_sessions.each do |rsvp_session| %>
     <tr>
-      <td><%= rsvp_session.rsvp.user.full_name %></td>
-      <td>
-        <%= form_for([@event, @session, rsvp_session], method: :create, url: event_event_session_checkins_path(@event, @session), remote: true) do |f| %>
+      <td><%= rsvp_session.user_full_name %></td>
+      <td id="rsvp_session_<%= rsvp_session.id %>">
+        <% destroy_id = "destroy_rsvp_session_#{rsvp_session.id}" %>
+        <% create_id = "create_rsvp_session_#{rsvp_session.id}" %>
+        <%= form_for([@event, @session, rsvp_session],
+                     method: :delete,
+                     url: event_event_session_checkin_path(@event, @session, rsvp_session),
+                     html: {
+                       id: destroy_id,
+                       class: "toggle_rsvp_session #{rsvp_session.checked_in ? '' : 'hidden'}",
+                       data: {shows: create_id}
+                     },
+                     remote: true) do |f| %>
           <%= f.hidden_field :id %>
-          <% if rsvp_session.checked_in %>
-            Checked In!
-          <% else %>
-            <%= f.submit "Check In" %>
-          <% end %>
+          Checked
+          In! <%= f.submit "Un-Check In", data: {confirm: "Are you sure you want to un-check in #{rsvp_session.user_full_name}?"} %>
+        <% end %>
+        <%= form_for([@event, @session, rsvp_session],
+                     method: :create,
+                     url: event_event_session_checkins_path(@event, @session),
+                     html: {
+                       id: create_id,
+                       class: "toggle_rsvp_session #{rsvp_session.checked_in ? 'hidden' : ''}",
+                       data: {shows: destroy_id}
+                     },
+                     remote: true) do |f| %>
+          <%= f.hidden_field :id %>
+          <%= f.submit "Check In" %>
         <% end %>
       </td>
     </tr>
