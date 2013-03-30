@@ -48,6 +48,10 @@ class Event < ActiveRecord::Base
   def rsvp_for_user(user)
     self.rsvps.find_by_user_id(user.id)
   end
+
+  def no_rsvp?(user)
+    !rsvps.where(user_id: user.id).any?
+  end
   
   def volunteer?(user)
     volunteer_rsvps.where(user_id: user.id).any?

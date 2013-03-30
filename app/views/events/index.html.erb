@@ -20,20 +20,20 @@
         <tr>
           <%= render 'event', event: event %>
           <% if user_signed_in? %>
-            <% if event.organizer?(current_user) %>
-              <td>
-                <%= link_to 'Organizer Console', organize_event_path(event), :class => 'btn' %>
-              </td>
-            <% elsif event.volunteer?(current_user) %>
-              <td>
+            <td>
+              <% if event.organizer?(current_user) || current_user.admin? %>
+                <div><%= link_to 'Organizer Console', organize_event_path(event), :class => 'btn' %></div>
+              <% end %>
+              <% if event.volunteer?(current_user) %>
                 You are signed up to volunteer for this event!
-                <%= link_to 'Unvolunteer', event_rsvp_path(event, event.rsvp_for_user(current_user)), data: { confirm: 'Are you sure you want to unvolunteer?' }, method: :delete, class: 'btn' %>
+                <%= link_to 'Unvolunteer', event_rsvp_path(event, event.rsvp_for_user(current_user)), data: {confirm: 'Are you sure you want to unvolunteer?'}, method: :delete, class: 'btn' %>
                 <%= link_to 'Edit RSVP', edit_event_rsvp_path(event, event.rsvp_for_user(current_user)), :class => 'btn' %>
-              </td>
-            <% else %>
-              <td><%= link_to 'Volunteer', new_event_rsvp_path(event), :method => :get, :class => 'btn' %></td>
-            <% end %>
-          <% end %>
+              <% end %>
+              <% if event.no_rsvp?(current_user) %>
+                <%= link_to 'Volunteer', new_event_rsvp_path(event), :method => :get, :class => 'btn' %>
+              <% end %>
+            </td>
+        <% end %>
         </tr>
       <% end %>
     </table>

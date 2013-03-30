@@ -13,17 +13,17 @@ describe ProfilesController do
     it "lets users view and edit their own profile" do
       get :show, user_id: @user.id
       response.should be_success
-      response.body.should include(@user.full_name)
+      response.body.should include(ERB::Util.html_escape(@user.full_name))
 
       get :edit, user_id: @user.id
       response.should be_success
-      response.body.should include(@user.full_name)
+      response.body.should include(ERB::Util.html_escape(@user.full_name))
     end
 
     it "lets users view other user's profiles" do
       get :show, user_id: @other_user.id
       response.should be_success
-      response.body.should include(@other_user.full_name)
+      response.body.should include(ERB::Util.html_escape(@other_user.full_name))
     end
 
     it "does not let users edit someone else's profile" do
