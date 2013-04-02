@@ -1,8 +1,13 @@
-<li>
   <% if user_signed_in? %>
+  <li>
     <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'btn' %>
   <% else %>
+  <li id="sign_in">
     <%= link_to "Sign In", new_user_session_path, class: 'btn' %>
+    <ul>
+      <div id="spacer"></div>
+      <div id="sign_in_fields"><%= render :partial => "shared/sign_in" %></div>
+    </ul>
   <% end %>
 </li>
 <li>
