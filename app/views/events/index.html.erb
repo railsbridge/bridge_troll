@@ -52,10 +52,13 @@
           <td colspan="5">There are no past events.</td>
         </tr>
       <% end %>
+
       <% @past_events.each do |event| %>
         <tr><%= render 'event', event: event %></tr>
       <% end %>
     </table>
+
+    <div style="text-align:right;"><%= paginate @past_events %></div>
 
     <% if user_signed_in? %>
       <%= render 'shared/actions', links: [
