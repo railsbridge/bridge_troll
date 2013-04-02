@@ -111,6 +111,9 @@ GEM
     json (1.7.7)
     jwt (0.1.5)
       multi_json (>= 1.0)
+    kaminari (0.14.1)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
     launchy (2.2.0)
       addressable (~> 2.3)
     listen (0.7.3)
@@ -272,6 +275,7 @@ DEPENDENCIES
   jquery-datatables-rails
   jquery-rails
   jquery-ui-rails
+  kaminari
   launchy
   modernizr_rails
   nested_form

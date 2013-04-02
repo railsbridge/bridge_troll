@@ -7,7 +7,8 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.upcoming
-    @past_events = Event.past
+
+    @past_events = Event.past.page(params[:page]).per(10)
   end
 
   def show

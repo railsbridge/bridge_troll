@@ -11,6 +11,7 @@ gem 'active_hash'
 gem 'sanitize'
 gem 'gmaps4rails'
 gem 'omniauth-meetup'
+gem 'kaminari'
 
 group :production do
   gem 'pg'
