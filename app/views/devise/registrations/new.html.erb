@@ -1,39 +1,41 @@
 <h2>Sign up</h2>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+<div id="sign-up">
+	<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+	  <%= devise_error_messages! %>
 
-  <div>
-    <%= f.label :first_name, "First/Given Name" %>
-    <%= f.text_field :first_name %>
-  </div>
+	  <div>
+	    <%= f.label :first_name, "First/Given Name" %>
+	    <%= f.text_field :first_name %>
+	  </div>
 
-  <div>
-    <%= f.label :last_name, "Last/Family Name" %>
-    <%= f.text_field :last_name %>
-  </div>
+	  <div>
+	    <%= f.label :last_name, "Last/Family Name" %>
+	    <%= f.text_field :last_name %>
+	  </div>
 
-  <div>
-    <%= f.label :email %>
-    <%= f.email_field :email %>
-  </div>
+	  <div>
+	    <%= f.label :email %>
+	    <%= f.email_field :email %>
+	  </div>
 
-  <div>
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-  </div>
+	  <div>
+	    <%= f.label :password %>
+	    <%= f.password_field :password %>
+	  </div>
 
-  <div>
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
-  </div>
+	  <div>
+	    <%= f.label :password_confirmation %>
+	    <%= f.password_field :password_confirmation %>
+	  </div>
 
-  <div>
-    <%= f.label :time_zone %>
-    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
-  </div>
+	  <div>
+	    <%= f.label :time_zone %>
+	    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
+	  </div>
 
-  <div><%= f.submit "Sign up" %></div>
-<% end %>
+	  <div><%= f.submit "Sign up" %></div>
+	<% end %>
 
-<%= render :partial => "devise/shared/links" %>
+	<%= render :partial => "devise/shared/links" %>
+</div>
