@@ -1,5 +1,5 @@
 <h3>Profile edit <%= @user.full_name %></h3>
-
+<%= render 'shared/profile_gravatars'%>
 <%= form_for([@user, @profile], :url => {:action => "update"}, :html => {:class => "form-horizontal"}) do |f| %>
   <h3>Skills</h3>
 
