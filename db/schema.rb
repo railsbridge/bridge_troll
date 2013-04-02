@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(:version => 20130324053250) do
     t.string   "time_zone"
     t.integer  "meetup_volunteer_event_id"
     t.integer  "meetup_student_event_id"
-    t.string   "public_email"
     t.text     "volunteer_details"
+    t.string   "public_email"
   end
 
   create_table "locations", :force => true do |t|
