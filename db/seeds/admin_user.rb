@@ -9,6 +9,7 @@ module Seeder
       last_name: 'User',
     )
     admin.admin = true
+    admin.confirm!
     admin.save!
   end
 end
