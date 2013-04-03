@@ -58,7 +58,7 @@
       <% end %>
     </table>
 
-    <div style="text-align:right;"><%= paginate @past_events %></div>
+    <div id="pagination-links"><%= paginate @past_events %></div>
 
     <% if user_signed_in? %>
       <%= render 'shared/actions', links: [
