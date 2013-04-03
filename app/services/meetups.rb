@@ -199,5 +199,10 @@ MEETUP_EVENTS = [
         name: 'Ruby on Rails Outreach Workshop for Women',
         volunteer_event_id: 99758052,
         student_event_id: 99743792
+    },
+    {
+      name: 'RailsBridge Workshop w Black Founders Beginner and Intermediate Levels',
+      volunteer_event_id: 106082842,
+      student_event_id: 104829002
     }
 ]

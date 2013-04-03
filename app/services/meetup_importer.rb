@@ -58,6 +58,16 @@ MESSAGE
     end
   end
 
+  def import_single student_event_id
+    return unless assert_key_exists
+
+    event_data = MEETUP_EVENTS.select { |event| event[:student_event_id] == student_event_id.to_i }.first
+    raise "No event data found for #{student_event_id}" unless event_data.present?
+
+    puts "Importing event (students: #{event_data[:student_event_id]}, volunteers: #{event_data[:volunteer_event_id]})"
+    import_student_and_volunteer_event(event_data)
+  end
+
   def import_student_and_volunteer_event event_data
     event = import_event(
       name: event_data[:name],
@@ -156,12 +166,12 @@ MESSAGE
     raise "User already associated with #{bridgetroll_user.meetup_id}" if bridgetroll_user.meetup_id.present?
 
     meetup_user = MeetupUser.where(meetup_id: meetup_id).first
-    raise "No user with ID #{meetup_id}" unless meetup_user.present?
-
     Rsvp.transaction do
-      Rsvp.where(user_type: 'MeetupUser', user_id: meetup_user.id).find_each do |rsvp|
-        rsvp.user = bridgetroll_user
-        rsvp.save!
+      if meetup_user.present?
+        Rsvp.where(user_type: 'MeetupUser', user_id: meetup_user.id).find_each do |rsvp|
+          rsvp.user = bridgetroll_user
+          rsvp.save!
+        end
       end
 
       bridgetroll_user.meetup_id = meetup_id

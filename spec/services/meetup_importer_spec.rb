@@ -163,6 +163,13 @@ describe MeetupImporter do
       @sally_model = MeetupUser.where(meetup_id: sally[:id]).first
     end
 
+    it "can associate users who have no meetup RSVPs" do
+      @importer.associate_user(bridgetroll_user, 123456789)
+
+      bridgetroll_user.reload.meetup_id.should == 123456789
+      bridgetroll_user.rsvps.length.should == 0
+    end
+
     it "claims existing RSVPs when associating" do
       @event.volunteers_with_legacy.should =~ [@sven_model, @sally_model]
 
