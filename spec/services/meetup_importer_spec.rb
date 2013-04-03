@@ -110,6 +110,20 @@ describe MeetupImporter do
     end
   end
 
+  describe "when users have already associated their meetup id with Bridgetroll" do
+    let(:bridgetroll_user) { create(:user) }
+    before do
+      @importer.associate_user(bridgetroll_user, sally[:id])
+
+      @importer.import_student_and_volunteer_event(event_params)
+    end
+
+    it "creates regular-RSVPs instead of MeetupUser RSVPs" do
+      bridgetroll_user.rsvps.length.should == 1
+      bridgetroll_user.rsvps.first.event.should == Event.last
+    end
+  end
+
   context "when a user was assigned as volunteer to the volunteer meetup but organizer to the student meetup" do
     let(:volunteer_rsvp_response) {
       MeetupRequestFixtures.rsvp_response(

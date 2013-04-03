@@ -124,15 +124,7 @@ MESSAGE
       meetup_id = rsvp['member']['member_id']
       role = rsvp['host'] ? Role::ORGANIZER : rsvp_role
 
-      meetup_user = MeetupUser.where(meetup_id: meetup_id).first_or_initialize
-      meetup_user.update_attributes(full_name: rsvp['member']['name'])
-
-      existing_rsvp = event.rsvps.where(user_id: meetup_user.id, user_type: 'MeetupUser').first
-      if existing_rsvp.present?
-        existing_rsvp.update_attribute(:role, Role::ORGANIZER) if role == Role::ORGANIZER
-      else
-        event.rsvps.create!(user: meetup_user, role: role)
-      end
+      create_or_update_rsvp(event, meetup_id, rsvp['member']['name'], role)
     end
   end
 
@@ -195,6 +187,24 @@ MESSAGE
   end
 
   private
+
+  def create_or_update_rsvp(event, meetup_id, full_name, role)
+    meetup_user = MeetupUser.where(meetup_id: meetup_id).first_or_initialize
+    meetup_user.update_attributes(full_name: full_name)
+
+    type, id = 'MeetupUser', meetup_user.id
+    associated_user = User.find_by_meetup_id(meetup_id)
+    if associated_user.present?
+      type, id = 'User', associated_user.id
+    end
+
+    existing_rsvp = event.rsvps.where(user_id: id, user_type: type).first
+    if existing_rsvp.present?
+      existing_rsvp.update_attribute(:role, Role::ORGANIZER) if role == Role::ORGANIZER
+    else
+      event.rsvps.create!(user: associated_user || meetup_user, role: role)
+    end
+  end
 
   def get_api_response_for path, params=nil
     params ||= {}
