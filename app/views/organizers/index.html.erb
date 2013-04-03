@@ -20,6 +20,7 @@
 <table class="table">
   <thead>
   <tr>
+    <td></td>
     <td>Name</td>
     <td>Email</td>
     <td></td>
@@ -28,6 +29,7 @@
   <tbody>
   <% @organizer_rsvps.each do |rsvp|  %>
       <tr>
+        <td class="span1"><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %></td>
         <td><%= rsvp.user.full_name %></td>
         <td><%= rsvp.user.email %></td>
         <% if rsvp.user_id != current_user.id %>

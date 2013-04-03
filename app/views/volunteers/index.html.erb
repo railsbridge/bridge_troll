@@ -12,7 +12,11 @@
   <th>Assignment</th>
 <% @volunteer_rsvps.each do |rsvp| %>
   <tr>
-    <td><%= rsvp.user.full_name %></td>
+    <td>
+      <%= rsvp.user.full_name %>
+      <br/>
+      <%= render 'shared/viewed_gravatars', :email => rsvp.user.email %>
+    </td>
     <td><%= rsvp.subject_experience %></td>
     <td><%= rsvp.teaching_experience %></td>
     <td><%= rsvp.formatted_preference %></td>
