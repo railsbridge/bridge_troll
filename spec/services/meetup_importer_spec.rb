@@ -11,8 +11,10 @@ describe MeetupImporter do
   let(:hugh) { {name: 'Hugh Studentu', id: 3232599} }
   let(:betty) { {name: 'Betty Studetty', id: 3032604} }
   let(:irma) { {name: 'Irma Orgorama', id: 35311060} }
+  let(:veronica) { {name: 'Veronica Vaitlist', id: 54322311} }
+  let(:sid) { {name: 'Sid Waitlist', id: 29284812} }
 
-  let(:all_fixture_users) { [sven, sally, liz, hugh, betty, irma] }
+  let(:all_fixture_users) { [sven, sally, liz, hugh, betty, irma, veronica] }
 
   let(:volunteer_event_response) {
     MeetupRequestFixtures.event_response(event_id: volunteer_event_id)
@@ -21,6 +23,7 @@ describe MeetupImporter do
     MeetupRequestFixtures.rsvp_response(
       event_id: volunteer_event_id,
       attendees: [sven, sally],
+      waitlisted: [veronica],
       organizer: liz
     )
   }
@@ -32,6 +35,7 @@ describe MeetupImporter do
     MeetupRequestFixtures.rsvp_response(
       event_id: student_event_id,
       attendees: [hugh, betty],
+      waitlisted: [sid],
       organizer: irma
     )
   }
@@ -102,7 +106,7 @@ describe MeetupImporter do
     event = Event.last
 
     event.student_rsvps.map { |rsvp| rsvp.user.full_name }.should =~ ["Hugh Studentu", "Betty Studetty"]
-    event.volunteer_rsvps.map { |rsvp| rsvp.user.full_name }.should =~ ["Sven Volunteeren", "Sally Voluntally"]
+    event.volunteer_rsvps.map { |rsvp| rsvp.user.full_name }.should =~ ["Sven Volunteeren", "Sally Voluntally", "Veronica Vaitlist"]
     event.organizer_rsvps.map { |rsvp| rsvp.user.full_name }.should =~ ["Liz Organiz", "Irma Orgorama"]
 
     all_fixture_users.each do |fixture_user|
@@ -121,6 +125,27 @@ describe MeetupImporter do
     it "creates regular-RSVPs instead of MeetupUser RSVPs" do
       bridgetroll_user.rsvps.length.should == 1
       bridgetroll_user.rsvps.first.event.should == Event.last
+    end
+  end
+
+  describe "when student RSVPs have accidentally been created for people who were waitlisted" do
+    before do
+      @importer.import_student_and_volunteer_event(event_params)
+
+      @meetup_sid = create(:meetup_user, meetup_id: sid[:id])
+      @event = Event.last
+      @event.rsvps.create(user: @meetup_sid, role: Role::STUDENT)
+    end
+
+    it "removes the waitlist RSVPs when re-importing" do
+      @event.legacy_students.map(&:meetup_id).should include(sid[:id])
+      @event.legacy_students.map(&:meetup_id).should include(hugh[:id])
+
+      @importer.import_student_and_volunteer_event(event_params)
+
+      @event.legacy_students.reload
+      @event.legacy_students.map(&:meetup_id).should include(hugh[:id])
+      @event.legacy_students.map(&:meetup_id).should_not include(sid[:id])
     end
   end
 

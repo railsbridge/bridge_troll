@@ -1,7 +1,8 @@
 module MeetupRequestFixtures
   def self.rsvp_response options
     event_id = options[:event_id]
-    {
+    waitlisted = options[:waitlisted] || []
+    response = {
       "results" => [
         {
           "response" => "yes",
@@ -214,6 +215,60 @@ module MeetupRequestFixtures
         "lat" => ""
       }
     }
+    waitlisted.each do |student|
+      response['results'] << {
+        "response" => "waitlist",
+        "member" => {
+          "name" => student[:name],
+          "member_id" => student[:id]
+        },
+        "host" => false,
+        "member_photo" => {
+          "photo_link" => "http://photos3.meetupstatic.com/photos/member/3/6/a/1/member_613985.jpeg",
+          "highres_link" => "http://photos1.meetupstatic.com/photos/member/3/6/a/1/highres_613985.jpeg",
+          "thumb_link" => "http://photos1.meetupstatic.com/photos/member/3/6/a/1/thumb_613985.jpeg",
+          "photo_id" => 613985
+        },
+        "created" => 1357314915000,
+        "event" => {
+          "id" => "#{event_id}",
+          "time" => 1358614800000,
+          "event_url" => "http://www.meetup.com/sfruby/events/97768552/",
+          "name" => "Volunteers: RailsBridge Outreach for Women Workshop: Learn the Front End!"
+        },
+        "tallies" => {
+          "yes" => 41,
+          "maybe" => 0,
+          "no" => 21,
+          "waitlist" => 0
+        },
+        "mtime" => 1357314915000,
+        "guests" => 0,
+        "rsvp_id" => 637537142,
+        "venue" => {
+          "id" => 1396916,
+          "zip" => "94105",
+          "lon" => -122.397664,
+          "repinned" => false,
+          "name" => "Carbon Five",
+          "state" => "CA",
+          "address_1" => "585 Howard Street",
+          "address_2" => "Floor 2",
+          "lat" => 37.787075,
+          "city" => "San Francisco ",
+          "country" => "us"
+        },
+        "group" => {
+          "id" => 134063,
+          "group_lat" => 37.790000915527344,
+          "group_lon" => -122.41000366210938,
+          "join_mode" => "open",
+          "urlname" => "sfruby"
+        }
+      }
+    end
+
+    response
   end
 
   def self.event_response options

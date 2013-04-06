@@ -53,7 +53,7 @@ MESSAGE
     return unless assert_key_exists
 
     MEETUP_EVENTS.each_with_index do |event_data, index|
-      puts "Importing event #{index+1} of #{MEETUP_EVENTS.length}"
+      puts "Importing event #{index+1} of #{MEETUP_EVENTS.length} (students: #{event_data[:student_event_id]}, volunteers: #{event_data[:volunteer_event_id]})"
       import_student_and_volunteer_event(event_data)
     end
   end
@@ -119,12 +119,27 @@ MESSAGE
     return unless rsvp_json
 
     rsvp_json['results'].each do |rsvp|
-      next if rsvp['response'] == 'no'
-
       meetup_id = rsvp['member']['member_id']
       role = rsvp['host'] ? Role::ORGANIZER : rsvp_role
 
-      create_or_update_rsvp(event, meetup_id, rsvp['member']['name'], role)
+      user = find_user(meetup_id)
+
+      if keep_rsvp?(rsvp, role)
+        user.update_attributes(full_name: rsvp['member']['name']) if user.class == MeetupUser
+        create_or_update_rsvp(user, event, role)
+      else
+        remove_rsvp(user, event, role)
+      end
+    end
+  end
+
+  def keep_rsvp?(rsvp, role)
+    return true if role == Role::ORGANIZER
+
+    if role == Role::VOLUNTEER
+      (rsvp['response'] == 'yes') || (rsvp['response'] == 'waitlist')
+    else
+      (rsvp['response'] == 'yes')
     end
   end
 
@@ -188,21 +203,33 @@ MESSAGE
 
   private
 
-  def create_or_update_rsvp(event, meetup_id, full_name, role)
+  def find_user(meetup_id)
     meetup_user = MeetupUser.where(meetup_id: meetup_id).first_or_initialize
-    meetup_user.update_attributes(full_name: full_name)
 
-    type, id = 'MeetupUser', meetup_user.id
     associated_user = User.find_by_meetup_id(meetup_id)
     if associated_user.present?
-      type, id = 'User', associated_user.id
+      return associated_user
+    else
+      return meetup_user
     end
+  end
 
-    existing_rsvp = event.rsvps.where(user_id: id, user_type: type).first
+  def create_or_update_rsvp(user, event, role)
+    existing_rsvp = event.rsvps.where(user_id: user.id, user_type: user.class.name).first
     if existing_rsvp.present?
       existing_rsvp.update_attribute(:role, Role::ORGANIZER) if role == Role::ORGANIZER
     else
-      event.rsvps.create!(user: associated_user || meetup_user, role: role)
+      event.rsvps.create!(user: user, role: role)
+    end
+  end
+
+  def remove_rsvp(user, event, role)
+    rsvps = event.rsvps.where(user_id: user.id, user_type: user.class.name, role_id: role.id)
+    if rsvps.present?
+      unless Rails.env.test?
+        puts "Destroying #{rsvps.count} RSVPs for #{user.full_name} (#{user.class.name})"
+      end
+      rsvps.destroy_all
     end
   end
 
