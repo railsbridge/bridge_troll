@@ -142,3 +142,26 @@ describe "the event listing page" do
     end
   end
 end
+describe "the event detail page" do
+  before(:each) do
+    @user = create(:user)
+    sign_in_as(@user)
+    @event = create(:event, :location_id => nil, :title => 'mytitle')
+    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
+  end
+  context "when user has not rsvp'd to event" do
+    it "should allow user to voluntter from event detail page" do
+      visit event_path(@event)
+      page.should have_link("Volunteer")
+    end
+  end
+  context "when user has rsvp'd to event" do
+    before(:each) do
+      create(:rsvp, event: @event, user: @user)
+    end
+    it "should allow user to unvolunteer from event detail page" do
+      visit event_path(@event)
+      page.should have_link("Unvolunteer")
+    end
+  end
+end

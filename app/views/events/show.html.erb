@@ -76,5 +76,14 @@
           </tbody>
         </table>
     <% end %>
+    <% if user_signed_in? %>
+      <% if @event.no_rsvp?(current_user) %>
+        <%= link_to 'Volunteer', new_event_rsvp_path(@event), :method => :get, :class => 'btn' %>
+      <% end %>
+      <% if @event.volunteer?(current_user) %>
+        You are signed up to volunteer for this event!
+        <%= link_to 'Unvolunteer', event_rsvp_path(@event, @event.rsvp_for_user(current_user)), data: {confirm: 'Are you sure you want to unvolunteer?'}, method: :delete, class: 'btn' %>
+      <% end %>
+    <% end %>
   </div>
 </div>
