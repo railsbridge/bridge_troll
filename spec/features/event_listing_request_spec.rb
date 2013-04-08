@@ -98,7 +98,7 @@ describe "the event listing page" do
         uncheck "Curriculum"
 
         click_button "Submit"
-        page.should have_content("Thanks for volunteering")
+        page.should have_content("Thanks for signing up")
 
         rsvp = Rsvp.last
         rsvp.should be_teaching
@@ -110,14 +110,34 @@ describe "the event listing page" do
         rsvp.rsvp_sessions.first.event_session.should == @session1
       end
 
+      it "allows a student to register for an event" do
+        visit events_path
+        click_link("Learn")
+        page.should have_content("almost signed up")
+
+        choose "Windows 8"
+        fill_in "rsvp_job_details", :with => "I am an underwater basket weaver."
+        select "5", from: 'rsvp_class_level'
+
+        click_button "Submit"
+        page.should have_content("signed up")
+
+        rsvp = Rsvp.last
+        rsvp.user_id.should == @user.id
+        rsvp.event_id.should == @event.id
+        rsvp.operating_system.should == OperatingSystem::WINDOWS_8
+
+        rsvp.rsvp_sessions.length.should == 2
+      end
+
       context 'given a volunteered user' do
         before(:each) do
           @rsvp = create(:rsvp, event: @event, user: @user)
           visit events_path
         end
 
-        it "allows user to unvolunteer for an event" do
-          click_link('Unvolunteer')
+        it "allows user to cancel their event RSVP" do
+          click_link('Cancel RSVP')
           Rsvp.find_by_id(@rsvp.id).should be_nil
         end
 
@@ -139,29 +159,6 @@ describe "the event listing page" do
           @rsvp.rsvp_sessions.first.event_session.should == @session2
         end
       end
-    end
-  end
-end
-describe "the event detail page" do
-  before(:each) do
-    @user = create(:user)
-    sign_in_as(@user)
-    @event = create(:event, :location_id => nil, :title => 'mytitle')
-    create(:event_session, event: @event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
-  end
-  context "when user has not rsvp'd to event" do
-    it "should allow user to voluntter from event detail page" do
-      visit event_path(@event)
-      page.should have_link("Volunteer")
-    end
-  end
-  context "when user has rsvp'd to event" do
-    before(:each) do
-      create(:rsvp, event: @event, user: @user)
-    end
-    it "should allow user to unvolunteer from event detail page" do
-      visit event_path(@event)
-      page.should have_link("Unvolunteer")
     end
   end
 end

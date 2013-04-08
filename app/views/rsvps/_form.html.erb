@@ -11,14 +11,58 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :subject_experience, "What's your experience with this workshop's subject matter?" %>
-    <%= f.text_area :subject_experience, rows: 3, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
-  </div>
+  <% if @rsvp.role == Role::STUDENT %>
+    <label>Operating System</label>
+    <a href="http://docs.railsbridge.org/installfest/macintosh">(Not sure what OSX version you have?)</a>
+    <div class="field">
+      <% OperatingSystem.all.each do |os| %>
+        <label>
+          <%= f.radio_button :operating_system_id, os.id %> <%= os.title %>
+        </label>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <%= f.label :class_level, "What is your class level?" %>
+      <%= f.select :class_level, (1..5), class: 'class_level' %>
+    </div>
+  <% end %>
+
+  <% if @rsvp.role == Role::VOLUNTEER %>
+    <div class="field">
+      <%= f.label :subject_experience, "What's your experience with this workshop's subject matter?" %>
+      <%= f.text_area :subject_experience, rows: 3, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
+    </div>
+
+    <div class="field">
+      <%= f.label :teaching_experience, "What's your experience with teaching?" %>
+      <%= f.text_area :teaching_experience, rows: 3, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
+    </div>
+
+    <strong>Teaching preference?</strong>
+    <div class="field">
+      <%= f.label :teaching, class: 'checkbox' do %>
+        <%= f.check_box :teaching %> Teaching
+      <% end %>
+      <%= f.label :taing, class: 'checkbox' do %>
+        <%= f.check_box :taing %> TAing
+      <% end %>
+    </div>
+
+    <% if @rsvp.event.event_sessions.length > 1 %>
+      <strong>Sessions you're attending</strong>
+      <% @rsvp.event.event_sessions.order('starts_at ASC').each do |session| %>
+        <%= label_tag do %>
+          <%= check_box_tag 'rsvp_sessions[]', session.id, @rsvp.new_record? ? true : @rsvp.rsvp_sessions.where(event_session_id: session.id).any? %>
+          <%= session.name  %>: <%= formatted_session_date(session) %> <%= formatted_session_timerange(session) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 
   <div class="field">
-    <%= f.label :teaching_experience, "What's your experience with teaching?" %>
-    <%= f.text_area :teaching_experience, rows: 3, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
+    <%= f.label :job_details, "What's your job? (i.e. Accountant, Student, Horse Whisperer)" %>
+    <%= f.text_area :job_details, rows: 1, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH %>
   </div>
 
   <div class="field">
@@ -32,28 +76,9 @@
     <%= f.text_area :childcare_info, rows: 3 %>
   </div>
 
-  <strong>Teaching preference?</strong>
-  <div class="field">
-    <%= f.label :teaching, class: 'checkbox' do %>
-      <%= f.check_box :teaching %> Teaching
-    <% end %>
-    <%= f.label :taing, class: 'checkbox' do %>
-      <%= f.check_box :taing %> TAing
-    <% end %>
-  </div>
-
-  <% if @rsvp.event.event_sessions.length > 1 %>
-    <strong>Sessions you're attending</strong>
-    <% @rsvp.event.event_sessions.order('starts_at ASC').each do |session| %>
-      <%= label_tag do %>
-        <%= check_box_tag 'rsvp_sessions[]', session.id, @rsvp.new_record? ? true : @rsvp.rsvp_sessions.where(event_session_id: session.id).any? %>
-        <%= session.name  %>: <%= formatted_session_date(session) %> <%= formatted_session_timerange(session) %>
-      <% end %>
-    <% end %>
-  <% end %>
-
   <div class="actions">
     <%= f.hidden_field :event_id %>
+    <%= f.hidden_field :role_id %>
     <%= f.submit "Submit"%>
   </div>
 <% end %>

@@ -7,7 +7,7 @@ class Rsvp < ActiveRecord::Base
 
   belongs_to_active_hash :volunteer_preference
 
-  delegate :historical?, to: :event
+  delegate :historical?, to: :event, allow_nil: true
 
   has_many :rsvp_sessions, dependent: :destroy
 
@@ -20,9 +20,16 @@ class Rsvp < ActiveRecord::Base
     for_volunteers.validates_presence_of :teaching_experience, :subject_experience
     for_volunteers.validates_length_of :teaching_experience, :subject_experience, :in => 10..MAX_EXPERIENCE_LENGTH
   end
-  
+
+  with_options(if: Proc.new {|rsvp| rsvp.role == Role::STUDENT && !rsvp.historical? }) do |for_students|
+    for_students.validates_presence_of :operating_system_id, :class_level
+    for_students.validates_inclusion_of :class_level, in: (1..5)
+  end
+
+
   belongs_to_active_hash :role
   belongs_to_active_hash :volunteer_assignment
+  belongs_to_active_hash :operating_system
 
   def volunteer_preference_id
     return unless role == Role::VOLUNTEER
@@ -39,6 +46,9 @@ class Rsvp < ActiveRecord::Base
 
   def set_attending_sessions session_ids=nil
     rsvp_sessions.destroy_all
+    if role == Role::STUDENT
+      session_ids = event.event_sessions.map(&:id)
+    end
     if event.event_sessions.length == 1
       session_ids = [event.event_sessions.first.id]
     end

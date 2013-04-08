@@ -52,7 +52,11 @@ class Event < ActiveRecord::Base
   def no_rsvp?(user)
     !rsvps.where(user_id: user.id).any?
   end
-  
+
+  def student?(user)
+    student_rsvps.where(user_id: user.id).any?
+  end
+
   def volunteer?(user)
     volunteer_rsvps.where(user_id: user.id).any?
   end

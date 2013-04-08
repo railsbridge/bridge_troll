@@ -47,7 +47,8 @@ describe "the individual event page" do
 
   context "user is logged in but is not an organizer for the event" do
     before do
-      sign_in_as(create(:user))
+      @user = create(:user)
+      sign_in_as(@user)
     end
 
     it "does not display the Edit link" do
@@ -58,6 +59,29 @@ describe "the individual event page" do
     it "displays the event public email" do
       visit event_path(@event)
       page.should have_content("public_email@example.org")
+    end
+
+    context "when user has not rsvp'd to event" do
+      it "should allow user to volunteer" do
+        visit event_path(@event)
+        page.should have_link("Volunteer")
+      end
+
+      it "should allow user to attend as a student" do
+        visit event_path(@event)
+        page.should have_link("Learn")
+      end
+    end
+
+    context "when user has rsvp'd to event" do
+      before(:each) do
+        create(:rsvp, event: @event, user: @user)
+      end
+
+      it "should allow user to cancel their RSVP" do
+        visit event_path(@event)
+        page.should have_link("Cancel RSVP")
+      end
     end
   end
 

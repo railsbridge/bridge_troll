@@ -9,7 +9,7 @@ describe 'creating or editing an rsvp' do
 
   context "given a new rsvp" do
     before do
-      visit new_event_rsvp_path(@event)
+      visit volunteer_new_event_rsvp_path(@event)
     end
 
     it "should not show checkboxes for events with only one session" do

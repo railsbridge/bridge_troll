@@ -9,6 +9,27 @@ describe RsvpsController do
     @event = create(:event, title: 'The Best Railsbridge')
   end
 
+  describe "when signed in" do
+    before do
+      @user = create(:user)
+      sign_in @user
+    end
+
+    describe "#volunteer" do
+      it "creates an RSVP for the volunteer role" do
+        get :volunteer, event_id: @event.id
+        assigns(:rsvp).role.should == Role::VOLUNTEER
+      end
+    end
+
+    describe "#learn" do
+      it "creates an RSVP for the student role" do
+        get :learn, event_id: @event.id
+        assigns(:rsvp).role.should == Role::STUDENT
+      end
+    end
+  end
+
   describe "#create" do
     before do
       @rsvp_params = extract_rsvp_params build(:rsvp, :event => @event)
@@ -126,7 +147,7 @@ describe RsvpsController do
         expect {
           @rsvp.reload
         }.to raise_error(ActiveRecord::RecordNotFound)
-        flash[:notice].should match(/no longer signed up to volunteer/i)
+        flash[:notice].should match(/no longer signed up/i)
       end
     end
 
@@ -135,7 +156,7 @@ describe RsvpsController do
         expect {
           delete :destroy, event_id: 3298423, id: 29101
         }.to change {Rsvp.count }.by(0)
-        flash[:notice].should match(/You are not signed up to volunteer/i)
+        flash[:notice].should match(/You are not signed up/i)
       end
     end
   end
