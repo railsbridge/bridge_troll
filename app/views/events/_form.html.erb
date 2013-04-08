@@ -25,13 +25,17 @@
       <div class="event-sessions">
         <%= f.fields_for :event_sessions do |event_sessions_form| %>
           <%= event_sessions_form.label :name, 'Session Name' %>
+          <% if @event.new_record? %>
+            <span class="remove-session hidden pull-right">(<a href="#">Remove Session</a>)</span>
+          <% end %>
           <div><%= event_sessions_form.text_field :name %></div>
+
           <%= event_sessions_form.text_field :session_date, class: 'datepicker' %>
           <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
           -
           <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
         <% end %>
-        <%= f.link_to_add :event_sessions, data: { confirm: 'Are you sure you want to add a session?' } do %>
+        <%= f.link_to_add :event_sessions do %>
           <span>Add a session</span>
         <% end %>
       </div>

@@ -23,4 +23,24 @@ describe "New Event" do
   it "should have 'Volunteer Details'" do
     page.should have_field("Volunteer Details")
   end
+
+  context 'after clicking "Add a session"', js: true do
+    before { find('span', text: 'Add a session').click }
+
+    it 'should have two event session options' do
+      page.should have_selector('.event-sessions > .fields', count: 2)
+    end
+
+    context 'after clicking "Remove Session"' do
+      before { find(:link, 'Remove Session', visible: true).click }
+
+      it 'can remove that session' do
+        page.should have_selector('.event-sessions > .fields', count: 1)
+      end
+
+      it 'cant remove the first session' do
+        page.should_not have_selector(:link, 'Remove Session', visible: true)
+      end
+    end
+  end
 end
