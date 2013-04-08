@@ -14,6 +14,7 @@
       <% @event.event_sessions.each do |event_session| %>
         <div class='event-session'>
           <h2 class='name'><%= event_session.name %></h2>
+
           <div class='date'><%= formatted_session_date(event_session) %></div>
           <div class='time'>Start time: <%= formatted_session_time(event_session, :starts_at) %></div>
           <div class='time'>End time: <%= formatted_session_time(event_session, :ends_at) %></div>
@@ -55,11 +56,11 @@
       <h3>Organized By:</h3>
       <ul>
         <% if organizer_list.any? %>
-            <% organizer_list.each do |organizer| %>
-                <li><%= organizer.full_name %></li>
-            <% end %>
+          <% organizer_list.each do |organizer| %>
+            <li><%= organizer.full_name %></li>
+          <% end %>
         <% else %>
-            <li>No Organizer Assigned</li>
+          <li>No Organizer Assigned</li>
         <% end %>
       </ul>
       <% if user_signed_in? && @event.public_email.present? %>
@@ -68,19 +69,33 @@
         </p>
       <% end %>
     </div>
-    <h3><%= pluralize(@event.volunteer_rsvps.count, "volunteer")%>!</h3>
+    <h3><%= pluralize(@event.volunteer_rsvps.count, "volunteer") %>!</h3>
     <% if @event.volunteer_rsvps.none? %>
-        No volunteers are currently signed up for this event.
+      No volunteers are currently signed up for this event.
     <% else %>
-        <table class="table">
-          <tbody>
-          <% @event.volunteer_rsvps.each do |rsvp| %>
-              <tr>
-                <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
-              </tr>
-          <% end %>
-          </tbody>
-        </table>
+      <table class="table">
+        <tbody>
+        <% @event.volunteer_rsvps.each do |rsvp| %>
+          <tr>
+            <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+    <h3><%= pluralize(@event.student_rsvps.count, "student") %>!</h3>
+    <% if @event.student_rsvps.none? %>
+      No students are currently signed up for this event.
+    <% else %>
+      <table class="table">
+        <tbody>
+        <% @event.student_rsvps.each do |rsvp| %>
+          <tr>
+            <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
     <% end %>
   </div>
 </div>

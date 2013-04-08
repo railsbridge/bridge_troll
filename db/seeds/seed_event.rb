@@ -26,6 +26,19 @@ module Seeder
     end
   end
 
+  def self.create_student_rsvp options
+    rsvp = Rsvp.create!(
+      event: options[:event],
+      user: options[:user],
+      role: Role::STUDENT,
+      operating_system: OperatingSystem::OSX_LION,
+      class_level: options[:class_level]
+    )
+    options[:event].event_sessions.each do |session|
+      RsvpSession.create!(rsvp: rsvp, event_session: session)
+    end
+  end
+
   def self.destroy_event event
     event.rsvps.each do |rsvp|
       if rsvp.user.rsvps.length == 1
@@ -105,6 +118,11 @@ DETAILS
 
     unassigned2 = create_user('unassigned2@example.com')
     create_volunteer_rsvp(event: event, user: unassigned2, assignment: VolunteerAssignment::UNASSIGNED)
+
+    (1..5).each do |index|
+      student = create_user("student#{index}@example.com")
+      create_student_rsvp(event: event, user: student, class_level: index)
+    end
 
     event
   end

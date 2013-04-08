@@ -45,6 +45,11 @@ FactoryGirl.define do
     teaching_experience "Quite experienced"
     subject_experience "Use professionally"
     childcare_info "Bobby: 8\nSusie: 4"
+
+    factory :student_rsvp do
+      operating_system OperatingSystem::OSX_LION
+      class_level 2
+    end
   end
 
   factory :rsvp_session do

@@ -39,6 +39,42 @@ describe EventsController do
         get :show, id: @event.id
         response.body.should include('Carbon Nine')
       end
+
+      context "when no volunteers or students are attending" do
+        it "shows a message about the lack of volunteers" do
+          get :show, id: @event.id
+          response.body.should include('No volunteers')
+        end
+
+        it "shows a message about the lack of students" do
+          get :show, id: @event.id
+          response.body.should include('No students')
+        end
+      end
+
+      context "when volunteers are attending" do
+        before do
+          volunteer = create(:user, first_name: 'Ron', last_name: 'Swanson')
+          create(:rsvp, event: @event, user: volunteer, role: Role::VOLUNTEER)
+        end
+
+        it "shows the volunteer somewhere on the page" do
+          get :show, id: @event.id
+          response.body.should include('Ron Swanson')
+        end
+      end
+
+      context "when students are attending" do
+        before do
+          student = create(:user, first_name: 'Jane', last_name: 'Fontaine')
+          create(:student_rsvp, event: @event, user: student, role: Role::STUDENT)
+        end
+
+        it "shows the student somewhere on the page" do
+          get :show, id: @event.id
+          response.body.should include('Jane Fontaine')
+        end
+      end
     end
   end
 
