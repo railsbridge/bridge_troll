@@ -11,6 +11,19 @@ describe EventSession do
 
   it { should validate_uniqueness_of(:name).scoped_to(:event_id) }
 
+  describe "#starts_at, #ends_at" do
+    it "renders in the event's time zone when there is one" do
+      event = create(:event, time_zone: 'Alaska')
+      session = event.event_sessions.first
+      session.update_attributes(
+        starts_at: '2012-02-03 11:41',
+        ends_at: '2012-02-04 02:44'
+      )
+      session.starts_at.time_zone.name.should == 'Alaska'
+      session.ends_at.time_zone.name.should == 'Alaska'
+    end
+  end
+
   describe "#date_in_time_zone" do
     before do
       @event = create(:event)
