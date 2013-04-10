@@ -217,6 +217,9 @@ GEM
       rails (>= 3.2)
     shoulda-matchers (2.0.0)
       activesupport (>= 3.0.0)
+    simple_form (2.1.0)
+      actionpack (~> 3.0)
+      activemodel (~> 3.0)
     slop (3.4.3)
     sprockets (2.2.2)
       hike (~> 1.2)
@@ -283,6 +286,7 @@ DEPENDENCIES
   select2-rails
   sextant
   shoulda-matchers
+  simple_form
   sqlite3
   terminal-notifier-guard
   thin

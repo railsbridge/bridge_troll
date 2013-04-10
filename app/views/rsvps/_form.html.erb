@@ -1,4 +1,4 @@
-<%= form_for([@event, @rsvp]) do |f| %>
+<%= simple_form_for([@event, @rsvp], html: {:class => 'form-vertical'}) do |f| %>
   <% if @rsvp.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@rsvp.errors.count, "error") %> prohibited this rsvp from being saved:</h2>
@@ -14,18 +14,9 @@
   <% if @rsvp.role == Role::STUDENT %>
     <label>Operating System</label>
     <a href="http://docs.railsbridge.org/installfest/macintosh">(Not sure what OSX version you have?)</a>
-    <div class="field">
-      <% OperatingSystem.all.each do |os| %>
-        <label>
-          <%= f.radio_button :operating_system_id, os.id %> <%= os.title %>
-        </label>
-      <% end %>
-    </div>
+    <%= f.association :operating_system, collection: OperatingSystem.all, label: false, label_method: :title, as: :radio_buttons %>
 
-    <div class="field">
-      <%= f.label :class_level, "What is your class level?" %>
-      <%= f.select :class_level, (1..5), class: 'class_level' %>
-    </div>
+    <%= f.input :class_level, collection: (1..5), input_html: {class: 'class_level'}, label: "What is your class level?", include_blank: false %>
   <% end %>
 
   <% if @rsvp.role == Role::VOLUNTEER %>
