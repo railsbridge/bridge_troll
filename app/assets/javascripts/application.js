@@ -7,7 +7,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.datepicker
-
+//= require twitter/bootstrap/modal
+//= require twitter/bootstrap/transition
 //= require select2
 //= require modernizr
 //= require_tree .
