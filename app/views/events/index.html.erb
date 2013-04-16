@@ -32,22 +32,26 @@
     </table>
 
     <h1>Past events</h1>
-    <table class="table table-striped table-bordered table-condensed">
-      <tr>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Location</th>
-      </tr>
-
-      <% if @past_events.length == 0 %>
+    <table class="<%= if @past_events.length > 0 then 'datatable-sorted' else '' end %> table table-striped table-bordered table-condensed">
+      <thead>
         <tr>
-          <td colspan="5">There are no past events.</td>
+          <th>Title</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Location</th>
         </tr>
-      <% end %>
-      <% @past_events.each do |event| %>
-        <tr><%= render 'event', event: event %></tr>
-      <% end %>
+      </thead>
+
+      <tbody>
+        <% if @past_events.length == 0 %>
+          <tr>
+            <td colspan="5">There are no past events.</td>
+          </tr>
+        <% end %>
+        <% @past_events.each do |event| %>
+          <tr><%= render 'event', event: event %></tr>
+        <% end %>
+      </tbody>
     </table>
 
     <% if user_signed_in? %>

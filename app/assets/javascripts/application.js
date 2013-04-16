@@ -17,10 +17,16 @@
 //= require dataTables/jquery.dataTables.bootstrap
 
 $(document).ready(function () {
-  $('.datatable').dataTable({
+  $.extend( $.fn.dataTable.defaults, {
     "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
     "sPaginationType": "bootstrap",
     "iDisplayLength": 50
+  } );
+
+  $('.datatable').dataTable();
+
+  $('.datatable-sorted').dataTable({
+    "aaSorting": [[ 1, "desc" ]]
   });
 
   if ($(window).height() < $('html').height()) {
