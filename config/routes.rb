@@ -3,10 +3,10 @@ Bridgetroll::Application.routes.draw do
 
   devise_for :users
 
-  resources :users do
+  resources :users, only: [:index] do
     resource :profile, :only => [:edit, :update, :show]
   end
-  resources :meetup_users, :only => [:index, :show]
+  resources :meetup_users, :only => [:show]
 
   resources :locations
 

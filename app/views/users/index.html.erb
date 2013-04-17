@@ -1,0 +1,26 @@
+<h1>Users</h1>
+
+<table class="datatable table table-striped table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Meetup Profile</th>
+      <th># Attended as Student</th>
+      <th># Attended as Volunteer</th>
+      <th># Organized</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= link_to user.full_name, user.profile_path %></td>
+      <td><% if user.meetup_id %><%= link_to user.meetup_id, "http://www.sfruby.info/members/#{user.meetup_id}/" %><% end %></td>
+      <% attendance = @attendances[user.class.name.to_sym][user.id] %>
+      <td><%= attendance[Role::STUDENT.id] %></td>
+      <td><%= attendance[Role::VOLUNTEER.id] %></td>
+      <td><%= attendance[Role::ORGANIZER.id] %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
