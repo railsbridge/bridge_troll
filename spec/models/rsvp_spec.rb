@@ -6,7 +6,19 @@ describe Rsvp do
   it { should validate_uniqueness_of(:user_id).scoped_to(:event_id) }
   it { should validate_presence_of(:user)}
   it { should validate_presence_of(:event)}
-  
+
+  describe 'needs_childcare scope' do
+    before do
+      @needs_childcare = create :rsvp
+      @no_childcare = create :rsvp, childcare_info: nil
+    end
+
+    it 'includes only rsvps that requested childcare' do
+      expect(Rsvp.needs_childcare).to include(@needs_childcare)
+      expect(Rsvp.needs_childcare).to_not include(@no_childcare)
+    end
+  end
+
   context 'for volunteers' do
     subject { build(:rsvp) }
 
