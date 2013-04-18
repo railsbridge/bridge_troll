@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130407235134) do
+ActiveRecord::Schema.define(:version => 20130417042219) do
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(:version => 20130407235134) do
     t.integer  "operating_system_id"
     t.text     "job_details"
     t.integer  "class_level"
+    t.integer  "checkins_count",                         :default => 0
   end
 
   add_index "rsvps", ["user_id", "event_id", "user_type"], :name => "index_rsvps_on_user_id_and_event_id_and_event_type", :unique => true

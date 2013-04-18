@@ -6,7 +6,19 @@ describe Rsvp do
   it { should validate_uniqueness_of(:user_id).scoped_to(:event_id) }
   it { should validate_presence_of(:user)}
   it { should validate_presence_of(:event)}
-  
+
+  describe 'needs_childcare scope' do
+    before do
+      @needs_childcare = create :rsvp
+      @no_childcare = create :rsvp, childcare_info: nil
+    end
+
+    it 'includes only rsvps that requested childcare' do
+      expect(Rsvp.needs_childcare).to include(@needs_childcare)
+      expect(Rsvp.needs_childcare).to_not include(@no_childcare)
+    end
+  end
+
   context 'for volunteers' do
     subject { build(:rsvp) }
 
@@ -23,6 +35,49 @@ describe Rsvp do
       rsvp2 = create(:rsvp, user: @meetup_user, event: @event, role: Role::VOLUNTEER)
       rsvp1.should be_valid
       rsvp2.should be_valid
+    end
+  end
+
+  describe '#no_show' do
+    it 'is always false for a historical rsvp' do
+      historical_event = create(:event, meetup_volunteer_event_id: 1234, meetup_student_event_id: 4321)
+
+      rsvp = create(:rsvp, user: create(:meetup_user), event: historical_event)
+      rsvp.no_show.should be_false
+
+      rsvp = create(:rsvp, user: create(:user), event: historical_event)
+      rsvp.no_show.should be_false
+    end
+
+    context 'when the event has passed' do
+      let(:event) { create(:event) }
+      before do
+        event.event_sessions.first.update_attributes(starts_at: 1.year.ago, ends_at: 6.months.ago)
+      end
+
+      it 'is false if the user got checked in to any sessions' do
+        rsvp = create(:rsvp, user: create(:user), event: event)
+        rsvp.rsvp_sessions.create(checked_in: true)
+        rsvp.save!
+        rsvp.reload.no_show.should be_false
+      end
+
+      it 'is true if the user was never checked in' do
+        rsvp = create(:rsvp, user: create(:user), event: event)
+        rsvp.rsvp_sessions.create(checked_in: false)
+        rsvp.save!
+        rsvp.reload.no_show.should be_true
+      end
+    end
+
+    context 'when the event has not passed' do
+      it 'is always false' do
+        event = create(:event)
+        event.event_sessions.first.update_attributes(starts_at: 1.year.from_now, ends_at: 2.years.from_now)
+
+        rsvp = create(:rsvp, user: create(:user), event: event)
+        rsvp.no_show.should be_false
+      end
     end
   end
 

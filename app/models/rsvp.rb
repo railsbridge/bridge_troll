@@ -2,6 +2,7 @@ class Rsvp < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
 
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
+  belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id
   belongs_to :user, polymorphic: true
   belongs_to :event
 
@@ -14,6 +15,8 @@ class Rsvp < ActiveRecord::Base
   validates_uniqueness_of :user_id, scope: [:event_id, :user_type]
   validates_presence_of :user, :event, :role
   validates_presence_of :childcare_info, if: lambda { |rsvp| rsvp.needs_childcare? }
+
+  scope :needs_childcare, where("childcare_info <> ''")
 
   MAX_EXPERIENCE_LENGTH = 250
   with_options(if: Proc.new {|rsvp| rsvp.role == Role::VOLUNTEER && !rsvp.historical? }) do |for_volunteers|
@@ -30,6 +33,13 @@ class Rsvp < ActiveRecord::Base
   belongs_to_active_hash :role
   belongs_to_active_hash :volunteer_assignment
   belongs_to_active_hash :operating_system
+
+  def no_show
+    return false if event.historical?
+    return false if event.upcoming?
+
+    checkins_count == 0
+  end
 
   def volunteer_preference_id
     return unless role == Role::VOLUNTEER
