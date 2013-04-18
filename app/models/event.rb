@@ -25,6 +25,10 @@ class Event < ActiveRecord::Base
   validates_presence_of :time_zone
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
+  def rsvps_with_childcare
+    student_rsvps.needs_childcare
+  end
+
   def historical?
     meetup_volunteer_event_id || meetup_student_event_id
   end

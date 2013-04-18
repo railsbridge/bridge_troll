@@ -221,7 +221,7 @@ describe EventsController do
   end
 
   describe "GET organize" do
-    def make_request(params = {})
+    def make_request
       get :organize, id: @event.id
     end
 
@@ -237,6 +237,11 @@ describe EventsController do
       it "should be successful" do
         make_request
         response.should be_success
+      end
+
+      it 'assigns the childcare requests' do
+        make_request
+        expect(assigns(:childcare_requests)).to eq @event.rsvps_with_childcare
       end
 
       describe "checked in user counts" do

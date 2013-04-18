@@ -33,6 +33,16 @@ describe Event do
     event.should have(0).errors
   end
 
+  describe '#rsvps_with_childcare' do
+    before do
+      @student_needs_childcare = create(:student_rsvp, :user => @user, :event => @event)
+    end
+
+    it 'returns the student RSVPs that have childcare requested' do
+      expect(@event.rsvps_with_childcare).to include @student_needs_childcare
+    end
+  end
+
   describe "#volunteer?" do
     it "is true when a user is volunteering at an event" do
       create(:rsvp, :user => @user, :event => @event)
