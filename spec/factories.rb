@@ -47,6 +47,7 @@ FactoryGirl.define do
     childcare_info "Bobby: 8\nSusie: 4"
 
     factory :student_rsvp do
+      role Role.find_by_title 'Student'
       operating_system OperatingSystem::OSX_LION
       class_level 2
     end

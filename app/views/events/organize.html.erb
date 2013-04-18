@@ -57,6 +57,32 @@
   </tbody>
 </table>
 
+<h2>Childcare Requests</h2>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Student Name</th>
+    <th>Email</th>
+    <th>Children Info</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @childcare_requests.each do |request| %>
+      <tr>
+        <td>
+          <%= request.user.full_name %>
+        </td>
+        <td>
+          <%= request.user.email %>
+        </td>
+        <td>
+          <%= request.childcare_info %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
 <%= render 'shared/actions', links: [
   ['Event Index', events_path],
   ['Edit Event', edit_event_path(@event)],

@@ -67,6 +67,7 @@ class EventsController < ApplicationController
     @session_rsvp_counts = {}
     @session_checkin_counts = {}
 
+    @childcare_requests = @event.rsvps_with_childcare
     @event.event_sessions.each do |session|
       @session_rsvp_counts[session.id] = session.rsvp_sessions.count
       @session_checkin_counts[session.id] = session.rsvp_sessions.where(checked_in: true).count
