@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>Hey <%= @rsvp.user.first_name %>, 
+      we're happy to hear you're coming to <%= @event.title %>.
+    </h1>
+
+    <% if @event.location %>
+      <h2><%= @event.title %> will be held at:</h2>
+      <%= pretty_print_address(@event.location) %>
+    <% end %>
+
+    <% if @rsvp.rsvp_sessions.present? %>
+      <h2>
+        You've signed up for the following 
+        <%= @rsvp.rsvp_sessions.count > 1 ? 'sessions' : 'session'%>
+      </h2>
+      <% @rsvp.rsvp_sessions.each do |s| %>
+        <p><%= pretty_print_session(s.event_session) %></p>
+      <% end %>
+
+      <p>
+        Visit the <%= link_to 'event page', event_url(@event) %> for more info.
+      </p>
+    <% end %>
+
+    <p>- The Troll</p>
+  </body>
+</html>
