@@ -2,6 +2,7 @@ class Rsvp < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
 
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
+  belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id
   belongs_to :user, polymorphic: true
   belongs_to :event
 
@@ -30,6 +31,13 @@ class Rsvp < ActiveRecord::Base
   belongs_to_active_hash :role
   belongs_to_active_hash :volunteer_assignment
   belongs_to_active_hash :operating_system
+
+  def no_show
+    return false if event.historical?
+    return false if event.upcoming?
+
+    checkins_count == 0
+  end
 
   def volunteer_preference_id
     return unless role == Role::VOLUNTEER

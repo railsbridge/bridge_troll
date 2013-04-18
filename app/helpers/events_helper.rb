@@ -15,6 +15,10 @@ module EventsHelper
     @skills.join(', ')
   end
 
+  def rsvp_class(rsvp)
+    rsvp.no_show ? 'no-show' : ''
+  end
+
   def organizer_list
     @event.organizers_with_legacy.length == 0 ?  [] : @event.organizers_with_legacy
   end

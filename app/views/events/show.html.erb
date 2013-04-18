@@ -75,9 +75,9 @@
     <% else %>
       <table class="table">
         <tbody>
-        <% @event.volunteer_rsvps.each do |rsvp| %>
+        <% @event.ordered_volunteer_rsvps.each do |rsvp| %>
           <tr>
-            <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
+            <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path, class: rsvp_class(rsvp) %></td>
           </tr>
         <% end %>
         </tbody>

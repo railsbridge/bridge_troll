@@ -29,12 +29,29 @@ class Event < ActiveRecord::Base
     meetup_volunteer_event_id || meetup_student_event_id
   end
 
+  def ordered_volunteer_rsvps
+    bridgetroll_rsvps = volunteer_rsvps.where(user_type: 'User').includes(:bridgetroll_user).order('checkins_count > 0 DESC, lower(users.first_name) ASC, lower(users.last_name) ASC')
+    if historical?
+      bridgetroll_rsvps + volunteer_rsvps.where(user_type: 'MeetupUser').includes(:meetup_user).order('lower(meetup_users.full_name) ASC')
+    else
+      bridgetroll_rsvps
+    end
+  end
+
   def self.upcoming
     includes(:event_sessions).where('event_sessions.ends_at > ?', Time.now.utc)
   end
 
   def self.past
     includes(:event_sessions).where('event_sessions.ends_at < ?', Time.now.utc)
+  end
+
+  def upcoming?
+    ends_at > Time.now
+  end
+
+  def ends_at
+    event_sessions.all.map(&:ends_at).max
   end
 
   def volunteers_with_legacy

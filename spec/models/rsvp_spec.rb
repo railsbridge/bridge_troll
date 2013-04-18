@@ -26,6 +26,49 @@ describe Rsvp do
     end
   end
 
+  describe '#no_show' do
+    it 'is always false for a historical rsvp' do
+      historical_event = create(:event, meetup_volunteer_event_id: 1234, meetup_student_event_id: 4321)
+
+      rsvp = create(:rsvp, user: create(:meetup_user), event: historical_event)
+      rsvp.no_show.should be_false
+
+      rsvp = create(:rsvp, user: create(:user), event: historical_event)
+      rsvp.no_show.should be_false
+    end
+
+    context 'when the event has passed' do
+      let(:event) { create(:event) }
+      before do
+        event.event_sessions.first.update_attributes(starts_at: 1.year.ago, ends_at: 6.months.ago)
+      end
+
+      it 'is false if the user got checked in to any sessions' do
+        rsvp = create(:rsvp, user: create(:user), event: event)
+        rsvp.rsvp_sessions.create(checked_in: true)
+        rsvp.save!
+        rsvp.reload.no_show.should be_false
+      end
+
+      it 'is true if the user was never checked in' do
+        rsvp = create(:rsvp, user: create(:user), event: event)
+        rsvp.rsvp_sessions.create(checked_in: false)
+        rsvp.save!
+        rsvp.reload.no_show.should be_true
+      end
+    end
+
+    context 'when the event has not passed' do
+      it 'is always false' do
+        event = create(:event)
+        event.event_sessions.first.update_attributes(starts_at: 1.year.from_now, ends_at: 2.years.from_now)
+
+        rsvp = create(:rsvp, user: create(:user), event: event)
+        rsvp.no_show.should be_false
+      end
+    end
+  end
+
   describe '#set_attending_sessions' do
     context "when there is only one event session" do
       before do
