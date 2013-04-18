@@ -101,5 +101,10 @@ describe "the individual event page" do
       visit event_path(@event)
       page.should have_content "New totally awesome event"
     end
+
+    it "doesn't let user remove sessions" do
+      visit event_path(@event)
+      page.should_not have_selector('.remove-session')
+    end
   end
 end

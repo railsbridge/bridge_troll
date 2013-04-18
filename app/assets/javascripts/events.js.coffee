@@ -19,7 +19,17 @@ setUpDatePicker = ($el) ->
   $el.on('change', dateChanged)
   $el.datepicker()
 
+setupRemoveSessions = ->
+  if $('.remove-session').length
+    $(document).on 'click', '.remove-session > a', (e)->
+      $(this).closest('.fields').remove();
+      false
+    $(document).on 'nested:fieldAdded', (event) ->
+      event.field.find('.remove-session').removeClass('hidden')
+
 jQuery ->
+  setupRemoveSessions()
+
   $.datepicker.setDefaults
     dateFormat: 'yy-mm-dd'
   $('#event_location_id').select2(width: 'element')
