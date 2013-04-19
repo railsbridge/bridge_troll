@@ -56,4 +56,4 @@ as MEETUP_API_KEY=your_api_key_goes_here
 MESSAGE
 fi
 
-bundle exec rake db:migrate || exit $?
+bundle exec rake db:migrate db:test:prepare || exit $?
