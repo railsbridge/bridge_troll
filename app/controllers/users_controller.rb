@@ -2,36 +2,20 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    empty_attendance_hash = Role.all.inject({}) do |hsh, role|
-      hsh[role.id] = 0
-      hsh
-    end
+    user_attendances = Rsvp.attendances_for('User')
+    meetup_user_attendances = Rsvp.attendances_for('MeetupUser')
 
-    meetup_user_attendances = {}
-    grouped_rsvps = Rsvp.where(user_type: 'MeetupUser').select('user_id, role_id, count(*) count').group('role_id, user_id')
-    grouped_rsvps.all.each do |rsvp_group|
-      meetup_user_attendances[rsvp_group.user_id] ||= empty_attendance_hash.clone
-      meetup_user_attendances[rsvp_group.user_id][rsvp_group.role_id] = rsvp_group.count
-    end
+    @attendances = { User: user_attendances, MeetupUser: meetup_user_attendances }
+    @users = meetup_users_for(meetup_user_attendances) + users_for(user_attendances)
+  end
 
-    meetup_attended = meetup_user_attendances.keys
-    meetup_users = MeetupUser.all.select { |user| meetup_attended.include?(user.id) }
+  private
 
-    user_attendances = {}
-    grouped_rsvps = Rsvp.where(user_type: 'User').select('user_id, role_id, count(*) count').group('role_id, user_id')
-    grouped_rsvps.all.each do |rsvp_group|
-      user_attendances[rsvp_group.user_id] ||= empty_attendance_hash.clone
-      user_attendances[rsvp_group.user_id][rsvp_group.role_id] = rsvp_group.count
-    end
+  def meetup_users_for(attendances)
+    MeetupUser.all.select { |user| attendances.keys.include?(user.id) }
+  end
 
-    attended = user_attendances.keys
-    users = User.all.select { |user| attended.include?(user.id) }
-
-    @attendances = {
-      User: user_attendances,
-      MeetupUser: meetup_user_attendances
-    }
-
-    @users = meetup_users + users
+  def users_for(attendances)
+    User.all.select { |user| attendances.keys.include?(user.id) }
   end
 end
