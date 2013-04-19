@@ -1,4 +1,8 @@
 class AddCheckinsCountToRsvps < ActiveRecord::Migration
+  class Rsvp < ActiveRecord::Base
+    has_many :rsvp_sessions, dependent: :destroy
+  end
+
   def up
     add_column :rsvps, :checkins_count, :integer, default: 0
 

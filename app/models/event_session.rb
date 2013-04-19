@@ -7,6 +7,18 @@ class EventSession < ActiveRecord::Base
   has_many :rsvp_sessions, dependent: :destroy
   has_many :rsvps, :through => :rsvp_sessions
 
+  after_save :update_event_times
+  after_destroy :update_event_times
+
+  def update_event_times
+    return unless event
+
+    event.update_attributes({
+                              starts_at: event.event_sessions.minimum("event_sessions.starts_at"),
+                              ends_at: event.event_sessions.maximum("event_sessions.ends_at")
+                            })
+  end
+
   def starts_at
     event ? date_in_time_zone(:starts_at) : read_attribute(:starts_at)
   end

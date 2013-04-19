@@ -54,10 +54,6 @@ class Event < ActiveRecord::Base
     ends_at > Time.now
   end
 
-  def ends_at
-    event_sessions.all.map(&:ends_at).max
-  end
-
   def volunteers_with_legacy
     volunteers + legacy_volunteers
   end

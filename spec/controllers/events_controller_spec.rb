@@ -247,8 +247,7 @@ describe EventsController do
       describe "checked in user counts" do
         before do
           @session1 = @event.event_sessions.first
-          @event.event_sessions << create(:event_session)
-          @session2 = @event.event_sessions.last
+          @session2 = create(:event_session, event: @event)
 
           attendee1 = create(:user)
           rsvp1 = create(:rsvp, event: @event, user: attendee1, role: Role::VOLUNTEER)

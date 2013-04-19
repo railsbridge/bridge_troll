@@ -11,6 +11,27 @@ describe EventSession do
 
   it { should validate_uniqueness_of(:name).scoped_to(:event_id) }
 
+  describe "#update_event_times" do
+    it "denormalizes starts_at and ends_at onto the event" do
+      event = create(:event)
+      session1 = event.event_sessions.first
+
+      event.reload
+      event.starts_at.to_i.should == session1.starts_at.to_i
+      event.ends_at.to_i.should == session1.ends_at.to_i
+
+      session2 = create(:event_session, event: event, starts_at: 2.days.since(session1.starts_at), ends_at: 3.days.since(session1.ends_at))
+
+      event.reload
+      event.starts_at.to_i.should == session1.starts_at.to_i
+      event.ends_at.to_i.should == session2.ends_at.to_i
+
+      session1.destroy
+      event.starts_at.to_i.should == session2.starts_at.to_i
+      event.ends_at.to_i.should == session2.ends_at.to_i
+    end
+  end
+
   describe "#starts_at, #ends_at" do
     it "renders in the event's time zone when there is one" do
       event = create(:event, time_zone: 'Alaska')

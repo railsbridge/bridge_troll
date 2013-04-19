@@ -11,14 +11,15 @@ describe "the event listing page" do
 
   it "listing should show formatted dates and times" do
     next_year = Time.now.year + 1
-    event = build(:event_with_no_sessions,
-                  location_id: nil,
-                  title: 'mytitle2',
-                  time_zone: 'Pacific Time (US & Canada)')
+    event = create(:event,
+                   location_id: nil,
+                   title: 'mytitle2',
+                   time_zone: 'Pacific Time (US & Canada)')
     starts_at = Time.utc(next_year, 01, 31, 11, 20)
-    event.event_sessions << create(:event_session,
-                                   starts_at: starts_at,
-                                   ends_at: Time.utc(next_year, 01, 31, 11, 55))
+    event.event_sessions.first.update_attributes({
+                                                   starts_at: starts_at,
+                                                   ends_at: Time.utc(next_year, 01, 31, 11, 55)
+                                                 })
 
     event.save!
 
