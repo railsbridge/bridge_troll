@@ -33,7 +33,7 @@ describe CheckinsController do
 
     it "succeeds" do
       post :create, event_id: @event.id, event_session_id: @session.id, rsvp_session: { id: @rsvp_session.id }
-      response.should be_success
+      response.should redirect_to event_event_session_checkins_path
     end
 
     it "checks in the volunteer" do
