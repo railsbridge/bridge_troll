@@ -65,6 +65,8 @@ describe "the organizer dashboard" do
       page.should have_content('Checked In!')
     end
 
+    page.should have_content("Total check-ins for this session: 2")
+
     rsvp_session1.reload.should be_checked_in
     rsvp_session2.reload.should be_checked_in
 

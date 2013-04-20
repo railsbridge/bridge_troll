@@ -15,14 +15,14 @@ class CheckinsController < ApplicationController
     @rsvp_session.checked_in = true
     @rsvp_session.save!
 
-    head :ok
+    redirect_to event_event_session_checkins_path
   end
 
   def destroy
     @rsvp_session.checked_in = false
     @rsvp_session.save!
 
-    head :ok
+    redirect_to event_event_session_checkins_path
   end
 
   private
