@@ -1,7 +1,7 @@
 <%= content_for(:header_text, @event.title) %>
 
 <h2>Check in volunteers to <%= @session.name %></h2>
-<h3>Total check-ins for this session:  <%= @rsvp_sessions.where(:checked_in=>true).length %></h3> 
+<h3>Total check-ins for this session: <span id='checked_in_count'><%= @rsvp_sessions.where(:checked_in=>true).length %></span></h3>
 <table class="table table-striped table-bordered table-condensed checkins">
   <tr>
     <th>Name</th>
@@ -24,7 +24,7 @@
                        class: "toggle_rsvp_session #{rsvp_session.checked_in ? '' : 'hidden'}",
                        data: {shows: create_id}
                      },
-                     remote: false) do |f| %>
+                     remote: true) do |f| %>
           <%= f.hidden_field :id %>
           Checked
           In! <%= f.submit "Un-Check In", data: {confirm: "Are you sure you want to un-check in #{rsvp_session.user_full_name}?"} %>
@@ -37,7 +37,7 @@
                        class: "toggle_rsvp_session #{rsvp_session.checked_in ? 'hidden' : ''}",
                        data: {shows: destroy_id}
                      },
-                     remote: false) do |f| %>
+                     remote: true) do |f| %>
           <%= f.hidden_field :id %>
           <%= f.submit "Check In" %>
         <% end %>

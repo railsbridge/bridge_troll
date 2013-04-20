@@ -31,9 +31,9 @@ describe CheckinsController do
       @rsvp_session = create(:rsvp_session, rsvp: @rsvp, event_session: @session)
     end
 
-    it "succeeds" do
+    it "returns the total amount of checked in attendees" do
       post :create, event_id: @event.id, event_session_id: @session.id, rsvp_session: { id: @rsvp_session.id }
-      response.should redirect_to event_event_session_checkins_path
+      JSON.parse(response.body)['checked_in_count'].should == 1
     end
 
     it "checks in the volunteer" do
@@ -48,6 +48,11 @@ describe CheckinsController do
       @vol = create(:user)
       @rsvp = create(:rsvp, user: @vol, event: @event)
       @rsvp_session = create(:rsvp_session, rsvp: @rsvp, event_session: @session, checked_in: true)
+    end
+
+    it "returns the total amount of checked in attendees" do
+      delete :destroy, event_id: @event.id, event_session_id: @session.id, id: @rsvp_session.id, rsvp_session: { id: @rsvp_session.id }
+      JSON.parse(response.body)["checked_in_count"].should == 0
     end
 
     it "removes checked-in status for the volunteer" do
