@@ -20,6 +20,7 @@ class RsvpsController < ApplicationController
 
     if @rsvp.save
       set_rsvp_sessions
+      RsvpMailer.confirm_volunteer(@rsvp).deliver
       redirect_to @event, notice: 'Thanks for signing up!'
     else
       render :new
