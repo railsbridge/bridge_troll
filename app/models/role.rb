@@ -6,4 +6,11 @@ class Role < ActiveHash::Base
     {id: 3, name: 'ORGANIZER', title: "Organizer"}
   ]
   enum_accessor :name
+
+  def self.empty_attendance
+    Role.all.inject({}) do |hsh, role|
+      hsh[role.id] = 0
+      hsh
+    end
+  end
 end
