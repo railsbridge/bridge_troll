@@ -72,4 +72,12 @@ module EventsHelper
         :last_date => l(last_date, format: :date_as_m_d_y)
     end
   end
+
+  def pretty_print_session(session)
+    p = ''
+
+    p << session.name
+    p << " on #{formatted_session_date(session)}"
+    p << " from #{formatted_session_timerange(session)}"
+  end
 end

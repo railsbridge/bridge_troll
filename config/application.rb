@@ -55,6 +55,8 @@ module Bridgetroll
     #   4. If you are deploying Rails 3.1 on Heroku, you may want to force your
     #   application to not access the DB or load models when precompiling your assets.
     config.assets.initialize_on_precompile = false
-  
+
+    # set default from address across
+    ActionMailer::Base.default :from => 'troll@bridgetroll.org'
   end
 end
