@@ -34,12 +34,8 @@ describe Event do
   end
 
   describe '#rsvps_with_childcare' do
-    before do
-      @student_needs_childcare = create(:student_rsvp, :user => @user, :event => @event)
-    end
-
-    it 'returns the student RSVPs that have childcare requested' do
-      expect(@event.rsvps_with_childcare).to include @student_needs_childcare
+    it 'includes all rsvps with childcare requested' do
+      @event.rsvps_with_childcare.should == @event.student_rsvps.needs_childcare + @event.volunteer_rsvps.needs_childcare
     end
   end
 

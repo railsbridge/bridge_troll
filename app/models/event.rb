@@ -26,7 +26,7 @@ class Event < ActiveRecord::Base
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
   def rsvps_with_childcare
-    student_rsvps.needs_childcare
+    rsvps.needs_childcare
   end
 
   def historical?
