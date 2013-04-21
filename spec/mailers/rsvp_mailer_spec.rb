@@ -3,7 +3,7 @@ require "spec_helper"
 describe RsvpMailer do
   describe "volunteer confirmation" do
     let(:rsvp) { FactoryGirl.create(:rsvp) }
-    let(:mail) { RsvpMailer.confirm_volunteer(rsvp) }
+    let(:mail) { RsvpMailer.confirm(rsvp) }
 
     it "renders the headers" do
       mail.subject.should eq(
