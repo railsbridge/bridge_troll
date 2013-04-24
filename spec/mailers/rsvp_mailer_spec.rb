@@ -3,7 +3,7 @@ require "spec_helper"
 describe RsvpMailer do
   describe "rsvp confirmation" do
     describe "if a volunteer rsvps" do
-      let(:volunteer_rsvp) { FactoryGirl.create(:rsvp, role_id: 2) }
+      let(:volunteer_rsvp) { create(:volunteer_rsvp) }
       let(:mail) { RsvpMailer.send_confirmation(volunteer_rsvp) }
 
       it "renders the headers" do
@@ -23,7 +23,7 @@ describe RsvpMailer do
     end
 
     describe "if a student rsvps" do
-      let(:student_rsvp) { FactoryGirl.create(:student_rsvp) }
+      let(:student_rsvp) { create(:student_rsvp) }
       let(:mail) { RsvpMailer.send_confirmation(student_rsvp) }
       it "doesn't get sent" do
         mail.deliver

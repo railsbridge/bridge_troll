@@ -3,7 +3,7 @@ class RsvpMailer < ActionMailer::Base
   add_template_helper(LocationsHelper)
 
   def send_confirmation(rsvp)
-    if rsvp.role_id == 2
+    if rsvp.role == Role::VOLUNTEER
       confirm_volunteer(rsvp)
     end
   end
