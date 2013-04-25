@@ -18,6 +18,7 @@ FactoryGirl.define do
     time_zone "Hawaii"
 
     factory :event do
+      location
       before(:create) do |event, evaluator|
         event.event_sessions << build(:event_session, event: event)
       end
