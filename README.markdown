@@ -52,5 +52,17 @@ Then you can run tests by doing
 script/test
 ```
 
+## Email
+
+To receive/develop emails locally, install the MailCatcher gem (http://mailcatcher.me/). The process is as follows:
+
+* `gem install mailcatcher` -- installs MailCatcher in your current gemset
+* `mailcatcher` -- start the MailCatcher server if it isn't running already
+* Visit http://localhost:1080/ in your web browser. This is your MailCatcher mailbox, where mails will appear.
+* Do something in your local Bridge Troll app that would send a mail, like signing up for a new account.
+* You should see the mail that Rails sent in the MailCatcher window. Woo!
+
+Note that MailCatcher just makes it easy to see the HTML output of your mails: it doesn't guarantee that the way the mail looks like in MailCatcher is how it will look in Gmail or Outlook. Beware!
+
 ## Contributors
 Literally one billion thanks to our [super awesome contributors](https://github.com/railsbridge/bridge_troll/contributors).
