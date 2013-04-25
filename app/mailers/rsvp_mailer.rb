@@ -11,6 +11,9 @@ class RsvpMailer < ActionMailer::Base
   def confirm_volunteer(rsvp)
     @rsvp = rsvp
     @event = rsvp.event
-    mail(to: rsvp.user.email, subject: 'Thanks for volunteering with Railsbridge!')
+    mail(
+      to: rsvp.user.email, subject: 'Thanks for volunteering with Railsbridge!',
+      template_name: 'confirm_volunteer'
+    )
   end
 end

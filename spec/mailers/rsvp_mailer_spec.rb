@@ -20,6 +20,15 @@ describe RsvpMailer do
         mail.deliver
         assert !ActionMailer::Base.deliveries.empty?
       end
+
+      it "contains the user's first name" do
+        mail.body.should include(volunteer_rsvp.user.first_name)
+      end
+
+      it "contains info about the event" do
+        mail.body.should include(volunteer_rsvp.event.title)
+        mail.body.should include(volunteer_rsvp.event.location.name)
+      end
     end
 
     describe "if a student rsvps" do
