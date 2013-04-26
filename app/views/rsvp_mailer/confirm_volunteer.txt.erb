@@ -1,19 +1,16 @@
-Hey <%= @rsvp.user.first_name %>,
+Hey <%= @rsvp.user.full_name %>,
+Thanks for volunteering for <%= @rsvp.event.title %>!
 
-We're happy to hear you're coming to <%= @event.title %>.
-
-<% if @event.location %>
-  <%= @event.title %> will be held at:
-  <%= pretty_print_address(@event.location) %>
+<% if @rsvp.event.location %>
+  <%= @rsvp.event.title %> will be held at:
+  <%= pretty_print_address(@rsvp.event.location) %>
 <% end %>
 
-<% if @rsvp.rsvp_sessions.present? %>
-  You've signed up for the following <%= @rsvp.rsvp_sessions.count > 1 ? 'sessions' : 'session'%>
-  <% @rsvp.rsvp_sessions.each do |s| %>
-  *<%= pretty_print_session(s.event_session) %>
-  <% end %>
+You've signed up to volunteer for <%= pluralize(@rsvp.rsvp_sessions.count, 'session') %>:
+<% @rsvp.rsvp_sessions.each do |s| %>
+*<%= pretty_print_session(s.event_session) %>
 <% end %>
 
-Visit the <%= link_to 'event page', event_url(@event) %> for more info.
+Visit the <%= link_to 'event page', event_url(@rsvp.event) %> for more info.
 
 - The Troll
