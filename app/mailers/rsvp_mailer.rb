@@ -4,14 +4,20 @@ class RsvpMailer < ActionMailer::Base
 
   def send_confirmation(rsvp)
     if rsvp.role == Role::VOLUNTEER
-      confirm_volunteer(rsvp)
+      volunteer_email(rsvp,  'Thanks for volunteering with Railsbridge!')
     end
   end
 
-  def confirm_volunteer(rsvp)
+  def volunteer_reminder(rsvp)
+    volunteer_email(rsvp, "Reminder: You're volunteering with Railsbridge")
+  end
+
+  private
+
+  def volunteer_email(rsvp, subject)
     @rsvp = rsvp
     mail(
-      to: rsvp.user.email, subject: 'Thanks for volunteering with Railsbridge!',
+      to: rsvp.user.email, subject: subject,
       template_name: 'confirm_volunteer'
     )
   end
