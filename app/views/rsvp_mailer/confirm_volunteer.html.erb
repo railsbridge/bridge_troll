@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  </head>
-  <body>
-    <h1>Hey <%= @rsvp.user.first_name %>, 
-      we're happy to hear you're coming to <%= @event.title %>.
-    </h1>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+Hey <%= @rsvp.user.full_name %>,
 
-    <% if @event.location %>
-      <h2><%= @event.title %> will be held at:</h2>
-      <%= pretty_print_address(@event.location) %>
-    <% end %>
+<p>Thanks for volunteering for <%= @rsvp.event.title %>!</p>
 
-    <% if @rsvp.rsvp_sessions.present? %>
-      <h2>
-        You've signed up for the following 
-        <%= @rsvp.rsvp_sessions.count > 1 ? 'sessions' : 'session'%>
-      </h2>
-      <% @rsvp.rsvp_sessions.each do |s| %>
-        <p><%= pretty_print_session(s.event_session) %></p>
-      <% end %>
+<% if @rsvp.event.location %>
+    <p><%= @rsvp.event.title %> will be held at:
+      <%= pretty_print_address(@rsvp.event.location) %>
+    </p>
+<% end %>
 
-      <p>
-        Visit the <%= link_to 'event page', event_url(@event) %> for more info.
-      </p>
-    <% end %>
+You've signed up for <%= pluralize(@rsvp.rsvp_sessions.count, 'session') %>:
+<ul>
+  <% @rsvp.rsvp_sessions.each do |s| %>
+      <li><%= pretty_print_session(s.event_session) %></li>
 
-    <p>- The Troll</p>
-  </body>
+  <% end %>
+</ul>
+<p>
+  Visit the <%= link_to 'event page', event_url(@rsvp.event) %> for more info.
+</p>
+
+<p>- The Troll</p>
+</body>
 </html>
