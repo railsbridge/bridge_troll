@@ -40,5 +40,20 @@ describe RsvpMailer do
       end
     end
   end
+
+  describe 'the reminder email' do
+    let(:rsvp) { FactoryGirl.create(:rsvp) }
+    let(:event) { rsvp.event }
+    let(:mail) { RsvpMailer.volunteer_reminder(rsvp) }
+
+    it 'has the right headers' do
+      mail.subject.should eq("Reminder: You're volunteering with Railsbridge")
+      mail.to.should eq([rsvp.user.email])
+      mail.from.should eq(['troll@bridgetroll.org'])
+      mail.body.should_not be_empty
+    end
+
+    it_behaves_like 'a mailer view'
+  end
 end
 

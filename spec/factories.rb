@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :user do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
-    sequence(:email) { |n| "example#{n}@example.com"}
+    sequence(:email) { |n| "example#{n}@example.com" }
     confirmed_at DateTime.now
     password "password"
   end
@@ -16,11 +16,13 @@ FactoryGirl.define do
     sequence(:title) { |n| "Event #{n}" }
     details "This is note in the details attribute."
     time_zone "Hawaii"
+    starts_at DateTime.now
+    ends_at { starts_at + 1.day }
 
     factory :event do
       location
       before(:create) do |event, evaluator|
-        event.event_sessions << build(:event_session, event: event)
+        event.event_sessions << build(:event_session, event: event, starts_at: event.starts_at, ends_at: event.ends_at)
       end
     end
   end
@@ -30,7 +32,7 @@ FactoryGirl.define do
     sequence(:address_1) { |n| "#{n} Street" }
     city "San Francisco"
   end
-  
+
   factory :event_session do
     sequence(:name) { |n| "Test Session #{n}" }
     starts_at DateTime.now
@@ -42,7 +44,7 @@ FactoryGirl.define do
   end
 
   factory :rsvp, aliases: [:volunteer_rsvp] do
-    user 
+    user
     event
     role Role.find_by_title('Volunteer')
     teaching_experience "Quite experienced"
@@ -59,5 +61,5 @@ FactoryGirl.define do
   factory :rsvp_session do
     rsvp
     event_session
-  end 
+  end
 end
