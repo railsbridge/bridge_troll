@@ -9,4 +9,10 @@
 </td>
 <td><%= formatted_session_date(event.event_sessions.first) %></td>
 <td><%= formatted_session_timerange(event.event_sessions.first) %></td>
-<td><%= event.location.name rescue nil %></td>
+<td><%= event.location.name rescue nil %> 
+    <% if !user_signed_in? %>
+      <br><%= link_to 'Learn', learn_and_volunteer_redirect_event_path(event), :method => :get, :class => 'btn' %>
+       <%= link_to 'Volunteer', learn_and_volunteer_redirect_event_path(event), :method => :get, :class => 'btn' %>
+
+     <% end %>
+</td>
