@@ -27,7 +27,37 @@ describe "the event listing page" do
     page.should have_content(starts_at.strftime("%a %1m/%1d/%Y"))
     page.should have_content('3:55 am PST')
   end
+  context 'as a non-logged in user' do
+    before(:each) do
+      @user = create(:user)
+    end
+    it "listing should redirect to event detail page when non-logged in user volunteers" do
+      next_year = Time.now.year + 1
+      event = create(:event,
+                     location_id: nil,
+                     title: 'mytitle2',
+                     time_zone: 'Pacific Time (US & Canada)')
+      starts_at = Time.utc(next_year, 01, 31, 11, 20)
+      event.event_sessions.first.update_attributes({
+                                                     starts_at: starts_at,
+                                                     ends_at: Time.utc(next_year, 01, 31, 11, 55)
+                                                   })
 
+      event.save!
+
+      visit events_path
+      page.should have_link('Learn')
+      page.should have_link('Volunteer')
+      click_link 'Learn'
+      within "#sign-in-page" do
+        fill_in "Email", with: @user.email
+        fill_in "Password" , with: @user.password
+        click_button "Sign in"
+      end
+      current_path.should == event_path(event)
+    end
+  end
+  
   context 'as a logged in user' do
     before(:each) do
       @user = create(:user)
