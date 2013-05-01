@@ -24,7 +24,7 @@ Then, have a look at our [feature backlog](https://www.pivotaltracker.com/projec
 
 ## Setting up for development
 
-You'll need [rvm](http://rvm.beginrescueend.com). The `.rvmrc` file should help make sure you are using the right Ruby version.
+You'll need a version manager for Ruby.  We recommend [rvm](http://rvm.beginrescueend.com), but [rbenv](https://github.com/sstephenson/rbenv) will work.
 
 ## Quickstart
 
