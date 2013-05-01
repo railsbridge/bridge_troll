@@ -1,6 +1,8 @@
 Bridgetroll::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  config.eager_load = true
+
   # Code is not reloaded between requests
   config.cache_classes = true
 
@@ -74,5 +76,5 @@ Bridgetroll::Application.configure do
   # If you change this key, all old signed cookies will become invalid!
   # Make sure the secret is at least 30 characters and all random,
   # no regular words or you'll be exposed to dictionary attacks.
-  config.secret_token = ENV['SECRET_TOKEN']
+  config.secret_key_base = ENV['SECRET_TOKEN']
 end

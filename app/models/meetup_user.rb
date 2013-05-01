@@ -7,7 +7,7 @@ end
 class MeetupUser < ActiveRecord::Base
   attr_accessible :full_name, :meetup_id
 
-  has_many :rsvps, foreign_key: 'user_id', conditions: { user_type: 'MeetupUser' }
+  has_many :rsvps, -> { where user_type: 'MeetupUser' }, foreign_key: 'user_id'
   has_many :events, through: :rsvps
 
   def email

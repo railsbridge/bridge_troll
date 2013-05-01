@@ -23,8 +23,8 @@ class Rsvp < ActiveRecord::Base
   validates_presence_of :user, :event, :role
   validates_presence_of :childcare_info, if: lambda { |rsvp| rsvp.needs_childcare? }
 
-  scope :confirmed, where("waitlist_position IS NULL")
-  scope :needs_childcare, where("childcare_info <> ''")
+  scope :confirmed, -> { where("waitlist_position IS NULL") }
+  scope :needs_childcare, -> { where("childcare_info <> ''") }
 
   MAX_EXPERIENCE_LENGTH = 250
   with_options(unless: :historical?) do |normal_event|
@@ -126,8 +126,7 @@ class Rsvp < ActiveRecord::Base
 
   def self.attendances_for(user_type)
     attendances = {}
-    grouped_rsvps = Rsvp.where(user_type: user_type).select('user_id, role_id, count(*) count').group('role_id, user_id')
-    grouped_rsvps.all.each do |rsvp_group|
+    Rsvp.where(user_type: user_type).select('id, user_id, role_id, count(*) count').group('role_id, user_id').find_each do |rsvp_group|
       attendances[rsvp_group.user_id] ||= Role.empty_attendance.clone
       attendances[rsvp_group.user_id][rsvp_group.role_id] = rsvp_group.count.to_i
     end

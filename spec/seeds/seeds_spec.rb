@@ -5,6 +5,7 @@ def assert_no_rows_present
   rows = {}
   total = 0
   ActiveRecord::Base.send(:subclasses).each do |sc|
+    next if sc.name == "ActiveRecord::SchemaMigration"
     rows[sc.name] = sc.all.size
     total += sc.all.size
   end

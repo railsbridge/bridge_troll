@@ -72,7 +72,7 @@ class SectionArranger
   private
 
   def self.rsvp_counts(event)
-    Hash[event.student_rsvps.select('class_level, count(class_level) count').group(:class_level).map { |rsvp_group|
+    Hash[event.student_rsvps.select('event_id, class_level, count(class_level) count').group(:class_level).map { |rsvp_group|
       [rsvp_group.class_level, rsvp_group.count.to_i]
     }]
   end

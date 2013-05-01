@@ -17,7 +17,7 @@ class ReminderSender
 end
 
 class UpcomingEventsQuery
-  def initialize(relation = Event.scoped)
+  def initialize(relation = Event.all)
     @relation = relation
   end
 

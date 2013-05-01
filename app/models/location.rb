@@ -1,5 +1,5 @@
 class Location < ActiveRecord::Base
-  has_many :events, conditions: { published: true }
+  has_many :events, -> { where published: true }
   belongs_to :chapter, counter_cache: true
 
   attr_accessible :name, :address_1, :address_2, :city, :state, :zip, :chapter_id

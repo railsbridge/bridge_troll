@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
 ruby '2.1.2'
-gem 'rails', '~> 3.2.17'
+gem 'rails', '4.0.4'
 gem 'devise', '~> 3.2.0'
+gem 'protected_attributes'
 gem 'thin'
 gem 'jquery-rails'
 gem 'nested_form'
@@ -27,22 +28,18 @@ group :production do
   gem 'heroku_rails_deflate'
 end
 
-group :assets do
-  gem 'turbo-sprockets-rails3'
-  gem 'handlebars_assets'
-  gem 'jquery-datatables-rails'
-  gem 'sass-rails'
-  gem 'compass-rails'
-  gem 'coffee-rails'
-  gem 'uglifier'
-  gem 'bootstrap-sass-rails', '~> 2.3.0'
-  gem 'font-awesome-rails'
-  gem 'jquery-ui-rails'
-  gem 'backbone-on-rails'
-end
+gem 'handlebars_assets'
+gem 'jquery-datatables-rails'
+gem 'sass-rails', '4.0.2' # https://github.com/rails/sass-rails/issues/191
+gem 'compass-rails'
+gem 'coffee-rails'
+gem 'uglifier'
+gem 'bootstrap-sass-rails', '~> 2.3.0'
+gem 'font-awesome-rails'
+gem 'jquery-ui-rails'
+gem 'backbone-on-rails'
 
 group :development do
-  gem 'sextant'
   gem 'quiet_assets'
   gem 'guard-rspec'
   gem 'rb-fsevent'

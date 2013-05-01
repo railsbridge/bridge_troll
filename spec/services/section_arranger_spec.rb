@@ -114,7 +114,7 @@ describe SectionArranger do
         @event.reload
         @event.event_sessions.count.should == 2
 
-        @session1, @session2 = @event.event_sessions.all
+        @session1, @session2 = @event.event_sessions.to_a
 
         @session1_rsvp = create(:student_rsvp, event: @event)
         create(:rsvp_session, rsvp: @session1_rsvp, event_session: @session1, checked_in: true)

@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+
   protect_from_forgery
 
   def validate_admin!
@@ -42,5 +44,13 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     params[:return_to] || super
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_up) do |u|
+      u.permit(*User.attr_accessible[:default].map(&:to_sym) + [chapter_ids: []])
+    end
   end
 end

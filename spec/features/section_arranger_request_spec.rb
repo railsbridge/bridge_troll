@@ -6,7 +6,7 @@ describe "arranging sections for an event", js: true do
     create(:event_session, event: @event)
     @event.reload.event_sessions.count.should == 2
 
-    @session1, @session2 = @event.event_sessions.all
+    @session1, @session2 = @event.event_sessions.to_a
 
     @session1_rsvp = create(:student_rsvp, event: @event, class_level: 1)
     @session1_rsvp.rsvp_sessions.create(event_session: @session1, checked_in: true)

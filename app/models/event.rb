@@ -15,22 +15,22 @@ class Event < ActiveRecord::Base
   has_many :sections, dependent: :destroy
   has_many :event_emails, dependent: :destroy
 
-  has_many :attendee_rsvps, class_name: 'Rsvp', inverse_of: :event, conditions: { role_id: [Role::STUDENT.id, Role::VOLUNTEER.id], waitlist_position: nil }
+  has_many :attendee_rsvps,  -> { where(role_id: [Role::STUDENT.id, Role::VOLUNTEER.id], waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
 
-  has_many :student_rsvps, class_name: 'Rsvp', inverse_of: :event, conditions: { role_id: Role::STUDENT.id, waitlist_position: nil }
-  has_many :student_waitlist_rsvps, class_name: 'Rsvp', inverse_of: :event, conditions: "role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL"
+  has_many :student_rsvps, -> { where(role_id: Role::STUDENT.id, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
+  has_many :student_waitlist_rsvps, -> { where("role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL") }, class_name: 'Rsvp', inverse_of: :event
   has_many :students, through: :student_rsvps, source: :user, source_type: 'User'
   has_many :legacy_students, through: :student_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :volunteer_rsvps, class_name: 'Rsvp', inverse_of: :event, conditions: { role_id: Role::VOLUNTEER.id }
+  has_many :volunteer_rsvps, -> { where(role_id: Role::VOLUNTEER.id) }, class_name: 'Rsvp', inverse_of: :event
   has_many :volunteers, through: :volunteer_rsvps, source: :user, source_type: 'User'
   has_many :legacy_volunteers, through: :volunteer_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :organizer_rsvps, class_name: 'Rsvp', inverse_of: :event, conditions: { role_id: Role::ORGANIZER.id }
+  has_many :organizer_rsvps, -> { where(role_id: Role::ORGANIZER.id) }, class_name: 'Rsvp', inverse_of: :event
   has_many :organizers, through: :organizer_rsvps, source: :user, source_type: 'User'
   has_many :legacy_organizers, through: :organizer_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :event_sessions, dependent: :destroy, order: 'event_sessions.ends_at ASC', inverse_of: :event
+  has_many :event_sessions, -> { order('ends_at ASC') }, dependent: :destroy, inverse_of: :event
   accepts_nested_attributes_for :event_sessions, allow_destroy: true
   validates :event_sessions, length: { minimum: 1 }
 
@@ -110,7 +110,7 @@ class Event < ActiveRecord::Base
     }
 
     event_sessions.each do |session|
-      non_waitlisted_rsvps = session.rsvp_sessions.includes(:rsvp).where('rsvps.waitlist_position IS NULL')
+      non_waitlisted_rsvps = session.rsvp_sessions.includes(:rsvp).where('rsvps.waitlist_position IS NULL').references(:rsvps)
       [Role::VOLUNTEER.id, Role::STUDENT.id].each do |role_id|
         role_rsvps = non_waitlisted_rsvps.where('rsvps.role_id = ?', role_id)
         counts[role_id][:rsvp][session.id] = role_rsvps.count
@@ -130,9 +130,9 @@ class Event < ActiveRecord::Base
   end
 
   def ordered_rsvps(assoc)
-    bridgetroll_rsvps = assoc.where(user_type: 'User').includes(:bridgetroll_user).order('checkins_count > 0 DESC, lower(users.first_name) ASC, lower(users.last_name) ASC')
+    bridgetroll_rsvps = assoc.where(user_type: 'User').includes(:bridgetroll_user).order('checkins_count > 0 DESC, lower(users.first_name) ASC, lower(users.last_name) ASC').references(:bridgetroll_users)
     if historical?
-      bridgetroll_rsvps + assoc.where(user_type: 'MeetupUser').includes(:meetup_user).order('lower(meetup_users.full_name) ASC')
+      bridgetroll_rsvps + assoc.where(user_type: 'MeetupUser').includes(:meetup_user).order('lower(meetup_users.full_name) ASC').references(:meetup_users)
     else
       bridgetroll_rsvps
     end
@@ -164,7 +164,7 @@ class Event < ActiveRecord::Base
       if user.admin?
         where(spam: false)
       else
-        includes(:rsvps).where('(rsvps.role_id = ? AND rsvps.user_id = ?) OR (published = ?)', Role::ORGANIZER, user.id, true)
+        includes(:rsvps).where('(rsvps.role_id = ? AND rsvps.user_id = ?) OR (published = ?)', Role::ORGANIZER, user.id, true).references('rsvps')
       end
     else
       self.published

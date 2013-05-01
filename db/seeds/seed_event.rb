@@ -61,7 +61,7 @@ module Seeder
 
     chapter = Chapter.where(name: 'RailsBridge San Francisco').first_or_create!
 
-    location = Location.create!(
+    location = Location.create!({
       chapter_id: chapter.id,
       name: "Sutro Tower",
       address_1: "Sutro Tower",
@@ -70,8 +70,7 @@ module Seeder
       zip: "94131",
       latitude: 37.75519999999999,
       longitude: -122.4528,
-      gmaps: true
-    )
+      gmaps: true}, without_protection: true)
 
     event = Event.new(
       title: 'Seeded Test Event',

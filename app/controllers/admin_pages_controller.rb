@@ -6,7 +6,7 @@ class AdminPagesController < ApplicationController
     @admins = User.where(admin: true)
     @publishers = User.where(publisher: true)
 
-    @users = User.includes(:authentications).all
+    @users = User.includes(:authentications).to_a
     @user_authentication_counts = @users.each_with_object(Hash.new(0)) do |user, hsh|
       hsh[user.authentications.count] += 1
     end
