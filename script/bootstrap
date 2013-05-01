@@ -1,59 +1,109 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-if ! which phantomjs >/dev/null 2>&1; then
-	cat <<'MESSAGE'
-You don't have phantomjs installed, which means you won't be able to run
-our full test suite.
-MESSAGE
-	if [ "$(uname)" = "Darwin" ]; then
-		cat <<'MESSAGE'
-Since you're on Mac OS X. You can install it with Homebrew using
-	brew install phantomjs
+set -e
 
-If you don't have homebrew, check out http://mxcl.github.com/homebrew/
-MESSAGE
-	else
-		cat <<'MESSAGE'
-Use your system's package manager to install phantomjs.
-	http://phantomjs.org/"
-MESSAGE
-	fi
-	exit 1
-fi
-
-
-if which ruby > /dev/null 2>&1; then
-	if ! ruby -v | grep '^ruby 2.0.0' > /dev/null; then
-		echo "You're not using Ruby 2.0.0. You should install or switch to it!"
-	fi
-else
-	cat <<'MESSAGE'
-Hey, you're missing Ruby!
-You can install ruby by going to http://rvm.io and following the
-instructions there."
-MESSAGE
-
-	exit 1
-fi
-
-if ! which bundle > /dev/null 2>&1; then
-	echo "Installing bundler"
-	gem install bundler || exit $?
-fi
-
-bundle install || exit $?
-
-if [ -e .env ]; then
+if [ -e .env ]
+then
   source .env
 fi
 
-if [ -z "$MEETUP_API_KEY" ]; then
-	cat <<'MESSAGE'
-You don't have Meetup credentials in your environment.
-If you want to import events from Meetup, find your Meetup account's API
-key at http://www.meetup.com/meetup_api/key/ then add it to your .env file
-as MEETUP_API_KEY=your_api_key_goes_here
-MESSAGE
+function is_missing() {
+	test -z `which $1`
+}
+
+function is_osx() {
+	test `uname` = "Darwin"
+}
+
+function alert_missing_phantomjs() {
+	cat <<-MISSING_PHANTOMJS
+		You don't have phantomjs installed, which means you won't be able to run
+		our full test suite.
+	MISSING_PHANTOMJS
+}
+
+function describe_homebrew_install_for_phantomjs() {
+	cat <<-HOMEBREW_PHANTOMJS
+		Since you're on Mac OS X. You can install it with Homebrew using
+			brew install phantomjs
+
+		If you don't have homebrew, check out http://mxcl.github.com/homebrew/
+	HOMEBREW_PHANTOMJS
+}
+
+function describe_generic_install_for_phantomjs() {
+	cat <<-GENERIC_PHANTOMJS
+		Use your system's package manager to install phantomjs.
+			http://phantomjs.org
+	GENERIC_PHANTOMJS
+}
+
+function alert_missing_ruby() {
+	cat <<-MISSING_RUBY
+		Hey, you're missing Ruby!
+
+		You can install ruby by going to http://rvm.io and following the
+		instructions there.
+	MISSING_RUBY
+}
+
+function is_ruby_version() {
+	ruby -v | grep "^$1" > /dev/null
+}
+
+function alert_wrong_ruby_version() {
+	cat <<-WRONG_RUBY_VERSION
+		You're not using Ruby $1. You should install or switch to it!
+	WRONG_RUBY_VERSION
+}
+
+function attempt_to() {
+	$@ || exit $?
+}
+
+function warn_missing_meetup_api_key() {
+	cat <<-MISSING_MEETUP_KEY
+		You don't have Meetup credentials in your environment.
+
+		If you want to import events from Meetup, find your Meetup account's API
+		key at http://www.meetup.com/meetup_api/key/ then add it to your .env file
+		as MEETUP_API_KEY=your_api_key_goes_here
+	MISSING_MEETUP_KEY
+}
+
+if is_missing phantomjs
+then
+	alert_missing_phantomjs
+
+	if is_osx
+	then
+		describe_homebrew_install_for_phantomjs
+	else
+		describe_generic_install_for_phantomjs
+	fi
 fi
 
-bundle exec rake db:migrate db:test:prepare || exit $?
+if is_missing ruby
+then
+	alert_missing_ruby
+	exit 1
+else
+	if ! is_ruby_version "ruby 2.0.0"
+	then
+		alert_wrong_ruby_version "2.0.0"
+	fi
+fi
+
+if is_missing bundle
+then
+	attempt_to gem install bundler
+fi
+
+attempt_to bundle install
+
+if [ -z "$MEETUP_API_KEY" ]
+then
+	warn_missing_meetup_api_key
+fi
+
+attempt_to bundle exec rake db:create db:migrate db:test:prepare
