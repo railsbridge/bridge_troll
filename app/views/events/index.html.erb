@@ -8,7 +8,7 @@
         <th>Date</th>
         <th>Time</th>
         <th>Location</th>
-        <% if user_signed_in? %><th>RSVP</th><% end %>
+        <th>RSVP</th>
       </tr>
 
       <% if @events.length == 0 %>
@@ -19,38 +19,41 @@
       <% @events.each do |event| %>
         <tr>
           <%= render 'event', event: event %>
-          <% if user_signed_in? %>
-            <td>
+          <td>
+            <% if user_signed_in? %>
               <% if event.organizer?(current_user) || current_user.admin? %>
                 <div><%= link_to 'Organizer Console', organize_event_path(event), :class => 'btn' %></div>
               <% end %>
               <%= render 'shared/rsvp_actions', event: event %>
-            </td>
-        <% end %>
+            <% else %>
+              <a href="#sign_in_dialog" class="btn" data-toggle="modal" data-return-to="<%= event_path(event) %>">Learn</a>
+              <a href="#sign_in_dialog" class="btn" data-toggle="modal" data-return-to="<%= event_path(event) %>">Volunteer</a>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </table>
 
     <h1>Past events</h1>
-    <table class="<%= if @past_events.length > 0 then 'datatable-sorted' else '' end %> table table-striped table-bordered table-condensed">
+    <table class="<%= @past_events.length > 0 ? 'datatable-sorted' : '' %> table table-striped table-bordered table-condensed">
       <thead>
-        <tr>
-          <th>Title</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Location</th>
-        </tr>
+      <tr>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Location</th>
+      </tr>
       </thead>
 
       <tbody>
-        <% if @past_events.length == 0 %>
-          <tr>
-            <td colspan="5">There are no past events.</td>
-          </tr>
-        <% end %>
-        <% @past_events.each do |event| %>
-          <tr><%= render 'event', event: event %></tr>
-        <% end %>
+      <% if @past_events.length == 0 %>
+        <tr>
+          <td colspan="5">There are no past events.</td>
+        </tr>
+      <% end %>
+      <% @past_events.each do |event| %>
+        <tr><%= render 'event', event: event %></tr>
+      <% end %>
       </tbody>
     </table>
 

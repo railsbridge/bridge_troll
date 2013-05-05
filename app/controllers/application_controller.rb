@@ -10,4 +10,8 @@ class ApplicationController < ActionController::Base
       false
     end
   end
+
+  def after_sign_in_path_for(resource)
+    params[:return_to] || super
+  end
 end

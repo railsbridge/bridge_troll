@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show]
-  before_filter :find_event, only: [:show, :edit, :update, :destroy, :volunteer_emails, :organize, :learn_and_volunteer_redirect]
+  before_filter :find_event, only: [:show, :edit, :update, :destroy, :volunteer_emails, :organize]
   before_filter :require_organizer, only: [:edit, :update, :destroy, :volunteer_emails, :organize]
   before_filter :assign_organizer, only: [:show, :edit, :update, :destroy]
   before_filter :set_time_zone, only: [:create, :update]
@@ -72,10 +72,6 @@ class EventsController < ApplicationController
       @session_rsvp_counts[session.id] = session.rsvp_sessions.count
       @session_checkin_counts[session.id] = session.rsvp_sessions.where(checked_in: true).count
     end
-  end
-  
-  def learn_and_volunteer_redirect
-    redirect_to event_path(@event)
   end
 
   protected
