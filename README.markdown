@@ -51,16 +51,20 @@ Then you can run tests by doing
 ```
 script/test
 ```
+## Styling Guidelines
+We have created a living style guide to keep track of HTML components and their styling across the site. See it at http://localhost:3000/style_guide.
+
+We're still working on adding every element to the page, so if you see missing components, add it to the erb template ([static_pages/style_guide.html.erb](style_guide.html.erb))
 
 ## Email
 
-To receive/develop emails locally, install the MailCatcher gem (http://mailcatcher.me/). The process is as follows:
+To receive/develop emails locally, install the MailCatcher gem at http://mailcatcher.me. The process is as follows:
 
-* `gem install mailcatcher` -- installs MailCatcher in your current gemset
-* `mailcatcher` -- start the MailCatcher server if it isn't running already
-* Visit http://localhost:1080/ in your web browser. This is your MailCatcher mailbox, where mails will appear.
-* Do something in your local Bridge Troll app that would send a mail, like signing up for a new account.
-* You should see the mail that Rails sent in the MailCatcher window. Woo!
+1. `gem install mailcatcher` -- installs MailCatcher in your current gemset
+1. `mailcatcher` -- start the MailCatcher server if it isn't running already
+1. Visit http://localhost:1080/ in your web browser. This is your MailCatcher mailbox, where mails will appear.
+1. Do something in your local Bridge Troll app that would send a mail, like signing up for a new account.
+1. You should see the mail that Rails sent in the MailCatcher window. Woo!
 
 Note that MailCatcher just makes it easy to see the HTML output of your mails: it doesn't guarantee that the way the mail looks like in MailCatcher is how it will look in Gmail or Outlook. Beware!
 
