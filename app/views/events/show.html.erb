@@ -3,7 +3,7 @@
 <div class="row-fluid">
   <div class="span8">
     <div class="critical-details">
-      <% if @event.location.present? %>
+      <% if @event.location %>
         <%= pretty_print_address @event.location %>
       <% else %>
         This event currently has no location!

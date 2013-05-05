@@ -11,7 +11,7 @@
         <th>RSVP</th>
       </tr>
 
-      <% if @events.length == 0 %>
+      <% if @events.empty? %>
         <tr>
           <td colspan="5">There are no events.</td>
         </tr>
@@ -35,7 +35,7 @@
     </table>
 
     <h1>Past events</h1>
-    <table class="<%= @past_events.length > 0 ? 'datatable-sorted' : '' %> table table-striped table-bordered table-condensed">
+    <table class="<%= @past_events.any? ? 'datatable-sorted' : '' %> table table-striped table-bordered table-condensed">
       <thead>
       <tr>
         <th>Title</th>
@@ -46,7 +46,7 @@
       </thead>
 
       <tbody>
-      <% if @past_events.length == 0 %>
+      <% if @past_events.empty? %>
         <tr>
           <td colspan="5">There are no past events.</td>
         </tr>
