@@ -18,12 +18,18 @@ class RsvpsController < ApplicationController
     @rsvp.event = @event
     @rsvp.user = current_user
 
-    if @rsvp.save
-      set_rsvp_sessions
-      RsvpMailer.send_confirmation(@rsvp).deliver
-      redirect_to @event, notice: 'Thanks for signing up!'
-    else
-      render :new
+    Rsvp.transaction do
+      if @event.rsvps.count >= @event.student_rsvp_limit
+        @rsvp.waitlist_position = (@event.rsvps.maximum(:waitlist_position) || 0) + 1
+      end
+
+      if @rsvp.save
+        set_rsvp_sessions
+        RsvpMailer.send_confirmation(@rsvp).deliver
+        redirect_to @event, notice: 'Thanks for signing up!'
+      else
+        render :new
+      end
     end
   end
 

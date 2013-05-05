@@ -30,6 +30,7 @@ module Seeder
     rsvp = Rsvp.create!(
       event: options[:event],
       user: options[:user],
+      waitlist_position: options[:waitlist_position],
       role: Role::STUDENT,
       operating_system: OperatingSystem::OSX_LION,
       class_level: options[:class_level]
@@ -66,7 +67,7 @@ module Seeder
 
     event = Event.new(
       title: 'Seeded Test Event',
-      student_rsvp_limit: 100,
+      student_rsvp_limit: 5,
       time_zone: 'Pacific Time (US & Canada)',
       details: <<DETAILS
 <h2>Workshop Description</h2>
@@ -124,6 +125,9 @@ DETAILS
       student = create_user("student#{index}@example.com")
       create_student_rsvp(event: event, user: student, class_level: index)
     end
+
+    waitlisted = create_user("waitlisted@example.com")
+    create_student_rsvp(event: event, user: waitlisted, class_level: 2, waitlist_position: 1)
 
     event
   end

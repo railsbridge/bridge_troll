@@ -5,7 +5,8 @@ class Event < ActiveRecord::Base
   
   has_many :rsvps, dependent: :destroy
 
-  has_many :student_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::STUDENT.id }
+  has_many :student_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::STUDENT.id, waitlist_position: nil }
+  has_many :student_waitlist_rsvps, class_name: 'Rsvp', conditions: "role_id == #{Role::STUDENT.id} AND waitlist_position IS NOT NULL"
   has_many :students, through: :student_rsvps, source: :user, source_type: 'User'
   has_many :legacy_students, through: :student_rsvps, source: :user, source_type: 'MeetupUser'
 
@@ -35,6 +36,10 @@ class Event < ActiveRecord::Base
 
   def historical?
     meetup_volunteer_event_id || meetup_student_event_id
+  end
+
+  def at_limit?
+    @event.student_rsvps.count >= @event.student_rsvp_limit
   end
 
   def ordered_volunteer_rsvps

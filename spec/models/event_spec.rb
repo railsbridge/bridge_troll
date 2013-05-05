@@ -90,4 +90,19 @@ describe Event do
       Event.new.details.should =~ /Workshop Description/
     end
   end
+
+  describe "waitlists" do
+    before do
+      @confirmed_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT)
+      @waitlist_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT, waitlist_position: 1)
+    end
+
+    it "returns only confirmed rsvps in #student_rsvps" do
+      @event.student_rsvps.should == [@confirmed_rsvp]
+    end
+
+    it "returns only waitlisted rsvps in #student_waitlist_rsvps" do
+      @event.student_waitlist_rsvps.should == [@waitlist_rsvp]
+    end
+  end
 end

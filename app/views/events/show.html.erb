@@ -97,5 +97,19 @@
         </tbody>
       </table>
     <% end %>
+
+    <% if @event.student_waitlist_rsvps.any? %>
+      <h3>Waitlist</h3>
+      <table class="table">
+        <tbody>
+        <% @event.student_waitlist_rsvps.each do |rsvp| %>
+          <tr>
+            <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
+
   </div>
 </div>

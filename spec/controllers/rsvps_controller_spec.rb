@@ -55,59 +55,86 @@ describe RsvpsController do
         @rsvp_params = extract_rsvp_params build(:rsvp, :event => @event)
       end
 
-      context "as a logged in user I should be able to volunteer for an event" do
-        it "should allow the user to newly volunteer for an event" do
-          expect {
-            post :create, event_id: @event.id, rsvp: @rsvp_params
-          }.to change {Rsvp.count }.by(1)
-        end
-
-        it "redirects to the event page related to the rsvp with flash confirmation" do
+      it "should allow the user to newly volunteer for an event" do
+        expect {
           post :create, event_id: @event.id, rsvp: @rsvp_params
-          response.should redirect_to(event_path(@event))
-          flash[:notice].should match(/thanks/i)
+        }.to change { Rsvp.count }.by(1)
+      end
+
+      it "redirects to the event page related to the rsvp with flash confirmation" do
+        post :create, event_id: @event.id, rsvp: @rsvp_params
+        response.should redirect_to(event_path(@event))
+        flash[:notice].should match(/thanks/i)
+      end
+
+      it "should create a rsvp that persists and is valid" do
+        post :create, event_id: @event.id, rsvp: @rsvp_params
+        assigns[:rsvp].should be_persisted
+        assigns[:rsvp].should be_valid
+      end
+
+      it "should set the new rsvp with the selected event, and current user" do
+        post :create, event_id: @event.id, rsvp: @rsvp_params
+        assigns[:rsvp].user_id.should == assigns[:current_user].id
+        assigns[:rsvp].event_id.should == @event.id
+      end
+
+      context "when the event is full" do
+        before do
+          @event.update_attribute(:student_rsvp_limit, 2)
+          create(:student_rsvp, event: @event)
+          create(:student_rsvp, event: @event)
         end
 
-        it "should create a rsvp that persists and is valid" do
+        it "adds the newly rsvp'd user to the waitlist" do
           post :create, event_id: @event.id, rsvp: @rsvp_params
-          assigns[:rsvp].should be_persisted
-          assigns[:rsvp].should be_valid
+          rsvp = Rsvp.last
+          rsvp.waitlist_position.should == 1
+        end
+      end
+
+      context "when the event is full and has a waitlist" do
+        before do
+          @event.update_attribute(:student_rsvp_limit, 2)
+          create(:student_rsvp, event: @event)
+          create(:student_rsvp, event: @event)
+          create(:student_rsvp, event: @event, waitlist_position: 1)
         end
 
-        it "should set the new rsvp with the selected event, and current user" do
+        it "adds the newly rsvp'd user to the waitlist" do
           post :create, event_id: @event.id, rsvp: @rsvp_params
-          assigns[:rsvp].user_id.should == assigns[:current_user].id
-          assigns[:rsvp].event_id.should == @event.id
+          rsvp = Rsvp.last
+          rsvp.waitlist_position.should == 2
+        end
+      end
+
+      describe "childcare information" do
+        context "when childcare_needed is unchecked" do
+          before do
+            post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
+              needs_childcare: '0', childcare_info: 'goodbye, cruel world')
+          end
+          it "should clear childcare_info" do
+            assigns[:rsvp].childcare_info.should be_blank
+          end
         end
 
-        describe "childcare information" do
-          context "when childcare_needed is unchecked" do
-            before do
-              post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
-                needs_childcare: '0', childcare_info: 'goodbye, cruel world')
-            end
-            it "should clear childcare_info" do
-              assigns[:rsvp].childcare_info.should be_blank
-            end
+        context "when childcare_needed is checked" do
+          it "should has validation errors for blank childcare_info" do
+            post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
+              needs_childcare: '1',
+              childcare_info: ''
+            )
+            assigns[:rsvp].should have(1).errors_on(:childcare_info)
           end
 
-          context "when childcare_needed is checked" do
-            it "should has validation errors for blank childcare_info" do
-              post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
-                needs_childcare: '1',
-                childcare_info: ''
-              )
-              assigns[:rsvp].should have(1).errors_on(:childcare_info)
-            end
-
-            it "updates sets childcare_info when not blank" do
-              child_info = "Johnnie Kiddo, 7\nJane Kidderino, 45"
-              post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
-                needs_childcare: '1',
-                childcare_info: child_info
-              )
-              assigns[:rsvp].childcare_info.should == child_info
-            end
+          it "updates sets childcare_info when not blank" do
+            child_info = "Johnnie Kiddo, 7\nJane Kidderino, 45"
+            post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
+              needs_childcare: '1',
+              childcare_info: child_info
+            )
+            assigns[:rsvp].childcare_info.should == child_info
           end
         end
       end
@@ -129,7 +156,7 @@ describe RsvpsController do
       end
     end
   end
-  
+
   describe "#destroy" do
     before do
       @user = create(:user)
@@ -143,7 +170,7 @@ describe RsvpsController do
       it "should destroy the rsvp" do
         expect {
           delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
-        }.to change {Rsvp.count }.by(-1)
+        }.to change { Rsvp.count }.by(-1)
         expect {
           @rsvp.reload
         }.to raise_error(ActiveRecord::RecordNotFound)
@@ -155,7 +182,7 @@ describe RsvpsController do
       it "should notify the user s/he has not signed up to volunteer for the event" do
         expect {
           delete :destroy, event_id: 3298423, id: 29101
-        }.to change {Rsvp.count }.by(0)
+        }.to change { Rsvp.count }.by(0)
         flash[:notice].should match(/You are not signed up/i)
       end
     end

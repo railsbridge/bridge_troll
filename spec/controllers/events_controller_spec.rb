@@ -74,6 +74,27 @@ describe EventsController do
           get :show, id: @event.id
           response.body.should include('Jane Fontaine')
         end
+
+        context "and there is no waitlist" do
+          it "doesn't have the waitlist header" do
+            get :show, id: @event.id
+            response.body.should_not include('Waitlist')
+          end
+        end
+
+        context "and there is a waitlist" do
+          before do
+            @event.update_attribute(:student_rsvp_limit, 1)
+            student = create(:user, first_name: 'Sandy', last_name: 'Sontaine')
+            create(:student_rsvp, event: @event, user: student, role: Role::STUDENT, waitlist_position: 1)
+          end
+
+          it "shows waitlisted students in a waitlist section" do
+            get :show, id: @event.id
+            response.body.should include('Waitlist')
+            response.body.should include('Sandy Sontaine')
+          end
+        end
       end
     end
   end
