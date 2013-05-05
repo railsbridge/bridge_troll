@@ -1,5 +1,6 @@
 class RsvpsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:volunteer, :learn]
+  before_filter :prompt_login, :only => [:volunteer, :learn]
   before_filter :assign_event
   before_filter :load_rsvp, except: [:volunteer, :learn, :create]
 

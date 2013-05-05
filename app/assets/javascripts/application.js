@@ -32,4 +32,8 @@ $(document).ready(function () {
   if ($(window).height() < $('html').height()) {
     $('footer').show();
   }
+
+  if ($('body').data('prompt-login')) {
+    $("#sign_in_dialog").modal();
+  }
 });

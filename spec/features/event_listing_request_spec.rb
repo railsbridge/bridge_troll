@@ -50,10 +50,10 @@ describe "the event listing page" do
         fill_in "Password", with: @user.password
         click_button "Sign in"
       end
-      current_path.should == event_path(event)
+      current_path.should == learn_new_event_rsvp_path(event)
     end
   end
-
+  
   context 'as a logged in user' do
     before(:each) do
       @user = create(:user)
