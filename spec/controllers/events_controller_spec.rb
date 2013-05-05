@@ -153,6 +153,7 @@ describe EventsController do
             "event" => {
               "title" => "asdfasdfasdf",
               "time_zone" => "Alaska",
+              "student_rsvp_limit" => 100,
               "event_sessions_attributes" => {
                 "0" => {
                   "name" => 'I am good at naming sessions',

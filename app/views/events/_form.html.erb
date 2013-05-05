@@ -51,6 +51,12 @@
       </div>
 
       <div class="field">
+        <%= f.label :student_rsvp_limit, 'Student RSVP limit' %>
+        <em>(You can increase this, but not decrease it after publishing. Choose wisely!)</em>
+        <%= f.text_field :student_rsvp_limit %>
+      </div>
+
+      <div class="field">
         <%= f.label :public_email, 'What email address should users contact you at with questions?' %>
         <%= f.text_field :public_email, :class => "input-xxlarge"%>
       </div>

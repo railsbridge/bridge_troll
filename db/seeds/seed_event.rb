@@ -66,6 +66,7 @@ module Seeder
 
     event = Event.new(
       title: 'Seeded Test Event',
+      student_rsvp_limit: 100,
       time_zone: 'Pacific Time (US & Canada)',
       details: <<DETAILS
 <h2>Workshop Description</h2>

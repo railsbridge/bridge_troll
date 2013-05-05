@@ -16,10 +16,10 @@ describe "the event listing page" do
                    title: 'mytitle2',
                    time_zone: 'Pacific Time (US & Canada)')
     starts_at = Time.utc(next_year, 01, 31, 11, 20)
-    event.event_sessions.first.update_attributes({
-                                                   starts_at: starts_at,
-                                                   ends_at: Time.utc(next_year, 01, 31, 11, 55)
-                                                 })
+    event.event_sessions.first.update_attributes(
+      starts_at: starts_at,
+      ends_at: Time.utc(next_year, 01, 31, 11, 55)
+    )
 
     event.save!
 
@@ -65,6 +65,7 @@ describe "the event listing page" do
       click_link "Organize Event"
 
       fill_in "Title", with: "February Event"
+      fill_in "Student RSVP limit", with: 100
 
       within ".event-sessions" do
         fill_in "Session Name", with: 'My Amazing Session'

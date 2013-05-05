@@ -18,9 +18,10 @@ FactoryGirl.define do
     time_zone "Hawaii"
     starts_at DateTime.now
     ends_at { starts_at + 1.day }
+    student_rsvp_limit 100
+    location
 
     factory :event do
-      location
       before(:create) do |event, evaluator|
         event.event_sessions << build(:event_session, event: event, starts_at: event.starts_at, ends_at: event.ends_at)
       end

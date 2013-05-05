@@ -9,6 +9,7 @@ describe Event do
   it { should belong_to(:location) }
   it { should have_many(:rsvps) }
   it { should have_many(:event_sessions) }
+  it { should validate_numericality_of(:student_rsvp_limit) }
 
   it { should validate_presence_of(:title) }
   it "validates that there is at least one event session" do
