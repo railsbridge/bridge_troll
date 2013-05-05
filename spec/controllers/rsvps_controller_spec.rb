@@ -140,7 +140,8 @@ describe RsvpsController do
       before do
         @rsvp = create(:rsvp)
       end
-      it "should destroy the rsvp" do
+
+      it "destroys the rsvp" do
         expect {
           delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
         }.to change {Rsvp.count }.by(-1)
@@ -151,11 +152,11 @@ describe RsvpsController do
       end
     end
 
-    context "there is no rsvp record for this user at this event" do
-      it "should notify the user s/he has not signed up to volunteer for the event" do
+    context "the user has not signed up for this event" do
+      it "notifies the user s/he has not signed up to volunteer for the event" do
         expect {
-          delete :destroy, event_id: 3298423, id: 29101
-        }.to change {Rsvp.count }.by(0)
+          delete :destroy, event_id: Event.first.to_param, id: 1234
+        }.not_to change(Rsvp, :count)
         flash[:notice].should match(/You are not signed up/i)
       end
     end

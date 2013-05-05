@@ -9,4 +9,4 @@
 </td>
 <td><%= formatted_session_date(event.event_sessions.first) %></td>
 <td><%= formatted_session_timerange(event.event_sessions.first) %></td>
-<td><%= event.location.name rescue nil %></td>
+<td><%= event.location.try(:name) %></td>

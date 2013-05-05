@@ -10,7 +10,7 @@
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
-  <body>
+  <%= content_tag "body", data: {prompt_login: @prompt_login} do %>
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <a class="app-name" href=<%= events_path %>><%= render 'shared/logo' %></a>
@@ -37,6 +37,6 @@
       <%= yield :scripts %>
     </div>
     <footer><div class="trollholder"><%= render 'shared/troll' %></div></footer>
-  </body>
+  <% end %>
   <%= render 'shared/sign_in_dialog' %>
 </html>
