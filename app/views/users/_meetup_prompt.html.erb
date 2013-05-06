@@ -1,0 +1,8 @@
+<% meetup_prompt = MeetupPrompt.build(current_user) %>
+<% if meetup_prompt %>
+    <div class="alert alert-action-needed">
+      <%= button_to '&times;'.html_safe, meetup_prompt.path, remote: true, method: :delete, class: 'close', data: {dismiss: 'alert'} %>
+      Connect your Meetup.com account to import information about past workshops you have attended.
+      <%= link_to 'Connect to Meetup.com', "/auth/meetup", class: 'btn' %>
+    </div>
+<% end %>

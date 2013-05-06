@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe UsersController do
   before do
-    sign_in_stub double('user', id: 1234)
+    sign_in_stub double('user', id: 1234, meetup_id: 1)
   end
 
   describe "index" do

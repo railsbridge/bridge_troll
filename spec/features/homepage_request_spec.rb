@@ -44,5 +44,14 @@ describe "visiting the home page" do
       page.should_not have_link("Sign Up")
       page.should have_link("Profile")
     end
+
+    it 'is prompted to connect their meetup account' do
+      visit '/'
+      within '.alert' do
+        page.should have_link 'Connect to Meetup.com'
+        click_button '×'
+      end
+      page.should_not have_link 'Connect to Meetup.com'
+    end
   end
 end

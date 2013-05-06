@@ -1,17 +1,5 @@
 <h1>Edit <%= resource_name.to_s.humanize %></h1>
 
-<div class='meetup-association'>
-
-  <% if resource.meetup_id.present? %>
-    <p>This account is associated with <%= link_to "meetup user #{resource.meetup_id}.", "http://www.meetup.com/members/#{resource.meetup_id}/" %></p>
-  <% else %>
-    <p>This account is not associated with a SFRuby Meetup account.</p>
-
-    <p>If you associate with your meetup account, Bridgetroll can show you information about past workshops you have attended.</p>
-    <%= link_to 'Associate with Meetup account', "/auth/meetup", class: 'btn' %>
-  <% end %>
-</div>
-
 <%= render 'shared/profile_gravatars'%>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
@@ -55,11 +43,23 @@
   </div>
 
   <div><%= f.submit "Update" %></div>
+
+  <hr>
+  <div>
+    <%= label_tag :meetup_id, 'Associated Meetup Account' %>
+    <% if resource.meetup_id %>
+        Currently associated
+        with <%= link_to "Meetup user #{resource.meetup_id}.", "https://www.meetup.com/members/#{resource.meetup_id}/" %></p>
+    <% else %>
+        <p>You haven't connected your Meetup.com account yet! :(</p>
+        <p>Connect your Meetup.com account to import information about past workshops you have attended.</p>
+        <%= link_to 'Connect to Meetup.com', "/auth/meetup", class: 'btn' %>
+    <% end %>
+  </div>
 <% end %>
 
-<h3>Cancel my account</h3>
 
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
+<p><%= link_to "Delete my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %></p>
 
 <%= link_to "Back", :back %>
 
