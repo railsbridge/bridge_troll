@@ -47,7 +47,6 @@ group :test do
   gem "factory_girl_rails"
   gem 'capybara', '>= 2.0.1'
   gem "poltergeist"
-  gem 'faye-websocket', '0.4.7' # until someone fixes https://github.com/jonleighton/poltergeist/issues/320
   gem "launchy"
   gem "database_cleaner"
   gem 'shoulda-matchers'
