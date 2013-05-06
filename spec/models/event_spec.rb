@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Event do  
+describe Event do
   before do
     @event = create(:event)
     @user = create(:user)
@@ -12,13 +12,14 @@ describe Event do
   it { should validate_numericality_of(:student_rsvp_limit) }
 
   it { should validate_presence_of(:title) }
+
   it "validates that there is at least one event session" do
     event = create(:event)
     event.event_sessions.destroy_all
     event.should_not be_valid
 
     event.event_sessions << build(:event_session)
-    event.should be_valid  
+    event.should be_valid
   end
 
   it "must have a time zone" do
@@ -32,6 +33,25 @@ describe Event do
 
     event = build(:event, :time_zone => 'Hawaii')
     event.should have(0).errors
+  end
+
+  describe "updating an event" do
+    it "does not allow student_rsvp_limit to be decreased" do
+      event = create(:event, student_rsvp_limit: 10)
+      event.update_attributes(student_rsvp_limit: 5)
+      event.should have(1).errors_on(:student_rsvp_limit)
+    end
+
+    it "does allow student_rsvp_limit to be increased" do
+      event = create(:event, student_rsvp_limit: 10)
+      event.update_attributes(student_rsvp_limit: 20)
+      event.should have(0).errors_on(:student_rsvp_limit)
+    end
+
+    it "reorders the waitlist" do
+      @event.should_receive(:reorder_waitlist!)
+      @event.update_attributes(student_rsvp_limit: 200)
+    end
   end
 
   describe '#rsvps_with_childcare' do
@@ -71,11 +91,11 @@ describe Event do
       @event_in_progress.event_sessions << create(:event_session, starts_at: 2.days.ago, ends_at: 2.days.from_now)
       @event_in_progress.save!
     end
-  
+
     it "includes events that haven't yet started" do
       Event.upcoming.should include(@event_future)
     end
-  
+
     it "includes events in progress" do
       Event.upcoming.should include(@event_in_progress)
     end
@@ -84,10 +104,60 @@ describe Event do
       Event.upcoming.should_not include(@event_past)
     end
   end
-  
+
   describe "#details" do
     it "has default content" do
       Event.new.details.should =~ /Workshop Description/
+    end
+  end
+
+  describe "#reorder_waitlist!" do
+    before do
+      @event.update_attribute(:student_rsvp_limit, 2)
+      @confirmed1 = create(:student_rsvp, event: @event)
+      @confirmed2 = create(:student_rsvp, event: @event)
+      @waitlist1 = create(:student_rsvp, event: @event, waitlist_position: 1)
+      @waitlist2 = create(:student_rsvp, event: @event, waitlist_position: 2)
+      @waitlist3 = create(:student_rsvp, event: @event, waitlist_position: 3)
+    end
+
+    context "when the limit has increased" do
+      before do
+        @event.update_attribute(:student_rsvp_limit, 4)
+      end
+
+      it "promotes people on the waitlist into available slots when the limit increases" do
+        @event.reorder_waitlist!
+        @event.reload
+
+        @event.student_rsvps.count.should == 4
+        @event.student_waitlist_rsvps.count.should == 1
+      end
+    end
+
+    context "when a confirmed rsvp has been destroyed" do
+      before do
+        @confirmed1.destroy
+        @event.reorder_waitlist!
+      end
+
+      it 'promotes a waitlisted user to confirmed when the rsvp is destroyed' do
+        @waitlist1.reload.waitlist_position.should be_nil
+        @waitlist2.reload.waitlist_position.should == 1
+        @waitlist3.reload.waitlist_position.should == 2
+      end
+    end
+
+    context "when a waitlisted rsvp has been destroyed" do
+      before do
+        @waitlist1.destroy
+        @event.reorder_waitlist!
+      end
+
+      it 'reorders the waitlist when the rsvp is destroyed' do
+        @waitlist2.reload.waitlist_position.should == 1
+        @waitlist3.reload.waitlist_position.should == 2
+      end
     end
   end
 

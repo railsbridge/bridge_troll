@@ -29,7 +29,6 @@ class Rsvp < ActiveRecord::Base
     for_students.validates_inclusion_of :class_level, in: (1..5)
   end
 
-
   belongs_to_active_hash :role
   belongs_to_active_hash :volunteer_assignment
   belongs_to_active_hash :operating_system
@@ -52,6 +51,10 @@ class Rsvp < ActiveRecord::Base
 
   def formatted_preference
     volunteer_preference.title
+  end
+
+  def promote_from_waitlist!
+    update_attribute(:waitlist_position, nil)
   end
 
   def set_attending_sessions session_ids=nil

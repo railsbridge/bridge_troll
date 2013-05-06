@@ -46,7 +46,10 @@ class RsvpsController < ApplicationController
   end
 
   def destroy
-    @rsvp.destroy
+    Rsvp.transaction do
+      @rsvp.destroy
+      @event.reorder_waitlist!
+    end
     redirect_to events_path, notice: "You are now no longer signed up for #{@event.title}"
   end
 

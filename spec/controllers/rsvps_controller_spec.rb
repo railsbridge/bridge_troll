@@ -163,22 +163,31 @@ describe RsvpsController do
       sign_in @user
     end
 
-    context "the user has signed up to volunteer and changed his/her mind" do
+    context "when there is an existing rsvp" do
       before do
         @rsvp = create(:rsvp)
       end
+
       it "should destroy the rsvp" do
         expect {
           delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
         }.to change { Rsvp.count }.by(-1)
+
         expect {
           @rsvp.reload
         }.to raise_error(ActiveRecord::RecordNotFound)
+
         flash[:notice].should match(/no longer signed up/i)
+      end
+
+      it "should reorder the waitlist" do
+        Event.should_receive(:find_by_id).and_return(@rsvp.event)
+        @rsvp.event.should_receive(:reorder_waitlist!)
+        delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
       end
     end
 
-    context "there is no rsvp record for this user at this event" do
+    context "when there is no RSVP for this user" do
       it "should notify the user s/he has not signed up to volunteer for the event" do
         expect {
           delete :destroy, event_id: 3298423, id: 29101

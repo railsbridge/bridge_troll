@@ -1,5 +1,6 @@
 class Event < ActiveRecord::Base
   after_initialize :set_defaults
+  after_save :reorder_waitlist!
 
   belongs_to :location
   
@@ -26,6 +27,8 @@ class Event < ActiveRecord::Base
   validates_presence_of :time_zone
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
+  validate :validate_rsvp_limit
+
   with_options(if: Proc.new {|event| !event.historical? }) do |non_historical_event|
     non_historical_event.validates_numericality_of :student_rsvp_limit, only_integer: true, greater_than: 0
   end
@@ -39,7 +42,14 @@ class Event < ActiveRecord::Base
   end
 
   def at_limit?
-    @event.student_rsvps.count >= @event.student_rsvp_limit
+    student_rsvps.count >= student_rsvp_limit
+  end
+
+  def validate_rsvp_limit
+    if student_rsvp_limit_was.is_a?(Integer) && student_rsvp_limit < student_rsvp_limit_was
+      errors.add(:student_rsvp_limit, "can't be decreased")
+      false
+    end
   end
 
   def ordered_volunteer_rsvps
@@ -89,6 +99,26 @@ class Event < ActiveRecord::Base
 
   def organizer?(user)
     organizer_rsvps.where(user_id: user.id).any?
+  end
+
+  def reorder_waitlist!
+    return if historical?
+
+    Rsvp.transaction do
+      unless at_limit?
+        number_of_open_spots = student_rsvp_limit - student_rsvps.count
+        to_be_confirmed = student_waitlist_rsvps.order(:waitlist_position).limit(number_of_open_spots)
+        to_be_confirmed.each do |rsvp|
+          rsvp.promote_from_waitlist!
+        end
+      end
+
+      index = 1
+      student_waitlist_rsvps.order(:waitlist_position).find_each do |rsvp|
+        rsvp.update_attribute(:waitlist_position, index)
+        index += 1
+      end
+    end
   end
 
   private
