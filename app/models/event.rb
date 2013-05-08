@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   has_many :rsvps, dependent: :destroy
 
   has_many :student_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::STUDENT.id, waitlist_position: nil }
-  has_many :student_waitlist_rsvps, class_name: 'Rsvp', conditions: "role_id == #{Role::STUDENT.id} AND waitlist_position IS NOT NULL"
+  has_many :student_waitlist_rsvps, class_name: 'Rsvp', conditions: "role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL"
   has_many :students, through: :student_rsvps, source: :user, source_type: 'User'
   has_many :legacy_students, through: :student_rsvps, source: :user, source_type: 'MeetupUser'
 
