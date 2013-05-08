@@ -7,6 +7,13 @@
     <%= link_to "[Volunteer Meetup]", "http://www.sfruby.info/events/#{event.meetup_volunteer_event_id}/", class: 'meetup-link' %>
   <% end %>
 </td>
-<td><%= formatted_session_date(event.event_sessions.first) %></td>
-<td><%= formatted_session_timerange(event.event_sessions.first) %></td>
+<td>
+  <% if event.upcoming? %>
+    <% event.event_sessions.each_with_index do |session, index| %>
+      <%= formatted_session_date_and_time(session) %><% if index < event.event_sessions.length - 1 %><br /><% end %>
+    <% end %>
+  <% else %>
+    <%= formatted_session_date(event.event_sessions.last) %>
+  <% end %>
+</td>
 <td><%= event.location.name rescue nil %></td>
