@@ -20,7 +20,7 @@ module EventsHelper
   end
 
   def organizer_list
-    @event.organizers_with_legacy.length == 0 ?  [] : @event.organizers_with_legacy
+    @event.organizers_with_legacy.empty? ? [] : @event.organizers_with_legacy
   end
 
   def formatted_session_date(event_session)
@@ -50,18 +50,18 @@ module EventsHelper
     simple_format(
       Sanitize.clean(string, Sanitize::Config::RELAXED),
       :sanitize => false
-      )
+    )
   end
 
   def formatted_event_date_range(event)
     first_date = event.event_sessions.map { |s| s.date_in_time_zone(:starts_at) }.min
-    last_date  = event.event_sessions.map { |s| s.date_in_time_zone(:ends_at)   }.max
+    last_date = event.event_sessions.map { |s| s.date_in_time_zone(:ends_at) }.max
 
     if first_date.year == last_date.year
       if first_date.month == last_date.month
-        t :range_as_month_dayrange_year, 
-          :month => l(first_date, format: :date_as_m), 
-          first_day: first_date.day, 
+        t :range_as_month_dayrange_year,
+          :month => l(first_date, format: :date_as_m),
+          first_day: first_date.day,
           last_day: last_date.day,
           year: first_date.year
       else
@@ -71,7 +71,7 @@ module EventsHelper
           :year => first_date.year
       end
     else
-      t :range_as_yearrange, 
+      t :range_as_yearrange,
         :first_date => l(first_date, format: :date_as_m_d_y),
         :last_date => l(last_date, format: :date_as_m_d_y)
     end
@@ -83,5 +83,9 @@ module EventsHelper
     p << session.name
     p << " on #{formatted_session_date(session)}"
     p << " from #{formatted_session_timerange(session)}"
+  end
+
+  def verb(role)
+    role == Role::STUDENT ? "attending" : "volunteering at"
   end
 end

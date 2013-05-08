@@ -6,7 +6,7 @@
 <body>
 Hey <%= @rsvp.user.full_name %>,
 
-<p>Thanks for volunteering for <%= @rsvp.event.title %>!</p>
+<p>Thanks for signing up as a <%= @rsvp.role.name.downcase %> for <%= @rsvp.event.title %>!</p>
 
 <% if @rsvp.event.location %>
     <p><%= @rsvp.event.title %> will be held at:
@@ -14,11 +14,10 @@ Hey <%= @rsvp.user.full_name %>,
     </p>
 <% end %>
 
-You've signed up for <%= pluralize(@rsvp.rsvp_sessions.count, 'session') %>:
+You'll be <%= verb(@rsvp.role) %> <%= pluralize(@rsvp.rsvp_sessions.count, 'session') %>:
 <ul>
   <% @rsvp.rsvp_sessions.each do |s| %>
       <li><%= pretty_print_session(s.event_session) %></li>
-
   <% end %>
 </ul>
 <p>

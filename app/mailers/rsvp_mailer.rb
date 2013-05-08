@@ -2,23 +2,22 @@ class RsvpMailer < ActionMailer::Base
   add_template_helper(EventsHelper)
   add_template_helper(LocationsHelper)
 
-  def send_confirmation(rsvp)
-    if rsvp.role == Role::VOLUNTEER
-      volunteer_email(rsvp,  'Thanks for volunteering with Railsbridge!')
-    end
+  def confirmation(rsvp)
+    email(rsvp,  "You've signed up for #{rsvp.event.title}!")
   end
 
-  def volunteer_reminder(rsvp)
-    volunteer_email(rsvp, "Reminder: You're volunteering with Railsbridge")
+  def reminder(rsvp)
+    email(rsvp, "Reminder: You're volunteering at #{rsvp.event.title}")
   end
 
   private
 
-  def volunteer_email(rsvp, subject)
+  def email(rsvp, subject)
     @rsvp = rsvp
     mail(
-      to: rsvp.user.email, subject: subject,
-      template_name: 'confirm_volunteer'
+      to: rsvp.user.email,
+      subject: subject,
+      template_name: 'email'
     )
   end
 end
