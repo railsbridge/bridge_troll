@@ -79,7 +79,21 @@ describe RsvpsController do
         assigns[:rsvp].event_id.should == @event.id
       end
 
-      context "when the event is full" do
+      context "when the event has some volunteers" do
+        before do
+          @event.update_attribute(:student_rsvp_limit, 2)
+          create(:volunteer_rsvp, event: @event)
+          create(:volunteer_rsvp, event: @event)
+        end
+
+        it "adds the newly rsvp'd user as a confirmed user" do
+          post :create, event_id: @event.id, rsvp: @rsvp_params
+          rsvp = Rsvp.last
+          rsvp.waitlist_position.should be_nil
+        end
+      end
+
+      context "when the event is full of students" do
         before do
           @event.update_attribute(:student_rsvp_limit, 2)
           create(:student_rsvp, event: @event)
