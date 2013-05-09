@@ -1,42 +1,41 @@
 require "spec_helper"
 
 describe RsvpMailer do
-  describe "rsvp confirmation" do
-    describe "if a volunteer rsvps" do
-      let(:volunteer_rsvp) { create(:volunteer_rsvp) }
-      let(:mail) { RsvpMailer.send_confirmation(volunteer_rsvp) }
+  let(:user) { rsvp.user }
+  let(:event) { rsvp.event }
 
-      it "renders the headers" do
-        mail.subject.should eq(
-          "Thanks for volunteering with Railsbridge!"
-        )
-        mail.to.should eq([volunteer_rsvp.user.email])
-        mail.from.should eq(["troll@bridgetroll.org"])
+  describe 'the confirmation email' do
+    let(:mail) { RsvpMailer.confirmation(rsvp) }
+
+    describe "for a volunteer" do
+      let(:rsvp) { create(:volunteer_rsvp) }
+
+      it "is sent to the volunteer" do
+        mail.to.should eq([user.email])
+      end
+
+      it "includes information about the workshop" do
+        mail.subject.should eq "You've signed up for #{event.title}!"
+        mail.body.should include(user.first_name)
+        mail.body.should include(event.title)
+        mail.body.should include(event.location.name)
       end
 
       it_behaves_like 'a mailer view'
-
-      it "gets sent" do
-        mail.deliver
-        assert !ActionMailer::Base.deliveries.empty?
-      end
-
-      it "contains the user's first name" do
-        mail.body.should include(volunteer_rsvp.user.first_name)
-      end
-
-      it "contains info about the event" do
-        mail.body.should include(volunteer_rsvp.event.title)
-        mail.body.should include(volunteer_rsvp.event.location.name)
-      end
     end
 
-    describe "if a student rsvps" do
-      let(:student_rsvp) { create(:student_rsvp) }
-      let(:mail) { RsvpMailer.send_confirmation(student_rsvp) }
-      it "doesn't get sent" do
-        mail.deliver
-        assert ActionMailer::Base.deliveries.empty?
+    describe "for a student" do
+      let(:rsvp) { create(:student_rsvp) }
+
+      it "is sent to the student" do
+        mail.to.should eq([rsvp.user.email])
+      end
+
+      it "includes information about the workshop" do
+        mail.subject.should eq "You've signed up for #{event.title}!"
+        mail.body.should include(user.first_name)
+        mail.body.should include(event.title)
+        mail.body.should include(event.location.name)
       end
     end
   end
@@ -44,12 +43,14 @@ describe RsvpMailer do
   describe 'the reminder email' do
     let(:rsvp) { FactoryGirl.create(:rsvp) }
     let(:event) { rsvp.event }
-    let(:mail) { RsvpMailer.volunteer_reminder(rsvp) }
+    let(:mail) { RsvpMailer.reminder(rsvp) }
 
-    it 'has the right headers' do
-      mail.subject.should eq("Reminder: You're volunteering with Railsbridge")
-      mail.to.should eq([rsvp.user.email])
-      mail.from.should eq(['troll@bridgetroll.org'])
+    it 'is sent to the user' do
+      mail.to.should eq([user.email])
+    end
+
+    it 'includes information about the workshop' do
+      mail.subject.should eq("Reminder: You're volunteering at #{event.title}")
       mail.body.should_not be_empty
     end
 

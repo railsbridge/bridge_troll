@@ -1,12 +1,12 @@
 Hey <%= @rsvp.user.full_name %>,
-Thanks for volunteering for <%= @rsvp.event.title %>!
+Thanks for signing up as a <%= @rsvp.role.name.downcase %> for <%= @rsvp.event.title %>!
 
 <% if @rsvp.event.location %>
   <%= @rsvp.event.title %> will be held at:
   <%= pretty_print_address(@rsvp.event.location) %>
 <% end %>
 
-You've signed up to volunteer for <%= pluralize(@rsvp.rsvp_sessions.count, 'session') %>:
+You're signed up to <%= verb(@rsvp.role) %> <%= pluralize(@rsvp.rsvp_sessions.count, 'session') %>:
 <% @rsvp.rsvp_sessions.each do |s| %>
 *<%= pretty_print_session(s.event_session) %>
 <% end %>
