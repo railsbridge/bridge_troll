@@ -7,7 +7,7 @@ class ReminderSender
 
   def self.remind_volunteers_for(event)
     event.volunteer_rsvps.where(:reminded_at => nil).find_each do |rsvp|
-      RsvpMailer.volunteer_reminder(rsvp).deliver
+      RsvpMailer.reminder(rsvp).deliver
       rsvp.update_attributes(reminded_at: Time.now)
     end
   end
