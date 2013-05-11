@@ -50,6 +50,8 @@ describe "the event listing page" do
         fill_in "Password", with: @user.password
         click_button "Sign in"
       end
+
+      page.find('h1').should have_content("#{event.title}")
       current_path.should == event_path(event)
     end
   end
