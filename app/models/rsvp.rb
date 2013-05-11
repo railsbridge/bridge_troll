@@ -55,6 +55,7 @@ class Rsvp < ActiveRecord::Base
 
   def promote_from_waitlist!
     update_attribute(:waitlist_position, nil)
+    RsvpMailer.off_waitlist(self).deliver
   end
 
   def set_attending_sessions session_ids=nil

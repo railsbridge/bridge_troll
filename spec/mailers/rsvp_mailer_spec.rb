@@ -42,7 +42,6 @@ describe RsvpMailer do
 
   describe 'the reminder email' do
     let(:rsvp) { FactoryGirl.create(:rsvp) }
-    let(:event) { rsvp.event }
     let(:mail) { RsvpMailer.reminder(rsvp) }
 
     it 'is sent to the user' do
@@ -51,7 +50,27 @@ describe RsvpMailer do
 
     it 'includes information about the workshop' do
       mail.subject.should eq("Reminder: You're volunteering at #{event.title}")
-      mail.body.should_not be_empty
+      mail.body.should include(user.first_name)
+      mail.body.should include(event.title)
+      mail.body.should include(event.location.name)
+    end
+
+    it_behaves_like 'a mailer view'
+  end
+
+  describe 'the email when someone gets off the waitlist' do
+    let(:rsvp) { FactoryGirl.create(:student_rsvp) }
+    let(:mail) { RsvpMailer.off_waitlist(rsvp) }
+
+    it 'is sent to the user' do
+      mail.to.should eq([user.email])
+    end
+
+    it 'includes information about the workshop' do
+      mail.subject.should eq("You're confirmed for #{event.title}")
+      mail.body.should include(user.first_name)
+      mail.body.should include(event.title)
+      mail.body.should include(event.location.name)
     end
 
     it_behaves_like 'a mailer view'

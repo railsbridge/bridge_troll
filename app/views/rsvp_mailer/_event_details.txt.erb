@@ -1,0 +1,11 @@
+<% if @rsvp.event.location %>
+  <%= @rsvp.event.title %> will be held at:
+  <%= pretty_print_address(@rsvp.event.location) %>
+<% end %>
+
+You're signed up to <%= verb(@rsvp.role) %> <%= pluralize(@rsvp.rsvp_sessions.count, 'session') %>:
+<% @rsvp.rsvp_sessions.each do |s| %>
+  *<%= pretty_print_session(s.event_session) %>
+<% end %>
+
+Visit the <%= link_to 'event page', event_url(@rsvp.event) %> for more info.

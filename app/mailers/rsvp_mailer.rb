@@ -10,6 +10,14 @@ class RsvpMailer < ActionMailer::Base
     email(rsvp, "Reminder: You're volunteering at #{rsvp.event.title}")
   end
 
+  def off_waitlist(rsvp)
+    @rsvp = rsvp
+    mail(
+      to: rsvp.user.email,
+      subject: "You're confirmed for #{rsvp.event.title}"
+    )
+  end
+
   private
 
   def email(rsvp, subject)

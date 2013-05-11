@@ -6,7 +6,7 @@
 <body>
 Hey <%= @rsvp.user.full_name %>,
 
-<p>Thanks for signing up as a <%= @rsvp.role.name.downcase %> for <%= @rsvp.event.title %>!</p>
+<p>A spot opened up! You are now confirmed as a <%= @rsvp.role.name.downcase %> for <%= @rsvp.event.title %>!</p>
 
 <%= render :partial => 'event_details' %>
 
