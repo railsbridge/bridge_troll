@@ -69,6 +69,7 @@ module Seeder
       title: 'Seeded Test Event',
       student_rsvp_limit: 5,
       time_zone: 'Pacific Time (US & Canada)',
+      course: 'rails',
       details: <<DETAILS
 <h2>Workshop Description</h2>
 

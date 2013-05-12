@@ -9,6 +9,8 @@
 //= require jquery.ui.datepicker
 //= require twitter/bootstrap/modal
 //= require twitter/bootstrap/transition
+//= require twitter/bootstrap/tooltip
+//= require twitter/bootstrap/popover
 //= require select2
 //= require modernizr
 //= require underscore

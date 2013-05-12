@@ -17,6 +17,10 @@
         <%= f.label :title %>
         <%= f.text_field :title %>
       </div>
+      <div class="field">
+        <%= f.label :course %>
+        <%= f.select :course, options_for_select([['Rails','rails'],['FrontEnd','frontend']], @event.course) %>
+      </div>
 
       <h3>Sessions</h3>
 
