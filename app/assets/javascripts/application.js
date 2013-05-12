@@ -23,10 +23,13 @@ $(document).ready(function () {
     "iDisplayLength": 50
   } );
 
-  $('.datatable').dataTable();
-
   $('.datatable-sorted').dataTable({
-    "aaSorting": [[ 1, "desc" ]]
+    "aaSorting": [[ 1, "desc" ]],
+    "aoColumns": [
+      null,
+      { "sType": "date" },
+      null
+    ]
   });
 
   if ($(window).height() < $('html').height()) {
