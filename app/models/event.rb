@@ -62,11 +62,11 @@ class Event < ActiveRecord::Base
   end
 
   def self.upcoming
-    includes(:event_sessions).where('event_sessions.ends_at > ?', Time.now.utc)
+    where('ends_at > ?', Time.now.utc)
   end
 
   def self.past
-    includes(:event_sessions).where('event_sessions.ends_at < ?', Time.now.utc)
+    where('ends_at < ?', Time.now.utc)
   end
 
   def upcoming?

@@ -13,10 +13,10 @@ class EventSession < ActiveRecord::Base
   def update_event_times
     return unless event
 
-    event.update_attributes({
-                              starts_at: event.event_sessions.minimum("event_sessions.starts_at"),
-                              ends_at: event.event_sessions.maximum("event_sessions.ends_at")
-                            })
+    event.update_attributes(
+      starts_at: event.event_sessions.minimum("event_sessions.starts_at"),
+      ends_at: event.event_sessions.maximum("event_sessions.ends_at")
+    )
   end
 
   def starts_at
