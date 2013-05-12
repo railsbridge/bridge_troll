@@ -21,7 +21,14 @@
         </div>
       <% end %>
     </div>
-
+    <% unless @event.course == nil %>
+      <div id="course">
+        <h2>Course</h2>
+          <p>
+            <%= @event.course.description.html_safe %>
+          </p>
+      </div>
+    <% end %>
     <div class="details">
       <%= simple_format_with_html(@event.details) %>
     </div>

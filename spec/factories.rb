@@ -20,6 +20,7 @@ FactoryGirl.define do
     ends_at { starts_at + 1.day }
     student_rsvp_limit 100
     location
+    course_id Course::RAILS.id
 
     factory :event do
       before(:create) do |event, evaluator|

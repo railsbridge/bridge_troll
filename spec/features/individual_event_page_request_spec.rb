@@ -43,6 +43,24 @@ describe "the individual event page" do
       visit event_path(@event)
       page.should_not have_content("public_email@example.org")
     end
+
+    it "displays a course if course is chosen" do
+      visit event_path(@event)
+      page.should have_content("The focus will be on ")
+    end
+
+    it "does not display a course if course is nil" do
+      #destroy course to simulate old events
+      @event.update_attributes(:course_id => nil)
+      @event.save!
+      visit event_path(@event)
+      page.should_not have_content("The focus will be on ")
+
+      #put course back for following tests
+      @event.update_attributes(:course_id => Course::RAILS.id)
+      @event.save!
+    end
+
   end
 
   context "user is logged in but is not an organizer for the event" do

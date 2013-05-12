@@ -68,6 +68,7 @@ describe "the event listing page" do
       click_link "Organize Event"
 
       fill_in "Title", with: "February Event"
+      select "Ruby on Rails", :from => "event_course_id"
       fill_in "Student RSVP limit", with: 100
 
       within ".event-sessions" do
@@ -97,12 +98,42 @@ describe "the event listing page" do
       page.should_not have_css '.details script'
       page.should have_content("1/12/2015")
       page.should have_css(".details p", text: 'With a new line!')
+      page.should have_content("This is a Ruby on Rails event. The focus will be on developing functional web apps and programming in Ruby.")
 
       visit events_path
 
       page.should have_content("February Event")
       page.should have_content("AKST") # alaska time code!
       page.should have_content("Organizer Console")
+    end
+
+    it "should display frontend content for frontend events" do
+      visit events_path
+      click_link "Organize Event"
+
+      fill_in "Title", with: "March Event"
+      select "Front End", :from => "event_course_id"
+      fill_in "Student RSVP limit", with: 100
+
+      within ".event-sessions" do
+        fill_in "Session Name", with: 'My Amazing Session'
+        fill_in "event[event_sessions_attributes][0][session_date]", with: '2015-01-12'
+
+        start_time_selects = all('.start_time')
+        start_time_selects[0].select "03 PM"
+        start_time_selects[1].select "15"
+
+        end_time_selects = all('.end_time')
+        end_time_selects[0].select "05 PM"
+        end_time_selects[1].select "45"
+      end
+
+      select "(GMT-09:00) Alaska", from: 'event_time_zone'
+      fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
+
+      click_button "Create Event"
+
+      page.should have_content("This is a Front End workshop. The focus will be on")
     end
 
     context 'given an event' do
@@ -148,7 +179,7 @@ describe "the event listing page" do
 
         choose "Windows 8"
         fill_in "rsvp_job_details", :with => "I am an underwater basket weaver."
-        select "5", from: 'rsvp_class_level'
+        choose "rsvp_class_level_1"
 
         click_button "Submit"
         page.should have_content("signed up")

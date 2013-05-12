@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130505221357) do
+ActiveRecord::Schema.define(:version => 20130512222919) do
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20130505221357) do
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.integer  "student_rsvp_limit"
+    t.integer  "course_id"
   end
 
   create_table "locations", :force => true do |t|
