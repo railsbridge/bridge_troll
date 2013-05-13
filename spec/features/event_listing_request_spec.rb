@@ -50,6 +50,8 @@ describe "the event listing page" do
         fill_in "Password", with: @user.password
         click_button "Sign in"
       end
+
+      page.should_not have_css(".modal-header", visible: true)
       find(".header-text").text.should have_content "#{event.title}"
       current_path.should == event_path(event)
     end
