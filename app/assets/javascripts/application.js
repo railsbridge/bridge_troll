@@ -11,6 +11,13 @@
 //= require twitter/bootstrap/transition
 //= require select2
 //= require modernizr
+//= require underscore
+//= require backbone
+//= require bridgetroll
+//= require_tree ../templates
+//= require_tree ./models
+//= require_tree ./collections
+//= require_tree ./views
 //= require_tree .
 //= require jquery_nested_form
 //= require dataTables/jquery.dataTables

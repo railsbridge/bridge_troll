@@ -1,0 +1,5 @@
+Bridgetroll = {
+  Models: {},
+  Collections: {},
+  Views: {}
+};

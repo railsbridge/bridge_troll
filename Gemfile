@@ -26,6 +26,7 @@ group :assets do
   gem 'uglifier'
   gem 'bootstrap-sass-rails'
   gem 'jquery-ui-rails'
+  gem 'backbone-on-rails'
 end
 
 group :development do
@@ -37,6 +38,7 @@ group :development do
 end
 
 group :test, :development do
+  gem 'jasmine'
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'awesome_print'

@@ -19,6 +19,12 @@ describe "the organizer dashboard" do
     page.should have_content("Organizer Assignment")
   end
 
+  it "lets the user assign students and volunteers to sections" do
+    visit organize_event_path(@event)
+    click_link "Class Breakdown"
+    page.should have_content("Section Organizing")
+  end
+
   it "lets the user manage volunteers" do
     visit organize_event_path(@event)
     within('.mission-control-actions') { click_link 'Manage Volunteers' }

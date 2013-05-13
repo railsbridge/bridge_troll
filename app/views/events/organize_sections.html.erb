@@ -1,0 +1,17 @@
+<%= content_for(:header_text, @event.title) %>
+
+<h2>Super Secret Organizer Section Organizing Tool</h2>
+
+<div id="section-organizer"></div>
+
+<script>
+  $(document).ready(function () {
+    var students = new Bridgetroll.Collections.Student(
+      <%= @event.student_rsvps.map { |rsvp| { name: rsvp.user.full_name } }.to_json.html_safe %>
+    );
+
+    Bridgetroll.sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({students: students});
+    Bridgetroll.sectionOrganizer.setElement($('#section-organizer'));
+    Bridgetroll.sectionOrganizer.render();
+  });
+</script>

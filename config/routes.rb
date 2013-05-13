@@ -26,6 +26,7 @@ Bridgetroll::Application.routes.draw do
     end
     get "volunteer_emails" => "events#volunteer_emails", :on => :member
     get "organize", :on => :member
+    get "organize_sections", :on => :member
   end
 
   get "/auth/:provider/callback" => "omniauths#callback"

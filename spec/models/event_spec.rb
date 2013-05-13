@@ -160,7 +160,7 @@ describe Event do
       end
     end
   end
-
+  
   describe "waitlists" do
     before do
       @confirmed_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT)
