@@ -25,7 +25,7 @@
               <% end %>
               <%= render 'shared/rsvp_actions', event: event %>
             <% else %>
-              <a href="#sign_in_dialog" class="btn" data-toggle="modal" data-return-to="<%= event_path(event) %>">Learn</a>
+              <a href="#sign_in_dialog" class="btn" data-toggle="modal" data-return-to="<%= event_path(event) %>"><%= attend_button_text(event) %></a>
               <a href="#sign_in_dialog" class="btn" data-toggle="modal" data-return-to="<%= event_path(event) %>">Volunteer</a>
             <% end %>
           </td>

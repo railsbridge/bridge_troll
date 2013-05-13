@@ -69,7 +69,21 @@ describe "the individual event page" do
 
       it "should allow user to attend as a student" do
         visit event_path(@event)
-        page.should have_link("Learn")
+
+        page.should have_link("Attend as a student")
+        page.should_not have_link("Join the waitlist")
+      end
+
+      context "when the event is full" do
+        before(:each) do
+          Event.any_instance.stub(:at_limit?).and_return(true)
+        end
+
+        it "should allow the user to join the waitlist" do
+          visit event_path(@event)
+          page.should_not have_link("Attend as a student")
+          page.should have_link("Join the waitlist")
+        end
       end
     end
 

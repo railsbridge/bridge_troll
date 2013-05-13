@@ -88,4 +88,8 @@ module EventsHelper
   def verb(role)
     role == Role::STUDENT ? "attending" : "volunteering at"
   end
+
+  def attend_button_text(event)
+    event.at_limit? ? 'Join the waitlist' : 'Attend as a student'
+  end
 end
