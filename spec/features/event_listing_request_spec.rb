@@ -42,9 +42,10 @@ describe "the event listing page" do
       event.save!
 
       visit events_path
-      page.should have_link('Learn')
+
+      page.should have_link("Attend as a student")
       page.should have_link('Volunteer')
-      click_link 'Learn'
+      click_link "Attend as a student"
       within "#sign_in_dialog" do
         fill_in "Email", with: @user.email
         fill_in "Password", with: @user.password
@@ -142,7 +143,7 @@ describe "the event listing page" do
 
       it "allows a student to register for an event" do
         visit events_path
-        click_link("Learn")
+        click_link("Attend as a student")
         page.should have_content("almost signed up")
 
         choose "Windows 8"
