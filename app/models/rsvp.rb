@@ -53,6 +53,10 @@ class Rsvp < ActiveRecord::Base
     volunteer_preference.title
   end
 
+  def waitlisted?
+    !!waitlist_position
+  end
+
   def promote_from_waitlist!
     update_attribute(:waitlist_position, nil)
     RsvpMailer.off_waitlist(self).deliver

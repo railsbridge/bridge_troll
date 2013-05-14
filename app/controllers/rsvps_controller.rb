@@ -26,7 +26,9 @@ class RsvpsController < ApplicationController
       if @rsvp.save
         set_rsvp_sessions
         RsvpMailer.confirmation(@rsvp).deliver
-        redirect_to @event, notice: 'Thanks for signing up!'
+        notice_message = 'Thanks for signing up!'
+        notice_message << " We've added you to the waitlist." if @rsvp.waitlisted?
+        redirect_to @event, notice: notice_message
       else
         render :new
       end

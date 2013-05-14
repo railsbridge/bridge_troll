@@ -79,17 +79,23 @@ describe RsvpsController do
         assigns[:rsvp].event_id.should == @event.id
       end
 
-      context "when the event has some volunteers" do
+      context "when the event is not full" do
         before do
           @event.update_attribute(:student_rsvp_limit, 2)
           create(:volunteer_rsvp, event: @event)
           create(:volunteer_rsvp, event: @event)
+          create(:student_rsvp, event: @event)
         end
 
         it "adds the newly rsvp'd user as a confirmed user" do
           post :create, event_id: @event.id, rsvp: @rsvp_params
           rsvp = Rsvp.last
           rsvp.waitlist_position.should be_nil
+        end
+
+        it "gives a notice that does not mention the waitlist" do
+          post :create, event_id: @event.id, rsvp: @rsvp_params
+          flash[:notice].should_not match(/waitlist/i)
         end
       end
 
@@ -104,6 +110,11 @@ describe RsvpsController do
           post :create, event_id: @event.id, rsvp: @rsvp_params
           rsvp = Rsvp.last
           rsvp.waitlist_position.should == 1
+        end
+
+        it "gives a notice that mentions the waitlist" do
+          post :create, event_id: @event.id, rsvp: @rsvp_params
+          flash[:notice].should match(/waitlist/i)
         end
       end
 

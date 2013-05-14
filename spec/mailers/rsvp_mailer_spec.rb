@@ -37,6 +37,31 @@ describe RsvpMailer do
         mail.body.should include(event.title)
         mail.body.should include(event.location.name)
       end
+
+      it "does not include the word 'waitlist'" do
+        mail.body.should_not include('waitlist')
+      end
+    end
+
+    describe "for a waitlisted student" do
+      let(:rsvp) { create(:student_rsvp, waitlist_position: 195) }
+
+      it "is sent to the student" do
+        mail.to.should eq([rsvp.user.email])
+      end
+
+      it "includes information about the workshop" do
+        mail.subject.should include(event.title)
+        mail.body.should include(user.first_name)
+        mail.body.should include(event.title)
+        mail.body.should include(event.location.name)
+      end
+
+      it "includes the waitlist position and the word 'waitlist'" do
+        mail.subject.should include('waitlist')
+        mail.body.should include("195")
+        mail.body.should include('waitlist')
+      end
     end
   end
 
@@ -76,4 +101,3 @@ describe RsvpMailer do
     it_behaves_like 'a mailer view'
   end
 end
-

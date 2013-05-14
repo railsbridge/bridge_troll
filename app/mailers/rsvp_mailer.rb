@@ -3,7 +3,11 @@ class RsvpMailer < ActionMailer::Base
   add_template_helper(LocationsHelper)
 
   def confirmation(rsvp)
-    email(rsvp,  "You've signed up for #{rsvp.event.title}!")
+    if rsvp.waitlisted?
+      email(rsvp,  "You're on the waitlist for #{rsvp.event.title}!")
+    else
+      email(rsvp,  "You've signed up for #{rsvp.event.title}!")
+    end
   end
 
   def reminder(rsvp)

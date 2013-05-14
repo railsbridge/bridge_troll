@@ -8,6 +8,10 @@ Hey <%= @rsvp.user.full_name %>,
 
 <p>Thanks for signing up as a <%= @rsvp.role.name.downcase %> for <%= @rsvp.event.title %>!</p>
 
+<% if @rsvp.waitlisted? %>
+  <p>You're at position <%= @rsvp.waitlist_position %> on the waitlist. You'll get an email if a slot opens up for you.</p>
+<% end %>
+
 <%= render :partial => 'event_details' %>
 
 <p>- The Troll</p>
