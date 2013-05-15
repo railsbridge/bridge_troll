@@ -4,8 +4,9 @@
 <h3>Total check-ins for this session: <span id='checked_in_count'><%= @rsvp_sessions.where(:checked_in=>true).length %></span></h3>
 <table class="table table-striped table-bordered table-condensed checkins">
   <tr>
-    <th>Name</th>
-    <th>Checked In?</th>
+    <th class='checkins-name'>Name</th>
+    <th class='checkins-role'>Role</th>
+    <th class='checkins-action'>Checked In?</th>
   </tr>
   <% @rsvp_sessions.each do |rsvp_session| %>
     <tr>
@@ -13,6 +14,7 @@
         <%= render 'shared/viewed_gravatars', :email => rsvp_session.rsvp.user.email %>
         <%= rsvp_session.user_full_name %>
       </td>
+      <td><%= rsvp_session.rsvp.role.title %></td>
       <td id="rsvp_session_<%= rsvp_session.id %>">
         <% destroy_id = "destroy_rsvp_session_#{rsvp_session.id}" %>
         <% create_id = "create_rsvp_session_#{rsvp_session.id}" %>

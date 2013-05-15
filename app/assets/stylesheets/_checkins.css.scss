@@ -1,11 +1,17 @@
-table.checkins tbody td {
-  img {
-    margin-right: 10px;
-  }
+table.checkins {
+  th.checkins-name { width: 50%; }
+  th.checkins-role { width: 20%; }
+  th.checkins-action { width: 30%; }
 
-  vertical-align: middle;
+  tbody td {
+    img {
+      margin-right: 10px;
+    }
 
-  form {
-    margin: 0;
+    vertical-align: middle;
+
+    form {
+      margin: 0;
+    }
   }
 }
