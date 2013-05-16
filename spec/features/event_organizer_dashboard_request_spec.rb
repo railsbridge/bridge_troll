@@ -32,6 +32,17 @@ describe "the organizer dashboard" do
     page.should have_content("Assign Volunteer")
   end
 
+  it 'lets the user download a CSV of student rsvps' do
+    visit organize_event_path(@event)
+    within('.mission-control-actions') { click_link 'Download CSV' }
+
+    csv_contents = page.source
+    csv_contents.should include("Student Name")
+    csv_contents.should include("Class Level")
+    csv_contents.should include("Operating System")
+    csv_contents.should include("Occupation")
+  end
+
   it "lets the user check in volunteers", js: true do
     user1 = create(:user, first_name: 'Anthony')
     user2 = create(:user, first_name: 'Bapp')
