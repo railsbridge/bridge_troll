@@ -1,8 +1,30 @@
-Bridgetroll.Views.Section = Backbone.View.extend({
+Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   className: 'bridgetroll-section',
+  template: 'section_organizer/section',
 
-  render: function () {
-    this.$el.empty();
-    this.$el.append('i am a section');
+  events: {
+    'sortreceive .students': 'studentAdded',
+    'sortremove .students': 'studentRemoved'
+  },
+
+  initialize: function (options) {
+    this._super('initialize', arguments);
+
+    this.title = options.title;
+    this.students = options.students;
+  },
+
+  context: function () {
+    return {
+      title: this.title,
+      students: this.students.toJSON()
+    }
+  },
+
+  studentAdded: $.noop,
+  studentRemoved: $.noop,
+
+  postRender: function () {
+    this.$('.students').sortable({connectWith: '.bridgetroll-section .students'});
   }
 });

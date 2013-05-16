@@ -7,4 +7,14 @@
 
 .bridgetroll-section {
   border: 1px solid green;
+  padding: 5px;
+  width: 200px;
+
+  .students {
+    min-height: 50px;
+  }
+}
+
+ul {
+  list-style-type: none;
 }

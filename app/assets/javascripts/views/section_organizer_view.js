@@ -1,30 +1,23 @@
-Bridgetroll.Views.SectionOrganizer = Backbone.View.extend({
+Bridgetroll.Views.SectionOrganizer = Bridgetroll.Views.Base.extend({
+  template: 'section_organizer/section_organizer',
+
+  events: {
+    'click .add-section': 'addSection'
+  },
+
   initialize: function (options) {
-    this.subViews = [];
-    this.students = options && options.students;
+    this._super('initialize', arguments);
+    this.students = options.students;
+    this.listenTo(this.students, 'change', this.render);
 
-    this.students.each(function (student) {
-      this.addStudent(student);
-    }, this);
-  },
-
-  render: function () {
-    this.$el.empty();
-
-    _.each(this.subViews, function (view) {
-      view.render();
-      this.$el.append(view.$el);
-    }, this);
-  },
-
-  addStudent: function (student) {
-    var studentView = new Bridgetroll.Views.Student({model: student});
-    this.subViews.push(studentView);
+    var section = new Bridgetroll.Views.Section({title: 'Unsorted Students', students: options.students});
+    this.subViews.push(section);
     this.render();
   },
 
   addSection: function () {
-    var section = new Bridgetroll.Views.Section();
+    var sectionStudents = new Bridgetroll.Collections.Student();
+    var section = new Bridgetroll.Views.Section({title: 'New Section', students: sectionStudents});
     this.subViews.push(section);
     this.render();
   }
