@@ -4,8 +4,20 @@ describe Rsvp do
   it { should belong_to(:user) }
   it { should belong_to(:event) }
   it { should validate_uniqueness_of(:user_id).scoped_to(:event_id) }
-  it { should validate_presence_of(:user)}
-  it { should validate_presence_of(:event)}
+  it { should validate_presence_of(:user) }
+  it { should validate_presence_of(:event) }
+
+  describe 'confirmed scope' do
+    before do
+      @confirmed = create :rsvp
+      @unconfirmed = create :student_rsvp, waitlist_position: 1
+    end
+
+    it 'includes only rsvps that arent on the WL' do
+      expect(Rsvp.confirmed).to include(@confirmed)
+      expect(Rsvp.confirmed).to_not include(@unconfirmed)
+    end
+  end
 
   describe 'needs_childcare scope' do
     before do
@@ -24,7 +36,7 @@ describe Rsvp do
 
     it { should validate_presence_of(:teaching_experience) }
     it { should ensure_length_of(:teaching_experience).is_at_least(10).is_at_most(250) }
-    it { should validate_presence_of(:subject_experience)}
+    it { should validate_presence_of(:subject_experience) }
     it { should ensure_length_of(:subject_experience).is_at_most(250).is_at_least(10) }
 
     it "allows rsvps from the same user ID but different user type" do
@@ -114,7 +126,7 @@ describe Rsvp do
         end
 
         it "creates rsvp_session records for all sessions, ignoring passed in ids" do
-          @rsvp.set_attending_sessions([1,2,3,4,5])
+          @rsvp.set_attending_sessions([1, 2, 3, 4, 5])
           @rsvp.reload.rsvp_sessions.count.should == @num_sessions
         end
       end
