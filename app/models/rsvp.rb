@@ -16,6 +16,7 @@ class Rsvp < ActiveRecord::Base
   validates_presence_of :user, :event, :role
   validates_presence_of :childcare_info, if: lambda { |rsvp| rsvp.needs_childcare? }
 
+  scope :confirmed, where("waitlist_position IS NULL")
   scope :needs_childcare, where("childcare_info <> ''")
 
   MAX_EXPERIENCE_LENGTH = 250
