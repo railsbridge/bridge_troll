@@ -5,28 +5,31 @@ describe ReminderSender do
     it 'sends the reminders for each of the upcoming events' do
       upcoming_event = create(:event, starts_at: Time.now + 1.day)
       past_event = create(:event, starts_at: Time.now - 1.day)
-      ReminderSender.should_receive(:remind_volunteers_for, upcoming_event)
-      ReminderSender.should_not_receive(:remind_volunteers_for).with(past_event)
+      ReminderSender.should_receive(:remind_attendees_for, upcoming_event)
+      ReminderSender.should_not_receive(:remind_attendees_for).with(past_event)
       ReminderSender.send_all_reminders
     end
   end
 
-  describe '.remind_volunteers_for' do
-    let(:event) { create(:event) }
-    let!(:volunteer_rsvp) { create(:volunteer_rsvp, :event => event) }
-    let!(:reminded_volunteer_rsvp) { create(:volunteer_rsvp, :reminded_at => Time.now, :event => event) }
+  describe '.remind_attendees_for' do
+    let(:event) { create(:event, student_rsvp_limit: 1) }
+    let!(:rsvp) { create(:volunteer_rsvp, event: event) }
+    let!(:student_rsvp) { create(:student_rsvp, event: event) }
+    let!(:reminded_rsvp) { create(:volunteer_rsvp, reminded_at: Time.now, event: event) }
+    let!(:waitlisted_rsvp) { create(:student_rsvp, waitlist_position: 1, event: event) }
 
-    it 'sends emails to all the volunteers' do
-      pending_reminder_count = event.volunteer_rsvps.where('reminded_at NOT NULL').count
+    it 'sends emails to all the students' do
+      pending_reminder_count = event.rsvps.confirmed.where('reminded_at IS NULL').count
       expect {
-        ReminderSender.remind_volunteers_for(event)
+        ReminderSender.remind_attendees_for(event)
       }.to change(ActionMailer::Base.deliveries, :count).by(pending_reminder_count)
     end
 
     it 'updates reminded_at' do
-      expect {
-        ReminderSender.remind_volunteers_for(event)
-      }.to change { volunteer_rsvp.reload.reminded_at.present? }.to(true)
+      ReminderSender.remind_attendees_for(event)
+      event.reload.rsvps.confirmed.each do |rsvp|
+        rsvp.reminded_at.should_not be_nil
+      end
     end
   end
 end

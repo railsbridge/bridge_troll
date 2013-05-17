@@ -74,7 +74,7 @@ describe RsvpMailer do
     end
 
     it 'includes information about the workshop' do
-      mail.subject.should eq("Reminder: You're volunteering at #{event.title}")
+      mail.subject.should eq("Reminder: You've signed up for #{event.title}")
       mail.body.should include(user.first_name)
       mail.body.should include(event.title)
       mail.body.should include(event.location.name)

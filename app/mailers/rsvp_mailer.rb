@@ -11,7 +11,7 @@ class RsvpMailer < ActionMailer::Base
   end
 
   def reminder(rsvp)
-    email(rsvp, "Reminder: You're volunteering at #{rsvp.event.title}")
+    email(rsvp, "Reminder: You've signed up for #{rsvp.event.title}")
   end
 
   def off_waitlist(rsvp)

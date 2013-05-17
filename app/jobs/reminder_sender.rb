@@ -1,12 +1,14 @@
 class ReminderSender
   def self.send_all_reminders
     UpcomingEventsQuery.new.find_each do |event|
-      remind_volunteers_for(event)
+      remind_attendees_for(event)
     end
   end
 
-  def self.remind_volunteers_for(event)
-    event.volunteer_rsvps.where(:reminded_at => nil).find_each do |rsvp|
+  def self.remind_attendees_for(event)
+    due_reminders = event.rsvps.confirmed.where(:reminded_at => nil)
+    puts "Sending #{due_reminders.count} reminders for #{event.title}..."
+    due_reminders.find_each do |rsvp|
       RsvpMailer.reminder(rsvp).deliver
       rsvp.update_attributes(reminded_at: Time.now)
     end
