@@ -51,6 +51,7 @@ FactoryGirl.define do
     teaching_experience "Quite experienced"
     subject_experience "Use professionally"
     childcare_info "Bobby: 8\nSusie: 4"
+    job_details "Horse whisperer"
 
     factory :student_rsvp do
       role Role.find_by_title 'Student'
