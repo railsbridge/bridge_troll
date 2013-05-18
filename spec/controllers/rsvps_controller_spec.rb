@@ -32,9 +32,9 @@ describe RsvpsController do
 
   describe "#create" do
     before do
-      @rsvp_params = extract_rsvp_params build(:rsvp, :event => @event)
+      @rsvp_params = extract_rsvp_params build(:rsvp, event: @event)
     end
-    context "without logging in, I am redirected from the page" do
+    context "when not logged in" do
       it "redirects to the sign in page" do
         assigns[:current_user].should be_nil
         post :create, event_id: @event.id, rsvp: @rsvp_params
@@ -52,7 +52,7 @@ describe RsvpsController do
       before do
         @user = create(:user)
         sign_in @user
-        @rsvp_params = extract_rsvp_params build(:rsvp, :event => @event)
+        @rsvp_params = extract_rsvp_params build(:rsvp, event: @event)
       end
 
       it "should allow the user to newly volunteer for an event" do
@@ -87,15 +87,21 @@ describe RsvpsController do
           create(:student_rsvp, event: @event)
         end
 
-        it "adds the newly rsvp'd user as a confirmed user" do
-          post :create, event_id: @event.id, rsvp: @rsvp_params
-          rsvp = Rsvp.last
-          rsvp.waitlist_position.should be_nil
-        end
+        describe "and a student rsvps" do
+          before do
+            @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event, role: Role::STUDENT)
+            expect {
+              post :create, event_id: @event.id, rsvp: @rsvp_params
+            }.to change(Rsvp, :count).by(1)
+          end
 
-        it "gives a notice that does not mention the waitlist" do
-          post :create, event_id: @event.id, rsvp: @rsvp_params
-          flash[:notice].should_not match(/waitlist/i)
+          it "adds the a newly rsvp'd student as a confirmed user" do
+            Rsvp.last.waitlist_position.should be_nil
+          end
+
+          it "gives a notice that does not mention the waitlist" do
+            flash[:notice].should_not match(/waitlist/i)
+          end
         end
       end
 
@@ -106,30 +112,49 @@ describe RsvpsController do
           create(:student_rsvp, event: @event)
         end
 
-        it "adds the newly rsvp'd user to the waitlist" do
-          post :create, event_id: @event.id, rsvp: @rsvp_params
-          rsvp = Rsvp.last
-          rsvp.waitlist_position.should == 1
+        describe "and a student rsvps" do
+          before do
+            @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event, role: Role::STUDENT)
+            expect {
+              post :create, event_id: @event.id, rsvp: @rsvp_params
+            }.to change(Rsvp, :count).by(1)
+          end
+
+          it "adds the student to the waitlist" do
+            Rsvp.last.waitlist_position.should == 1
+          end
+
+          it "gives a notice that mentions the waitlist" do
+            flash[:notice].should match(/waitlist/i)
+          end
+
+          describe "then another student rsvps" do
+            before do
+              sign_out @user
+              sign_in create(:user)
+
+              expect {
+                post :create, event_id: @event.id, rsvp: @rsvp_params
+              }.to change(Rsvp, :count).by(1)
+            end
+
+            it "adds the student the waitlist after the original student" do
+              Rsvp.last.waitlist_position.should == 2
+            end
+          end
         end
 
-        it "gives a notice that mentions the waitlist" do
-          post :create, event_id: @event.id, rsvp: @rsvp_params
-          flash[:notice].should match(/waitlist/i)
-        end
-      end
+        describe "and a volunteer rsvps" do
+          before do
+            @rsvp_params = extract_rsvp_params build(:volunteer_rsvp, event: @event, role: Role::VOLUNTEER)
+          end
 
-      context "when the event is full and has a waitlist" do
-        before do
-          @event.update_attribute(:student_rsvp_limit, 2)
-          create(:student_rsvp, event: @event)
-          create(:student_rsvp, event: @event)
-          create(:student_rsvp, event: @event, waitlist_position: 1)
-        end
-
-        it "adds the newly rsvp'd user to the waitlist" do
-          post :create, event_id: @event.id, rsvp: @rsvp_params
-          rsvp = Rsvp.last
-          rsvp.waitlist_position.should == 2
+          it "adds the volunteer as confirmed" do
+            expect {
+              post :create, event_id: @event.id, rsvp: @rsvp_params
+            }.to change(Rsvp, :count).by(1)
+            Rsvp.last.waitlist_position.should be_nil
+          end
         end
       end
 
