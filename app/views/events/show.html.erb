@@ -21,7 +21,19 @@
         </div>
       <% end %>
     </div>
-
+    <div id="course">
+      <h2>Course</h2>
+      <% if @event.course == 'rails' %>
+        <p>
+          This is a Ruby on Rails event. The focus will be on developing functional web apps and programming in Ruby.  You can find all the curriculum materials at <a href="http://docs.railsbridge.org">docs.railsbridge.org</a>
+        </p>
+      <% end %>
+      <% if @event.course == 'frontend' %>
+        <p>
+          This is a Front End workshop. The focus will be on designing web apps with HTML and CSS.  You can find all the curriculum materials at <a href="http://docs.railsbridge.org/frontend">docs.railsbridge.org/frontend</a>
+        </p>
+      <% end %>
+    </div>
     <div class="details">
       <%= simple_format_with_html(@event.details) %>
     </div>
