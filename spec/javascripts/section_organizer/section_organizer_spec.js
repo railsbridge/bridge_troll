@@ -10,23 +10,34 @@ describe("SectionOrganizer", function() {
     sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({students: students});
   });
 
-  it("renders each of the students from the original collection", function () {
-    sectionOrganizer.render();
-    expect(sectionOrganizer.$el.text()).toContain('Lana Lang');
-    expect(sectionOrganizer.$el.text()).toContain('Sue Storm');
-    expect(sectionOrganizer.$el.text()).toContain('Ted Moesby');
+  describe("after rendering", function () {
+    beforeEach(function () {
+      sectionOrganizer.render();
+    });
+
+    it("contains each of the students from the original collection", function () {
+      expect(sectionOrganizer.$el.text()).toContain('Lana Lang');
+      expect(sectionOrganizer.$el.text()).toContain('Sue Storm');
+      expect(sectionOrganizer.$el.text()).toContain('Ted Moesby');
+    });
+
+    describe("add section button", function () {
+      it("should invoke #addSection", function () {
+        spyOn(sectionOrganizer, 'addSection');
+        sectionOrganizer.$('.add-section').click();
+        sectionOrganizer.$('.add-section').click(); // TODO: not this
+        expect(sectionOrganizer.addSection).toHaveBeenCalled();
+      });
+    });
   });
 
   describe("#addSection", function () {
     it("adds a new section as a subview", function () {
       sectionOrganizer.render();
-      expect(sectionOrganizer.$('.bridgetroll-section').length).toEqual(0);
 
+      var sectionCount = sectionOrganizer.$('.bridgetroll-section').length;
       sectionOrganizer.addSection();
-      expect(sectionOrganizer.$('.bridgetroll-section').length).toEqual(1);
-
-      sectionOrganizer.addSection();
-      expect(sectionOrganizer.$('.bridgetroll-section').length).toEqual(2);
+      expect(sectionOrganizer.$('.bridgetroll-section').length).toEqual(sectionCount + 1);
     });
   });
 });

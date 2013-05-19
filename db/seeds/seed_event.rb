@@ -19,7 +19,8 @@ module Seeder
       role: Role::VOLUNTEER,
       volunteer_assignment: options[:assignment],
       subject_experience: Faker::Lorem.sentence,
-      teaching_experience: Faker::Lorem.sentence
+      teaching_experience: Faker::Lorem.sentence,
+      job_details: Faker::Name.title
     )
     options[:event].event_sessions.each do |session|
       RsvpSession.create!(rsvp: rsvp, event_session: session)
@@ -69,6 +70,7 @@ module Seeder
       title: 'Seeded Test Event',
       student_rsvp_limit: 5,
       time_zone: 'Pacific Time (US & Canada)',
+      course_id: Course::RAILS.id,
       details: <<DETAILS
 <h2>Workshop Description</h2>
 

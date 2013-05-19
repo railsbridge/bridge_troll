@@ -43,6 +43,24 @@ describe "the individual event page" do
       visit event_path(@event)
       page.should_not have_content("public_email@example.org")
     end
+
+    it "displays a course if course is chosen" do
+      visit event_path(@event)
+      page.should have_content("The focus will be on ")
+    end
+
+    it "does not display a course if course is nil" do
+      #destroy course to simulate old events
+      @event.update_attributes(:course_id => nil)
+      @event.save!
+      visit event_path(@event)
+      page.should_not have_content("The focus will be on ")
+
+      #put course back for following tests
+      @event.update_attributes(:course_id => Course::RAILS.id)
+      @event.save!
+    end
+
   end
 
   context "user is logged in but is not an organizer for the event" do
@@ -119,6 +137,17 @@ describe "the individual event page" do
     it "doesn't let user remove sessions" do
       visit event_path(@event)
       page.should_not have_selector('.remove-session')
+    end
+  end
+
+  context "historical (meetup) events" do
+    before do
+      @event.update_attributes(student_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902)
+    end
+
+    it 'does not render rsvp actions' do
+      visit event_path(@event)
+      page.should_not have_selector('.rsvp-actions')
     end
   end
 end

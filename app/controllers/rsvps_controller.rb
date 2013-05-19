@@ -19,7 +19,7 @@ class RsvpsController < ApplicationController
     @rsvp.user = current_user
 
     Rsvp.transaction do
-      if @event.at_limit?
+      if @event.at_limit? && @rsvp.role == Role::STUDENT
         @rsvp.waitlist_position = (@event.rsvps.maximum(:waitlist_position) || 0) + 1
       end
 

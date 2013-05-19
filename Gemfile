@@ -19,6 +19,7 @@ group :production do
 end
 
 group :assets do
+  gem 'handlebars_assets'
   gem 'jquery-datatables-rails'
   gem 'sass-rails'
   gem 'coffee-rails'

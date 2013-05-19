@@ -17,6 +17,10 @@
         <%= f.label :title %>
         <%= f.text_field :title %>
       </div>
+      <div class="field">
+        <%= f.label :course_id %>
+        <%= collection_select :event, :course_id, Course.all, :id, :title %>
+      </div>
 
       <h3>Sessions</h3>
 
