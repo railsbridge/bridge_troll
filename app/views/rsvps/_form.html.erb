@@ -16,7 +16,12 @@
     <a href="http://docs.railsbridge.org/installfest/macintosh">(Not sure what OSX version you have?)</a>
     <%= f.association :operating_system, collection: OperatingSystem.all, label: false, label_method: :title, as: :radio_buttons %>
 
-    <%= f.input :class_level, collection: (1..5), input_html: {class: 'class_level'}, label: "What is your class level?", include_blank: false %>
+    <label>What is your class level?</label>
+    <% if @rsvp.event.course == Course::FRONTEND %>
+      <%= render :partial => 'frontend_levels', :locals => {:f => f} %>
+    <% else #assuming for now that rails is the default course %>
+      <%= render :partial => 'rails_levels', :locals => {:f => f} %>
+    <% end %>
   <% end %>
 
   <% if @rsvp.role == Role::VOLUNTEER %>
