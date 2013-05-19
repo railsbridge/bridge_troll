@@ -3,6 +3,9 @@ class Event < ActiveRecord::Base
   after_save :reorder_waitlist!
 
   belongs_to :location
+
+  extend ActiveHash::Associations::ActiveRecordExtensions
+  belongs_to_active_hash :course
   
   has_many :rsvps, dependent: :destroy
 

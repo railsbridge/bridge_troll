@@ -1,0 +1,38 @@
+@mixin gradient($from, $to) {
+  /* fallback/image non-cover color */
+  background-color: $from;
+  /* Firefox 3.6+ */
+  background-image: -moz-linear-gradient($from, $to);
+  /* Safari 4+, Chrome 1+ */
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
+  /* Safari 5.1+, Chrome 10+ */
+  background-image: -webkit-linear-gradient($from, $to);
+  /* Opera 11.10+ */
+  background-image: -o-linear-gradient($from, $to);
+  filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$from}', endColorstr='#{$to}');
+}
+
+#level_buttons {
+  label {
+    width: 50px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align:center;
+  }
+  
+  .label.btn-gold {
+    @include gradient(#efdc07, #fcaa2f);
+  }
+
+  .label.btn-purple {
+    @include gradient(#cb5fa7 21%, #843178 92%);
+  }
+
+  .label.btn-orange {
+    @include gradient(#ffa84c, #e34d0b);
+  }
+
+  ul {
+    list-style: circle;
+  }
+}

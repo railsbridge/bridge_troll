@@ -7,7 +7,7 @@ describe 'creating or editing an rsvp' do
     sign_in_as @user
   end
 
-  context "given a new rsvp" do
+  context "given a new volunteer rsvp" do
     before do
       visit volunteer_new_event_rsvp_path(@event)
     end
@@ -51,6 +51,24 @@ describe 'creating or editing an rsvp' do
       page.check "rsvp_needs_childcare"
       page.find("#rsvp_childcare_info").find(:xpath, '..')['class'].
         should_not =~ /hidden/
+    end
+  end
+
+  context "given a new learn rsvp" do
+    before do
+      visit learn_new_event_rsvp_path(@event)
+    end
+
+    it "should show rails levels for rails events" do
+      page.should have_content "Totally New to Programming"
+    end
+
+    it "should show frontend levels for frontent events" do
+      @event.update_attributes(:course_id => Course::FRONTEND.id)
+      @event.save!
+
+      visit learn_new_event_rsvp_path(@event)
+      page.should have_content "Totally new to HTML and CSS"
     end
   end
 end

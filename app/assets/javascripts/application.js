@@ -10,6 +10,8 @@
 //= require jquery.ui.sortable
 //= require twitter/bootstrap/modal
 //= require twitter/bootstrap/transition
+//= require twitter/bootstrap/tooltip
+//= require twitter/bootstrap/popover
 //= require select2
 //= require modernizr
 //= require handlebars.runtime
