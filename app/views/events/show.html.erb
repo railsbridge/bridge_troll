@@ -46,11 +46,11 @@
       <% end %>
     </div>
 
-    <div class='rsvp-actions'>
-      <% if user_signed_in? %>
-        <%= render 'shared/rsvp_actions', event: @event %>
-      <% end %>
-    </div>
+    <% if user_signed_in? && !@event.historical? %>
+      <div class='rsvp-actions'>
+          <%= render 'shared/rsvp_actions', event: @event %>
+      </div>
+    <% end %>
 
     <div class="organizers">
       <h3>Organized By:</h3>

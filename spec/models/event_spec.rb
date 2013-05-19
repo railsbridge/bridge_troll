@@ -111,6 +111,39 @@ describe Event do
     end
   end
 
+  describe "#at_limit?" do
+    context "when the event has a limit but has not exceeded it" do
+      before do
+        @event.update_attribute(:student_rsvp_limit, 2)
+      end
+
+      it 'is false' do
+        @event.should_not be_at_limit
+      end
+    end
+
+    context "when the event has a limit and has exceeded it" do
+      before do
+        @event.update_attribute(:student_rsvp_limit, 2)
+        3.times { create(:student_rsvp, event: @event) }
+      end
+
+      it 'is true' do
+        @event.should be_at_limit
+      end
+    end
+
+    context "when the event has no limit (historical events)" do
+      before do
+        @event.update_attributes(student_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902)
+      end
+
+      it 'is false' do
+        @event.should_not be_at_limit
+      end
+    end
+  end
+
   describe "#reorder_waitlist!" do
     before do
       @event.update_attribute(:student_rsvp_limit, 2)

@@ -121,4 +121,15 @@ describe "the individual event page" do
       page.should_not have_selector('.remove-session')
     end
   end
+
+  context "historical (meetup) events" do
+    before do
+      @event.update_attributes(student_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902)
+    end
+
+    it 'does not render rsvp actions' do
+      visit event_path(@event)
+      page.should_not have_selector('.rsvp-actions')
+    end
+  end
 end

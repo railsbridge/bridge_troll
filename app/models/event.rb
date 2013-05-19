@@ -27,10 +27,9 @@ class Event < ActiveRecord::Base
   validates_presence_of :time_zone
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
-  validate :validate_rsvp_limit
-
   with_options(if: Proc.new {|event| !event.historical? }) do |non_historical_event|
     non_historical_event.validates_numericality_of :student_rsvp_limit, only_integer: true, greater_than: 0
+    non_historical_event.validate :validate_rsvp_limit
   end
 
   def rsvps_with_childcare
@@ -42,7 +41,9 @@ class Event < ActiveRecord::Base
   end
 
   def at_limit?
-    student_rsvps.count >= student_rsvp_limit
+    if student_rsvp_limit
+      student_rsvps.count >= student_rsvp_limit
+    end
   end
 
   def validate_rsvp_limit
