@@ -30,6 +30,10 @@ describe 'creating or editing an rsvp' do
       page.uncheck "rsvp_needs_childcare"
       page.should_not have_css('#rsvp_childcare_info')
     end
+
+    it "should show option for any class level" do
+      page.should have_content "No preference"
+    end
   end
 
   context "given an rsvp with childcare info" do
@@ -69,6 +73,10 @@ describe 'creating or editing an rsvp' do
 
       visit learn_new_event_rsvp_path(@event)
       page.should have_content "Totally new to HTML and CSS"
+    end
+
+    it "should not show option for any class level" do
+      page.should_not have_content "No preference"
     end
   end
 end

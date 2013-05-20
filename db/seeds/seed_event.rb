@@ -20,6 +20,7 @@ module Seeder
       volunteer_assignment: options[:assignment],
       subject_experience: Faker::Lorem.sentence,
       teaching_experience: Faker::Lorem.sentence,
+      class_level: options[:class_level],
       job_details: Faker::Name.title
     )
     options[:event].event_sessions.each do |session|
@@ -112,16 +113,16 @@ DETAILS
     event.organizers << organizer
 
     teacher = create_user('teacher@example.com')
-    create_volunteer_rsvp(event: event, user: teacher, assignment: VolunteerAssignment::TEACHER)
+    create_volunteer_rsvp(event: event, user: teacher, assignment: VolunteerAssignment::TEACHER, class_level: 0)
 
     ta = create_user('ta@example.com')
-    create_volunteer_rsvp(event: event, user: ta, assignment: VolunteerAssignment::TA)
+    create_volunteer_rsvp(event: event, user: ta, assignment: VolunteerAssignment::TA, class_level: 3)
 
     unassigned1 = create_user('unassigned1@example.com')
-    create_volunteer_rsvp(event: event, user: unassigned1, assignment: VolunteerAssignment::UNASSIGNED)
+    create_volunteer_rsvp(event: event, user: unassigned1, assignment: VolunteerAssignment::UNASSIGNED, class_level: 1)
 
     unassigned2 = create_user('unassigned2@example.com')
-    create_volunteer_rsvp(event: event, user: unassigned2, assignment: VolunteerAssignment::UNASSIGNED)
+    create_volunteer_rsvp(event: event, user: unassigned2, assignment: VolunteerAssignment::UNASSIGNED, class_level: 2)
 
     (1..5).each do |index|
       student = create_user("student#{index}@example.com")
