@@ -37,4 +37,7 @@ Bridgetroll::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # Fake, boring secret token for dev
+  config.secret_token = ('x' * 30)
 end

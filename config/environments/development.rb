@@ -34,4 +34,7 @@ Bridgetroll::Application.configure do
   
   # Setup default url options for your specific environment.
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+  # Fake, boring secret token for dev
+  config.secret_token = ('x' * 30)
 end
