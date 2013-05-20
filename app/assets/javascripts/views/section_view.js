@@ -12,12 +12,14 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
 
     this.title = options.title;
     this.students = options.students;
+    this.volunteers = options.volunteers;
   },
 
   context: function () {
     return {
       title: this.title,
-      students: this.students.toJSON()
+      students: this.students.toJSON(),
+      volunteers: this.volunteers.toJSON()
     }
   },
 

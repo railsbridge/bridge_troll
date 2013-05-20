@@ -1,13 +1,19 @@
 describe("SectionOrganizer", function() {
-  var sectionOrganizer;
-  var students;
+  var sectionOrganizer, students, volunteers;
   beforeEach(function() {
     students = new Bridgetroll.Collections.Student([
       {name: 'Lana Lang'},
       {name: 'Sue Storm'},
       {name: 'Ted Moesby'}
     ]);
-    sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({students: students});
+    volunteers = new Bridgetroll.Collections.Volunteer([
+      {name: 'Paul Graham'},
+      {name: 'Grace Hopper'}
+    ]);
+    sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({
+      students: students,
+      volunteers: volunteers
+    });
   });
 
   describe("after rendering", function () {
@@ -19,6 +25,11 @@ describe("SectionOrganizer", function() {
       expect(sectionOrganizer.$el.text()).toContain('Lana Lang');
       expect(sectionOrganizer.$el.text()).toContain('Sue Storm');
       expect(sectionOrganizer.$el.text()).toContain('Ted Moesby');
+    });
+
+    it("contains each of the volunteers from the original collection", function () {
+      expect(sectionOrganizer.$el.text()).toContain('Paul Graham');
+      expect(sectionOrganizer.$el.text()).toContain('Grace Hopper');
     });
 
     describe("add section button", function () {

@@ -9,8 +9,14 @@
     var students = new Bridgetroll.Collections.Student(
       <%= @event.student_rsvps.map { |rsvp| { name: rsvp.user.full_name } }.to_json.html_safe %>
     );
+    var volunteers = new Bridgetroll.Collections.Volunteer(
+      <%= @event.volunteer_rsvps.map { |rsvp| { name: rsvp.user.full_name } }.to_json.html_safe %>
+    );
 
-    Bridgetroll.sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({students: students});
+    Bridgetroll.sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({
+      students: students,
+      volunteers: volunteers
+    });
     Bridgetroll.sectionOrganizer.setElement($('#section-organizer'));
     Bridgetroll.sectionOrganizer.render();
   });

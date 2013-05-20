@@ -5,13 +5,70 @@
   padding: 15px;
 }
 
+$bridgetroll-section-border-color: #BBB;
+
 .bridgetroll-section {
-  border: 1px solid green;
-  padding: 5px;
+  border: 1px solid $bridgetroll-section-border-color;
+  margin-top: 5px;
+  border-radius: 5px;
   width: 200px;
 
-  .students {
+  .title {
+    margin: -5px 0 5px 0;
+    padding: 5px 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: white;
+    background-color: #555;
+    border-bottom: 1px solid $bridgetroll-section-border-color;
+  }
+
+  .students:before, .volunteers:before {
+    font-weight: bold;
+    display: block;
+    margin-left: 5px;
+  }
+
+  .students:before {
+    content: 'Students';
+  }
+
+  .volunteers:before {
+    content: 'Volunteers';
+  }
+
+  .students, .volunteers {
+    margin: 0;
     min-height: 50px;
+
+    li {
+      line-height: 20px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .volunteers:after {
+    margin: 8px 0;
+    content: ' ';
+    display: block;
+    border-bottom: 1px solid $bridgetroll-section-border-color;
+  }
+
+  .bridgetroll-badge {
+    height: 20px;
+    width: 20px;
+    border-radius: 100%;
+    display: inline-block;
+    margin: 0 5px;
+    text-align: center;
+    background-color: #CCC;
+
+    &.volunteer { background-color: #777; }
+    &.level1 { background-color: $blue-color; }
+    &.level2 { background-color: $green-color; }
+    &.level3 { background-color: $yellow-color; }
+    &.level4 { background-color: $orange-color; }
+    &.level5 { background-color: $red-color; }
   }
 }
 

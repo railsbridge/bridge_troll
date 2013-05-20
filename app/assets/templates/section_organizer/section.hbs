@@ -1,6 +1,12 @@
-<h3>{{title}}</h3>
+<div class='title'>{{title}}</div>
+<ul class='volunteers'>
+{{#each volunteers}}
+  <li><div class="bridgetroll-badge">V</div>{{this.name}}</li>
+{{/each}}
+</ul>
+
 <ul class='students'>
 {{#each students}}
-  <li>{{this.name}}</li>
+  <li><div class="bridgetroll-badge">1</div>{{this.name}}</li>
 {{/each}}
 </ul>

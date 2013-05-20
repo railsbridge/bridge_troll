@@ -10,14 +10,23 @@ Bridgetroll.Views.SectionOrganizer = Bridgetroll.Views.Base.extend({
     this.students = options.students;
     this.listenTo(this.students, 'change', this.render);
 
-    var section = new Bridgetroll.Views.Section({title: 'Unsorted Students', students: options.students});
+    var section = new Bridgetroll.Views.Section({
+      title: 'Unsorted Students',
+      students: options.students,
+      volunteers: options.volunteers
+    });
     this.subViews.push(section);
     this.render();
   },
 
   addSection: function () {
     var sectionStudents = new Bridgetroll.Collections.Student();
-    var section = new Bridgetroll.Views.Section({title: 'New Section', students: sectionStudents});
+    var sectionVolunteers = new Bridgetroll.Collections.Volunteer();
+    var section = new Bridgetroll.Views.Section({
+      title: 'New Section',
+      students: sectionStudents,
+      volunteers: sectionVolunteers
+    });
     this.subViews.push(section);
     this.render();
   }
