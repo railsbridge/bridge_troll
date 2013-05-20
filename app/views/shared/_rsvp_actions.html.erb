@@ -4,7 +4,10 @@
 <% if event.student?(current_user) %>
   <div class='rsvp-text'>You are signed up to attend this event!</div>
 <% end %>
-<% if event.student?(current_user) || event.volunteer?(current_user) %>
+<% if event.waitlisted_student?(current_user) %>
+  <div class='rsvp-text'>You are on the waitlist for this event!</div>
+<% end %>
+<% if event.student?(current_user) || event.volunteer?(current_user) || event.waitlisted_student?(current_user) %>
   <%= link_to 'Edit RSVP', edit_event_rsvp_path(event, event.rsvp_for_user(current_user)), :class => 'btn' %>
   <%= link_to 'Cancel RSVP', event_rsvp_path(event, event.rsvp_for_user(current_user)), data: {confirm: 'Are you sure you want to cancel your RSVP?'}, method: :delete, class: 'btn' %>
 <% end %>
