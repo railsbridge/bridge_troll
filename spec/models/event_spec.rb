@@ -71,6 +71,18 @@ describe Event do
     end
   end
 
+  describe "#waitlisted_student?" do
+    it "returns true when a user is a waitlisted student" do
+      create(:student_rsvp, :user => @user, :event => @event,  waitlist_position: 1)
+      @event.waitlisted_student?(@user).should == true
+    end
+
+    it "returns false when a user is not waitlisted" do
+      create(:student_rsvp, :user => @user, :event => @event)
+      @event.waitlisted_student?(@user).should == false
+    end
+  end
+
   describe "#rsvp_for_user" do
     it "should return the rsvp for a user" do
       @event.rsvp_for_user(@user).should == @event.rsvps.find_by_user_id(@user.id)
