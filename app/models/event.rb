@@ -97,6 +97,10 @@ class Event < ActiveRecord::Base
     student_rsvps.where(user_id: user.id).any?
   end
 
+  def waitlisted_student?(user)
+    student_waitlist_rsvps.where(user_id: user.id).any?
+  end
+
   def volunteer?(user)
     volunteer_rsvps.where(user_id: user.id).any?
   end

@@ -15,6 +15,21 @@ describe EventsController do
       get :index
       assigns(:events).should == [@event]
     end
+
+    context "when a waitlisted student is logged in and is viewing the index" do
+      before do
+        @event = create(:event)
+        @event.save!
+        @student = create(:user, first_name: 'Jane', last_name: 'Fontaine')
+        sign_in @student
+        create(:student_rsvp, event: @event, user: @student, role: Role::STUDENT, waitlist_position: 1)
+      end
+
+      it "shows that the student is waitlisted somewhere on the page" do
+        visit('/')
+        page.should have_button('Edit RSVP')
+      end
+    end
   end
 
   describe "GET show" do
