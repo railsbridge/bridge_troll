@@ -55,6 +55,12 @@
       </div>
 
       <div class="field">
+        <%= f.label :allow_student_rsvp do %>
+          <%= f.check_box :allow_student_rsvp %> Allow Student RSVP?
+        <% end %>
+      </div>
+
+      <div class="field">
         <%= f.label :student_rsvp_limit, 'Student RSVP limit' %>
         <em>(You can increase this, but not decrease it after publishing. Choose wisely!)</em>
         <%= f.text_field :student_rsvp_limit %>

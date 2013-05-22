@@ -15,6 +15,24 @@ describe EventsController do
       get :index
       assigns(:events).should == [@event]
     end
+
+    describe "when rendering views" do
+      render_views
+
+      describe "#allow_student_rsvps?" do
+        it "shows an 'Attend' button when allowing student RSVP" do
+          @event.update_attribute(:allow_student_rsvp, true)
+          get :index
+          response.body.should include('Attend')
+        end
+
+        it "hides the 'Attend' button when not allowing student RSVP" do
+          @event.update_attribute(:allow_student_rsvp, false)
+          get :index
+          response.body.should_not include('Attend')
+        end
+      end
+    end
   end
 
   describe "GET show" do
@@ -38,6 +56,24 @@ describe EventsController do
       it "includes the location" do
         get :show, id: @event.id
         response.body.should include('Carbon Nine')
+      end
+
+      describe "#allow_student_rsvps?" do
+        before do
+          sign_in create(:user)
+        end
+
+        it "shows an 'Attend' button when allowing student RSVP" do
+          @event.update_attribute(:allow_student_rsvp, true)
+          get :show, id: @event.id
+          response.body.should include('Attend')
+        end
+
+        it "hides the 'Attend' button when not allowing student RSVP" do
+          @event.update_attribute(:allow_student_rsvp, false)
+          get :show, id: @event.id
+          response.body.should_not include('Attend')
+        end
       end
 
       context "when no volunteers or students are attending" do

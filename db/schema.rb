@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130512222919) do
+ActiveRecord::Schema.define(:version => 20130522013935) do
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(:version => 20130512222919) do
 
   create_table "events", :force => true do |t|
     t.string   "title"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
     t.integer  "location_id"
     t.text     "details"
     t.string   "time_zone"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20130512222919) do
     t.datetime "ends_at"
     t.integer  "student_rsvp_limit"
     t.integer  "course_id"
+    t.boolean  "allow_student_rsvp",        :default => true
   end
 
   create_table "locations", :force => true do |t|
