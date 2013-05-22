@@ -22,6 +22,17 @@ describe Event do
     event.should be_valid
   end
 
+  it "sorts event_sessions by ends_at" do
+    event = create(:event)
+
+    session2 = event.event_sessions.first
+    session2.update_attributes(starts_at: Time.now, ends_at: 1.hour.from_now)
+    session3 = create(:event_session, event: event, starts_at: 20.days.from_now, ends_at: 21.days.from_now)
+    session1 = create(:event_session, event: event, starts_at: 10.days.ago, ends_at: 9.days.ago)
+
+    event.reload.event_sessions.should == [session1, session2, session3]
+  end
+
   it "must have a time zone" do
     event = build(:event, :time_zone => nil)
     event.should have(1).error_on(:time_zone)
