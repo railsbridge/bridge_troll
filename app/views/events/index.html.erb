@@ -19,6 +19,13 @@
         <tr>
           <%= render 'event', event: event %>
           <td>
+            <% if event.location %>
+              <%= event.location.name %>
+              <br/>
+              <%= "#{event.location.city}, #{event.location.state}" %>
+            <% end %>
+          </td>
+          <td>
             <% if user_signed_in? %>
               <% if event.organizer?(current_user) || current_user.admin? %>
                 <div><%= link_to 'Organizer Console', organize_event_path(event), :class => 'btn' %></div>
@@ -41,7 +48,8 @@
       <tr>
         <th>Title</th>
         <th>Date</th>
-        <th>Location</th>
+        <th>Venue</th>
+        <th>City</th>
       </tr>
       </thead>
 
@@ -52,7 +60,16 @@
         </tr>
       <% end %>
       <% @past_events.each do |event| %>
-        <tr><%= render 'event', event: event %></tr>
+        <tr>
+          <%= render 'event', event: event %>
+          <% if event.location %>
+            <td><%= event.location.name %></td>
+            <td><%= "#{event.location.city}, #{event.location.state}" %></td>
+          <% else %>
+            <td></td>
+            <td></td>
+          <% end %>
+        </tr>
       <% end %>
       </tbody>
     </table>
