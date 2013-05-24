@@ -80,43 +80,30 @@
     <% if @event.volunteer_rsvps.none? %>
       No volunteers are currently signed up for this event.
     <% else %>
-      <table class="table">
-        <tbody>
+      <ul class="attendees">
         <% @event.ordered_volunteer_rsvps.each do |rsvp| %>
-          <tr>
-            <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path, class: rsvp_class(rsvp) %></td>
-          </tr>
+          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path, class: rsvp_class(rsvp) %></li>
         <% end %>
-        </tbody>
-      </table>
+      </ul>
     <% end %>
     <h3><%= pluralize(@event.student_rsvps.count, "student") %>!</h3>
     <% if @event.student_rsvps.none? %>
       No students are currently signed up for this event.
     <% else %>
-      <table class="table">
-        <tbody>
+      <ul class="attendees">
         <% @event.student_rsvps.each do |rsvp| %>
-          <tr>
-            <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
-          </tr>
+          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></li>
         <% end %>
-        </tbody>
-      </table>
+      </ul>
     <% end %>
 
     <% if @event.student_waitlist_rsvps.any? %>
       <h3>Waitlist</h3>
-      <table class="table">
-        <tbody>
+      <ul class="attendees">
         <% @event.student_waitlist_rsvps.each do |rsvp| %>
-          <tr>
-            <td><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></td>
-          </tr>
+          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></li>
         <% end %>
-        </tbody>
-      </table>
+      </ul>
     <% end %>
-
   </div>
 </div>

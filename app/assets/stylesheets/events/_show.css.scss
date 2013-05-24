@@ -6,6 +6,19 @@
   color: #BBB;
 }
 
+.attendees {
+  margin: 0 0 15px 0;
+
+  .attendee {
+    padding: 5px 0;
+    border-top: 1px solid #ccc;
+
+    img {
+      margin-right: 10px;
+    }
+  }
+}
+
 .rsvp-actions {
   margin-bottom: 20px;
 
