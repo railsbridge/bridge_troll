@@ -2,12 +2,12 @@
   <div class="span12">
     <h1>Upcoming events</h1>
 
-    <table class="table table-striped table-bordered table-condensed">
+    <table class="table table-striped table-bordered table-condensed upcoming-events">
       <tr>
-        <th>Title</th>
-        <th>Times</th>
-        <th>Location</th>
-        <th>RSVP</th>
+        <th class='title'>Title</th>
+        <th class='times'>Times</th>
+        <th class='location'>Location</th>
+        <th class='actions'>RSVP</th>
       </tr>
 
       <% if @events.empty? %>
