@@ -5,6 +5,9 @@ $ ->
     $modal = $($link.attr('href'))
     return_to_link = $link.data('returnTo')
 
+    $modal.on 'shown', () ->
+      $(this).find('#user_email').focus()
+
     url = document.createElement('a');
     url.href = $modal.find('form').attr('action');
     if return_to_link
