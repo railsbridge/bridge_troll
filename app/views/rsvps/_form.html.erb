@@ -62,6 +62,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :dietary_info, "Do you have any dietary restrictions? What don't you / won't you eat?" %>
+    <%= f.text_field :dietary_info %>
+  </div>
+
+  <div class="field">
     <%= f.label :needs_childcare, class: 'checkbox' do %>
       <%= f.check_box :needs_childcare %> Do you need childcare?
     <% end %>

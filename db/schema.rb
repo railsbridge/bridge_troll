@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130522013935) do
+ActiveRecord::Schema.define(:version => 20130528181554) do
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(:version => 20130522013935) do
     t.integer  "checkins_count",                         :default => 0
     t.datetime "reminded_at"
     t.integer  "waitlist_position"
+    t.string   "dietary_info"
   end
 
   add_index "rsvps", ["user_id", "event_id", "user_type"], :name => "index_rsvps_on_user_id_and_event_id_and_event_type", :unique => true
