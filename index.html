@@ -21,6 +21,10 @@
 		<ul>
 			<li>$ git clone https://github.com/{username}/bridge_troll.git</li>
 		</ul>
+    <p>Start working in the project directory:
+		<ul>
+			<li>$ cd bridge_troll</li>
+		</ul>
 		<p>Add the main project repo as an upstream remote so you can pull updates:</p>
 		<ul>
 			<li>$ git remote add upstream git://github.com/railsbridge/bridge_troll.git</li>
@@ -41,7 +45,7 @@
 		</ul>
 		<p>You can also do these things in a single command that fetches from the URL tracked by the current branch and immediately tries to merge in the tracked branch:</p>
 		<ul>
-			<li>$ git pull --rebase</li>
+			<li>$ git pull --rebase upstream master</li>
 		</ul>
 	</div>
 	<div id="right">
