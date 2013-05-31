@@ -2,6 +2,7 @@ require 'csv'
 
 module Events
   class StudentsController < ApplicationController
+    before_filter :authenticate_user!, :validate_organizer!
     respond_to :csv, :html
 
     def index
