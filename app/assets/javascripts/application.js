@@ -7,7 +7,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.datepicker
-//= require jquery.ui.sortable
 //= require twitter/bootstrap/modal
 //= require twitter/bootstrap/transition
 //= require twitter/bootstrap/tooltip
@@ -18,8 +17,11 @@
 //= require underscore
 //= require backbone
 //= require backbone-super
+//= require jquery.event.drag
+//= require jquery.event.drop
 //= require bridgetroll
 //= require_tree ../templates
+//= require_tree ./enums
 //= require_tree ./models
 //= require_tree ./collections
 //= require ./views/base_view

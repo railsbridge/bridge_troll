@@ -1,18 +1,15 @@
 describe("SectionOrganizer", function() {
-  var sectionOrganizer, students, volunteers;
+  var sectionOrganizer, attendees;
   beforeEach(function() {
-    students = new Bridgetroll.Collections.Student([
-      {name: 'Lana Lang'},
-      {name: 'Sue Storm'},
-      {name: 'Ted Moesby'}
-    ]);
-    volunteers = new Bridgetroll.Collections.Volunteer([
-      {name: 'Paul Graham'},
-      {name: 'Grace Hopper'}
+    attendees = new Bridgetroll.Collections.Attendee([
+      {role_id: Bridgetroll.Enums.Role.STUDENT, name: 'Lana Lang'},
+      {role_id: Bridgetroll.Enums.Role.STUDENT, name: 'Sue Storm'},
+      {role_id: Bridgetroll.Enums.Role.STUDENT, name: 'Ted Moesby'},
+      {role_id: Bridgetroll.Enums.Role.VOLUNTEER, name: 'Paul Graham'},
+      {role_id: Bridgetroll.Enums.Role.VOLUNTEER, name: 'Grace Hopper'}
     ]);
     sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({
-      students: students,
-      volunteers: volunteers
+      attendees: attendees
     });
   });
 

@@ -1,12 +1,12 @@
 <div class='title'>{{title}}</div>
 <ul class='volunteers'>
 {{#each volunteers}}
-  <li><div class="bridgetroll-badge">V</div>{{this.name}}</li>
+  <li class="attendee" data-id="{{this.id}}"><div class="bridgetroll-badge volunteer">V</div>{{this.name}}</li>
 {{/each}}
 </ul>
 
 <ul class='students'>
 {{#each students}}
-  <li><div class="bridgetroll-badge">1</div>{{this.name}}</li>
+  <li class="attendee" data-id="{{this.id}}"><div class="bridgetroll-badge level{{this.class_level}}">{{this.class_level}}</div>{{this.name}}</li>
 {{/each}}
 </ul>

@@ -7,27 +7,30 @@ Bridgetroll.Views.SectionOrganizer = Bridgetroll.Views.Base.extend({
 
   initialize: function (options) {
     this._super('initialize', arguments);
-    this.students = options.students;
-    this.listenTo(this.students, 'change', this.render);
+    this.attendees = options.attendees;
+
+    this.listenTo(this.attendees, 'change', this.render);
 
     var section = new Bridgetroll.Views.Section({
-      title: 'Unsorted Students',
-      students: options.students,
-      volunteers: options.volunteers
+      title: 'Unsorted Attendees',
+      attendees: options.attendees
     });
+
     this.subViews.push(section);
+    this.listenTo(section, 'section:changed', this.render);
     this.render();
   },
 
   addSection: function () {
-    var sectionStudents = new Bridgetroll.Collections.Student();
-    var sectionVolunteers = new Bridgetroll.Collections.Volunteer();
     var section = new Bridgetroll.Views.Section({
       title: 'New Section',
-      students: sectionStudents,
-      volunteers: sectionVolunteers
+      section_id: _.uniqueId('s'),
+      attendees: this.attendees
     });
+
     this.subViews.push(section);
+    this.listenTo(section, 'section:changed', this.render);
+
     this.render();
   }
 });

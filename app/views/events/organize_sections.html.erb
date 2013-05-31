@@ -6,16 +6,12 @@
 
 <script>
   $(document).ready(function () {
-    var students = new Bridgetroll.Collections.Student(
-      <%= @event.student_rsvps.map { |rsvp| { name: rsvp.user.full_name } }.to_json.html_safe %>
-    );
-    var volunteers = new Bridgetroll.Collections.Volunteer(
-      <%= @event.volunteer_rsvps.map { |rsvp| { name: rsvp.user.full_name } }.to_json.html_safe %>
+    var attendees = new Bridgetroll.Collections.Attendee(
+      <%= @event.rsvps.where(role_id: [Role::STUDENT.id, Role::VOLUNTEER.id]).map { |rsvp| { id: rsvp.user.id, role_id: rsvp.role_id, class_level: rsvp.class_level, name: rsvp.user.full_name } }.to_json.html_safe %>
     );
 
     Bridgetroll.sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({
-      students: students,
-      volunteers: volunteers
+      attendees: attendees
     });
     Bridgetroll.sectionOrganizer.setElement($('#section-organizer'));
     Bridgetroll.sectionOrganizer.render();

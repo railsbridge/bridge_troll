@@ -9,9 +9,11 @@ $bridgetroll-section-border-color: #BBB;
 
 .bridgetroll-section {
   border: 1px solid $bridgetroll-section-border-color;
-  margin-top: 5px;
+  margin: 5px 10px 0 0;
   border-radius: 5px;
   width: 200px;
+  display: inline-block;
+  vertical-align: top;
 
   .title {
     margin: -5px 0 5px 0;
@@ -43,7 +45,7 @@ $bridgetroll-section-border-color: #BBB;
 
     li {
       line-height: 20px;
-      margin-bottom: 5px;
+      padding: 2px 0;
     }
   }
 
@@ -69,6 +71,13 @@ $bridgetroll-section-border-color: #BBB;
     &.level3 { background-color: $yellow-color; }
     &.level4 { background-color: $orange-color; }
     &.level5 { background-color: $red-color; }
+  }
+
+  .attendee.dragging {
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(50, 50, 50, 0.75);
+    padding: 2px 5px 2px 0;
   }
 }
 
