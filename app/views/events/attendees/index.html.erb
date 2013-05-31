@@ -1,0 +1,33 @@
+<h2>Attending students and volunteers</h2>
+
+<% if @rsvps.empty? %>
+  <p>No one is coming to this workshop yet. ;_;</p>
+<% else %>
+  <table class="datatable table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Attending As</th>
+        <th>Dietary Info</th>
+        <th>Childcare Info</th>
+        <th>Job Details</th>
+        <th>Waitlisted</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @rsvps.each do |rsvp| %>
+        <tr>
+          <td>
+            <%= render 'shared/viewed_gravatars', :email => rsvp.user.email %>
+            <%= rsvp.user.full_name %>
+          </td>
+          <td><%= rsvp.role.title %></td>
+          <td><%= rsvp.dietary_info %></td>
+          <td><%= rsvp.childcare_info %></td>
+          <td><%= rsvp.job_details %></td>
+          <td><%= if rsvp.waitlist_position then "yes" else "no" end %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
