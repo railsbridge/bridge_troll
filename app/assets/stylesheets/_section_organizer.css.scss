@@ -1,5 +1,5 @@
 #section-organizer {
-  height: 500px;
+  min-height: 500px;
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 15px;
@@ -9,7 +9,7 @@ $bridgetroll-section-border-color: #BBB;
 
 .bridgetroll-section {
   border: 1px solid $bridgetroll-section-border-color;
-  margin: 5px 10px 0 0;
+  margin: 5px 10px 0 20px;
   border-radius: 5px;
   width: 200px;
   display: inline-block;
