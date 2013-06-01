@@ -19,6 +19,15 @@ describe User do
   it { should validate_presence_of(:last_name) }
   it { should validate_presence_of(:email) } # devise adds this
 
+  it 'destroys associated rsvps when destroyed' do
+    user = create(:user)
+    event = create(:event)
+    rsvp = create(:rsvp, event_id: event.id, user: user)
+
+    user.destroy
+    Rsvp.find_by_id(rsvp.id).should be_nil
+  end
+
   it "must have a valid time zone" do
     user = build(:user, :time_zone => "xxx")
     user.should have(1).error_on(:time_zone)

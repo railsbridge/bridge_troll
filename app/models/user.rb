@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable, :confirmable, :timeoutable
 
-  has_many :rsvps, conditions: { user_type: 'User' }
+  has_many :rsvps, conditions: { user_type: 'User' }, dependent: :destroy
   has_many :events, through: :rsvps
 
   has_one :profile, dependent: :destroy
