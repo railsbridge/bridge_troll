@@ -51,6 +51,7 @@ FactoryGirl.define do
     role Role.find_by_title('Volunteer')
     teaching_experience "Quite experienced"
     subject_experience "Use professionally"
+    class_level 0
     childcare_info "Bobby: 8\nSusie: 4"
     job_details "Horse whisperer"
 
