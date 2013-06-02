@@ -52,7 +52,7 @@ describe "the event listing page" do
         click_button "Sign in"
       end
 
-      page.find('h1').should have_content("#{event.title}")
+      page.find('div.header-container > h1').should have_content("#{event.title}")
       current_path.should == event_path(event)
     end
   end
@@ -153,6 +153,7 @@ describe "the event listing page" do
         fill_in "rsvp_subject_experience", :with => "I am cool and I use a Mac (but those two things are not related)"
         fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
         check 'Teaching'
+        choose('rsvp_class_level_0')
 
         page.first("input[name='rsvp_sessions[]'][type='checkbox'][value='#{@session1.id}']").should be_checked
         page.first("input[name='rsvp_sessions[]'][type='checkbox'][value='#{@session2.id}']").should be_checked
