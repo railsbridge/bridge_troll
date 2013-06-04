@@ -1,6 +1,6 @@
 class DropEventOrganizers < ActiveRecord::Migration
-  Role::VOLUNTEER = 2
-  Role::ORGANIZER = 3
+  Role::VOLUNTEER = OpenStruct.new(id: 2)
+  Role::ORGANIZER = OpenStruct.new(id: 3)
 
   class EventOrganizer < ActiveRecord::Base
     belongs_to :user
@@ -18,7 +18,7 @@ class DropEventOrganizers < ActiveRecord::Migration
 
   def up
     Rsvp.find_each do |rsvp|
-      rsvp.role_id = Role::VOLUNTEER
+      rsvp.role_id = Role::VOLUNTEER.id
       rsvp.save!
     end
 
@@ -29,7 +29,7 @@ class DropEventOrganizers < ActiveRecord::Migration
       end
 
       event = old_organizer_rsvp.event
-      event.rsvps.create(user_id: old_organizer_rsvp.user.id, role_id: Role::ORGANIZER)
+      event.rsvps.create(user_id: old_organizer_rsvp.user.id, role_id: Role::ORGANIZER.id)
     end
 
     drop_table :event_organizers
@@ -43,7 +43,7 @@ class DropEventOrganizers < ActiveRecord::Migration
       t.datetime "updated_at", :null => false
     end
 
-    Rsvp.where(role_id: Role::ORGANIZER).find_each do |rsvp|
+    Rsvp.where(role_id: Role::ORGANIZER.id).find_each do |rsvp|
       EventOrganizer.create(
         user_id: rsvp.user_id,
         event_id: rsvp.event_id

@@ -13,26 +13,50 @@
 }
 
 #level_buttons {
-  label {
-    width: 50px;
+  .class_level_line {
     padding-top: 5px;
     padding-bottom: 5px;
-    text-align:center;
-  }
-  
-  .label.btn-gold {
-    @include gradient(#efdc07, #fcaa2f);
   }
 
-  .label.btn-purple {
-    @include gradient(#cb5fa7 21%, #843178 92%);
+  label {
+    margin: 0;
+    display: inline;
+    line-height: 25px;
   }
 
-  .label.btn-orange {
-    @include gradient(#ffa84c, #e34d0b);
+  .label {
+    margin: 0 2px;
+    text-align: center;
+    width: 45px;
+    height: 22px;
+    line-height: 22px;
+
+    &.btn-blue {
+      @include gradient(#5BC0DE, #2F96B4);
+    }
+
+    &.btn-green {
+      @include gradient(#62C462, #51A351);
+    }
+
+    &.btn-gold {
+      @include gradient(#efdc07, #fcaa2f);
+    }
+
+    &.btn-purple {
+      @include gradient(#cb5fa7 21%, #843178 92%);
+    }
+
+    &.btn-orange {
+      @include gradient(#ffa84c, #e34d0b);
+    }
   }
 
   ul {
     list-style: circle;
+  }
+
+  .popover {
+    max-width: 400px;
   }
 }

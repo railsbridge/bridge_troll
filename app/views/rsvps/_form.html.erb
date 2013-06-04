@@ -17,13 +17,11 @@
     <%= f.association :operating_system, collection: OperatingSystem.all, label: false, label_method: :title, as: :radio_buttons %>
 
     <label>What is your class level?</label>
-    <div id="level_buttons">
-      <% if @rsvp.event.course == Course::FRONTEND %>
-        <%= render :partial => 'frontend_levels', :locals => {:f => f} %>
-      <% else #assuming for now that rails is the default course %>
-        <%= render :partial => 'rails_levels', :locals => {:f => f} %>
-      <% end %>
-    </div>
+    <%= render partial: 'class_levels', locals: {
+      f: f,
+      levels: (@rsvp.event.course || Course::RAILS).levels,
+      show_no_preference: false
+    } %>
   <% end %>
 
   <% if @rsvp.role == Role::VOLUNTEER %>
@@ -48,20 +46,11 @@
     </div>
 
     <label>What class level do you prefer to teach/TA?</label>
-    <div id="level_buttons">
-      <% if @rsvp.event.course == Course::FRONTEND %>
-        <%= render :partial => 'frontend_levels', :locals => {:f => f} %>
-      <% else #assuming for now that rails is the default course %>
-        <%= render :partial => 'rails_levels', :locals => {:f => f} %>
-      <% end %>
-      <p>
-        <span id="whatevs">
-          <%= f.radio_button :class_level, 0 %>
-          <%= label :class_level, "Any", :class => "label" %>
-          No preference
-        </span>
-      </p>
-    </div>
+    <%= render partial: 'class_levels', locals: {
+      f: f,
+      levels: (@rsvp.event.course || Course::RAILS).levels,
+      show_no_preference: true
+    } %>
 
     <% if @rsvp.event.event_sessions.length > 1 %>
       <strong>Sessions you're attending</strong>

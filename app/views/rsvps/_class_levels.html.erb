@@ -1,0 +1,20 @@
+<div id="level_buttons">
+  <% levels.each do |level| %>
+    <div class="class_level_line">
+      <label class='class_level' data-popover-title='<%= level[:title] %>' data-popover-content='<%= level[:popover_content].to_json %>'>
+        <%= f.radio_button :class_level, level[:level] %>
+        <span class="<%= "label btn-#{level[:color]}" %>"><%= level[:color].capitalize %></span>
+        <%= level[:title] %>
+      </label>
+    </div>
+  <% end %>
+  <% if show_no_preference %>
+    <div class="class_level_line">
+      <label>
+        <%= f.radio_button :class_level, 0 %>
+        <span class="label">Any</span>
+        No preference
+      </label>
+    </div>
+  <% end %>
+</div>
