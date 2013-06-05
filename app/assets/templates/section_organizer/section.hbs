@@ -1,4 +1,4 @@
-<div class='title'>{{title}}</div>
+<div class='title'>{{title}} {{#if destructable}}<span class='destroy'>&times;</span>{{/if}}</div>
 <ul class='volunteers'>
 {{#each volunteers}}
   <li class="attendee" data-id="{{this.id}}"><div class="bridgetroll-badge volunteer">V</div>{{this.name}}</li>

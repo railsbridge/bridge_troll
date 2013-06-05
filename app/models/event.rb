@@ -8,6 +8,7 @@ class Event < ActiveRecord::Base
   belongs_to_active_hash :course
   
   has_many :rsvps, dependent: :destroy
+  has_many :sections, dependent: :destroy
 
   has_many :student_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::STUDENT.id, waitlist_position: nil }
   has_many :student_waitlist_rsvps, class_name: 'Rsvp', conditions: "role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL"

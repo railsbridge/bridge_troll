@@ -21,4 +21,11 @@ describe "the section organizer tool" do
       page.should have_content(@volunteer.full_name)
     end
   end
+
+  it "allows the organizer to add a new section", js: true do
+    visit organize_sections_event_path(@event)
+    page.should_not have_content('New Section')
+    click_button 'Add Section'
+    page.should have_content('New Section')
+  end
 end

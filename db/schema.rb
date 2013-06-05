@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130528181554) do
+ActiveRecord::Schema.define(:version => 20130605021552) do
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
@@ -110,6 +110,15 @@ ActiveRecord::Schema.define(:version => 20130528181554) do
   end
 
   add_index "rsvps", ["user_id", "event_id", "user_type"], :name => "index_rsvps_on_user_id_and_event_id_and_event_type", :unique => true
+
+  create_table "sections", :force => true do |t|
+    t.integer  "event_id"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "sections", ["event_id"], :name => "index_sections_on_event_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                   :default => "",    :null => false

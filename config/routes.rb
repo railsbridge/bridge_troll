@@ -16,6 +16,7 @@ Bridgetroll::Application.routes.draw do
     resources :volunteers, :only => [:index, :update]
     resources :students, :only => [:index], :controller => 'events/students'
     resources :attendees, :only => [:index], :controller => 'events/attendees'
+    resources :sections, :only => [:create, :update, :destroy]
 
     resources :rsvps, :except => [:index, :new] do
       new do

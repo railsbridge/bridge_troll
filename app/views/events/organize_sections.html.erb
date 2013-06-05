@@ -9,8 +9,13 @@
     var attendees = new Bridgetroll.Collections.Attendee(
       <%= @event.rsvps.where(role_id: [Role::STUDENT.id, Role::VOLUNTEER.id]).map { |rsvp| { id: rsvp.user.id, role_id: rsvp.role_id, class_level: rsvp.class_level, name: rsvp.user.full_name } }.to_json.html_safe %>
     );
+    var sections = new Bridgetroll.Collections.Section(
+      <%= @event.sections.to_json.html_safe %>
+    );
 
     Bridgetroll.sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({
+      event_id: <%= @event.id %>,
+      sections: sections,
       attendees: attendees
     });
     Bridgetroll.sectionOrganizer.setElement($('#section-organizer'));

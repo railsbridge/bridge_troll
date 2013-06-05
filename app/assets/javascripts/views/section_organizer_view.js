@@ -1,36 +1,52 @@
-Bridgetroll.Views.SectionOrganizer = Bridgetroll.Views.Base.extend({
-  template: 'section_organizer/section_organizer',
-
-  events: {
-    'click .add-section': 'addSection'
-  },
-
-  initialize: function (options) {
-    this._super('initialize', arguments);
-    this.attendees = options.attendees;
-
-    this.listenTo(this.attendees, 'change', this.render);
-
-    var section = new Bridgetroll.Views.Section({
-      title: 'Unsorted Attendees',
-      attendees: options.attendees
-    });
-
-    this.subViews.push(section);
-    this.listenTo(section, 'section:changed', this.render);
-    this.render();
-  },
-
-  addSection: function () {
-    var section = new Bridgetroll.Views.Section({
-      title: 'New Section',
-      section_id: _.uniqueId('s'),
+Bridgetroll.Views.SectionOrganizer = (function () {
+  function addSectionView(section) {
+    var sectionView = new Bridgetroll.Views.Section({
+      section: section,
       attendees: this.attendees
     });
 
-    this.subViews.push(section);
-    this.listenTo(section, 'section:changed', this.render);
+    this.addSubview(sectionView);
+    this.listenTo(sectionView, 'section:changed', this.render);
 
-    this.render();
+    if (section.get('id')) {
+      this.sections.add(section);
+    }
   }
-});
+
+  return Bridgetroll.Views.Base.extend({
+    template: 'section_organizer/section_organizer',
+
+    events: {
+      'click .add-section': 'onAddSectionClick'
+    },
+
+    initialize: function (options) {
+      this._super('initialize', arguments);
+      this.event_id = options.event_id;
+      this.attendees = options.attendees;
+      this.sections = options.sections;
+
+      this.listenTo(this.attendees, 'change', this.render);
+
+      this.unsortedSection = new Bridgetroll.Models.Section({
+        name: 'Unsorted Attendees'
+      });
+      addSectionView.call(this, this.unsortedSection);
+
+      this.sections.each(_.bind(function (section) {
+        addSectionView.call(this, section);
+      }, this));
+      this.listenTo(this.sections, 'add remove', this.render);
+      
+      this.render();
+    },
+
+    onAddSectionClick: function () {
+      var section = new Bridgetroll.Models.Section({event_id: this.event_id});
+      section.save().success(_.bind(function (sectionJson) {
+        var section = new Bridgetroll.Models.Section(sectionJson);
+        addSectionView.call(this, section);
+      }, this));
+    }
+  });
+})();

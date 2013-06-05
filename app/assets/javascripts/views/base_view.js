@@ -3,7 +3,7 @@ Bridgetroll.Views.Base = Backbone.View.extend({
   context: $.noop,
 
   initialize: function () {
-    this.subViews = [];
+    this.subViews = {};
   },
 
   render: function () {
@@ -13,12 +13,30 @@ Bridgetroll.Views.Base = Backbone.View.extend({
       this.$el.html(template(this.context()));
     }
 
-    this.postRender();
-    this.delegateEvents();
-
-    _.each(this.subViews, function (view) {
+    _.each(this.subViews, function (view, id) {
       view.render();
       this.$el.append(view.$el);
     }, this);
+
+    this.postRender();
+    this.delegateEvents();
+  },
+
+  destroy: function () {
+    if (this.parent) {
+      this.parent.removeSubview(this);
+    }
+
+    this.undelegateEvents();
+    this.remove();
+  },
+
+  addSubview: function (view) {
+    view.parent = this;
+    this.subViews[view.cid] = view;
+  },
+
+  removeSubview: function (view) {
+    delete this.subViews[view.cid];
   }
 });

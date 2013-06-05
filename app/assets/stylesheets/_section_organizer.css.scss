@@ -25,6 +25,16 @@ $bridgetroll-section-border-color: #BBB;
     border-bottom: 1px solid $bridgetroll-section-border-color;
   }
 
+  .destroy {
+    font-size: 2em;
+    float: right;
+
+    &:hover {
+      cursor: pointer;
+      color: #ff6167;
+    }
+  }
+
   .students:before, .volunteers:before {
     font-weight: bold;
     display: block;
