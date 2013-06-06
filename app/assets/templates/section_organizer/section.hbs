@@ -1,12 +1,12 @@
 <div class='title'>{{title}} {{#if destructable}}<span class='destroy'>&times;</span>{{/if}}</div>
 <ul class='volunteers'>
 {{#each volunteers}}
-  <li class="attendee" data-id="{{this.id}}"><div class="bridgetroll-badge volunteer">V</div>{{this.name}}</li>
+  <li class="attendee" data-id="{{this.id}}"><div class="bridgetroll-badge volunteer">V</div>{{this.full_name}}</li>
 {{/each}}
 </ul>
 
 <ul class='students'>
 {{#each students}}
-  <li class="attendee" data-id="{{this.id}}"><div class="bridgetroll-badge level{{this.class_level}}">{{this.class_level}}</div>{{this.name}}</li>
+  <li class="attendee" data-id="{{this.id}}"><div class="bridgetroll-badge level{{this.class_level}}">{{this.class_level}}</div>{{this.full_name}}</li>
 {{/each}}
 </ul>

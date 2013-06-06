@@ -182,4 +182,15 @@ describe Rsvp do
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
   end
+
+  describe "#as_json" do
+    before do
+      @user = create(:user, first_name: 'Bill', last_name: 'Blank')
+      @rsvp = create(:rsvp, user: @user)
+    end
+
+    it "includes the user's full name" do
+      @rsvp.as_json[:full_name].should == 'Bill Blank'
+    end
+  end
 end

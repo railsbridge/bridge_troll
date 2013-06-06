@@ -18,9 +18,9 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   context: function () {
     return {
       title: this.section.get('name'),
-      students: _.invoke(this.students(), 'toJSON'),
-      volunteers: _.invoke(this.volunteers(), 'toJSON'),
-      destructable: this.section.get('id') !== undefined
+      students: _.pluck(this.students(), 'attributes'),
+      volunteers: _.pluck(this.volunteers(), 'attributes'),
+      destructable: !this.section.isUnassigned()
     }
   },
 
@@ -61,7 +61,9 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   moveAttendeeToSection: function (attendee_id) {
     var attendee = this.attendees.where({id: attendee_id})[0];
     attendee.set('section_id', this.section.get('id'));
-    this.trigger('section:changed');
+    attendee.save().success(_.bind(function () {
+      this.trigger('section:changed');
+    }, this));
   },
 
   postRender: function () {
@@ -76,6 +78,8 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   },
 
   onTitleDoubleClick: function () {
+    if (this.section.isUnassigned()) { return; }
+
     var newName = window.prompt('Enter the new name for ' + this.section.get('name'));
     if (newName) {
       this.section.set('name', newName);
@@ -88,12 +92,8 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   onDestroyClick: function () {
     var confirmed = window.confirm('Are you sure you want to destroy ' + this.section.get('name') + '?\n\nAll Students and Volunteers will return to being Unassigned.');
     if (confirmed) {
-      _.each(this.students(), function (student) {
-        student.set('section_id', undefined);
-      });
-      _.each(this.volunteers(), function (volunteer) {
-        volunteer.set('section_id', undefined);
-      });
+      _.invoke(this.students(), 'unassign');
+      _.invoke(this.volunteers(), 'unassign');
       this.destroy();
       this.section.destroy();
     }

@@ -5,9 +5,11 @@ class Rsvp < ActiveRecord::Base
   belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id
   belongs_to :user, polymorphic: true
   belongs_to :event
+  belongs_to :section
 
   belongs_to_active_hash :volunteer_preference
 
+  delegate :full_name, to: :user
   delegate :historical?, to: :event, allow_nil: true
 
   has_many :rsvp_sessions, dependent: :destroy
@@ -108,5 +110,10 @@ class Rsvp < ActiveRecord::Base
     end
 
     attendances
+  end
+
+  def as_json(options={})
+    options = {methods: [:full_name]}.merge(options)
+    super(options)
   end
 end

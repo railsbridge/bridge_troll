@@ -29,6 +29,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.listenTo(this.attendees, 'change', this.render);
 
       this.unsortedSection = new Bridgetroll.Models.Section({
+        id: null,
         name: 'Unsorted Attendees'
       });
       addSectionView.call(this, this.unsortedSection);

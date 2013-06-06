@@ -64,7 +64,9 @@ class RsvpsController < ApplicationController
 
   def load_rsvp
     @rsvp = Rsvp.find_by_id(params[:id])
-    redirect_to events_path, notice: 'You are not signed up for this event' and return unless @rsvp
+    unless @rsvp && @rsvp.user == current_user
+      redirect_to events_path, notice: 'You are not signed up for this event'
+    end
     false
   end
 

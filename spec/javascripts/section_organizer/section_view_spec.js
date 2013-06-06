@@ -2,9 +2,9 @@ describe("Section", function () {
   var view, model, attendees;
   beforeEach(function () {
     attendees = new Bridgetroll.Collections.Attendee([
-      {role_id: Bridgetroll.Enums.Role.STUDENT, name: 'Othersection Rand', section_id: 11},
-      {role_id: Bridgetroll.Enums.Role.STUDENT, name: 'Lana Lang', section_id: 401},
-      {role_id: Bridgetroll.Enums.Role.VOLUNTEER, name: 'Grace Hopper', section_id: 401}
+      {id: 9,  event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Othersection Rand', section_id: 11},
+      {id: 10, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Lana Lang', section_id: 401},
+      {id: 11, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Grace Hopper', section_id: 401}
     ]);
     model = new Bridgetroll.Models.Section({
       id: 401,
@@ -29,7 +29,7 @@ describe("Section", function () {
     });
 
     it("unsets section_id from all attendees", function () {
-      expect(attendees.map(function (attendee) { return attendee.get('section_id') }).sort()).toEqual([undefined, undefined, 11].sort());
+      expect(attendees.map(function (attendee) { return attendee.get('section_id') }).sort()).toEqual([null, null, 11].sort());
     });
   });
 
@@ -42,7 +42,7 @@ describe("Section", function () {
     it("makes a request to update the name with the prompted value", function () {
       var request = this.server.requestFor('/events/191/sections/401');
       expect(request).not.toBeUndefined();
-      expect(JSON.parse(request.requestBody).name).toEqual("Pirate's Bay");
+      expect(JSON.parse(request.requestBody).section.name).toEqual("Pirate's Bay");
     });
 
     describe("when the request completes", function () {
@@ -56,6 +56,34 @@ describe("Section", function () {
 
       it("re-renders with the new name", function () {
         expect(view.$('.title').text()).toContain("Pirate's Bay");
+      });
+    });
+  });
+
+  describe("#moveAttendeeToSection", function () {
+    beforeEach(function () {
+      view.moveAttendeeToSection(10);
+    });
+
+    it("makes a request to save the new section_id", function () {
+      var request = this.server.requestFor('/events/191/attendees/10');
+      expect(request).not.toBeUndefined();
+      expect(JSON.parse(request.requestBody).rsvp.section_id).toEqual(401);
+    });
+
+    describe("when the request completes successfully", function () {
+      beforeEach(function () {
+        spyOn(view, 'trigger');
+        this.server.completeRequest('/events/191/attendees/10', {
+          id: 10,
+          event_id: 191,
+          section_id: 401,
+          full_name: "Lana Lang"
+        });
+      });
+
+      it("triggers a section:changed event", function () {
+        expect(view.trigger).toHaveBeenCalledWith('section:changed');
       });
     });
   });

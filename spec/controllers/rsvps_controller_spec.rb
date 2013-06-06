@@ -207,6 +207,29 @@ describe RsvpsController do
     end
   end
 
+  describe "#update" do
+    before do
+      @user = create(:user)
+      @other_user = create(:user)
+      @my_rsvp = create(:rsvp, user: @user, event: @event)
+      @other_rsvp = create(:rsvp, user: @other_user, event: @event)
+
+      sign_in @user
+    end
+
+    it 'updates rsvps owned by the logged in user' do
+      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: {subject_experience: 'Abracadabra'}
+      response.should redirect_to(@event)
+      @my_rsvp.reload.subject_experience.should == 'Abracadabra'
+    end
+
+    it 'does not update rsvps owned by other users' do
+      put :update, event_id: @event.id, id: @other_rsvp.id, rsvp: {subject_experience: 'Abracadabra'}
+      response.should_not be_success
+      @other_rsvp.reload.subject_experience.should_not == 'Abracadabra'
+    end
+  end
+
   describe "#destroy" do
     before do
       @user = create(:user)
@@ -215,7 +238,7 @@ describe RsvpsController do
 
     context "when there is an existing rsvp" do
       before do
-        @rsvp = create(:rsvp)
+        @rsvp = create(:rsvp, user: @user)
       end
 
       it "should destroy the rsvp" do

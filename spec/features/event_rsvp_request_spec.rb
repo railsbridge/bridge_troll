@@ -38,7 +38,7 @@ describe 'creating or editing an rsvp' do
 
   context "given an rsvp with childcare info" do
     before do
-      @rsvp = create(:rsvp, childcare_info: "Bobbie: 17, Susie: 20000007")
+      @rsvp = create(:rsvp, user: @user, childcare_info: "Bobbie: 17, Susie: 20000007")
       visit edit_event_rsvp_path @rsvp.event, @rsvp
     end
 
