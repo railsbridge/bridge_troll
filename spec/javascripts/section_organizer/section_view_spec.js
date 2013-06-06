@@ -68,7 +68,7 @@ describe("Section", function () {
     it("makes a request to save the new section_id", function () {
       var request = this.server.requestFor('/events/191/attendees/10');
       expect(request).not.toBeUndefined();
-      expect(JSON.parse(request.requestBody).rsvp.section_id).toEqual(401);
+      expect(JSON.parse(request.requestBody).attendee.section_id).toEqual(401);
     });
 
     describe("when the request completes successfully", function () {

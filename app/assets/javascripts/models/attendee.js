@@ -5,7 +5,7 @@ Bridgetroll.Models.Attendee = Backbone.Model.extend({
 
   toJSON: function () {
     return {
-      rsvp: this.attributes
+      attendee: this.attributes
     };
   },
 

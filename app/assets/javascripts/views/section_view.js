@@ -60,32 +60,41 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
 
   moveAttendeeToSection: function (attendee_id) {
     var attendee = this.attendees.where({id: attendee_id})[0];
-    attendee.set('section_id', this.section.get('id'));
-    attendee.save().success(_.bind(function () {
-      this.trigger('section:changed');
-    }, this));
+    attendee
+      .save({section_id: this.section.get('id')})
+      .success(_.bind(function () {
+        this.trigger('section:changed');
+      }, this))
+      .error(function () {
+        alert("Error reassigning attendee.");
+      });
   },
 
   postRender: function () {
     this.$('.attendee').on('drag', this.attendeeDragging);
     this.$('.attendee').on('dragend', this.attendeeDropped);
 
-    var self = this;
-    this.$el.drop(function (el, dd) {
+    this.$el.drop(_.bind(function (el, dd) {
       var $attendee = $(dd.drag);
-      self.moveAttendeeToSection($attendee.data('id'));
-    });
+      this.moveAttendeeToSection($attendee.data('id'));
+    }, this));
   },
 
   onTitleDoubleClick: function () {
-    if (this.section.isUnassigned()) { return; }
+    if (this.section.isUnassigned()) {
+      return;
+    }
 
     var newName = window.prompt('Enter the new name for ' + this.section.get('name'));
     if (newName) {
-      this.section.set('name', newName);
-      this.section.save().success(_.bind(function () {
-        this.render();
-      }, this));
+      this.section
+        .save({name: newName})
+        .success(_.bind(function () {
+          this.render();
+        }, this))
+        .error(function () {
+          alert("Error updating section.");
+        });
     }
   },
 

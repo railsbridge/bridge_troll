@@ -38,16 +38,21 @@ Bridgetroll.Views.SectionOrganizer = (function () {
         addSectionView.call(this, section);
       }, this));
       this.listenTo(this.sections, 'add remove', this.render);
-      
+
       this.render();
     },
 
     onAddSectionClick: function () {
       var section = new Bridgetroll.Models.Section({event_id: this.event_id});
-      section.save().success(_.bind(function (sectionJson) {
-        var section = new Bridgetroll.Models.Section(sectionJson);
-        addSectionView.call(this, section);
-      }, this));
+      section
+        .save()
+        .success(_.bind(function (sectionJson) {
+          var section = new Bridgetroll.Models.Section(sectionJson);
+          addSectionView.call(this, section);
+        }, this))
+        .error(function () {
+          alert('Error creating section.')
+        });
     }
   });
 })();

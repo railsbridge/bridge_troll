@@ -13,7 +13,7 @@ describe Events::AttendeesController do
     end
 
     let(:do_request) do
-      put :update, event_id: @event.id, id: @rsvp.id, rsvp: {
+      put :update, event_id: @event.id, id: @rsvp.id, attendee: {
         section_id: 401,
         subject_experience: 'Some awesome string'
       }
