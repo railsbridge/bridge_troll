@@ -2,7 +2,7 @@ class Events::AttendeesController < ApplicationController
   before_filter :authenticate_user!, :validate_organizer!, :find_event
 
   def index
-    @rsvps = @event.student_rsvps + @event.volunteer_rsvps
+    @rsvps = @event.attendee_rsvps
   end
 
   def update

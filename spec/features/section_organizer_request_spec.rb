@@ -5,20 +5,23 @@ describe "the section organizer tool" do
     @organizer = create(:user)
     @student = create(:user)
     @volunteer = create(:user)
+    @waitlisted = create(:user)
 
     @event = create(:event)
     @event.organizers << @organizer
     create(:student_rsvp, user: @student, event: @event)
     create(:volunteer_rsvp, user: @volunteer, event: @event)
+    create(:student_rsvp, waitlist_position: 1, user: @waitlisted, event: @event)
 
     sign_in_as(@organizer)
   end
 
-  it "should show the names of all students", js: true do
+  it "should show the names of all students not on the waitlist", js: true do
     visit organize_sections_event_path(@event)
     within '#section-organizer' do
       page.should have_content(@student.full_name)
       page.should have_content(@volunteer.full_name)
+      page.should_not have_content(@waitlisted.full_name)
     end
   end
 

@@ -10,6 +10,8 @@ class Event < ActiveRecord::Base
   has_many :rsvps, dependent: :destroy
   has_many :sections, dependent: :destroy
 
+  has_many :attendee_rsvps, class_name: 'Rsvp', conditions: { role_id: [Role::STUDENT.id, Role::VOLUNTEER.id], waitlist_position: nil }
+
   has_many :student_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::STUDENT.id, waitlist_position: nil }
   has_many :student_waitlist_rsvps, class_name: 'Rsvp', conditions: "role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL"
   has_many :students, through: :student_rsvps, source: :user, source_type: 'User'

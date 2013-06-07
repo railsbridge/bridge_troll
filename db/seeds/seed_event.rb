@@ -118,15 +118,20 @@ DETAILS
     ta = create_user('ta@example.com')
     create_volunteer_rsvp(event: event, user: ta, assignment: VolunteerAssignment::TA, class_level: 3)
 
-    unassigned1 = create_user('unassigned1@example.com')
-    create_volunteer_rsvp(event: event, user: unassigned1, assignment: VolunteerAssignment::UNASSIGNED, class_level: 1)
+    (1..5).each do |level|
+      students_in_level = (3..15).to_a.sample
+      (1..students_in_level).each do |index|
+        student = create_user("student#{level}-#{index}@example.com")
+        create_student_rsvp(event: event, user: student, class_level: level)
+      end
+    end
 
-    unassigned2 = create_user('unassigned2@example.com')
-    create_volunteer_rsvp(event: event, user: unassigned2, assignment: VolunteerAssignment::UNASSIGNED, class_level: 2)
+    student_count = event.student_rsvps.count
+    event.update_attribute(:student_rsvp_limit, student_count)
 
-    (1..5).each do |index|
-      student = create_user("student#{index}@example.com")
-      create_student_rsvp(event: event, user: student, class_level: index)
+    (1..student_count/3).each do |index|
+      volunteer = create_user("volunteer#{index}@example.com")
+      create_volunteer_rsvp(event: event, user: volunteer, assignment: VolunteerAssignment::UNASSIGNED, class_level: 0)
     end
 
     waitlisted = create_user("waitlisted@example.com")

@@ -21,4 +21,9 @@ class SectionsController < ApplicationController
     section.destroy
     render json: {}
   end
+
+  def arrange
+    SectionArranger.arrange(@event)
+    redirect_to organize_sections_event_path(@event)
+  end
 end

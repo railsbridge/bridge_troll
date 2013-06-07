@@ -4,9 +4,9 @@
   border-radius: 10px;
   padding: 15px;
 
-  .add-section {
+  .actions {
+    margin: 0 0 10px 0;
     display: block;
-    margin-bottom: 10px;
   }
 }
 
@@ -14,9 +14,9 @@ $bridgetroll-section-border-color: #BBB;
 
 .bridgetroll-section {
   border: 1px solid $bridgetroll-section-border-color;
-  margin: 5px 10px 0 20px;
+  margin: 0 10px 0 0;
   border-radius: 5px;
-  width: 200px;
+  width: 175px;
   display: inline-block;
   vertical-align: top;
 
@@ -28,6 +28,10 @@ $bridgetroll-section-border-color: #BBB;
     color: white;
     background-color: #555;
     border-bottom: 1px solid $bridgetroll-section-border-color;
+
+    &.special {
+      background-color: #AAA;
+    }
   }
 
   .destroy {
