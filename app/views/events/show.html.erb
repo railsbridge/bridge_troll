@@ -76,7 +76,7 @@
         </p>
       <% end %>
     </div>
-    <h3><%= pluralize(@event.volunteer_rsvps.count, "volunteer") %>!</h3>
+    <h3><%= pluralize(@event.checked_in_volunteer_rsvps.count, "volunteer") %>!</h3>
     <% if @event.volunteer_rsvps.none? %>
       No volunteers are currently signed up for this event.
     <% else %>
@@ -86,13 +86,13 @@
         <% end %>
       </ul>
     <% end %>
-    <h3><%= pluralize(@event.student_rsvps.count, "student") %>!</h3>
+    <h3><%= pluralize(@event.checked_in_student_rsvps.count, "student") %>!</h3>
     <% if @event.student_rsvps.none? %>
       No students are currently signed up for this event.
     <% else %>
       <ul class="attendees">
-        <% @event.student_rsvps.each do |rsvp| %>
-          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path %></li>
+        <% @event.ordered_student_rsvps.each do |rsvp| %>
+          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path, class: rsvp_class(rsvp)  %></li>
         <% end %>
       </ul>
     <% end %>

@@ -59,10 +59,34 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def checked_in_student_rsvps
+    checked_in_rsvps(student_rsvps)
+  end
+
+  def checked_in_volunteer_rsvps
+    checked_in_rsvps(volunteer_rsvps)
+  end
+
+  def checked_in_rsvps(assoc)
+    if upcoming? || historical?
+      assoc
+    else
+      assoc.where("checkins_count > 0")
+    end
+  end
+
+  def ordered_student_rsvps
+    ordered_rsvps(student_rsvps)
+  end
+
   def ordered_volunteer_rsvps
-    bridgetroll_rsvps = volunteer_rsvps.where(user_type: 'User').includes(:bridgetroll_user).order('checkins_count > 0 DESC, lower(users.first_name) ASC, lower(users.last_name) ASC')
+    ordered_rsvps(volunteer_rsvps)
+  end
+
+  def ordered_rsvps(assoc)
+    bridgetroll_rsvps = assoc.where(user_type: 'User').includes(:bridgetroll_user).order('checkins_count > 0 DESC, lower(users.first_name) ASC, lower(users.last_name) ASC')
     if historical?
-      bridgetroll_rsvps + volunteer_rsvps.where(user_type: 'MeetupUser').includes(:meetup_user).order('lower(meetup_users.full_name) ASC')
+      bridgetroll_rsvps + assoc.where(user_type: 'MeetupUser').includes(:meetup_user).order('lower(meetup_users.full_name) ASC')
     else
       bridgetroll_rsvps
     end
