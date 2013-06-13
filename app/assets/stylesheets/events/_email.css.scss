@@ -1,0 +1,39 @@
+.event_email {
+  .mail-count {
+    margin: 20px 0;
+  }
+
+  textarea {
+    width: 600px;
+    height: 275px;
+  }
+
+  label {
+    line-height: 20px;
+    margin: 0;
+  }
+
+  input[type=text] {
+    width: 600px;
+  }
+
+  input[type=radio], input[type=checkbox] {
+    height: 20px;
+    margin: 5px 5px 5px 0;
+  }
+
+  .recipients-popover {
+    color: dodgerblue;
+    cursor: pointer;
+  }
+
+  .popover {
+    max-width: 600px;
+
+    .recipients {
+      height: 300px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+  }
+}

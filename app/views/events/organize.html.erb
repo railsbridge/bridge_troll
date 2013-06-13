@@ -14,7 +14,7 @@
   ['Manage Attendees', event_attendees_path(@event)],
   ['Manage Organizers', event_organizers_path(@event)],
   ['Manage Volunteers', event_volunteers_path(@event)],
-  ['Email Volunteers', volunteer_emails_event_path(@event)],
+  ['Email Attendees', new_event_email_path(@event)],
   ['Class Breakdown', organize_sections_event_path(@event)],
   ['Download CSV', event_students_path(@event, format: :csv)]
 ] %>

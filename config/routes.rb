@@ -14,8 +14,11 @@ Bridgetroll::Application.routes.draw do
   resources :events do
     resources :organizers, :only => [:index, :create, :destroy]
     resources :volunteers, :only => [:index, :update]
+
     resources :students, :only => [:index], :controller => 'events/students'
     resources :attendees, :only => [:index, :update], :controller => 'events/attendees'
+    resources :emails, :only => [:new, :create], :controller => 'events/emails'
+
     resources :sections, :only => [:create, :update, :destroy] do
       post :arrange, on: :collection
     end
@@ -30,9 +33,11 @@ Bridgetroll::Application.routes.draw do
     resources :event_sessions, :only => [] do
       resources :checkins, :only => [:index, :create, :destroy]
     end
-    get "volunteer_emails" => "events#volunteer_emails", :on => :member
-    get "organize", :on => :member
-    get "organize_sections", :on => :member
+
+    member do
+      get "organize"
+      get "organize_sections"
+    end
   end
 
   get "/auth/:provider/callback" => "omniauths#callback"

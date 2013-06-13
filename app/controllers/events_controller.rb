@@ -45,10 +45,6 @@ class EventsController < ApplicationController
     redirect_to events_url
   end
 
-  def volunteer_emails
-    @volunteers = @event.volunteers
-  end
-
   def organize
     @volunteer_rsvps = @event.volunteer_rsvps
     @volunteer_preference_counts = VolunteerPreference.all.inject({}) do |hsh, pref|

@@ -1,0 +1,52 @@
+<%= content_for(:header_text, @event.title) %>
+
+<script>
+  var attendees = <%= @rsvps.includes(:user).map do |rsvp|
+    {
+      role_id: rsvp.role_id,
+      waitlisted: rsvp.waitlist_position != nil,
+      full_name: rsvp.user.full_name,
+      email: rsvp.user.email
+    }
+  end.to_json.html_safe %>;
+  $(document).ready(setupEmailPage);
+</script>
+
+<div class='event_email'>
+
+  <h2>Email Attendees</h2>
+
+  <%= form_tag(event_emails_path(@event)) do %>
+    <%= label_tag do %>
+      <%= radio_button_tag(:attendee_group, Role::STUDENT.id, false, class: 'attendee-group') %> Only Students
+    <% end %>
+    <%= label_tag do %>
+      <%= radio_button_tag(:attendee_group, Role::VOLUNTEER.id, false, class: 'attendee-group') %> Only Volunteers
+    <% end %>
+    <%= label_tag do %>
+      <%= radio_button_tag(:attendee_group, 'All', true, class: 'attendee-group') %> Students and Volunteers
+    <% end %>
+
+    <%= label_tag do %>
+      <%= check_box_tag(:include_waitlisted, "1", false, class: 'include-waitlisted') %> Include Waitlisted Students
+    <% end %>
+
+    <span class='mail-count'>This email will be sent to <span class='num'><b><%= @rsvps.length %></b> <%= pluralize @rsvps, 'people' %>.</span> <span class='recipients-popover'>[Who?]</span></span></span>
+
+    <%= label_tag do %>
+      <div>Subject</div>
+      <%= text_field_tag('subject', nil, placeholder: 'A message from your RailsBridge organizer') %>
+    <% end %>
+
+    <%= label_tag do %>
+      <div>Message Body</div>
+      <%= text_area_tag('body', nil, placeholder: "Here's some important information about the upcoming workshop...") %>
+    <% end %>
+
+    <%= submit_tag 'Send Mail' %>
+  <% end %>
+</div>
+
+<%= render 'shared/actions', links: [
+  ['Back', organize_event_path(@event)]
+] %>
