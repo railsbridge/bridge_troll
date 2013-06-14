@@ -12,27 +12,44 @@
 
 $bridgetroll-section-border-color: #BBB;
 
+.bridgetroll-section-level {
+  vertical-align: top;
+  display: inline-block;
+  width: 175px;
+  margin-right: 10px;
+}
+
+.bridgetroll-section-title {
+  margin: -5px 0 5px 0;
+  padding: 5px 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: white;
+  background-color: #555;
+  border-bottom: 1px solid $bridgetroll-section-border-color;
+
+  &.special {
+    background-color: #AAA;
+  }
+
+  &.header {
+    margin-bottom: 15px;
+    color: white;
+
+    &.level1 { background-color: $level-blue; }
+    &.level2 { background-color: $level-green; }
+    &.level3 { background-color: $level-gold; }
+    &.level4 { background-color: $level-orange; }
+    &.level5 { background-color: $level-purple; }
+  }
+}
+
 .bridgetroll-section {
   border: 1px solid $bridgetroll-section-border-color;
-  margin: 0 10px 0 0;
+  margin-bottom: 20px;
   border-radius: 5px;
   width: 175px;
-  display: inline-block;
   vertical-align: top;
-
-  .title {
-    margin: -5px 0 5px 0;
-    padding: 5px 10px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    color: white;
-    background-color: #555;
-    border-bottom: 1px solid $bridgetroll-section-border-color;
-
-    &.special {
-      background-color: #AAA;
-    }
-  }
 
   .destroy {
     font-size: 2em;
@@ -83,13 +100,15 @@ $bridgetroll-section-border-color: #BBB;
     margin: 0 5px;
     text-align: center;
     background-color: #CCC;
+    color: white;
 
     &.volunteer { background-color: #777; }
-    &.level1 { background-color: $blue-color; }
-    &.level2 { background-color: $green-color; }
-    &.level3 { background-color: $yellow-color; }
-    &.level4 { background-color: $orange-color; }
-    &.level5 { background-color: $red-color; }
+
+    &.level1 { background-color: $level-blue; }
+    &.level2 { background-color: $level-green; }
+    &.level3 { background-color: $level-gold; }
+    &.level4 { background-color: $level-orange; }
+    &.level5 { background-color: $level-purple; }
   }
 
   .attendee.dragging {

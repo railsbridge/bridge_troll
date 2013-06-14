@@ -55,7 +55,7 @@ describe("Section", function () {
       });
 
       it("re-renders with the new name", function () {
-        expect(view.$('.title').text()).toContain("Pirate's Bay");
+        expect(view.$('.bridgetroll-section-title').text()).toContain("Pirate's Bay");
       });
     });
   });

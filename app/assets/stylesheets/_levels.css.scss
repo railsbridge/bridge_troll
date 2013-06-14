@@ -32,23 +32,23 @@
     line-height: 22px;
 
     &.btn-blue {
-      @include gradient(#5BC0DE, #2F96B4);
+      @include gradient(#5BC0DE, $level-blue);
     }
 
     &.btn-green {
-      @include gradient(#62C462, #51A351);
+      @include gradient(#62C462, $level-green);
     }
 
     &.btn-gold {
-      @include gradient(#efdc07, #fcaa2f);
+      @include gradient(#efdc07, $level-gold);
     }
 
     &.btn-purple {
-      @include gradient(#cb5fa7 21%, #843178 92%);
+      @include gradient(#cb5fa7 21%, $level-purple 92%);
     }
 
     &.btn-orange {
-      @include gradient(#ffa84c, #e34d0b);
+      @include gradient(#ffa84c, $level-orange);
     }
   }
 

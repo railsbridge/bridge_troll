@@ -2,11 +2,11 @@ describe("SectionOrganizer", function () {
   var sectionOrganizer, attendees, sections;
   beforeEach(function () {
     attendees = new Bridgetroll.Collections.Attendee([
-      {id: 1, section_id: null, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Lana Lang'},
-      {id: 2, section_id: null, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Sue Storm'},
-      {id: 3, section_id: null, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Ted Moesby'},
-      {id: 4, section_id: null, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Paul Graham'},
-      {id: 5, section_id: null, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Grace Hopper'}
+      {id: 1, section_id: null, class_level: 0, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Lana Lang'},
+      {id: 2, section_id: null, class_level: 0, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Sue Storm'},
+      {id: 3, section_id: null, class_level: 0, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Ted Moesby'},
+      {id: 4, section_id: null, class_level: 0, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Paul Graham'},
+      {id: 5, section_id: null, class_level: 0, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Grace Hopper'}
     ]);
     sections = new Bridgetroll.Collections.Section([
       {

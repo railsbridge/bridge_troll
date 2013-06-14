@@ -1,9 +1,30 @@
 Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   className: 'bridgetroll-section',
   template: 'section_organizer/section',
+  attachPoint: function () {
+    var students = this.students();
+    var mode = 0;
+    var maxCount = 0;
+    var counts = {};
+    var levels = _.map(students, function (student) {
+      return student.get('class_level');
+    });
+    _.each(levels, function (level) {
+      if (counts[level]) {
+        counts[level] += 1;
+      } else {
+        counts[level] = 1;
+      }
+      if (counts[level] > maxCount) {
+        maxCount = counts[level];
+        mode = level;
+      }
+    });
+    return '.bridgetroll-section-level.level' + mode;
+  },
 
   events: {
-    'dblclick .title': 'onTitleDoubleClick',
+    'dblclick .bridgetroll-section-title': 'onTitleDoubleClick',
     'click .destroy': 'onDestroyClick'
   },
 
