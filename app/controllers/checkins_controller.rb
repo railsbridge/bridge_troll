@@ -1,7 +1,7 @@
 class CheckinsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :validate_organizer!
   before_filter :find_event_and_session
+  before_filter :validate_checkiner!
   before_filter :find_rsvp_session, only: [:create, :destroy]
 
   def index

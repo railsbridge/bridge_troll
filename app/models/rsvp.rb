@@ -1,6 +1,10 @@
 class Rsvp < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
 
+  attr_accessible :subject_experience, :teaching, :taing, :teaching_experience, :teaching_experience,
+                  :childcare_info, :operating_system_id, :job_details, :class_level, :dietary_info,
+                  :needs_childcare
+
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
   belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id
   belongs_to :user, polymorphic: true

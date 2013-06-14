@@ -1,11 +1,31 @@
+.organizer-dashboard-title {
+  font-size: 28px;
+  margin: 12px 0;
+}
+
+.organizer-dashboard-section {
+  margin: 30px 0;
+}
+
+.section-arranger-link {
+  font-size: 32px;
+
+  .section-arranger-link-text {
+    margin-left: 15px;
+  }
+}
+
 .session-attendance {
+  vertical-align: top;
   display: inline-block;
-  margin-right: 30px;
+  margin-right: 20px;
+  border: 1px solid rgb(205, 205, 228);
+  padding: 7px;
 
   .btn.btn-small {
     font-size: 12px;
-    background: $orange-color;
-    color: $blue-color;
+    background: rgb(194, 230, 255);
+    color: black;
     padding: 3px 4px;
   }
 }

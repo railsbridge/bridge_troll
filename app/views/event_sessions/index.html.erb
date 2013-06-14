@@ -1,0 +1,7 @@
+<%= content_for(:header_text, @event.title) %>
+
+<%= render :partial => 'shared/checkin_event_sessions' %>
+
+<%= render 'shared/actions', links: [
+  ['Back', event_path(@event)]
+] %>

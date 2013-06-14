@@ -7,7 +7,8 @@ class Events::AttendeesController < ApplicationController
 
   def update
     @rsvp = @event.rsvps.find(params[:id])
-    if @rsvp.update_attributes(section_id: params[:attendee][:section_id])
+    @rsvp.section_id = params[:attendee][:section_id]
+    if @rsvp.save
       render json: @rsvp
     else
       render json: @rsvp, status: :unprocessable_entity

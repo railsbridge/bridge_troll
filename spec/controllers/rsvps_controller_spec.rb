@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe RsvpsController do
   def extract_rsvp_params(rsvp)
-    rsvp.attributes.except *%w{user_id id created_at updated_at}
+    accessible_attrs = Rsvp.attr_accessible[:default].map(&:to_s) + ['role_id']
+    rsvp.attributes.select { |attr, val| accessible_attrs.include?(attr) }
   end
 
   before do
@@ -34,6 +35,7 @@ describe RsvpsController do
     before do
       @rsvp_params = extract_rsvp_params build(:rsvp, event: @event)
     end
+
     context "when not logged in" do
       it "redirects to the sign in page" do
         assigns[:current_user].should be_nil
@@ -164,6 +166,7 @@ describe RsvpsController do
             post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
               needs_childcare: '0', childcare_info: 'goodbye, cruel world')
           end
+
           it "should clear childcare_info" do
             assigns[:rsvp].childcare_info.should be_blank
           end
@@ -172,9 +175,7 @@ describe RsvpsController do
         context "when childcare_needed is checked" do
           it "should has validation errors for blank childcare_info" do
             post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
-              needs_childcare: '1',
-              childcare_info: ''
-            )
+              needs_childcare: '1', childcare_info: '')
             assigns[:rsvp].should have(1).errors_on(:childcare_info)
           end
 

@@ -11,6 +11,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def validate_checkiner!
+    unless @event.checkiner?(current_user) || current_user.admin?
+      flash[:error] = "You must be a checkiner, organizer, or admin to see this page."
+      redirect_to events_path
+    end
+  end
+
   def after_sign_in_path_for(resource)
     params[:return_to] || super
   end

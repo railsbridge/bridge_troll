@@ -324,11 +324,11 @@ describe EventsController do
 
         it "sends checked in user counts to the view" do
           make_request
-          assigns(:session_rsvp_counts).should == {
+          assigns(:checkin_counts)[:rsvp].should == {
             @session1.id => 3,
             @session2.id => 2
           }
-          assigns(:session_checkin_counts).should == {
+          assigns(:checkin_counts)[:checkin].should == {
             @session1.id => 3,
             @session2.id => 1
           }

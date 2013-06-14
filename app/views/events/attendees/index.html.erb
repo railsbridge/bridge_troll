@@ -1,5 +1,9 @@
 <h2>Attending students and volunteers</h2>
 
+<%= render 'shared/actions', additional_class: 'mission-control-actions', links: [
+  ['Download Student Details CSV', event_students_path(@event, format: :csv)],
+] %>
+
 <% if @rsvps.empty? %>
   <p>No one is coming to this workshop yet. ;_;</p>
 <% else %>

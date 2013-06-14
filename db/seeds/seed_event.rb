@@ -13,7 +13,7 @@ module Seeder
   end
 
   def self.create_volunteer_rsvp options
-    rsvp = Rsvp.create!(
+    rsvp = Rsvp.create!({
       event: options[:event],
       user: options[:user],
       role: Role::VOLUNTEER,
@@ -22,21 +22,21 @@ module Seeder
       teaching_experience: Faker::Lorem.sentence,
       class_level: options[:class_level],
       job_details: Faker::Name.title
-    )
+                        }, without_protection: true)
     options[:event].event_sessions.each do |session|
       RsvpSession.create!(rsvp: rsvp, event_session: session)
     end
   end
 
   def self.create_student_rsvp options
-    rsvp = Rsvp.create!(
+    rsvp = Rsvp.create!({
       event: options[:event],
       user: options[:user],
       waitlist_position: options[:waitlist_position],
       role: Role::STUDENT,
       operating_system: OperatingSystem::OSX_LION,
       class_level: options[:class_level]
-    )
+                        }, without_protection: true)
     options[:event].event_sessions.each do |session|
       RsvpSession.create!(rsvp: rsvp, event_session: session)
     end

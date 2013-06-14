@@ -75,6 +75,20 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def checkin_counts
+    counts = {
+      rsvp: {},
+      checkin: {}
+    }
+
+    event_sessions.each do |session|
+      counts[:rsvp][session.id] = session.rsvp_sessions.count
+      counts[:checkin][session.id] = session.rsvp_sessions.where(checked_in: true).count
+    end
+
+    counts
+  end
+
   def ordered_student_rsvps
     ordered_rsvps(student_rsvps)
   end
@@ -134,6 +148,11 @@ class Event < ActiveRecord::Base
 
   def organizer?(user)
     organizer_rsvps.where(user_id: user.id).any?
+  end
+
+  def checkiner?(user)
+    return true if organizer?(user)
+    rsvps.where(user_id: user.id, checkiner: true).any?
   end
 
   def reorder_waitlist!

@@ -13,6 +13,7 @@ Bridgetroll::Application.routes.draw do
 
   resources :events do
     resources :organizers, :only => [:index, :create, :destroy]
+    resources :checkiners, :only => [:index, :create, :destroy]
     resources :volunteers, :only => [:index, :update]
 
     resources :students, :only => [:index], :controller => 'events/students'
@@ -30,7 +31,7 @@ Bridgetroll::Application.routes.draw do
       end
     end
 
-    resources :event_sessions, :only => [] do
+    resources :event_sessions, :only => [:index] do
       resources :checkins, :only => [:index, :create, :destroy]
     end
 

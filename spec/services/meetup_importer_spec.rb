@@ -134,7 +134,7 @@ describe MeetupImporter do
 
       @meetup_sid = create(:meetup_user, meetup_id: sid[:id])
       @event = Event.last
-      @event.rsvps.create(user: @meetup_sid, role: Role::STUDENT)
+      create(:student_rsvp, event: @event, user: @meetup_sid)
     end
 
     it "removes the waitlist RSVPs when re-importing" do

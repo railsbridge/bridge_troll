@@ -219,7 +219,7 @@ MESSAGE
     if existing_rsvp.present?
       existing_rsvp.update_attribute(:role, Role::ORGANIZER) if role == Role::ORGANIZER
     else
-      event.rsvps.create!(user: user, role: role)
+      event.rsvps.create!({user: user, role: role}, without_protection: true)
     end
   end
 

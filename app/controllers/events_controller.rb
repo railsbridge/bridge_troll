@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show]
   before_filter :find_event, except: [:index, :create, :new]
   before_filter :require_organizer, except: [:index, :create, :show, :new]
+  before_filter :assign_checkiner, only: [:show]
   before_filter :assign_organizer, only: [:show, :edit, :update, :destroy]
   before_filter :set_time_zone, only: [:create, :update]
 
@@ -60,14 +61,9 @@ class EventsController < ApplicationController
       @volunteer_preference_counts[rsvp.volunteer_preference_id] += 1
     end
 
-    @session_rsvp_counts = {}
-    @session_checkin_counts = {}
-
     @childcare_requests = @event.rsvps_with_childcare
-    @event.event_sessions.each do |session|
-      @session_rsvp_counts[session.id] = session.rsvp_sessions.count
-      @session_checkin_counts[session.id] = session.rsvp_sessions.where(checked_in: true).count
-    end
+
+    @checkin_counts = @event.checkin_counts
   end
 
   def organize_sections
@@ -91,6 +87,14 @@ class EventsController < ApplicationController
 
   def find_event
     @event = Event.find(params[:id])
+  end
+
+  def assign_checkiner
+    if user_signed_in?
+      @checkiner = @event.checkiner?(current_user)
+    else
+      @checkiner = false
+    end
   end
 
   def assign_organizer

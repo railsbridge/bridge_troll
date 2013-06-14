@@ -34,6 +34,7 @@ jQuery ->
     dateFormat: 'yy-mm-dd'
   $('#event_location_id').select2(width: 'element')
   $('#event_organizer_user_id').select2(width: 'element')
+  $('#event_checkiner_rsvp_id').select2(width: 'element')
 
   setUpDatePicker($('.datepicker'))
 

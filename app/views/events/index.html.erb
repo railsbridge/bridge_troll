@@ -29,6 +29,8 @@
             <% if user_signed_in? %>
               <% if event.organizer?(current_user) || current_user.admin? %>
                 <div><%= link_to 'Organizer Console', organize_event_path(event), :class => 'btn' %></div>
+              <% elsif event.checkiner?(current_user) %>
+                <div><%= link_to 'Checkin Console', event_event_sessions_path(event), :class => 'btn' %></div>
               <% end %>
               <%= render 'shared/rsvp_actions', event: event %>
             <% else %>

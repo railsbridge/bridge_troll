@@ -38,6 +38,8 @@
     <% if @organizer %>
       <% links << ['Edit', edit_event_path(@event)] %>
       <% links << ['Organizer Console', organize_event_path(@event)] %>
+    <% elsif @checkiner %>
+      <% links << ['Checkin Console', event_event_sessions_path(@event)] %>
     <% end %>
 
     <% links << ['Back', events_path] %>

@@ -22,3 +22,7 @@
     Bridgetroll.sectionOrganizer.render();
   });
 </script>
+
+<%= render 'shared/actions', links: [
+  ['Back', organize_event_path(@event)]
+] %>

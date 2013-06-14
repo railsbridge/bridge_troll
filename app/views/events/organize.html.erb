@@ -1,76 +1,41 @@
 <%= content_for(:header_text, @event.title) %>
 
-<h2>Super Secret Organizer Mission Control Console</h2>
-
-<% @event.event_sessions.each do |session| %>
-  <div class='session-attendance'>
-    <h3><%= session.name %></h3>
-    <div><%= @session_checkin_counts[session.id] %>/<%= @session_rsvp_counts[session.id] %> Checked In</div>
-    <%= link_to "Check in for #{session.name}", event_event_session_checkins_path(@event, session), class: 'btn btn-small' %>
-  </div>
-<% end %>
+<div class='organizer-dashboard-title'>Super Secret Organizer Mission Control Console</div>
 
 <%= render 'shared/actions', additional_class: 'mission-control-actions', links: [
-  ['Manage Attendees', event_attendees_path(@event)],
+  ['Show all Attendee Details', event_attendees_path(@event)],
   ['Manage Organizers', event_organizers_path(@event)],
   ['Manage Volunteers', event_volunteers_path(@event)],
   ['Email Attendees', new_event_email_path(@event)],
-  ['Class Breakdown', organize_sections_event_path(@event)],
-  ['Download CSV', event_students_path(@event, format: :csv)]
 ] %>
 
-<h2>Volunteer Teaching Preference Totals</h2>
-<p>You can see individual preferences and assign teaching roles on the <%= link_to('Manage Volunteers', event_volunteers_path(@event)) %> page.</p>
- <table class="table">
-  <thead>
-    <tr>
-      <th>Wants to teach</th>
-      <th>Wants to TA</th>
-      <th>No preference</th>
-      <th>Non-teaching volunteer</th>
-      <th>Total volunteers</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><%= @volunteer_preference_counts[VolunteerPreference::TEACHER.id] %></td>
-      <td><%= @volunteer_preference_counts[VolunteerPreference::TA.id] %></td>
-      <td><%= @volunteer_preference_counts[VolunteerPreference::BOTH.id] %></td>
-      <td><%= @volunteer_preference_counts[VolunteerPreference::NEITHER.id] %></td>
-      <td><%= @event.volunteer_rsvps.length %></td>
-    </tr>
-  </tbody>
-</table>
+<section class='organizer-dashboard-section'>
+  <%= link_to organize_sections_event_path(@event) do %>
+    <div class='section-arranger-link'>
+      <img src='/assets/section_organizer_small.png'><span class='section-arranger-link-text'>Arrange Sections</span>
+    </div>
+  <% end %>
+</section>
 
-<h2>Volunteer Assignment Totals</h2>
- <table class="table">
-  <thead>
-    <tr>
-      <th>Unassigned</th>
-      <th>Teachers</th>
-      <th>TAs</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><%= @volunteer_assignment_counts[VolunteerAssignment::UNASSIGNED.id] %></td>
-      <td><%= @volunteer_assignment_counts[VolunteerAssignment::TEACHER.id] %></td>
-      <td><%= @volunteer_assignment_counts[VolunteerAssignment::TA.id] %></td>
-    </tr>
-  </tbody>
-</table>
+<section class='organizer-dashboard-section'>
+  <%= render :partial => 'shared/checkin_event_sessions' %>
+  <div class='session-attendance'>
+    <%= link_to 'Add Checkiners', event_checkiners_path(@event), class: 'btn' %>
+  </div>
+</section>
 
-<h2>Childcare Requests</h2>
-<table class="table">
-  <thead>
-  <tr>
-    <th>Requester Name</th>
-    <th>Email</th>
-    <th>Children Info</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @childcare_requests.each do |request| %>
+<section class='organizer-dashboard-section'>
+  <h2>Childcare Requests</h2>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Requester Name</th>
+      <th>Email</th>
+      <th>Children Info</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @childcare_requests.each do |request| %>
       <tr>
         <td>
           <%= request.user.full_name %>
@@ -82,9 +47,10 @@
           <%= request.childcare_info %>
         </td>
       </tr>
-  <% end %>
-  </tbody>
-</table>
+    <% end %>
+    </tbody>
+  </table>
+</section>
 
 <%= render 'shared/actions', links: [
   ['Event Index', events_path],

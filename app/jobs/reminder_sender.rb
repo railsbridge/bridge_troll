@@ -10,7 +10,8 @@ class ReminderSender
     puts "Sending #{due_reminders.count} reminders for #{event.title}..." unless Rails.env.test?
     due_reminders.find_each do |rsvp|
       RsvpMailer.reminder(rsvp).deliver
-      rsvp.update_attributes(reminded_at: Time.now)
+      rsvp.reminded_at = Time.now
+      rsvp.save!
     end
   end
 end

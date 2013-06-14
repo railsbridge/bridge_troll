@@ -4,12 +4,14 @@ class RsvpsController < ApplicationController
   before_filter :load_rsvp, except: [:volunteer, :learn, :create]
 
   def volunteer
-    @rsvp = @event.rsvps.build(role: Role::VOLUNTEER)
+    @rsvp = @event.rsvps.build
+    @rsvp.role = Role::VOLUNTEER
     render :new
   end
 
   def learn
-    @rsvp = @event.rsvps.build(role: Role::STUDENT)
+    @rsvp = @event.rsvps.build
+    @rsvp.role = Role::STUDENT
     render :new
   end
 
@@ -17,6 +19,9 @@ class RsvpsController < ApplicationController
     @rsvp = Rsvp.new(params[:rsvp])
     @rsvp.event = @event
     @rsvp.user = current_user
+    if [Role::VOLUNTEER.id, Role::STUDENT.id].include?(params[:rsvp][:role_id].to_i)
+      @rsvp.role = Role.find(params[:rsvp][:role_id])
+    end
 
     Rsvp.transaction do
       if @event.at_limit? && @rsvp.role == Role::STUDENT
