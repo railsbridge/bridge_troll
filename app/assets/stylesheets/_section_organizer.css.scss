@@ -111,6 +111,10 @@ $bridgetroll-section-border-color: #BBB;
     &.level5 { background-color: $level-purple; }
   }
 
+  .attendee.no-show {
+    color: #BBB;
+  }
+
   .attendee.dragging {
     position: absolute;
     background-color: white;
