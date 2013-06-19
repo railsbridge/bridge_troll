@@ -3,7 +3,9 @@ describe("Section", function () {
   beforeEach(function () {
     attendees = new Bridgetroll.Collections.Attendee([
       {id: 9,  event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Othersection Rand', section_id: 11},
-      {id: 10, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Lana Lang', section_id: 401},
+      {id: 10, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Lana Lang', class_level: 1, section_id: 401},
+      {id: 10, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Zana Zang', class_level: 1, section_id: 401},
+      {id: 10, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Student Person', class_level: 2, section_id: 401},
       {id: 11, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Grace Hopper', section_id: 401}
     ]);
     model = new Bridgetroll.Models.Section({
@@ -17,6 +19,24 @@ describe("Section", function () {
     });
   });
 
+  describe("#attachPoint", function () {
+    describe("when the section is for unassigned students", function () {
+      beforeEach(function () {
+        view.section.set('id', null);
+      });
+
+      it("returns level0", function () {
+        expect(view.attachPoint()).toEqual('.bridgetroll-section-level.level0')
+      });
+    });
+
+    describe("when the section is a real section", function () {
+      it("returns the mode of the student class levels", function () {
+        expect(view.attachPoint()).toEqual('.bridgetroll-section-level.level1')
+      });
+    });
+  });
+  
   describe("onDestroyClick", function () {
     beforeEach(function () {
       spyOn(window, 'confirm').andReturn(true);

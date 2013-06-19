@@ -2,11 +2,11 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   className: 'bridgetroll-section',
   template: 'section_organizer/section',
   attachPoint: function () {
+    var sectionClassPrefix = '.bridgetroll-section-level.level';
     if (this.section.get("id") === null) {
-      return '.bridgetroll-section-level.level0';
+      return sectionClassPrefix + '0';
     }
-    var mode = this.findMode();
-    return '.bridgetroll-section-level.level' + mode;
+    return sectionClassPrefix + this.findMode();
   },
 
   findMode: function () {
@@ -31,7 +31,6 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
     });
     return mode;
   },
-
 
   events: {
     'dblclick .bridgetroll-section-title': 'onTitleDoubleClick',
