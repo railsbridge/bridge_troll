@@ -1,9 +1,7 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show]
   before_filter :find_event, except: [:index, :create, :new]
-  before_filter :require_organizer, except: [:index, :create, :show, :new]
-  before_filter :assign_checkiner, only: [:show]
-  before_filter :assign_organizer, only: [:show, :edit, :update, :destroy]
+  before_filter :validate_organizer!, except: [:index, :create, :show, :new]
   before_filter :set_time_zone, only: [:create, :update]
 
   def index
@@ -12,6 +10,13 @@ class EventsController < ApplicationController
   end
 
   def show
+    if user_signed_in?
+      @organizer = @event.organizer?(current_user) || current_user.admin?
+      @checkiner = @event.checkiner?(current_user)
+    else
+      @organizer = false
+      @checkiner = false
+    end
   end
 
   def new
@@ -78,30 +83,7 @@ class EventsController < ApplicationController
     end
   end
 
-  def require_organizer
-    unless assign_organizer
-      flash[:error] = "You must be an organizer for the event or an Admin to update or delete an event"
-      redirect_to events_path
-    end
-  end
-
   def find_event
     @event = Event.find(params[:id])
-  end
-
-  def assign_checkiner
-    if user_signed_in?
-      @checkiner = @event.checkiner?(current_user)
-    else
-      @checkiner = false
-    end
-  end
-
-  def assign_organizer
-    if user_signed_in?
-      @organizer = @event.organizer?(current_user) || current_user.admin?
-    else
-      @organizer = false
-    end
   end
 end
