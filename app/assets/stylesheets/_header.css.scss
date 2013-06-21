@@ -1,6 +1,7 @@
 .navbar {
   .navbar-inner {
     background: #333;
+    padding: 0 !important;
   }
 
   .nav li a { 
@@ -42,6 +43,23 @@
       path {
         fill: white;
       }
+    }
+  }
+
+  @media (max-width: 860px) {
+    .nav-blurb {
+      display: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .app-name {
+      display: block;
+      text-align: center;
+    }
+    .nav {
+      width: 100%;
+      display: block;
     }
   }
 }
