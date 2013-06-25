@@ -82,7 +82,7 @@ The following section is only necessary if you want to import Meetup data or wor
 
 #### Setting up environment
 
-To populate environment variables, we recommend you start your rails server with **foreman**, which is available in the [https://toolbelt.heroku.com/](Heroku Toolbelt). Once foreman is installed, You'll need to create an `.env` file in the Bridge Troll directory for foreman to start effectively. Here's a sample one (note these are not real API keys):
+To populate environment variables, we recommend you start your rails server with **foreman**, which is available in the [Heroku Toolbelt](https://toolbelt.heroku.com/). Once foreman is installed, You'll need to create an `.env` file in the Bridge Troll directory for foreman to start effectively. Here's a sample one (note these are not real API keys):
 
 ```
 MEETUP_API_KEY=12345
