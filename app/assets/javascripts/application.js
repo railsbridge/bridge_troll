@@ -12,7 +12,6 @@
 //= require twitter/bootstrap/tooltip
 //= require twitter/bootstrap/popover
 //= require select2
-//= require modernizr
 //= require handlebars.runtime
 //= require underscore
 //= require backbone

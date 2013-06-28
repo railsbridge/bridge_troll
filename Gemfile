@@ -14,6 +14,7 @@ gem 'omniauth-meetup'
 gem 'gravatar_image_tag'
 gem 'simple_form'
 gem 'sentry-raven'
+gem 'json', '~> 1.7.0' # locked until Zeus gets its act together
 
 group :production do
   gem 'pg'
@@ -24,7 +25,6 @@ group :assets do
   gem 'jquery-datatables-rails'
   gem 'sass-rails'
   gem 'coffee-rails'
-  gem 'modernizr_rails', :require => 'modernizr-rails'
   gem 'uglifier'
   gem 'bootstrap-sass-rails'
   gem 'jquery-ui-rails'
