@@ -14,32 +14,35 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 RSpec.configure do |config|
   config.mock_with :rspec
 
-  config.use_transactional_fixtures = false
-
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
-  end
+  config.use_transactional_fixtures = true
 
   config.before(:each) do
-    DatabaseCleaner.start
     WebMock.disable_net_connect!(:allow_localhost => true)
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
   end
 
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 
-  # If true, the base class of anonymous controllers will be inferred
-  # automatically. This will be the default behavior in future versions of
-  # rspec-rails.
-  #config.infer_base_class_for_anonymous_controllers = false
-
-  #Uncomment if need to write tests using devise helpers
-  #config.extend ControllerMacros, :type => :controller
   config.include Devise::TestHelpers, :type => :controller
 
   config.include FactoryGirl::Syntax::Methods
-end
 
+  # Monkey-patch to force single DB connection even in multithreaded
+  #   tests (selenium/capybara-webkit/poltergeist)
+  ActiveRecord::ConnectionAdapters::ConnectionPool.class_eval do
+    def current_connection_id
+      Thread.main.object_id
+    end
+  end
+
+  [:feature, :request].each do |type|
+    config.include Warden::Test::Helpers, type: type
+  end
+
+  config.before do
+    Warden.test_mode! if example.metadata[:js]
+  end
+
+  config.after do
+    Warden.test_reset! if example.metadata[:js]
+  end
+end

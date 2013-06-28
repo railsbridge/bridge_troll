@@ -52,7 +52,6 @@ group :test do
   gem 'capybara', '>= 2.0.1'
   gem "poltergeist"
   gem "launchy"
-  gem "database_cleaner"
   gem 'shoulda-matchers'
   gem "faker"
   gem 'capybara-screenshot'

@@ -3,30 +3,23 @@ require 'spec_helper'
 describe "Profile" do
   before do
     @user = create(:user)
-    @user.profile.update_attributes( :childcaring => true,
-                                     :writing => true,
-                                     :designing => true,
-                                     :outreach => true,
-                                     :mentoring => true,
-                                     :macosx => true,
-                                     :windows => true,
-                                     :linux => true,
-                                     :other => "This is a note in other",
-                                     :bio => "This is a Bio"
+    @user.profile.update_attributes(:childcaring => true,
+                                    :writing => true,
+                                    :designing => true,
+                                    :outreach => true,
+                                    :mentoring => true,
+                                    :macosx => true,
+                                    :windows => true,
+                                    :linux => true,
+                                    :other => "This is a note in other",
+                                    :bio => "This is a Bio"
     )
 
     sign_in_as(@user)
   end
 
-  it "when a user is logged in the Profile link should be displayed" do
-    page.should have_link("Profile")
-  end
-
-  it "and the user clicks the Profile link" do
-    click_link "Profile"
-  end
-
   it "when user visits the profile show page should see" do
+    visit "/"
     click_link "Profile"
     page.should have_content(@user.full_name)
     page.should have_content(@user.profile.bio)
@@ -44,6 +37,7 @@ describe "Profile" do
   end
 
   it "user should be able to add his/her skills" do
+    visit "/"
     click_link "Profile"
     click_link "Edit Profile"
     page.should have_content("Profile edit #{@user.full_name}")
@@ -82,7 +76,7 @@ describe "Profile" do
     end
 
     it "should be able to see workshop history" do
-      click_link "Profile"
+      visit user_profile_path(@user)
       page.should have_content("Workshop History")
       page.should have_content("BridgeBridge")
     end
