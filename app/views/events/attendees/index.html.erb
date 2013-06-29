@@ -1,3 +1,6 @@
+<%= content_for(:header_text, @event.title) %>
+<%= content_for(:header_link, organize_event_path(@event)) %>
+
 <h2>Attending students and volunteers</h2>
 
 <%= render 'shared/actions', additional_class: 'mission-control-actions', links: [

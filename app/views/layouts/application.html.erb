@@ -24,7 +24,11 @@
     </div>
     <div class='container header-container'>
       <% if content_for(:header_text).present? %>
-        <h1><%= yield(:header_text) %></h1>
+        <% if content_for(:header_link).present? %>
+          <h1><%= link_to yield(:header_text), yield(:header_link) %></h1>
+        <% else %>
+          <h1><%= yield(:header_text) %></h1>
+        <% end %>
       <% end %>
     </div>
     <div class="container center bridgetroll-content">

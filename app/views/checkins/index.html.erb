@@ -1,4 +1,10 @@
 <%= content_for(:header_text, @event.title) %>
+<% if @event.organizer?(current_user) %>
+  <%= content_for(:header_link, organize_event_path(@event)) %>
+<% elsif @event.checkiner?(current_user) %>
+  <%= content_for(:header_link, event_path(@event)) %>
+<% end %>
+
 
 <h2 style='margin-bottom: 10px;'>Check-ins for <%= @session.name %></h2>
 <h3>Total check-ins for this session:
