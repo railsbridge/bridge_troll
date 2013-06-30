@@ -33,7 +33,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   },
 
   events: {
-    'dblclick .bridgetroll-section-title': 'onTitleDoubleClick',
+    'click .edit': 'onEditClick',
     'click .destroy': 'onDestroyClick'
   },
 
@@ -110,12 +110,12 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
     }, this));
   },
 
-  onTitleDoubleClick: function () {
+  onEditClick: function () {
     if (this.section.isUnassigned()) {
       return;
     }
 
-    var newName = window.prompt('Enter the new name for ' + this.section.get('name'));
+    var newName = window.prompt('Enter the new name for ' + this.section.get('name'), this.section.get('name') || '');
     if (newName) {
       this.section
         .save({name: newName})

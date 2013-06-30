@@ -53,10 +53,10 @@ describe("Section", function () {
     });
   });
 
-  describe("onTitleDoubleClick", function () {
+  describe("onEditClick", function () {
     beforeEach(function () {
       spyOn(window, 'prompt').andReturn("Pirate's Bay");
-      view.onTitleDoubleClick();
+      view.onEditClick();
     });
 
     it("makes a request to update the name with the prompted value", function () {

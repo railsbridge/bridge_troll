@@ -21,12 +21,14 @@ group :production do
 end
 
 group :assets do
+  gem 'turbo-sprockets-rails3'
   gem 'handlebars_assets'
   gem 'jquery-datatables-rails'
   gem 'sass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
   gem 'bootstrap-sass-rails'
+  gem 'font-awesome-rails'
   gem 'jquery-ui-rails'
   gem 'backbone-on-rails'
 end

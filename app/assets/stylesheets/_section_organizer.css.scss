@@ -21,7 +21,7 @@ $bridgetroll-section-border-color: #BBB;
 
 .bridgetroll-section-title {
   margin: -5px 0 5px 0;
-  padding: 5px 10px;
+  padding: 5px 5px 5px 10px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   color: white;
@@ -51,13 +51,30 @@ $bridgetroll-section-border-color: #BBB;
   width: 175px;
   vertical-align: top;
 
-  .destroy {
-    font-size: 2em;
+  .actions {
+    display: inline-block;
     float: right;
 
-    &:hover {
-      cursor: pointer;
-      color: #ff6167;
+    span {
+      font-size: 2em;
+    }
+
+    i {
+      font-size: 1.5em;
+    }
+
+    i, span {
+      &:hover {
+        cursor: pointer;
+      }
+
+      &.destroy:hover {
+        color: #ff6167;
+      }
+
+      &.edit:hover {
+        color: rgb(71, 213, 156);
+      }
     }
   }
 

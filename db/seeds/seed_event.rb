@@ -52,7 +52,8 @@ module Seeder
     event.destroy
   end
 
-  def self.seed_event
+  def self.seed_event(options={})
+    students_per_level_range = options[:students_per_level_range] || (3..15)
     old_event = Event.where(title: 'Seeded Test Event').first
     destroy_event(old_event) if old_event.present?
 
@@ -119,7 +120,7 @@ DETAILS
     create_volunteer_rsvp(event: event, user: ta, assignment: VolunteerAssignment::TA, class_level: 3)
 
     (1..5).each do |level|
-      students_in_level = (3..15).to_a.sample
+      students_in_level = students_per_level_range.to_a.sample
       (1..students_in_level).each do |index|
         student = create_user("student#{level}-#{index}@example.com")
         create_student_rsvp(event: event, user: student, class_level: level)

@@ -1,4 +1,11 @@
-<div class='bridgetroll-section-title {{#unless destructable}}special{{/unless}}'>{{title}} {{#if destructable}}<span class='destroy'>&times;</span>{{/if}}</div>
+<div class='bridgetroll-section-title {{#unless destructable}}special{{/unless}}'>
+  {{title}}
+  <div class='actions'>
+    {{#if destructable}}
+    <i class="icon-edit edit"></i> <span class='destroy'>&times;</span>
+    {{/if}}
+  </div>
+</div>
 <ul class='volunteers'>
 {{#each volunteers}}
   <li class="attendee {{#unless this.checkins_count}}no-show{{/unless}}" data-id="{{this.id}}"><div class="bridgetroll-badge volunteer">V</div>{{this.full_name}}</li>

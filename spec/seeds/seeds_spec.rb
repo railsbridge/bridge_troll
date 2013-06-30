@@ -20,7 +20,7 @@ end
 
 describe "#seed_event" do
   it "creates an event which can cleanly destroy itself" do
-    Seeder::seed_event
+    Seeder::seed_event(students_per_level_range: (1..1))
     event = Event.last
     event.title.should == 'Seeded Test Event'
     Seeder::destroy_event(event)
@@ -28,8 +28,8 @@ describe "#seed_event" do
   end
 
   it "destroys itself when asked to create itself twice" do
-    Seeder::seed_event
-    Seeder::seed_event
+    Seeder::seed_event(students_per_level_range: (1..1))
+    Seeder::seed_event(students_per_level_range: (1..1))
     Event.count.should == 1
   end
 
@@ -38,7 +38,7 @@ describe "#seed_event" do
     innocent_user = create(:user)
     other_event.organizers << innocent_user
 
-    event = Seeder::seed_event
+    event = Seeder::seed_event(students_per_level_range: (1..1))
     event.organizers << innocent_user
 
     Seeder::destroy_event(event)
