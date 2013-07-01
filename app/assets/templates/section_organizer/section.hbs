@@ -8,12 +8,20 @@
 </div>
 <ul class='volunteers'>
 {{#each volunteers}}
-  <li class="attendee {{#unless this.checkins_count}}no-show{{/unless}}" data-id="{{this.id}}"><div class="bridgetroll-badge volunteer">V</div>{{this.full_name}}</li>
+  <li class="attendee {{#unless this.checkins_count}}no-show{{/unless}}" data-id="{{this.id}}">
+    <div class="bridgetroll-badge volunteer">V</div>
+    <span class='name'>{{this.full_name}}</span>
+    <i class='icon-info-sign info'></i>
+  </li>
 {{/each}}
 </ul>
 
 <ul class='students'>
 {{#each students}}
-  <li class="attendee {{#unless this.checkins_count}}no-show{{/unless}}" data-id="{{this.id}}"><div class="bridgetroll-badge level{{this.class_level}}">{{this.class_level}}</div>{{this.full_name}}</li>
+  <li class="attendee {{#unless this.checkins_count}}no-show{{/unless}}" data-id="{{this.id}}">
+    <div class="bridgetroll-badge level{{this.class_level}}">{{this.class_level}}</div>
+    <span class='name'>{{this.full_name}}</span>
+    <i class='icon-info-sign info'></i>
+  </li>
 {{/each}}
 </ul>

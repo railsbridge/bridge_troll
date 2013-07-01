@@ -35,6 +35,7 @@ module Seeder
       waitlist_position: options[:waitlist_position],
       role: Role::STUDENT,
       operating_system: OperatingSystem::OSX_LION,
+      job_details: Faker::Name.title,
       class_level: options[:class_level]
                         }, without_protection: true)
     options[:event].event_sessions.each do |session|

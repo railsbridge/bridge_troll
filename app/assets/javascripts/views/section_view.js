@@ -33,6 +33,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   },
 
   events: {
+    'click .info': 'onInfoClick',
     'click .edit': 'onEditClick',
     'click .destroy': 'onDestroyClick'
   },
@@ -108,6 +109,13 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
       var $attendee = $(dd.drag);
       this.moveAttendeeToSection($attendee.data('id'));
     }, this));
+  },
+
+  onInfoClick: function (e) {
+    var id = $(e.target).closest('.attendee').data('id');
+    var attendee = this.attendees.findWhere({id: id});
+    var detailView = new Bridgetroll.Views.AttendeeDetail({model: attendee});
+    detailView.showModally();
   },
 
   onEditClick: function () {

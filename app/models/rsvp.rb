@@ -42,6 +42,10 @@ class Rsvp < ActiveRecord::Base
   belongs_to_active_hash :volunteer_assignment
   belongs_to_active_hash :operating_system
 
+  def operating_system_title
+    operating_system.try(:title)
+  end
+
   def no_show
     return false if event.historical?
     return false if event.upcoming?
@@ -117,7 +121,7 @@ class Rsvp < ActiveRecord::Base
   end
 
   def as_json(options={})
-    options = {methods: [:full_name]}.merge(options)
+    options = {methods: [:full_name, :operating_system_title]}.merge(options)
     super(options)
   end
 end

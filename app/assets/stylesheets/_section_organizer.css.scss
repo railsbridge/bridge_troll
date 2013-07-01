@@ -95,11 +95,6 @@ $bridgetroll-section-border-color: #BBB;
   .students, .volunteers {
     margin: 0;
     min-height: 50px;
-
-    li {
-      line-height: 20px;
-      padding: 2px 0;
-    }
   }
 
   .volunteers:after {
@@ -128,18 +123,57 @@ $bridgetroll-section-border-color: #BBB;
     &.level5 { background-color: $level-purple; }
   }
 
-  .attendee.no-show {
-    color: #BBB;
-  }
+  .attendee {
+    line-height: 20px;
+    padding: 2px 0;
 
-  .attendee.dragging {
-    position: absolute;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(50, 50, 50, 0.75);
-    padding: 2px 5px 2px 0;
+    .name {
+      display: inline-block;
+      overflow: hidden;
+      width: 120px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .info {
+      float: right;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+
+    &.no-show {
+      color: #BBB;
+    }
+
+    &.dragging {
+      position: absolute;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(50, 50, 50, 0.75);
+      padding: 2px 5px 2px 0;
+
+      .info {
+        display: none;
+      }
+    }
   }
 }
 
 ul {
   list-style-type: none;
+}
+
+.bridgetroll-attendee-detail {
+  .role {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .detail-header {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .detail {
+    margin-bottom: 30px;
+  }
 }
