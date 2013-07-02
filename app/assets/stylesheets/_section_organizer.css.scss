@@ -1,3 +1,7 @@
+$linux-color: rgb(215, 255, 215);
+$osx-color: rgb(215, 215, 255);
+$windows-color: rgb(255, 215, 215);
+
 #section-organizer {
   min-height: 500px;
   border: 1px solid #ccc;
@@ -7,6 +11,27 @@
   .actions {
     margin: 0 0 10px 0;
     display: block;
+  }
+}
+
+.student-os-key {
+  float: right;
+  display: none;
+
+  .showing-os & {
+    display: block;
+  }
+
+  .swatch {
+    height: 10px;
+    width: 10px;
+    margin-left: 20px;
+    margin-right: 5px;
+    display: inline-block;
+
+    &.linux   { background-color: $linux-color; }
+    &.osx     { background-color: $osx-color; }
+    &.windows { background-color: $windows-color; }
   }
 }
 
@@ -126,6 +151,12 @@ $bridgetroll-section-border-color: #BBB;
   .attendee {
     line-height: 20px;
     padding: 2px 0;
+
+    .showing-os & {
+      &.linux   { background-color: $linux-color; }
+      &.osx     { background-color: $osx-color; }
+      &.windows { background-color: $windows-color; }
+    }
 
     .name {
       display: inline-block;

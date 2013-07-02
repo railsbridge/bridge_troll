@@ -17,7 +17,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
     template: 'section_organizer/section_organizer',
 
     events: {
-      'click .add-section': 'onAddSectionClick'
+      'click .add-section': 'onAddSectionClick',
+      'click .show-os': 'onShowOSClick'
     },
 
     initialize: function (options) {
@@ -53,6 +54,15 @@ Bridgetroll.Views.SectionOrganizer = (function () {
         .error(function () {
           alert('Error creating section.')
         });
+    },
+
+    onShowOSClick: function () {
+      this.$el.toggleClass('showing-os');
+      if (this.$el.hasClass('showing-os')) {
+        this.$('.show-os').text('Hide Student OS');
+      } else {
+        this.$('.show-os').text('Show Student OS');
+      }
     }
   });
 })();

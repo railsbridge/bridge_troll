@@ -46,6 +46,10 @@ class Rsvp < ActiveRecord::Base
     operating_system.try(:title)
   end
 
+  def operating_system_type
+    operating_system.try(:type)
+  end
+
   def no_show
     return false if event.historical?
     return false if event.upcoming?
@@ -121,7 +125,7 @@ class Rsvp < ActiveRecord::Base
   end
 
   def as_json(options={})
-    options = {methods: [:full_name, :operating_system_title]}.merge(options)
+    options = {methods: [:full_name, :operating_system_title, :operating_system_type]}.merge(options)
     super(options)
   end
 end

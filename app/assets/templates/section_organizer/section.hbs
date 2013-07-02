@@ -18,7 +18,7 @@
 
 <ul class='students'>
 {{#each students}}
-  <li class="attendee {{#unless this.checkins_count}}no-show{{/unless}}" data-id="{{this.id}}">
+  <li class="attendee {{#unless this.checkins_count}}no-show{{/unless}} {{this.operating_system_type}}" data-id="{{this.id}}">
     <div class="bridgetroll-badge level{{this.class_level}}">{{this.class_level}}</div>
     <span class='name'>{{this.full_name}}</span>
     <i class='icon-info-sign info'></i>

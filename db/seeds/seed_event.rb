@@ -34,7 +34,7 @@ module Seeder
       user: options[:user],
       waitlist_position: options[:waitlist_position],
       role: Role::STUDENT,
-      operating_system: OperatingSystem::OSX_LION,
+      operating_system: OperatingSystem.all.sample,
       job_details: Faker::Name.title,
       class_level: options[:class_level]
                         }, without_protection: true)
