@@ -129,9 +129,12 @@ $bridgetroll-section-border-color: #BBB;
     border-bottom: 1px solid $bridgetroll-section-border-color;
   }
 
+  $attendee-height: 20px;
+
   .bridgetroll-badge {
-    height: 20px;
-    width: 20px;
+    vertical-align: top;
+    height: $attendee-height;
+    width: $attendee-height;
     border-radius: 100%;
     display: inline-block;
     margin: 0 5px;
@@ -149,7 +152,8 @@ $bridgetroll-section-border-color: #BBB;
   }
 
   .attendee {
-    line-height: 20px;
+    height: $attendee-height;;
+    line-height: $attendee-height;;
     padding: 2px 0;
 
     .showing-os & {
@@ -168,6 +172,7 @@ $bridgetroll-section-border-color: #BBB;
 
     .info {
       float: right;
+      line-height: $attendee-height;;
       margin-right: 5px;
       cursor: pointer;
     }
