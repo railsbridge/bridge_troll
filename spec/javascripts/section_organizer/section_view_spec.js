@@ -4,9 +4,12 @@ describe("Section", function () {
     attendees = new Bridgetroll.Collections.Attendee([
       {id: 9,  event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Othersection Rand', section_id: 11},
       {id: 10, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Lana Lang', class_level: 1, section_id: 401},
-      {id: 10, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Zana Zang', class_level: 1, section_id: 401},
-      {id: 10, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Student Person', class_level: 2, section_id: 401},
-      {id: 11, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Grace Hopper', section_id: 401}
+      {id: 11, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Zana Zang', class_level: 1, section_id: 401},
+      {id: 12, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Student Person', class_level: 2, section_id: 401},
+      {id: 13, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Bother', section_id: 401, teaching: true, taing: true},
+      {id: 14, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Teacher', section_id: 401, teaching: true, taing: false},
+      {id: 15, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Taer', section_id: 401, teaching: false, taing: true},
+      {id: 16, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Neither', section_id: 401, teaching: false, taing: false}
     ]);
     model = new Bridgetroll.Models.Section({
       id: 401,
@@ -17,6 +20,20 @@ describe("Section", function () {
       section: model,
       attendees: attendees
     });
+  });
+
+  describe("rendering", function () {
+    beforeEach(function () {
+      view.render();
+    });
+
+    it("renders volunteers with a special letter representing their teaching/ta preferences", function () {
+      expect(view.$('[data-id="13"] .bridgetroll-badge').text()).toContain('B');
+      expect(view.$('[data-id="14"] .bridgetroll-badge').text()).toContain('T');
+      expect(view.$('[data-id="15"] .bridgetroll-badge').text()).toContain('A');
+      expect(view.$('[data-id="16"] .bridgetroll-badge').text()).toContain('N');
+    });
+
   });
 
   describe("#attachPoint", function () {
@@ -49,7 +66,7 @@ describe("Section", function () {
     });
 
     it("unsets section_id from all attendees", function () {
-      expect(attendees.map(function (attendee) { return attendee.get('section_id') }).sort()).toEqual([null, null, 11].sort());
+      expect(_.compact(attendees.map(function (attendee) { return attendee.get('section_id') }).sort())).toEqual([11]);
     });
   });
 

@@ -6,8 +6,8 @@ class SectionArranger
       return count
     end
 
-    number_of_sections = (count / IDEAL_CLASS_SIZE).ceil
-    (count / number_of_sections.to_f).ceil
+    number_of_sections = (count / IDEAL_CLASS_SIZE).round
+    (count / number_of_sections.to_f).round
   end
 
   def self.arrange(event, checked_in = nil)

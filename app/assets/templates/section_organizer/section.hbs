@@ -9,7 +9,7 @@
 <ul class='volunteers'>
 {{#each volunteers}}
   <li class="attendee {{#unless this.checkins_count}}no-show{{/unless}}" data-id="{{this.id}}">
-    <div class="bridgetroll-badge volunteer">V</div>
+    <div class="bridgetroll-badge volunteer">{{this.volunteer_letter}}</div>
     <span class='name'>{{this.full_name}}</span>
     <i class='icon-info-sign info'></i>
   </li>

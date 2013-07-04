@@ -13,16 +13,12 @@ module Seeder
   end
 
   def self.create_volunteer_rsvp options
-    rsvp = Rsvp.create!({
-      event: options[:event],
-      user: options[:user],
+    rsvp = Rsvp.create!(options.merge({
       role: Role::VOLUNTEER,
-      volunteer_assignment: options[:assignment],
       subject_experience: Faker::Lorem.sentence,
       teaching_experience: Faker::Lorem.sentence,
-      class_level: options[:class_level],
       job_details: Faker::Name.title
-                        }, without_protection: true)
+                        }), without_protection: true)
     options[:event].event_sessions.each do |session|
       RsvpSession.create!(rsvp: rsvp, event_session: session)
     end
@@ -115,10 +111,10 @@ DETAILS
     event.organizers << organizer
 
     teacher = create_user('teacher@example.com')
-    create_volunteer_rsvp(event: event, user: teacher, assignment: VolunteerAssignment::TEACHER, class_level: 0)
+    create_volunteer_rsvp(event: event, user: teacher, volunteer_assignment: VolunteerAssignment::TEACHER, class_level: 0)
 
     ta = create_user('ta@example.com')
-    create_volunteer_rsvp(event: event, user: ta, assignment: VolunteerAssignment::TA, class_level: 3)
+    create_volunteer_rsvp(event: event, user: ta, volunteer_assignment: VolunteerAssignment::TA, class_level: 3)
 
     (1..5).each do |level|
       students_in_level = students_per_level_range.to_a.sample
@@ -133,7 +129,13 @@ DETAILS
 
     (1..student_count/3).each do |index|
       volunteer = create_user("volunteer#{index}@example.com")
-      create_volunteer_rsvp(event: event, user: volunteer, assignment: VolunteerAssignment::UNASSIGNED, class_level: 0)
+      volunteer_class_preference = (0..5).to_a.sample
+      create_volunteer_rsvp(event: event,
+                            user: volunteer,
+                            volunteer_assignment: VolunteerAssignment::UNASSIGNED,
+                            class_level: volunteer_class_preference,
+                            teaching: [true, false].sample,
+                            taing: [true, false].sample)
     end
 
     waitlisted = create_user("waitlisted@example.com")
