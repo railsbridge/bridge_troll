@@ -104,9 +104,6 @@ DETAILS
 
     event.save!
 
-    first_session = event.event_sessions.find_by_name('First Session')
-    second_session = event.event_sessions.find_by_name('Second Session')
-
     organizer = create_user('organizer@example.com')
     event.organizers << organizer
 

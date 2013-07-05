@@ -142,8 +142,7 @@ $bridgetroll-section-border-color: #BBB;
     background-color: #CCC;
     color: white;
 
-    &.volunteer { background-color: #777; }
-
+    &.level0 { background-color: #777; }
     &.level1 { background-color: $level-blue; }
     &.level2 { background-color: $level-green; }
     &.level3 { background-color: $level-gold; }
