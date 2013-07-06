@@ -18,7 +18,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
 
     events: {
       'click .add-section': 'onAddSectionClick',
-      'click .show-os': 'onShowOSClick'
+      'click .show-os': 'onShowOSClick',
+      'click .show-unassigned': 'onShowUnassignedClick'
     },
 
     initialize: function (options) {
@@ -63,6 +64,15 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       } else {
         this.$('.show-os').text('Show Student OS');
       }
-    }
+    },
+
+    onShowUnassignedClick: function () {
+      this.$el.toggleClass('showing-unassigned');
+      if (this.$el.hasClass('showing-unassigned')) {
+        this.$('.show-unassigned').text('Hide Unassigned');
+      } else {
+        this.$('.show-unassigned').text('Show Unassigned');
+      }
+    },
   });
 })();

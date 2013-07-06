@@ -40,8 +40,20 @@ $bridgetroll-section-border-color: #BBB;
 .bridgetroll-section-level {
   vertical-align: top;
   display: inline-block;
-  width: 175px;
+  width: 215px;
   margin-right: 10px;
+
+  .showing-unassigned & {
+    width: 175px;
+  }
+
+  &.level0 {
+    display: none;
+
+    .showing-unassigned & {
+      display: inline-block;
+    }
+  }
 }
 
 .bridgetroll-section-title {
@@ -73,7 +85,6 @@ $bridgetroll-section-border-color: #BBB;
   border: 1px solid $bridgetroll-section-border-color;
   margin-bottom: 20px;
   border-radius: 5px;
-  width: 175px;
   vertical-align: top;
 
   .actions {
@@ -164,7 +175,8 @@ $bridgetroll-section-border-color: #BBB;
     .name {
       display: inline-block;
       overflow: hidden;
-      width: 120px;
+      width: 70%;
+      width: calc(100% - 55px);
       text-overflow: ellipsis;
       white-space: nowrap;
     }
