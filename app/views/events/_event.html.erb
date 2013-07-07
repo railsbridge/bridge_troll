@@ -1,10 +1,10 @@
 <td>
   <%= link_to event.title, event %>
   <% if event.meetup_student_event_id %>
-    <%= link_to "[S]", "http://www.sfruby.info/events/#{event.meetup_student_event_id}/", class: 'meetup-link' %>
+    <%= link_to "[S]", event.meetup_url(event.meetup_student_event_id), class: 'meetup-link' %>
   <% end %>
   <% if event.meetup_volunteer_event_id %>
-    <%= link_to "[V]", "http://www.sfruby.info/events/#{event.meetup_volunteer_event_id}/", class: 'meetup-link' %>
+    <%= link_to "[V]", event.meetup_url(event.meetup_volunteer_event_id), class: 'meetup-link' %>
   <% end %>
 </td>
 <td>

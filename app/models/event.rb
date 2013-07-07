@@ -1,3 +1,5 @@
+require 'meetups'
+
 class Event < ActiveRecord::Base
   after_initialize :set_defaults
   after_save :reorder_waitlist!
@@ -44,6 +46,13 @@ class Event < ActiveRecord::Base
 
   def historical?
     meetup_volunteer_event_id || meetup_student_event_id
+  end
+
+  def meetup_url meetup_event_id
+    return nil unless historical?
+
+    meetup_group_url = MeetupEventInfo.url_for_event(meetup_event_id)
+    "http://#{meetup_group_url}/events/#{meetup_event_id}/"
   end
 
   def at_limit?

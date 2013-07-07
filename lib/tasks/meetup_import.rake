@@ -1,7 +1,7 @@
 namespace :meetup do
   desc "Import things from meetup.com"
-  task :import => :environment do
-    MeetupImporter.new.import
+  task :import, [:group] => :environment do |t, args|
+    MeetupImporter.new.import(args[:group] ? args[:group].to_sym : nil)
   end
 
   desc "Import a single event (by student id) from meetup.com"
@@ -10,7 +10,7 @@ namespace :meetup do
   end
 
   desc "Dump json for all the events"
-  task :dump_events => :environment do
-    MeetupImporter.new.dump_events
+  task :dump_events, [:group] => :environment do |t, args|
+    MeetupImporter.new.dump_events(args[:group] ? args[:group].to_sym : :sf)
   end
 end

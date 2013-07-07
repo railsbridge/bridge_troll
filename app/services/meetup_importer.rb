@@ -49,11 +49,16 @@ MESSAGE
     return false
   end
 
-  def import
+  def all_meetup_events
+    MEETUP_EVENTS.values.flatten
+  end
+
+  def import group = nil
     return unless assert_key_exists
 
-    MEETUP_EVENTS.each_with_index do |event_data, index|
-      puts "Importing event #{index+1} of #{MEETUP_EVENTS.length} (students: #{event_data[:student_event_id]}, volunteers: #{event_data[:volunteer_event_id]})"
+    events = group ? MEETUP_EVENTS[group] : all_meetup_events
+    events.each_with_index do |event_data, index|
+      puts "Importing event #{index+1} of #{events.length} (students: #{event_data[:student_event_id]}, volunteers: #{event_data[:volunteer_event_id]})"
       import_student_and_volunteer_event(event_data)
     end
   end
@@ -61,7 +66,7 @@ MESSAGE
   def import_single student_event_id
     return unless assert_key_exists
 
-    event_data = MEETUP_EVENTS.select { |event| event[:student_event_id] == student_event_id.to_i }.first
+    event_data = all_meetup_events.find { |event| event[:student_event_id] == student_event_id.to_i }
     raise "No event data found for #{student_event_id}" unless event_data.present?
 
     puts "Importing event (students: #{event_data[:student_event_id]}, volunteers: #{event_data[:volunteer_event_id]})"
@@ -143,11 +148,11 @@ MESSAGE
     end
   end
 
-  def dump_events
+  def dump_events group = :sf
     start_milis = DateTime.parse('2009-06-01').to_i * 1000
-    puts "Fetching first set of results..."
+    puts "Fetching first set of results for #{group}..."
     event_jsons = get_api_response_for('/2/events', {
-      group_id: 134063,
+      group_id: MEETUP_GROUP_IDS[group],
       time: "#{start_milis},",
       status: 'past'
     })['results']

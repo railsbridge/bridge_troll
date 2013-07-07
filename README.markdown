@@ -96,7 +96,7 @@ PORT=3000
 With the `.env` file in place, simply run `foreman start` in your Bridge Troll directory instead of starting with `rails server`.
 
 #### Historical Meetup Importing
-To import historical data from the SF Ruby Meetup group, use the rake task `rake meetup:import`. This requires you set up a MEETUP_API_KEY in your local environment, which you can find on Meetup at http://www.meetup.com/meetup_api/key/.
+To import historical data from Meetup, use the rake task `rake meetup:import`. This requires you set up a MEETUP_API_KEY in your local environment, which you can find on Meetup at http://www.meetup.com/meetup_api/key/.
 
 #### Meetup OAuth
 To test authenticating with Meetup using your localhost server, you need to [register a new OAuth Consumer at Meetup](http://www.meetup.com/meetup_api/oauth_consumers/).
