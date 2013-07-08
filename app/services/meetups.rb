@@ -15,12 +15,24 @@ end
 
 MEETUP_GROUP_URLS = {
   sf: 'www.sfruby.info',
-  sv: 'www.meetup.com/silicon-valley-ruby'
+  sv: 'www.meetup.com/silicon-valley-ruby',
+  seattle: 'www.meetup.com/SeattleRailsBridge',
+  kentucky: 'www.meetup.com/Collexion-Hackerspace',
+  la: 'www.meetup.com/Los-Angeles-Womens-Ruby-on-Rails-Group',
+  boulder: 'www.meetup.com/Boulder-Denver-Railsbridge',
+  chicago: 'www.meetup.com/Chicago-Ruby-on-Rails-Outreach-Workshop-for-Women',
+  san_diego: 'www.meetup.com/San-Diego-RailsBridge'
 }
 
 MEETUP_GROUP_IDS = {
   sf: 134063,
-  sv: 437842
+  sv: 437842,
+  seattle: 1788583,
+  kentucky: 7137552,
+  la: 4139422,
+  boulder: 4019502,
+  chicago: 1767063,
+  san_diego: 6725212
 }
 
 MEETUP_EVENTS = {}
@@ -246,4 +258,89 @@ MEETUP_EVENTS[:sv] = [
 #  student_event_id: 120215942,
 #  volunteer_event_id: 120218002
 #},
+]
+
+MEETUP_EVENTS[:seattle] = [
+  {
+    name: "Seattle RailsBridge Rails for Women Workshop",
+    student_event_id: 16691509,
+    volunteer_event_id: 16835567
+  },
+  {
+    name: "Seattle RailsBridge Rails for Women Workshop ",
+    student_event_id: 30622481,
+    volunteer_event_id: 30622251
+  },
+  {
+    name: "Seattle RailsBridge Rails for Women Workshop ",
+    student_event_id: 59913072,
+    volunteer_event_id: 59913312
+  },
+  {
+    name: "Seattle RailsBridge Rails for Women Workshop ",
+    student_event_id: 91658482,
+    volunteer_event_id: 91658962
+  },
+  {
+    name: "Seattle RailsBridge Rails for Women Workshop ",
+    student_event_id: 119339102,
+    volunteer_event_id: 120342802
+  },
+]
+
+MEETUP_EVENTS[:kentucky] = [
+  {
+    name: "RailsBridge",
+    student_event_id: 111514042,
+    volunteer_event_id: 112293542
+  },
+]
+
+MEETUP_EVENTS[:la] = [
+  {
+    name: "Los Angeles RailsBridge Workshop for Women",
+    student_event_id: 71323202,
+    volunteer_event_id: 71322172
+  },
+  {
+    name: "Los Angeles RailsBridge Workshop for Women",
+    student_event_id: 78638102,
+    volunteer_event_id: 78638292
+  },
+  {
+    name: "Los Angeles RailsBridge Workshop for Women",
+    student_event_id: 103985512,
+    volunteer_event_id: 103984322
+  },
+]
+
+MEETUP_EVENTS[:boulder] = [
+# boulder does events on meetup as a single event, not student + volunteers.
+# maybe find time to deal with that later
+]
+
+MEETUP_EVENTS[:chicago] = [
+  {
+    name: "Rails Outreach for Women Workshop",
+    student_event_id: 16093657,
+    volunteer_event_id: 16093280
+  },
+  {
+    name: "Rails Outreach for Women Workshop",
+    student_event_id: 18549511,
+    volunteer_event_id: 18548871
+  },
+  {
+    name: "Rails Outreach for Women Workshop",
+    student_event_id: 63726142,
+    volunteer_event_id: 63726762
+  },
+]
+
+MEETUP_EVENTS[:san_diego] = [
+  {
+    name: "Railsbridge Workshop for Women: Beginner Level",
+    student_event_id: 100265752,
+    volunteer_event_id: 100266052
+  },
 ]

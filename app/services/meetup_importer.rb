@@ -149,10 +149,13 @@ MESSAGE
   end
 
   def dump_events group = :sf
+    group_id = MEETUP_GROUP_IDS[group]
+    raise "No group found to dump events for!" unless group_id
+
     start_milis = DateTime.parse('2009-06-01').to_i * 1000
     puts "Fetching first set of results for #{group}..."
     event_jsons = get_api_response_for('/2/events', {
-      group_id: MEETUP_GROUP_IDS[group],
+      group_id: group_id,
       time: "#{start_milis},",
       status: 'past'
     })['results']
@@ -161,11 +164,16 @@ MESSAGE
     while event_count > 1
       puts "Fetching more results... (#{event_count} results from last request)"
       start_milis = event_jsons.last['time'].to_i
+
       result_jsons = get_api_response_for('/2/events', {
-        group_id: 134063,
+        group_id: group_id,
         time: "#{start_milis},",
         status: 'past'
       })['results']
+
+      all_event_ids = Set.new(event_jsons.map { |hsh| hsh["id"] })
+      fetched_event_ids = Set.new(result_jsons.map { |hsh| hsh["id"] })
+      break if fetched_event_ids.proper_subset?(all_event_ids)
 
       event_jsons += result_jsons
       event_count = result_jsons.count
