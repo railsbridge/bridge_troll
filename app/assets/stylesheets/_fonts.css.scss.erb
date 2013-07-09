@@ -1,5 +1,7 @@
-/* sweet font analytics */
-@import url("//hello.myfonts.net/count/262127");
+<% if Rails.env.production? %>
+  /* font analytics for licensing */
+  @import url("//hello.myfonts.net/count/262127");
+<% end %>
 
 @font-face {
   font-family: 'Freehand521BT-RegularC';
