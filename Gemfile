@@ -28,6 +28,7 @@ group :assets do
   # sass_rails_patch allows 'css.scss.erb' to work.
   # delete this when upgrading to rails 4 (sass-rails 4.0.0 incorporates a similar fix)
   gem 'sass_rails_patch'
+  gem 'compass-rails'
   gem 'coffee-rails'
   gem 'uglifier'
   gem 'bootstrap-sass-rails'

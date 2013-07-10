@@ -3,12 +3,33 @@
 
 <div class='organizer-dashboard-title'>Super Secret Organizer Mission Control Console</div>
 
-<%= render 'shared/actions', additional_class: 'mission-control-actions', links: [
-  ['Show all Attendee Details', event_attendees_path(@event)],
-  ['Manage Organizers', event_organizers_path(@event)],
-  ['Manage Volunteers', event_volunteers_path(@event)],
-  ['Email Attendees', new_event_email_path(@event)],
-] %>
+<%= link_to new_event_email_path(@event), class: 'organizer-action' do %>
+  <div class='organizer-action-button'>
+    <i class='icon-envelope'></i>
+    Email Attendees
+  </div>
+<% end %>
+
+<%= link_to event_attendees_path(@event), class: 'organizer-action' do %>
+  <div class='organizer-action-button'>
+    <i class='icon-info-sign'></i>
+    Show all Attendee Details
+  </div>
+<% end %>
+
+<%= link_to event_volunteers_path(@event), class: 'organizer-action' do %>
+  <div class='organizer-action-button'>
+    <i class='icon-wrench'></i>
+    Manage Volunteers
+  </div>
+<% end %>
+
+<%= link_to event_organizers_path(@event), class: 'organizer-action' do %>
+  <div class='organizer-action-button'>
+    <i class='icon-key'></i>
+    Manage Organizers
+  </div>
+<% end %>
 
 <section class='organizer-dashboard-section'>
   <%= link_to organize_sections_event_path(@event) do %>

@@ -27,14 +27,14 @@ describe "the organizer dashboard" do
 
   it "lets the user manage volunteers" do
     visit organize_event_path(@event)
-    within('.mission-control-actions') { click_link 'Manage Volunteers' }
+    click_link 'Manage Volunteers'
 
     page.should have_content("Assign Volunteer")
   end
 
   it 'lets the user download a CSV of student rsvps' do
     visit organize_event_path(@event)
-    within('.mission-control-actions') { click_link 'Show all Attendee Details' }
+    click_link 'Show all Attendee Details'
 
     click_link 'Download Student Details CSV'
 

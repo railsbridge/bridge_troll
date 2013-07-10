@@ -57,7 +57,11 @@ script/test
 
 ### Seed Data
 
-`rake db:seed` will create a sample event (called 'Seeded Test Event'), organized by a sample user, with many more sample user volunteers and students. Doing `rake db:seed` again will destroy all those sample persons and create the event again. The exact details of what is created can be found in `seed_event.rb`.
+`rake db:seed` will create a sample event (called 'Seeded Test Event'), organized by a sample user, with many more sample user volunteers and students.
+
+All the created users have easyish-to-remember logins, so a great way to test out organizer functionality is to load the seeds and log in as `organizer@example.com` with the password `password`.
+
+Doing `rake db:seed` again will destroy all those sample persons and create the event again. The exact details of what is created can be found in `seed_event.rb`.
 
 ### Styling Guidelines
 We have created a living style guide to keep track of HTML components and their styling across the site. See it at http://localhost:3000/style_guide.

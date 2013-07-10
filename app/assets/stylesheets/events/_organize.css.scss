@@ -3,6 +3,34 @@
   margin: 12px 0;
 }
 
+.organizer-action {
+  text-align: center;
+  font-size: 14px;
+  margin-right: 10px;
+  display: inline-block;
+
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+
+  .organizer-action-button {
+    border-radius: 8px;
+    padding: 8px;
+    color: $blue-color;
+    @include background(linear-gradient(0deg, #ddd 30%, #eee 70%));
+
+    &:hover {
+      @include background(linear-gradient(0deg, #ccc 30%, #ddd 70%));
+    }
+  }
+
+  i {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 8px;
+  }
+}
+
 .organizer-dashboard-section {
   margin: 30px 0;
 }
