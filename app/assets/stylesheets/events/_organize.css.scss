@@ -1,3 +1,13 @@
+.organizer-breadcrumb {
+  font-size: 18px;
+  strong {
+    font-size: 24px;
+  }
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgb(209, 209, 209);
+}
+
 .organizer-dashboard-title {
   font-size: 28px;
   margin: 12px 0;
@@ -9,12 +19,20 @@
   margin-right: 10px;
   display: inline-block;
 
+  &.organizer-action-inline {
+    i {
+      display: inline;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+  }
+
   &:hover, &:focus {
     text-decoration: none;
   }
 
   .organizer-action-button {
-    border-radius: 8px;
+    border-radius: 5px;
     padding: 8px;
     color: $blue-color;
     @include background(linear-gradient(0deg, #ddd 30%, #eee 70%));

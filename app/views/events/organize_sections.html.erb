@@ -1,7 +1,7 @@
 <%= content_for(:header_text, @event.title) %>
 <%= content_for(:header_link, organize_event_path(@event)) %>
 
-<h2>Super Secret Organizer Section Organizing Tool</h2>
+<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Section Organizer'} %>
 
 <div id="section-organizer" class="showing-unassigned"></div>
 
@@ -23,7 +23,3 @@
     Bridgetroll.sectionOrganizer.render();
   });
 </script>
-
-<%= render 'shared/actions', links: [
-  ['Back', organize_event_path(@event)]
-] %>

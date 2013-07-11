@@ -1,7 +1,8 @@
 <%= content_for(:header_text, @event.title) %>
 <%= content_for(:header_link, organize_event_path(@event)) %>
 
-<h2>Checkiner Assignments</h2>
+<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Checkiner Assignments'} %>
+
 <br />
 <h4>Event: <%= link_to " #{@event.title}", event_path(@event)%></h4>
 <h4>
@@ -43,6 +44,3 @@
   </tbody>
 </table>
 
-<%= render 'shared/actions', links: [
-  ['Back', organize_event_path(@event)]
-] %>

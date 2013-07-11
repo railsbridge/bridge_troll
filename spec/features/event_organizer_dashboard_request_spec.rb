@@ -22,7 +22,7 @@ describe "the organizer dashboard" do
   it "lets the user assign students and volunteers to sections" do
     visit organize_event_path(@event)
     click_link "Arrange Sections"
-    page.should have_content("Section Organizing")
+    page.should have_content("Section Organizer")
   end
 
   it "lets the user manage volunteers" do

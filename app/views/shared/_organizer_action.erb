@@ -1,0 +1,6 @@
+<%= link_to path, class: "organizer-action #{defined?(style) && style == :inline ? 'organizer-action-inline' : ''}" do %>
+  <div class='organizer-action-button'>
+    <i class='<%= icon %>'></i>
+    <%= text %>
+  </div>
+<% end %>

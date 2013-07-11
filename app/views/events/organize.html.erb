@@ -1,34 +1,19 @@
 <%= content_for(:header_text, @event.title) %>
 <%= content_for(:header_link, event_path(@event)) %>
 
-<div class='organizer-dashboard-title'>Super Secret Organizer Mission Control Console</div>
+<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Organizer Console'} %>
 
-<%= link_to new_event_email_path(@event), class: 'organizer-action' do %>
-  <div class='organizer-action-button'>
-    <i class='icon-envelope'></i>
-    Email Attendees
-  </div>
-<% end %>
-
-<%= link_to event_attendees_path(@event), class: 'organizer-action' do %>
-  <div class='organizer-action-button'>
-    <i class='icon-info-sign'></i>
-    Show all Attendee Details
-  </div>
-<% end %>
-
-<%= link_to event_volunteers_path(@event), class: 'organizer-action' do %>
-  <div class='organizer-action-button'>
-    <i class='icon-wrench'></i>
-    Manage Volunteers
-  </div>
-<% end %>
-
-<%= link_to event_organizers_path(@event), class: 'organizer-action' do %>
-  <div class='organizer-action-button'>
-    <i class='icon-key'></i>
-    Manage Organizers
-  </div>
+<% [
+     [new_event_email_path(@event), 'icon-envelope', 'Email Attendees'],
+     [event_attendees_path(@event), 'icon-info-sign', 'Show all Attendee Details'],
+     [event_volunteers_path(@event), 'icon-wrench', 'Manage Volunteers'],
+     [event_organizers_path(@event), 'icon-key', 'Manage Organizers'],
+   ].each do |button| %>
+<%= render partial: 'shared/organizer_action', locals: {
+    path: button[0],
+    icon: button[1],
+    text: button[2]
+  } %>
 <% end %>
 
 <section class='organizer-dashboard-section'>
@@ -41,9 +26,11 @@
 
 <section class='organizer-dashboard-section'>
   <%= render :partial => 'shared/checkin_event_sessions' %>
-  <div class='session-attendance'>
-    <%= link_to 'Add Checkiners', event_checkiners_path(@event), class: 'btn' %>
-  </div>
+  <%= render partial: 'shared/organizer_action', locals: {
+    path: event_checkiners_path(@event),
+    icon: 'icon-check',
+    text: 'Add Checkiners'
+  } %>
 </section>
 
 <section class='organizer-dashboard-section'>
@@ -73,9 +60,3 @@
     </tbody>
   </table>
 </section>
-
-<%= render 'shared/actions', links: [
-  ['Event Index', events_path],
-  ['Edit Event', edit_event_path(@event)],
-  ['View Event', event_path(@event)],
-] %>

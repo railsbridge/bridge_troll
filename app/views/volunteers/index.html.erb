@@ -1,7 +1,7 @@
 <%= content_for(:header_text, @event.title) %>
 <%= content_for(:header_link, organize_event_path(@event)) %>
 
-<h2>Assign Volunteer Teaching Roles</h2>
+<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Assign Volunteer Teaching Roles'} %>
 
 <div id="saving_indicator"></div>
 
@@ -37,8 +37,4 @@
   </tr>
 <% end %>
 </table>
-
-<%= render 'shared/actions', links: [
-  ['Back', organize_event_path(@event)]
-] %>
 

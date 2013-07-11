@@ -1,6 +1,8 @@
 <%= content_for(:header_text, @event.title) %>
 <%= content_for(:header_link, organize_event_path(@event)) %>
 
+<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Email Attendees'} %>
+
 <script>
   var attendees = <%= @rsvps.includes(:user).map do |rsvp|
     {
@@ -14,8 +16,6 @@
 </script>
 
 <div class='event_email'>
-
-  <h2>Email Attendees</h2>
 
   <%= form_tag(event_emails_path(@event)) do %>
     <%= label_tag do %>
@@ -47,7 +47,3 @@
     <%= submit_tag 'Send Mail' %>
   <% end %>
 </div>
-
-<%= render 'shared/actions', links: [
-  ['Back', organize_event_path(@event)]
-] %>

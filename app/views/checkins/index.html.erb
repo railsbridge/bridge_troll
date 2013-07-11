@@ -1,6 +1,7 @@
 <%= content_for(:header_text, @event.title) %>
 <% if @event.organizer?(current_user) %>
   <%= content_for(:header_link, organize_event_path(@event)) %>
+  <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Check-in'} %>
 <% elsif @event.checkiner?(current_user) %>
   <%= content_for(:header_link, event_path(@event)) %>
 <% end %>
