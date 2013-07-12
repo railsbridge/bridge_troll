@@ -1,0 +1,43 @@
+table.checkins {
+  th.checkins-name { width: 50%; }
+  th.checkins-role { width: 20%; }
+  th.checkins-action { width: 30%; }
+
+  tbody td {
+    img {
+      margin-right: 10px;
+    }
+
+    vertical-align: middle;
+
+    form {
+      margin: 0;
+    }
+  }
+}
+
+table.attendees {
+  th { width: 20%; }
+  th.attendee-role { width: 10%; }
+  th.attendee-waitlisted { width: 10%; }
+
+  tbody td {
+    img {
+      margin-right: 10px;
+    }
+
+    vertical-align: middle;
+  }
+}
+
+table.volunteer-roles {
+  th { width: 20%; }
+
+  tbody td {
+    img {
+      margin-right: 10px;
+    }
+
+    vertical-align: middle;
+  }
+}

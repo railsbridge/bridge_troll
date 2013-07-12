@@ -20,7 +20,7 @@
     <tr>
       <td>
         <%= render 'shared/viewed_gravatars', :email => rsvp_session.rsvp.user.email %>
-        <%= rsvp_session.user_full_name %>
+        <%= link_to rsvp_session.user_full_name, user_profile_path(rsvp_session.rsvp.user) %>
       </td>
       <td><%= rsvp_session.rsvp.role.title %></td>
       <td id="rsvp_session_<%= rsvp_session.id %>">
