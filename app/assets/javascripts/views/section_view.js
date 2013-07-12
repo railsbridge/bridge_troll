@@ -59,13 +59,13 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
     return _.map(_.pluck(this.volunteers(), 'attributes'), function (volunteer_attributes) {
       var volunteer_letter;
       if (volunteer_attributes.teaching && volunteer_attributes.taing) {
-        volunteer_letter = 'B';
+        volunteer_letter = '?';
       } else if (volunteer_attributes.teaching) {
         volunteer_letter = 'T';
       } else if (volunteer_attributes.taing) {
-        volunteer_letter = 'A';
+        volunteer_letter = 't';
       } else {
-        volunteer_letter = 'N';
+        volunteer_letter = 'x';
       }
       return _.extend({}, volunteer_attributes, {
         volunteer_letter: volunteer_letter

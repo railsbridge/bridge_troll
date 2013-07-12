@@ -7,21 +7,7 @@
     <div class='role'>Volunteer</div>
 
     <div class='detail-header'>Teaching Preference</div>
-    <div class='detail'>
-      {{#if teaching}}
-        {{#if taing}}
-          Teaching or TAing
-        {{else}}
-          Teaching
-        {{/if}}
-      {{else}}
-        {{#if taing}}
-          TAing
-        {{else}}
-          Non-teaching volunteer
-        {{/if}}
-      {{/if}}
-    </div>
+    <div class='detail'>{{teaching_preference_description}}</div>
 
     <div class='detail-header'>Subject Experience</div>
     <div class='detail'>{{subject_experience}}</div>
