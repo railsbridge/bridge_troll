@@ -13,6 +13,6 @@
       <%= formatted_session_date_and_time(session) %><% if index < event.event_sessions.length - 1 %><br /><% end %>
     <% end %>
   <% else %>
-    <%= formatted_session_date(event.event_sessions.last) %>
+    <%= formatted_event_date(event) %>
   <% end %>
 </td>

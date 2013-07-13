@@ -37,4 +37,9 @@ Bridgetroll::Application.configure do
 
   # Fake, boring secret token for dev
   config.secret_token = ('x' * 30)
+
+  config.after_initialize do
+    Bullet.enable = ENV['BULLET_ENABLE']
+    Bullet.bullet_logger = true
+  end
 end

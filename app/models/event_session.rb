@@ -3,7 +3,7 @@ class EventSession < ActiveRecord::Base
   validates_presence_of :starts_at, :ends_at, :name
   validates_uniqueness_of :name, scope: [:event_id]
 
-  belongs_to :event
+  belongs_to :event, inverse_of: :event_sessions
   has_many :rsvp_sessions, dependent: :destroy
   has_many :rsvps, :through => :rsvp_sessions
 

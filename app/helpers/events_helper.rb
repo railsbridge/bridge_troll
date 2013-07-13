@@ -23,6 +23,10 @@ module EventsHelper
     @event.organizers_with_legacy.empty? ? [] : @event.organizers_with_legacy
   end
 
+  def formatted_event_date(event)
+    l event.date_in_time_zone(:starts_at), :format => :date_as_day_mdy
+  end
+
   def formatted_session_date(event_session)
     l event_session.date_in_time_zone(:starts_at), :format => :date_as_day_mdy
   end

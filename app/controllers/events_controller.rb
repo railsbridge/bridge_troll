@@ -5,8 +5,8 @@ class EventsController < ApplicationController
   before_filter :set_time_zone, only: [:create, :update]
 
   def index
-    @events = Event.upcoming
-    @past_events = Event.past
+    @events = Event.upcoming.includes(:event_sessions, :location)
+    @past_events = Event.past.includes(:location)
   end
 
   def show

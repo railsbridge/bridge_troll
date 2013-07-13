@@ -123,6 +123,10 @@ class Event < ActiveRecord::Base
     where('ends_at < ?', Time.now.utc)
   end
 
+  def date_in_time_zone start_or_end
+    read_attribute(start_or_end).in_time_zone(ActiveSupport::TimeZone.new(time_zone))
+  end
+
   def upcoming?
     ends_at > Time.now
   end

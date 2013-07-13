@@ -43,6 +43,7 @@ group :development do
   gem 'guard-rspec'
   gem 'rb-fsevent'
   gem 'terminal-notifier-guard'
+  gem "bullet"
 end
 
 group :test, :development do
