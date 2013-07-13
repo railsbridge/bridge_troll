@@ -170,7 +170,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   },
 
   onDestroyClick: function () {
-    var confirmed = window.confirm('Are you sure you want to destroy ' + this.section.get('name') + '?\n\nAll Students and Volunteers will return to being Unassigned.');
+    var confirmed = window.confirm('Are you sure you want to destroy ' + this.section.get('name') + '?\n\nAll Students and Volunteers in this section will return to being Unassigned.');
     if (confirmed) {
       _.invoke(this.students(), 'unassign');
       _.invoke(this.volunteers(), 'unassign');
