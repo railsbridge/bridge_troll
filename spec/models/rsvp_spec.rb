@@ -52,15 +52,15 @@ describe Rsvp do
     end
   end
 
-  describe '#no_show' do
+  describe '#no_show?' do
     it 'is always false for a historical rsvp' do
       historical_event = create(:event, meetup_volunteer_event_id: 1234, meetup_student_event_id: 4321)
 
       rsvp = create(:rsvp, user: create(:meetup_user), event: historical_event)
-      rsvp.no_show.should be_false
+      rsvp.should_not be_no_show
 
       rsvp = create(:rsvp, user: create(:user), event: historical_event)
-      rsvp.no_show.should be_false
+      rsvp.should_not be_no_show
     end
 
     context 'when the event has passed' do
@@ -73,14 +73,14 @@ describe Rsvp do
         rsvp = create(:rsvp, user: create(:user), event: event)
         rsvp.rsvp_sessions.create(checked_in: true)
         rsvp.save!
-        rsvp.reload.no_show.should be_false
+        rsvp.reload.should_not be_no_show
       end
 
       it 'is true if the user was never checked in' do
         rsvp = create(:rsvp, user: create(:user), event: event)
         rsvp.rsvp_sessions.create(checked_in: false)
         rsvp.save!
-        rsvp.reload.no_show.should be_true
+        rsvp.should be_no_show
       end
     end
 
@@ -90,7 +90,7 @@ describe Rsvp do
         event.event_sessions.first.update_attributes(starts_at: 1.year.from_now, ends_at: 2.years.from_now)
 
         rsvp = create(:rsvp, user: create(:user), event: event)
-        rsvp.no_show.should be_false
+        rsvp.should_not be_no_show
       end
     end
   end

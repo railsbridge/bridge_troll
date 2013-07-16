@@ -2,10 +2,6 @@
   margin-bottom: 20px;
 }
 
-.no-show {
-  color: #BBB;
-}
-
 .attendees {
   margin: 0 0 15px 0;
 
@@ -15,6 +11,10 @@
 
     img {
       margin-right: 10px;
+    }
+
+    .no-show, .waitlisted {
+      color: #BBB;
     }
   }
 }

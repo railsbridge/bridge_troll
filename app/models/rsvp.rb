@@ -50,7 +50,7 @@ class Rsvp < ActiveRecord::Base
     operating_system.try(:type)
   end
 
-  def no_show
+  def no_show?
     return false if event.historical?
     return false if event.upcoming?
 

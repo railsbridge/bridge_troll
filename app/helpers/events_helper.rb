@@ -16,7 +16,13 @@ module EventsHelper
   end
 
   def rsvp_class(rsvp)
-    rsvp.no_show ? 'no-show' : ''
+    if rsvp.waitlisted?
+      return 'waitlisted'
+    end
+    if rsvp.no_show?
+      return 'no-show'
+    end
+    return ''
   end
 
   def organizer_list
