@@ -40,7 +40,10 @@ $(document).ready(function () {
   $('.datatable').dataTable();
 
   $('.datatable-sorted').dataTable({
-    "aaSorting": [[ 1, "desc" ]]
+    "aaSorting": [[ 1, "desc" ]],
+    "aoColumnDefs": [
+      {'aTargets': ['date'], "sType": "date"}
+    ]
   });
 
   if ($(window).height() < $('html').height()) {
