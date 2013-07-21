@@ -9,7 +9,7 @@ describe "the event listing page" do
     page.should have_content('Upcoming events')
   end
 
-  it "listing should show formatted dates and times" do
+  it "listing should show formatted dates" do
     next_year = Time.now.year + 1
     event = create(:event,
                    location_id: nil,
@@ -24,8 +24,7 @@ describe "the event listing page" do
     event.save!
 
     visit events_path
-    page.should have_content(starts_at.strftime("%a %1m/%1d/%Y"))
-    page.should have_content('3:55 am PST')
+    page.should have_content("January 31, #{next_year}")
   end
 
   context 'as a non-logged in user', js: true do
@@ -103,7 +102,6 @@ describe "the event listing page" do
       visit events_path
 
       page.should have_content("February Event")
-      page.should have_content("AKST") # alaska time code!
       page.should have_content("Organizer Console")
     end
 

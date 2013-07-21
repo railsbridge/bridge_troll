@@ -1,6 +1,48 @@
-.upcoming-events {
-  .title { width: 20%; }
-  .times { width: 28%; }
-  .location { width: 15%; }
-  .actions { width: 37% }
+.upcoming-event {
+  border: 1px solid #ddd;
+  background-color: #fcfcfc;
+  padding: 13px;
+  margin-bottom: 15px;
+  margin-right: 15px;
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+  width: 45%;
+
+  @media (max-width: 520px) {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  i {
+    &.icon-calendar {
+      color: $blue-color;
+      font-size: 16px;
+    }
+    &.icon-map-marker {
+      color: $red-color;
+      font-size: 20px;
+    }
+    &.icon-user {
+      color: $orange-color;
+    }
+    margin-right: 6px;
+  }
+
+  .event-title {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .event-title, .event-times, .event-location {
+    padding-bottom: 8px;
+  }
+
+  .event-actions {
+    margin-top: 9px;
+    text-align: center;
+    .btn {
+      margin-top: 3px;
+    }
+  }
 }

@@ -41,8 +41,9 @@ module EventsHelper
     l event_session.date_in_time_zone(start_or_end), :format => :time_as_hm_ampm
   end
 
-  def formatted_session_date_and_time(event_session)
-    "#{formatted_session_date(event_session)} from #{formatted_session_timerange(event_session)}"
+  def formatted_session_fancy_date(event_session)
+    fancy_date = l event_session.date_in_time_zone(:starts_at), :format => :date_as_day_month_day_year
+    "#{fancy_date}: #{event_session.name}"
   end
 
   def formatted_session_timerange(event_session)
