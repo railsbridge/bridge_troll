@@ -2,6 +2,23 @@
   .navbar-inner {
     background: #333;
     padding: 0 !important;
+
+    @media (max-width: 520px) {
+
+      .nav {
+        text-align: center;
+
+        li {
+          float: none;
+          display: inline-block;
+
+          a {
+            display: inline-block;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
   }
 
   .nav li a { 
@@ -9,6 +26,7 @@
     text-shadow: none;
     margin-right: 20px;
     margin-top: 7px;
+    margin-bottom: 7px;
 
     &:hover, &:focus {
       background: $orange-color;
