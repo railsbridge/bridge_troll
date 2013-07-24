@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe Event do
   before do
-    @event = create(:event)
     @user = create(:user)
   end
 
@@ -60,43 +59,50 @@ describe Event do
     end
 
     it "reorders the waitlist" do
-      @event.should_receive(:reorder_waitlist!)
-      @event.update_attributes(student_rsvp_limit: 200)
+      event = create(:event, student_rsvp_limit: 10)
+      event.should_receive(:reorder_waitlist!)
+      event.update_attributes(student_rsvp_limit: 200)
     end
   end
 
   describe '#rsvps_with_childcare' do
     it 'includes all rsvps with childcare requested' do
-      @event.rsvps_with_childcare.should == @event.student_rsvps.needs_childcare + @event.volunteer_rsvps.needs_childcare
+      event = create(:event)
+      event.rsvps_with_childcare.should == event.student_rsvps.needs_childcare + event.volunteer_rsvps.needs_childcare
     end
   end
 
   describe "#volunteer?" do
+    let(:event) { create(:event) }
+    
     it "is true when a user is volunteering at an event" do
-      create(:rsvp, :user => @user, :event => @event)
-      @event.volunteer?(@user).should == true
+      create(:rsvp, :user => @user, :event => event)
+      event.volunteer?(@user).should == true
     end
 
     it "is false when a user is not volunteering at an event" do
-      @event.volunteer?(@user).should == false
+      event.volunteer?(@user).should == false
     end
   end
 
   describe "#waitlisted_student?" do
+    let(:event) { create(:event) }
+    
     it "returns true when a user is a waitlisted student" do
-      create(:student_rsvp, :user => @user, :event => @event,  waitlist_position: 1)
-      @event.waitlisted_student?(@user).should == true
+      create(:student_rsvp, :user => @user, :event => event,  waitlist_position: 1)
+      event.waitlisted_student?(@user).should == true
     end
 
     it "returns false when a user is not waitlisted" do
-      create(:student_rsvp, :user => @user, :event => @event)
-      @event.waitlisted_student?(@user).should == false
+      create(:student_rsvp, :user => @user, :event => event)
+      event.waitlisted_student?(@user).should == false
     end
   end
 
   describe "#rsvp_for_user" do
     it "should return the rsvp for a user" do
-      @event.rsvp_for_user(@user).should == @event.rsvps.find_by_user_id(@user.id)
+      event = create(:event)
+      event.rsvp_for_user(@user).should == event.rsvps.find_by_user_id(@user.id)
     end
   end
 
@@ -115,16 +121,8 @@ describe Event do
       @event_in_progress.save!
     end
 
-    it "includes events that haven't yet started" do
-      Event.upcoming.should include(@event_future)
-    end
-
-    it "includes events in progress" do
-      Event.upcoming.should include(@event_in_progress)
-    end
-
-    it "doesn't include events that have already ended" do
-      Event.upcoming.should_not include(@event_past)
+    it "includes events that have not already ended" do
+      Event.upcoming.all.map(&:id).should == [@event_in_progress.id, @event_future.id]
     end
   end
 
@@ -135,41 +133,31 @@ describe Event do
   end
 
   describe "#at_limit?" do
-    context "when the event has a limit but has not exceeded it" do
-      before do
-        @event.update_attribute(:student_rsvp_limit, 2)
+    context "when the event has a limit" do
+      let(:event) { create(:event,  student_rsvp_limit: 2) }
+      
+      it 'is false when the limit is not exceeded has not exceeded it' do
+        event.should_not be_at_limit
       end
-
-      it 'is false' do
-        @event.should_not be_at_limit
-      end
-    end
-
-    context "when the event has a limit and has exceeded it" do
-      before do
-        @event.update_attribute(:student_rsvp_limit, 2)
-        3.times { create(:student_rsvp, event: @event) }
-      end
-
-      it 'is true' do
-        @event.should be_at_limit
+      
+      it 'is true when the limit is exceeded' do
+        3.times { create(:student_rsvp, event: event) }
+        event.should be_at_limit
       end
     end
 
     context "when the event has no limit (historical events)" do
-      before do
-        @event.update_attributes(student_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902)
-      end
+      let(:event) { create(:event, student_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902) }
 
       it 'is false' do
-        @event.should_not be_at_limit
+        event.should_not be_at_limit
       end
     end
   end
 
   describe "#reorder_waitlist!" do
     before do
-      @event.update_attribute(:student_rsvp_limit, 2)
+      @event = create(:event,  student_rsvp_limit: 2)
       @confirmed1 = create(:student_rsvp, event: @event)
       @confirmed2 = create(:student_rsvp, event: @event)
       @waitlist1 = create(:student_rsvp, event: @event, waitlist_position: 1)
@@ -219,6 +207,7 @@ describe Event do
   
   describe "waitlists" do
     before do
+      @event = create(:event,  student_rsvp_limit: 2)
       @confirmed_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT)
       @waitlist_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT, waitlist_position: 1)
     end

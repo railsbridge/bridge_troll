@@ -116,7 +116,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.upcoming
-    where('ends_at > ?', Time.now.utc)
+    where('ends_at > ?', Time.now.utc).order('starts_at')
   end
 
   def self.past
