@@ -5,7 +5,7 @@ describe ReminderSender do
     it 'sends the reminders for each of the upcoming events' do
       upcoming_event = create(:event, starts_at: Time.now + 1.day)
       past_event = create(:event, starts_at: Time.now - 1.day)
-      ReminderSender.should_receive(:remind_attendees_for, upcoming_event)
+      ReminderSender.should_receive(:remind_attendees_for).with(upcoming_event)
       ReminderSender.should_not_receive(:remind_attendees_for).with(past_event)
       ReminderSender.send_all_reminders
     end
