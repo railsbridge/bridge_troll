@@ -34,7 +34,7 @@
 	    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
 	  </div>
 
-	  <div><%= f.submit "Sign up" %></div>
+	  <div><%= f.submit "Sign up", class: 'btn btn-submit' %></div>
 	<% end %>
 
 	<%= render :partial => "devise/shared/links" %>

@@ -83,6 +83,15 @@ td.wide {
     background: $blue-color;
     text-shadow: none;
   }
+
+  &.btn-submit {
+    background: darken($green-color, 20%);
+
+    &:hover {
+      color: white;
+      background: $green-color;
+    }
+  }
 }
 
 .remove-organizer form {
