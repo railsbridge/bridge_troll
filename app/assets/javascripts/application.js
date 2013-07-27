@@ -46,6 +46,16 @@ $(document).ready(function () {
     ]
   });
 
+  $('.datatable-checkins').dataTable({
+    "bPaginate": false,
+    "aaSorting": [[ 0, "asc" ]],
+    "aoColumnDefs": [
+      {'aTargets': ['checkins-name']},
+      {'aTargets': ['checkins-role']},
+      {'aTargets': ['checkins-action'], bSortable: false}
+    ]
+  });
+
   if ($(window).height() < $('html').height()) {
     $('footer').show();
   }
