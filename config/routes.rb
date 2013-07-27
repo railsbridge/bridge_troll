@@ -38,6 +38,7 @@ Bridgetroll::Application.routes.draw do
     member do
       get "organize"
       get "organize_sections"
+      get "levels"
     end
   end
 
