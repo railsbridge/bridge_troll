@@ -8,7 +8,7 @@
 <script>
   $(document).ready(function () {
     var attendees = new Bridgetroll.Collections.Attendee(
-      <%= @event.attendee_rsvps.includes(:user).to_json.html_safe %>
+      <%= @event.attendee_rsvps_with_workshop_checkins.to_json.html_safe %>
     );
     var sections = new Bridgetroll.Collections.Section(
       <%= @event.sections.to_json.html_safe %>

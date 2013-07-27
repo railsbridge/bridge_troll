@@ -204,6 +204,35 @@ describe Event do
       end
     end
   end
+
+  describe "#attendee_rsvps_with_workshop_checkins" do
+    before do
+      @event = create(:event)
+      first_session = @event.event_sessions.first
+      first_session.update_attributes(ends_at: 6.months.from_now)
+
+      last_session = create(:event_session, event: @event, ends_at: 1.year.from_now)
+
+      @rsvp1 = create(:rsvp, event: @event)
+      create(:rsvp_session, event_session: first_session, rsvp: @rsvp1, checked_in: true)
+
+      @rsvp2 = create(:rsvp, event: @event)
+      create(:rsvp_session, event_session: last_session, rsvp: @rsvp2)
+
+      @rsvp3 = create(:rsvp, event: @event)
+      create(:rsvp_session, event_session: last_session, rsvp: @rsvp3, checked_in: true)
+
+      @event.reload
+    end
+
+    it 'counts attendances for the last session' do
+      attendee_rsvp_data = @event.attendee_rsvps_with_workshop_checkins
+      attendee_rsvp_data.length.should == 3
+
+      workshop_attendees = attendee_rsvp_data.select { |rsvp| rsvp['workshop_checkins_count'] > 0 }
+      workshop_attendees.map { |att| att['id'] }.should == [@rsvp3.id]
+    end
+  end
   
   describe "waitlists" do
     before do
