@@ -251,13 +251,11 @@ MEETUP_EVENTS[:sv] = [
     volunteer_event_id: 106653212
   },
 # second Outright workshop occurred here, but had checkins on bridgetroll proper (http://www.bridgetroll.org/events/39)
-
-# TODO: uncomment and import this google workshop sometime after it occurs (2013-07-12)
-#{
-#  name: "RailsBridge Ruby on Rails Workshop for Women",
-#  student_event_id: 120215942,
-#  volunteer_event_id: 120218002
-#},
+  {
+    name: "RailsBridge Ruby on Rails Workshop for Women",
+    student_event_id: 120215942,
+    volunteer_event_id: 120218002
+  },
 ]
 
 MEETUP_EVENTS[:seattle] = [
