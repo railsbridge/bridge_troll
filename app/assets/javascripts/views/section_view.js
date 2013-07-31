@@ -106,6 +106,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   },
 
   attendeeDragging: function (el, dd) {
+    this.trigger('attendee_drag:start');
     var $attendee = $(dd.drag);
     $attendee.addClass('dragging');
     $attendee.css({
@@ -123,6 +124,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   },
 
   moveAttendeeToSection: function (attendee_id) {
+    this.trigger('attendee_drag:stop');
     var attendee = this.attendees.where({id: attendee_id})[0];
     attendee
       .save({section_id: this.section.get('id')})
@@ -135,8 +137,8 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   },
 
   postRender: function () {
-    this.$('.attendee').on('drag', this.attendeeDragging);
-    this.$('.attendee').on('dragend', this.attendeeDropped);
+    this.$('.attendee').on('drag', _.bind(this.attendeeDragging, this));
+    this.$('.attendee').on('dragend', _.bind(this.attendeeDropped, this));
 
     this.$el.drop(_.bind(function (el, dd) {
       var $attendee = $(dd.drag);

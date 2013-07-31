@@ -27,9 +27,7 @@ Bridgetroll.Views.Base = Backbone.View.extend({
   },
 
   destroy: function () {
-    _.each(this.subViews, function (view, id) {
-      view.destroy();
-    });
+    _.invoke(this.subViews, 'destroy');
 
     if (this.parent) {
       this.parent.removeSubview(this);

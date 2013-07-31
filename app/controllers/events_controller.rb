@@ -72,7 +72,15 @@ class EventsController < ApplicationController
   end
 
   def organize_sections
-
+    respond_to do |format|
+      format.html { render :organize_sections }
+      format.json do
+        render json: {
+          sections: @event.sections,
+          attendees: @event.attendee_rsvps_with_workshop_checkins
+        }
+      end
+    end
   end
 
   protected

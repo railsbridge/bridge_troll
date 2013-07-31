@@ -1,16 +1,33 @@
 <div class='actions'>
-  <button class='btn add-section'>Add Section</button>
+  <button class='btn add-section'><i class='icon-plus-sign-alt' style='margin-right: 5px;'></i>Add Section</button>
+  <button class='btn show-os'>
+    {{#if showOS}}Hide Student OS{{else}}Show Student OS{{/if}}
+  </button>
+  <button class='btn show-unassigned'>
+    {{#if showUnassigned}}Hide Unassigned{{else}}Show Unassigned{{/if}}
+  </button>
+  <button class='btn poll-for-changes'>
+    {{#if polling}}
+      <i class='icon-spin icon-spinner' style='margin-right: 5px;'></i>Stop Polling for Changes
+    {{else}}
+      Poll for Changes
+    {{/if}}
+  </button>
+  {{#if showOS}}
+    <div class='student-os-key'>
+      <div class='swatch linux'></div>Linux
+      <div class='swatch osx'></div>OSX
+      <div class='swatch windows'></div>Windows
+    </div>
+  {{/if}}
+</div>
+<div class='actions'>
   <a class='btn' href='sections/arrange' data-method='post' data-confirm='This will remove all existing sections and recreate them using COMPUTERS. Are you sure?'>Auto-Arrange All</a>
   <a class='btn' href='sections/arrange?checked_in=true' data-method='post' data-confirm='This will remove all existing sections and recreate them using COMPUTERS. Are you sure?'>Auto-Arrange Checked-In People</a>
-  <button class='btn show-os'>Show Student OS</button>
-  <button class='btn show-unassigned'>Hide Unassigned</button>
-  <div class='student-os-key'>
-    <div class='swatch linux'></div>Linux
-    <div class='swatch osx'></div>OSX
-    <div class='swatch windows'></div>Windows
-  </div>
 </div>
-<div class='bridgetroll-section-level level0'></div>
+{{#if showUnassigned}}
+  <div class='bridgetroll-section-level level0'></div>
+{{/if}}
 <div class='bridgetroll-section-level level1'>
   <div class='bridgetroll-section-title header level1'>Blue</div>
 </div>

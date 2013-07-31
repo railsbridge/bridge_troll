@@ -16,11 +16,6 @@ $windows-color: rgb(255, 215, 215);
 
 .student-os-key {
   float: right;
-  display: none;
-
-  .showing-os & {
-    display: block;
-  }
 
   .swatch {
     height: 10px;
