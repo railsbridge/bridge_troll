@@ -74,6 +74,15 @@ $bridgetroll-section-border-color: #BBB;
     &.level4 { background-color: $level-orange; }
     &.level5 { background-color: $level-purple; }
   }
+
+  .title-text {
+    display: inline-block;
+    width: 70%;
+    width: calc(100% - 45px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .bridgetroll-section {
