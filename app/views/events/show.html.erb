@@ -55,9 +55,13 @@
       <% end %>
     </div>
 
-    <% if user_signed_in? && !@event.historical? %>
+    <% unless @event.historical? %>
       <div class='rsvp-actions'>
+        <% if user_signed_in? %>
           <%= render 'shared/rsvp_actions', event: @event %>
+        <% else %>
+          <%= render 'shared/rsvp_actions_unauthenticated', event: @event, stay_on_event: false %>
+        <% end %>
       </div>
     <% end %>
 

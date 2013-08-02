@@ -14,7 +14,6 @@ gem 'omniauth-meetup'
 gem 'gravatar_image_tag'
 gem 'simple_form'
 gem 'sentry-raven'
-gem 'json', '~> 1.7.0' # locked until Zeus gets its act together
 
 group :production do
   gem 'pg'

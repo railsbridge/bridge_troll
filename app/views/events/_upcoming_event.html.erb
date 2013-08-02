@@ -37,10 +37,7 @@
         <%= link_to 'Checkin Console', event_event_sessions_path(event), :class => 'btn' %>
       <% end %>
     <% else %>
-      <% if event.allow_student_rsvp? %>
-        <a href="#sign_in_dialog" class="btn" data-toggle="modal" data-return-to="<%= event_path(event) %>"><%= attend_button_text(event) %></a>
-      <% end %>
-      <a href="#sign_in_dialog" class="btn" data-toggle="modal" data-return-to="<%= event_path(event) %>">Volunteer</a>
+      <%= render 'shared/rsvp_actions_unauthenticated', event: event, stay_on_event: true %>
     <% end %>
   </div>
 </div>

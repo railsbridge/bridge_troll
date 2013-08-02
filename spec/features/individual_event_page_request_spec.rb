@@ -61,6 +61,46 @@ describe "the individual event page" do
       @event.save!
     end
 
+    describe 'RSVPing', js: true do
+      it 'shows links to RSVP and allows the user to sign in through a modal after clicking them' do
+        @user = create(:user)
+
+        visit event_path(@event)
+        click_link 'Volunteer'
+
+        page.should have_selector('#sign_in_dialog', visible: true)
+        within "#sign_in_dialog" do
+          fill_in "Email", with: @user.email
+          fill_in "Password", with: @user.password
+          click_button "Sign in"
+        end
+
+        page.should have_content('RSVP')
+        current_path.should == volunteer_new_event_rsvp_path(@event)
+      end
+
+      it 'redirects the user back to the event show page if they sign up using the modal' do
+        visit event_path(@event)
+        click_link 'Attend as a student'
+
+        page.should have_selector('#sign_in_dialog', visible: true)
+        within "#sign_in_dialog" do
+          page.find(".sign_up_link").click
+        end
+
+        within("#sign-up") do
+          fill_in "user_first_name", :with => 'Sven'
+          fill_in "user_last_name", :with => 'Userson'
+          fill_in "Email", :with => 'sven@example.com'
+          fill_in 'user_password', with: 'password'
+          fill_in 'user_password_confirmation', with: 'password'
+          click_button 'Sign up'
+        end
+
+        page.should have_content('A message with a confirmation link has been sent to your email address. Please open the link to activate your account.')
+        current_path.should == event_path(@event)
+      end
+    end
   end
 
   context "user is logged in but is not an organizer for the event" do

@@ -140,7 +140,7 @@ GEM
     jquery-ui-rails (4.0.3)
       jquery-rails
       railties (>= 3.1.0)
-    json (1.7.7)
+    json (1.8.0)
     jwt (0.1.8)
       multi_json (>= 1.5)
     launchy (2.3.0)
@@ -324,7 +324,6 @@ DEPENDENCIES
   jquery-datatables-rails
   jquery-rails
   jquery-ui-rails
-  json (~> 1.7.0)
   launchy
   nested_form
   omniauth-meetup

@@ -1,7 +1,7 @@
 Bridgetroll::Application.routes.draw do
   root :to => "events#index"
 
-  devise_for :users
+  devise_for :users, controllers: {registrations: "devise_overrides/registrations"}
 
   resources :users, only: [:index] do
     resource :profile, :only => [:edit, :update, :show]
