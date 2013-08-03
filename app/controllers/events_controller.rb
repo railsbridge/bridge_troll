@@ -10,7 +10,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    if user_signed_in?
+    if user_signed_in? && !@event.historical?
       @organizer = @event.organizer?(current_user) || current_user.admin?
       @checkiner = @event.checkiner?(current_user)
     else

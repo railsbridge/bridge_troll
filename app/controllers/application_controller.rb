@@ -3,6 +3,12 @@ class ApplicationController < ActionController::Base
 
   def validate_organizer!
     @event = @event || Event.find(params[:event_id])
+    if @event.historical?
+      flash[:error] = "This feature is not available for historical events"
+      redirect_to events_path
+      false
+    end
+
     @organizer = @event.organizer?(current_user) || current_user.admin?
 
     unless @organizer
