@@ -3,7 +3,7 @@
     background: #333;
     padding: 0 !important;
 
-    @media (max-width: 520px) {
+    @media (max-width: $phone-width) {
 
       .nav {
         text-align: center;
@@ -70,7 +70,7 @@
     }
   }
 
-  @media (max-width: 520px) {
+  @media (max-width: $phone-width) {
     .app-name {
       display: block;
       text-align: center;

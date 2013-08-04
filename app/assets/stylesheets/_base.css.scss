@@ -1,3 +1,5 @@
+$phone-width: 520px;
+
 body {
   font-family: 'AmbleLight', sans-serif;
   background-image: url('/assets/background.png');
@@ -15,7 +17,7 @@ h1 {
   font-size: 42px;
   color: $red-color;
 
-  @media (max-width: 520px) {
+  @media (max-width: $phone-width) {
     font-size: 32px;
   }
 

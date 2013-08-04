@@ -6,7 +6,6 @@
 <% [
      [new_event_email_path(@event), 'icon-envelope', 'Email Attendees'],
      [event_attendees_path(@event), 'icon-info-sign', 'Show all Attendee Details'],
-     [event_volunteers_path(@event), 'icon-wrench', 'Manage Volunteers'],
      [event_organizers_path(@event), 'icon-key', 'Manage Organizers'],
    ].each do |button| %>
 <%= render partial: 'shared/organizer_action', locals: {

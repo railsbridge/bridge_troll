@@ -25,13 +25,6 @@ describe "the organizer dashboard" do
     page.should have_content("Section Organizer")
   end
 
-  it "lets the user manage volunteers" do
-    visit organize_event_path(@event)
-    click_link 'Manage Volunteers'
-
-    page.should have_content("Assign Volunteer")
-  end
-
   it 'lets the user download a CSV of student rsvps' do
     visit organize_event_path(@event)
     click_link 'Show all Attendee Details'
