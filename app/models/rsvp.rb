@@ -17,6 +17,7 @@ class Rsvp < ActiveRecord::Base
   delegate :historical?, to: :event, allow_nil: true
 
   has_many :rsvp_sessions, dependent: :destroy
+  has_many :dietary_restrictions, dependent: :destroy
 
   validates_uniqueness_of :user_id, scope: [:event_id, :user_type]
   validates_presence_of :user, :event, :role

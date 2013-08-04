@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130614024043) do
+ActiveRecord::Schema.define(:version => 20130804203404) do
+
+  create_table "dietary_restrictions", :force => true do |t|
+    t.string   "restriction"
+    t.integer  "rsvp_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"
