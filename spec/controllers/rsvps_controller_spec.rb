@@ -189,6 +189,16 @@ describe RsvpsController do
           end
         end
       end
+
+      describe "dietary restriction information" do
+        context "when a dietary restriction is checked" do
+          it "adds a dietary restriction" do
+            expect {
+              post :create, event_id: @event.id, rsvp: @rsvp_params, dietary_restrictions: { vegan: "1" }
+            }.to change { DietaryRestriction.count }.by(1)
+          end
+        end
+      end
     end
 
     context "when there is already a rsvp for the volunteer/event" do
