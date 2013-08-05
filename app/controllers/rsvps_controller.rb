@@ -45,9 +45,8 @@ class RsvpsController < ApplicationController
   end
 
   def update
-    save_dietary_restrictions(@rsvp, params[:dietary_restrictions])
-
     if @rsvp.update_attributes(params[:rsvp])
+      save_dietary_restrictions(@rsvp,  params[:dietary_restrictions])
       set_rsvp_sessions
       redirect_to @event
     else
