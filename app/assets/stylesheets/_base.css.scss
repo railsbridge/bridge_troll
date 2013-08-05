@@ -203,6 +203,15 @@ td.wide {
   text-shadow: none;
 }
 
+.food-preferences {
+  h2 {
+    margin: 20px 0 5px 0;
+  }
+  li {
+    list-style-type: disc;
+    font-size: 18px;
+  }
+}
 
 // BOOTSTRAP OVERRIDES, Yo. Frowny buckets.
 .alert .button_to {

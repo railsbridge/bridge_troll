@@ -7,6 +7,7 @@
      [new_event_email_path(@event), 'icon-envelope', 'Email Attendees'],
      [event_attendees_path(@event), 'icon-info-sign', 'Show all Attendee Details'],
      [event_organizers_path(@event), 'icon-key', 'Manage Organizers'],
+     [diets_event_path(@event), 'icon-food', 'Dietary Needs']
    ].each do |button| %>
 <%= render partial: 'shared/organizer_action', locals: {
     path: button[0],
