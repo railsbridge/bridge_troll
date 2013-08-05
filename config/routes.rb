@@ -39,6 +39,7 @@ Bridgetroll::Application.routes.draw do
       get "organize"
       get "organize_sections"
       get "levels"
+      get "diets"
     end
   end
 

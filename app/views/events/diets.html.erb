@@ -1,0 +1,21 @@
+<%= content_for(:header_text, @event.title) %>
+<%= content_for(:header_link, organize_event_path(@event)) %>
+
+<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Food Preferences'} %>
+<div class='food-preferences'>
+  <h2>Total Attendees: <%= @event.rsvps.count %></h2>
+
+  <h2>Dietary Restrictions Totals</h2>
+  <% totals = @event.dietary_restrictions_totals %>
+  <% DietaryRestriction::DIETS.each do |diet| %>
+    <% totals[diet] = 0 if totals[diet] == nil %>
+    <h3><%= "#{diet.capitalize}: #{totals[diet]}" %></h3>
+  <% end %>
+
+  <h2>Other dietary restrictions:</h2>
+  <ul>
+  <% @event.other_dietary_restrictions.each do |other| %>
+    <li><%= other %></li>
+  <% end %> 
+  </ul>
+</div>

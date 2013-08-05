@@ -197,6 +197,17 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def dietary_restrictions_totals
+    diets = self.rsvps.map(&:dietary_restrictions).flatten
+    restrictions = diets.group_by(&:restriction)
+    restrictions.map { |name, diet| restrictions[name] = diet.length }
+    restrictions
+  end
+
+  def other_dietary_restrictions
+    self.rsvps.map { |rsvp| rsvp.dietary_info if rsvp.dietary_info.present? }.compact
+  end
+
   private
 
   def set_defaults
