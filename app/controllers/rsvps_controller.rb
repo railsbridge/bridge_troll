@@ -31,6 +31,7 @@ class RsvpsController < ApplicationController
       if @rsvp.save
         set_rsvp_sessions
         RsvpMailer.confirmation(@rsvp).deliver
+        save_dietary_restrictions(@rsvp, params[:dietary_restrictions])
         notice_message = 'Thanks for signing up!'
         notice_message << " We've added you to the waitlist." if @rsvp.waitlisted?
         redirect_to @event, notice: notice_message
@@ -44,6 +45,8 @@ class RsvpsController < ApplicationController
   end
 
   def update
+    save_dietary_restrictions(@rsvp, params[:dietary_restrictions])
+
     if @rsvp.update_attributes(params[:rsvp])
       set_rsvp_sessions
       redirect_to @event
@@ -61,6 +64,16 @@ class RsvpsController < ApplicationController
   end
 
   protected
+
+  def save_dietary_restrictions(rsvp, restrictions_params)
+    rsvp.dietary_restrictions.destroy_all
+
+    DietaryRestriction::DIETS.each do |diet|
+      if restrictions_params && restrictions_params[diet] == "1"
+        rsvp.dietary_restrictions.create(restriction: diet)
+      end
+    end
+  end
 
   def set_rsvp_sessions
     session_ids = params[:rsvp_sessions].present? ? params[:rsvp_sessions].map(&:to_i) : []

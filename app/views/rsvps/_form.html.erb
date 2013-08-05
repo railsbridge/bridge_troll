@@ -69,8 +69,8 @@
   </div>
 
   <div class="field">
-    <%= f.label :dietary_info, "Do you have any dietary restrictions? What don't you / won't you eat?" %>
-    <%= f.text_field :dietary_info %>
+    <p>The food's on us. Let us know if you have any dietary restrictions.</p>
+    <%= render partial: 'dietary_restrictions', locals: { f: f } %>
   </div>
 
   <div class="field">
