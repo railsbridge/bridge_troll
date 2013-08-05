@@ -23,6 +23,8 @@ class RsvpsController < ApplicationController
       @rsvp.role = Role.find(params[:rsvp][:role_id])
     end
 
+    save_dietary_restrictions(@rsvp,  params[:dietary_restrictions])
+
     Rsvp.transaction do
       if @event.at_limit? && @rsvp.role == Role::STUDENT
         @rsvp.waitlist_position = (@event.rsvps.maximum(:waitlist_position) || 0) + 1
@@ -44,6 +46,8 @@ class RsvpsController < ApplicationController
   end
 
   def update
+    save_dietary_restrictions(@rsvp, params[:dietary_restrictions])
+
     if @rsvp.update_attributes(params[:rsvp])
       set_rsvp_sessions
       redirect_to @event
@@ -61,6 +65,20 @@ class RsvpsController < ApplicationController
   end
 
   protected
+
+  def save_dietary_restrictions(rsvp, restrictions_params)
+    DietaryRestriction::DIETS.each do |diet|
+      existing_preference = DietaryRestriction.where(rsvp_id: rsvp.id, restriction: diet).first
+      if existing_preference.present?
+        existing_preference.destroy
+      end
+
+      if restrictions_params && restrictions_params[diet] == "1"
+        restriction = DietaryRestriction.create(rsvp_id: rsvp.id, restriction: diet)
+        rsvp.dietary_restrictions << restriction
+      end
+    end
+  end
 
   def set_rsvp_sessions
     session_ids = params[:rsvp_sessions].present? ? params[:rsvp_sessions].map(&:to_i) : []
