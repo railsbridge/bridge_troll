@@ -196,6 +196,8 @@ describe RsvpsController do
             expect {
               post :create, event_id: @event.id, rsvp: @rsvp_params, dietary_restrictions: { vegan: "1" }
             }.to change { DietaryRestriction.count }.by(1)
+
+            Rsvp.last.dietary_restrictions.map(&:restriction).should == ["vegan"]
           end
         end
       end
