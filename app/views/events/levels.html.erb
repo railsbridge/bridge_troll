@@ -1,3 +1,8 @@
+<%= content_for(:header_text, @event.title) %>
+<%= content_for(:header_link, event_path(@event)) %>
+
+<h2>Class Levels for <%= (@event.course || Course::RAILS).title %></h2>
+
 <div id="level_buttons">
   <% (@event.course || Course::RAILS).levels.each do |level| %>
     <div class="class_level_line">

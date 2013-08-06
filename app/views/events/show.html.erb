@@ -26,6 +26,7 @@
         <h2>Course</h2>
           <p>
             <%= @event.course.description.html_safe %>
+            <%= link_to "Click here for more information about class levels in this course!", levels_event_path(@event) %>
           </p>
       </div>
     <% end %>
