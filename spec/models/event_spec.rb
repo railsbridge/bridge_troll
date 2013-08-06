@@ -255,13 +255,14 @@ describe Event do
         @event = create(:event)
         @rsvp = create(:rsvp, event: @event)
         @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins")
-        @dietary_restriction = create(:dietary_restriction, rsvp: @rsvp )
-        @dietary_restriction2 = create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp )
+        create(:dietary_restriction, restriction: "gluten-free", rsvp: @rsvp )
+        create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp )
+        create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp2 )
       end
 
     describe "#dietary_restrictions_totals" do
       it "should return the total for each dietary restrictions" do
-        @event.dietary_restrictions_totals.should == {"gluten-free" => 1, "vegan" => 1}
+        @event.dietary_restrictions_totals.should == {"gluten-free" => 1, "vegan" => 2}
       end
     end
 

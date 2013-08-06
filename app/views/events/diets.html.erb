@@ -8,8 +8,7 @@
   <h2>Dietary Restrictions Totals</h2>
   <% totals = @event.dietary_restrictions_totals %>
   <% DietaryRestriction::DIETS.each do |diet| %>
-    <% totals[diet] = 0 if totals[diet] == nil %>
-    <h3><%= "#{diet.capitalize}: #{totals[diet]}" %></h3>
+    <h3><%= "#{diet.capitalize}: #{totals[diet] || 0}" %></h3>
   <% end %>
 
   <h2>Other dietary restrictions:</h2>

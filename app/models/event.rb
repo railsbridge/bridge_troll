@@ -198,7 +198,7 @@ class Event < ActiveRecord::Base
   end
 
   def dietary_restrictions_totals
-    diets = self.rsvps.map(&:dietary_restrictions).flatten
+    diets = self.rsvps.includes(:dietary_restrictions).map(&:dietary_restrictions).flatten
     restrictions = diets.group_by(&:restriction)
     restrictions.map { |name, diet| restrictions[name] = diet.length }
     restrictions
