@@ -249,4 +249,28 @@ describe Event do
       @event.student_waitlist_rsvps.should == [@waitlist_rsvp]
     end
   end
+
+  describe "methods for presenting dietary restrictions" do
+      before do
+        @event = create(:event)
+        @rsvp = create(:rsvp, event: @event)
+        @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins")
+        create(:dietary_restriction, restriction: "gluten-free", rsvp: @rsvp )
+        create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp )
+        create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp2 )
+      end
+
+    describe "#dietary_restrictions_totals" do
+      it "should return the total for each dietary restrictions" do
+        @event.dietary_restrictions_totals.should == {"gluten-free" => 1, "vegan" => 2}
+      end
+    end
+
+    describe "#other_dietary_restrictions" do
+      it "should returns an array of dietary restrictions" do
+        expect(@event.other_dietary_restrictions).to eq(["Paleo", "No sea urchins"])
+      end
+    end
+
+  end
 end

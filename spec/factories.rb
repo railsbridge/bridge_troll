@@ -54,12 +54,18 @@ FactoryGirl.define do
     class_level 0
     childcare_info "Bobby: 8\nSusie: 4"
     job_details "Horse whisperer"
+    dietary_info "Paleo"
 
     factory :student_rsvp do
       role Role.find_by_title 'Student'
       operating_system OperatingSystem::OSX_LION
       class_level 2
     end
+  end
+
+  factory :dietary_restriction do
+    rsvp
+    restriction "gluten-free"
   end
 
   factory :rsvp_session do

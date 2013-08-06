@@ -83,6 +83,9 @@ class EventsController < ApplicationController
     end
   end
 
+  def diets
+  end
+
   protected
 
   def set_time_zone
