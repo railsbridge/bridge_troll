@@ -7,8 +7,12 @@ Bridgetroll.Views.SectionOrganizer = (function () {
 
     this.addSubview(sectionView);
     this.listenTo(sectionView, 'section:changed', this.render);
-    this.listenTo(sectionView, 'attendee_drag:start', this.dragStarted);
-    this.listenTo(sectionView, 'attendee_drag:stop', this.dragEnded);
+    this.listenTo(sectionView, 'attendee_drag:start', function () {
+      this.poller.suspendPolling();
+    });
+    this.listenTo(sectionView, 'attendee_drag:stop', function () {
+      this.poller.resumePolling();
+    });
 
     if (section.get('id')) {
       this.sections.add(section);
@@ -34,8 +38,6 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.showOS = false;
       this.showUnassigned = true;
 
-      this.resetPollingInterval();
-
       this.unsortedSection = new Bridgetroll.Models.Section({
         id: null,
         name: 'Unsorted Attendees'
@@ -45,8 +47,21 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.listenTo(this.sections, 'add remove', this.updateSectionViewsAndRender);
       this.listenTo(this.sections, 'change', this.render);
 
-      this.listenTo(this.attendees, 'add remove change', this.resetPollingInterval);
-      this.listenTo(this.sections, 'add remove change', this.resetPollingInterval);
+      this.listenTo(this.attendees, 'add remove change', function () {
+        this.poller.resetPollingInterval();
+      });
+      this.listenTo(this.sections, 'add remove change', function () {
+        this.poller.resetPollingInterval();
+      });
+
+      this.poller = new Bridgetroll.Services.Poller({
+        pollUrl: 'organize_sections.json',
+        afterPoll: _.bind(function (json) {
+          this.sections.set(json['sections']);
+          this.attendees.set(json['attendees']);
+          this.render();
+        }, this)
+      });
 
       this.updateSectionViewsAndRender();
     },
@@ -71,17 +86,14 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       return {
         showUnassigned: this.showUnassigned,
         showOS: this.showOS,
-        polling: !!this.pollTimer
+        polling: this.poller.polling()
       };
     },
 
     postRender: function () {
       this.$el.off();
       this.$el.on('mousemove', _.throttle(_.bind(function () {
-        if (this.pollTimer) {
-          clearTimeout(this.pollTimer);
-          this.startPolling(5);
-        }
+        this.poller.stallPolling();
       }, this), 100));
     },
 
@@ -111,61 +123,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
     },
 
     onPollForChangesClick: function () {
-      if (this.pollTimer) {
-        this.stopPolling();
-      } else {
-        this.startPolling();
-      }
+      this.poller.togglePolling();
       this.render();
-    },
-
-    startPolling: function (interval) {
-      interval = interval || this.pollingInterval;
-      var refreshData = _.bind(function () {
-        $.ajax({
-          url: 'organize_sections.json',
-          success: _.bind(function (json) {
-            if (!this.dragging) {
-              this.pollsSinceLastIntervalReset += 1;
-              this.sections.set(json['sections']);
-              this.attendees.set(json['attendees']);
-              this.render();
-            }
-            this.pollTimer = setTimeout(refreshData, this.pollingInterval * 1000);
-            this.computeNewPollingInterval();
-          }, this)
-        });
-      }, this);
-      this.pollTimer = setTimeout(refreshData, interval * 1000);
-    },
-
-    stopPolling: function () {
-      clearTimeout(this.pollTimer);
-      this.pollTimer = undefined;
-    },
-
-    computeNewPollingInterval: function () {
-      var intervals = [2, 5, 15, 30, 60];
-      if (this.pollsSinceLastIntervalReset > 5) {
-        var existingIntervalIndex = intervals.indexOf(this.pollingInterval);
-        if (existingIntervalIndex < intervals.length - 1) {
-          this.pollsSinceLastIntervalReset = 0;
-          this.pollingInterval = intervals[existingIntervalIndex + 1];
-        }
-      }
-    },
-
-    resetPollingInterval: function () {
-      this.pollsSinceLastIntervalReset = 0;
-      this.pollingInterval = 1;
-    },
-
-    dragStarted: function () {
-      this.dragging = true;
-    },
-
-    dragEnded: function () {
-      this.dragging = false;
     }
   });
 })();

@@ -2,5 +2,6 @@ Bridgetroll = {
   Models: {},
   Collections: {},
   Views: {},
-  Enums: {}
+  Enums: {},
+  Services: {}
 };
