@@ -6,7 +6,12 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.upcoming.includes(:event_sessions, :location)
-    @past_events = Event.past.includes(:location)
+    respond_to do |format|
+      format.html do
+        @past_events = Event.past.includes(:location)
+      end
+      format.json { render json: @events }
+    end
   end
 
   def show
