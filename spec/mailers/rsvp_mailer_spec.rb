@@ -38,8 +38,8 @@ describe RsvpMailer do
         mail.body.should include(event.location.name)
       end
 
-      it "does not include the word 'waitlist'" do
-        mail.body.should_not include('waitlist')
+      it "does not include the phrase 'You'll get an email if a slot opens up for you.'" do
+        mail.body.should_not include("You'll get an email if a slot opens up for you.")
       end
     end
 
