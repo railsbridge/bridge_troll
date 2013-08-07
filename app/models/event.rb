@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :course
-  
+
   has_many :rsvps, dependent: :destroy
   has_many :sections, dependent: :destroy
 
@@ -206,6 +206,26 @@ class Event < ActiveRecord::Base
 
   def other_dietary_restrictions
     self.rsvps.map { |rsvp| rsvp.dietary_info if rsvp.dietary_info.present? }.compact
+  end
+
+  def organizer_names
+    organizers.map { |org| "#{org.first_name} #{org.last_name}"}
+  end
+
+  def session_details
+    event_sessions.map do |e|
+      {name: e.name, starts_at: e.starts_at, ends_at: e.ends_at}
+    end
+  end
+
+  def as_json(options = {})
+    {
+      id: id,
+      title: title,
+      location: location,
+      organizers: organizer_names,
+      sessions: session_details
+    }
   end
 
   private
