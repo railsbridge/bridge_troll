@@ -8,6 +8,10 @@ class CheckinsController < ApplicationController
     @rsvp_sessions = @session.rsvp_sessions.joins(
         :rsvp => :bridgetroll_user
     ).order('users.first_name asc, users.last_name asc, users.email asc')
+    respond_to do |format|
+      format.html { }
+      format.json { render json: @rsvp_sessions }
+    end
   end
 
   def create

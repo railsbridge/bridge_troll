@@ -34,7 +34,7 @@
                        url: event_event_session_checkin_path(@event, @session, rsvp_session),
                        html: {
                          id: destroy_id,
-                         class: "toggle_rsvp_session #{rsvp_session.checked_in ? '' : 'hidden'}",
+                         class: "toggle_rsvp_session destroy #{rsvp_session.checked_in ? '' : 'hidden'}",
                          data: {shows: create_id}
                        },
                        remote: true) do |f| %>
@@ -46,7 +46,7 @@
                        url: event_event_session_checkins_path(@event, @session),
                        html: {
                          id: create_id,
-                         class: "toggle_rsvp_session #{rsvp_session.checked_in ? 'hidden' : ''}",
+                         class: "toggle_rsvp_session create #{rsvp_session.checked_in ? 'hidden' : ''}",
                          data: {shows: destroy_id}
                        },
                        remote: true) do |f| %>
@@ -58,6 +58,10 @@
     <% end %>
   </tbody>
 </table>
+
+<script>
+  window.setupCheckinsPage(<%= @event.id %>, <%= @session.id %>);
+</script>
 
 <% if @event.organizer?(current_user) %>
   <%= render 'shared/actions', links: [
