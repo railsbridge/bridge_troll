@@ -40,7 +40,24 @@ class SectionArranger
       rsvp.update_attribute(:section_id, section.id)
     end
 
-    volunteer_rsvps.each do |rsvp|
+    # Put potential teachers in the front of the list
+    sorted_volunteer_rsvps = volunteer_rsvps.sort do |a, b|
+      if a.teaching? == b.teaching?
+        a.id <=> b.id
+      elsif a.teaching?
+        -1
+      elsif b.teaching?
+        1
+      end
+    end
+
+    # Remove volunteers that don't want to teach or ta
+    sorted_volunteer_rsvps = sorted_volunteer_rsvps.find_all do |rsvp|
+      rsvp.teaching? || rsvp.taing?
+    end
+
+    # Distribute volunteers to the smallest class until there are none left
+    sorted_volunteer_rsvps.each do |rsvp|
       least_volunteered_section = event.sections.sort_by { |section|
         section.rsvps.where(role_id: Role::VOLUNTEER.id).length
       }.first
