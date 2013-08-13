@@ -44,10 +44,19 @@ describe LocationsController do
         response.should redirect_to(location_path(@location))
       end
 
-      it "should be able to delete a location" do
-        expect {
-          delete :destroy, {id: @location.id}
-        }.to change(Location, :count).by(-1)
+      describe "#destroy" do
+        it "can delete a location that belongs to no events" do
+          expect {
+            delete :destroy, {id: @location.id}
+          }.to change(Location, :count).by(-1)
+        end
+
+        it "cannot delete a location that belongs to an event" do
+          create(:event, location: @location)
+          expect {
+            delete :destroy, {id: @location.id}
+          }.not_to change(Location, :count)
+        end
       end
     end
   end
