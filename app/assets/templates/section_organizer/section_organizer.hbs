@@ -20,6 +20,7 @@
       <div class='swatch windows'></div>Windows
     </div>
   {{/if}}
+  <a href="#section_organizer_help" class='btn' data-toggle="modal"><i class='icon-question-sign' style='margin-right: 5px;'></i>Help</a>
 </div>
 <div class='actions'>
   <a class='btn' href='sections/arrange' data-method='post' data-confirm='This will remove all existing sections and recreate them using COMPUTERS. Are you sure?'>Auto-Arrange All</a>
@@ -42,4 +43,29 @@
 </div>
 <div class='bridgetroll-section-level level5'>
   <div class='bridgetroll-section-title header level5'>Purple</div>
+</div>
+
+<div id="section_organizer_help" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h1>Section Organizer Overview</h1>
+  </div>
+  <div class="modal-body">
+    <h2>What is this?</h2>
+    <p>This is a tool to organize students and volunteers in your workshop into
+      individual sections (classrooms). The app starts from picks a reasonable
+      set of initial assignments and you can drag and drop people into
+      different classes as you feel appropriate.</p>
+
+    <h2>How do I use it?</h2>
+    <p><strong>Auto-Arrange All</strong> can be used to give a good 'first draft' of assignments which
+      doesn't account for checked-in status.</p>
+    <p><strong>Auto-Arrange Checked-In People</strong> arranges only the students and volunteers
+      that have been checked in to the last session of the workshop.</p>
+    <p>The names of sections should be the names of the conference rooms or areas where they
+    are held. The edit button on each section can change the name.</p>
+    <p>At the event, you can display the section assignments somewhere conspicuous in
+      'presentation mode' by using <strong>Hide Unassigned</strong>.</p>
+  </div>
+  <div class="modal-footer"></div>
 </div>
