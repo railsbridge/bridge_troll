@@ -16,7 +16,7 @@ Bridgetroll.Collections.RsvpSession = Backbone.Collection.extend
   constructorName: 'RsvpSessionCollection'
   model: Bridgetroll.Models.RsvpSession
 
-window.setupCheckinsPage = (event_id, session_id) ->
+window.setupCheckinsPage = (event_id, session_id, options) ->
   rsvpSessions = new Bridgetroll.Collections.RsvpSession()
 
   poller = new Bridgetroll.Services.Poller
@@ -34,4 +34,5 @@ window.setupCheckinsPage = (event_id, session_id) ->
       row.find('.destroy').toggleClass('hidden', !sessionRsvp.get('checked_in'))
     $('#checked_in_count').text(checked_in_count)
 
-  poller.startPolling()
+  if options.poll
+    poller.startPolling()

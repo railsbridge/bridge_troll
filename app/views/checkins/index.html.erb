@@ -60,7 +60,7 @@
 </table>
 
 <script>
-  window.setupCheckinsPage(<%= @event.id %>, <%= @session.id %>);
+  window.setupCheckinsPage(<%= @event.id %>, <%= @session.id %>, {poll: <%= !Rails.env.test? %>});
 </script>
 
 <% if @event.organizer?(current_user) %>
