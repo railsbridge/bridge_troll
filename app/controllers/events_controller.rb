@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_filter :authenticate_user!, except: [:index, :show, :levels]
   before_filter :find_event, except: [:index, :create, :new]
-  before_filter :validate_organizer!, except: [:index, :create, :show, :new]
+  before_filter :validate_organizer!, except: [:index, :create, :show, :new, :levels]
   before_filter :set_time_zone, only: [:create, :update]
 
   def index

@@ -191,6 +191,13 @@ describe EventsController do
     end
   end
 
+  describe "GET levels" do
+    it "succeeds without requiring any permissions" do
+      get :levels, :id => @event.id
+      response.should be_success
+    end
+  end
+
   describe "POST create" do
     def make_request(params = {})
       post :create, params
