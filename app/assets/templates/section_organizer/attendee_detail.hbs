@@ -21,8 +21,12 @@
     <div class='detail-header'>Operating System</div>
     <div class='detail'>{{operating_system_title}}</div>
   {{/if}}
-  <div class='detail-header'>Job Details</div>
-  <div class='detail'>{{job_details}}</div>
+  {{#if organizer}}
+    <div class='role'>Workshop Organizer</div>
+  {{else}}
+    <div class='detail-header'>Job Details</div>
+    <div class='detail'>{{job_details}}</div>
+  {{/if}}
 </div>
 <div class="modal-footer">
   <a href="#" class="btn" data-dismiss="modal">Close</a>

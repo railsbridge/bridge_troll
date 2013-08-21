@@ -6,7 +6,8 @@ Bridgetroll.Views.AttendeeDetail = (function () {
     context: function () {
       return _.extend({
         student: this.model.get('role_id') == Bridgetroll.Enums.Role.STUDENT,
-        volunteer: this.model.get('role_id') == Bridgetroll.Enums.Role.VOLUNTEER
+        volunteer: this.model.get('role_id') == Bridgetroll.Enums.Role.VOLUNTEER,
+        organizer: this.model.get('role_id') == Bridgetroll.Enums.Role.ORGANIZER
       }, this.model.attributes);
     },
 

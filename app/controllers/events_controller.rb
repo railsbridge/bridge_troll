@@ -82,7 +82,7 @@ class EventsController < ApplicationController
       format.json do
         render json: {
           sections: @event.sections,
-          attendees: @event.attendee_rsvps_with_workshop_checkins
+          attendees: @event.rsvps_with_workshop_checkins
         }
       end
     end

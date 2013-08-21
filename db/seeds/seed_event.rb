@@ -107,6 +107,9 @@ DETAILS
     organizer = create_user('organizer@example.com')
     event.organizers << organizer
 
+    coorganizer = create_user('coorganizer@example.com')
+    event.organizers << coorganizer
+
     teacher = create_user('teacher@example.com')
     create_volunteer_rsvp(event: event, user: teacher, volunteer_assignment: VolunteerAssignment::TEACHER, class_level: 0)
 

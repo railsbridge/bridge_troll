@@ -100,7 +100,11 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
       role_id: Bridgetroll.Enums.Role.VOLUNTEER,
       section_id: this.section.get('id')
     });
-    return _.sortBy(volunteers, function (volunteer) {
+    var organizers = this.attendees.where({
+      role_id: Bridgetroll.Enums.Role.ORGANIZER,
+      section_id: this.section.get('id')
+    });
+    return _.sortBy(_.union(volunteers, organizers), function (volunteer) {
       return volunteer.get('full_name');
     });
   },

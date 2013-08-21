@@ -62,6 +62,10 @@ $bridgetroll-section-border-color: #BBB;
 
   &.special {
     background-color: #AAA;
+
+    .title-text {
+      width: 100%;
+    }
   }
 
   &.header {
@@ -194,6 +198,10 @@ $bridgetroll-section-border-color: #BBB;
 
     &.no-show {
       color: #BBB;
+    }
+
+    &.role3 {
+      font-style: italic;
     }
 
     &.dragging {

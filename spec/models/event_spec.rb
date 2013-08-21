@@ -205,7 +205,7 @@ describe Event do
     end
   end
 
-  describe "#attendee_rsvps_with_workshop_checkins" do
+  describe "#rsvps_with_workshop_checkins" do
     before do
       @event = create(:event)
       first_session = @event.event_sessions.first
@@ -226,7 +226,7 @@ describe Event do
     end
 
     it 'counts attendances for the last session' do
-      attendee_rsvp_data = @event.attendee_rsvps_with_workshop_checkins
+      attendee_rsvp_data = @event.rsvps_with_workshop_checkins
       attendee_rsvp_data.length.should == 3
 
       workshop_attendees = attendee_rsvp_data.select { |rsvp| rsvp['workshop_checkins_count'] > 0 }
