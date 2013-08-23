@@ -1,3 +1,7 @@
+<% unless user_signed_in? %>
+ <%= render 'shared/welcome' %>
+<% end %>
+
 <div class="row-fluid">
   <div class="span12">
     <h1>Upcoming events</h1>

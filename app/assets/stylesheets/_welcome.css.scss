@@ -1,0 +1,33 @@
+.welcome-box {
+  width: 700px;
+  margin: 10px auto;
+  background-color: #fcfcfc;
+  padding: 15px 15px 0 15px;
+}
+
+.welcome-content {
+  margin: 0 auto;
+  width: 563px;
+}
+
+.welcome-message {
+  vertical-align: top;
+  display: inline-block;
+  width: 370px;
+  padding-top: 10px;
+  h2 {
+    font-size: 20px;
+    text-align: center;
+    & + h2 {
+      margin-top: 10px;
+    }
+  }
+}
+
+.troll {
+  display: inline-block;
+  svg {
+    height: 145px;
+    width: 190px;
+  }
+}
