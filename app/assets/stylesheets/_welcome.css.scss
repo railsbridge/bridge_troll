@@ -1,25 +1,40 @@
 .welcome-box {
   width: 700px;
-  margin: 10px auto;
+  margin: 0 auto 10px auto;
   background-color: #fcfcfc;
-  padding: 15px 15px 0 15px;
+  padding: 15px;
+
+  @media (max-width: $phone-width) {
+    box-sizing: border-box;
+    padding: 8px;
+    width: 100%;
+  }
 }
 
 .welcome-content {
-  margin: 0 auto;
-  width: 575px;
+  margin: 0 3em;
+  display: table;
+
+  @media (max-width: $phone-width) {
+    margin: 0;
+    width: 100%;
+  }
 }
 
 .welcome-message {
   vertical-align: top;
-  display: inline-block;
-  width: 370px;
-  padding-top: 10px;
+  display: table-cell;
+  vertical-align: middle;
+
   h2 {
     font-size: 20px;
     text-align: center;
     & + h2 {
       margin-top: 10px;
+    }
+
+    @media (max-width: $phone-width) {
+      font-size: 14px;
     }
   }
 }
@@ -29,5 +44,9 @@
   svg {
     height: 145px;
     width: 190px;
+  }
+
+  @media (max-width: $phone-width) {
+    display: none;
   }
 }
