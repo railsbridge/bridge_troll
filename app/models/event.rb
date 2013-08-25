@@ -11,6 +11,7 @@ class Event < ActiveRecord::Base
 
   has_many :rsvps, dependent: :destroy
   has_many :sections, dependent: :destroy
+  has_many :event_emails, dependent: :destroy
 
   has_many :attendee_rsvps, class_name: 'Rsvp', conditions: { role_id: [Role::STUDENT.id, Role::VOLUNTEER.id], waitlist_position: nil }
 

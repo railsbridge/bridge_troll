@@ -18,6 +18,7 @@ class Rsvp < ActiveRecord::Base
 
   has_many :rsvp_sessions, dependent: :destroy
   has_many :dietary_restrictions, dependent: :destroy
+  has_many :event_email_recipients, foreign_key: :recipient_rsvp_id, dependent: :destroy
 
   validates_uniqueness_of :user_id, scope: [:event_id, :user_type]
   validates_presence_of :user, :event, :role

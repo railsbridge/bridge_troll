@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Events::EmailsController do
-  describe "#update" do
+  describe "#create" do
     before do
       @event = create(:event)
       @organizer = create(:user)
@@ -46,6 +46,18 @@ describe Events::EmailsController do
         post :create, mail_params.merge(attendee_group: 'All')
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
       recipients.should =~ [@volunteer.email, @student.email]
+    end
+
+    it "keeps a record of the email recipients and content" do
+      expect {
+        post :create, mail_params.merge(attendee_group: 'All')
+      }.to change(@event.event_emails, :count).by(1)
+
+      email = @event.event_emails.last
+      email.sender.should == @organizer
+      email.subject.should == mail_params[:subject]
+      email.body.should == mail_params[:body]
+      email.recipients.map(&:email).should =~ [@volunteer.email, @student.email]
     end
   end
 end

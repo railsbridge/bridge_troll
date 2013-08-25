@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130804203404) do
+ActiveRecord::Schema.define(:version => 20130825043213) do
 
   create_table "dietary_restrictions", :force => true do |t|
     t.string   "restriction"
@@ -19,6 +19,27 @@ ActiveRecord::Schema.define(:version => 20130804203404) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  create_table "event_email_recipients", :force => true do |t|
+    t.integer  "event_email_id"
+    t.integer  "recipient_rsvp_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "event_email_recipients", ["event_email_id"], :name => "index_event_email_recipients_on_event_email_id"
+  add_index "event_email_recipients", ["recipient_rsvp_id"], :name => "index_event_email_recipients_on_recipient_rsvp_id"
+
+  create_table "event_emails", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "sender_id"
+    t.string   "subject"
+    t.string   "body"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "event_emails", ["event_id"], :name => "index_event_emails_on_event_id"
 
   create_table "event_sessions", :force => true do |t|
     t.datetime "starts_at"

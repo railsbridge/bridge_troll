@@ -3,6 +3,24 @@ class Events::EmailsController < ApplicationController
 
   def new
     @rsvps = @event.rsvps.where(role_id: [Role::VOLUNTEER.id, Role::STUDENT.id]).includes(:user)
+    @emails = @event.event_emails.order(:created_at)
+
+    @email_recipients = {}
+    @emails.each do |email|
+      @email_recipients[email.id] = {
+        total: email.recipient_rsvps.length,
+        volunteers: 0,
+        students: 0
+      }
+      email.recipient_rsvps.each do |rsvp|
+        if rsvp.role == Role::VOLUNTEER
+          @email_recipients[email.id][:volunteers] += 1
+        end
+        if rsvp.role == Role::STUDENT
+          @email_recipients[email.id][:students] += 1
+        end
+      end
+    end
   end
 
   def create
@@ -22,6 +40,14 @@ class Events::EmailsController < ApplicationController
       subject: params[:subject],
       body: params[:body]
     ).deliver
+
+    @event.event_emails.create!(
+      subject: params[:subject],
+      body: params[:body],
+      sender: current_user,
+      recipient_rsvp_ids: recipient_rsvps.map(&:id)
+    )
+
     redirect_to organize_event_path(@event), notice: "Your mail has been sent. Woo!"
   end
 
