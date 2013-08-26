@@ -141,6 +141,20 @@ DETAILS
     waitlisted = create_user("waitlisted@example.com")
     create_student_rsvp(event: event, user: waitlisted, class_level: 2, waitlist_position: 1)
 
+    event.event_emails.create!(
+      sender: organizer,
+      subject: 'Thanks for signing up for this event!',
+      body: "One note about this event:\nThis event will be super fun.\n\nGood day!",
+      recipient_rsvps: event.student_rsvps
+    )
+
+    event.event_emails.create!(
+      sender: coorganizer,
+      subject: 'Hello volunteers!',
+      body: "Remember to bring all your knowledges to the event.\n\nThank you!",
+      recipient_rsvps: event.volunteer_rsvps
+    )
+
     event
   end
 end

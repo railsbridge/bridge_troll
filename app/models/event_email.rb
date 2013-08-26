@@ -5,4 +5,6 @@ class EventEmail < ActiveRecord::Base
 
   has_many :recipient_rsvps, through: :event_email_recipients
   has_many :recipients, through: :recipient_rsvps, source: :user, source_type: 'User'
+
+  validates_presence_of :sender, :subject, :body
 end

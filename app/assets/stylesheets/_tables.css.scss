@@ -46,3 +46,9 @@ table.volunteer-roles {
     vertical-align: middle;
   }
 }
+
+table.sent-emails {
+  .email-body {
+    white-space: pre;
+  }
+}
