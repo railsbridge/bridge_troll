@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 gem 'rails', '3.2.14'
-gem 'devise', '~> 2.2.3'
+gem 'devise'
 gem 'thin'
 gem 'jquery-rails'
 gem 'nested_form'

@@ -73,11 +73,11 @@ GEM
     crack (0.4.1)
       safe_yaml (~> 0.9.0)
     daemons (1.1.9)
-    devise (2.2.7)
+    devise (3.0.3)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
-      railties (~> 3.1)
-      warden (~> 1.2.1)
+      railties (>= 3.2.6, < 5)
+      warden (~> 1.2.3)
     diff-lcs (1.2.4)
     eco (1.0.0)
       coffee-script
@@ -311,7 +311,7 @@ DEPENDENCIES
   capybara-screenshot
   coffee-rails
   compass-rails
-  devise (~> 2.2.3)
+  devise
   factory_girl_rails
   faker
   font-awesome-rails
