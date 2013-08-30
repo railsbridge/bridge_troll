@@ -1,67 +1,70 @@
 <% unless user_signed_in? %>
- <%= render 'shared/welcome' %>
+  <%= render 'shared/welcome' %>
 <% end %>
 
 <div class="row-fluid">
   <div class="span12">
-    <h1>Upcoming events</h1>
+    <div class='upcoming-events'>
+      <h1>Upcoming events</h1>
 
-    <% if @events.empty? %>
-      <h2>There are no events.</h2>
-    <% end %>
-    <% @events.each do |event| %>
-      <%= render 'upcoming_event', event: event %>
-    <% end %>
-
-    <h1>Past events</h1>
-    <table class="<%= @past_events.any? ? 'datatable-sorted' : '' %> table table-striped table-bordered table-condensed">
-      <thead>
-      <tr>
-        <th>Title</th>
-        <th class='date'>Date</th>
-        <th>Venue</th>
-        <th>City</th>
-      </tr>
-      </thead>
-
-      <tbody>
-      <% if @past_events.empty? %>
-        <tr>
-          <td colspan="5">There are no past events.</td>
-        </tr>
+      <% if @events.empty? %>
+        <h2>There are currently no upcoming events.</h2>
       <% end %>
-      <% @past_events.each do |event| %>
-        <tr>
-          <td>
-            <%= link_to event.title, event %>
-            <% if event.meetup_student_event_id %>
-              <%= link_to "[S]", event.meetup_url(event.meetup_student_event_id), class: 'meetup-link' %>
-            <% end %>
-            <% if event.meetup_volunteer_event_id %>
-              <%= link_to "[V]", event.meetup_url(event.meetup_volunteer_event_id), class: 'meetup-link' %>
-            <% end %>
-          </td>
-          <td>
-            <%= formatted_event_date(event) %>
-          </td>
-          <% if event.location %>
-            <td><%= event.location.name %></td>
-            <td><%= "#{event.location.city}, #{event.location.state}" %></td>
-          <% else %>
-            <td></td>
-            <td></td>
-          <% end %>
-        </tr>
+      <% @events.each do |event| %>
+        <%= render 'upcoming_event', event: event %>
       <% end %>
-      </tbody>
-    </table>
+    </div>
 
-    <% if user_signed_in? %>
-      <%= render 'shared/actions', links: [
-        ['Organize Event', new_event_path],
-        ['Manage Locations', locations_path]
-      ] %>
-    <% end %>
+    <div class='past-events'>
+      <h1>Past events</h1>
+      <table class="<%= @past_events.any? ? 'datatable-sorted' : '' %> table table-striped table-bordered table-condensed">
+        <thead>
+        <tr>
+          <th>Title</th>
+          <th class='date'>Date</th>
+          <th>Venue</th>
+          <th>City</th>
+        </tr>
+        </thead>
 
+        <tbody>
+        <% if @past_events.empty? %>
+          <tr>
+            <td colspan="5">There are no past events.</td>
+          </tr>
+        <% end %>
+        <% @past_events.each do |event| %>
+          <tr>
+            <td>
+              <%= link_to event.title, event %>
+              <% if event.meetup_student_event_id %>
+                <%= link_to "[S]", event.meetup_url(event.meetup_student_event_id), class: 'meetup-link' %>
+              <% end %>
+              <% if event.meetup_volunteer_event_id %>
+                <%= link_to "[V]", event.meetup_url(event.meetup_volunteer_event_id), class: 'meetup-link' %>
+              <% end %>
+            </td>
+            <td>
+              <%= formatted_event_date(event) %>
+            </td>
+            <% if event.location %>
+              <td><%= event.location.name %></td>
+              <td><%= "#{event.location.city}, #{event.location.state}" %></td>
+            <% else %>
+              <td></td>
+              <td></td>
+            <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+
+      <% if user_signed_in? %>
+        <%= render 'shared/actions', links: [
+          ['Organize Event', new_event_path],
+          ['Manage Locations', locations_path]
+        ] %>
+      <% end %>
+    </div>
   </div>
 </div>
