@@ -28,8 +28,8 @@ describe OrganizersController do
       before do
         sign_in @user
 
-        user_organizer = create(:user)
-        @event.organizers << user_organizer
+        @user_organizer = create(:user)
+        @event.organizers << @user_organizer
         @event_organizer = Rsvp.last
       end
 
@@ -44,7 +44,7 @@ describe OrganizersController do
       end
 
       it "should not be able to delete an event organizer" do
-        delete :destroy, {:event_id => @event_organizer.id, :id => @user.id}
+        delete :destroy, {:event_id => @event.id, :id => @user_organizer.id}
         response.should redirect_to(events_path)
       end
     end

@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   after_initialize :set_defaults
   after_save :reorder_waitlist!
 
-  belongs_to :location
+  belongs_to :location, counter_cache: true
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :course

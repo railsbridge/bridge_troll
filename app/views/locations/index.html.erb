@@ -22,7 +22,7 @@
       <% if user_signed_in? %>
         <td>
           <%= link_to 'Edit', edit_location_path(location), class: :btn %>
-          <% if @counts_for_locations[location.id] == 0 %>
+          <% if location.events_count == 0 %>
             <%= link_to 'Destroy', location, confirm: 'Are you sure?', method: :delete, class: :btn %>
           <% end %>
         </td>

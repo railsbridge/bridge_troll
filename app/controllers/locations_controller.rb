@@ -4,14 +4,6 @@ class LocationsController < ApplicationController
 
   def index
     @locations = Location.all
-    events_by_location = Event.group(:location_id).select('location_id, details, count(*) count').map do |event|
-      [event.location_id, event.count]
-    end
-    location_counts =  Hash[*events_by_location.flatten]
-    @counts_for_locations = {}
-    @locations.each do |location|
-      @counts_for_locations[location.id] = location_counts[location.id] || 0
-    end
   end
 
   def show

@@ -29,6 +29,18 @@ describe LocationsController do
         sign_in @user
       end
 
+      context "when rendering views" do
+        render_views
+
+        it "can see all the locations" do
+          create(:location, name: 'Ultimate Location')
+          get :index
+
+          response.should be_success
+          response.body.should include('Ultimate Location')
+        end
+      end
+
       it "should be able to create a new location" do
         get :new
         response.should be_success
