@@ -27,7 +27,7 @@
   vertical-align: middle;
 
   h2 {
-    font-size: 20px;
+    font-size: 18px;
     text-align: center;
     & + h2 {
       margin-top: 10px;
@@ -41,6 +41,7 @@
 
 .troll {
   display: inline-block;
+  padding-right: 20px;
   svg {
     height: 145px;
     width: 190px;
@@ -48,5 +49,26 @@
 
   @media (max-width: $phone-width) {
     display: none;
+  }
+}
+
+.about {
+  margin: 0 auto;
+  padding: 10px;
+  h2 {
+    font-family: 'AmbleBold', sans-serif;
+    margin: 20px 0 10px 0;
+  }
+  h3 {
+    font-size: 20px;
+    font-family: 'AmbleRegular', sans-serif;
+    margin: 10px 0;
+  }
+  ul {
+    font-size: 16px;
+    li {
+      list-style-type: disc;
+      padding-bottom: 10px;
+    }
   }
 }
