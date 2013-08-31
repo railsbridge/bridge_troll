@@ -1,6 +1,14 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  def validate_admin!
+    unless current_user.admin?
+      flash[:error] = "You must be an Admin to see this page"
+      redirect_to events_path
+      false
+    end
+  end
+
   def validate_organizer!
     @event = @event || Event.find(params[:event_id])
     if @event.historical?

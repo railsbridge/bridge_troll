@@ -43,6 +43,8 @@ Bridgetroll::Application.routes.draw do
     end
   end
 
+  resources :external_events
+
   get "/auth/:provider/callback" => "omniauths#callback"
 
   if Rails.env.development?

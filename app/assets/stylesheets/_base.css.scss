@@ -213,6 +213,12 @@ td.wide {
   }
 }
 
+.row-long-fields {
+  input {
+    width: 650px;
+  }
+}
+
 // BOOTSTRAP OVERRIDES, Yo. Frowny buckets.
 .alert .button_to {
   float: right;

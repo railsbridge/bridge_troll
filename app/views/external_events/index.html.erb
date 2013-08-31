@@ -1,0 +1,36 @@
+<h1>Listing External Events</h1>
+
+<table class="table table-striped table-bordered table-condensed">
+  <tr>
+    <th>Name</th>
+    <th>Starts at</th>
+    <th>Ends at</th>
+    <th>City</th>
+    <th>Location</th>
+    <th>Organizers</th>
+    <th></th>
+  </tr>
+
+  <% @external_events.each do |external_event| %>
+    <tr>
+      <td>
+        <% if external_event.url %>
+          <%= link_to external_event.name, external_event.url %>
+        <% else %>
+          <%= external_event.name %>
+        <% end %>
+      </td>
+      <td><%= external_event.starts_at %></td>
+      <td><%= external_event.ends_at %></td>
+      <td><%= external_event.city %></td>
+      <td><%= external_event.location %></td>
+      <td><%= external_event.organizers %></td>
+      <td>
+        <%= link_to 'Edit', edit_external_event_path(external_event) %>
+        <%= link_to 'Destroy', external_event, method: :delete, data: {confirm: 'Are you sure?'} %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<%= link_to 'New External Event', new_external_event_path, class: :btn %>
