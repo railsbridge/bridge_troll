@@ -48,8 +48,8 @@
               <%= formatted_event_date(event) %>
             </td>
             <% if event.location %>
-              <td><%= event.location.name %></td>
-              <td><%= "#{event.location.city}, #{event.location.state}" %></td>
+              <td><%= event.location_name %></td>
+              <td><%= event.location_city_and_state %></td>
             <% else %>
               <td></td>
               <td></td>

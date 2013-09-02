@@ -41,6 +41,14 @@ class Event < ActiveRecord::Base
     non_historical_event.validate :validate_rsvp_limit
   end
 
+  def location_name
+    location.name
+  end
+
+  def location_city_and_state
+    "#{location.city}, #{event.location.state}"
+  end
+
   def rsvps_with_childcare
     rsvps.needs_childcare
   end

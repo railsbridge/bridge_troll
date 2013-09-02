@@ -8,7 +8,9 @@ class EventsController < ApplicationController
     @events = Event.upcoming.includes(:event_sessions, :location)
     respond_to do |format|
       format.html do
-        @past_events = Event.past.includes(:location)
+        past_bridgetroll_events = Event.past.includes(:location)
+        past_external_events = ExternalEvent.all
+        @past_events = (past_bridgetroll_events + past_external_events).sort_by(&:starts_at)
       end
       format.json { render json: @events }
     end

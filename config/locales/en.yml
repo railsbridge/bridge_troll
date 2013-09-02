@@ -1,4 +1,7 @@
 en:
+  date:
+    formats:
+      date_as_day_mdy: "%a %1m/%1d/%Y"
   time:
     formats:
       date_as_day_month_day_year: "%A, %B %d, %Y"

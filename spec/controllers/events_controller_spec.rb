@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe EventsController do
   before do
-    @event = create(:event)
+    @event = create(:event, title: 'DonutBridge')
   end
 
   describe "GET index" do
@@ -18,6 +18,18 @@ describe EventsController do
 
     describe "when rendering views" do
       render_views
+
+      describe "when external events are present" do
+        before do
+          create(:external_event, name: 'SalsaBridge')
+        end
+
+        it 'renders a combination of internal and external events' do
+          get :index
+          response.body.should include('DonutBridge')
+          response.body.should include('SalsaBridge')
+        end
+      end
 
       describe "#allow_student_rsvps?" do
         it "shows an 'Attend' button when allowing student RSVP" do

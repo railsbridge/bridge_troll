@@ -12,6 +12,12 @@ FactoryGirl.define do
     sequence(:meetup_id) { |n| n }
   end
 
+  factory :external_event do
+    sequence(:name) { |n| "External Event #{n}" }
+    sequence(:location) { |n| "External Event Location #{n}" }
+    starts_at DateTime.now
+  end
+
   factory :event_with_no_sessions, :class => Event do
     sequence(:title) { |n| "Event #{n}" }
     details "This is note in the details attribute."
