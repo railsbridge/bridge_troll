@@ -10,7 +10,7 @@ class EventsController < ApplicationController
       format.html do
         past_bridgetroll_events = Event.past.includes(:location)
         past_external_events = ExternalEvent.all
-        @past_events = (past_bridgetroll_events + past_external_events).sort_by(&:starts_at)
+        @past_events = (past_bridgetroll_events + past_external_events).sort_by { |e| e.starts_at.to_time }
       end
       format.json { render json: @events }
     end

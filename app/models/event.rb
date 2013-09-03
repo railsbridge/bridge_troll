@@ -46,7 +46,7 @@ class Event < ActiveRecord::Base
   end
 
   def location_city_and_state
-    "#{location.city}, #{event.location.state}"
+    "#{location.city}, #{location.state}"
   end
 
   def rsvps_with_childcare

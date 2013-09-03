@@ -21,11 +21,13 @@ describe EventsController do
 
       describe "when external events are present" do
         before do
-          create(:external_event, name: 'SalsaBridge')
+          create(:event, title: 'PastBridge', starts_at: 5.days.ago, ends_at: 4.days.ago, time_zone: 'Alaska')
+          create(:external_event, name: 'SalsaBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
         end
 
         it 'renders a combination of internal and external events' do
           get :index
+          response.body.should include('PastBridge')
           response.body.should include('DonutBridge')
           response.body.should include('SalsaBridge')
         end
