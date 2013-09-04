@@ -1,18 +1,22 @@
 class EventsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show, :levels]
-  before_filter :find_event, except: [:index, :create, :new]
-  before_filter :validate_organizer!, except: [:index, :create, :show, :new, :levels]
+  before_filter :authenticate_user!, except: [:index, :past_events, :show, :levels]
+  before_filter :find_event, except: [:index, :past_events, :create, :new]
+  before_filter :validate_organizer!, except: [:index, :past_events, :create, :show, :new, :levels]
   before_filter :set_time_zone, only: [:create, :update]
 
   def index
     @events = Event.upcoming.includes(:event_sessions, :location)
     respond_to do |format|
       format.html do
-        past_bridgetroll_events = Event.past.includes(:location)
-        past_external_events = ExternalEvent.all
-        @past_events = (past_bridgetroll_events + past_external_events).sort_by { |e| e.starts_at.to_time }
+        @past_events = sorted_past_events
       end
       format.json { render json: @events }
+    end
+  end
+
+  def past_events
+    respond_to do |format|
+      format.json { render json: sorted_past_events }
     end
   end
 
@@ -103,5 +107,11 @@ class EventsController < ApplicationController
 
   def find_event
     @event = Event.find(params[:id])
+  end
+
+  def sorted_past_events
+    past_bridgetroll_events = Event.past.includes(:location)
+    past_external_events = ExternalEvent.all
+    (past_bridgetroll_events + past_external_events).sort_by { |e| e.starts_at.to_time }
   end
 end
