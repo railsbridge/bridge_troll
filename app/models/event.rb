@@ -222,7 +222,7 @@ class Event < ActiveRecord::Base
   end
 
   def organizer_names
-    organizers.map { |org| "#{org.first_name} #{org.last_name}"}
+    organizers_with_legacy.map { |org| org.full_name }
   end
 
   def session_details
