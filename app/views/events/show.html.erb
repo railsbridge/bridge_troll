@@ -4,7 +4,7 @@
   <div class="span8">
     <div class="critical-details">
       <% if @event.location %>
-        <%= pretty_print_address @event.location %>
+        <%= link_to pretty_print_address(@event.location), location_map_link(@event.location) %>
       <% else %>
         This event currently has no location!
       <% end %>

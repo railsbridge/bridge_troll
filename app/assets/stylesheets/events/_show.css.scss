@@ -32,6 +32,10 @@
   margin-bottom: 20px;
   font-size: 18px;
 
+  a {
+    text-decoration: none ;
+  }
+
   div {
     &:first-child {
       padding-bottom: 10px;
