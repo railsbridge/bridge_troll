@@ -250,7 +250,7 @@ class Event < ActiveRecord::Base
   DEFAULT_DETAILS = <<-END
 <h2>Workshop Description</h2>
 
-<h2>Location and Sponsors</h2>
+<h2>Sponsors</h2>
 
 <h2>Transportation and Parking</h2>
 
