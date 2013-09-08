@@ -237,7 +237,11 @@ class Event < ActiveRecord::Base
       title: title,
       location: location,
       organizers: organizer_names,
-      sessions: session_details
+      sessions: session_details,
+      volunteer_rsvp_count: volunteer_rsvps.count,
+      student_rsvp_count: student_rsvps.count,
+      student_waitlist_rsvp_count: student_waitlist_rsvps.count,
+      student_rsvp_limit: student_rsvp_limit
     }
   end
 
