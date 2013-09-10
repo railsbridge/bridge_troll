@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130831203942) do
+ActiveRecord::Schema.define(:version => 20130910021918) do
 
   create_table "dietary_restrictions", :force => true do |t|
     t.string   "restriction"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(:version => 20130831203942) do
     t.integer  "event_id"
     t.integer  "sender_id"
     t.string   "subject"
-    t.string   "body"
+    t.text     "body"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

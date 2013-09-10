@@ -17,34 +17,46 @@
 
 <div class='event_email'>
 
-  <%= form_tag(event_emails_path(@event)) do %>
-    <%= label_tag do %>
-      <%= radio_button_tag(:attendee_group, Role::STUDENT.id, false, class: 'attendee-group') %> Only Students
-    <% end %>
-    <%= label_tag do %>
-      <%= radio_button_tag(:attendee_group, Role::VOLUNTEER.id, false, class: 'attendee-group') %> Only Volunteers
-    <% end %>
-    <%= label_tag do %>
-      <%= radio_button_tag(:attendee_group, 'All', true, class: 'attendee-group') %> Students and Volunteers
+  <%= simple_form_for(@email) do |f| %>
+    <% if @email.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@email.errors.count, "error") %> prohibited this mail from being sent:</h2>
+
+        <ul>
+          <% @email.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
 
     <%= label_tag do %>
-      <%= check_box_tag(:include_waitlisted, "1", false, class: 'include-waitlisted') %> Include Waitlisted Students
+      <%= f.radio_button(:attendee_group, Role::STUDENT.id, class: 'attendee-group') %> Only Students
+    <% end %>
+    <%= label_tag do %>
+      <%= f.radio_button(:attendee_group, Role::VOLUNTEER.id, class: 'attendee-group') %> Only Volunteers
+    <% end %>
+    <%= label_tag do %>
+      <%= f.radio_button(:attendee_group, 'All', class: 'attendee-group') %> Students and Volunteers
+    <% end %>
+
+    <%= label_tag do %>
+      <%= f.check_box(:include_waitlisted, class: 'include-waitlisted') %> Include Waitlisted Students
     <% end %>
 
     <span class='mail-count'>This email will be sent to <span class='num'><b><%= @rsvps.length %></b> <%= pluralize @rsvps, 'people' %>.</span> <span class='recipients-popover'>[Who?]</span></span></span>
 
     <%= label_tag do %>
       <div>Subject</div>
-      <%= text_field_tag('subject', nil, placeholder: 'A message from your RailsBridge organizer') %>
+      <%= f.text_field(:subject, placeholder: 'A message from your RailsBridge organizer') %>
     <% end %>
 
     <%= label_tag do %>
       <div>Message Body</div>
-      <%= text_area_tag('body', nil, placeholder: "Here's some important information about the upcoming workshop...") %>
+      <%= f.text_area(:body, placeholder: "Here's some important information about the upcoming workshop...") %>
     <% end %>
 
-    <%= submit_tag 'Send Mail' %>
+    <%= f.submit 'Send Mail' %>
   <% end %>
 </div>
 

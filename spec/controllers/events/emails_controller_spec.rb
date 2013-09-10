@@ -15,42 +15,48 @@ describe Events::EmailsController do
     end
 
     let(:mail_params) do
-      {event_id: @event.id, subject: "What's up, rails", body: 'Hello!'}
+      {subject: "What's up, rails", body: 'Hello!'}
     end
 
     let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
 
+    it "sends no emails if a subject or body is omitted" do
+      expect {
+        post :create, event_id: @event.id, event_email: {}
+      }.not_to change(ActionMailer::Base.deliveries, :count)
+    end
+
     it "allows emails to be sent to only students" do
       expect {
-        post :create, mail_params.merge(attendee_group: Role::STUDENT.id)
+        post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
       recipients.should =~ [@student.email]
     end
 
     it "allows emails to be sent to waitlisted students" do
       expect {
-        post :create, mail_params.merge(attendee_group: Role::STUDENT.id, include_waitlisted: true)
+        post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id, include_waitlisted: true)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
       recipients.should =~ [@student.email, @waitlisted.email]
     end
 
     it "allows emails to be sent to only volunteers" do
       expect {
-        post :create, mail_params.merge(attendee_group: Role::VOLUNTEER.id)
+        post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::VOLUNTEER.id)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
       recipients.should =~ [@volunteer.email]
     end
 
     it "allows emails to be sent to students + volunteers" do
       expect {
-        post :create, mail_params.merge(attendee_group: 'All')
+        post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All')
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
       recipients.should =~ [@volunteer.email, @student.email]
     end
 
     it "keeps a record of the email recipients and content" do
       expect {
-        post :create, mail_params.merge(attendee_group: 'All')
+        post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All')
       }.to change(@event.event_emails, :count).by(1)
 
       email = @event.event_emails.last

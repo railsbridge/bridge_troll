@@ -1,4 +1,6 @@
 class EventEmail < ActiveRecord::Base
+  attr_accessor :attendee_group, :include_waitlisted
+
   belongs_to :sender, class_name: 'User'
 
   has_many :event_email_recipients, dependent: :destroy
