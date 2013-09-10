@@ -39,7 +39,8 @@ class Events::EmailsController < ApplicationController
       sender: current_user,
       recipients: recipient_rsvps.map { |rsvp| rsvp.user.email },
       subject: email_params[:subject],
-      body: email_params[:body]
+      body: email_params[:body],
+      event: @event
     ).deliver
 
     @email.save!

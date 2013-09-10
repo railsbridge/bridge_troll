@@ -8,6 +8,7 @@ class EventMailer < ActionMailer::Base
       to: options[:recipients]
     }.to_json
 
+    @event = options[:event]
     @sender = options[:sender]
     @body = options[:body]
 

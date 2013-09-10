@@ -6,8 +6,9 @@
 <body>
 <%= @sender.full_name %> has something to say about an upcoming event:
 
-<p><%= @body %></p>
+<p><%= sanitize(@body).gsub(/(\r)?\n/, "<br/>").html_safe %></p>
 
-<p>- The Troll</p>
+<p><%= link_to 'Check out this event on Bridge Troll by clicking this link!', event_url(@event) %></p>
+
 </body>
 </html>
