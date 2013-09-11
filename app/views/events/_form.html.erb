@@ -60,9 +60,22 @@
         <% end %>
       </div>
 
+      <h3>Capacity</h3>
+
+      <p>
+        This sets be the maximum number of <strong>students</strong> you think could fit in your event.
+        There is not a limit on the number of volunteer RSVPs, so you should consider
+        the number of expected volunteers when determining student capacity. Most workshops
+        have less than one volunteer for every student.
+      </p>
+      <p>
+        <strong>
+          After publishing, you can increase this, but not decrease it. Choose wisely!
+        </strong>
+      </p>
+
       <div class="field">
         <%= f.label :student_rsvp_limit, 'Student RSVP limit' %>
-        <em>(You can increase this, but not decrease it after publishing. Choose wisely!)</em>
         <%= f.text_field :student_rsvp_limit %>
       </div>
 
