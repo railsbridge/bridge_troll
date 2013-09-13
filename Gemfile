@@ -44,6 +44,7 @@ group :development do
   gem 'rb-fsevent'
   gem 'terminal-notifier-guard'
   gem "bullet"
+  gem "heroku_san"
 end
 
 group :test, :development do

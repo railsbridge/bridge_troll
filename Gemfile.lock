@@ -87,6 +87,7 @@ GEM
     ejs (1.1.1)
     erubis (2.7.0)
     eventmachine (1.0.3)
+    excon (0.25.3)
     execjs (2.0.1)
     factory_girl (4.2.0)
       activesupport (>= 3.0.0)
@@ -120,6 +121,11 @@ GEM
       sprockets (>= 2.0.3)
       tilt
     hashie (2.0.5)
+    heroku-api (0.3.15)
+      excon (~> 0.25.1)
+    heroku_san (4.3.0)
+      heroku-api (>= 0.1.2)
+      rake
     hike (1.2.3)
     http_parser.rb (0.5.3)
     httpauth (0.2.0)
@@ -328,6 +334,7 @@ DEPENDENCIES
   gravatar_image_tag
   guard-rspec
   handlebars_assets
+  heroku_san
   jasmine
   jasmine-phantom
   jquery-datatables-rails
