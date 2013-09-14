@@ -48,6 +48,10 @@ class Events::EmailsController < ApplicationController
     redirect_to organize_event_path(@event), notice: "Your mail has been sent. Woo!"
   end
 
+  def show
+    @email = @event.event_emails.find(params[:id])
+  end
+
   private
 
   def find_event

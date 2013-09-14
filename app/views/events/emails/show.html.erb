@@ -1,0 +1,19 @@
+<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Review Sent Email'} %>
+
+<h2>From: <%= link_to @email.sender.full_name, user_profile_path(@email.sender) %></h2>
+
+<br/>
+
+<h2>Subject: <%= @email.subject %></h2>
+
+<br/>
+
+<h3>Body:</h3>
+
+<div style="white-space: pre">
+  <%= @email.body %>
+</div>
+
+<%= render 'shared/actions', links: [
+  ['Back', new_event_email_path(@event)]
+] %>

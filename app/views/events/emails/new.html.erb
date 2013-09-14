@@ -85,7 +85,7 @@
       <% recipientship = @email_recipients[email.id] %>
       <td><%= recipientship[:total] %> (<%= recipientship[:students] %> Students, <%= recipientship[:volunteers] %> Volunteers)</td>
       <td><%= email.subject %></td>
-      <td class='email-body'><%= email.body %></td>
+      <td class='email-body'><%= link_to truncate(email.body), event_email_path(@event, email) %></td>
     </tr>
   <% end %>
   </tbody>

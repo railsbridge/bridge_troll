@@ -25,6 +25,22 @@ describe "the organizer dashboard" do
     page.should have_content("Section Organizer")
   end
 
+  it "lets the user review sent emails" do
+    @email = @event.event_emails.create(
+      subject: 'Hello, Attendees!',
+      body: 'The event will be fun!',
+      sender: @organizer
+    )
+
+    visit new_event_email_path(@event)
+    page.should have_content(@email.subject)
+    page.should have_content(@email.body)
+
+    click_link @email.body
+    page.should have_content(@email.subject)
+    page.should have_content(@email.body)
+  end
+
   it 'lets the user download a CSV of student rsvps' do
     visit organize_event_path(@event)
     click_link 'Show all Attendee Details'
