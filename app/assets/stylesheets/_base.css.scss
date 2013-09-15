@@ -28,8 +28,9 @@ h1 {
 }
 
 h2 {
-  font-family: 'AmbleLight', sans-serif;
+  font-family: 'AmbleRegular', sans-serif;
   font-size: 24px;
+  line-height: 150%;
 }
 
 h3 {
@@ -234,3 +235,4 @@ td.wide {
 
 .container::before,
 .container::after { display: block; }
+

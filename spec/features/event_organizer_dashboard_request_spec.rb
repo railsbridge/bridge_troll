@@ -21,7 +21,7 @@ describe "the organizer dashboard" do
 
   it "lets the user assign students and volunteers to sections" do
     visit organize_event_path(@event)
-    click_link "Arrange Sections"
+    click_link "Arrange Class Sections"
     page.should have_content("Section Organizer")
   end
 
@@ -43,7 +43,7 @@ describe "the organizer dashboard" do
 
   it 'lets the user download a CSV of student rsvps' do
     visit organize_event_path(@event)
-    click_link 'Show all Attendee Details'
+    click_link 'Show all Attendee RSVP Details'
 
     click_link 'Download Student Details CSV'
 

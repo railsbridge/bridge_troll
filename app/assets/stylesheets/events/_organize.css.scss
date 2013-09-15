@@ -13,8 +13,24 @@
   margin: 12px 0;
 }
 
+.organizer-dashboard {
+  h3 {
+    margin: 10px 0;
+    font-family: AmbleRegular;
+  }
+  h2 {
+    font-family: AmbleBold;
+  }
+}
+
+.organizer-button-tip {
+  display: inline-block;
+  width: 300px;
+  vertical-align: top;
+}
+
 .organizer-action {
-  text-align: center;
+  margin-bottom: 5px;
   font-size: 14px;
   margin-right: 10px;
   display: inline-block;
@@ -37,8 +53,11 @@
   }
 
   .organizer-action-button {
+    text-align: center;
+    width: 150px;
     border-radius: 5px;
     padding: 8px;
+    margin-bottom: 10px;
     color: $blue-color;
     @include background(linear-gradient(0deg, #ddd 30%, #eee 70%));
 
@@ -55,7 +74,7 @@
 }
 
 .organizer-dashboard-section {
-  margin: 30px 0;
+  margin: 15px 0;
 }
 
 .section-arranger-link {
