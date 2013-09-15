@@ -1,6 +1,11 @@
-<%= link_to path, class: "organizer-action #{defined?(style) && style == :inline ? 'organizer-action-inline' : ''}" do %>
-  <div class='organizer-action-button'>
-    <i class='<%= icon %>'></i>
-    <%= text %>
+<div class='organizer-action'>
+  <%= link_to path, class: "organizer-action #{defined?(style) && style == :inline ? 'organizer-action-inline' : ''}" do %>
+    <div class='organizer-action-button'>
+      <i class='<%= icon %>'></i>
+      <%= text %>
+    </div>
+  <% end %>
+  <div class="organizer-button-tip">
+    <%= tip %>
   </div>
-<% end %>
+</div>

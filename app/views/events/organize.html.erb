@@ -3,60 +3,73 @@
 
 <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Organizer Console'} %>
 
-<% [
-     [new_event_email_path(@event), 'icon-envelope', 'Email Attendees'],
-     [event_attendees_path(@event), 'icon-info-sign', 'Show all Attendee Details'],
-     [event_organizers_path(@event), 'icon-key', 'Manage Organizers'],
-     [diets_event_path(@event), 'icon-food', 'Dietary Needs']
-   ].each do |button| %>
-<%= render partial: 'shared/organizer_action', locals: {
-    path: button[0],
-    icon: button[1],
-    text: button[2]
-  } %>
-<% end %>
+<div class="row-fluid organizer-dashboard">
+  <div class="span6">
+    <h2>Tools for before the event</h2>
+    <section class='organizer-dashboard-section'>
+      <%= render :partial => 'organizer_preworkshop_buttons' %>
+    </section>
 
-<section class='organizer-dashboard-section'>
-  <%= link_to organize_sections_event_path(@event) do %>
-    <div class='section-arranger-link'>
-      <img src='/assets/section_organizer_small.png'><span class='section-arranger-link-text'>Arrange Sections</span>
-    </div>
-  <% end %>
-</section>
+    <section class='organizer-dashboard-section'>
+      <h3>Childcare Requests</h3>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Requester Name</th>
+          <th>Email</th>
+          <th>Children Info</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @childcare_requests.each do |request| %>
+          <tr>
+            <td>
+              <%= request.user.full_name %>
+            </td>
+            <td>
+              <%= request.user.email %>
+            </td>
+            <td>
+              <%= request.childcare_info %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </section>
+  </div>
 
-<section class='organizer-dashboard-section'>
-  <%= render :partial => 'shared/checkin_event_sessions' %>
-  <%= render partial: 'shared/organizer_action', locals: {
-    path: event_checkiners_path(@event),
-    icon: 'icon-check',
-    text: 'Add Checkiners'
-  } %>
-</section>
+  <div class="span6">
+    <h2>Tools for during the event</h2>
 
-<section class='organizer-dashboard-section'>
-  <h2>Childcare Requests</h2>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Requester Name</th>
-      <th>Email</th>
-      <th>Children Info</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @childcare_requests.each do |request| %>
-      <tr>
-        <td>
-          <%= request.user.full_name %>
-        </td>
-        <td>
-          <%= request.user.email %>
-        </td>
-        <td>
-          <%= request.childcare_info %>
-        </td>
-      </tr>
+    <%= render partial: 'shared/organizer_action', locals: {
+      path: event_checkiners_path(@event),
+      icon: 'icon-check',
+      text: 'Add Checkiners',
+      tip: 'We recommend designating a few volunteers to check in students
+      and volunteers as they arrive so that you can take care of other things.'
+    } %>
+
+    <%= render :partial => 'shared/checkin_event_sessions' %>
+
+    <section class='organizer-dashboard-section'>
+      <%= render partial: 'shared/organizer_action', locals: {
+        path: organize_sections_event_path(@event),
+        icon: 'icon-random',
+        text: 'Arrange Class Sections',
+        tip: 'This drag-and-drop interface allows you to take all the checked-in
+        students and volunteers and arrange them into small groups. You can then
+        tweak the groups to fit the size of the rooms you have, and add the room
+        title to the section.'
+      } %>
+    </section>
+
+    <h3>Current Stats</h3>
+
+    <% @event.event_sessions.each do |session| %>
+      <h3><%= session.name %></h3>
+      <p><%= @checkin_counts[:checkin][session.id] %>/<%= @checkin_counts[:rsvp][session.id] %> Checked In</p>
     <% end %>
-    </tbody>
-  </table>
-</section>
+
+  </div>
+</div>

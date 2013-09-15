@@ -1,10 +1,11 @@
-<h2>Check-ins</h2>
-
-<% @event.event_sessions.each do |session| %>
-  <div class='session-attendance'>
-    <h3><%= session.name %></h3>
-
-    <div><%= @checkin_counts[:checkin][session.id] %>/<%= @checkin_counts[:rsvp][session.id] %> Checked In</div>
-    <%= link_to "Check in for #{session.name}", event_event_session_checkins_path(@event, session), class: 'btn btn-small' %>
-  </div>
-<% end %>
+<section class='organizer-dashboard-section'>
+    <h3>Check in students and volunteers</h3>
+  <% @event.event_sessions.each do |session| %>
+    <%= render partial: 'shared/organizer_action', locals: {
+      path: event_event_session_checkins_path(@event, session),
+      icon: 'icon-check',
+      text: "Check in for #{session.name}",
+      tip: "Check those students and volunteers in! This will make for easy class sorting."
+    } %> <br />
+  <% end %>
+</section>
