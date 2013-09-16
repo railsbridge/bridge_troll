@@ -1,11 +1,11 @@
 <section class='organizer-dashboard-section'>
-    <h3>Check in students and volunteers</h3>
+  <h3>Check in students and volunteers</h3>
   <% @event.event_sessions.each do |session| %>
     <%= render partial: 'shared/organizer_action', locals: {
       path: event_event_session_checkins_path(@event, session),
       icon: 'icon-check',
       text: "Check in for #{session.name}",
       tip: "Check those students and volunteers in! This will make for easy class sorting."
-    } %> <br />
+    } %>
   <% end %>
 </section>

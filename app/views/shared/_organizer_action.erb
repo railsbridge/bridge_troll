@@ -5,7 +5,9 @@
       <%= text %>
     </div>
   <% end %>
-  <div class="organizer-button-tip">
-    <%= tip %>
-  </div>
+  <% if defined?(tip) %>
+    <div class="organizer-button-tip">
+      <%= tip %>
+    </div>
+  <% end %>
 </div>
