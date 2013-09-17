@@ -2,6 +2,8 @@ Bridgetroll = {
   Models: {},
   Collections: {},
   Views: {},
+  Dialogs: {},
   Enums: {},
-  Services: {}
+  Services: {},
+  modalContainerSelector: 'body'
 };

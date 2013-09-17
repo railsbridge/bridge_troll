@@ -13,10 +13,19 @@ var fakeServer = _.extend(sinon.fakeServer, {
   }
 });
 
+function getFixtures() {
+  return $('#jasmine-fixtures');
+}
+
 beforeEach(function() {
+  if (getFixtures().length === 0) {
+    $('body').append('<div id="jasmine-fixtures"></div>');
+  }
   this.server = fakeServer.create();
+  Bridgetroll.modalContainerSelector = '#jasmine-fixtures';
 });
 
 afterEach(function () {
   this.server.restore();
+  getFixtures().empty();
 });

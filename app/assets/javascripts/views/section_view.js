@@ -157,22 +157,15 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
     detailView.showModally();
   },
 
-  onEditClick: function () {
+  onEditClick: function (e) {
     if (this.section.isUnassigned()) {
       return;
     }
 
-    var newName = window.prompt('Enter the new name for ' + this.section.get('name'), this.section.get('name') || '');
-    if (newName) {
-      this.section
-        .save({name: newName})
-        .success(_.bind(function () {
-          this.render();
-        }, this))
-        .error(function () {
-          alert("Error updating section.");
-        });
-    }
+    var sectionView = new Bridgetroll.Views.EditSection({
+      model: this.section
+    });
+    sectionView.showModally();
   },
 
   onDestroyClick: function () {

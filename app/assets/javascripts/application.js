@@ -25,6 +25,8 @@
 //= require_tree ./collections
 //= require ./views/base_view
 //= require_tree ./views
+//= require ./dialogs/base_dialog
+//= require_tree ./dialogs
 //= require_tree .
 //= require jquery_nested_form
 //= require dataTables/jquery.dataTables

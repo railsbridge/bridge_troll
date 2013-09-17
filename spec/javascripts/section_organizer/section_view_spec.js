@@ -72,27 +72,43 @@ describe("Section", function () {
 
   describe("onEditClick", function () {
     beforeEach(function () {
-      spyOn(window, 'prompt').andReturn("Pirate's Bay");
       view.onEditClick();
     });
 
-    it("makes a request to update the name with the prompted value", function () {
-      var request = this.server.requestFor('/events/191/sections/401');
-      expect(request).not.toBeUndefined();
-      expect(JSON.parse(request.requestBody).section.name).toEqual("Pirate's Bay");
+    afterEach(function () {
+      getFixtures().find('.modal-footer .cancel').click();
     });
 
-    describe("when the request completes", function () {
+    it("presents a modal with editing options", function () {
+      expect(getFixtures().find('.modal-body').length).toEqual(1);
+    });
+
+    describe("after the modal is saved", function () {
       beforeEach(function () {
-        this.server.completeRequest('/events/191/sections/401', {
-          id: 401,
-          event_id: 191,
-          name: "Pirate's Bay"
-        });
+        getFixtures().find('.modal-body .section_name').val("Pirate's Bay");
+        getFixtures().find('.modal-footer .submit').click();
       });
 
-      it("re-renders with the new name", function () {
-        expect(view.$('.bridgetroll-section-title').text()).toContain("Pirate's Bay");
+      it("makes a request to update the name with the prompted value", function () {
+        var request = this.server.requestFor('/events/191/sections/401');
+        expect(request).not.toBeUndefined();
+        expect(JSON.parse(request.requestBody).section.name).toEqual("Pirate's Bay");
+      });
+
+      describe("when the request completes", function () {
+        beforeEach(function () {
+          this.server.completeRequest('/events/191/sections/401', {
+            id: 401,
+            event_id: 191,
+            name: "Pirate's Bay"
+          });
+        });
+
+        it("applies changes to the model", function () {
+          expect(model.get('name')).toEqual("Pirate's Bay");
+        });
+
+        it("closes the modal");
       });
     });
   });
