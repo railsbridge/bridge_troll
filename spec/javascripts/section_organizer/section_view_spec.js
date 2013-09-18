@@ -12,6 +12,7 @@ describe("Section", function () {
       {id: 16, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Neither', section_id: 401, teaching: false, taing: false}
     ]);
     model = new Bridgetroll.Models.Section({
+      class_level: 1,
       id: 401,
       event_id: 191,
       name: "Wizard's Throne"
@@ -39,7 +40,7 @@ describe("Section", function () {
   describe("#attachPoint", function () {
     describe("when the section is for unassigned students", function () {
       beforeEach(function () {
-        view.section.set('id', null);
+        view.section.set('class_level', null);
       });
 
       it("returns level0", function () {
@@ -48,7 +49,7 @@ describe("Section", function () {
     });
 
     describe("when the section is a real section", function () {
-      it("returns the mode of the student class levels", function () {
+      it("returns the class level of the section", function () {
         expect(view.attachPoint()).toEqual('.bridgetroll-section-level.level1')
       });
     });

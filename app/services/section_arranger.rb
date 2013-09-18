@@ -34,7 +34,7 @@ class SectionArranger
     student_rsvps.each do |rsvp|
       section = sections[rsvp.class_level].try(:last)
       unless section && section.rsvps.count < section_counts[rsvp.class_level]
-        section = event.sections.create(name: "Level #{rsvp.class_level} Section")
+        section = event.sections.create(name: "Level #{rsvp.class_level} Section", class_level: rsvp.class_level)
         sections[rsvp.class_level] << section
       end
       rsvp.update_attribute(:section_id, section.id)

@@ -10,11 +10,13 @@ describe("SectionOrganizer", function () {
     ]);
     sections = new Bridgetroll.Collections.Section([
       {
+        class_level: 2,
         event_id: 191,
         id: 1234,
         name: 'Classroom #9'
       },
       {
+        class_level: 4,
         event_id: 191,
         id: 5678,
         name: 'Spaceship #491'
@@ -68,6 +70,7 @@ describe("SectionOrganizer", function () {
     describe("when the request has complete", function () {
       beforeEach(function () {
         this.server.completeRequest('/events/191/sections', {
+          class_level: null,
           id: 9102,
           name: 'New Section'
         });

@@ -9,13 +9,15 @@ Bridgetroll.Views.EditSection = (function () {
 
     context: function () {
       return {
-        section_name: this.model.get('name')
+        section_name: this.model.get('name'),
+        class_level: this.model.get('class_level')
       }
     },
 
     formValues: function () {
       return {
-        name: this.$('.section_name').val()
+        name: this.$('.section_name').val(),
+        class_level: this.$('.class_level').val()
       };
     },
 

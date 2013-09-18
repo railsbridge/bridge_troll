@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130910021918) do
+ActiveRecord::Schema.define(:version => 20130918012933) do
 
   create_table "dietary_restrictions", :force => true do |t|
     t.string   "restriction"
@@ -157,8 +157,9 @@ ActiveRecord::Schema.define(:version => 20130910021918) do
   create_table "sections", :force => true do |t|
     t.integer  "event_id"
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "class_level"
   end
 
   add_index "sections", ["event_id"], :name => "index_sections_on_event_id"
