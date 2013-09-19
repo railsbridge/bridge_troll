@@ -87,6 +87,7 @@ describe("Section", function () {
     describe("after the modal is saved", function () {
       beforeEach(function () {
         getFixtures().find('.modal-body .section_name').val("Pirate's Bay");
+        getFixtures().find('.modal-body .class_level[value="4"]').prop('checked', true);
         getFixtures().find('.modal-footer .submit').click();
       });
 
@@ -94,6 +95,7 @@ describe("Section", function () {
         var request = this.server.requestFor('/events/191/sections/401');
         expect(request).not.toBeUndefined();
         expect(JSON.parse(request.requestBody).section.name).toEqual("Pirate's Bay");
+        expect(JSON.parse(request.requestBody).section.class_level).toEqual("4");
       });
 
       describe("when the request completes", function () {
@@ -101,6 +103,7 @@ describe("Section", function () {
           this.server.completeRequest('/events/191/sections/401', {
             id: 401,
             event_id: 191,
+            class_level: 4,
             name: "Pirate's Bay"
           });
         });

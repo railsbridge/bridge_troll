@@ -10,7 +10,12 @@
 
   <label>
     Class Level:
-    <input class="class_level" value="{{class_level}}" />
+    {{#each options}}
+      <label>
+        <input type="radio" name="class_level" class="class_level" value="{{value}}" {{#if selected}}checked{{/if}} />
+        {{name}}
+      </label>
+    {{/each}}
   </label>
 </div>
 <div class="modal-footer">
