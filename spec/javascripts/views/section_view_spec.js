@@ -1,4 +1,4 @@
-describe("Section", function () {
+describe("Bridgetroll.Views.Section", function () {
   var view, model, attendees;
   beforeEach(function () {
     attendees = new Bridgetroll.Collections.Attendee([
