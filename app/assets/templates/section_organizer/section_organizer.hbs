@@ -23,8 +23,22 @@
   <a href="#section_organizer_help" class='btn' data-toggle="modal"><i class='icon-question-sign' style='margin-right: 5px;'></i>Help</a>
 </div>
 <div class='actions'>
-  <a class='btn' href='sections/arrange' data-method='post' data-confirm='This will remove all existing sections and recreate them using COMPUTERS. Are you sure?'>Auto-Arrange All</a>
-  <a class='btn' href='sections/arrange?checked_in=true' data-method='post' data-confirm='This will remove all existing sections and recreate them using COMPUTERS. Are you sure?'>Auto-Arrange Checked-In People</a>
+  <a class='btn'
+     href='sections/arrange'
+     data-method='post'
+     {{#if hasSections}}
+       data-confirm='This will remove all existing sections and recreate them, placing every student in a section based on their class level. Are you sure?'
+     {{/if}}>
+    Auto-Arrange All
+  </a>
+  <a class='btn'
+     href='sections/arrange?checked_in=true'
+     data-method='post'
+     {{#if hasSections}}
+       data-confirm='This will remove all existing sections and recreate them, placing every checked-in student in a section based on their class level. Are you sure?'
+     {{/if}}>
+    Auto-Arrange Checked-In People
+  </a>
 </div>
 {{#if showUnassigned}}
   <div class='bridgetroll-section-level level0'></div>

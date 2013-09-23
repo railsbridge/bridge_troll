@@ -84,6 +84,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
 
     context: function () {
       return {
+        hasSections: this.sections.length > 0,
         showUnassigned: this.showUnassigned,
         showOS: this.showOS,
         polling: this.poller.polling()
