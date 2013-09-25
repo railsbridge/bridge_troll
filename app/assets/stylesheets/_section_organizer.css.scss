@@ -7,11 +7,26 @@ $windows-color: rgb(255, 215, 215);
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 15px;
+  position: relative;
 
   .actions {
     margin: 0 0 10px 0;
     display: block;
   }
+}
+
+.auto-assign-reminder {
+  width: 530px;
+  position: absolute;
+  font-size: 28px;
+  line-height: 32px;
+  top: 150px;
+  left: 210px;
+  padding: 15px;
+  background-color: $orange-color;
+  border: 5px solid darken($orange-color, 20%);
+  border-radius: 5px;
+  text-align: center;
 }
 
 .student-os-key {

@@ -40,6 +40,11 @@
     Auto-Arrange Checked-In People
   </a>
 </div>
+{{#unless hasSections}}
+  <div class='auto-assign-reminder'>
+    Click one of the 'Auto Arrange' buttons above to get started!
+  </div>
+{{/unless}}
 {{#if showUnassigned}}
   <div class='bridgetroll-section-level level0'></div>
 {{/if}}
