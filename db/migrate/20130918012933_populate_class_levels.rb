@@ -6,8 +6,9 @@ class PopulateClassLevels < ActiveRecord::Migration
 
   def up
     Section.find_each do |section|
-      level = section.rsvps.where(role_id: Role::STUDENT.id).first.class_level || 0
-      section.update_attribute(:class_level, level)
+      student_rsvps = section.rsvps.where(role_id: Role::STUDENT.id)
+      level = student_rsvps.present? ? student_rsvps.first.class_level : 0
+      section.update_attribute(:class_level, level || 0)
     end
   end
 
