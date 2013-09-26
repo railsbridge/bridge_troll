@@ -284,6 +284,11 @@ MEETUP_EVENTS[:seattle] = [
     student_event_id: 119339102,
     volunteer_event_id: 120342802
   },
+  {
+    name: "Seattle RailsBridge Rails for Women Workshop ",
+    student_event_id: 136831332,
+    volunteer_event_id: 136835922
+  }
 ]
 
 MEETUP_EVENTS[:kentucky] = [
