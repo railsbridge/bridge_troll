@@ -1,12 +1,8 @@
-<p>
-  <b>Name:</b>
-  <%= @location.name %>
-</p>
+<h2>Name:</h2>
+<%= @location.name %>
 
-<p>
-  <b>Address:</b>
-  <%= link_to pretty_print_address(@location), location_map_link(@location) %>
-</p>
+<h2>Address:</h2>
+<%= link_to pretty_print_address(@location), location_map_link(@location) %>
 
 <%= render "shared/map", location: @location %>
 

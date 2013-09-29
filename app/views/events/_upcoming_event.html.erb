@@ -16,7 +16,7 @@
   <div class='event-location'>
     <% if event.location %>
       <i class='icon-map-marker'></i><%= event.location.name %>,
-      <%= "#{event.location.city}, #{event.location.state}" %>
+      <%= [event.location.city, event.location.state].select(&:present?).join(', ') %>
     <% end %>
   </div>
   <div class='event-counts'>
