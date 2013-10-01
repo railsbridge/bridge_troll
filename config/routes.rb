@@ -47,6 +47,8 @@ Bridgetroll::Application.routes.draw do
 
   get "/past_events" => "events#past_events"
 
+  get "/all_events" => "events#all_events"
+
   get "/about" => "static_pages#about"
 
   get "/auth/:provider/callback" => "omniauths#callback"

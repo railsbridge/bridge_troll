@@ -451,4 +451,56 @@ describe EventsController do
       end
     end
   end
+
+  describe "GET past_events" do
+    before do
+      @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 4.days.from_now, time_zone: 'Alaska')
+      @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 2.days.from_now)
+      @past_event = create(:event, title: 'PastBridge', starts_at: 5.days.ago, ends_at: 4.days.ago, time_zone: 'Alaska')
+      @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
+    end
+
+    it "succeeds" do
+      get :past_events, format: 'json'
+      response.should be_success
+    end
+
+    it "assigns past events ordered from oldest to latest" do
+      get :past_events, format: 'json'
+      assigns(:past_events).should == [@past_event, @past_external_event, @future_external_event]
+    end
+
+    it 'renders past events as json' do
+      get :past_events, format: 'json'
+      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles.should == [@past_event.title, @past_external_event.title, @future_external_event.title]
+    end
+  end
+
+  describe "GET all_events" do
+    before do
+      @event.delete
+      @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 4.days.from_now, time_zone: 'Alaska')
+      @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 2.days.from_now)
+      @past_event = create(:event, title: 'PastBridge', starts_at: 5.days.ago, ends_at: 4.days.ago, time_zone: 'Alaska')
+      @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
+    end
+
+    it "succeeds" do
+      get :all_events, format: 'json'
+      response.should be_success
+    end
+
+    it "assigns all events ordered from oldest to latest" do
+      get :all_events, format: 'json'
+      assigns(:all_events).should == [@past_event, @past_external_event, @future_external_event, @future_event]
+    end
+
+    it 'renders all events as json' do
+      get :all_events, format: 'json'
+      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles.should == [@past_event.title, @past_external_event.title, @future_external_event.title, @future_event.title]
+    end
+  end
+
 end
