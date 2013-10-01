@@ -6,12 +6,14 @@ Bridge Troll is a Rails app that helps RailsBridge workshop organizers plan thei
 
 Bridge Troll aims to provide a single site for Students and Volunteers to register for workshops, so that Organizers have as much information as possible in one place to help them plan their workshop. Organizers will be able to easily contact attendees before a workshop, sort students and volunteers into classes on the workshop day, and provide follow-up surveys afterward.
 
+Prospective organizers and attendees can sign up right now at [www.bridgetroll.org](http://www.bridgetroll.org). If you would really like roll your own, Bridge Troll is open source and you are free to fork, hack to your heart's content and deploy it to your favorite server or PaaS.
+
 We have something of a roadmap [here](https://github.com/railsbridge/bridge_troll/wiki/Roadmap).
 
 New? Keep reading this, and then head to the wiki to read the [contributor guidelines](https://github.com/railsbridge/bridge_troll/wiki/Contributor-Guidelines).
 
 ### Where is it?
-* The real live production application lives at [bridgetroll.herokuapp.com](http://bridgetroll.herokuapp.com/) or [bridgetroll.org](http://bridgetroll.org/)
+* The real live production application lives at [bridgetroll.herokuapp.com](http://bridgetroll.herokuapp.com/) or [www.bridgetroll.org](http://www.bridgetroll.org/)
 * The staging server lives at [bridgetroll-staging.herokuapp.com](http://bridgetroll-staging.herokuapp.com/)
 * The continuous integration server is at [travis-ci.org/railsbridge/bridge_troll](http://travis-ci.org/railsbridge/bridge_troll)
 
