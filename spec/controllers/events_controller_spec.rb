@@ -467,13 +467,13 @@ describe EventsController do
 
     it "assigns past events ordered from oldest to latest" do
       get :past_events, format: 'json'
-      assigns(:past_events).should == [@past_event, @past_external_event, @future_external_event]
+      assigns(:past_events).should == [@past_event, @past_external_event]
     end
 
     it 'renders past events as json' do
       get :past_events, format: 'json'
       result_titles = JSON.parse(response.body).map{ |e| e['title'] }
-      result_titles.should == [@past_event.title, @past_external_event.title, @future_external_event.title]
+      result_titles.should == [@past_event.title, @past_external_event.title]
     end
   end
 

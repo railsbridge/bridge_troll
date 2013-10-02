@@ -118,7 +118,7 @@ class EventsController < ApplicationController
   end
 
   def combined_past_events
-    Event.past.includes(:location) + ExternalEvent.all
+    Event.past.includes(:location) + ExternalEvent.past
   end
 
   def combined_all_events
