@@ -137,6 +137,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def self.for_json
+    includes(:location, :event_sessions, :organizers, :legacy_organizers)
+  end
+
   def self.upcoming
     where('ends_at > ?', Time.now.utc).order('starts_at')
   end
