@@ -24,6 +24,7 @@ FactoryGirl.define do
     time_zone "Hawaii"
     starts_at DateTime.now
     ends_at { starts_at + 1.day }
+    published true
     student_rsvp_limit 100
     location
     course_id Course::RAILS.id

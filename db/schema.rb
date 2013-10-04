@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130918012933) do
+ActiveRecord::Schema.define(:version => 20131001030057) do
 
   create_table "dietary_restrictions", :force => true do |t|
     t.string   "restriction"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20130918012933) do
     t.integer  "student_rsvp_limit"
     t.integer  "course_id"
     t.boolean  "allow_student_rsvp",        :default => true
+    t.boolean  "published"
   end
 
   create_table "external_events", :force => true do |t|

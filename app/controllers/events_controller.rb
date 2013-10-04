@@ -21,9 +21,8 @@ class EventsController < ApplicationController
   end
 
   def all_events
-    @all_events = sort_by_starts_at(combined_all_events)
     respond_to do |format|
-      format.json { render json: @all_events }
+      format.json { render json: sort_by_starts_at(combined_all_events) }
     end
   end
 
@@ -117,15 +116,15 @@ class EventsController < ApplicationController
   end
 
   def combined_past_events_for_json
-    Event.for_json.past + ExternalEvent.past
+    Event.for_json.past.where(:published => true) + ExternalEvent.past
   end
 
   def combined_past_events
-    Event.includes(:location).past + ExternalEvent.past
+    Event.includes(:location).past.where(:published => true) + ExternalEvent.past
   end
 
   def combined_all_events
-    Event.for_json.all + ExternalEvent.all
+    Event.for_json.where(:published => true) + ExternalEvent.all
   end
 
   def sort_by_starts_at(events)
