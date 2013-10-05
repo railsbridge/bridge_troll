@@ -29,10 +29,10 @@ describe("Bridgetroll.Views.Section", function () {
     });
 
     it("renders volunteers with a special letter representing their teaching/ta preferences", function () {
-      expect(view.$('[data-id="13"] .bridgetroll-badge').text()).toContain('?');
-      expect(view.$('[data-id="14"] .bridgetroll-badge').text()).toContain('T');
-      expect(view.$('[data-id="15"] .bridgetroll-badge').text()).toContain('t');
-      expect(view.$('[data-id="16"] .bridgetroll-badge').text()).toContain('x');
+      expect(view.$('[data-id="13"] .bridgetroll-badge')).toContainText('?');
+      expect(view.$('[data-id="14"] .bridgetroll-badge')).toContainText('T');
+      expect(view.$('[data-id="15"] .bridgetroll-badge')).toContainText('t');
+      expect(view.$('[data-id="16"] .bridgetroll-badge')).toContainText('x');
     });
 
   });

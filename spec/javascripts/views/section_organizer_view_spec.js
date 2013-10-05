@@ -63,19 +63,19 @@ describe("Bridgetroll.Views.SectionOrganizer", function () {
       });
 
       it("contains each of the students from the original collection", function () {
-        expect(sectionOrganizer.$el.text()).toContain('Lana Lang');
-        expect(sectionOrganizer.$el.text()).toContain('Sue Storm');
-        expect(sectionOrganizer.$el.text()).toContain('Ted Moesby');
+        expect(sectionOrganizer.$el).toContainText('Lana Lang');
+        expect(sectionOrganizer.$el).toContainText('Sue Storm');
+        expect(sectionOrganizer.$el).toContainText('Ted Moesby');
       });
 
       it("contains each of the volunteers from the original collection", function () {
-        expect(sectionOrganizer.$el.text()).toContain('Paul Graham');
-        expect(sectionOrganizer.$el.text()).toContain('Grace Hopper');
+        expect(sectionOrganizer.$el).toContainText('Paul Graham');
+        expect(sectionOrganizer.$el).toContainText('Grace Hopper');
       });
 
       it("contains each of the sections from the original collection", function () {
-        expect(sectionOrganizer.$el.text()).toContain('Classroom #9');
-        expect(sectionOrganizer.$el.text()).toContain('Spaceship #491');
+        expect(sectionOrganizer.$el).toContainText('Classroom #9');
+        expect(sectionOrganizer.$el).toContainText('Spaceship #491');
       });
     });
 
