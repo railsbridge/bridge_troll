@@ -46,15 +46,18 @@ $windows-color: rgb(255, 215, 215);
 }
 
 $bridgetroll-section-border-color: #BBB;
+$bridgetroll-section-width-wide: 214px;
+$bridgetroll-section-width-narrow: 175px;
+
 
 .bridgetroll-section-level {
   vertical-align: top;
   display: inline-block;
-  width: 214px;
+  width: $bridgetroll-section-width-wide;
   margin-right: 10px;
 
   .showing-unassigned & {
-    width: 175px;
+    width: $bridgetroll-section-width-narrow;
   }
 
   &.level0 {
@@ -185,8 +188,8 @@ $bridgetroll-section-border-color: #BBB;
   }
 
   .attendee {
-    height: $attendee-height;;
-    line-height: $attendee-height;;
+    height: $attendee-height;
+    line-height: $attendee-height;
     padding: 2px 0;
 
     .showing-os & {
@@ -206,7 +209,7 @@ $bridgetroll-section-border-color: #BBB;
 
     .info {
       float: right;
-      line-height: $attendee-height;;
+      line-height: $attendee-height;
       margin-right: 5px;
       cursor: pointer;
     }
@@ -224,6 +227,11 @@ $bridgetroll-section-border-color: #BBB;
       background-color: white;
       box-shadow: 0 0 10px rgba(50, 50, 50, 0.75);
       padding: 2px 5px 2px 0;
+      width: $bridgetroll-section-width-wide;
+
+      .showing-unassigned & {
+        width: $bridgetroll-section-width-narrow;
+      }
 
       .info {
         display: none;

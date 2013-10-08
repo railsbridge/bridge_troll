@@ -87,9 +87,10 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
     this.trigger('attendee_drag:start');
     var $attendee = $(dd.drag);
     $attendee.addClass('dragging');
+    var parentOffset = $attendee.offsetParent().offset();
     $attendee.css({
-      top: dd.offsetY,
-      left: dd.offsetX
+      top: dd.offsetY - parentOffset.top,
+      left: dd.offsetX - parentOffset.left
     });
   },
 
