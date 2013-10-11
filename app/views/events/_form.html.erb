@@ -17,9 +17,18 @@
         <%= f.label :title %>
         <%= f.text_field :title %>
       </div>
+
       <div class="field">
         <%= f.label :course_id %>
         <%= collection_select :event, :course_id, Course.all, :id, :title %>
+      </div>
+
+      <div class="field">
+        <%= f.label :location_id %>
+        <%= collection_select(:event, :location_id, Location.all, :id, :name, :prompt => true) %>
+        <p>
+          <em>If your location isn't in this list, head over to the <%= link_to 'locations page', locations_path %> and add it before you continue.</em>
+        </p>
       </div>
 
       <h3>Sessions</h3>
@@ -47,11 +56,6 @@
       <div class="field">
         <%= f.label :time_zone %>
         <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
-      </div>
-
-      <div class="field">
-        <%= f.label :location_id %>
-        <%= collection_select(:event, :location_id, Location.all, :id, :name, :prompt => true) %>
       </div>
 
       <div class="field">
