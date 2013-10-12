@@ -62,7 +62,8 @@
       <% if user_signed_in? %>
         <% links = [
           ['Organize Event', new_event_path],
-          ['Manage Locations', locations_path]
+          ['Manage Locations', locations_path],
+          ['Manage Chapters', chapters_path]
         ] %>
         <% if current_user.admin? %>
           <% links << ['Manage External Events', external_events_path] %>

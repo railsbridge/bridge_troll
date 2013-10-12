@@ -42,6 +42,10 @@ FactoryGirl.define do
     city "San Francisco"
   end
 
+  factory :chapter do
+    sequence(:name) { |n| "Chapter #{n}" }
+  end
+
   factory :event_session do
     sequence(:name) { |n| "Test Session #{n}" }
     starts_at DateTime.now

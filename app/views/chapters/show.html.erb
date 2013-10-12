@@ -1,0 +1,7 @@
+<h2>Name:</h2>
+<%= @chapter.name %>
+
+<%= render 'shared/actions', links: [
+  ['Edit', edit_chapter_path(@chapter)],
+  ['Back', chapters_path]
+] %>

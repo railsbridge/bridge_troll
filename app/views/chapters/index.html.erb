@@ -1,0 +1,29 @@
+<%= content_for(:header_text, 'Listing chapters') %>
+
+<table class="table table-striped table-bordered table-condensed">
+  <tr>
+    <th>Name</th>
+    <% if user_signed_in? %>
+      <th></th>
+    <% end %>
+  </tr>
+
+  <% @chapters.each do |chapter| %>
+    <tr>
+      <td><%= link_to chapter.name, chapter %></td>
+      <% if user_signed_in? %>
+        <td>
+          <%= link_to 'Edit', edit_chapter_path(chapter), class: :btn %>
+          <% if chapter.locations_count == 0 %>
+            <%= link_to 'Destroy', chapter, confirm: 'Are you sure?', method: :delete, class: :btn %>
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+<%= render 'shared/actions', links: [
+  user_signed_in? ? ['New Chapter', new_chapter_path] : nil,
+  ['Events', events_path]
+] %>

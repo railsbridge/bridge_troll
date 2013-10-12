@@ -1,5 +1,7 @@
 class Location < ActiveRecord::Base
   has_many :events
+  belongs_to :chapter, counter_cache: true
+
   validates_presence_of :name, :address_1, :city
   acts_as_gmappable(process_geocoding: !Rails.env.test?)
 

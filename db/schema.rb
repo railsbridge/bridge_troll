@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131001030057) do
+ActiveRecord::Schema.define(:version => 20131012013708) do
+
+  create_table "chapters", :force => true do |t|
+    t.string   "name"
+    t.integer  "locations_count", :default => 0
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+  end
 
   create_table "dietary_restrictions", :force => true do |t|
     t.string   "restriction"
@@ -96,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20131001030057) do
     t.float    "longitude"
     t.boolean  "gmaps"
     t.integer  "events_count", :default => 0
+    t.integer  "chapter_id"
   end
 
   create_table "meetup_users", :force => true do |t|

@@ -12,6 +12,14 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :chapter_id %>
+    <%= collection_select(:event, :chapter_id, Chapter.all, :id, :name, :prompt => true) %>
+    <p>
+      <em>If your chapter isn't in this list, head over to the <%= link_to 'chapters page', chapters_path %> and add it before you continue.</em>
+    </p>
+  </div>
+
+  <div class="field">
     <%= f.label :name %>
     <%= f.text_field :name %>
   </div>
