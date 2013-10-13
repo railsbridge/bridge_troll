@@ -3,6 +3,7 @@
 <table class="table table-striped table-bordered table-condensed">
   <tr>
     <th>Name</th>
+    <th>Locations</th>
     <% if user_signed_in? %>
       <th></th>
     <% end %>
@@ -11,6 +12,7 @@
   <% @chapters.each do |chapter| %>
     <tr>
       <td><%= link_to chapter.name, chapter %></td>
+      <td><%= chapter.locations_count %></td>
       <% if user_signed_in? %>
         <td>
           <%= link_to 'Edit', edit_chapter_path(chapter), class: :btn %>
@@ -25,5 +27,6 @@
 
 <%= render 'shared/actions', links: [
   user_signed_in? ? ['New Chapter', new_chapter_path] : nil,
+  ['Locations', locations_path],
   ['Events', events_path]
 ] %>

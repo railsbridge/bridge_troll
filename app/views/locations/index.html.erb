@@ -7,6 +7,7 @@
     <th>City</th>
     <th>State</th>
     <th>Zip</th>
+    <th>Events</th>
     <% if user_signed_in? %>
       <th></th>
     <% end %>
@@ -19,6 +20,7 @@
       <td><%= location.city %></td>
       <td><%= location.state %></td>
       <td><%= location.zip %></td>
+      <td><%= location.events_count %></td>
       <% if user_signed_in? %>
         <td>
           <%= link_to 'Edit', edit_location_path(location), class: :btn %>
@@ -33,5 +35,6 @@
 
 <%= render 'shared/actions', links: [
   user_signed_in? ? ['New Location', new_location_path] : nil,
+  ['Chapters', chapters_path],
   ['Events', events_path]
 ] %>
