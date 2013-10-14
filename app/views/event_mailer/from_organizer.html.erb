@@ -4,7 +4,7 @@
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
 </head>
 <body>
-<%= @sender.full_name %> has something to say about an upcoming event:
+<%= @sender.full_name %> has something to say about <%= @event.upcoming? ? 'an upcoming event' : 'a past event' %>:
 
 <p><%= sanitize(@body).gsub(/(\r)?\n/, "<br/>").html_safe %></p>
 

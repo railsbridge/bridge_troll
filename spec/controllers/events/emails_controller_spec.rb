@@ -40,6 +40,19 @@ describe Events::EmailsController do
       recipients.should =~ [@student.email, @waitlisted.email]
     end
 
+    describe "when some attendees have been checked in" do
+      before do
+        create(:rsvp_session, rsvp: @volunteer.rsvps.first, event_session: @event.event_sessions.first, checked_in: true)
+      end
+
+      it "allows emails to be sent exclusively to checked-in attendees" do
+        expect {
+          post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All', only_checked_in: true)
+        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        recipients.should =~ [@volunteer.email]
+      end
+    end
+
     it "allows emails to be sent to only volunteers" do
       expect {
         post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::VOLUNTEER.id)
@@ -64,6 +77,32 @@ describe Events::EmailsController do
       email.subject.should == mail_params[:subject]
       email.body.should == mail_params[:body]
       email.recipients.map(&:email).should =~ [@volunteer.email, @student.email]
+    end
+
+    describe "time text" do
+      describe "before the event has happened" do
+        before do
+          @event.update_attribute(:ends_at, 5.days.from_now)
+        end
+
+        it "describes the event as 'upcoming'" do
+          post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All')
+          email = ActionMailer::Base.deliveries.last
+          email.body.should include('upcoming event')
+        end
+      end
+
+      describe "after the event has happened" do
+        before do
+          @event.update_attribute(:ends_at, 5.days.ago)
+        end
+
+        it "describes the event as 'past'" do
+          post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All')
+          email = ActionMailer::Base.deliveries.last
+          email.body.should include('past event')
+        end
+      end
     end
   end
 end

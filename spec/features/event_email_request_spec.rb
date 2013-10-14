@@ -11,7 +11,8 @@ describe "the email page" do
     create(:volunteer_rsvp, user: @vol1, event: event)
 
     @vol2 = create(:user, email: 'vol2@email.com')
-    create(:volunteer_rsvp, user: @vol2, event: event)
+    vol2_rsvp = create(:volunteer_rsvp, user: @vol2, event: event)
+    create(:rsvp_session, rsvp: vol2_rsvp, event_session: event.event_sessions.first, checked_in: true)
 
     @student = create(:user, email: 'student@email.com')
     create(:student_rsvp, user: @student, event: event)
@@ -32,10 +33,13 @@ describe "the email page" do
     choose 'Only Students'
     page.should have_content("1 person")
 
-    choose 'Students and Volunteers'
+    choose 'All Attendees'
     page.should have_content("3 people")
 
-    check 'Include Waitlisted Students'
+    check 'Include waitlisted students'
     page.should have_content("4 people")
+
+    check 'Only attendees who checked in'
+    page.should have_content("1 person")
   end
 end

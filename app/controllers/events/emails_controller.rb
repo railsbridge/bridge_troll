@@ -21,6 +21,10 @@ class Events::EmailsController < ApplicationController
       recipient_rsvps = recipient_rsvps.where(waitlist_position: nil)
     end
 
+    if email_params[:only_checked_in]
+      recipient_rsvps = recipient_rsvps.where('checkins_count > 0')
+    end
+
     @email = @event.event_emails.build(
       subject: email_params[:subject],
       body: email_params[:body],

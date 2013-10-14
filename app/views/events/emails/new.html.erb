@@ -8,6 +8,7 @@
     {
       role_id: rsvp.role_id,
       waitlisted: rsvp.waitlist_position != nil,
+      checkins_count: rsvp.checkins_count,
       full_name: rsvp.user.full_name,
       email: rsvp.user.email
     }
@@ -30,21 +31,35 @@
       </div>
     <% end %>
 
-    <%= label_tag do %>
-      <%= f.radio_button(:attendee_group, Role::STUDENT.id, class: 'attendee-group') %> Only Students
-    <% end %>
-    <%= label_tag do %>
-      <%= f.radio_button(:attendee_group, Role::VOLUNTEER.id, class: 'attendee-group') %> Only Volunteers
-    <% end %>
-    <%= label_tag do %>
-      <%= f.radio_button(:attendee_group, 'All', class: 'attendee-group') %> Students and Volunteers
-    <% end %>
+    <div class='row'>
 
-    <%= label_tag do %>
-      <%= f.check_box(:include_waitlisted, class: 'include-waitlisted') %> Include Waitlisted Students
-    <% end %>
+      <div class='span4'>
+        <%= label_tag do %>
+          <%= f.radio_button(:attendee_group, 'All', class: 'attendee-group') %> All Attendees
+        <% end %>
+        <%= label_tag do %>
+          <%= f.radio_button(:attendee_group, Role::STUDENT.id, class: 'attendee-group') %> Only Students
+        <% end %>
+        <%= label_tag do %>
+          <%= f.radio_button(:attendee_group, Role::VOLUNTEER.id, class: 'attendee-group') %> Only Volunteers
+        <% end %>
+      </div>
 
-    <span class='mail-count'>This email will be sent to <span class='num'><b><%= @rsvps.length %></b> <%= pluralize @rsvps, 'people' %>.</span> <span class='recipients-popover'>[Who?]</span></span></span>
+      <div class='span6'>
+        <%= label_tag do %>
+          <%= f.check_box(:include_waitlisted, class: 'include-waitlisted') %> Include waitlisted students
+        <% end %>
+        <%= label_tag do %>
+          <%= f.check_box(:only_checked_in, class: 'only-checked-in') %> Only attendees who checked in (Good for
+          post-event emails)
+        <% end %>
+      </div>
+    </div>
+
+    <div class='mail-count'>
+      This email will be sent to <span class='num'><b><%= @rsvps.length %></b> <%= pluralize @rsvps, 'people' %>
+      .</span> <span class='recipients-popover'>[Who?]</span>
+    </div>
 
     <%= label_tag do %>
       <div>Subject</div>

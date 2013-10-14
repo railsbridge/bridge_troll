@@ -1,4 +1,4 @@
-<%= @sender.full_name %> has something to say about an upcoming event:
+<%= @sender.full_name %> has something to say about <%= @event.upcoming? ? 'an upcoming event' : 'a past event' %>:
 
 <%= @body %>
 
