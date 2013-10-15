@@ -34,6 +34,10 @@
       height: 300px;
       overflow-y: auto;
       overflow-x: hidden;
+
+      ul {
+        margin: 0;
+      }
     }
   }
 }

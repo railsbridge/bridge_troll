@@ -5,26 +5,28 @@ roleIds = ->
   else
     [parseInt(radioValue, 10)]
 
-recalculateRecipients = ->
+filteredAttendees = ->
   role_ids = roleIds()
   include_waitlisted = $('.include-waitlisted').prop('checked')
   only_checked_in = $('.only-checked-in').prop('checked')
 
-  filteredAttendees = _.filter attendees, (attendee) ->
-    waitlist_condition = if include_waitlisted then true else !attendee.waitlisted
-    checked_in_condition = if only_checked_in then attendee.checkins_count > 0 else true
+  _.filter attendees, (attendee) ->
+    waitlist_condition   = if include_waitlisted then true else !attendee.waitlisted
+    checked_in_condition = if only_checked_in    then attendee.checkins_count > 0 else true
     _.include(role_ids, attendee.role_id) && waitlist_condition && checked_in_condition
-  count = filteredAttendees.length
+
+recalculateRecipients = ->
+  recipients = filteredAttendees()
+  count = recipients.length
 
   noun = if (count == 1) then "person." else "people."
   $('.num').html("<b>#{count}</b> #{noun}")
 
-  recipients = _.sortBy filteredAttendees, (attendee) ->
-    attendee.full_name
-  recipients = ("#{attendee.full_name} &lt;#{attendee.email}&gt;" for attendee in recipients)
+  recipients = _.sortBy recipients, 'full_name'
 
   $('.recipients-popover').data('popover').hide()
-  $('.recipients-popover').data('popover').options.content = "<div class='recipients'>#{recipients.join('<br>')}</div>";
+  template = HandlebarsTemplates['email_attendees_popover']
+  $('.recipients-popover').data('popover').options.content = template({recipients: recipients})
 
 window.setupEmailPage = ->
   $('.attendee-group, .include-waitlisted, .only-checked-in').change(recalculateRecipients)
