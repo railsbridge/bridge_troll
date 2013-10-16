@@ -14,7 +14,7 @@ class EventMailer < ActionMailer::Base
 
     mail(
       to: 'info@bridgetroll.org', # supposedly required even with X-SMTPAPI
-      reply_to: options[:sender].email,
+      from: "#{@sender.full_name} <#{@sender.email}>",
       subject: options[:subject]
     )
   end
