@@ -30,14 +30,14 @@ describe Events::EmailsController do
       expect {
         post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      recipients.should =~ [@student.email]
+      recipients.should =~ [@student.email, @organizer.email]
     end
 
     it "allows emails to be sent to waitlisted students" do
       expect {
         post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id, include_waitlisted: true)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      recipients.should =~ [@student.email, @waitlisted.email]
+      recipients.should =~ [@student.email, @waitlisted.email, @organizer.email]
     end
 
     describe "when some attendees have been checked in" do
@@ -49,7 +49,7 @@ describe Events::EmailsController do
         expect {
           post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All', only_checked_in: true)
         }.to change(ActionMailer::Base.deliveries, :count).by(1)
-        recipients.should =~ [@volunteer.email]
+        recipients.should =~ [@volunteer.email, @organizer.email]
       end
     end
 
@@ -57,14 +57,14 @@ describe Events::EmailsController do
       expect {
         post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::VOLUNTEER.id)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      recipients.should =~ [@volunteer.email]
+      recipients.should =~ [@volunteer.email, @organizer.email]
     end
 
     it "allows emails to be sent to students + volunteers" do
       expect {
         post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All')
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      recipients.should =~ [@volunteer.email, @student.email]
+      recipients.should =~ [@volunteer.email, @student.email, @organizer.email]
     end
 
     it "keeps a record of the email recipients and content" do
