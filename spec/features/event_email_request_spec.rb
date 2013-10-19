@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe "the email page" do
+  let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
+
   before do
     event = create(:event, student_rsvp_limit: 1)
 
@@ -41,5 +43,14 @@ describe "the email page" do
 
     check 'Only attendees who checked in'
     page.should have_content("1 person")
+  end
+
+  it "sends an email to the selected people" do
+    choose 'All Attendees'
+    fill_in 'Subject', with: 'Hello, Railsbridgers'
+    fill_in 'Body', with: 'This is a cool email body!'
+    click_button 'Send Mail'
+
+    recipients.length.should == 4
   end
 end

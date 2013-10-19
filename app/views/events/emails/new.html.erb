@@ -47,10 +47,10 @@
 
       <div class='span6'>
         <%= label_tag do %>
-          <%= f.check_box(:include_waitlisted, class: 'include-waitlisted') %> Include waitlisted students
+          <%= f.check_box(:include_waitlisted, {class: 'include-waitlisted'}, true, false) %> Include waitlisted students
         <% end %>
         <%= label_tag do %>
-          <%= f.check_box(:only_checked_in, class: 'only-checked-in') %> Only attendees who checked in (Good for
+          <%= f.check_box(:only_checked_in, {class: 'only-checked-in'}, true, false) %> Only attendees who checked in (Good for
           post-event emails)
         <% end %>
       </div>

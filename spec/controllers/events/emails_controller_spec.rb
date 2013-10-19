@@ -35,7 +35,7 @@ describe Events::EmailsController do
 
     it "allows emails to be sent to waitlisted students" do
       expect {
-        post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id, include_waitlisted: true)
+        post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id, include_waitlisted: "true")
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
       recipients.should =~ [@student.email, @waitlisted.email, @organizer.email]
     end
@@ -47,7 +47,7 @@ describe Events::EmailsController do
 
       it "allows emails to be sent exclusively to checked-in attendees" do
         expect {
-          post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All', only_checked_in: true)
+          post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All', only_checked_in: "true")
         }.to change(ActionMailer::Base.deliveries, :count).by(1)
         recipients.should =~ [@volunteer.email, @organizer.email]
       end
