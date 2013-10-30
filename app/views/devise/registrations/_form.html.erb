@@ -42,8 +42,8 @@
   <% end %>
 
   <div>
-    <%= f.label :chapter_id %>
-    <%= f.collection_select('chapter_id', Chapter.all, :id, :name, include_blank: '') %>
+    <%= f.label :chapter_ids, 'Chapters' %>
+    <%= f.collection_select(:chapter_ids, Chapter.all, :id, :name, {}, {multiple: true}) %>
   </div>
 
   <div>

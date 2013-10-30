@@ -7,7 +7,6 @@ module Seeder
       password: 'password',
       first_name: 'Admin',
       last_name: 'User',
-      chapter_id: Chapter.first.id
     )
     admin.admin = true
     admin.confirm!

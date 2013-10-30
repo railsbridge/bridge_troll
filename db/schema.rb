@@ -11,13 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131017035648) do
+ActiveRecord::Schema.define(:version => 20131030162339) do
 
   create_table "chapters", :force => true do |t|
     t.string   "name"
     t.integer  "locations_count", :default => 0
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
+  end
+
+  create_table "chapters_users", :id => false, :force => true do |t|
+    t.integer "chapter_id"
+    t.integer "user_id"
   end
 
   create_table "dietary_restrictions", :force => true do |t|
@@ -195,7 +200,6 @@ ActiveRecord::Schema.define(:version => 20131017035648) do
     t.integer  "meetup_id"
     t.string   "time_zone"
     t.boolean  "meetup_prompt_dismissed"
-    t.integer  "chapter_id"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
