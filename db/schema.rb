@@ -11,13 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131012013708) do
+ActiveRecord::Schema.define(:version => 20131030162339) do
 
   create_table "chapters", :force => true do |t|
     t.string   "name"
     t.integer  "locations_count", :default => 0
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
+  end
+
+  create_table "chapters_users", :id => false, :force => true do |t|
+    t.integer "chapter_id"
+    t.integer "user_id"
   end
 
   create_table "dietary_restrictions", :force => true do |t|

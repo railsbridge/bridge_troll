@@ -4,44 +4,6 @@
 <p>Bridge Troll needs to send you a couple of emails: RSVP confirmations, upcoming workshop reminders, etc. We may also send you follow up surveys after the workshop to help us learn how to help you better.</p>
 
 <div id="sign-up">
-	<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-    <% if params[:return_to] %>
-      <%= hidden_field_tag :return_to, params[:return_to] %>
-    <% end %>
-	  <%= devise_error_messages! %>
-
-	  <div>
-	    <%= f.label :first_name, "First/Given Name" %>
-	    <%= f.text_field :first_name %>
-	  </div>
-
-	  <div>
-	    <%= f.label :last_name, "Last/Family Name" %>
-	    <%= f.text_field :last_name %>
-	  </div>
-
-	  <div>
-	    <%= f.label :email %>
-	    <%= f.email_field :email %>
-	  </div>
-
-	  <div>
-	    <%= f.label :password %>
-	    <%= f.password_field :password %>
-	  </div>
-
-	  <div>
-	    <%= f.label :password_confirmation %>
-	    <%= f.password_field :password_confirmation %>
-	  </div>
-
-	  <div>
-	    <%= f.label :time_zone %>
-	    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
-	  </div>
-
-	  <div><%= f.submit "Sign up", class: 'btn btn-submit' %></div>
-	<% end %>
-
+  <%= render 'form', button_text: 'Sign up', is_registered: false %>
 	<%= render :partial => "devise/shared/links" %>
 </div>

@@ -1,63 +1,7 @@
 <h1>Edit <%= resource_name.to_s.humanize %></h1>
 
 <%= render 'shared/profile_gravatars'%>
-
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div>
-    <%= f.label :first_name, "First/Given Name" %>
-    <%= f.text_field :first_name %>
-  </div>
-
-  <div>
-    <%= f.label :last_name, "Last/Family Name" %>
-    <%= f.text_field :last_name %>
-  </div>
-
-  <div>
-    <%= f.label :email %>
-    <%= f.email_field :email %>
-  </div>
-
-  <div>
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-    <span class="help-block">(leave blank if you don't want to change it)</span>
-  </div>
-
-  <div>
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
-  </div>
-
-  <div>
-    <%= f.label :current_password %>
-    <%= f.password_field :current_password %>
-    <span class="help-block">(we need your current password to confirm your changes)</span>
-  </div>
-
-  <div>
-    <%= f.label :time_zone %>
-    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
-  </div>
-
-  <div><%= f.submit "Update", class: 'btn btn-submit' %></div>
-
-  <hr>
-  <div>
-    <%= label_tag :meetup_id, 'Associated Meetup Account' %>
-    <% if resource.meetup_id %>
-        Currently associated
-        with <%= link_to "Meetup user #{resource.meetup_id}.", "http://www.meetup.com/members/#{resource.meetup_id}/" %></p>
-    <% else %>
-        <p>You haven't connected your Meetup.com account yet! :(</p>
-        <p>Connect your Meetup.com account to import information about past workshops you have attended.</p>
-        <%= link_to 'Connect to Meetup.com', "/auth/meetup", class: 'btn' %>
-    <% end %>
-  </div>
-<% end %>
-
+<%= render 'form', button_text: 'Update', is_registered: true %>
 
 <p><%= link_to "Delete my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %></p>
 
