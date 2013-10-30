@@ -6,6 +6,7 @@ describe User do
   it { should have_many(:rsvps) }
   it { should have_many(:events).through(:rsvps) }
   it { should have_one(:profile) }
+  it { should belong_to(:chapter) }
 
   it { should allow_mass_assignment_of(:first_name) }
   it { should allow_mass_assignment_of(:last_name) }
