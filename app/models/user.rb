@@ -9,8 +9,9 @@ class User < ActiveRecord::Base
   has_many :events, through: :rsvps
 
   has_one :profile, dependent: :destroy
+  has_and_belongs_to_many :chapters
 
-  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :time_zone
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :time_zone, :chapter_ids
 
   validates_presence_of :first_name, :last_name
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
