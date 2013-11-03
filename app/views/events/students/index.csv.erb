@@ -1,6 +1,6 @@
-<% headers = ['Student Name', 'Class Level', 'Operating System', 'Occupation'] -%>
+<% headers = ['Student Name', 'Class Level', 'Operating System', 'Occupation', 'Gender'] -%>
 <%= CSV.generate_line headers %>
 <% @students.each do |rsvp| -%>
-<% row = [rsvp.user.full_name, rsvp.class_level, rsvp.operating_system.name, rsvp.job_details] -%>
+<% row = [rsvp.user.full_name, rsvp.class_level, rsvp.operating_system.name, rsvp.job_details, rsvp.user.gender] -%>
 <%= CSV.generate_line row %>
 <% end -%>

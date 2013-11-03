@@ -1,9 +1,14 @@
-<h2>Sign up</h2>
+<div class="row-fluid">
+  <div class="span6">
+    <h2>Sign up</h2>
 
-<h3>Why do I need to sign up?</h3>
-<p>Bridge Troll needs to send you a couple of emails: RSVP confirmations, upcoming workshop reminders, etc. We may also send you follow up surveys after the workshop to help us learn how to help you better.</p>
+    <h3>Why do I need to sign up?</h3>
+    <p>Bridge Troll needs to send you a couple of emails: RSVP confirmations, upcoming workshop reminders, etc. We may also
+      send you follow up surveys after the workshop to help us learn how to help you better.</p>
 
-<div id="sign-up">
-  <%= render 'form', button_text: 'Sign up', is_registered: false %>
-	<%= render :partial => "devise/shared/links" %>
+    <div id="sign-up">
+      <%= render 'form', button_text: 'Sign up', is_registered: false %>
+      <%= render :partial => "devise/shared/links" %>
+    </div>
+  </div>
 </div>

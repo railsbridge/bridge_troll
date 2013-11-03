@@ -21,6 +21,21 @@
   </div>
 
   <div>
+    <%= f.label :gender %>
+    <%= f.text_field :gender %>
+  </div>
+
+  <div>
+    <%= f.label :chapter_ids, 'Chapters' %>
+    <%= f.collection_select(:chapter_ids, Chapter.all, :id, :name, {}, {multiple: true}) %>
+  </div>
+
+  <div>
+    <%= f.label :time_zone %>
+    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
+  </div>
+
+  <div>
     <%= f.label :password %>
     <%= f.password_field :password %>
     <% if is_registered %>
@@ -41,15 +56,7 @@
     </div>
   <% end %>
 
-  <div>
-    <%= f.label :chapter_ids, 'Chapters' %>
-    <%= f.collection_select(:chapter_ids, Chapter.all, :id, :name, {}, {multiple: true}) %>
-  </div>
 
-  <div>
-    <%= f.label :time_zone %>
-    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
-  </div>
 
   <div><%= f.submit button_text, class: 'btn btn-submit' %></div>
   <% if is_registered %>

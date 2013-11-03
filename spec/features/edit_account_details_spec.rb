@@ -16,6 +16,14 @@ describe "Profile" do
     @user.reload.first_name.should eq("Stewie")
   end
 
+  it "allows user to change their gender" do
+    page.should have_field("Gender", with: @user.gender)
+    fill_in("First/Given Name", with: "happy")
+    click_button "Update"
+    page.should have_content("You updated your account successfully.")
+    @user.reload.first_name.should eq("happy")
+  end
+
   context "when changing your password" do
     it "is successful when password matches confirmation" do
       fill_in("Password", match: :first, with: "Blueberry23")

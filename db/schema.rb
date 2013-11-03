@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131101060018) do
+ActiveRecord::Schema.define(:version => 20131103023331) do
 
   create_table "chapters", :force => true do |t|
     t.string   "name"
@@ -200,6 +200,7 @@ ActiveRecord::Schema.define(:version => 20131101060018) do
     t.integer  "meetup_id"
     t.string   "time_zone"
     t.boolean  "meetup_prompt_dismissed"
+    t.string   "gender"
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
