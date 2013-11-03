@@ -1,11 +1,13 @@
 <%= content_for(:header_text, @event.title) %>
 
-<h2>RSVP</h2>
+<div class="span8">
+  <h2>RSVP</h2>
 
-<h5>AWESOME - you're almost signed up!</h5>
+  <h3>AWESOME - you're almost signed up!</h3>
 
-<%= render 'form' %>
+  <%= render 'form' %>
 
-<%= render 'shared/actions', links: [
-  ['Back', events_path]
-] %>
+  <%= render 'shared/actions', links: [
+    ['Back', events_path]
+  ] %>
+</div>

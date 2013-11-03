@@ -58,10 +58,6 @@ p {
   font-size: 15px;
 }
 
-textarea {
-  width: 500px;
-}
-
 .field {
   margin-bottom: 20px;
 }
@@ -236,3 +232,8 @@ td.wide {
 .container::before,
 .container::after { display: block; }
 
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0;
+  padding: 0;
+}
