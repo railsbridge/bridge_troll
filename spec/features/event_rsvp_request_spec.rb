@@ -34,6 +34,22 @@ describe 'creating or editing an rsvp' do
     it "should show option for any class level" do
       page.should have_content "No preference"
     end
+
+    context "with a valid RSVP" do
+      before do
+        fill_in "rsvp_subject_experience", with: "asdfasdfasdfasd"
+        fill_in "rsvp_teaching_experience", with: "asdfasdfasdfasd"
+        choose "Blue Totally New to Programming"
+      end
+
+      it "should allow the user to update their gender" do
+        expect(page.find("#user_gender").value).to eq(@user.gender)
+        fill_in "user_gender", with: "human"
+        click_on "Submit"
+        visit edit_user_registration_path
+        expect(page.find("#user_gender").value).to eq("human")
+      end
+    end
   end
 
   context "given an rsvp with childcare info" do

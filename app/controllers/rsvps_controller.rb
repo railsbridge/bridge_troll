@@ -29,6 +29,7 @@ class RsvpsController < ApplicationController
       end
 
       if @rsvp.save
+        @rsvp.user.update_attributes(gender: params[:user][:gender])
         set_rsvp_sessions
         RsvpMailer.confirmation(@rsvp).deliver
         save_dietary_restrictions(@rsvp, params[:dietary_restrictions])
@@ -46,6 +47,7 @@ class RsvpsController < ApplicationController
 
   def update
     if @rsvp.update_attributes(params[:rsvp])
+      @rsvp.user.update_attributes(gender: params[:user][:gender])
       save_dietary_restrictions(@rsvp,  params[:dietary_restrictions])
       set_rsvp_sessions
       redirect_to @event

@@ -57,28 +57,35 @@ describe RsvpsController do
         @rsvp_params = extract_rsvp_params build(:rsvp, event: @event)
       end
 
+      def do_request
+        post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
+      end
+      
       it "should allow the user to newly volunteer for an event" do
-        expect {
-          post :create, event_id: @event.id, rsvp: @rsvp_params
-        }.to change { Rsvp.count }.by(1)
+        expect { do_request }.to change { Rsvp.count }.by(1)
       end
 
       it "redirects to the event page related to the rsvp with flash confirmation" do
-        post :create, event_id: @event.id, rsvp: @rsvp_params
+        do_request
         response.should redirect_to(event_path(@event))
         flash[:notice].should match(/thanks/i)
       end
 
       it "should create a rsvp that persists and is valid" do
-        post :create, event_id: @event.id, rsvp: @rsvp_params
+        do_request
         assigns[:rsvp].should be_persisted
         assigns[:rsvp].should be_valid
       end
 
       it "should set the new rsvp with the selected event, and current user" do
-        post :create, event_id: @event.id, rsvp: @rsvp_params
+        do_request
         assigns[:rsvp].user_id.should == assigns[:current_user].id
         assigns[:rsvp].event_id.should == @event.id
+      end
+
+      it "should update the user's gender" do
+        do_request
+        expect(@user.reload.gender).to eq("human")
       end
 
       context "when the event is not full" do
@@ -93,7 +100,7 @@ describe RsvpsController do
           before do
             @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event, role: Role::STUDENT)
             expect {
-              post :create, event_id: @event.id, rsvp: @rsvp_params
+              post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
             }.to change(Rsvp, :count).by(1)
           end
 
@@ -118,7 +125,7 @@ describe RsvpsController do
           before do
             @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event, role: Role::STUDENT)
             expect {
-              post :create, event_id: @event.id, rsvp: @rsvp_params
+              post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
             }.to change(Rsvp, :count).by(1)
           end
 
@@ -136,7 +143,7 @@ describe RsvpsController do
               sign_in create(:user)
 
               expect {
-                post :create, event_id: @event.id, rsvp: @rsvp_params
+                post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
               }.to change(Rsvp, :count).by(1)
             end
 
@@ -153,7 +160,7 @@ describe RsvpsController do
 
           it "adds the volunteer as confirmed" do
             expect {
-              post :create, event_id: @event.id, rsvp: @rsvp_params
+              post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
             }.to change(Rsvp, :count).by(1)
             Rsvp.last.waitlist_position.should be_nil
           end
@@ -164,7 +171,7 @@ describe RsvpsController do
         context "when childcare_needed is unchecked" do
           before do
             post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
-              needs_childcare: '0', childcare_info: 'goodbye, cruel world')
+              needs_childcare: '0', childcare_info: 'goodbye, cruel world'), user: { gender: "human" }
           end
 
           it "should clear childcare_info" do
@@ -184,7 +191,7 @@ describe RsvpsController do
             post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
               needs_childcare: '1',
               childcare_info: child_info
-            )
+            ), user: { gender: "human" }
             assigns[:rsvp].childcare_info.should == child_info
           end
         end
@@ -194,7 +201,8 @@ describe RsvpsController do
         context "when a dietary restriction is checked" do
           it "adds a dietary restriction" do
             expect {
-              post :create, event_id: @event.id, rsvp: @rsvp_params, dietary_restrictions: { vegan: "1" }
+              post :create, event_id: @event.id, rsvp: @rsvp_params,
+                   dietary_restrictions: { vegan: "1" }, user: { gender: "human" }
             }.to change { DietaryRestriction.count }.by(1)
 
             Rsvp.last.dietary_restrictions.map(&:restriction).should == ["vegan"]
@@ -214,7 +222,7 @@ describe RsvpsController do
 
       it "does not create any new rsvps" do
         expect {
-          post :create, event_id: @event.id, rsvp: @rsvp_params
+          post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
         }.to_not change { Rsvp.count }
       end
     end
@@ -231,13 +239,13 @@ describe RsvpsController do
     end
 
     it 'updates rsvps owned by the logged in user' do
-      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: {subject_experience: 'Abracadabra'}
+      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: {subject_experience: 'Abracadabra'}, user: { gender: "human" }
       response.should redirect_to(@event)
       @my_rsvp.reload.subject_experience.should == 'Abracadabra'
     end
 
     it 'does not update rsvps owned by other users' do
-      put :update, event_id: @event.id, id: @other_rsvp.id, rsvp: {subject_experience: 'Abracadabra'}
+      put :update, event_id: @event.id, id: @other_rsvp.id, rsvp: {subject_experience: 'Abracadabra'}, user: { gender: "human" }
       response.should_not be_success
       @other_rsvp.reload.subject_experience.should_not == 'Abracadabra'
     end

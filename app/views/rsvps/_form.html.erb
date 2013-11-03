@@ -69,6 +69,13 @@
   </div>
 
   <div class="field">
+    <%= fields_for current_user do |ff| %>
+      <%= ff.label :gender %>
+      <%= ff.text_field :gender %>
+    <% end %>
+  </div>
+
+  <div class="field">
     <p>The food's on us. Let us know if you have any dietary restrictions.</p>
     <%= render partial: 'dietary_restrictions', locals: { f: f } %>
   </div>
