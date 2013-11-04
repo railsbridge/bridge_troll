@@ -9,14 +9,14 @@
     <% end %>
   <% end %>
 
-  <div>
+  <div class='field'>
     <%= f.label :other, "Other Skills" %>
-    <%= f.text_area :other, :rows => 3 %>
+    <%= f.text_area :other, :rows => 3, :class => 'input-xxlarge' %>
   </div>
 
-  <div>
+  <div class='field'>
     <%= f.label :bio %>
-    <%= f.text_area :bio, :rows => 3 %>
+    <%= f.text_area :bio, :rows => 3, :class => 'input-xxlarge' %>
   </div>
 
   <div><%= f.submit "Update", class: 'btn btn-submit' %></div>

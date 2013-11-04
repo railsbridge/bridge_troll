@@ -5,37 +5,37 @@
     <%= hidden_field_tag :return_to, params[:return_to] %>
   <% end %>
 
-  <div>
+  <div class='field'>
     <%= f.label :first_name, "First/Given Name" %>
     <%= f.text_field :first_name %>
   </div>
 
-  <div>
+  <div class='field'>
     <%= f.label :last_name, "Last/Family Name" %>
     <%= f.text_field :last_name %>
   </div>
 
-  <div>
+  <div class='field'>
     <%= f.label :email %>
     <%= f.email_field :email %>
   </div>
 
-  <div>
+  <div class='field'>
     <%= f.label :gender %>
     <%= f.text_field :gender %>
   </div>
 
-  <div>
+  <div class='field'>
     <%= f.label :chapter_ids, 'Chapters' %>
-    <%= f.collection_select(:chapter_ids, Chapter.all, :id, :name, {}, {multiple: true}) %>
+    <%= f.collection_check_boxes(:chapter_ids, Chapter.all, :id, :name, {item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div'}) %>
   </div>
 
-  <div>
+  <div class='field'>
     <%= f.label :time_zone %>
     <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
   </div>
 
-  <div>
+  <div class='field'>
     <%= f.label :password %>
     <%= f.password_field :password %>
     <% if is_registered %>
@@ -43,20 +43,18 @@
     <% end %>
   </div>
 
-  <div>
+  <div class='field'>
     <%= f.label :password_confirmation %>
     <%= f.password_field :password_confirmation %>
   </div>
 
   <% if is_registered %>
-    <div>
+    <div class='field'>
       <%= f.label :current_password %>
       <%= f.password_field :current_password %>
       <span class="help-block">(we need your current password to confirm your changes if you are updating your password or your email address)</span>
     </div>
   <% end %>
-
-
 
   <div><%= f.submit button_text, class: 'btn btn-submit' %></div>
   <% if is_registered %>
