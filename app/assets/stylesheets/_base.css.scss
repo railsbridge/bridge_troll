@@ -95,6 +95,15 @@ td.wide {
       background: $green-color;
     }
   }
+
+  &.btn-danger {
+    background: $red-color;
+
+    &:hover {
+      color: white;
+      background: lighten($red-color, 20%);
+    }
+  }
 }
 
 .remove-organizer form {
