@@ -3,18 +3,7 @@
 
 <h2>Class Levels for <%= (@event.course || Course::RAILS).title %></h2>
 
-<div id="level_buttons">
-  <% (@event.course || Course::RAILS).levels.each do |level| %>
-    <div class="class_level_line">
-      <label class='class_level'>
-        <span class="<%= "label btn-#{level[:color]}" %>"><%= level[:color].capitalize %></span>
-        <%= level[:title] %>
-      </label>
-      <ul>
-      <% level[:popover_content].each do |desc| %>
-        <li><%= desc %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-</div>
+<%= render partial: 'rsvps/class_levels', locals: {
+  levels: (@event.course || Course::RAILS).levels,
+  show_no_preference: false
+} %>

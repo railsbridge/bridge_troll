@@ -2,7 +2,9 @@
   <% levels.each do |level| %>
     <div class="class_level_line">
       <label class='class_level' >
-        <%= f.radio_button :class_level, level[:level] %>
+        <% if defined?(f) %>
+          <%= f.radio_button :class_level, level[:level] %>
+        <% end %>
         <span class="<%= "label btn-#{level[:color]}" %>"><%= level[:color].capitalize %></span>
         <%= level[:title] %>
         <ul>
@@ -16,7 +18,9 @@
   <% if show_no_preference %>
     <div class="class_level_line">
       <label>
-        <%= f.radio_button :class_level, 0 %>
+        <% if defined?(f) %>
+          <%= f.radio_button :class_level, 0 %>
+        <% end %>
         <span class="label">Any</span>
         No preference
       </label>

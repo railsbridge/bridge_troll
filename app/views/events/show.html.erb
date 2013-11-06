@@ -24,10 +24,12 @@
     <% unless @event.course == nil %>
       <div id="course">
         <h2>Course</h2>
-          <p>
-            <%= @event.course.description.html_safe %>
-            <%= link_to "Click here for more information about class levels in this course!", levels_event_path(@event) %>
-          </p>
+        <p>
+          <%= @event.course.description.html_safe %>
+        </p>
+        <p>
+          <%= link_to "Click here for more information about class levels in this course!", levels_event_path(@event) %>
+        </p>
       </div>
     <% end %>
     <div class="details">

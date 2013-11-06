@@ -34,31 +34,31 @@ describe "the individual event page" do
       end
     end
 
-    it "does not display the Edit link" do
+    it "does not display the Edit link or public email" do
       visit event_path(@event)
       page.should_not have_content("Edit")
-    end
-
-    it "does not display the event public email" do
-      visit event_path(@event)
       page.should_not have_content("public_email@example.org")
     end
 
-    it "displays a course if course is chosen" do
-      visit event_path(@event)
-      page.should have_content("The focus will be on ")
+    context "when a course is chosen" do
+      it "displays a course and has a link to get the course level descriptions" do
+        visit event_path(@event)
+        page.should have_content("The focus will be on ")
+
+        click_link "Click here for more information about class levels in this course!"
+        page.should have_content("Class Levels for")
+      end
     end
 
-    it "does not display a course if course is nil" do
-      #destroy course to simulate old events
-      @event.update_attributes(:course_id => nil)
-      @event.save!
-      visit event_path(@event)
-      page.should_not have_content("The focus will be on ")
+    context "when a course is not chosen" do
+      before do
+        @event.update_attributes(:course_id => nil)
+      end
 
-      #put course back for following tests
-      @event.update_attributes(:course_id => Course::RAILS.id)
-      @event.save!
+      it "does not display a course if course is nil" do
+        visit event_path(@event)
+        page.should_not have_content("The focus will be on ")
+      end
     end
 
     describe 'RSVPing', js: true do
