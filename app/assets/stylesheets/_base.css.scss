@@ -95,6 +95,15 @@ td.wide {
       background: $green-color;
     }
   }
+
+  &.btn-danger {
+    background: $red-color;
+
+    &:hover {
+      color: white;
+      background: lighten($red-color, 20%);
+    }
+  }
 }
 
 .remove-organizer form {
@@ -217,6 +226,13 @@ td.wide {
 .row-long-fields {
   input {
     width: 650px;
+  }
+}
+
+.checkbox_row {
+  label {
+    display: inline;
+    margin-left: 5px;
   }
 }
 

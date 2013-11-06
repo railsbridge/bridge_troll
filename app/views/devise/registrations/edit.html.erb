@@ -4,8 +4,8 @@
 
 <%= render 'form', button_text: 'Update', is_registered: true %>
 
-<p><%= link_to "Delete my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %></p>
+<p><%= link_to "Delete my account", registration_path(resource_name), data: { confirm: "This will delete your Bridgetroll account forever. Are you sure?" }, method: :delete, class: 'btn btn-danger' %></p>
 
-<%= link_to "Back", :back %>
-
-
+<%= render 'shared/actions', links: [
+  ['Back', :back]
+] %>
