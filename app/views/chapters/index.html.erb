@@ -17,7 +17,7 @@
         <td>
           <%= link_to 'Edit', edit_chapter_path(chapter), class: :btn %>
           <% if chapter.locations_count == 0 %>
-            <%= link_to 'Destroy', chapter, confirm: 'Are you sure?', method: :delete, class: :btn %>
+            <%= link_to 'Destroy', chapter, data: { confirm: 'Are you sure?' }, method: :delete, class: :btn %>
           <% end %>
         </td>
       <% end %>
