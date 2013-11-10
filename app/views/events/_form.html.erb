@@ -93,9 +93,18 @@
         <%= f.text_area :details, :rows => 14, :class => "input-xxlarge"%>
       </div>
 
+      <h3>Post-RSVP Details</h3>
+      <p>The following details will be included in the confirmation & reminder emails
+      and will appear at the bottom of the event detail page <em>after</em> the student or
+      volunteer has signed up.</p>
       <div class="field">
         <%= f.label :volunteer_details, 'Volunteer Details' %>
         <%= f.text_area :volunteer_details, :rows => 4, :class => "input-xxlarge"%>
+      </div>
+
+      <div class="field">
+        <%= f.label :student_details, 'Student Details' %>
+        <%= f.text_area :student_details, :rows => 4, :class => "input-xxlarge"%>
       </div>
 
       <% if @event.new_record? %>
@@ -105,7 +114,7 @@
 
         <p>Pay particular attention to the <a href="https://github.com/railsbridge/docs/wiki/Workshop-Planning-Tasks">Workshop Planning Tasks</a> page. You're already posting an event on Bridge Troll, which is a thing on that page!</a></p>
 
-        <p><b>If you post the event on Meetup</b>, please make only ONE event <i>(RailsBridge workshop at YOUR_VENUE)</i> and set the RSVP limit to 1 <i>(yourself)</i>. This event should be for publicity only (people who are a member of the Meetup group will get emailed about it) &mdash; you should direct attendees to do their actual registration on this Bridge Troll event.</p>
+        <p><b>If you post the event on Meetup for advertising</b>, please make only ONE event <i>(RailsBridge workshop at YOUR_VENUE)</i> and set the RSVP limit to 1 <i>(yourself)</i>. This event should be for publicity only (people who are a member of the Meetup group will get emailed about it) &mdash; you should direct attendees to do their actual registration on this Bridge Troll event.</p>
       <% end %>
 
       <div class="actions">

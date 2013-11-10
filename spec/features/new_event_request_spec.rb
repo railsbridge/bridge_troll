@@ -24,6 +24,10 @@ describe "New Event" do
     page.should have_field("Volunteer Details")
   end
 
+  it "should have 'Student Details'" do
+    page.should have_field("Student Details")
+  end
+
   context 'after clicking "Add a session"', js: true do
     before { find('span', text: 'Add a session').click }
 

@@ -253,6 +253,8 @@ class Event < ActiveRecord::Base
 
   def set_defaults
     self.details ||= Event::DEFAULT_DETAILS
+    self.student_details ||= Event::DEFAULT_STUDENT_DETAILS
+    self.volunteer_details ||= Event::DEFAULT_VOLUNTEER_DETAILS
   end
 
   DEFAULT_DETAILS = <<-END
@@ -267,5 +269,17 @@ class Event < ActiveRecord::Base
 <h2>Childcare</h2>
 
 <h2>Afterparty</h2>
+  END
+
+  DEFAULT_STUDENT_DETAILS = <<-END
+All students need to bring their own laptop and powercord.
+
+Since bandwidth is usually at a premium at the Installfest, please download RailsInstaller (for PCs and most Mac installations) or XCode (if you're going that route).
+
+You can find more information on what to download by getting started with the Installfest instructions: http://installfest.railsbridge.org/installfest/
+  END
+
+  DEFAULT_VOLUNTEER_DETAILS = <<-END
+Be sure to review the curriculum before the workshop. We have several curricula available at http://docs.railsbridge.org/docs/.
   END
 end
