@@ -40,6 +40,12 @@ describe "the individual event page" do
       page.should_not have_content("public_email@example.org")
     end
 
+    it "does not display the Volunteer or Student details" do
+      visit event_path(@event)
+      expect(page).not_to have_content("I am some details for volunteers.")
+      expect(page).not_to have_content("I am some details for students.")
+    end
+
     context "when a course is chosen" do
       it "displays a course and has a link to get the course level descriptions" do
         visit event_path(@event)
@@ -145,14 +151,29 @@ describe "the individual event page" do
       end
     end
 
-    context "when user has rsvp'd to event" do
+    context "when a volunteer has rsvp'd to event" do
       before(:each) do
         create(:rsvp, event: @event, user: @user)
+        visit event_path(@event)
       end
 
       it "should allow user to cancel their RSVP" do
-        visit event_path(@event)
         page.should have_link("Cancel RSVP")
+      end
+
+      it "allows user to see volunteer details" do
+        expect(page).to have_content("I am some details for volunteers.")
+      end
+    end
+
+    context "when a student has rsvp'd to an event" do
+      before(:each) do
+        create(:student_rsvp, event: @event, user: @user)
+        visit event_path(@event)
+      end
+
+      it "allows user to see student details" do
+        expect(page).to have_content("I am some details for students.")
       end
     end
   end

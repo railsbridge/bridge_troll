@@ -29,6 +29,8 @@ FactoryGirl.define do
     student_rsvp_limit 100
     location
     course_id Course::RAILS.id
+    volunteer_details "I am some details for volunteers."
+    student_details "I am some details for students."
 
     factory :event do
       before(:create) do |event, evaluator|
