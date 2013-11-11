@@ -44,8 +44,17 @@ describe LocationsController do
       it "should be able to create a new location" do
         get :new
         response.should be_success
-        
-        expect { post :create, location: {name: "Fabulous Location", address_1: "123 Awesome Lane", city: "Awesome Town"} }.to change(Location, :count).by(1)
+
+        chapter = create(:chapter)
+        location_params = {
+          name: "Fabulous Location",
+          address_1: "123 Awesome Lane",
+          city: "Awesome Town",
+          chapter_id: chapter.id
+        }
+
+        expect { post :create, location: location_params }.to change(Location, :count).by(1)
+        Location.last.chapter.should == chapter
       end
 
       it "should be able to edit an location" do
