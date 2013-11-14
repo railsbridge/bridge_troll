@@ -4,7 +4,15 @@ class RsvpsController < ApplicationController
   before_filter :load_rsvp, except: [:volunteer, :learn, :create]
 
   def volunteer
-    @rsvp = @event.rsvps.build
+    new_rsvp_attributes = {}
+    last_rsvp = current_user.rsvps.includes(:event).order('events.ends_at').last
+    if last_rsvp
+      [:subject_experience, :teaching_experience, :job_details].each do |field|
+        new_rsvp_attributes[field] = last_rsvp.send(field)
+      end
+    end
+
+    @rsvp = @event.rsvps.build(new_rsvp_attributes)
     @rsvp.role = Role::VOLUNTEER
     render :new
   end

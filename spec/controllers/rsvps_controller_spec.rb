@@ -21,6 +21,26 @@ describe RsvpsController do
         get :volunteer, event_id: @event.id
         assigns(:rsvp).role.should == Role::VOLUNTEER
       end
+
+      describe "when the user has previously volunteered" do
+        before do
+          old_event = create(:event)
+          @old_rsvp = create(:rsvp,
+                 user: @user,
+                 event: old_event,
+                 subject_experience: 'I have made many websites',
+                 teaching_experience: 'I have taught many websites',
+                 job_details: 'Software Engineer'
+          )
+        end
+
+        it "creates a new RSVP with detail sfrom their previous RSVPs" do
+          get :volunteer, event_id: @event.id
+          assigns(:rsvp).subject_experience.should == @old_rsvp.subject_experience
+          assigns(:rsvp).teaching_experience.should == @old_rsvp.teaching_experience
+          assigns(:rsvp).job_details.should == @old_rsvp.job_details
+        end
+      end
     end
 
     describe "#learn" do
