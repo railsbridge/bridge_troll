@@ -68,6 +68,13 @@ class Rsvp < ActiveRecord::Base
     VolunteerPreference::NEITHER.id
   end
 
+  def volunteer_carryover_attributes
+    [:subject_experience, :teaching_experience, :job_details].inject({}) do |hsh, field|
+      hsh[field] = send(field)
+      hsh
+    end
+  end
+
   def formatted_preference
     volunteer_preference.title
   end
