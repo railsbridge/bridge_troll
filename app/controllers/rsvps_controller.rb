@@ -2,6 +2,7 @@ class RsvpsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :assign_event
   before_filter :load_rsvp, except: [:volunteer, :learn, :create]
+  before_filter :redirect_if_rsvp_exists, only: [:volunteer, :learn]
 
   def volunteer
     new_rsvp_attributes = {}
@@ -95,6 +96,10 @@ class RsvpsController < ApplicationController
       redirect_to events_path, notice: 'You are not signed up for this event'
     end
     false
+  end
+
+  def redirect_if_rsvp_exists
+    redirect_to @event if @event.rsvps.where(user_id: current_user.id).present?
   end
 
   def assign_event

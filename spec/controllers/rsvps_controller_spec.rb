@@ -49,6 +49,20 @@ describe RsvpsController do
         assigns(:rsvp).role.should == Role::STUDENT
       end
     end
+
+    describe "when there is an existing RSVP for this user" do
+      before do
+        @rsvp = create(:rsvp, user: @user, event: @event)
+      end
+
+      it 'redirects to the event page when trying to create a new RSVP' do
+        get :volunteer, event_id: @event.id
+        response.should redirect_to(@event)
+
+        get :learn, event_id: @event.id
+        response.should redirect_to(@event)
+      end
+    end
   end
 
   describe "#create" do
