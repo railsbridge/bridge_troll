@@ -3,7 +3,7 @@ class Rsvp < ActiveRecord::Base
 
   attr_accessible :subject_experience, :teaching, :taing, :teaching_experience, :teaching_experience,
                   :childcare_info, :operating_system_id, :job_details, :class_level, :dietary_info,
-                  :needs_childcare
+                  :needs_childcare, :event_session_ids
 
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
   belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id
@@ -17,6 +17,7 @@ class Rsvp < ActiveRecord::Base
   delegate :historical?, to: :event, allow_nil: true
 
   has_many :rsvp_sessions, dependent: :destroy
+  has_many :event_sessions, through: :rsvp_sessions
   has_many :dietary_restrictions, dependent: :destroy
   has_many :event_email_recipients, foreign_key: :recipient_rsvp_id, dependent: :destroy
 
@@ -86,19 +87,6 @@ class Rsvp < ActiveRecord::Base
   def promote_from_waitlist!
     update_attribute(:waitlist_position, nil)
     RsvpMailer.off_waitlist(self).deliver
-  end
-
-  def set_attending_sessions session_ids=nil
-    rsvp_sessions.destroy_all
-    if role == Role::STUDENT
-      session_ids = event.event_sessions.map(&:id)
-    end
-    if event.event_sessions.length == 1
-      session_ids = [event.event_sessions.first.id]
-    end
-    session_ids.each do |session_id|
-      rsvp_sessions.create(event_session_id: session_id)
-    end
   end
 
   def needs_childcare?

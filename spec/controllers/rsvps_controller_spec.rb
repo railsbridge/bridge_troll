@@ -132,7 +132,7 @@ describe RsvpsController do
 
         describe "and a student rsvps" do
           before do
-            @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event, role: Role::STUDENT)
+            @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event)
             expect {
               post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
             }.to change(Rsvp, :count).by(1)
@@ -144,6 +144,53 @@ describe RsvpsController do
 
           it "gives a notice that does not mention the waitlist" do
             flash[:notice].should_not match(/waitlist/i)
+          end
+        end
+      end
+
+      describe "session attendance" do
+        context "when there is only one session" do
+          it 'assigns the user to the session' do
+            expect { do_request }.to change(Rsvp, :count).by(1)
+            Rsvp.last.event_sessions.tap do |sessions|
+              sessions.count.should == 1
+              sessions.map(&:id).should == @event.event_sessions.map(&:id)
+            end
+          end
+        end
+
+        context "when there are multiple sessions" do
+          before do
+            create(:event_session, event: @event)
+            @event.reload
+          end
+
+          context "a student" do
+            before do
+              @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event)
+            end
+
+            it 'is assigned as attending all sessions' do
+              expect { do_request }.to change(Rsvp, :count).by(1)
+              Rsvp.last.event_sessions.tap do |sessions|
+                sessions.count.should == 2
+                sessions.map(&:id).should == @event.event_sessions.map(&:id)
+              end
+            end
+          end
+
+          context "a volunteer" do
+            before do
+              @rsvp_params[:event_session_ids] = [@event.event_sessions.first.id]
+            end
+
+            it 'is assigned as attending only the desired sessions' do
+              expect { do_request }.to change(Rsvp, :count).by(1)
+              Rsvp.last.event_sessions do |sessions|
+                sessions.count.should == 1
+                sessions.map(&:id).should == @event.event_sessions.map(&:id)
+              end
+            end
           end
         end
       end

@@ -68,12 +68,11 @@
 
       <% if @rsvp.event.event_sessions.length > 1 %>
         <p class="question">Sessions you're attending</p>
-        <% @rsvp.event.event_sessions.order('starts_at ASC').each do |session| %>
-          <%= label_tag do %>
-            <%= check_box_tag 'rsvp_sessions[]', session.id, @rsvp.new_record? ? true : @rsvp.rsvp_sessions.where(event_session_id: session.id).any? %>
-            <%= session.name  %>: <%= formatted_session_date(session) %> <%= formatted_session_timerange(session) %>
-          <% end %>
-        <% end %>
+        <%= f.collection_check_boxes(:event_session_ids,
+                                     @event.event_sessions.order('starts_at ASC'),
+                                     :id,
+                                     -> (session) { "#{session.name}: #{formatted_session_date(session)} #{formatted_session_timerange(session)}" },
+                                     {item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div'}) %>
       <% end %>
     <% end %>
 

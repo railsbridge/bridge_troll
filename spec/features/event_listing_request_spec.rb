@@ -153,8 +153,8 @@ describe "the event listing page" do
         check 'Teaching'
         choose('rsvp_class_level_0')
 
-        page.first("input[name='rsvp_sessions[]'][type='checkbox'][value='#{@session1.id}']").should be_checked
-        page.first("input[name='rsvp_sessions[]'][type='checkbox'][value='#{@session2.id}']").should be_checked
+        page.first("input[name='rsvp[event_session_ids][]'][type='checkbox'][value='#{@session1.id}']").should be_checked
+        page.first("input[name='rsvp[event_session_ids][]'][type='checkbox'][value='#{@session2.id}']").should be_checked
 
         uncheck "Curriculum"
 

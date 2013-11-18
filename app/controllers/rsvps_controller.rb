@@ -9,16 +9,19 @@ class RsvpsController < ApplicationController
 
     @rsvp = @event.rsvps.build(last_rsvp ? last_rsvp.volunteer_carryover_attributes : {})
     @rsvp.role = Role::VOLUNTEER
+    @rsvp.event_session_ids = @event.event_sessions.to_a.map(&:id)
     render :new
   end
 
   def learn
     @rsvp = @event.rsvps.build
     @rsvp.role = Role::STUDENT
+    @rsvp.event_session_ids = @event.event_sessions.to_a.map(&:id)
     render :new
   end
 
   def create
+    enforce_session_attendance
     @rsvp = Rsvp.new(params[:rsvp])
     @rsvp.event = @event
     @rsvp.user = current_user
@@ -33,7 +36,6 @@ class RsvpsController < ApplicationController
 
       if @rsvp.save
         @rsvp.user.update_attributes(gender: params[:user][:gender])
-        set_rsvp_sessions
         RsvpMailer.confirmation(@rsvp).deliver
         save_dietary_restrictions(@rsvp, params[:dietary_restrictions])
         notice_message = 'Thanks for signing up!'
@@ -49,10 +51,10 @@ class RsvpsController < ApplicationController
   end
 
   def update
+    enforce_session_attendance
     if @rsvp.update_attributes(params[:rsvp])
       @rsvp.user.update_attributes(gender: params[:user][:gender])
       save_dietary_restrictions(@rsvp,  params[:dietary_restrictions])
-      set_rsvp_sessions
       redirect_to @event
     else
       render :edit
@@ -79,9 +81,13 @@ class RsvpsController < ApplicationController
     end
   end
 
-  def set_rsvp_sessions
-    session_ids = params[:rsvp_sessions].present? ? params[:rsvp_sessions].map(&:to_i) : []
-    @rsvp.set_attending_sessions(session_ids)
+  def enforce_session_attendance
+    if params[:rsvp][:role_id].to_i == Role::STUDENT.id
+      params[:rsvp][:event_session_ids] = @event.event_sessions.map(&:id)
+    end
+    if @event.event_sessions.length == 1
+      params[:rsvp][:event_session_ids] = [@event.event_sessions.first.id]
+    end
   end
 
   def load_rsvp
