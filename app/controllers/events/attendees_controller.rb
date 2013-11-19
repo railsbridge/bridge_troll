@@ -3,6 +3,10 @@ class Events::AttendeesController < ApplicationController
 
   def index
     @rsvps = @event.attendee_rsvps
+    respond_to do |format|
+      format.csv { render csv: @rsvps }
+      format.html { }
+    end
   end
 
   def update

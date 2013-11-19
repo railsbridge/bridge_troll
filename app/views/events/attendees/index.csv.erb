@@ -1,0 +1,6 @@
+<% headers = ['Name', 'Role', 'Gender'] -%>
+<%= CSV.generate_line headers %>
+<% @rsvps.each do |rsvp| -%>
+  <% row = [rsvp.user.full_name, rsvp.role.name] -%>
+  <%= CSV.generate_line row %>
+<% end -%>

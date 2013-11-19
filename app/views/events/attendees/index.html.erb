@@ -5,6 +5,12 @@
 
 <section class='organizer-dashboard-section'>
 <%= render partial: 'shared/organizer_action', locals: {
+  path: event_attendees_path(@event, format: :csv),
+  icon: 'icon-download',
+  text: 'Download Attendee Names CSV',
+  style: :inline
+} %>
+<%= render partial: 'shared/organizer_action', locals: {
   path: event_students_path(@event, format: :csv),
   icon: 'icon-download',
   text: 'Download Student Details CSV',
