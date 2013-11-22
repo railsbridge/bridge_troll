@@ -2,6 +2,12 @@ class OperatingSystem < ActiveHash::Base
   include ActiveHash::Enum
   self.data = [
     {
+      id: 10,
+      name: 'OSX_MAVERICKS',
+      type: :osx,
+      title: 'Mac OS X - Mavericks (10.9)'
+    },
+    {
       id: 1,
       name: 'OSX_MOUNTAIN_LION',
       type: :osx,
@@ -54,7 +60,7 @@ class OperatingSystem < ActiveHash::Base
       name: 'LINUX_OTHER',
       type: :linux,
       title: 'Linux - Other'
-    },
+    }
   ]
 
   enum_accessor :name
