@@ -35,14 +35,5 @@ describe VolunteersController do
         response.body.should have_content 'Vol3'
       end
     end
-
-    describe 'update' do
-      it "should be able to assign volunteer roles" do
-        put :update, event_id: @event.id, id: @rsvp1.id, volunteer_assignment_id: VolunteerAssignment::TA.id
-        response.should be_success
-
-        @rsvp1.reload.volunteer_assignment.should == VolunteerAssignment::TA
-      end
-    end
   end
 end

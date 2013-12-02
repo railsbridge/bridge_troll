@@ -7,12 +7,6 @@ class VolunteersController < ApplicationController
     @volunteer_rsvps = @event.volunteer_rsvps
   end
 
-  def update
-    rsvp = Rsvp.find(params[:id])
-    rsvp.update_attribute(:volunteer_assignment_id, params[:volunteer_assignment_id])
-    head :ok
-  end
-
   private
 
   def find_event
