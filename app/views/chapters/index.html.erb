@@ -4,6 +4,7 @@
   <tr>
     <th>Name</th>
     <th>Locations</th>
+    <th>Events</th>
     <% if user_signed_in? %>
       <th></th>
     <% end %>
@@ -13,6 +14,7 @@
     <tr>
       <td><%= link_to chapter.name, chapter %></td>
       <td><%= chapter.locations_count %></td>
+      <td><%= chapter.events.count %></td>
       <% if user_signed_in? %>
         <td>
           <%= link_to 'Edit', edit_chapter_path(chapter), class: :btn %>
