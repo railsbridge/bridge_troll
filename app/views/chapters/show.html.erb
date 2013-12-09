@@ -1,5 +1,7 @@
-<h2>Name:</h2>
-<%= @chapter.name %>
+<h1><%= @chapter.name %></h1>
+
+<h2>Events</h2>
+<%= render 'shared/events_table', events: @chapter.events %>
 
 <%= render 'shared/actions', links: [
   ['Edit', edit_chapter_path(@chapter)],

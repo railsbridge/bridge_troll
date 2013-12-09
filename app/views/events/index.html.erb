@@ -17,47 +17,7 @@
 
     <div class='past-events'>
       <h1>Past events</h1>
-      <table class="<%= @past_events.any? ? 'datatable-sorted' : '' %> table table-striped table-bordered table-condensed">
-        <thead>
-        <tr>
-          <th>Title</th>
-          <th class='date'>Date</th>
-          <th>Venue</th>
-          <th>City</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <% if @past_events.empty? %>
-          <tr>
-            <td colspan="5">There are no past events.</td>
-          </tr>
-        <% end %>
-        <% @past_events.each do |event| %>
-          <tr>
-            <td>
-              <%= link_to event.title, event.respond_to?(:url) ? event.url : event %>
-              <% if event.meetup_student_event_id %>
-                <%= link_to "[S]", event.meetup_url(event.meetup_student_event_id), class: 'meetup-link' %>
-              <% end %>
-              <% if event.meetup_volunteer_event_id %>
-                <%= link_to "[V]", event.meetup_url(event.meetup_volunteer_event_id), class: 'meetup-link' %>
-              <% end %>
-            </td>
-            <td>
-              <%= formatted_event_date(event) %>
-            </td>
-            <% if event.location %>
-              <td><%= event.location_name %></td>
-              <td><%= event.location_city_and_state %></td>
-            <% else %>
-              <td></td>
-              <td></td>
-            <% end %>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
+      <%= render 'shared/events_table', events: @past_events %>
 
       <% if user_signed_in? %>
         <% links = [
