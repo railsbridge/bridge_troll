@@ -47,6 +47,9 @@
           <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
           -
           <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
+          <%= event_sessions_form.label :required_for_students do %>
+            <%= event_sessions_form.check_box :required_for_students %> Required for Students?
+          <% end %>
         <% end %>
         <%= f.link_to_add :event_sessions do %>
           <span>Add a session</span>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131109222512) do
+ActiveRecord::Schema.define(:version => 20131210054655) do
 
   create_table "chapters", :force => true do |t|
     t.string   "name"
@@ -57,9 +57,10 @@ ActiveRecord::Schema.define(:version => 20131109222512) do
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.integer  "event_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "name",       :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+    t.string   "name",                                    :null => false
+    t.boolean  "required_for_students", :default => true
   end
 
   add_index "event_sessions", ["event_id", "name"], :name => "index_event_sessions_on_event_id_and_name", :unique => true

@@ -162,6 +162,7 @@ describe RsvpsController do
         context "when there are multiple sessions" do
           before do
             create(:event_session, event: @event)
+            create(:event_session, event: @event, required_for_students: false)
             @event.reload
           end
 
@@ -170,11 +171,11 @@ describe RsvpsController do
               @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event)
             end
 
-            it 'is assigned as attending all sessions' do
+            it 'is assigned as attending all required sessions' do
               expect { do_request }.to change(Rsvp, :count).by(1)
               Rsvp.last.event_sessions.tap do |sessions|
                 sessions.count.should == 2
-                sessions.map(&:id).should == @event.event_sessions.map(&:id)
+                sessions.map(&:id).should == @event.event_sessions.where(required_for_students: true).pluck(:id)
               end
             end
           end

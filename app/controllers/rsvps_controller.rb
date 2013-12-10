@@ -9,14 +9,14 @@ class RsvpsController < ApplicationController
 
     @rsvp = @event.rsvps.build(last_rsvp ? last_rsvp.volunteer_carryover_attributes : {})
     @rsvp.role = Role::VOLUNTEER
-    @rsvp.event_session_ids = @event.event_sessions.to_a.map(&:id)
+    @rsvp.event_session_ids = @event.event_sessions.pluck(:id)
     render :new
   end
 
   def learn
     @rsvp = @event.rsvps.build
     @rsvp.role = Role::STUDENT
-    @rsvp.event_session_ids = @event.event_sessions.to_a.map(&:id)
+    @rsvp.event_session_ids = @event.event_sessions.pluck(:id)
     render :new
   end
 
@@ -83,7 +83,9 @@ class RsvpsController < ApplicationController
 
   def enforce_session_attendance
     if params[:rsvp][:role_id].to_i == Role::STUDENT.id
-      params[:rsvp][:event_session_ids] = @event.event_sessions.map(&:id)
+      user_choices = Array(params[:rsvp][:event_session_ids]).select(&:present?).map(&:to_i)
+      required_sessions = @event.event_sessions.where(required_for_students: true).pluck(:id)
+      params[:rsvp][:event_session_ids] = user_choices | required_sessions
     end
     if @event.event_sessions.length == 1
       params[:rsvp][:event_session_ids] = [@event.event_sessions.first.id]
