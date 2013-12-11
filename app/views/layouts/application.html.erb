@@ -24,9 +24,10 @@
     </div>
     <div class="container center bridgetroll-content">
       <% flash.each do |name, msg| %>
-          <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
-            <%= msg  %>
-          </div>
+        <% next if name == :timedout %>
+        <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+          <%= msg %>
+        </div>
       <% end %>
       <%= render partial: 'users/meetup_prompt' %>
 
