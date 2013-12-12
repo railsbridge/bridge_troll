@@ -10,22 +10,26 @@ class SectionArranger
     (count / number_of_sections.to_f).ceil
   end
 
-  def self.arrange(event, checked_in = nil)
+  def self.arrange(event, checked_in = 'indiscriminate')
     event.sections.destroy_all
     return if event.student_rsvps.count == 0
 
-    if checked_in
+    if checked_in == 'any'
       student_rsvps = event.student_rsvps.where("checkins_count > 0")
       volunteer_rsvps = event.volunteer_rsvps.where("checkins_count > 0")
-      student_rsvps.where("checkins_count = 0").each do |rsvp|
-        rsvp.update_attribute(:section_id, nil)
-      end
-      volunteer_rsvps.where("checkins_count = 0").each do |rsvp|
-        rsvp.update_attribute(:section_id, nil)
-      end
-    else
+    elsif checked_in == 'indiscriminate'
       student_rsvps = event.student_rsvps
       volunteer_rsvps = event.volunteer_rsvps
+    else
+      session_id = checked_in.to_i
+      student_rsvps = event.student_rsvps.
+        joins(:rsvp_sessions).
+        where('rsvp_sessions.event_session_id' => session_id).
+        where("rsvp_sessions.checked_in = ?", true).readonly(false)
+      volunteer_rsvps = event.volunteer_rsvps.
+        joins(:rsvp_sessions).
+        where('rsvp_sessions.event_session_id' => session_id).
+        where("rsvp_sessions.checked_in = ?", true).readonly(false)
     end
 
     section_counts = Hash[self.rsvp_counts(event).map { |level, count| [level, self.section_size_given_total_students(count)]}]

@@ -54,8 +54,8 @@ describe SectionsController do
 
   describe "#arrange" do
     it 'tells the section arranger to arrange sections for this event' do
-      SectionArranger.should_receive(:arrange).with(@event, nil)
-      post :arrange, event_id: @event.id
+      SectionArranger.should_receive(:arrange).with(@event, 'any')
+      post :arrange, event_id: @event.id, checked_in_to: 'any'
     end
   end
 end

@@ -10,24 +10,6 @@ describe("Bridgetroll.Views.SectionOrganizer", function () {
     ]);
   });
 
-  describe("when there are no sections", function () {
-    beforeEach(function () {
-      sections = new Bridgetroll.Collections.Section([]);
-      sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({
-        event_id: 191,
-        sections: sections,
-        attendees: attendees
-      });
-      sectionOrganizer.render();
-    });
-
-    it("does not show a confirm message for the 'auto arrange' buttons", function () {
-      var link = sectionOrganizer.$("a[href='sections/arrange']");
-      expect(link.length).toBeGreaterThan(0);
-      expect(link.data('confirm')).toBeUndefined();
-    });
-  });
-
   describe("when there are existing sections", function () {
     beforeEach(function () {
       sections = new Bridgetroll.Collections.Section([
@@ -54,12 +36,6 @@ describe("Bridgetroll.Views.SectionOrganizer", function () {
     describe("after rendering", function () {
       beforeEach(function () {
         sectionOrganizer.render();
-      });
-
-      it("shows a confirm message for the 'auto arrange' buttons", function () {
-        var link = sectionOrganizer.$("a[href='sections/arrange']");
-        expect(link.length).toBeGreaterThan(0);
-        expect(link.data('confirm')).toMatch(/remove all existing sections/);
       });
 
       it("contains each of the students from the original collection", function () {

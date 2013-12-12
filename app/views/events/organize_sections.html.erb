@@ -17,9 +17,18 @@
     Bridgetroll.sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({
       event_id: <%= @event.id %>,
       sections: sections,
+      sessions: <%= @event.event_sessions.to_json.html_safe %>,
       attendees: attendees
     });
     Bridgetroll.sectionOrganizer.setElement($('#section-organizer'));
     Bridgetroll.sectionOrganizer.render();
+    $('[name="auto-arrange-choice"]').on('change', function () {
+      var choice = $('[name="auto-arrange-choice"]:checked').val();
+
+      var parser = document.createElement('a');
+      parser.href = $('#perform-auto-arrange').attr('href');
+
+      $('#perform-auto-arrange').attr('href', parser.pathname + '?checked_in_to=' + choice);
+    });
   });
 </script>

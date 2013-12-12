@@ -13,6 +13,7 @@
       Poll for Changes
     {{/if}}
   </button>
+  <a href="#auto_arrange_choices" class='btn' data-toggle="modal">Auto-Arrange</a>
   {{#if showOS}}
     <div class='student-os-key'>
       <div class='swatch linux'></div>Linux
@@ -21,24 +22,6 @@
     </div>
   {{/if}}
   <a href="#section_organizer_help" class='btn' data-toggle="modal"><i class='icon-question-sign' style='margin-right: 5px;'></i>Help</a>
-</div>
-<div class='actions'>
-  <a class='btn'
-     href='sections/arrange'
-     data-method='post'
-     {{#if hasSections}}
-       data-confirm='This will remove all existing sections and recreate them, placing every student in a section based on their class level. Are you sure?'
-     {{/if}}>
-    Auto-Arrange All
-  </a>
-  <a class='btn'
-     href='sections/arrange?checked_in=true'
-     data-method='post'
-     {{#if hasSections}}
-       data-confirm='This will remove all existing sections and recreate them, placing every checked-in student in a section based on their class level. Are you sure?'
-     {{/if}}>
-    Auto-Arrange Checked-In People
-  </a>
 </div>
 {{#unless hasSections}}
   <div class='auto-assign-reminder'>
@@ -77,14 +60,41 @@
       different classes as you feel appropriate.</p>
 
     <h2>How do I use it?</h2>
-    <p><strong>Auto-Arrange All</strong> can be used to give a good 'first draft' of assignments which
-      doesn't account for checked-in status.</p>
-    <p><strong>Auto-Arrange Checked-In People</strong> arranges only the students and volunteers
-      that have been checked in to the last session of the workshop.</p>
+    <p><strong>Auto-Arrange</strong> can be used to give a good 'first draft' of section assignments
+      assignments which you can tweak by dragging and dropping students and volunteers around.</p>
     <p>The names of sections should be the names of the conference rooms or areas where they
     are held. The edit button on each section can change the name.</p>
     <p>At the event, you can display the section assignments somewhere conspicuous in
       'presentation mode' by using <strong>Hide Unassigned</strong>.</p>
   </div>
   <div class="modal-footer"></div>
+</div>
+
+<div id="auto_arrange_choices" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h1>Auto Arrange</h1>
+  </div>
+  <div class="modal-body">
+    <p>Auto Arranging the sections in your event will remove all existing sections and re-create them, attempting to fit about six students to a section.</p>
+    <p>This is generally a good starting point for organizing the sections in your event, but you will still need to make manual tweaks afterwards.</p>
+    <p>When auto arranging, you can choose to arrange only:</p>
+    <label>
+      <input type="radio" name="auto-arrange-choice" value="any" checked> Attendees who have been checked-in to at least one session
+    </label>
+    {{#each sessions}}
+      <label>
+        <input type="radio" name="auto-arrange-choice" value="{{this.id}}"> Attendees who have been checked-in to {{this.name}}
+      </label>
+    {{/each}}
+    <label>
+      <input type="radio" name="auto-arrange-choice" value="indiscriminate"> All RSVP'd attendees <strong>(Not Recommended)</strong>
+    </label>
+  </div>
+  <div class="modal-footer">
+    <a id="perform-auto-arrange"
+       data-method='post'
+       href="sections/arrange?checked_in_to=any"
+       class='btn'>Auto-Arrange</a>
+  </div>
 </div>

@@ -98,5 +98,70 @@ describe SectionArranger do
         @event.rsvps.map(&:section_id).uniq.should == [nil]
       end
     end
+
+    describe "limiting to checked-in attendees" do
+      let(:placed_attendee_ids) {
+        attendee_ids = []
+        @event.sections.each do |section|
+          attendee_ids += section.rsvps.pluck(:id)
+        end
+        attendee_ids
+      }
+
+      before do
+        @event = create(:event)
+        create(:event_session, event: @event)
+        @event.reload
+        @event.event_sessions.count.should == 2
+
+        @session1, @session2 = @event.event_sessions.all
+
+        @session1_rsvp = create(:student_rsvp, event: @event)
+        create(:rsvp_session, rsvp: @session1_rsvp, event_session: @session1, checked_in: true)
+        create(:rsvp_session, rsvp: @session1_rsvp, event_session: @session2, checked_in: false)
+
+        @session2_rsvp = create(:student_rsvp, event: @event)
+        create(:rsvp_session, rsvp: @session2_rsvp, event_session: @session1, checked_in: false)
+        create(:rsvp_session, rsvp: @session2_rsvp, event_session: @session2, checked_in: true)
+
+        @both_rsvp = create(:student_rsvp, event: @event)
+        create(:rsvp_session, rsvp: @both_rsvp, event_session: @session1, checked_in: true)
+        create(:rsvp_session, rsvp: @both_rsvp, event_session: @session2, checked_in: true)
+
+        @neither_attendee = create(:student_rsvp, event: @event)
+        create(:rsvp_session, rsvp: @neither_attendee, event_session: @session1, checked_in: false)
+        create(:rsvp_session, rsvp: @neither_attendee, event_session: @session2, checked_in: false)
+      end
+
+      context "when asked to arrange for only the first session" do
+        before do
+          SectionArranger.arrange(@event, @session1.id)
+        end
+
+        it 'arranges only those people' do
+          placed_attendee_ids.should =~ [@session1_rsvp.id, @both_rsvp.id]
+        end
+      end
+
+      context "when asked to arrange for only the second session" do
+        before do
+          SectionArranger.arrange(@event, @session2.id)
+        end
+
+        it 'arranges only those people' do
+          placed_attendee_ids.should =~ [@session2_rsvp.id, @both_rsvp.id]
+        end
+      end
+
+      context "when asked to arrange for people who have checked in to any session" do
+        before do
+          SectionArranger.arrange(@event, 'any')
+        end
+
+        it 'arranges only those people' do
+          placed_attendee_ids.should =~ [@session1_rsvp.id, @session2_rsvp.id, @both_rsvp.id]
+        end
+      end
+    end
   end
 end

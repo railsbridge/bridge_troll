@@ -34,6 +34,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.event_id = options.event_id;
       this.attendees = options.attendees;
       this.sections = options.sections;
+      this.sessions = options.sessions;
 
       this.showOS = false;
       this.showUnassigned = true;
@@ -87,6 +88,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
         hasSections: this.sections.length > 0,
         showUnassigned: this.showUnassigned,
         showOS: this.showOS,
+        sessions: this.sessions,
         polling: this.poller.polling()
       };
     },
