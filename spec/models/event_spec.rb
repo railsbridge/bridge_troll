@@ -205,32 +205,36 @@ describe Event do
     end
   end
 
-  describe "#rsvps_with_workshop_checkins" do
+  describe "#rsvps_with_checkins" do
     before do
       @event = create(:event)
-      first_session = @event.event_sessions.first
-      first_session.update_attributes(ends_at: 6.months.from_now)
+      @first_session = @event.event_sessions.first
+      @first_session.update_attributes(ends_at: 6.months.from_now)
 
-      last_session = create(:event_session, event: @event, ends_at: 1.year.from_now)
+      @last_session = create(:event_session, event: @event, ends_at: 1.year.from_now)
 
       @rsvp1 = create(:rsvp, event: @event)
-      create(:rsvp_session, event_session: first_session, rsvp: @rsvp1, checked_in: true)
+      create(:rsvp_session, event_session: @first_session, rsvp: @rsvp1, checked_in: true)
 
       @rsvp2 = create(:rsvp, event: @event)
-      create(:rsvp_session, event_session: last_session, rsvp: @rsvp2)
+      create(:rsvp_session, event_session: @last_session, rsvp: @rsvp2)
 
       @rsvp3 = create(:rsvp, event: @event)
-      create(:rsvp_session, event_session: last_session, rsvp: @rsvp3, checked_in: true)
+      create(:rsvp_session, event_session: @last_session, rsvp: @rsvp3, checked_in: true)
 
       @event.reload
     end
 
     it 'counts attendances for the last session' do
-      attendee_rsvp_data = @event.rsvps_with_workshop_checkins
+      attendee_rsvp_data = @event.rsvps_with_checkins
       attendee_rsvp_data.length.should == 3
 
-      workshop_attendees = attendee_rsvp_data.select { |rsvp| rsvp['workshop_checkins_count'] > 0 }
-      workshop_attendees.map { |att| att['id'] }.should == [@rsvp3.id]
+      workshop_attendees = attendee_rsvp_data.map { |rsvp| [rsvp['id'], rsvp['checked_in_session_ids']] }
+      workshop_attendees.should =~ [
+        [@rsvp1.id, [@first_session.id]],
+        [@rsvp2.id, []],
+        [@rsvp3.id, [@last_session.id]]
+      ]
     end
   end
   

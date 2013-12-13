@@ -124,16 +124,16 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def rsvps_with_workshop_checkins
-    rsvp_jsons = rsvps.where(waitlist_position: nil).includes(:user).as_json
-    workshop_checkins = RsvpSession.where(event_session_id: event_sessions.last.id, checked_in: true).map(&:rsvp_id)
-    rsvp_jsons.each do |rsvp_json|
-      rsvp_id = rsvp_json['id']
-      if rsvp_json['role_id'] == Role::ORGANIZER.id
-        rsvp_json['workshop_checkins_count'] = 1
+  def rsvps_with_checkins
+    attendee_rsvps = rsvps.where(waitlist_position: nil).includes(:user, :rsvp_sessions)
+    attendee_rsvps.map do |rsvp|
+      json = rsvp.as_json
+      if rsvp.role == Role::ORGANIZER
+        json['checked_in_session_ids'] = event_sessions.map(&:id)
       else
-        rsvp_json['workshop_checkins_count'] = workshop_checkins.include?(rsvp_id) ? 1 : 0
+        json['checked_in_session_ids'] = rsvp.rsvp_sessions.where(checked_in: true).pluck(:event_session_id)
       end
+      json
     end
   end
 

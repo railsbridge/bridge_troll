@@ -2,7 +2,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
   function addSectionView(section) {
     var sectionView = new Bridgetroll.Views.Section({
       section: section,
-      attendees: this.attendees
+      attendees: this.attendees,
+      workshopSessionId: _.last(this.sessions).id
     });
 
     this.addSubview(sectionView);
@@ -83,13 +84,46 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.render();
     },
 
+    volunteers: function () {
+      return this.attendees.where({role_id: Bridgetroll.Enums.Role.VOLUNTEER})
+    },
+
+    students: function () {
+      return this.attendees.where({role_id: Bridgetroll.Enums.Role.STUDENT})
+    },
+
     context: function () {
+      function checkedIn (collection) {
+        return collection.filter(function(a) { return a.get('checkins_count') > 0 });
+      }
+
+      var sessionsWithCheckinCounts = _.map(this.sessions, _.bind(function (session) {
+        session.checkedInVolunteers = checkedIn(this.volunteers()).filter(function (a) {
+          return _.include(a.get('checked_in_session_ids'), session.id);
+        }).length;
+        session.checkedInStudents = checkedIn(this.students()).filter(function (a) {
+          return _.include(a.get('checked_in_session_ids'), session.id);
+        }).length;
+
+        return session;
+      }, this));
+
       return {
         hasSections: this.sections.length > 0,
         showUnassigned: this.showUnassigned,
         showOS: this.showOS,
-        sessions: this.sessions,
-        polling: this.poller.polling()
+        sessions: sessionsWithCheckinCounts,
+        polling: this.poller.polling(),
+        checkedInCounts: {
+          indiscriminate: {
+            volunteers: this.volunteers().length,
+            students: this.students().length
+          },
+          any: {
+            volunteers: checkedIn(this.volunteers()).length,
+            students: checkedIn(this.students()).length
+          }
+        }
       };
     },
 

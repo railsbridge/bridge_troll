@@ -16,21 +16,28 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
     this._super('initialize', arguments);
 
     this.section = options.section;
-
     this.attendees = options.attendees;
+    this.workshopSessionId = options.workshopSessionId;
   },
 
   context: function () {
     return {
       title: this.section.get('name'),
-      students: _.pluck(this.students(), 'attributes'),
+      students: this.presentedStudents(),
       volunteers: this.presentedVolunteers(),
       destructable: !this.section.isUnassigned()
     }
   },
 
+  presentedStudents: function () {
+    return _.map(_.pluck(this.students(), 'attributes'), _.bind(function (student_attributes) {
+      student_attributes.workshop_checkins_count = _.include(student_attributes.checked_in_session_ids, this.workshopSessionId);
+      return student_attributes;
+    }, this));
+  },
+
   presentedVolunteers: function () {
-    return _.map(_.pluck(this.volunteers(), 'attributes'), function (volunteer_attributes) {
+    return _.map(_.pluck(this.volunteers(), 'attributes'), _.bind(function (volunteer_attributes) {
       var volunteer_letter;
       if (volunteer_attributes.teaching && volunteer_attributes.taing) {
         volunteer_letter = '?';
@@ -41,10 +48,11 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
       } else {
         volunteer_letter = 'x';
       }
+      volunteer_attributes.workshop_checkins_count = _.include(volunteer_attributes.checked_in_session_ids, this.workshopSessionId);
       return _.extend({}, volunteer_attributes, {
         volunteer_letter: volunteer_letter
       });
-    });
+    }, this));
   },
 
   students: function () {

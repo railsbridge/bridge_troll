@@ -80,15 +80,15 @@
     <p>This is generally a good starting point for organizing the sections in your event, but you will still need to make manual tweaks afterwards.</p>
     <p>When auto arranging, you can choose to arrange only:</p>
     <label>
-      <input type="radio" name="auto-arrange-choice" value="any" checked> Attendees who have been checked-in to at least one session
+      <input type="radio" name="auto-arrange-choice" value="any" checked> Attendees who have been checked-in to at least one session ({{checkedInCounts.any.volunteers}} volunteers, {{checkedInCounts.any.students}} students)
     </label>
     {{#each sessions}}
       <label>
-        <input type="radio" name="auto-arrange-choice" value="{{this.id}}"> Attendees who have been checked-in to {{this.name}}
+        <input type="radio" name="auto-arrange-choice" value="{{this.id}}"> Attendees who have been checked-in to {{this.name}} ({{this.checkedInVolunteers}} volunteers, {{this.checkedInStudents}} students)
       </label>
     {{/each}}
     <label>
-      <input type="radio" name="auto-arrange-choice" value="indiscriminate"> All RSVP'd attendees <strong>(Not Recommended)</strong>
+      <input type="radio" name="auto-arrange-choice" value="indiscriminate"> All RSVP'd attendees ({{checkedInCounts.indiscriminate.volunteers}} volunteers, {{checkedInCounts.indiscriminate.students}} students) <strong>(Not Recommended)</strong>
     </label>
   </div>
   <div class="modal-footer">
