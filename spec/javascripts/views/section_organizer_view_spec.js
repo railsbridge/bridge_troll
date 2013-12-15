@@ -26,10 +26,15 @@ describe("Bridgetroll.Views.SectionOrganizer", function () {
           name: 'Spaceship #491'
         }
       ]);
+      sessions = [{
+        id: 1,
+        name: 'Workshop'
+      }];
       sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({
         event_id: 191,
         sections: sections,
-        attendees: attendees
+        attendees: attendees,
+        sessions: sessions
       });
     });
 
