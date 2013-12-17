@@ -1,0 +1,14 @@
+.popover-content {
+  ul {
+    margin: 0 0 10px 10px;
+    list-style-type: circle;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  li:last-child {
+    margin-bottom: 0;
+  }
+}

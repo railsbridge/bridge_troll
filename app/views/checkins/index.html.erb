@@ -20,12 +20,21 @@
   </thead>
   <tbody>
     <% @rsvp_sessions.each do |rsvp_session| %>
+      <% rsvp = rsvp_session.rsvp %>
       <tr>
         <td>
-          <%= render 'shared/viewed_gravatars', :email => rsvp_session.rsvp.user.email %>
+          <%= render 'shared/viewed_gravatars', :email => rsvp.user.email %>
           <%= link_to rsvp_session.user_full_name, user_profile_path(rsvp_session.rsvp.user) %>
         </td>
-        <td><%= rsvp_session.rsvp.role.title %></td>
+        <td><%= rsvp.role.title %>
+          <% if rsvp.role == Role::STUDENT %>
+            <%= link_to levels_event_path(@event) do %>
+              <div class='bridgetroll-badge level<%= rsvp.class_level %>'>
+                <%= rsvp.class_level %>
+              </div>
+            <% end %>
+          <% end %>
+        </td>
         <td id="rsvp_session_<%= rsvp_session.id %>">
           <% destroy_id = "destroy_rsvp_session_#{rsvp_session.id}" %>
           <% create_id = "create_rsvp_session_#{rsvp_session.id}" %>
@@ -60,7 +69,12 @@
 </table>
 
 <script>
-  window.setupCheckinsPage(<%= @event.id %>, <%= @session.id %>, {poll: <%= !Rails.env.test? %>});
+  window.setupCheckinsPage({
+    event_id: <%= @event.id %>,
+    session_id: <%= @session.id %>,
+    poll: <%= !Rails.env.test? %>,
+    popoverData: <%= @event.course.levels.to_json.html_safe %>
+  });
 </script>
 
 <% if @event.organizer?(current_user) %>

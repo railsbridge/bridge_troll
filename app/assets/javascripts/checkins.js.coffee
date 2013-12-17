@@ -16,7 +16,17 @@ Bridgetroll.Collections.RsvpSession = Backbone.Collection.extend
   constructorName: 'RsvpSessionCollection'
   model: Bridgetroll.Models.RsvpSession
 
-window.setupCheckinsPage = (event_id, session_id, options) ->
+setupPopover = (data) ->
+  $('.bridgetroll-badge.level' + data.level).popover
+    title: data.title,
+    content: HandlebarsTemplates['class_levels_popover'](data),
+    html: true,
+    trigger: 'hover',
+    container: 'body'
+
+window.setupCheckinsPage = (options) ->
+  event_id = options.event_id
+  session_id = options.session_id
   rsvpSessions = new Bridgetroll.Collections.RsvpSession()
 
   poller = new Bridgetroll.Services.Poller
@@ -36,3 +46,6 @@ window.setupCheckinsPage = (event_id, session_id, options) ->
 
   if options.poll
     poller.startPolling()
+
+  if options.popoverData
+    setupPopover(data) for data in options.popoverData

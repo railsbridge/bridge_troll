@@ -107,6 +107,28 @@ $bridgetroll-section-width-narrow: 175px;
   }
 }
 
+$attendee-height: 20px;
+
+.bridgetroll-badge {
+  vertical-align: top;
+  height: $attendee-height;
+  line-height: $attendee-height + 2px;
+  width: $attendee-height;
+  border-radius: 100%;
+  display: inline-block;
+  margin: 0 5px;
+  text-align: center;
+  background-color: #CCC;
+  color: white;
+
+  &.level0 { background-color: #777; }
+  &.level1 { background-color: $level-blue; }
+  &.level2 { background-color: $level-green; }
+  &.level3 { background-color: $level-gold; }
+  &.level4 { background-color: $level-orange; }
+  &.level5 { background-color: $level-purple; }
+}
+
 .bridgetroll-section {
   border: 1px solid $bridgetroll-section-border-color;
   margin-bottom: 20px;
@@ -164,27 +186,6 @@ $bridgetroll-section-width-narrow: 175px;
     content: ' ';
     display: block;
     border-bottom: 1px solid $bridgetroll-section-border-color;
-  }
-
-  $attendee-height: 20px;
-
-  .bridgetroll-badge {
-    vertical-align: top;
-    height: $attendee-height;
-    width: $attendee-height;
-    border-radius: 100%;
-    display: inline-block;
-    margin: 0 5px;
-    text-align: center;
-    background-color: #CCC;
-    color: white;
-
-    &.level0 { background-color: #777; }
-    &.level1 { background-color: $level-blue; }
-    &.level2 { background-color: $level-green; }
-    &.level3 { background-color: $level-gold; }
-    &.level4 { background-color: $level-orange; }
-    &.level5 { background-color: $level-purple; }
   }
 
   .attendee {
