@@ -37,10 +37,10 @@
 
       <div class="event-sessions">
         <%= f.fields_for :event_sessions do |event_sessions_form| %>
-          <%= event_sessions_form.label :name, 'Session Name' %>
           <% if @event.new_record? %>
             <span class="remove-session hidden pull-right">(<a href="#">Remove Session</a>)</span>
           <% end %>
+          <%= event_sessions_form.label :name, 'Session Name' %>
           <div><%= event_sessions_form.text_field :name %></div>
 
           <%= event_sessions_form.text_field :session_date, class: 'datepicker' %>
@@ -51,8 +51,8 @@
             <%= event_sessions_form.check_box :required_for_students %> Required for Students?
           <% end %>
         <% end %>
-        <%= f.link_to_add :event_sessions do %>
-          <span>Add a session</span>
+        <%= f.link_to_add :event_sessions, class: 'btn' do %>
+          <i class='icon-plus-sign-alt' style='margin-right: 5px;'></i>Add a session
         <% end %>
       </div>
 

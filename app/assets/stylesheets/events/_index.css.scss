@@ -13,6 +13,15 @@
   box-sizing: border-box;
   width: 45%;
 
+  &.unpublished {
+    opacity: .4;
+  }
+
+  .unpublished-indicator {
+    font-size: 24px;
+    color: $red-color;
+  }
+
   @media (max-width: $phone-width) {
     width: 100%;
     margin-right: 0;

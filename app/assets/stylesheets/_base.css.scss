@@ -155,6 +155,9 @@ td.wide {
 
 .event-sessions {
   .fields {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
     margin: 10px 0;
 
     .datepicker {
@@ -171,20 +174,9 @@ td.wide {
   }
 
   .add_nested_fields {
-    display: block;
     margin-bottom: 30px;
     outline: none;
     text-decoration: none;
-
-    span {
-      /* colors hijacked from bootstrap navbar */
-      background-color: #777081;
-      background-image: linear-gradient(to bottom, #857D91, #635D6B);
-      border-radius: 5px;
-      color: lightgrey;
-      padding: 5px 10px;
-      box-model: border-box;
-    }
   }
 }
 

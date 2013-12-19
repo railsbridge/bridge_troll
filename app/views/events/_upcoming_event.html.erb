@@ -1,4 +1,7 @@
-<div class='upcoming-event'>
+<div class='upcoming-event <% unless event.published %>unpublished<% end %>'>
+  <% unless event.published %>
+    <div class='pull-right unpublished-indicator'>UNPUBLISHED</div>
+  <% end %>
   <div class='event-title'>
     <%= link_to event.title, event %>
     <% if event.meetup_student_event_id %>

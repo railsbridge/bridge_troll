@@ -126,6 +126,41 @@ describe Event do
     end
   end
 
+  describe ".published_or_organized_by" do
+    before do
+      @published_event = create(:event, title: 'published event', published: true)
+      @unpublished_event = create(:event, title: 'unpublished event', published: false)
+      @organized_event = create(:event, title: 'organized event', published: false)
+    end
+
+    context "when a user is not provided" do
+      it 'returns only published events' do
+        Event.published_or_organized_by.should =~ [@published_event]
+      end
+    end
+
+    context "when the organizer of an event is provided" do
+      before do
+        @organizer = create(:user)
+        @organized_event.organizers << @organizer
+      end
+
+      it "returns published events and the organizer's event" do
+        Event.published_or_organized_by(@organizer).should =~ [@published_event, @organized_event]
+      end
+    end
+
+    context "when an admin is provided" do
+      before do
+        @admin = create(:user, admin: true)
+      end
+
+      it "returns all events" do
+        Event.published_or_organized_by(@admin).should =~ [@published_event, @unpublished_event, @organized_event]
+      end
+    end
+  end
+
   describe "#details" do
     it "has default content" do
       Event.new.details.should =~ /Workshop Description/

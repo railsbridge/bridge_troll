@@ -29,7 +29,9 @@ describe "New Event" do
   end
 
   context 'after clicking "Add a session"', js: true do
-    before { find('span', text: 'Add a session').click }
+    before do
+      click_on 'Add a session'
+    end
 
     it 'should have two event session options' do
       page.should have_selector('.event-sessions > .fields', count: 2)

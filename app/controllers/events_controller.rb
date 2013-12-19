@@ -5,7 +5,7 @@ class EventsController < ApplicationController
   before_filter :set_time_zone, only: [:create, :update]
 
   def index
-    @events = Event.upcoming.includes(:event_sessions, :location)
+    @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location)
     respond_to do |format|
       format.html do
         @past_events = sort_by_starts_at(combined_past_events)
@@ -104,15 +104,15 @@ class EventsController < ApplicationController
   end
 
   def combined_past_events_for_json
-    Event.for_json.past.where(:published => true) + ExternalEvent.past
+    Event.for_json.past.published + ExternalEvent.past
   end
 
   def combined_past_events
-    Event.includes(:location).past.where(:published => true) + ExternalEvent.past
+    Event.includes(:location).past.published + ExternalEvent.past
   end
 
   def combined_all_events
-    Event.for_json.where(:published => true) + ExternalEvent.all
+    Event.for_json.published + ExternalEvent.all
   end
 
   def sort_by_starts_at(events)

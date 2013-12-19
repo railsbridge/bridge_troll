@@ -28,7 +28,7 @@ class Event < ActiveRecord::Base
   has_many :organizers, through: :organizer_rsvps, source: :user, source_type: 'User'
   has_many :legacy_organizers, through: :organizer_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :event_sessions, dependent: :destroy, order: 'ends_at ASC'
+  has_many :event_sessions, dependent: :destroy, order: 'event_sessions.ends_at ASC'
   accepts_nested_attributes_for :event_sessions, allow_destroy: true
   validates :event_sessions, length: { minimum: 1 }
 
@@ -141,12 +141,28 @@ class Event < ActiveRecord::Base
     includes(:location, :event_sessions, :organizers, :legacy_organizers)
   end
 
+  def self.published
+    where(published: true)
+  end
+
+  def self.published_or_organized_by(user = nil)
+    if user
+      if user.admin?
+        scoped
+      else
+        includes(:rsvps).where('(rsvps.role_id = ? AND rsvps.user_id = ?) OR (published = ?)', Role::ORGANIZER, user.id, true)
+      end
+    else
+      self.published
+    end
+  end
+
   def self.upcoming
-    where('ends_at > ?', Time.now.utc).order('starts_at')
+    where('events.ends_at > ?', Time.now.utc).order('events.starts_at')
   end
 
   def self.past
-    where('ends_at < ?', Time.now.utc)
+    where('events.ends_at < ?', Time.now.utc)
   end
 
   def date_in_time_zone start_or_end
