@@ -8,8 +8,11 @@ class OrganizersController < ApplicationController
   end
 
   def create
-    @user  = User.find(params[:event_organizer][:user_id])
-    @event.organizers << @user
+    @user = User.find(params[:event_organizer][:user_id])
+    rsvp = @event.rsvps.where(user_id: @user.id).first_or_initialize
+    rsvp.user = @user
+    rsvp.role = Role::ORGANIZER
+    rsvp.save!
     redirect_to event_organizers_path(@event)
   end
 
