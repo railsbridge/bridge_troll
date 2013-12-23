@@ -77,12 +77,14 @@ MESSAGE
     event = import_event(
       name: event_data[:name],
       event_id: event_data[:volunteer_event_id],
+      chapter_name: event_data[:chapter_name],
       finder_key: :meetup_volunteer_event_id,
       rsvp_role: Role::VOLUNTEER
     )
     import_event(
       name: event_data[:name],
       event_id: event_data[:student_event_id],
+      chapter_name: event_data[:chapter_name],
       event: event,
       finder_key: :meetup_student_event_id,
       rsvp_role: Role::STUDENT
@@ -92,8 +94,12 @@ MESSAGE
   def import_event options
     event_json = get_api_response_for("/2/event/#{options[:event_id]}")
     return unless event_json
+    unless event_json['venue']
+      puts "Missing venue for #{options[:event_id]}. Send help!"
+      return
+    end
 
-    location = import_venue(event_json['venue'])
+    location = import_venue(event_json['venue'], options[:chapter_name])
 
     event = options[:event] || Event.where(options[:finder_key] => options[:event_id]).first_or_initialize
     event.update_attributes(
@@ -149,7 +155,7 @@ MESSAGE
   end
 
   def dump_events group = :sf
-    group_id = MEETUP_GROUP_IDS[group]
+    group_id = MEETUP_GROUPS[group][:id]
     raise "No group found to dump events for!" unless group_id
 
     start_milis = DateTime.parse('2009-06-01').to_i * 1000
@@ -266,8 +272,11 @@ MESSAGE
     assert_valid_response(url, json) ? json : false
   end
 
-  def import_venue venue_json
+  def import_venue venue_json, chapter_name
+    chapter = Chapter.where(name: chapter_name).first_or_create!
+
     location = Location.where(name: venue_json['name']).first_or_initialize
+    location.chapter = chapter
     location_attributes = venue_json.slice('address_1', 'address_2', 'city', 'state', 'zip').reject { |_, v| v.length > 100 }
 
     location.update_attributes(location_attributes.inject({}) { |hsh, (k, v)| hsh[k] = v.strip; hsh })

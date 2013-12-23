@@ -44,7 +44,8 @@ describe MeetupImporter do
     {
       name: 'Ruby on Rails Outreach Party for Pandas',
       volunteer_event_id: volunteer_event_id,
-      student_event_id: student_event_id
+      student_event_id: student_event_id,
+      chapter_name: 'RailsBridge PandaZone'
     }
   }
 
@@ -96,6 +97,7 @@ describe MeetupImporter do
     location.city.should == 'San Francisco'
     location.state.should == 'CA'
     location.zip.should == '94105'
+    location.chapter.name.should == 'RailsBridge PandaZone'
   end
 
   it "creates MeetupUser records for users who have RSVPed 'yes' to an event" do

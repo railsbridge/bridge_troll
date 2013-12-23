@@ -6,33 +6,54 @@ module MeetupEventInfo
   def url_for_event meetup_event_id
     MEETUP_EVENTS.each do |group, events|
       if events.find { |event| [event[:student_event_id], event[:volunteer_event_id]].include?(meetup_event_id) }
-        return MEETUP_GROUP_URLS[group]
+        return MEETUP_GROUPS[group][:url]
       end
     end
     return nil
   end
 end
 
-MEETUP_GROUP_URLS = {
-  sf: 'www.sfruby.info',
-  sv: 'www.meetup.com/silicon-valley-ruby',
-  seattle: 'www.meetup.com/SeattleRailsBridge',
-  kentucky: 'www.meetup.com/Collexion-Hackerspace',
-  la: 'www.meetup.com/Los-Angeles-Womens-Ruby-on-Rails-Group',
-  boulder: 'www.meetup.com/Boulder-Denver-Railsbridge',
-  chicago: 'www.meetup.com/Chicago-Ruby-on-Rails-Outreach-Workshop-for-Women',
-  san_diego: 'www.meetup.com/San-Diego-RailsBridge'
-}
-
-MEETUP_GROUP_IDS = {
-  sf: 134063,
-  sv: 437842,
-  seattle: 1788583,
-  kentucky: 7137552,
-  la: 4139422,
-  boulder: 4019502,
-  chicago: 1767063,
-  san_diego: 6725212
+MEETUP_GROUPS = {
+  sf: {
+    url: 'www.sfruby.info',
+    id: 134063,
+    chapter_name: 'RailsBridge San Francisco'
+  },
+  sv: {
+    url: 'www.meetup.com/silicon-valley-ruby',
+    id: 437842,
+    chapter_name: 'RailsBridge SF Peninsula'
+  },
+  seattle: {
+    url: 'www.meetup.com/SeattleRailsBridge',
+    id: 1788583,
+    chapter_name: 'RailsBridge Seattle'
+  },
+  kentucky: {
+    url: 'www.meetup.com/Collexion-Hackerspace',
+    id: 7137552,
+    chapter_name: 'RailsBridge Kentucky'
+  },
+  la: {
+    url: 'www.meetup.com/Los-Angeles-Womens-Ruby-on-Rails-Group',
+    id: 4139422,
+    chapter_name: 'RailsBridge Los Angeles'
+  },
+  boulder: {
+    url: 'www.meetup.com/Boulder-Denver-Railsbridge',
+    id: 4019502,
+    chapter_name: 'RailsBridge Boulder'
+  },
+  chicago: {
+    url: 'www.meetup.com/Chicago-Ruby-on-Rails-Outreach-Workshop-for-Women',
+    id: 1767063,
+    chapter_name: 'RailsBridge Chicago'
+  },
+  san_diego: {
+    url: 'www.meetup.com/San-Diego-RailsBridge',
+    id: 6725212,
+    chapter_name: 'RailsBridge San Diego'
+  }
 }
 
 MEETUP_EVENTS = {}
@@ -347,3 +368,9 @@ MEETUP_EVENTS[:san_diego] = [
     volunteer_event_id: 100266052
   },
 ]
+
+MEETUP_EVENTS.each do |chapter_code, event_datas|
+  event_datas.each do |event_data|
+    event_data[:chapter_name] = MEETUP_GROUPS[chapter_code][:chapter_name]
+  end
+end
