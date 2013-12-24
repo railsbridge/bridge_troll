@@ -43,6 +43,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Location #{n}" }
     sequence(:address_1) { |n| "#{n} Street" }
     city "San Francisco"
+    chapter
   end
 
   factory :chapter do

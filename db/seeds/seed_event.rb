@@ -46,7 +46,11 @@ module Seeder
         rsvp.user.destroy
       end
     end
-    event.location.destroy if event.location.present?
+    if event.location.present?
+      chapter = event.location.chapter
+      chapter.destroy if chapter.events.count == 1
+      event.location.destroy
+    end
     event.destroy
   end
 
@@ -55,7 +59,10 @@ module Seeder
     old_event = Event.where(title: 'Seeded Test Event').first
     destroy_event(old_event) if old_event.present?
 
+    chapter = Chapter.where(name: 'RailsBridge San Francisco').first_or_create!
+
     location = Location.create!(
+      chapter_id: chapter.id,
       name: "Sutro Tower",
       address_1: "Sutro Tower",
       city: "San Francisco",
