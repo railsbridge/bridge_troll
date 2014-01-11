@@ -61,7 +61,7 @@ module EventsHelper
     simple_format(
       Sanitize.clean(string, Sanitize::Config::RELAXED),
       :sanitize => false
-    )
+    ).gsub(%r{(</h\d>)\s*<br\s*/>}, '\1').html_safe # remove unsightly </h2>\n<br/> combos
   end
 
   def formatted_event_date_range(event)
