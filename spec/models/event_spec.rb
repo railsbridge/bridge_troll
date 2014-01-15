@@ -65,6 +65,22 @@ describe Event do
     end
   end
 
+  describe '#location_name' do
+    context 'location is set' do
+      let(:event) { build(:event, location: build(:location, name: 'FUNZONE!')) }
+      it 'returns the name of the location' do
+        event.location_name.should eq('FUNZONE!')
+      end
+    end
+
+    context 'location is nil' do
+      let(:event) { build(:event, location: nil) }
+      it 'returns an empty string' do
+        event.location_name.should eq('')
+      end
+    end
+  end
+
   describe '#rsvps_with_childcare' do
     it 'includes all rsvps with childcare requested' do
       event = create(:event)

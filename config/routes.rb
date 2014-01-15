@@ -32,7 +32,7 @@ Bridgetroll::Application.routes.draw do
       end
     end
 
-    resources :event_sessions, :only => [:index] do
+    resources :event_sessions, :only => [:index, :show] do
       resources :checkins, :only => [:index, :create, :destroy]
     end
 

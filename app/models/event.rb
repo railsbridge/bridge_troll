@@ -42,7 +42,7 @@ class Event < ActiveRecord::Base
   end
 
   def location_name
-    location.name
+    location ? location.name : ''
   end
 
   def location_city_and_state
