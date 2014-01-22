@@ -33,15 +33,17 @@
 //= require dataTables/jquery.dataTables.bootstrap
 
 $(document).ready(function () {
+  var tableNeedsPagination = $('.datatable-sorted tbody tr').length > 10 ? true : false;
   $.extend( $.fn.dataTable.defaults, {
     "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
     "sPaginationType": "bootstrap",
     "iDisplayLength": 50
-  } );
+  });
 
   $('.datatable').dataTable();
 
   $('.datatable-sorted').dataTable({
+    "bPaginate": tableNeedsPagination,
     "aaSorting": [[ 1, "desc" ]],
     "aoColumnDefs": [
       {'aTargets': ['date'], "sType": "date"}
