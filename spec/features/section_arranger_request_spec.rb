@@ -41,6 +41,7 @@ describe "arranging sections for an event", js: true do
     within '#auto_arrange_choices' do
       page.find("[value='#{@session1.id}']").click
       click_on "Auto-Arrange"
+      sleep 1
     end
 
     page.should_not have_css('.auto-assign-reminder')
