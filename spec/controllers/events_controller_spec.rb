@@ -6,13 +6,9 @@ describe EventsController do
   end
 
   describe "GET index" do
-    it "succeeds" do
+    it "successfully assigns upcoming events" do
       get :index
       response.should be_success
-    end
-
-    it "assigns upcoming events" do
-      get :index
       assigns(:events).should == [@event]
     end
 
@@ -128,7 +124,7 @@ describe EventsController do
         context "and there is no waitlist" do
           it "doesn't have the waitlist header" do
             get :show, id: @event.id
-            response.body.should_not include('Waitlist')
+            response.body.should_not include('waitlist')
           end
         end
 
@@ -141,7 +137,7 @@ describe EventsController do
 
           it "shows waitlisted students in a waitlist section" do
             get :show, id: @event.id
-            response.body.should include('Waitlist')
+            response.body.should include('waitlisted')
             response.body.should include('Sandy Sontaine')
           end
         end
