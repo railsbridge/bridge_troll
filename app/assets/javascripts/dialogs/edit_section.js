@@ -1,6 +1,5 @@
 Bridgetroll.Views.EditSection = (function () {
   return Bridgetroll.Dialogs.Base.extend({
-    className: 'modal hide fade',
     template: 'section_organizer/edit_section',
 
     events: {

@@ -27,7 +27,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       'click .add-section': 'onAddSectionClick',
       'click .show-os': 'onShowOSClick',
       'click .show-unassigned': 'onShowUnassignedClick',
-      'click .poll-for-changes': 'onPollForChangesClick'
+      'click .poll-for-changes': 'onPollForChangesClick',
+      'click .auto-arrange-choices': 'onAutoArrangeChoicesClick'
     },
 
     initialize: function (options) {
@@ -93,37 +94,11 @@ Bridgetroll.Views.SectionOrganizer = (function () {
     },
 
     context: function () {
-      function checkedIn (collection) {
-        return collection.filter(function(a) { return a.get('checkins_count') > 0 });
-      }
-
-      var sessionsWithCheckinCounts = _.map(this.sessions, _.bind(function (session) {
-        session.checkedInVolunteers = checkedIn(this.volunteers()).filter(function (a) {
-          return _.include(a.get('checked_in_session_ids'), session.id);
-        }).length;
-        session.checkedInStudents = checkedIn(this.students()).filter(function (a) {
-          return _.include(a.get('checked_in_session_ids'), session.id);
-        }).length;
-
-        return session;
-      }, this));
-
       return {
         hasSections: this.sections.length > 0,
         showUnassigned: this.showUnassigned,
         showOS: this.showOS,
-        sessions: sessionsWithCheckinCounts,
-        polling: this.poller.polling(),
-        checkedInCounts: {
-          indiscriminate: {
-            volunteers: this.volunteers().length,
-            students: this.students().length
-          },
-          any: {
-            volunteers: checkedIn(this.volunteers()).length,
-            students: checkedIn(this.students()).length
-          }
-        }
+        polling: this.poller.polling()
       };
     },
 
@@ -162,6 +137,38 @@ Bridgetroll.Views.SectionOrganizer = (function () {
     onPollForChangesClick: function () {
       this.poller.togglePolling();
       this.render();
+    },
+    
+    onAutoArrangeChoicesClick: function () {
+      function checkedIn (collection) {
+        return collection.filter(function(a) { return a.get('checkins_count') > 0 });
+      }
+
+      var sessionsWithCheckinCounts = _.map(this.sessions, _.bind(function (session) {
+        session.checkedInVolunteers = checkedIn(this.volunteers()).filter(function (a) {
+          return _.include(a.get('checked_in_session_ids'), session.id);
+        }).length;
+        session.checkedInStudents = checkedIn(this.students()).filter(function (a) {
+          return _.include(a.get('checked_in_session_ids'), session.id);
+        }).length;
+
+        return session;
+      }, this));
+
+      var choicesView = new Bridgetroll.Views.AutoArrangeChoices({
+        sessions: sessionsWithCheckinCounts,
+        checkedInCounts: {
+          indiscriminate: {
+            volunteers: this.volunteers().length,
+            students: this.students().length
+          },
+          any: {
+            volunteers: checkedIn(this.volunteers()).length,
+            students: checkedIn(this.students()).length
+          }
+        }
+      });
+      choicesView.showModally();
     }
   });
 })();

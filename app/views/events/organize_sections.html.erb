@@ -7,6 +7,8 @@
 
 <script>
   $(document).ready(function () {
+    Bridgetroll.railsEnv = '<%= Rails.env %>';
+
     var attendees = new Bridgetroll.Collections.Attendee(
       <%= @event.rsvps_with_checkins.to_json.html_safe %>
     );
@@ -22,13 +24,5 @@
     });
     Bridgetroll.sectionOrganizer.setElement($('#section-organizer'));
     Bridgetroll.sectionOrganizer.render();
-    $('[name="auto-arrange-choice"]').on('change', function () {
-      var choice = $('[name="auto-arrange-choice"]:checked').val();
-
-      var parser = document.createElement('a');
-      parser.href = $('#perform-auto-arrange').attr('href');
-
-      $('#perform-auto-arrange').attr('href', parser.pathname + '?checked_in_to=' + choice);
-    });
   });
 </script>

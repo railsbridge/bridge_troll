@@ -1,6 +1,8 @@
 Bridgetroll.Views.AttendeeDetail = (function () {
   return Bridgetroll.Dialogs.Base.extend({
-    className: 'bridgetroll-attendee-detail modal hide fade',
+    className: function () {
+      return this._super('className', arguments) + ' bridgetroll-attendee-detail';
+    },
     template: 'section_organizer/attendee_detail',
 
     context: function () {
