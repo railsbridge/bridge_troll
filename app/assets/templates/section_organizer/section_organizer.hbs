@@ -21,6 +21,14 @@
       <div class='swatch windows'></div>Windows
     </div>
   {{/if}}
+  <div class='section-rsvp-highlight-legend dropdown'>
+    Highlighing RSVPs for: <strong><a class='dropdown-toggle' href='#'>{{selectedSession.name}} <b class="caret"></b></a></strong>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+      {{#each sessions}}
+        <li><a tabindex="-1" data-id="{{this.id}}" class='section-highlight-link' href="#">{{this.name}}</a></li>
+      {{/each}}
+    </ul>
+  </div>
   <a href="#section_organizer_help" class='btn' data-toggle="modal"><i class='icon-question-sign' style='margin-right: 5px;'></i>Help</a>
 </div>
 {{#unless hasSections}}

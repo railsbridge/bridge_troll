@@ -15,11 +15,14 @@
     var sections = new Bridgetroll.Collections.Section(
       <%= @event.sections.to_json.html_safe %>
     );
+    var sessions = new Bridgetroll.Collections.Session(
+      <%= @event.event_sessions.to_json.html_safe %>
+    );
 
     Bridgetroll.sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({
       event_id: <%= @event.id %>,
       sections: sections,
-      sessions: <%= @event.event_sessions.to_json.html_safe %>,
+      sessions: sessions,
       attendees: attendees
     });
     Bridgetroll.sectionOrganizer.setElement($('#section-organizer'));

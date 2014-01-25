@@ -8,7 +8,7 @@
 </div>
 <ul class='volunteers'>
 {{#each volunteers}}
-  <li class="attendee {{#unless this.workshop_checkins_count}}no-show{{/unless}} role{{this.role_id}}" data-id="{{this.id}}">
+  <li class="attendee {{#unless this.selected_session_checkins_count}}no-show{{/unless}} role{{this.role_id}}" data-id="{{this.id}}">
     <div class="bridgetroll-badge level{{this.class_level}}" title='{{this.volunteer_letter}}: {{this.teaching_preference_description}}'>{{this.volunteer_letter}}</div>
     <span class='name'>{{this.full_name}}</span>
     <i class='icon-info-sign info'></i>
@@ -18,7 +18,7 @@
 
 <ul class='students'>
 {{#each students}}
-  <li class="attendee {{#unless this.workshop_checkins_count}}no-show{{/unless}} {{this.operating_system_type}}" data-id="{{this.id}}">
+  <li class="attendee {{#unless this.selected_session_checkins_count}}no-show{{/unless}} {{this.operating_system_type}}" data-id="{{this.id}}">
     <div class="bridgetroll-badge level{{this.class_level}}">{{this.class_level}}</div>
     <span class='name'>{{this.full_name}}</span>
     <i class='icon-info-sign info'></i>

@@ -10,6 +10,7 @@ $windows-color: rgb(255, 215, 215);
   position: relative;
 
   .actions {
+    @include clearfix;
     margin: 0 0 10px 0;
     display: block;
   }
@@ -27,6 +28,11 @@ $windows-color: rgb(255, 215, 215);
   border: 5px solid darken($orange-color, 20%);
   border-radius: 5px;
   text-align: center;
+}
+
+.section-rsvp-highlight-legend {
+  float: right;
+  display: inline-block;
 }
 
 .student-os-key {

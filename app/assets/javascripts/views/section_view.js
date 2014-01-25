@@ -17,7 +17,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
 
     this.section = options.section;
     this.attendees = options.attendees;
-    this.workshopSessionId = options.workshopSessionId;
+    this.selectedSession = options.selectedSession;
   },
 
   context: function () {
@@ -31,7 +31,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
 
   presentedStudents: function () {
     return _.map(_.pluck(this.students(), 'attributes'), _.bind(function (student_attributes) {
-      student_attributes.workshop_checkins_count = _.include(student_attributes.checked_in_session_ids, this.workshopSessionId);
+      student_attributes.selected_session_checkins_count = _.include(student_attributes.checked_in_session_ids, this.selectedSession.get('id'));
       return student_attributes;
     }, this));
   },
@@ -48,7 +48,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
       } else {
         volunteer_letter = 'x';
       }
-      volunteer_attributes.workshop_checkins_count = _.include(volunteer_attributes.checked_in_session_ids, this.workshopSessionId);
+      volunteer_attributes.selected_session_checkins_count = _.include(volunteer_attributes.checked_in_session_ids, this.selectedSession.get('id'));
       return _.extend({}, volunteer_attributes, {
         volunteer_letter: volunteer_letter
       });

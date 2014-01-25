@@ -3,7 +3,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
     var sectionView = new Bridgetroll.Views.Section({
       section: section,
       attendees: this.attendees,
-      workshopSessionId: _.last(this.sessions).id
+      selectedSession: this.selectedSession
     });
 
     this.addSubview(sectionView);
@@ -28,7 +28,9 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       'click .show-os': 'onShowOSClick',
       'click .show-unassigned': 'onShowUnassignedClick',
       'click .poll-for-changes': 'onPollForChangesClick',
-      'click .auto-arrange-choices': 'onAutoArrangeChoicesClick'
+      'click .auto-arrange-choices': 'onAutoArrangeChoicesClick',
+      'click .section-rsvp-highlight-legend': 'onSectionRsvpHighlightLegendClick',
+      'click .section-highlight-link': 'onSectionHighlightLinkClick'
     },
 
     initialize: function (options) {
@@ -37,6 +39,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.attendees = options.attendees;
       this.sections = options.sections;
       this.sessions = options.sessions;
+      this.selectedSession = this.sessions.last();
 
       this.showOS = false;
       this.showUnassigned = true;
@@ -98,7 +101,9 @@ Bridgetroll.Views.SectionOrganizer = (function () {
         hasSections: this.sections.length > 0,
         showUnassigned: this.showUnassigned,
         showOS: this.showOS,
-        polling: this.poller.polling()
+        polling: this.poller.polling(),
+        sessions: this.sessions.toJSON(),
+        selectedSession: this.selectedSession.toJSON()
       };
     },
 
@@ -144,15 +149,16 @@ Bridgetroll.Views.SectionOrganizer = (function () {
         return collection.filter(function(a) { return a.get('checkins_count') > 0 });
       }
 
-      var sessionsWithCheckinCounts = _.map(this.sessions, _.bind(function (session) {
-        session.checkedInVolunteers = checkedIn(this.volunteers()).filter(function (a) {
-          return _.include(a.get('checked_in_session_ids'), session.id);
+      var sessionsWithCheckinCounts = this.sessions.map(_.bind(function (session) {
+        var json = session.toJSON();
+        json.checkedInVolunteers = checkedIn(this.volunteers()).filter(function (a) {
+          return _.include(a.get('checked_in_session_ids'), json.id);
         }).length;
-        session.checkedInStudents = checkedIn(this.students()).filter(function (a) {
-          return _.include(a.get('checked_in_session_ids'), session.id);
+        json.checkedInStudents = checkedIn(this.students()).filter(function (a) {
+          return _.include(a.get('checked_in_session_ids'), json.id);
         }).length;
 
-        return session;
+        return json;
       }, this));
 
       var choicesView = new Bridgetroll.Views.AutoArrangeChoices({
@@ -169,6 +175,15 @@ Bridgetroll.Views.SectionOrganizer = (function () {
         }
       });
       choicesView.showModally();
+    },
+
+    onSectionRsvpHighlightLegendClick: function (e) {
+      $(e.currentTarget).toggleClass('open');
+      return false;
+    },
+
+    onSectionHighlightLinkClick: function (e) {
+      return false;
     }
   });
 })();
