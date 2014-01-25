@@ -30,9 +30,17 @@ $windows-color: rgb(255, 215, 215);
   text-align: center;
 }
 
-.section-rsvp-highlight-legend {
+.section-checkin-highlight-legend {
   float: right;
   display: inline-block;
+
+  .dropdown {
+    display: inline-block;
+
+    li {
+      width: 100%;
+    }
+  }
 }
 
 .student-os-key {

@@ -1,4 +1,8 @@
 Bridgetroll.Views.AutoArrangeChoices = (function () {
+  function checkedIn (collection) {
+    return collection.filter(function(a) { return a.get('checkins_count') > 0 });
+  }
+
   return Bridgetroll.Dialogs.Base.extend({
     className: function () {
       return this._super('className', arguments) + ' auto-arrange-choices';
@@ -11,12 +15,30 @@ Bridgetroll.Views.AutoArrangeChoices = (function () {
 
     initialize: function (params) {
       this.sessions = params.sessions;
-      this.checkedInCounts = params.checkedInCounts;
+      this.volunteers = params.volunteers;
+      this.students = params.students;
+
+      this.checkedInCounts = {
+        indiscriminate: {
+          volunteers: this.volunteers.length,
+          students: this.students.length
+        },
+        any: {
+          volunteers: checkedIn(this.volunteers).length,
+          students: checkedIn(this.students).length
+        }
+      };
     },
 
     context: function () {
+      var sessionsJson = this.sessions.map(_.bind(function (session) {
+        var json = session.toJSON();
+        json.checkedInStudents = session.checkedInStudents(this.students);
+        json.checkedInVolunteers = session.checkedInVolunteers(this.volunteers);
+        return json;
+      }, this));
       return {
-        sessions: this.sessions,
+        sessions: sessionsJson,
         checkedInCounts: this.checkedInCounts
       }
     },

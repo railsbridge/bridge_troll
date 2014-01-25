@@ -29,7 +29,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       'click .show-unassigned': 'onShowUnassignedClick',
       'click .poll-for-changes': 'onPollForChangesClick',
       'click .auto-arrange-choices': 'onAutoArrangeChoicesClick',
-      'click .section-rsvp-highlight-legend': 'onSectionRsvpHighlightLegendClick',
+      'click .section-checkin-highlight-legend .dropdown': 'onSectionRsvpHighlightLegendClick',
       'click .section-highlight-link': 'onSectionHighlightLinkClick'
     },
 
@@ -39,7 +39,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.attendees = options.attendees;
       this.sections = options.sections;
       this.sessions = options.sessions;
-      this.selectedSession = this.sessions.last();
+      this.selectedSession = this.sessions.last().clone();
 
       this.showOS = false;
       this.showUnassigned = true;
@@ -145,34 +145,10 @@ Bridgetroll.Views.SectionOrganizer = (function () {
     },
     
     onAutoArrangeChoicesClick: function () {
-      function checkedIn (collection) {
-        return collection.filter(function(a) { return a.get('checkins_count') > 0 });
-      }
-
-      var sessionsWithCheckinCounts = this.sessions.map(_.bind(function (session) {
-        var json = session.toJSON();
-        json.checkedInVolunteers = checkedIn(this.volunteers()).filter(function (a) {
-          return _.include(a.get('checked_in_session_ids'), json.id);
-        }).length;
-        json.checkedInStudents = checkedIn(this.students()).filter(function (a) {
-          return _.include(a.get('checked_in_session_ids'), json.id);
-        }).length;
-
-        return json;
-      }, this));
-
       var choicesView = new Bridgetroll.Views.AutoArrangeChoices({
-        sessions: sessionsWithCheckinCounts,
-        checkedInCounts: {
-          indiscriminate: {
-            volunteers: this.volunteers().length,
-            students: this.students().length
-          },
-          any: {
-            volunteers: checkedIn(this.volunteers()).length,
-            students: checkedIn(this.students()).length
-          }
-        }
+        sessions: this.sessions,
+        volunteers: this.volunteers(),
+        students: this.students()
       });
       choicesView.showModally();
     },
@@ -183,6 +159,9 @@ Bridgetroll.Views.SectionOrganizer = (function () {
     },
 
     onSectionHighlightLinkClick: function (e) {
+      $('.section-checkin-highlight-legend .dropdown').toggleClass('open');
+      this.selectedSession.set(this.sessions.where({id: $(e.target).data('id')})[0].attributes);
+      this.render();
       return false;
     }
   });
