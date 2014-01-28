@@ -37,9 +37,7 @@
 
       <div class="event-sessions">
         <%= f.fields_for :event_sessions do |event_sessions_form| %>
-          <% if @event.new_record? %>
-            <span class="remove-session hidden pull-right">(<a href="#">Remove Session</a>)</span>
-          <% end %>
+          <span class="remove-session hidden pull-right">(<a href="#">Remove Session</a>)</span>
           <%= event_sessions_form.label :name, 'Session Name' %>
           <div><%= event_sessions_form.text_field :name %></div>
 
