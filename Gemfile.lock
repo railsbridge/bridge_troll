@@ -54,8 +54,6 @@ GEM
     capybara-screenshot (0.3.14)
       capybara (>= 1.0, < 3)
       launchy
-    childprocess (0.3.9)
-      ffi (~> 1.0, >= 1.0.11)
     chunky_png (1.2.8)
     cliver (0.3.2)
     coderay (1.0.9)
@@ -80,7 +78,7 @@ GEM
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
       warden (~> 1.2.3)
-    diff-lcs (1.2.4)
+    diff-lcs (1.2.5)
     eco (1.0.0)
       coffee-script
       eco-source
@@ -100,7 +98,7 @@ GEM
       i18n (~> 0.5)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
-    ffi (1.9.0)
+    ffi (1.9.3)
     font-awesome-rails (3.2.1.3)
       railties (>= 3.2, < 5.0)
     formatador (0.2.4)
@@ -131,15 +129,12 @@ GEM
     httpauth (0.2.0)
     i18n (0.6.5)
     icalendar (1.5.0)
-    jasmine (1.3.2)
-      jasmine-core (~> 1.3.1)
-      rack (~> 1.0)
-      rspec (>= 1.3.1)
-      selenium-webdriver (>= 0.1.3)
-    jasmine-core (1.3.1)
-    jasmine-phantom (0.0.9)
-      jasmine (>= 1.2.0)
-      posix-spawn
+    jasmine (2.0.0)
+      jasmine-core (~> 2.0.0)
+      phantomjs
+      rack (>= 1.2.1)
+      rake
+    jasmine-core (2.0.0)
     journey (1.0.4)
     jquery-datatables-rails (1.11.2)
       jquery-rails
@@ -164,7 +159,7 @@ GEM
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.5.2)
-    multi_json (1.8.2)
+    multi_json (1.8.4)
     multipart-post (1.2.0)
     nested_form (0.3.2)
     nokogiri (1.6.0)
@@ -186,13 +181,13 @@ GEM
       omniauth (~> 1.0)
     orm_adapter (0.4.0)
     pg (0.17.0)
+    phantomjs (1.9.2.1)
     poltergeist (1.5.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     polyglot (0.3.3)
-    posix-spawn (0.3.6)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -241,10 +236,10 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    rspec-core (2.14.5)
-    rspec-expectations (2.14.2)
+    rspec-core (2.14.7)
+    rspec-expectations (2.14.4)
       diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.14.3)
+    rspec-mocks (2.14.4)
     rspec-rails (2.14.0)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -252,7 +247,6 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    rubyzip (0.9.9)
     safe_yaml (0.9.7)
     sanitize (2.0.6)
       nokogiri (>= 1.4.4)
@@ -266,11 +260,6 @@ GEM
     select2-rails (3.4.9)
       sass-rails
       thor (~> 0.14)
-    selenium-webdriver (2.35.1)
-      childprocess (>= 0.2.5)
-      multi_json (~> 1.0)
-      rubyzip (< 1.0.0)
-      websocket (~> 1.0.4)
     sentry-raven (0.6.0)
       faraday (>= 0.7.6)
       hashie (>= 1.1.0)
@@ -313,7 +302,6 @@ GEM
     webmock (1.13.0)
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
-    websocket (1.0.7)
     websocket-driver (0.3.1)
     xpath (2.0.0)
       nokogiri (~> 1.3)
@@ -342,7 +330,6 @@ DEPENDENCIES
   heroku_san
   icalendar
   jasmine
-  jasmine-phantom
   jquery-datatables-rails
   jquery-rails
   jquery-ui-rails

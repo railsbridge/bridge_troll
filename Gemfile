@@ -51,7 +51,6 @@ end
 
 group :test, :development do
   gem 'jasmine'
-  gem 'jasmine-phantom'
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'awesome_print'

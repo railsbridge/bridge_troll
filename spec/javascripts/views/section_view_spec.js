@@ -19,7 +19,8 @@ describe("Bridgetroll.Views.Section", function () {
     });
     view = new Bridgetroll.Views.Section({
       section: model,
-      attendees: attendees
+      attendees: attendees,
+      selectedSession: new Bridgetroll.Models.Section({id: 2, name: 'Cool Section'})
     });
   });
 
@@ -57,7 +58,7 @@ describe("Bridgetroll.Views.Section", function () {
   
   describe("onDestroyClick", function () {
     beforeEach(function () {
-      spyOn(window, 'confirm').andReturn(true);
+      spyOn(window, 'confirm').and.returnValue(true);
       view.onDestroyClick();
     });
 
@@ -111,8 +112,6 @@ describe("Bridgetroll.Views.Section", function () {
         it("applies changes to the model", function () {
           expect(model.get('name')).toEqual("Pirate's Bay");
         });
-
-        it("closes the modal");
       });
     });
   });
