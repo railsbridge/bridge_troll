@@ -30,6 +30,7 @@ Bridgetroll::Application.routes.draw do
         get :volunteer
         get :learn
       end
+      resources :surveys, :only => [:new, :create]
     end
 
     resources :event_sessions, :only => [:index] do
@@ -41,6 +42,7 @@ Bridgetroll::Application.routes.draw do
       get "organize_sections"
       get "levels"
       get "diets"
+      get "send_survey_email"
     end
   end
 

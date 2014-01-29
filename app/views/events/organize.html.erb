@@ -70,6 +70,15 @@
       <h3><%= session.name %></h3>
       <p><%= @checkin_counts[:checkin][session.id] %>/<%= @checkin_counts[:rsvp][session.id] %> Checked In</p>
     <% end %>
+    <h2>Tools for after the event</h2>
+    <section class="organizer-dashboard-section">
+      <%= render partial: 'shared/organizer_action', locals: {
+        path: send_survey_email_event_path(@event),
+        icon: 'icon-envelope',
+        text: 'Send Survey',
+        tip: 'Click here to send a link to the follow up survey to all students and volunteers.'
+      } %>
+    </section>
 
   </div>
 </div>

@@ -13,3 +13,19 @@
     font-style: italic;
   }
 }
+
+#survey-form {
+  textarea {
+    width: 100%;
+    height: 150px;
+  }
+  label {
+    font-family: 'AmbleRegular', sans-serif;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  input[type="submit"] {
+    display: block;
+    margin-top: 20px;
+  }
+}
