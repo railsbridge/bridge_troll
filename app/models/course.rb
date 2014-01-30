@@ -112,6 +112,32 @@ class Course < ActiveHash::Base
           ]
         }
       ]
+    }, {
+      id: 3,
+      name: 'JAVASCRIPT',
+      title: 'Intro to Javascript',
+      description: 'This is javascript workshop. The focus will be on learning to program, where Javascript is the frist language. You can find all the curriculum materials at <a href="http://snake-tutorial.zeespencer.com.s3-website-us-west-2.amazonaws.com/lesson-1/">the temporary location</a>.',
+      levels: [
+        {
+          level: 1,
+          color: 'blue',
+          title: "Experience with HTML",
+          level_description: [
+            'Totally new to Javascript itself',
+            'Made a webpage before, maybe at a RailsBridge Front End Workshop',
+            'No experience with programming languages other than HTML and CSS',
+          ]
+        }, {
+          level: 2,
+          color: 'orange',
+          title: "Programmer new to Javascript",
+          level_description: [
+            'Comfortable making a complex webpage',
+            'Some experience in a programming lanugage like ActionScript, C, Java, Ruby or Python',
+            'Has seen javascript, but didn\'t really understand how it worked',
+          ]
+        }
+      ]
     }
   ]
   enum_accessor :name
