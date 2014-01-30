@@ -1,15 +1,26 @@
 describe("Bridgetroll.Views.Section", function () {
-  var view, model, attendees;
+  var view, model, attendees, vols, Role;
   beforeEach(function () {
+    vols = {};
+    Role = Bridgetroll.Enums.Role;
+    var id = 9;
+    function attendee(attrs) {
+      id++;
+      return _.extend({id: id, event_id: 191}, attrs);
+    }
+    function volunteer(attrs) { return _.extend(attendee({role_id: Role.VOLUNTEER}), attrs); }
+    function student(attrs) { return _.extend(attendee({role_id: Role.STUDENT}), attrs); }
+    vols['bother']  = volunteer({section_id: 401, teaching: true, taing: true});
+    vols['teacher'] = volunteer({section_id: 401, teaching: true, taing: false});
+    vols['taer']    = volunteer({section_id: 401, teaching: false, taing: true});
+    vols['neither'] = volunteer({section_id: 401, teaching: false, taing: false});
+
     attendees = new Bridgetroll.Collections.Attendee([
-      {id: 9,  event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Othersection Rand', section_id: 11},
-      {id: 10, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Lana Lang', class_level: 1, section_id: 401},
-      {id: 11, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Zana Zang', class_level: 1, section_id: 401},
-      {id: 12, event_id: 191, role_id: Bridgetroll.Enums.Role.STUDENT, full_name: 'Student Person', class_level: 2, section_id: 401},
-      {id: 13, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Bother', section_id: 401, teaching: true, taing: true},
-      {id: 14, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Teacher', section_id: 401, teaching: true, taing: false},
-      {id: 15, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Taer', section_id: 401, teaching: false, taing: true},
-      {id: 16, event_id: 191, role_id: Bridgetroll.Enums.Role.VOLUNTEER, full_name: 'Neither', section_id: 401, teaching: false, taing: false}
+      student({full_name: 'Othersection Rand', section_id: 11}),
+      student({full_name: 'Lana Lang', class_level: 1, section_id: 401}),
+      student({full_name: 'Zana Zang', class_level: 1, section_id: 401}),
+      student({full_name: 'Student Person', class_level: 2, section_id: 401}),
+      vols['bother'], vols['teacher'], vols['taer'], vols['neither']
     ]);
     model = new Bridgetroll.Models.Section({
       class_level: 1,
@@ -30,10 +41,10 @@ describe("Bridgetroll.Views.Section", function () {
     });
 
     it("renders volunteers with a special letter representing their teaching/ta preferences", function () {
-      expect(view.$('[data-id="13"] .bridgetroll-badge')).toContainText('?');
-      expect(view.$('[data-id="14"] .bridgetroll-badge')).toContainText('T');
-      expect(view.$('[data-id="15"] .bridgetroll-badge')).toContainText('t');
-      expect(view.$('[data-id="16"] .bridgetroll-badge')).toContainText('x');
+      expect(view.$('[data-id="' + vols['bother'].id + '"] .bridgetroll-badge')).toContainText('?');
+      expect(view.$('[data-id="' + vols['teacher'].id + '"] .bridgetroll-badge')).toContainText('T');
+      expect(view.$('[data-id="' + vols['taer'].id + '"] .bridgetroll-badge')).toContainText('t');
+      expect(view.$('[data-id="' + vols['neither'].id + '"] .bridgetroll-badge')).toContainText('x');
     });
 
   });
@@ -55,7 +66,7 @@ describe("Bridgetroll.Views.Section", function () {
       });
     });
   });
-  
+
   describe("onDestroyClick", function () {
     beforeEach(function () {
       spyOn(window, 'confirm').and.returnValue(true);
