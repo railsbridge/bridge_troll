@@ -5,6 +5,8 @@
     marker.lng location.longitude
   end
 %>
+<script src="//maps.google.com/maps/api/js?v=3.13&amp;sensor=false&amp;libraries=geometry"></script>
+<script src='//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js'></script>
 <script>
   var handler = Gmaps.build('Google');
   handler.buildMap({provider: {}, internal: {id: 'gmaps4rails_map'}}, function(){
