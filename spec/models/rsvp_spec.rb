@@ -35,7 +35,7 @@ describe Rsvp do
     subject { build(:rsvp) }
 
     it { should validate_presence_of(:subject_experience) }
-    it { should ensure_length_of(:subject_experience).is_at_most(250).is_at_least(10) }
+    it { should validate_length_of(:subject_experience).is_at_most(250).is_at_least(10) }
 
     it "should only require class_level if teaching or TAing" do
       subject.class_level.should be_nil
@@ -52,7 +52,7 @@ describe Rsvp do
 
       subject.teaching = true
       subject.should validate_presence_of(:teaching_experience)
-      subject.should ensure_length_of(:teaching_experience).is_at_least(10).is_at_most(250)
+      subject.should validate_length_of(:teaching_experience).is_at_least(10).is_at_most(250)
     end
 
     it "allows rsvps from the same user ID but different user type" do
