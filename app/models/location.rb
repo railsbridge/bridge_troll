@@ -5,9 +5,12 @@ class Location < ActiveRecord::Base
   attr_accessible :name, :address_1, :address_2, :city, :state, :zip, :chapter_id
 
   validates_presence_of :name, :address_1, :city, :chapter
-  acts_as_gmappable(process_geocoding: !Rails.env.test?)
+  unless Rails.env.test?
+    geocoded_by :full_address
+    after_validation :geocode
+  end
 
-  def gmaps4rails_address
+  def full_address
     "#{self.address_1}, #{self.city}, #{self.state}, #{self.zip}"
   end
 

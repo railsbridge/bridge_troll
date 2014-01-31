@@ -21,6 +21,8 @@ class Rsvp < ActiveRecord::Base
   has_many :dietary_restrictions, dependent: :destroy
   has_many :event_email_recipients, foreign_key: :recipient_rsvp_id, dependent: :destroy
 
+  has_one  :survey
+
   validates_uniqueness_of :user_id, scope: [:event_id, :user_type]
   validates_presence_of :user, :event, :role
   validates_presence_of :childcare_info, if: lambda { |rsvp| rsvp.needs_childcare? }

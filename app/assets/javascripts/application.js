@@ -14,6 +14,7 @@
 //= require select2
 //= require handlebars.runtime
 //= require underscore
+//= require gmaps/google
 //= require backbone
 //= require backbone-super
 //= require jquery.event.drag
