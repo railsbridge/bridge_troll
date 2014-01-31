@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131210054655) do
+ActiveRecord::Schema.define(:version => 20140111222110) do
 
   create_table "chapters", :force => true do |t|
     t.string   "name"
@@ -179,6 +179,14 @@ ActiveRecord::Schema.define(:version => 20131210054655) do
   end
 
   add_index "sections", ["event_id"], :name => "index_sections_on_event_id"
+
+  create_table "surveys", :force => true do |t|
+    t.integer "rsvp_id"
+    t.text    "good_things"
+    t.text    "bad_things"
+    t.text    "other_comments"
+    t.integer "recommendation_likelihood"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                   :default => "",    :null => false
