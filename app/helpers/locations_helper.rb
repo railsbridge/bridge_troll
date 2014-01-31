@@ -6,7 +6,7 @@ module LocationsHelper
   end
 
   def location_map_link location
-    "http://maps.google.com/?q=#{Rack::Utils.escape(location.gmaps4rails_address)}"
+    "http://maps.google.com/?q=#{Rack::Utils.escape(location.full_address)}"
   end
 
   private

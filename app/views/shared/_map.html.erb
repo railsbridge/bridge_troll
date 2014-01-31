@@ -1,12 +1,16 @@
-<%= gmaps({
-    "map_options" => { 
-      "auto_adjust" => false, 
-      "zoom" => 15, 
-      "center_latitude" => location.latitude, 
-      "center_longitude" => location.longitude 
-    },
-    "markers" => { 
-      "data" => location.to_gmaps4rails 
-    }
-  })
+<div class="gmaps4rails_map" id="gmaps4rails_map"></div>
+<%
+  markers = Gmaps4rails.build_markers([location]) do |location, marker|
+    marker.lat location.latitude
+    marker.lng location.longitude
+  end
 %>
+<script>
+  var handler = Gmaps.build('Google');
+  handler.buildMap({provider: {}, internal: {id: 'gmaps4rails_map'}}, function(){
+    var markers = handler.addMarkers(<%=raw markers.to_json %>);
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+    handler.getMap().setZoom(15);
+  });
+</script>
