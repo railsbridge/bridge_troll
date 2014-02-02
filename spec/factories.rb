@@ -87,4 +87,11 @@ FactoryGirl.define do
     rsvp
     event_session
   end
+
+  factory :survey do
+    rsvp
+    good_things "Those dog stickers were great"
+    bad_things "More vegan food"
+    other_comments "Thank you!"
+  end
 end

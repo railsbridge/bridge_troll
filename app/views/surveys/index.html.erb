@@ -1,0 +1,10 @@
+<%= content_for(:header_text, @event.title) %>
+<%= content_for(:header_link, organize_event_path(@event)) %>
+
+<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Survey Results'} %>
+
+<h2>Student Survey Results</h2>
+  <%= render 'results', rsvps: @student_rsvps %>
+
+<h2>Volunteer Survey Results</h2>
+  <%= render 'results', rsvps: @volunteer_rsvps %>

@@ -1,0 +1,19 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>What was great?</th>
+      <th>What could have been better?</th>
+      <th>Comments</th>
+    </tr>
+  </thead>
+  <% rsvps.each do |rsvp| %>
+    <% if rsvp.survey %>
+      <% survey = rsvp.survey %>
+      <tr>
+        <td><%= survey.good_things%></td>
+        <td><%= survey.bad_things %></td>
+        <td><%= survey.other_comments %></td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>

@@ -3,13 +3,13 @@ require 'spec_helper'
 describe SurveysController do
   before do
     @event = create(:event, title: 'The Best Railsbridge')
+    @user = create(:user)
+    @rsvp = create(:volunteer_rsvp, user: @user, event: @event)
   end
 
   describe "when signed in" do
     before do
-      @user = create(:user)
       sign_in @user
-      @rsvp = create(:rsvp, user: @user)
     end
 
     describe "#new" do
@@ -69,6 +69,34 @@ describe SurveysController do
           }
           expect { put :create, params }.to change { Survey.count }.by(0)
         end
+      end
+    end
+  end
+
+  describe "#index" do
+    context "as the organizer" do
+      before do
+        @organizer = create(:user)
+        @event.organizers << @organizer
+        sign_in @organizer
+      end
+
+      it "shows the survey results" do
+        get :index, event_id: @event.id
+        expect(response).to be_success
+        expect(assigns(:event)).to eq @event
+        expect(assigns(:volunteer_rsvps)).to eq @event.attendee_rsvps
+      end
+    end
+
+    context "as someone who is not the organizer" do
+      before do
+        sign_in @user
+      end
+
+      it "doesn't show the survey results" do
+        get :index, event_id: @event.id
+        expect(response.code).to eq "302"
       end
     end
   end
