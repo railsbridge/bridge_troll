@@ -1,7 +1,8 @@
 class SurveysController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :load_resources
-  before_filter :validate_user!
+  before_filter :load_resources, except: :index
+  before_filter :validate_user!, except: :index
+  before_filter :validate_organizer!, only: :index
 
   def new
     @survey = Survey.where(rsvp_id: @rsvp.id).first_or_initialize
@@ -21,6 +22,12 @@ class SurveysController < ApplicationController
     else
       render :new
     end
+  end
+
+  def index
+    @event = Event.find(params[:event_id])
+    @student_rsvps = @event.student_rsvps
+    @volunteer_rsvps = @event.volunteer_rsvps
   end
 
   private
