@@ -13,7 +13,7 @@ You'll be <%= verb(@rsvp.role) %> <%= pluralize(@rsvp.rsvp_sessions.count, 'sess
 
 <p>If any of your details (childcare, class preference, food needs) change, you can <%= link_to 'update your RSVP here', edit_event_rsvp_url(@rsvp.event, @rsvp.id) %>.</p>
 
-<p>If your plans change and you can't make it to the workshop, be sure to <%= link_to "cancel your RSVP on the event page", event_url(@rsvp.event) %> so that someone from the waitlist can have your spot.</p>
+<p>If your plans change and you can't make it to the workshop, be sure to <%= link_to "cancel your RSVP on the event page", event_url(@rsvp.event) %><% if @rsvp.role == Role::STUDENT %> so that someone from the waitlist can have your spot<% end %>.</p>
 
 <% if @rsvp.role == Role::STUDENT %>
   <%= simple_format_with_html(@rsvp.event.student_details) %>
