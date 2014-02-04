@@ -12,7 +12,7 @@
       </div>
     <% end %>
 
-    <% if @rsvp.role == Role::STUDENT %>
+    <% if @rsvp.role_student? %>
       <div class="field">
         <h2>Operating System</h2>
         <a href="http://docs.railsbridge.org/installfest/macintosh">(Not sure what OSX version you have?)</a>
@@ -33,7 +33,7 @@
       </div>
     <% end %>
 
-    <% if @rsvp.role == Role::VOLUNTEER %>
+    <% if @rsvp.role_volunteer? %>
       <h2>Subject & Teaching Experience</h2>
       <div class="field">
         <%= f.label :subject_experience, "What's your experience with this workshop's subject matter?", class: "question" %>
@@ -76,7 +76,7 @@
                                    {
                                      item_wrapper_class: 'checkbox_row',
                                      item_wrapper_tag: 'div',
-                                     disabled: @rsvp.role == Role::STUDENT ? @event.event_sessions.where({required_for_students: true}).pluck(:id) : []
+                                     disabled: @rsvp.role_student? ? @event.event_sessions.where({required_for_students: true}).pluck(:id) : []
                                    }) %>
     <% end %>
 

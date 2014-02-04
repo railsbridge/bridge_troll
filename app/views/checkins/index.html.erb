@@ -27,7 +27,7 @@
           <%= link_to rsvp_session.user_full_name, user_profile_path(rsvp_session.rsvp.user) %>
         </td>
         <td><%= rsvp.role.title %>
-          <% if rsvp.role == Role::STUDENT %>
+          <% if rsvp.role_student? %>
             <%= link_to levels_event_path(@event) do %>
               <div class='bridgetroll-badge level<%= rsvp.class_level %>'>
                 <%= rsvp.class_level %>

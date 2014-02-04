@@ -77,10 +77,10 @@ class Events::EmailsController < ApplicationController
         students: 0
       }
       email.recipient_rsvps.each do |rsvp|
-        if rsvp.role == Role::VOLUNTEER
+        if rsvp.role_volunteer?
           @email_recipients[email.id][:volunteers] += 1
         end
-        if rsvp.role == Role::STUDENT
+        if rsvp.role_student?
           @email_recipients[email.id][:students] += 1
         end
       end
