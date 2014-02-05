@@ -1,6 +1,4 @@
 class Rsvp < ActiveRecord::Base
-  extend ActiveHash::Associations::ActiveRecordExtensions
-
   attr_accessible :subject_experience, :teaching, :taing, :teaching_experience, :teaching_experience,
                   :childcare_info, :operating_system_id, :job_details, :class_level, :dietary_info,
                   :needs_childcare, :event_session_ids
@@ -10,8 +8,6 @@ class Rsvp < ActiveRecord::Base
   belongs_to :user, polymorphic: true
   belongs_to :event
   belongs_to :section
-
-  belongs_to_active_hash :volunteer_preference
 
   delegate :full_name, to: :user
   delegate :historical?, to: :event, allow_nil: true
@@ -35,7 +31,6 @@ class Rsvp < ActiveRecord::Base
     for_volunteers.validates_presence_of :teaching_experience, :subject_experience, :class_level
     for_volunteers.validates_length_of :teaching_experience, :subject_experience, :in => 10..MAX_EXPERIENCE_LENGTH
     for_volunteers.validates_inclusion_of :class_level, in: (0..5), allow_blank: true
-
   end
 
   with_options(if: Proc.new {|rsvp| rsvp.role_student? && !rsvp.historical? }) do |for_students|
@@ -43,9 +38,11 @@ class Rsvp < ActiveRecord::Base
     for_students.validates_inclusion_of :class_level, in: (1..5), allow_blank: true
   end
 
+  extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :role
   belongs_to_active_hash :volunteer_assignment
   belongs_to_active_hash :operating_system
+  belongs_to_active_hash :volunteer_preference
 
   def operating_system_title
     operating_system.try(:title)
