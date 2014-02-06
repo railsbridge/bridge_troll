@@ -50,6 +50,7 @@ class EventsController < ApplicationController
 
     if @event.save
       @event.organizers << current_user
+      EventMailer.unpublished_event(@event).deliver
       redirect_to @event, notice: 'Event was successfully created.'
     else
       render action: "new"

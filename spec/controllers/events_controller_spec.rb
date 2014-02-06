@@ -225,7 +225,7 @@ describe EventsController do
         let(:create_params) {
           {
             "event" => {
-              "title" => "asdfasdfasdf",
+              "title" => "Party Zone",
               "time_zone" => "Alaska",
               "student_rsvp_limit" => 100,
               "event_sessions_attributes" => {
@@ -273,6 +273,29 @@ describe EventsController do
         it "shows a success message" do
           make_request(create_params)
           flash[:notice].should_not be_empty
+        end
+
+        describe "notifying admins" do
+          before do
+            @user.update_attributes(first_name: 'Nitro', last_name: 'Boost')
+            @admin1 = create(:user, admin: true)
+            @admin2 = create(:user, admin: true)
+          end
+
+          let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
+
+          it "allows emails to be sent to waitlisted students" do
+            expect {
+              make_request(create_params)
+            }.to change(ActionMailer::Base.deliveries, :count).by(1)
+
+            mail = ActionMailer::Base.deliveries.last
+            mail.subject.should include('Nitro Boost')
+            mail.subject.should include('Party Zone')
+            mail.body.should include('Party Zone')
+
+            recipients.should =~ [@admin1.email, @admin2.email]
+          end
         end
       end
 

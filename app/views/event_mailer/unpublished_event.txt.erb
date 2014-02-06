@@ -1,0 +1,19 @@
+Howdy, Bridge Troll administrator!
+
+A new event, "<%= @event.title %>", has been posted to Bridge Troll!
+
+<% if @event.location %>
+  <%= @event.title %> will be held at:
+    <%= pretty_print_address(@event.location) %>
+<% end %>
+
+There will be <%= pluralize(@event.event_sessions.count, 'session') %>:
+<% @event.event_sessions.each do |s| %>
+  <%= pretty_print_session(s) %>
+<% end %>
+
+<% if @event.published %>
+This event is already published, so you should be able to find it here: <%= events_path %>
+<% else %>
+Go see the list of unpublished events to see if this is worth approving by clicking this link: <%= unpublished_events_path %>
+<% end %>
