@@ -1,8 +1,9 @@
 class EventsController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :past_events, :all_events, :show, :levels]
-  before_filter :find_event, except: [:index, :past_events, :all_events, :create, :new]
-  before_filter :validate_organizer!, except: [:index, :past_events, :all_events, :create, :show, :new, :levels]
+  before_filter :find_event, except: [:index, :unpublished, :past_events, :all_events, :create, :new]
+  before_filter :validate_organizer!, except: [:index, :unpublished, :past_events, :all_events, :create, :show, :new, :levels]
   before_filter :set_time_zone, only: [:create, :update]
+  before_filter :validate_admin!, only: [:unpublished, :publish]
 
   def index
     @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location)
@@ -96,6 +97,15 @@ class EventsController < ApplicationController
   end
 
   def diets
+  end
+
+  def unpublished
+    @events = Event.where(published: false)
+  end
+
+  def publish
+    @event.update_attribute(:published, true)
+    redirect_to @event, notice: "This event has been published. Now everyone in the world can see it!"
   end
 
   protected

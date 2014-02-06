@@ -1,0 +1,19 @@
+<div class="row-fluid">
+  <div class="span12">
+    <div class='unpublished-events'>
+      <h1>Unpublished events</h1>
+
+      <% if @events.empty? %>
+        <h2>There are currently no unpublished events.</h2>
+      <% end %>
+      <% @events.each do |event| %>
+        <%= render 'unpublished_event', event: event %>
+      <% end %>
+    </div>
+
+    <% links = [
+      ['Events', events_path],
+    ] %>
+    <%= render 'shared/actions', links: links %>
+  </div>
+</div>

@@ -482,5 +482,4 @@ describe EventsController do
       result_titles.should == [@past_event, @past_external_event, @future_external_event, @future_event].map(&:title)
     end
   end
-
 end

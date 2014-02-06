@@ -1,0 +1,19 @@
+<div class='event-card event-<%= event.id %>'>
+  <div class='event-title'>
+    <%= link_to event.title, event %>
+  </div>
+  <div class='event-times'>
+    <% event.event_sessions.each_with_index do |session, index| %>
+      <i class='icon-calendar'></i><%= formatted_session_fancy_date(session) %><% if index < event.event_sessions.length - 1 %><br /><% end %>
+    <% end %>
+  </div>
+  <div class='event-location'>
+    <% if event.location %>
+      <i class='icon-map-marker'></i><%= event.location.name %>,
+      <%= [event.location.city, event.location.state].select(&:present?).join(', ') %>
+    <% end %>
+  </div>
+  <div class='event-actions'>
+    <%= button_to 'Publish', publish_event_path(event), class: 'btn', method: :post %>
+  </div>
+</div>

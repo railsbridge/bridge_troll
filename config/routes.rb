@@ -39,7 +39,14 @@ Bridgetroll::Application.routes.draw do
       resources :checkins, :only => [:index, :create, :destroy]
     end
 
+    collection do
+      get "unpublished"
+      get "past_events"
+      get "all_events"
+    end
+
     member do
+      post "publish"
       get "organize"
       get "organize_sections"
       get "levels"
@@ -49,10 +56,6 @@ Bridgetroll::Application.routes.draw do
   end
 
   resources :external_events
-
-  get "/past_events" => "events#past_events"
-
-  get "/all_events" => "events#all_events"
 
   get "/about" => "static_pages#about"
 
