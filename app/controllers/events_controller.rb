@@ -106,6 +106,7 @@ class EventsController < ApplicationController
 
   def publish
     @event.update_attribute(:published, true)
+    EventMailer.new_event(@event).deliver
     redirect_to @event, notice: "This event has been published. Now everyone in the world can see it!"
   end
 

@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :chapters
 
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
-                  :remember_me, :time_zone, :chapter_ids, :gender
+                  :remember_me, :time_zone, :chapter_ids, :gender, :allow_event_email
 
   validates_presence_of :first_name, :last_name
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true

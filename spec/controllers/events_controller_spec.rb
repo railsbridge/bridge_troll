@@ -505,4 +505,41 @@ describe EventsController do
       result_titles.should == [@past_event, @past_external_event, @future_external_event, @future_event].map(&:title)
     end
   end
+
+  describe "POST publish" do
+    before do
+      this_chapter = @event.location.chapter
+      this_chapter.update_attributes(name: 'RailsBridge Shellmound')
+      other_chapter = create(:chapter, name: 'RailsBridge Meriloft')
+
+      @user_none = create(:user)
+
+      @user_this_chapter = create(:user)
+      @user_this_chapter.chapters << this_chapter
+
+      @user_other_chapter = create(:user)
+      @user_other_chapter.chapters << other_chapter
+
+      @user_both_chapters = create(:user)
+      @user_both_chapters.chapters << this_chapter
+      @user_both_chapters.chapters << other_chapter
+
+      sign_in create(:user, admin: true)
+    end
+
+    let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
+
+    it 'sets the event to "published" and mails every user that is associated with this chapter' do
+      expect {
+        post :publish, id: @event.id
+      }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      @event.reload.should be_published
+
+      recipients.should =~ [@user_this_chapter.email, @user_both_chapters.email]
+
+      mail = ActionMailer::Base.deliveries.last
+      mail.subject.should include(@event.location.chapter.name)
+      mail.body.should include(@event.title)
+    end
+  end
 end

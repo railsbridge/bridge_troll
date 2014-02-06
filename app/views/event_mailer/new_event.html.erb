@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+</head>
+<body>
+<p>Howdy, RailsBridge fan!</p>
+
+<p>A new event, "<%= @event.title %>", has been posted to Bridge Troll!</p>
+
+<%= render 'new_event_detail' %>
+
+<p>You received this email because Bridge Troll thinks you're interested in events for the "<strong><%= @chapter.name %></strong>" chapter. If you want to change that preference, opt-out of emails entirely, or delete your account in a fit of rage, <%= link_to 'visit your preference page on Bridge Troll', edit_user_registration_url %>.</p>
+
+</body>
+</html>

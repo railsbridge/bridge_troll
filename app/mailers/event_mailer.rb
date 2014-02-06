@@ -35,4 +35,19 @@ class EventMailer < ActionMailer::Base
       subject: "Bridge Troll event #{@event.published? ? 'created' : 'awaits approval'}: '#{@event.title}' by #{@event.organizers.first.full_name}"
     )
   end
+
+  def new_event(event)
+    @event = event
+    return unless @event.location
+    @chapter = @event.location.chapter
+
+    headers['X-SMTPAPI'] = {
+      to: User.joins(:chapters).where('chapters.id' => [@chapter.id]).map(&:email)
+    }.to_json
+
+    mail(
+      to: 'info@bridgetroll.org',
+      subject: "A new #{@chapter.name} event is on Bridge Troll!"
+    )
+  end
 end
