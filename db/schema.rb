@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140206055919) do
+ActiveRecord::Schema.define(:version => 20140206072138) do
 
   create_table "chapters", :force => true do |t|
     t.string   "name"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(:version => 20140206055919) do
     t.integer "chapter_id"
     t.integer "user_id"
   end
+
+  add_index "chapters_users", ["chapter_id", "user_id"], :name => "index_chapters_users_on_chapter_id_and_user_id", :unique => true
 
   create_table "dietary_restrictions", :force => true do |t|
     t.string   "restriction"
