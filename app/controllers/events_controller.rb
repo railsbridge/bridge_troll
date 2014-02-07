@@ -101,6 +101,9 @@ class EventsController < ApplicationController
   end
 
   def unpublished
+    @chapter_user_counts = Hash[Chapter.includes(:users).map { |chapter|
+      [chapter.id, chapter.users.length]
+    }]
     @events = Event.where(published: false)
   end
 

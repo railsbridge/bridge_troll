@@ -14,6 +14,7 @@
     <% end %>
   </div>
   <div class='event-actions'>
-    <%= button_to 'Publish', publish_event_path(event), class: 'btn', method: :post %>
+    <%= button_to 'Publish', publish_event_path(event), class: 'btn', method: :post,
+                  data: {confirm: "Are you sure? This will email #{pluralize(@chapter_user_counts[event.location.chapter.id], 'member')} of #{event.location.chapter.name}"} %>
   </div>
 </div>
