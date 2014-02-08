@@ -51,7 +51,11 @@ class EventsController < ApplicationController
     if @event.save
       @event.organizers << current_user
       EventMailer.unpublished_event(@event).deliver
-      redirect_to @event, notice: 'Event was successfully created.'
+      if @event.published
+        redirect_to @event, notice: 'Event was successfully created.'
+      else
+        redirect_to @event, notice: 'Your event is awaiting approval and will appear to other users once it has been reviewed by an admin.'
+      end
     else
       render action: "new"
     end
