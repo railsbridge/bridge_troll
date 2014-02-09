@@ -33,6 +33,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def validate_publisher!
+    unless current_user.publisher? || current_user.admin?
+      flash[:error] = "You must be authorized to publish events to see this page."
+      redirect_to events_path
+    end
+  end
+
   def after_sign_in_path_for(resource)
     params[:return_to] || super
   end

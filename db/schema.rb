@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140206072138) do
+ActiveRecord::Schema.define(:version => 20140209065444) do
 
   create_table "chapters", :force => true do |t|
     t.string   "name"
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(:version => 20140206072138) do
     t.boolean  "meetup_prompt_dismissed"
     t.string   "gender"
     t.boolean  "allow_event_email",       :default => true
+    t.boolean  "publisher",               :default => false
   end
 
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true

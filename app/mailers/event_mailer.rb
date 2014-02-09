@@ -26,7 +26,7 @@ class EventMailer < ActionMailer::Base
     @event = event
 
     headers['X-SMTPAPI'] = {
-      to: User.where(admin: true).map(&:email)
+      to: User.where('admin = ? OR publisher = ?', true, true).map(&:email)
     }.to_json
 
     mail(

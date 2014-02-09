@@ -275,16 +275,16 @@ describe EventsController do
           flash[:notice].should_not be_empty
         end
 
-        describe "notifying admins" do
+        describe "notifying publishers of events" do
           before do
             @user.update_attributes(first_name: 'Nitro', last_name: 'Boost')
-            @admin1 = create(:user, admin: true)
-            @admin2 = create(:user, admin: true)
+            @admin = create(:user, admin: true)
+            @publisher = create(:user, publisher: true)
           end
 
           let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
 
-          it "allows emails to be sent to waitlisted students" do
+          it "sends an email to all admins/publishers on event creation" do
             expect {
               make_request(create_params)
             }.to change(ActionMailer::Base.deliveries, :count).by(1)
@@ -294,7 +294,7 @@ describe EventsController do
             mail.subject.should include('Party Zone')
             mail.body.should include('Party Zone')
 
-            recipients.should =~ [@admin1.email, @admin2.email]
+            recipients.should =~ [@admin.email, @publisher.email]
           end
         end
       end
@@ -524,7 +524,7 @@ describe EventsController do
       @user_both_chapters.chapters << this_chapter
       @user_both_chapters.chapters << other_chapter
 
-      sign_in create(:user, admin: true)
+      sign_in create(:user, publisher: true)
     end
 
     let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
