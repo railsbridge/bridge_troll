@@ -35,6 +35,12 @@ class RsvpsController < ApplicationController
       end
 
       if @rsvp.save
+        if params[:affiliate_with_chapter]
+          @rsvp.user.chapter_ids = (@rsvp.user.chapter_ids + [@event.location.chapter.id]).uniq
+        else
+          @rsvp.user.chapter_ids = (@rsvp.user.chapter_ids - [@event.location.chapter.id]).uniq
+        end
+
         @rsvp.user.update_attributes(gender: params[:user][:gender])
         RsvpMailer.confirmation(@rsvp).deliver
         save_dietary_restrictions(@rsvp, params[:dietary_restrictions])

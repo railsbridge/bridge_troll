@@ -49,6 +49,13 @@ describe 'creating or editing an rsvp' do
         visit edit_user_registration_path
         expect(page.find("#user_gender").value).to eq("human")
       end
+
+      it "should allow the user to affiliate themselves with the event's chapter" do
+        check 'affiliate_with_chapter'
+        expect {
+          click_on "Submit"
+        }.to change { @user.chapters.count }.by(1)
+      end
     end
   end
 

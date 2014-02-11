@@ -109,6 +109,13 @@
       <%= f.text_area :childcare_info, rows: 3, class: "input-xxlarge"  %>
     </div>
 
+    <div class="field">
+      <%= label_tag class: 'checkbox question' do %>
+        <%= check_box_tag :affiliate_with_chapter %> I want to be notified of future RailsBridge events in the "<%= @event.location.chapter.name %>" chapter.
+      <% end %>
+      <small>(Full email preferences are available <%= link_to 'on your User Account', edit_user_registration_path %>)</small>
+    </div>
+
     <div class="actions">
       <%= f.hidden_field :event_id %>
       <%= f.hidden_field :role_id %>
