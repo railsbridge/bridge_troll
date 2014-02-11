@@ -55,6 +55,8 @@ describe 'creating or editing an rsvp' do
         expect {
           click_on "Submit"
         }.to change { @user.chapters.count }.by(1)
+        visit edit_event_rsvp_path(@event, Rsvp.last)
+        expect(page.find("#affiliate_with_chapter").value).to eq("1")
       end
     end
   end

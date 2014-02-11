@@ -9,6 +9,8 @@ class Event < ActiveRecord::Base
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :course
 
+  delegate :chapter, to: :location
+
   has_many :rsvps, dependent: :destroy
   has_many :sections, dependent: :destroy
   has_many :event_emails, dependent: :destroy

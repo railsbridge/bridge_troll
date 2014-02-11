@@ -39,7 +39,7 @@ class EventMailer < ActionMailer::Base
   def new_event(event)
     @event = event
     return unless @event.location
-    @chapter = @event.location.chapter
+    @chapter = @event.chapter
 
     headers['X-SMTPAPI'] = {
       to: User.joins(:chapters).where('chapters.id' => [@chapter.id]).map(&:email)

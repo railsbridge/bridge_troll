@@ -46,7 +46,7 @@
       </div>
 
       <h2>Volunteer Preferences</h2>
-      <p class="question">Would you prefer to teach or TA?</p>
+      <p class="question">Would you prefer to teach or TA? (Checking neither means you'd prefer to do something else entirely)</p>
       <div class="field">
         <%= f.label :teaching, class: 'checkbox' do %>
           <%= f.check_box :teaching %> Teaching
@@ -110,8 +110,8 @@
     </div>
 
     <div class="field">
-      <%= label_tag class: 'checkbox question' do %>
-        <%= check_box_tag :affiliate_with_chapter %> I want to be notified of future RailsBridge events in the "<%= @event.location.chapter.name %>" chapter.
+      <%= label_tag :affiliate_with_chapter, class: 'checkbox question' do %>
+        <%= check_box_tag :affiliate_with_chapter, 1, current_user.chapters.include?(@event.chapter) %> I want to be notified of future RailsBridge events in the "<%= @event.chapter.name %>" chapter.
       <% end %>
       <small>(Full email preferences are available <%= link_to 'on your User Account', edit_user_registration_path %>)</small>
     </div>

@@ -508,7 +508,7 @@ describe EventsController do
 
   describe "POST publish" do
     before do
-      this_chapter = @event.location.chapter
+      this_chapter = @event.chapter
       this_chapter.update_attributes(name: 'RailsBridge Shellmound')
       other_chapter = create(:chapter, name: 'RailsBridge Meriloft')
 
@@ -538,7 +538,7 @@ describe EventsController do
       recipients.should =~ [@user_this_chapter.email, @user_both_chapters.email]
 
       mail = ActionMailer::Base.deliveries.last
-      mail.subject.should include(@event.location.chapter.name)
+      mail.subject.should include(@event.chapter.name)
       mail.body.should include(@event.title)
     end
   end
