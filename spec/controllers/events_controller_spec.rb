@@ -431,13 +431,9 @@ describe EventsController do
           }
         }
 
-        it "assigns the event" do
+        it "re-renders the edit form" do
           make_request(invalid_params)
           assigns(:event).should == @event
-        end
-
-        it "renders the edit form" do
-          make_request(invalid_params)
           response.should be_unprocessable
           response.should render_template('events/edit')
         end

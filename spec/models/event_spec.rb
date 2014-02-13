@@ -46,10 +46,23 @@ describe Event do
   end
 
   describe "updating an event" do
-    it "does not allow student_rsvp_limit to be decreased" do
-      event = create(:event, student_rsvp_limit: 10)
-      event.update_attributes(student_rsvp_limit: 5)
-      event.should have(1).errors_on(:student_rsvp_limit)
+    describe 'decreasing the student RSVP limit' do
+      before do
+        @event = create(:event, student_rsvp_limit: 5)
+        2.times { create(:student_rsvp, event: @event) }
+        create(:volunteer_rsvp, event: @event)
+        @event.reload
+      end
+
+      it 'is allowed if the new limit is greater than or equal to the current number of attendees' do
+        @event.update_attributes(student_rsvp_limit: 2)
+        @event.should have(0).errors_on(:student_rsvp_limit)
+      end
+
+      it 'is disallowed if anyone would be kicked out of the workshop' do
+        @event.update_attributes(student_rsvp_limit: 1)
+        @event.should have(1).errors_on(:student_rsvp_limit)
+      end
     end
 
     it "does allow student_rsvp_limit to be increased" do
