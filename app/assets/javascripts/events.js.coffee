@@ -16,6 +16,7 @@ dateChanged = ->
   $('#event_event_sessions_attributes_' + index + '_ends_at_3i').val(day)
 
 setUpDatePicker = ($el) ->
+  $el.attr('name', null) # So that the session_date field is not actually submitted.
   $el.on('change', dateChanged)
   $el.datepicker()
 
