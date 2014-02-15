@@ -11,26 +11,26 @@ class Event < ActiveRecord::Base
 
   delegate :chapter, to: :location
 
-  has_many :rsvps, dependent: :destroy
+  has_many :rsvps, dependent: :destroy, inverse_of: :event
   has_many :sections, dependent: :destroy
   has_many :event_emails, dependent: :destroy
 
-  has_many :attendee_rsvps, class_name: 'Rsvp', conditions: { role_id: [Role::STUDENT.id, Role::VOLUNTEER.id], waitlist_position: nil }
+  has_many :attendee_rsvps, class_name: 'Rsvp', inverse_of: :event, conditions: { role_id: [Role::STUDENT.id, Role::VOLUNTEER.id], waitlist_position: nil }
 
-  has_many :student_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::STUDENT.id, waitlist_position: nil }
-  has_many :student_waitlist_rsvps, class_name: 'Rsvp', conditions: "role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL"
+  has_many :student_rsvps, class_name: 'Rsvp', inverse_of: :event, conditions: { role_id: Role::STUDENT.id, waitlist_position: nil }
+  has_many :student_waitlist_rsvps, class_name: 'Rsvp', inverse_of: :event, conditions: "role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL"
   has_many :students, through: :student_rsvps, source: :user, source_type: 'User'
   has_many :legacy_students, through: :student_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :volunteer_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::VOLUNTEER.id }
+  has_many :volunteer_rsvps, class_name: 'Rsvp', inverse_of: :event, conditions: { role_id: Role::VOLUNTEER.id }
   has_many :volunteers, through: :volunteer_rsvps, source: :user, source_type: 'User'
   has_many :legacy_volunteers, through: :volunteer_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :organizer_rsvps, class_name: 'Rsvp', conditions: { role_id: Role::ORGANIZER.id }
+  has_many :organizer_rsvps, class_name: 'Rsvp', inverse_of: :event, conditions: { role_id: Role::ORGANIZER.id }
   has_many :organizers, through: :organizer_rsvps, source: :user, source_type: 'User'
   has_many :legacy_organizers, through: :organizer_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :event_sessions, dependent: :destroy, order: 'event_sessions.ends_at ASC'
+  has_many :event_sessions, dependent: :destroy, order: 'event_sessions.ends_at ASC', inverse_of: :event
   accepts_nested_attributes_for :event_sessions, allow_destroy: true
   validates :event_sessions, length: { minimum: 1 }
 

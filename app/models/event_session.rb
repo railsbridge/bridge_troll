@@ -20,11 +20,11 @@ class EventSession < ActiveRecord::Base
   end
 
   def starts_at
-    event ? date_in_time_zone(:starts_at) : read_attribute(:starts_at)
+    (event && event.persisted?) ? date_in_time_zone(:starts_at) : read_attribute(:starts_at)
   end
 
   def ends_at
-    event ? date_in_time_zone(:ends_at) : read_attribute(:ends_at)
+    (event && event.persisted?) ? date_in_time_zone(:ends_at) : read_attribute(:ends_at)
   end
 
   def session_date
