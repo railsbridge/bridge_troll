@@ -1,5 +1,5 @@
 <div class='organizer-action'>
-  <%= link_to path, class: "organizer-action #{defined?(style) && style == :inline ? 'organizer-action-inline' : ''}", confirm: defined?(confirm) ? confirm : nil do %>
+  <%= link_to path, class: "organizer-action #{defined?(style) && style == :inline ? 'organizer-action-inline' : ''}", data: { confirm: defined?(confirm) ? confirm : nil } do %>
     <div class='organizer-action-button'>
       <i class='<%= icon %>'></i>
       <%= text %>

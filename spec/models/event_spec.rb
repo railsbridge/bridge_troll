@@ -137,21 +137,24 @@ describe Event do
 
   describe ".upcoming" do
     before do
-      @event_past = build(:event_with_no_sessions)
-      @event_past.event_sessions << create(:event_session, starts_at: 4.weeks.ago, ends_at: 3.weeks.ago)
-      @event_past.save!
+      @event_past = create(:event)
+      @event_past.event_sessions.first.update_attributes(
+        starts_at: 4.weeks.ago, ends_at: 3.weeks.ago
+      )
 
-      @event_future = build(:event_with_no_sessions)
-      @event_future.event_sessions << create(:event_session, starts_at: 3.weeks.from_now, ends_at: 4.weeks.from_now)
-      @event_future.save!
+      @event_future = create(:event)
+      @event_future.event_sessions.first.update_attributes(
+        starts_at: 3.weeks.from_now, ends_at: 4.weeks.from_now
+      )
 
-      @event_in_progress = build(:event_with_no_sessions)
-      @event_in_progress.event_sessions << create(:event_session, starts_at: 2.days.ago, ends_at: 2.days.from_now)
-      @event_in_progress.save!
+      @event_in_progress = create(:event)
+      @event_in_progress.event_sessions.first.update_attributes(
+        starts_at: 2.days.ago, ends_at: 2.days.from_now
+      )
     end
 
     it "includes events that have not already ended" do
-      Event.upcoming.all.map(&:id).should == [@event_in_progress.id, @event_future.id]
+      Event.upcoming.to_a.map(&:id).should == [@event_in_progress.id, @event_future.id]
     end
   end
 
