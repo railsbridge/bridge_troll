@@ -2,26 +2,19 @@ require 'spec_helper'
 
 describe "Profile" do
   before do
-    @user = create(:user, password: "MyPassword",
-                          password_confirmation: "MyPassword")
+    @user = create(:user, password: "MyPassword")
     sign_in_as(@user)
     visit edit_user_registration_path
   end
 
-  it "allows user to change her name" do
-    page.should have_field("First/Given Name", with: @user.first_name)
+  it "allows user to change their name and gender" do
     fill_in("First/Given Name", with: "Stewie")
+    fill_in("Gender", with: "Wizard")
     click_button "Update"
-    page.should have_content("You updated your account successfully.")
-    @user.reload.first_name.should eq("Stewie")
-  end
 
-  it "allows user to change their gender" do
-    page.should have_field("Gender", with: @user.gender)
-    fill_in("First/Given Name", with: "happy")
-    click_button "Update"
-    page.should have_content("You updated your account successfully.")
-    @user.reload.first_name.should eq("happy")
+    @user.reload
+    @user.first_name.should eq("Stewie")
+    @user.gender.should eq("Wizard")
   end
 
   context "when changing your password" do
@@ -30,7 +23,7 @@ describe "Profile" do
       fill_in("Password confirmation", with: "Blueberry23")
       fill_in("Current password", with: "MyPassword")
       click_button "Update"
-      page.should have_content("You updated your account successfully.")
+
       @user.reload.valid_password?("Blueberry23").should be_true
     end
 
@@ -39,7 +32,7 @@ describe "Profile" do
       fill_in("Password confirmation", with: "blueberry23")
       fill_in("Current password", with: "MyPassword")
       click_button "Update"
-      page.should have_content("Password doesn't match confirmation")
+
       @user.reload.valid_password?("Blueberry23").should be_false
     end
 
@@ -47,7 +40,7 @@ describe "Profile" do
       fill_in("Password", match: :first, with: "Blueberry23")
       fill_in("Password confirmation", with: "Blueberry23")
       click_button "Update"
-      page.should have_content("Current password can't be blank")
+
       @user.reload.valid_password?("Blueberry23").should be_false
     end
 
@@ -56,36 +49,36 @@ describe "Profile" do
       fill_in("Password confirmation", with: "Blueberry23")
       fill_in("Current password", with: "SomeOtherPassword")
       click_button "Update"
-      page.should have_content("Current password is invalid")
+
       @user.reload.valid_password?("Blueberry23").should be_false
     end
   end
 
   context "when changing your email address" do
+    let!(:old_email) { @user.email }
+    let!(:new_email) { "floppy_ears@railsbridge.example.com" }
+
     it "is successful when correct current password is provided" do
-      fill_in("Email", with: "floppy_ears@railsbridge.example.com",
-                       match: :first)
+      fill_in("Email", with: new_email, match: :first)
       fill_in("Current password", with: "MyPassword")
       click_button "Update"
-      page.should have_content("You updated your account successfully.")
-      @user.reload.email.should eq("floppy_ears@railsbridge.example.com")
+
+      @user.reload.email.should eq(new_email)
     end
 
     it "is unsuccessful when correct current password is missing" do
-      fill_in("Email", with: "floppy_ears@railsbridge.example.com",
-                       match: :first)
+      fill_in("Email", with: new_email, match: :first)
       click_button "Update"
-      page.should have_content("Current password can't be blank")
-      @user.reload.email.should_not eq("floppy_ears@railsbridge.example.com")
+
+      @user.reload.email.should eq(old_email)
     end
 
     it "is unsuccessful when correct current password is incorrect" do
-      fill_in("Email", with: "floppy_ears@railsbridge.example.com",
-                       match: :first)
+      fill_in("Email", with: new_email, match: :first)
       fill_in("Current password", with: "SomeOtherPassword")
       click_button "Update"
-      page.should have_content("Current password is invalid")
-      @user.reload.email.should_not eq("floppy_ears@railsbridge.example.com")
+
+      @user.reload.email.should eq(old_email)
     end
   end
 end
