@@ -101,6 +101,39 @@ describe Event do
     end
   end
 
+  describe '#starts_at, #ends_at' do
+    it 'populates from the event_session when creating an event+session together' do
+      event = Event.create(
+        title: "Amazingly Sessioned Event",
+        details: "This is note in the details attribute.",
+        time_zone: "Hawaii",
+        published: true,
+        student_rsvp_limit: 100,
+        course_id: Course::RAILS.id,
+        volunteer_details: "I am some details for volunteers.",
+        student_details: "I am some details for students.",
+        event_sessions_attributes: {
+          "0" => {
+            name: "My Amazing Session",
+            required_for_students: "1",
+            "starts_at(1i)" => "2015",
+            "starts_at(2i)" => "01",
+            "starts_at(3i)" => "12",
+            "starts_at(4i)" => "15",
+            "starts_at(5i)" => "15",
+            "ends_at(1i)" => "2015",
+            "ends_at(2i)" => "01",
+            "ends_at(3i)" => "12",
+            "ends_at(4i)" => "17",
+            "ends_at(5i)" => "45"
+          }
+        }
+      )
+      event.starts_at.should == event.event_sessions.first.starts_at
+      event.ends_at.should == event.event_sessions.first.ends_at
+    end
+  end
+
   describe "#volunteer?" do
     let(:event) { create(:event) }
     

@@ -22,6 +22,7 @@ describe "the event listing page" do
     )
 
     event.save!
+    event.reload
 
     visit events_path
     page.should have_content("January 31, #{next_year}")
@@ -139,9 +140,8 @@ describe "the event listing page" do
         @event = create(:event)
         @session1 = @event.event_sessions.first
         @session1.update_attributes!(name: 'Installfest', starts_at: 10.days.from_now, ends_at: 11.days.from_now)
-        @event.event_sessions << create(:event_session)
-        @session2 = @event.event_sessions.last
-        @session2.update_attributes!(name: 'Curriculum', starts_at: 12.days.from_now, ends_at: 13.days.from_now)
+        @session2 = create(:event_session, event: @event, name: 'Curriculum', starts_at: 12.days.from_now, ends_at: 13.days.from_now)
+        @event.reload
       end
 
       it "allows user to volunteer for an event" do

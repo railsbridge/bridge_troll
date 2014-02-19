@@ -13,6 +13,10 @@ class EventSession < ActiveRecord::Base
   def update_event_times
     return unless event
 
+    # TODO: This 'reload' shouldn't be needed, but without it, the
+    # following minimum/maximum statements return 'nil' when
+    # initially creating an event and its session. Booo!
+    event.reload
     event.update_attributes(
       starts_at: event.event_sessions.minimum("event_sessions.starts_at"),
       ends_at: event.event_sessions.maximum("event_sessions.ends_at")
