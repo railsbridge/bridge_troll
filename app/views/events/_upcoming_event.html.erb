@@ -13,19 +13,19 @@
   </div>
   <div class='event-times'>
     <% event.event_sessions.each_with_index do |session, index| %>
-      <i class='icon-calendar'></i><%= formatted_session_fancy_date(session) %><% if index < event.event_sessions.length - 1 %><br /><% end %>
+      <i class='fa fa-calendar'></i><%= formatted_session_fancy_date(session) %><% if index < event.event_sessions.length - 1 %><br /><% end %>
     <% end %>
   </div>
   <div class='event-location'>
     <% if event.location %>
-      <i class='icon-map-marker'></i><%= event.location.name %>,
+      <i class='fa fa-map-marker'></i><%= event.location.name %>,
       <%= [event.location.city, event.location.state].select(&:present?).join(', ') %>
     <% end %>
   </div>
   <div class='event-counts'>
-    <div><i class='icon-user'></i>Volunteers: <%= event.volunteer_rsvps.count %></div>
+    <div><i class='fa fa-user'></i>Volunteers: <%= event.volunteer_rsvps.count %></div>
     <div>
-      <i class='icon-user'></i>Students: <%= event.student_rsvps.count %> / <%= event.student_rsvp_limit %>
+      <i class='fa fa-user'></i>Students: <%= event.student_rsvps.count %> / <%= event.student_rsvp_limit %>
       <% if event.at_limit? %>
         (<%= event.student_waitlist_rsvps.count %> Waitlisted)
       <% end %>

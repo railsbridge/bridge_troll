@@ -51,7 +51,7 @@
 
     <%= render partial: 'shared/organizer_action', locals: {
       path: event_checkiners_path(@event),
-      icon: 'icon-check',
+      icon: 'fa fa-check-square-o',
       text: 'Add Checkiners',
       tip: 'We recommend designating a few volunteers to check in students
       and volunteers as they arrive so that you can take care of other things.'
@@ -62,7 +62,7 @@
     <section class='organizer-dashboard-section'>
       <%= render partial: 'shared/organizer_action', locals: {
         path: organize_sections_event_path(@event),
-        icon: 'icon-random',
+        icon: 'fa fa-random',
         text: 'Arrange Class Sections',
         tip: 'This drag-and-drop interface allows you to take all the checked-in
         students and volunteers and arrange them into small groups. You can then
@@ -76,7 +76,7 @@
     <section class="organizer-dashboard-section">
       <%= render partial: 'shared/organizer_action', locals: {
         path: send_survey_email_event_path(@event),
-        icon: 'icon-envelope',
+        icon: 'fa fa-envelope',
         text: 'Send Survey',
         tip: 'Click here to send a link to the follow up survey to all students and volunteers.',
         confirm: 'Are you sure?'
@@ -85,7 +85,7 @@
     <section class="organizer-dashboard-section">
       <%= render partial: 'shared/organizer_action', locals: {
         path: event_surveys_path(@event),
-        icon: 'icon-comments',
+        icon: 'fa fa-comments',
         text: 'Survey Results',
         tip: 'Check out the survey results!'
       } %>

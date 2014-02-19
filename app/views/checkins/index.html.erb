@@ -48,7 +48,7 @@
                        },
                        remote: true) do |f| %>
             <%= f.hidden_field :id %>
-            <i class='icon-check'></i>Checked In! <%= f.submit "Un-Check In", class: 'btn', data: {confirm: "Are you sure you want to un-check in #{rsvp_session.user_full_name}?"} %>
+            <i class='fa fa-check-square-o'></i>Checked In! <%= f.submit "Un-Check In", class: 'btn', data: {confirm: "Are you sure you want to un-check in #{rsvp_session.user_full_name}?"} %>
           <% end %>
           <%= form_for([@event, @session, rsvp_session],
                        method: :create,

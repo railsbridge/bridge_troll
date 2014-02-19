@@ -58,5 +58,7 @@ module Bridgetroll
 
     # set default from address across
     ActionMailer::Base.default :from => 'troll@bridgetroll.org'
+
+    config.i18n.enforce_available_locales = false
   end
 end

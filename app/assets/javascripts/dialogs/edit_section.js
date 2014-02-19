@@ -39,9 +39,6 @@ Bridgetroll.Views.EditSection = (function () {
 
     onSubmit: function () {
       this.model.save(this.formValues(), {wait: true}).success(_.bind(function () {
-        if (this.options.success) {
-          this.options.success();
-        }
         $(this.el).modal('hide');
       }, this));
     }

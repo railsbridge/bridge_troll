@@ -3,7 +3,7 @@
   <% @event.event_sessions.each do |session| %>
     <%= render partial: 'shared/organizer_action', locals: {
       path: event_event_session_checkins_path(@event, session),
-      icon: 'icon-check',
+      icon: 'fa fa-check-square-o',
       text: "Check in for #{session.name}",
       tip: "Check those students and volunteers in! This will make for easy class sorting."
     } %>
