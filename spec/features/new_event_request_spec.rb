@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "New Event" do
   before do
     @user_organizer = create(:user, email: "organizer@mail.com", first_name: "Sam", last_name: "Spade")
-    
+
     sign_in_as(@user_organizer)
 
     visit "/events/new"
@@ -33,20 +33,13 @@ describe "New Event" do
       click_on 'Add a session'
     end
 
-    it 'should have two event session options' do
+    it 'should have two event session options, of which only the second can be removed' do
       page.should have_selector('.event-sessions > .fields', count: 2)
-    end
 
-    context 'after clicking "Remove Session"' do
-      before { find(:link, 'Remove Session', visible: true).click }
+      find(:link, 'Remove Session', visible: true).click
+      page.should have_selector('.event-sessions > .fields', count: 1)
 
-      it 'can remove that session' do
-        page.should have_selector('.event-sessions > .fields', count: 1)
-      end
-
-      it 'cant remove the first session' do
-        page.should_not have_selector(:link, 'Remove Session', visible: true)
-      end
+      page.should_not have_selector(:link, 'Remove Session', visible: true)
     end
   end
 end
