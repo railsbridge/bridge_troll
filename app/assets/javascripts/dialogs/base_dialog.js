@@ -14,6 +14,7 @@ Bridgetroll.Dialogs.Base = (function () {
 
       this.$el.on('shown', function () {
         $(this).find('.btn').focus();
+        $(this).find('[autofocus]').focus();
       });
 
       $(this.el).on('hidden', _.bind(function () {

@@ -3,7 +3,8 @@ Bridgetroll.Views.EditSection = (function () {
     template: 'section_organizer/edit_section',
 
     events: {
-      'click .submit': 'onSubmit'
+      'click .submit': 'onSubmit',
+      'submit form': 'onSubmit'
     },
 
     levelName: function (level) {
@@ -30,6 +31,10 @@ Bridgetroll.Views.EditSection = (function () {
       }
     },
 
+    postRender: function () {
+      this.$('.section_name').focus();
+    },
+
     formValues: function () {
       return {
         name: this.$('.section_name').val(),
@@ -37,7 +42,8 @@ Bridgetroll.Views.EditSection = (function () {
       };
     },
 
-    onSubmit: function () {
+    onSubmit: function (event) {
+      event && event.preventDefault();
       this.model.save(this.formValues(), {wait: true}).success(_.bind(function () {
         $(this.el).modal('hide');
       }, this));

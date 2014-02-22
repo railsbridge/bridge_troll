@@ -2,23 +2,25 @@
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <h1>Edit {{section_name}}</h1>
 </div>
-<div class="modal-body">
-  <label>
-    Name:
-    <input class="section_name" value="{{section_name}}" />
-  </label>
-
-  <label>
-    Class Level:
-    {{#each options}}
+<form>
+  <div class="modal-body">
       <label>
-        <input type="radio" name="class_level" class="class_level" value="{{value}}" {{#if selected}}checked{{/if}} />
-        {{name}}
+        Name:
+        <input class="section_name" value="{{section_name}}" autofocus />
       </label>
-    {{/each}}
-  </label>
-</div>
-<div class="modal-footer">
-  <a href="#" class="btn btn-primary submit">Save</a>
-  <a href="#" class="btn cancel" data-dismiss="modal">Close</a>
-</div>
+
+      <label>
+        Class Level:
+        {{#each options}}
+          <label>
+            <input type="radio" name="class_level" class="class_level" value="{{value}}" {{#if selected}}checked{{/if}} />
+            {{name}}
+          </label>
+        {{/each}}
+      </label>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary submit">Save</a>
+    <a href="#" class="btn cancel" data-dismiss="modal">Close</a>
+  </div>
+</form>
