@@ -14,6 +14,10 @@ class Location < ActiveRecord::Base
     "#{self.address_1}, #{self.city}, #{self.state}, #{self.zip}"
   end
 
+  def name_with_chapter
+    "#{name} (#{chapter.name})"
+  end
+
   def as_json(options = {})
     {
       name: name,
