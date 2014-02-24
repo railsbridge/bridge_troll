@@ -1,11 +1,23 @@
 .organizer-breadcrumb {
+  @include clearfix();
   font-size: 18px;
-  strong {
-    font-size: 24px;
-  }
+  line-height: 30px;
   margin-bottom: 20px;
   padding-bottom: 8px;
   border-bottom: 1px dashed rgb(209, 209, 209);
+  vertical-align: bottom;
+
+  strong {
+    font-size: 24px;
+  }
+
+  .header-actions {
+    float: right;
+
+    .fa {
+      margin-right: 10px;
+    }
+  }
 }
 
 .organizer-dashboard-title {

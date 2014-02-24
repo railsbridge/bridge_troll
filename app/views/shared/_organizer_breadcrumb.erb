@@ -1,9 +1,17 @@
 <div class='organizer-breadcrumb'>
   <%= link_to 'Events', events_path %>
   &raquo;
-  <%= link_to @event.title, event_path(@event) %> (<%= link_to 'Edit', edit_event_path(@event) %>, <%= link_to 'Organize', organize_event_path(@event) %>)
+  <%= link_to @event.title, event_path(@event) %>
   <% if defined?(current_page_title) %>
     &raquo;
     <strong><%= current_page_title %></strong>
   <% end %>
+  <div class='header-actions'>
+    <%= link_to edit_event_path(@event), class: 'btn' do %>
+      <i class='fa fa-edit'></i>Edit Event
+    <% end %>
+    <%= link_to organize_event_path(@event), class: 'btn' do %>
+      <i class='fa fa-bullhorn'></i>Organizer Console
+    <% end %>
+  </div>
 </div>
