@@ -73,19 +73,44 @@
 
   <h2>Section Organizer</h2>
 
-  <div class='bridgetroll-section'>
-    <div class='title'>Conference Room A</div>
+  <div class='bridgetroll-section-level'>
+    <div class='bridgetroll-section'>
+      <div class='bridgetroll-section-title'>
+        <span class='title-text' title='Conference Room A'>Conference Room A</span>
+        <div class='actions' style="margin: 0 0 10px;">
+          <i class="fa fa-edit edit"></i> <span class='destroy'>&times;</span>
+        </div>
+      </div>
 
-    <ul class='volunteers'>
-      <li class='attendee'><div class='bridgetroll-badge volunteer'>V</div>Dejuan Gottlieb</li>
-      <li class='attendee'><div class='bridgetroll-badge volunteer'>V</div>Boyd Emard</li>
-      <li class='attendee'><div class='bridgetroll-badge volunteer'>V</div>Addison Dooley</li>
-    </ul>
+      <% volunteers = [
+        {full_name: 'Dejuan Gottlieb', level: '1', role: '1', no_show: false, letter: 'T'},
+        {full_name: 'Boyd Emard', level: '2', role: '2', no_show: true, letter: 't'},
+        {full_name: 'Addison Dooley', level: '3', role: '3', no_show: false, letter: '?'}
+      ] %>
+      <ul class='volunteers'>
+        <% volunteers.each do |vol| %>
+          <li class="attendee <% if vol[:no_show] %>no-show<% end %> role<%= vol[:role] %>">
+            <div class="bridgetroll-badge level<%= vol[:level]%>"><%= vol[:letter] %></div>
+            <span class='name'><%= vol[:full_name] %></span>
+            <i class='fa fa-info-circle info'></i>
+          </li>
+        <% end %>
+      </ul>
 
-    <ul class='students'>
-      <li class='attendee'><div class='bridgetroll-badge level1'>1</div>Olen Becker</li>
-      <li class='attendee'><div class='bridgetroll-badge level2'>2</div>Arthur Botsford</li>
-      <li class='attendee'><div class='bridgetroll-badge level3'>3</div>Noah Hermiston</li>
-    </ul>
+      <% students = [
+        {full_name: 'Olen Becker', class_level: 1, no_show: true},
+        {full_name: 'Arthur Botsford', class_level: 2, no_show: false},
+        {full_name: 'Noah Hermiston', class_level: 3, no_show: true}
+      ] %>
+      <ul class='students'>
+        <% students.each do |s| %>
+          <li class="attendee <% if s[:no_show] %>no-show<% end %>" data-id="{{this.id}}">
+            <div class="bridgetroll-badge level<%= s[:class_level] %>"><%= s[:class_level] %></div>
+            <span class='name'><%= s[:full_name] %></span>
+            <i class='fa fa-info-circle info'></i>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>
