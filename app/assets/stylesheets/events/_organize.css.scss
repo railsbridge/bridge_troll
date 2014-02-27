@@ -90,6 +90,14 @@
 
 .organizer-dashboard-section {
   margin: 15px 0;
+
+  &.bordered {
+    border: 1px dashed #ddd;
+    padding: 5px;
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+  }
 }
 
 .section-arranger-link {

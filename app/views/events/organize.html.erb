@@ -10,40 +10,45 @@
       <%= render :partial => 'organizer_preworkshop_buttons' %>
     </section>
 
-    <section class='organizer-dashboard-section'>
+    <section class='organizer-dashboard-section bordered'>
       <h3>Childcare Requests</h3>
-      <table class="table">
-        <thead>
-        <tr>
-          <th>Requester Name</th>
-          <th>Email</th>
-          <th>Children Info</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% @childcare_requests.each do |request| %>
+      <% if @childcare_requests.length > 0 %>
+        <table class="table">
+          <thead>
           <tr>
-            <td>
-              <%= request.user.full_name %>
-            </td>
-            <td>
-              <%= request.user.email %>
-            </td>
-            <td>
-              <%= request.childcare_info %>
-            </td>
+            <th>Requester Name</th>
+            <th>Email</th>
+            <th>Children Info</th>
           </tr>
-        <% end %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+          <% @childcare_requests.each do |request| %>
+            <tr>
+              <td>
+                <%= request.user.full_name %>
+              </td>
+              <td>
+                <%= request.user.email %>
+              </td>
+              <td style="white-space: pre-line;"><%= request.childcare_info %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        No one has requested childcare for this event yet.
+      <% end %>
     </section>
-    <h2>Current Checkin Counts</h2>
-    <% @event.event_sessions.each do |session| %>
-      <h3>
-        <%= session.name %>:
-        <%= @checkin_counts[:checkin][session.id] %>/<%= @checkin_counts[:rsvp][session.id] %> checked in
-      </h3>
-    <% end %>
+    <section class='organizer-dashboard-section bordered'>
+      <h3>Current Checkin Counts</h3>
+      <% @event.event_sessions.each do |session| %>
+        <div>
+          <%= session.name %>:
+          <strong><%= @checkin_counts[:checkin][session.id] %>/<%= @checkin_counts[:rsvp][session.id] %></strong>
+          checked in
+        </div>
+      <% end %>
+    </section>
   </div>
 
   <div class="span6">
