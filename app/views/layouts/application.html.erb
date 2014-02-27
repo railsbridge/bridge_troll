@@ -34,7 +34,7 @@
       <%= yield %>
       <%= yield :scripts %>
     </div>
-    <footer><div class="trollholder"><%= render 'shared/troll' %></div></footer>
+    <footer><div class="trollholder"><%= image_tag asset_path('troll.svg') %></div></footer>
   </body>
   <%= render 'shared/sign_in_dialog' %>
 </html>

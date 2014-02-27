@@ -53,14 +53,11 @@
     display: inline-block;
     text-decoration: none;
     padding-top: 10px;
+    height: 44px;
 
-    svg {
+    img {
       width: 170px;
       height: 40px;
-
-      path {
-        fill: white;
-      }
     }
   }
 

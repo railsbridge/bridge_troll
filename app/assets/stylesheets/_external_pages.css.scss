@@ -41,9 +41,10 @@
 .troll {
   display: inline-block;
   padding-right: 20px;
-  svg {
+  img {
     height: 145px;
     width: 190px;
+    max-width: 190px;
   }
 
   @media (max-width: $phone-width) {

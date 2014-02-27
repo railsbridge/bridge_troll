@@ -1,6 +1,8 @@
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
-    <a class="app-name" href=<%= events_path %>><%= render 'shared/logo' %></a>
+    <%= link_to events_path, class: 'app-name' do %>
+      <%= image_tag asset_path('logo.svg') %>
+    <% end %>
     <% if user_signed_in? %>
       <span class="nav-blurb">Found a bug? Or some unexpected behavior? <a href="https://github.com/railsbridge/bridge_troll/issues" target="_blank">Let us know</a>!</span>
     <% end %>
