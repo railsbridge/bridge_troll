@@ -40,10 +40,13 @@
     margin-left: 15px;
     line-height: 12px;
     position: relative;
-    top: -20px;
+    top: -2px;
     a {
       color: white;
       text-decoration: underline;
+    }
+    @media (max-width: 860px) {
+      display: none;
     }
   }
 
@@ -58,12 +61,6 @@
     img {
       width: 170px;
       height: 40px;
-    }
-  }
-
-  @media (max-width: 860px) {
-    .nav-blurb {
-      display: none;
     }
   }
 
