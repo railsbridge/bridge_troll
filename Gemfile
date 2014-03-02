@@ -18,9 +18,13 @@ gem 'sentry-raven'
 gem 'rack-canonical-host'
 gem 'icalendar'
 
-group :production do
+group :production, :staging do
   gem 'pg'
   gem 'rails_12factor'
+end
+
+group :staging do
+  gem "faker"
 end
 
 group :assets do
@@ -64,6 +68,5 @@ group :test do
   gem "poltergeist"
   gem "launchy"
   gem 'shoulda-matchers'
-  gem "faker"
   gem 'capybara-screenshot'
 end
