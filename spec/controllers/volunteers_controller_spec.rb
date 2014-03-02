@@ -11,13 +11,13 @@ describe VolunteersController do
     @event.organizers << @user_organizer
 
     @vol1 = create(:user, first_name: 'Vol1')
-    @rsvp1 = create(:rsvp, user: @vol1, event: @event, teaching: true, taing: false)
+    @rsvp1 = create(:teacher_rsvp, user: @vol1, event: @event)
 
     @vol2 = create(:user, first_name: 'Vol2')
-    @rsvp2 = create(:rsvp, user: @vol2, event: @event, teaching: false, taing: true)
+    @rsvp2 = create(:teacher_rsvp, user: @vol2, event: @event)
 
     @vol3 = create(:user, first_name: 'Vol3')
-    @rsvp3 = create(:rsvp, user: @vol3, event: @event, teaching: false, taing: false)
+    @rsvp3 = create(:teacher_rsvp, user: @vol3, event: @event)
 
     sign_in @user_organizer
   end

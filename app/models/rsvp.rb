@@ -28,7 +28,8 @@ class Rsvp < ActiveRecord::Base
 
   MAX_EXPERIENCE_LENGTH = 250
   with_options(if: Proc.new {|rsvp| rsvp.role_volunteer? && !rsvp.historical? }) do |for_volunteers|
-    for_volunteers.validates_presence_of :teaching_experience, :subject_experience, :class_level
+    for_volunteers.validates_presence_of :teaching_experience, :subject_experience
+    for_volunteers.validates_presence_of :class_level, :if => Proc.new { |user| user.teaching || user.taing }
     for_volunteers.validates_length_of :teaching_experience, :subject_experience, :in => 10..MAX_EXPERIENCE_LENGTH
     for_volunteers.validates_inclusion_of :class_level, in: (0..5), allow_blank: true
   end

@@ -66,7 +66,6 @@ FactoryGirl.define do
     role Role.find_by_title('Volunteer')
     teaching_experience "Quite experienced"
     subject_experience "Use professionally"
-    class_level 0
     childcare_info "Bobby: 8\nSusie: 4"
     job_details "Horse whisperer"
     dietary_info "Paleo"
@@ -76,6 +75,13 @@ FactoryGirl.define do
       operating_system OperatingSystem::OSX_LION
       class_level 2
     end
+
+    factory :teacher_rsvp do
+      teaching true
+      taing false
+      class_level 0
+    end
+
   end
 
   factory :dietary_restriction do

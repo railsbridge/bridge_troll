@@ -144,33 +144,52 @@ describe "the event listing page" do
         @event.reload
       end
 
-      it "allows user to volunteer for an event" do
-        visit events_path
-        click_link("Volunteer")
-        page.should have_content("almost signed up")
-        fill_in "rsvp_subject_experience", :with => "I am cool and I use a Mac (but those two things are not related)"
-        fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
-        check 'Teaching'
-        choose('rsvp_class_level_0')
+      context 'when volunteering' do
+        before do
+          visit events_path
+          click_link("Volunteer")
+          fill_in "rsvp_subject_experience", :with => "I am cool and I use a Mac (but those two things are not related)"
+        end
+        it "should have encouraging text" do
+          page.should have_content("almost signed up")
+        end
+        it "allows registration as a teacher" do
+          fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
+          check 'Teaching'
+          choose('rsvp_class_level_0')
 
-        page.first("input[name='rsvp[event_session_ids][]'][type='checkbox'][value='#{@session1.id}']").should be_checked
-        page.first("input[name='rsvp[event_session_ids][]'][type='checkbox'][value='#{@session2.id}']").should be_checked
+          page.first("input[name='rsvp[event_session_ids][]'][type='checkbox'][value='#{@session1.id}']").should be_checked
+          page.first("input[name='rsvp[event_session_ids][]'][type='checkbox'][value='#{@session2.id}']").should be_checked
 
-        uncheck "Curriculum"
+          uncheck "Curriculum"
 
-        click_button "Submit"
-        page.should have_content("Thanks for signing up")
+          click_button "Submit"
+          page.should have_content("Thanks for signing up")
 
-        rsvp = Rsvp.last
-        rsvp.should be_teaching
-        rsvp.should_not be_taing
-        rsvp.user_id.should == @user.id
-        rsvp.event_id.should == @event.id
+          rsvp = Rsvp.last
+          rsvp.should be_teaching
+          rsvp.should_not be_taing
+          rsvp.user_id.should == @user.id
+          rsvp.event_id.should == @event.id
 
-        rsvp.rsvp_sessions.length.should == 1
-        rsvp.rsvp_sessions.first.event_session.should == @session1
+          rsvp.rsvp_sessions.length.should == 1
+          rsvp.rsvp_sessions.first.event_session.should == @session1
+        end
+        it "allows registration without course level for non-teaching roles" do
+          fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
+
+          click_button "Submit"
+          page.should have_content("Thanks for signing up")
+
+          rsvp = Rsvp.last
+          rsvp.should_not be_teaching
+          rsvp.should_not be_taing
+          rsvp.user_id.should == @user.id
+          rsvp.event_id.should == @event.id
+        end
+
+
       end
-
       it "allows a student to register for an event" do
         visit events_path
         click_link("Attend as a student")
@@ -193,7 +212,7 @@ describe "the event listing page" do
 
       context 'given a volunteered user' do
         before(:each) do
-          @rsvp = create(:rsvp, event: @event, user: @user)
+          @rsvp = create(:teacher_rsvp, event: @event, user: @user)
           visit events_path
         end
 
