@@ -40,7 +40,6 @@
         <%= f.text_area :subject_experience, rows: 3, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH, class: "input-xxlarge"  %>
       </div>
 
-      <h1>@rsvp.event.course = <%= @rsvp.event.course %></h1>
       <% unless @rsvp.event.course.blank? %>
         <div class="field">
           <%= f.label :teaching_experience, "What's your experience with teaching?", class: "question" %>
