@@ -16,7 +16,7 @@ describe RsvpMailer do
 
       it "includes information about the workshop" do
         mail.subject.should eq "You've signed up for #{event.title}!"
-        mail.body.should include(user.first_name)
+        mail.body.should include(ERB::Util.html_escape(user.first_name))
         mail.body.should include(event.title)
         mail.body.should include(event.location.name)
       end
@@ -33,7 +33,7 @@ describe RsvpMailer do
 
       it "includes information about the workshop" do
         mail.subject.should eq "You've signed up for #{event.title}!"
-        mail.body.should include(user.first_name)
+        mail.body.should include(ERB::Util.html_escape(user.first_name))
         mail.body.should include(event.title)
         mail.body.should include(event.location.name)
       end
@@ -52,7 +52,7 @@ describe RsvpMailer do
 
       it "includes information about the workshop" do
         mail.subject.should include(event.title)
-        mail.body.should include(user.first_name)
+        mail.body.should include(ERB::Util.html_escape(user.first_name))
         mail.body.should include(event.title)
         mail.body.should include(event.location.name)
       end
@@ -75,7 +75,7 @@ describe RsvpMailer do
 
     it 'includes information about the workshop' do
       mail.subject.should eq("Reminder: You've signed up for #{event.title}")
-      mail.body.should include(user.first_name)
+      mail.body.should include(ERB::Util.html_escape(user.first_name))
       mail.body.should include(event.title)
       mail.body.should include(event.location.name)
     end
@@ -93,7 +93,7 @@ describe RsvpMailer do
 
     it 'includes information about the workshop' do
       mail.subject.should eq("You're confirmed for #{event.title}")
-      mail.body.should include(user.first_name)
+      mail.body.should include(ERB::Util.html_escape(user.first_name))
       mail.body.should include(event.title)
       mail.body.should include(event.location.name)
     end
