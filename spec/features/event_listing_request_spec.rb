@@ -150,10 +150,8 @@ describe "the event listing page" do
           click_link("Volunteer")
           fill_in "rsvp_subject_experience", :with => "I am cool and I use a Mac (but those two things are not related)"
         end
-        it "should have encouraging text" do
-          page.should have_content("almost signed up")
-        end
         it "allows registration as a teacher" do
+          page.should have_content("almost signed up")
           fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
           check 'Teaching'
           choose('rsvp_class_level_0')
