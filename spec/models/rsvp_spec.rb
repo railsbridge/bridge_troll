@@ -38,9 +38,15 @@ describe Rsvp do
     it { should ensure_length_of(:teaching_experience).is_at_least(10).is_at_most(250) }
     it { should validate_presence_of(:subject_experience) }
     it { should ensure_length_of(:subject_experience).is_at_most(250).is_at_least(10) }
-    it { should validate_presence_of(:class_level) }
     it { should ensure_inclusion_of(:class_level).in_range(0..5) }
 
+    it "should only require class_level if teaching or TAing" do
+      subject.class_level.should be_nil
+      subject.should be_valid
+
+      subject.teaching = true
+      subject.should have(1).errors_on(:class_level)
+    end
     it "allows rsvps from the same user ID but different user type" do
       @event = create(:event)
       @bridgetroll_user = create(:user, id: 2001)
