@@ -134,6 +134,10 @@ GEM
     heroku-api (0.3.17)
       excon (~> 0.27)
       multi_json (~> 1.8.2)
+    heroku_rails_deflate (1.0.3)
+      actionpack (>= 3.2.13)
+      activesupport (>= 3.2.13)
+      rack (>= 1.4.5)
     heroku_san (4.3.2)
       heroku-api (>= 0.1.2)
       json
@@ -344,6 +348,7 @@ DEPENDENCIES
   gravatar_image_tag
   guard-rspec
   handlebars_assets
+  heroku_rails_deflate
   heroku_san
   icalendar
   jasmine
