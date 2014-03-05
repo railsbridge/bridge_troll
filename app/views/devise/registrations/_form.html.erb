@@ -41,18 +41,20 @@
     <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
   </div>
 
-  <div class='field'>
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-    <% if is_registered %>
-      <span class="help-block">(leave blank if you don't want to change it)</span>
-    <% end %>
-  </div>
+  <% if f.object.password_required? %>
+    <div class='field'>
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+      <% if is_registered %>
+        <span class="help-block">(leave blank if you don't want to change it)</span>
+      <% end %>
+    </div>
 
-  <div class='field'>
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
-  </div>
+    <div class='field'>
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation %>
+    </div>
+  <% end %>
 
   <% if is_registered %>
     <div class='field'>
@@ -64,6 +66,27 @@
 
   <div><%= f.submit button_text, class: 'btn btn-submit' %></div>
   <% if is_registered %>
+    <hr>
+    <div>
+      <h2>Authentication methods</h2>
+      <ul class='external-auth'>
+        <% OmniauthProviders.provider_data.each do |provider| %>
+          <li>
+            <% existing_authentication = f.object.authentications.find { |a| a.provider.to_sym == provider[:key] } %>
+            <% if existing_authentication %>
+              <i class='fa <%= provider[:icon] %>'></i>
+              <%= provider[:name] %> (UID <%= existing_authentication.uid %>)
+            <% else %>
+              <%= link_to user_omniauth_authorize_path(provider[:key]) do %>
+                <i class='fa <%= provider[:icon] %>'></i>
+                Associate with <%= provider[:name] %>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+
     <hr>
     <div>
       <%= label_tag :meetup_id, 'Associated Meetup Account' %>

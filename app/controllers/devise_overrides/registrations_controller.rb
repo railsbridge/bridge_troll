@@ -37,4 +37,11 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
       params[:user][:password].present?
   end
 
+  def build_resource(*args)
+    super
+    if session['devise.omniauth']
+      @user.apply_omniauth(session['devise.omniauth'])
+      @user.valid?
+    end
+  end
 end

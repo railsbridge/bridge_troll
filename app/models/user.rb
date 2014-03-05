@@ -1,10 +1,11 @@
 class User < ActiveRecord::Base
   after_create :make_empty_profile
 
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable,
          :token_authenticatable, :confirmable, :timeoutable
 
+  has_many :authentications, inverse_of: :user, dependent: :destroy
   has_many :rsvps, conditions: { user_type: 'User' }, dependent: :destroy
   has_many :events, through: :rsvps
 
@@ -16,6 +17,28 @@ class User < ActiveRecord::Base
 
   validates_presence_of :first_name, :last_name
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
+
+  def self.from_omniauth(omniauth)
+    authentication = Authentication.where(provider: omniauth['provider'], uid: omniauth['uid']).first
+    if authentication
+      authentication.user
+    else
+      user = User.new
+      user.apply_omniauth(omniauth)
+      user
+    end
+  end
+
+  def password_required?
+    (authentications.empty? || !password.blank?) && super
+  end
+
+  def apply_omniauth(omniauth)
+    OmniauthProviders.user_attributes_from_omniauth(omniauth).each do |attr, value|
+      assign_attributes(attr => value) if send(attr).blank?
+    end
+    authentications.build(provider: omniauth['provider'], uid: omniauth['uid'])
+  end
 
   def self.not_assigned_as_organizer(event)
     users = order('last_name asc, first_name asc, email asc')

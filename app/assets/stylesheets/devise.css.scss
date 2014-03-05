@@ -5,3 +5,26 @@
 .modal-header, .modal-footer {
 	background-image:url("/assets/background.png");
 }
+
+.external-auth {
+  text-align: center;
+
+  li {
+    margin: 10px 0;
+    text-align: center;
+    min-width: 150px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 5px;
+    display: inline-block;
+  }
+
+  a, a:link, a:visited {
+    text-decoration: none;
+  }
+
+  i {
+    font-size: 64px;
+    display: block;
+  }
+}

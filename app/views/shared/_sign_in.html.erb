@@ -1,21 +1,33 @@
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div>
-    <%= f.label :email %>
-    <%= f.email_field :email %>
-  </div>
-
-  <div>
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-  </div>
-
-  <% if devise_mapping.rememberable? -%>
+<div class='row-fluid'>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'span5' }) do |f| %>
     <div>
-      <%= f.label :remember_me, class: 'checkbox' do %>
-          <%= f.check_box :remember_me %> Remember Me
-      <% end %>
+      <%= f.label :email %>
+      <%= f.email_field :email %>
     </div>
-  <% end -%>
 
-  <div><%= f.submit "Sign in", class: 'btn btn-submit' %></div>
-<% end %>
+    <div>
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+    </div>
+
+    <% if devise_mapping.rememberable? -%>
+      <div>
+        <%= f.label :remember_me, class: 'checkbox' do %>
+            <%= f.check_box :remember_me %> Remember Me
+        <% end %>
+      </div>
+    <% end -%>
+
+    <div><%= f.submit "Sign in", class: 'btn btn-submit' %></div>
+  <% end %>
+  <ul class='external-auth span6'>
+    <% OmniauthProviders.provider_data.each do |provider| %>
+      <li>
+        <%= link_to user_omniauth_authorize_path(provider[:key]) do %>
+          <i class='fa <%= provider[:icon] %>'></i>
+          Log in with <%= provider[:name] %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
