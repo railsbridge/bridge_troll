@@ -5,6 +5,13 @@
     <%= hidden_field_tag :return_to, params[:return_to] %>
   <% end %>
 
+  <% if !resource.persisted? && !resource.password_required? %>
+    <% auth = OmniauthProviders.provider_data_for(resource.authentications.first.provider) %>
+    <div class='field'>
+      Primary authentication method: <i style="margin-right: 5px; font-size: 20px;" class='fa <%= auth[:icon] %>'></i><strong><%= auth[:name] %></strong>
+    </div>
+  <% end %>
+
   <div class='field'>
     <%= f.label :first_name, "First/Given Name" %>
     <%= f.text_field :first_name %>

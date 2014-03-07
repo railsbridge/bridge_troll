@@ -1,10 +1,19 @@
 <div class="row-fluid">
   <div class="span6">
-    <h2>Sign up</h2>
+    <h2 class='first'>Sign up</h2>
 
-    <h3>Why do I need to sign up?</h3>
-    <p>Bridge Troll needs to send you a couple of emails: RSVP confirmations, upcoming workshop reminders, etc. We may also
-      send you follow up surveys after the workshop to help us learn how to help you better.</p>
+    <h3><i class='fa fa-question-circle' style='margin-right: 5px;'></i>Why do I need to sign up?</h3>
+    <p>Bridge Troll needs to send you a couple of emails: RSVP confirmations, upcoming workshop reminders, etc. We may also send you follow up surveys after the workshop to help us learn how to help you better.</p>
+
+    <% if !resource.password_required? %>
+      <% auth = OmniauthProviders.provider_data_for(resource.authentications.first.provider) %>
+      <div class="alert alert-success" style="white-space: pre-line;">We didn't find a Bridge Troll account associated with your <%= auth[:name] %> account.
+
+      If you already have a Bridge Troll account, you can add <%= auth[:name] %> as an additional authentication mechanism by signing in and <%= link_to "visiting your 'Account' page", edit_user_registration_path %>.
+
+      Otherwise, fill out the form below to create a new account.
+      </div>
+    <% end %>
 
     <div id="sign-up">
       <%= render 'form', button_text: 'Sign up', is_registered: false %>

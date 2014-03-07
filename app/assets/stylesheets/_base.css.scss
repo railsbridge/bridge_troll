@@ -134,6 +134,10 @@ td.wide {
   margin: 0 auto;
   background-color: $content-background-color;
   padding: 20px;
+
+  .first {
+    margin-bottom: 20px;
+  }
 }
 
 .session-display {

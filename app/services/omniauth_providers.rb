@@ -14,6 +14,10 @@ module OmniauthProviders
     ]
   end
 
+  def self.provider_data_for(provider)
+    self.provider_data.find { |data| data[:key] == provider.to_sym }
+  end
+
   def self.user_attributes_from_omniauth(omniauth)
     if omniauth['provider'] == 'facebook'
       self.facebook_omniauth_attributes(omniauth)
