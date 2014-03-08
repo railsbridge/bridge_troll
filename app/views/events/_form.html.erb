@@ -19,17 +19,28 @@
       </div>
 
       <div class="field">
-        <%= f.label :course_id %>
-        <%= collection_select :event, :course_id, Course.all, :id, :title %>
-      </div>
-
-      <div class="field">
         <%= f.label :location_id %>
         <%= collection_select(:event, :location_id, Location.all, :id, :name_with_chapter, :prompt => true) %>
         <p>
           <em>If your location isn't in this list, head over to the <%= link_to 'locations page', locations_path %> and add it before you continue.</em>
         </p>
       </div>
+
+      <div class="field">
+        <%= f.label :course_id %>
+        <%= collection_select :event, :course_id, Course.all, :id, :title, include_blank:"None"%>
+        <p>
+          <em>Choose "None" for all volunteer events.<br/>Volunteers won't be given option to choose whether they will teach or TA and class level preference.</em>
+        </p>
+      </div>
+
+      <div class="field">
+        <%= f.label :allow_student_rsvp do %>
+          <%= f.check_box :allow_student_rsvp %> Allow Student RSVP?
+        <% end %>
+        <em>Uncheck for all volunteer events or if you are using another app for registration.</em>
+      </div>
+
 
       <h3>Sessions</h3>
 
@@ -59,11 +70,6 @@
         <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
       </div>
 
-      <div class="field">
-        <%= f.label :allow_student_rsvp do %>
-          <%= f.check_box :allow_student_rsvp %> Allow Student RSVP?
-        <% end %>
-      </div>
 
       <h3>Capacity</h3>
 
