@@ -195,6 +195,9 @@ GEM
       rack (~> 1.0)
     omniauth-facebook (1.6.0)
       omniauth-oauth2 (~> 1.1)
+    omniauth-github (1.1.1)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.1)
     omniauth-meetup (0.0.7)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.0)
@@ -367,6 +370,7 @@ DEPENDENCIES
   launchy
   nested_form
   omniauth-facebook
+  omniauth-github
   omniauth-meetup
   omniauth-twitter
   pg

@@ -66,4 +66,27 @@ describe "signing in with omniauth" do
       authentication.uid.should == twitter_response[:uid]
     end
   end
+
+  context "with a valid github auth" do
+    let(:github_response) { OmniauthResponses.github_response }
+
+    before do
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(github_response)
+    end
+
+    it 'creates a user and authentication after the user provides an email' do
+      visit user_omniauth_authorize_path(:github)
+
+      click_on 'Sign up'
+
+      user = User.last
+      user.first_name.should == "Fancy"
+      user.last_name.should == "Fjords"
+      user.email.should == "ffjords@example.com"
+
+      authentication = user.authentications.first
+      authentication.provider.should == 'github'
+      authentication.uid.should == github_response[:uid]
+    end
+  end
 end

@@ -157,4 +157,16 @@ module OmniauthResponses
       }
     }
   end
+
+  def self.github_response
+    {
+      provider: 'github',
+      uid: '123456',
+      info: {
+        nickname: "tjgrathwell",
+        email: "ffjords@example.com",
+        name: "Fancy Fjords"
+      }
+    }
+  end
 end

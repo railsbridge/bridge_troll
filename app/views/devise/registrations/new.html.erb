@@ -5,6 +5,7 @@
     <h3><i class='fa fa-question-circle' style='margin-right: 5px;'></i>Why do I need to sign up?</h3>
     <p>Bridge Troll needs to send you a couple of emails: RSVP confirmations, upcoming workshop reminders, etc. We may also send you follow up surveys after the workshop to help us learn how to help you better.</p>
 
+
     <% if !resource.password_required? %>
       <% auth = OmniauthProviders.provider_data_for(resource.authentications.first.provider) %>
       <div class="alert alert-success" style="white-space: pre-line;">We didn't find a Bridge Troll account associated with your <%= auth[:name] %> account.

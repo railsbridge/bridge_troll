@@ -10,6 +10,11 @@ module OmniauthProviders
         key: :twitter,
         name: 'Twitter',
         icon: 'fa-twitter-square'
+      },
+      {
+        key: :github,
+        name: 'Github',
+        icon: 'fa-github-square'
       }
     ]
   end
@@ -23,10 +28,20 @@ module OmniauthProviders
       self.facebook_omniauth_attributes(omniauth)
     elsif omniauth['provider'] == 'twitter'
       self.twitter_omniauth_attributes(omniauth)
+    elsif omniauth['provider'] == 'github'
+      self.github_omniauth_attributes(omniauth)
     end
   end
 
   private
+
+  def self.split_name(full_name)
+    components = full_name.split(' ')
+    {
+      first_name: components[0],
+      last_name: components[1..-1].join(' ')
+    }
+  end
 
   def self.facebook_omniauth_attributes(omniauth)
     {
@@ -37,10 +52,12 @@ module OmniauthProviders
   end
 
   def self.twitter_omniauth_attributes(omniauth)
-    components = omniauth['info']['name'].split(' ')
-    {}.tap do |result|
-      result[:first_name] = components[0] if components.length > 0
-      result[:last_name] = components[1..-1].join(' ')
-    end
+    self.split_name(omniauth['info']['name'])
+  end
+
+  def self.github_omniauth_attributes(omniauth)
+    self.split_name(omniauth['info']['name']).merge(
+      email: omniauth['info']['email']
+    )
   end
 end
