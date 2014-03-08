@@ -34,11 +34,8 @@ describe Rsvp do
   context 'for volunteers' do
     subject { build(:rsvp) }
 
-    it { should validate_presence_of(:teaching_experience) }
-    it { should ensure_length_of(:teaching_experience).is_at_least(10).is_at_most(250) }
     it { should validate_presence_of(:subject_experience) }
     it { should ensure_length_of(:subject_experience).is_at_most(250).is_at_least(10) }
-    it { should ensure_inclusion_of(:class_level).in_range(0..5) }
 
     it "should only require class_level if teaching or TAing" do
       subject.class_level.should be_nil
@@ -46,7 +43,18 @@ describe Rsvp do
 
       subject.teaching = true
       subject.should have(1).errors_on(:class_level)
+      subject.should ensure_inclusion_of(:class_level).in_range(0..5)
     end
+
+    it "should only require teaching_experience if teaching or TAing" do
+      subject.teaching.should be_false
+      subject.should_not validate_presence_of(:teaching_experience)
+
+      subject.teaching = true
+      subject.should validate_presence_of(:teaching_experience)
+      subject.should ensure_length_of(:teaching_experience).is_at_least(10).is_at_most(250)
+    end
+
     it "allows rsvps from the same user ID but different user type" do
       @event = create(:event)
       @bridgetroll_user = create(:user, id: 2001)

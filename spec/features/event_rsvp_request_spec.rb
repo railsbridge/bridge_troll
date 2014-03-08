@@ -120,5 +120,12 @@ describe 'creating or editing an rsvp' do
       page.should_not have_content "TAing"
       page.should_not have_content "Do you have a class level preference?"
     end
+
+    it "should require subject experience" do
+      fill_in "rsvp_subject_experience", with: "I organized the February workshop after attending one in January"
+      click_on "Submit"
+      page.should have_content "Thanks for signing up!"
+
+    end
   end
 end
