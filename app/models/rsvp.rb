@@ -27,22 +27,23 @@ class Rsvp < ActiveRecord::Base
   scope :needs_childcare, where("childcare_info <> ''")
 
   MAX_EXPERIENCE_LENGTH = 250
-  with_options(if: Proc.new {|rsvp| rsvp.role_volunteer? && !rsvp.historical? }) do |for_volunteers|
-    for_volunteers.validates_presence_of :subject_experience
-    for_volunteers.validates_length_of :subject_experience, :in => 10..MAX_EXPERIENCE_LENGTH
-  end
+  with_options(unless: :historical?) do |normal_event|
+    normal_event.with_options(if: Proc.new {|rsvp| rsvp.role_volunteer? }) do |for_volunteers|
+      for_volunteers.validates_presence_of :subject_experience
+      for_volunteers.validates_length_of :subject_experience, :in => 10..MAX_EXPERIENCE_LENGTH
+    end
 
-  with_options(if: Proc.new {|rsvp| rsvp.teaching || rsvp.taing  }) do |for_teachers|
-    for_teachers.validates_presence_of :class_level
-    for_teachers.validates_inclusion_of :class_level, in: (0..5), allow_blank: true
-    for_teachers.validates_presence_of :teaching_experience
-    for_teachers.validates_length_of :teaching_experience, :in => 10..MAX_EXPERIENCE_LENGTH
-  end
+    normal_event.with_options(if: Proc.new {|rsvp| rsvp.teaching || rsvp.taing  }) do |for_teachers|
+      for_teachers.validates_presence_of :class_level
+      for_teachers.validates_inclusion_of :class_level, in: (0..5), allow_blank: true
+      for_teachers.validates_presence_of :teaching_experience
+      for_teachers.validates_length_of :teaching_experience, :in => 10..MAX_EXPERIENCE_LENGTH
+    end
 
-
-  with_options(if: Proc.new {|rsvp| rsvp.role_student? && !rsvp.historical? }) do |for_students|
-    for_students.validates_presence_of :operating_system_id, :class_level
-    for_students.validates_inclusion_of :class_level, in: (1..5), allow_blank: true
+    normal_event.with_options(if: :role_student?) do |for_students|
+      for_students.validates_presence_of :operating_system_id, :class_level
+      for_students.validates_inclusion_of :class_level, in: (1..5), allow_blank: true
+    end
   end
 
   extend ActiveHash::Associations::ActiveRecordExtensions

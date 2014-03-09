@@ -38,9 +38,11 @@ class Event < ActiveRecord::Base
   validates_presence_of :time_zone
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
-  with_options(if: Proc.new {|event| !event.historical? }) do |non_historical_event|
-    non_historical_event.validates_numericality_of :student_rsvp_limit, only_integer: true, greater_than: 0
-    non_historical_event.validate :validate_rsvp_limit
+  with_options(unless: :historical?) do |normal_event|
+    normal_event.with_options(if: :allow_student_rsvp?) do |workshop_event|
+      workshop_event.validates_numericality_of :student_rsvp_limit, only_integer: true, greater_than: 0
+      workshop_event.validate :validate_rsvp_limit
+    end
   end
 
   def location_name
