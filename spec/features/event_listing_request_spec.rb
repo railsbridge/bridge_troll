@@ -110,9 +110,7 @@ describe "the event listing page" do
 
       it "can create a non-teaching event", js: true do
         fill_in "Title", with: "Volunteer Work Day"
-        select "None", :from => "event_course_id"
-        uncheck "Allow Student RSVP?"
-        fill_in "Student RSVP limit", with: 100
+        choose "Just Volunteers"
 
         within ".event-sessions" do
           fill_in "Session Name", with: 'Do Awesome Stuff'
@@ -129,6 +127,8 @@ describe "the event listing page" do
         page.should have_content("Do Awesome Stuff")
         page.should have_content("Organizer Console")
 
+        Event.last.course.should be_nil
+        Event.last.allow_student_rsvp.should be_false
       end
 
       it "should display frontend content for frontend events" do

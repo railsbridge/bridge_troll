@@ -24,12 +24,14 @@
   </div>
   <div class='event-counts'>
     <div><i class='fa fa-user'></i>Volunteers: <%= event.volunteer_rsvps.count %></div>
-    <div>
-      <i class='fa fa-user'></i>Students: <%= event.student_rsvps.count %> / <%= event.student_rsvp_limit %>
-      <% if event.at_limit? %>
-        (<%= event.student_waitlist_rsvps.count %> Waitlisted)
-      <% end %>
-    </div>
+    <% if event.allow_student_rsvp %>
+      <div>
+        <i class='fa fa-user'></i>Students: <%= event.student_rsvps.count %> / <%= event.student_rsvp_limit %>
+        <% if event.at_limit? %>
+          (<%= event.student_waitlist_rsvps.count %> Waitlisted)
+        <% end %>
+      </div>
+    <% end %>
   </div>
   <div class='event-actions'>
     <% if user_signed_in? %>

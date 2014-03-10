@@ -216,6 +216,7 @@ class Event < ActiveRecord::Base
 
   def reorder_waitlist!
     return if historical?
+    return unless student_rsvp_limit
 
     Rsvp.transaction do
       unless at_limit?

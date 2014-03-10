@@ -29,7 +29,7 @@ describe EventsController do
         end
       end
 
-      describe "#allow_student_rsvps?" do
+      describe "#allow_student_rsvp?" do
         it "shows an 'Attend' button when allowing student RSVP" do
           @event.update_attribute(:allow_student_rsvp, true)
           get :index
@@ -68,7 +68,7 @@ describe EventsController do
         response.body.should include('Carbon Nine')
       end
 
-      describe "#allow_student_rsvps?" do
+      describe "#allow_student_rsvp?" do
         before do
           sign_in create(:user)
         end

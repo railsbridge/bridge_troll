@@ -42,7 +42,7 @@
           <%= simple_format_with_html(@event.volunteer_details) %>
         <% end %>
 
-        <% if @event.student?(current_user) || @organizer %>
+        <% if @event.allow_student_rsvp? && (@event.student?(current_user) || @organizer) %>
           <h2>Student Details</h2>
           <%= simple_format_with_html(@event.student_details) %>
         <% end %>
@@ -108,15 +108,17 @@
         <% end %>
       </ul>
     <% end %>
-    <h3><%= pluralize(@event.checked_in_student_rsvps.count, "student") %>!</h3>
-    <% if @event.student_rsvps.none? %>
-      No students are currently signed up for this event.
-    <% else %>
-      <ul class="attendees">
-        <% @event.ordered_student_rsvps.each do |rsvp| %>
-          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path, class: rsvp_class(rsvp) %></li>
-        <% end %>
-      </ul>
+    <% if @event.allow_student_rsvp? %>
+      <h3><%= pluralize(@event.checked_in_student_rsvps.count, "student") %>!</h3>
+      <% if @event.student_rsvps.none? %>
+        No students are currently signed up for this event.
+      <% else %>
+        <ul class="attendees">
+          <% @event.ordered_student_rsvps.each do |rsvp| %>
+            <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path, class: rsvp_class(rsvp) %></li>
+          <% end %>
+        </ul>
+      <% end %>
     <% end %>
 
     <% if @event.student_waitlist_rsvps.any? %>

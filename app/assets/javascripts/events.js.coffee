@@ -39,6 +39,18 @@ jQuery ->
 
   setUpDatePicker($('.datepicker'))
 
+  rsvpTypesChanged = ->
+    $el = $('.workshop-only')
+    if ($('.rsvp-types-radio:checked').val() == "true")
+      $el.toggle(true)
+      $el.find('input, select').prop('disabled', false)
+    else
+      $el.toggle(false)
+      $el.find('input, select').prop('disabled', true)
+
+  $('.rsvp-types-radio').on('change', rsvpTypesChanged)
+  rsvpTypesChanged()
+
   $(document).on 'nested:fieldAdded', (event) ->
     $field = event.field
     $dateField = $field.find('.datepicker')
