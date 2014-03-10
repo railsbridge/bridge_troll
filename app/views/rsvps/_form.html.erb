@@ -113,12 +113,14 @@
       <%= f.text_area :childcare_info, rows: 3, class: "input-xxlarge"  %>
     </div>
 
-    <div class="field">
-      <%= label_tag :affiliate_with_chapter, class: 'checkbox question' do %>
-        <%= check_box_tag :affiliate_with_chapter, 1, current_user.chapters.include?(@event.chapter) %> I want to be notified of future RailsBridge events in the "<%= @event.chapter.name %>" chapter.
-      <% end %>
-      <small>(Full email preferences are available <%= link_to 'on your User Account', edit_user_registration_path %>)</small>
-    </div>
+    <% if @event.location %>
+      <div class="field">
+        <%= label_tag :affiliate_with_chapter, class: 'checkbox question' do %>
+          <%= check_box_tag :affiliate_with_chapter, 1, current_user.chapters.include?(@event.chapter) %> I want to be notified of future RailsBridge events in the "<%= @event.chapter.name %>" chapter.
+        <% end %>
+        <small>(Full email preferences are available <%= link_to 'on your User Account', edit_user_registration_path %>)</small>
+      </div>
+    <% end %>
 
     <div class="actions">
       <%= f.hidden_field :event_id %>

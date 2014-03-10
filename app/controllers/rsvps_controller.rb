@@ -35,7 +35,7 @@ class RsvpsController < ApplicationController
       end
 
       if @rsvp.save
-        if params[:affiliate_with_chapter]
+        if params[:affiliate_with_chapter] && @event.location
           @rsvp.user.chapter_ids += [@event.chapter.id]
         else
           @rsvp.user.chapter_ids -= [@event.chapter.id]
