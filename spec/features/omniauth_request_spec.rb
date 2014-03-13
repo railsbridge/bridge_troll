@@ -89,4 +89,29 @@ describe "signing in with omniauth" do
       authentication.uid.should == github_response[:uid]
     end
   end
+
+  context "when the omniauth provider sends a nil 'full name' field" do
+    before do
+      auth_response = OmniauthResponses.github_response
+      auth_response[:info].delete(:name)
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(auth_response)
+    end
+
+    it 'requires the user to enter first_name and last_name and authentication after the user provides an email' do
+      visit user_omniauth_authorize_path(:github)
+
+      find_field('user[first_name]').value.should be_blank
+      find_field('user[last_name]').value.should be_blank
+
+      fill_in 'user[first_name]', with: 'Dan'
+      fill_in 'user[last_name]', with: 'Danson'
+
+      click_on 'Sign up'
+
+      user = User.last
+      user.first_name.should == "Dan"
+      user.last_name.should == "Danson"
+      user.email.should == "ffjords@example.com"
+    end
+  end
 end
