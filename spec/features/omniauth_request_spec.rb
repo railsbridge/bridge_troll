@@ -90,28 +90,38 @@ describe "signing in with omniauth" do
     end
   end
 
-  context "when the omniauth provider sends a nil 'full name' field" do
-    before do
+  describe "parsing the name attribute" do
+    it "assigns blank first name and last name if name is not present" do
       auth_response = OmniauthResponses.github_response
       auth_response[:info].delete(:name)
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(auth_response)
-    end
 
-    it 'requires the user to enter first_name and last_name and authentication after the user provides an email' do
       visit user_omniauth_authorize_path(:github)
 
       find_field('user[first_name]').value.should be_blank
       find_field('user[last_name]').value.should be_blank
+    end
 
-      fill_in 'user[first_name]', with: 'Dan'
-      fill_in 'user[last_name]', with: 'Danson'
+    it "assigns blank first name and last name if name is an empty string" do
+      auth_response = OmniauthResponses.github_response
+      auth_response[:info][:name] = ''
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(auth_response)
 
-      click_on 'Sign up'
+      visit user_omniauth_authorize_path(:github)
 
-      user = User.last
-      user.first_name.should == "Dan"
-      user.last_name.should == "Danson"
-      user.email.should == "ffjords@example.com"
+      find_field('user[first_name]').value.should be_blank
+      find_field('user[last_name]').value.should be_blank
+    end
+
+    it "assigns just the first name if the 'name' attribute has no spaces" do
+      auth_response = OmniauthResponses.github_response
+      auth_response[:info][:name] = 'Enigma'
+      OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(auth_response)
+
+      visit user_omniauth_authorize_path(:github)
+
+      find_field('user[first_name]').value.should == 'Enigma'
+      find_field('user[last_name]').value.should be_blank
     end
   end
 end

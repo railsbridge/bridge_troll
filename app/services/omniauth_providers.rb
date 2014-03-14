@@ -36,7 +36,7 @@ module OmniauthProviders
   private
 
   def self.split_name(full_name)
-    return {} unless full_name
+    return {} if full_name.blank?
 
     components = full_name.split(' ')
     {
