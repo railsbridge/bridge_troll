@@ -29,7 +29,7 @@ Then, have a look at our [feature backlog](https://www.pivotaltracker.com/projec
 
 ## Setting up for development
 
-You'll need a version manager for Ruby.  We recommend [rvm](http://rvm.beginrescueend.com), but [rbenv](https://github.com/sstephenson/rbenv) will work.
+You'll need a version manager for Ruby.  We recommend [rvm](http://rvm.io), but [rbenv](https://github.com/sstephenson/rbenv) will work.
 
 ### Quickstart
 
