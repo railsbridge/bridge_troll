@@ -107,7 +107,7 @@ To import historical data from Meetup, use the rake task `rake meetup:import`. T
 #### Meetup OAuth
 To test authenticating with Meetup using your localhost server, you need to [register a new OAuth Consumer at Meetup](http://www.meetup.com/meetup_api/oauth_consumers/).
 
-When you add a new OAuth consumer, set the _Website_ as `http://bridgetroll.herokuapp.com`, the _Redirect URI_ as `http://localhost:3000/auth/meetup/callback`, and the _De-authorization Notification URL_ as `http://localhost:3000/auth/meetup/destroy`.
+When you add a new OAuth consumer, set the _Website_ as `http://www.bridgetroll.org`, the _Redirect URI_ as `http://localhost:3000/users/auth/meetup/callback`.
 
 The values for _key_ and _secret_ on the OAuth consumers page should be added to your local environment as MEETUP_OAUTH_KEY and MEETUP_OAUTH_SECRET, respectively.
 

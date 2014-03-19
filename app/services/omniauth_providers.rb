@@ -15,6 +15,11 @@ module OmniauthProviders
         key: :github,
         name: 'Github',
         icon: 'fa-github-square'
+      },
+      {
+        key: :meetup,
+        name: 'Meetup',
+        icon: 'fa-calendar'
       }
     ]
   end
@@ -30,6 +35,8 @@ module OmniauthProviders
       self.twitter_omniauth_attributes(omniauth)
     elsif omniauth['provider'] == 'github'
       self.github_omniauth_attributes(omniauth)
+    elsif omniauth['provider'] == 'meetup'
+      self.meetup_omniauth_attributes(omniauth)
     end
   end
 
@@ -61,5 +68,9 @@ module OmniauthProviders
     self.split_name(omniauth['info']['name']).merge(
       email: omniauth['info']['email']
     )
+  end
+
+  def self.meetup_omniauth_attributes(omniauth)
+    self.split_name(omniauth['info']['name'])
   end
 end

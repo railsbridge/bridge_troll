@@ -67,6 +67,33 @@ describe "signing in with omniauth" do
     end
   end
 
+  context "with a valid meetup auth" do
+    let(:meetup_response) { OmniauthResponses.meetup_response }
+
+    before do
+      OmniAuth.config.mock_auth[:meetup] = OmniAuth::AuthHash.new(meetup_response)
+    end
+
+    it 'creates a user and authentication after the user provides an email' do
+      visit user_omniauth_authorize_path(:meetup)
+
+      within '#sign-up' do
+        fill_in 'Email', with: 'meetup_user@example.com'
+      end
+
+      click_on 'Sign up'
+
+      user = User.last
+      user.first_name.should == "Franz"
+      user.last_name.should == "Meetuper"
+      user.email.should == "meetup_user@example.com"
+
+      authentication = user.authentications.first
+      authentication.provider.should == 'meetup'
+      authentication.uid.should == meetup_response['uid'].to_s
+    end
+  end
+
   context "with a valid github auth" do
     let(:github_response) { OmniauthResponses.github_response }
 

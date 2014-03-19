@@ -8,7 +8,6 @@ Bridgetroll::Application.routes.draw do
 
   resources :users, only: [:index] do
     resource :profile, :only => [:edit, :update, :show]
-    resource :meetup_prompt, :only => [:destroy], :controller => 'users/meetup_prompts'
   end
   resources :meetup_users, :only => [:show]
 
