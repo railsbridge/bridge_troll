@@ -61,8 +61,6 @@ Bridgetroll::Application.routes.draw do
 
   get "/about" => "static_pages#about"
 
-  get "/auth/:provider/callback" => "omniauths#callback"
-
   if Rails.env.development?
     get "/style_guide" => "static_pages#style_guide"
   end

@@ -24,6 +24,12 @@ module OmniauthProviders
     ]
   end
 
+  def self.finish_auth_for(authentication)
+    if authentication.provider == 'meetup'
+      MeetupImporter.new.associate_user(authentication.user, authentication.uid)
+    end
+  end
+
   def self.provider_data_for(provider)
     self.provider_data.find { |data| data[:key] == provider.to_sym }
   end

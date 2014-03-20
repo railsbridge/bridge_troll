@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
   def self.from_omniauth(omniauth)
-    authentication = Authentication.where(provider: omniauth['provider'], uid: omniauth['uid']).first
+    authentication = Authentication.where(provider: omniauth['provider'], uid: omniauth['uid'].to_s).first
     if authentication
       authentication.user
     else
@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
     OmniauthProviders.user_attributes_from_omniauth(omniauth).each do |attr, value|
       assign_attributes(attr => value) if send(attr).blank?
     end
-    authentications.build(provider: omniauth['provider'], uid: omniauth['uid'])
+    authentications.build(provider: omniauth['provider'], uid: omniauth['uid'].to_s)
   end
 
   def self.not_assigned_as_organizer(event)
@@ -51,6 +51,10 @@ class User < ActiveRecord::Base
 
   def profile_path
     Rails.application.routes.url_helpers.user_profile_path(self)
+  end
+
+  def meetup_id
+    authentications.find { |a| a.provider == 'meetup' }.try(:uid)
   end
 
   private

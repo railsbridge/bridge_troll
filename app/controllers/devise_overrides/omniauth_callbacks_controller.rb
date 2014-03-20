@@ -4,7 +4,7 @@ class DeviseOverrides::OmniauthCallbacksController < Devise::OmniauthCallbacksCo
     provider_name = omniauth['provider'].capitalize
     if current_user
       flash[:notice] = "#{provider_name} authentication added."
-      current_user.authentications.create!(provider: omniauth['provider'], uid: omniauth['uid'])
+      current_user.authentications.create!(provider: omniauth['provider'], uid: omniauth['uid'].to_s)
       redirect_to edit_user_registration_path and return
     end
 

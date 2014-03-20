@@ -93,20 +93,5 @@
         <% end %>
       </ul>
     </div>
-
-    <hr>
-    <div>
-      <%= label_tag :meetup_id, 'Associated Meetup Account' %>
-      <% if resource.meetup_id %>
-        Currently associated
-        with <%= link_to "Meetup user #{resource.meetup_id}.", "http://www.meetup.com/members/#{resource.meetup_id}/" %></p>
-      <% else %>
-        <p>You haven't connected your Meetup.com account yet! :(</p>
-
-        <p>Connect your Meetup.com account to import information about past workshops you have attended.</p>
-        <%= link_to 'Connect to Meetup.com', "/auth/meetup", class: 'btn' %>
-      <% end %>
-    </div>
-    <hr>
   <% end %>
 <% end %>

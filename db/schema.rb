@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140319062825) do
+ActiveRecord::Schema.define(:version => 20140319070914) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -217,7 +217,6 @@ ActiveRecord::Schema.define(:version => 20140319062825) do
     t.boolean  "admin",                  :default => false
     t.string   "first_name"
     t.string   "last_name"
-    t.integer  "meetup_id"
     t.string   "time_zone"
     t.string   "gender"
     t.boolean  "allow_event_email",      :default => true

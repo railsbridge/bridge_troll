@@ -18,7 +18,7 @@ describe UsersController do
       @event2 = create(:event)
 
       @event1.rsvps << create(:rsvp, user: @user_associated, event: @event1)
-      MeetupImporter.new.associate_user(@bridgetroll_user, @user_associated.meetup_id)
+      @bridgetroll_user.authentications.create(provider: 'meetup', uid: @user_associated.meetup_id)
 
       @event1.rsvps << create(:rsvp, user: @user1, event: @event1)
       @event2.rsvps << create(:rsvp, user: @user1, event: @event2)
