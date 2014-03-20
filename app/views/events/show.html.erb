@@ -23,7 +23,7 @@
         </div>
       <% end %>
     </div>
-    <% unless @event.course == nil %>
+    <% if @event.course %>
       <div id="course">
         <h2>Course</h2>
         <p>

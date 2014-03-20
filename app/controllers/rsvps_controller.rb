@@ -35,10 +35,12 @@ class RsvpsController < ApplicationController
       end
 
       if @rsvp.save
-        if params[:affiliate_with_chapter] && @event.location
-          @rsvp.user.chapter_ids += [@event.chapter.id]
-        else
-          @rsvp.user.chapter_ids -= [@event.chapter.id]
+        if @event.location
+          if params[:affiliate_with_chapter]
+            @rsvp.user.chapter_ids += [@event.chapter.id]
+          else
+            @rsvp.user.chapter_ids -= [@event.chapter.id]
+          end
         end
 
         @rsvp.user.update_attributes(gender: params[:user][:gender])
