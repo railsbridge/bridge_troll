@@ -143,6 +143,7 @@ describe RsvpsController do
           end
 
           it "gives a notice that does not mention the waitlist" do
+            flash[:notice].should be_present
             flash[:notice].should_not match(/waitlist/i)
           end
         end
@@ -320,16 +321,24 @@ describe RsvpsController do
       sign_in @user
     end
 
+    let(:rsvp_params) do
+      {subject_experience: 'Abracadabra'}
+    end
+
     it 'updates rsvps owned by the logged in user' do
-      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: {subject_experience: 'Abracadabra'}, user: { gender: "human" }
+      expect {
+        put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: { gender: "human" }
+      }.to change { @my_rsvp.reload.subject_experience }.to(rsvp_params[:subject_experience])
+
       response.should redirect_to(@event)
-      @my_rsvp.reload.subject_experience.should == 'Abracadabra'
     end
 
     it 'does not update rsvps owned by other users' do
-      put :update, event_id: @event.id, id: @other_rsvp.id, rsvp: {subject_experience: 'Abracadabra'}, user: { gender: "human" }
+      expect {
+        put :update, event_id: @event.id, id: @other_rsvp.id, rsvp: rsvp_params, user: { gender: "human" }
+      }.not_to change { @other_rsvp.reload.subject_experience }
+
       response.should_not be_success
-      @other_rsvp.reload.subject_experience.should_not == 'Abracadabra'
     end
   end
 

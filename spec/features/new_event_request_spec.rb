@@ -39,7 +39,7 @@ describe "New Event" do
       find(:link, 'Remove Session', visible: true).click
       page.should have_selector('.event-sessions > .fields', count: 1)
 
-      page.should_not have_selector(:link, 'Remove Session', visible: true)
+      page.should have_selector(:link, 'Remove Session', visible: false)
     end
   end
 end

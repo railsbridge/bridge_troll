@@ -18,18 +18,17 @@ describe 'creating or editing an rsvp' do
         page.should_not have_content(@event.event_sessions.first.name)
       end
 
-      it "should ask if user needs childcare ask for more info" do
-        page.find("#rsvp_needs_childcare").should_not be_checked
-        page.find("#rsvp_childcare_info").find(:xpath, '..')['class'].
-          should =~ /hidden/
-      end
-
       it "allows user to toggle childcare info with the needs_childcare button", js: true do
+        page.find("#rsvp_needs_childcare").should_not be_checked
+        page.should have_field('rsvp_childcare_info', visible: false)
+
         page.check "rsvp_needs_childcare"
-        page.find("#rsvp_childcare_info").find(:xpath, '..')['class'].
-          should_not =~ /hidden/
+
+        page.should have_field('rsvp_childcare_info', visible: true)
+
         page.uncheck "rsvp_needs_childcare"
-        page.should_not have_css('#rsvp_childcare_info')
+
+        page.should have_field('rsvp_childcare_info', visible: false)
       end
 
       it "should show option for any class level" do
@@ -68,19 +67,16 @@ describe 'creating or editing an rsvp' do
         visit edit_event_rsvp_path @rsvp.event, @rsvp
       end
 
-      it "should show a checked checkbox asking if the user needs childcare and a box listing their previous childcare info" do
-        page.find("#rsvp_needs_childcare").should be_checked
-        page.find("#rsvp_childcare_info").find(:xpath, '..')['class'].
-          should_not =~ /hidden/
-        page.find("#rsvp_childcare_info").should have_text(@rsvp.childcare_info)
-      end
-
       it "allows user to toggle childcare info with the needs_childcare button", js: true do
+        page.find("#rsvp_needs_childcare").should be_checked
+        page.find("#rsvp_childcare_info").should have_text(@rsvp.childcare_info)
+
         page.uncheck "rsvp_needs_childcare"
-        page.should_not have_css("#rsvp_childcare_info")
+        page.should have_field('rsvp_childcare_info', visible: false)
+
         page.check "rsvp_needs_childcare"
-        page.find("#rsvp_childcare_info").find(:xpath, '..')['class'].
-          should_not =~ /hidden/
+
+        page.find("#rsvp_childcare_info").should have_text(@rsvp.childcare_info)
       end
     end
 
@@ -106,6 +102,7 @@ describe 'creating or editing an rsvp' do
       end
     end
   end
+
   context "for a non-teaching event" do
     before do
       @event = create(:event, course_id:nil)
@@ -125,7 +122,6 @@ describe 'creating or editing an rsvp' do
       fill_in "rsvp_subject_experience", with: "I organized the February workshop after attending one in January"
       click_on "Submit"
       page.should have_content "Thanks for signing up!"
-
     end
   end
 end

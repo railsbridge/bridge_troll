@@ -39,7 +39,7 @@ describe User do
   end
 
   it "creates a profile when the user is created" do
-    @user.profile.should_not be_nil
+    @user.profile.should be_present
   end
 
   describe "#full_name" do

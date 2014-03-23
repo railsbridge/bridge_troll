@@ -34,36 +34,36 @@ describe "the individual event page" do
       end
     end
 
-    it "does not display the Edit link or public email" do
+    it "does not display the Edit link, public email, volunteer or student details" do
       visit event_path(@event)
       page.should_not have_content("Edit")
-      page.should_not have_content("public_email@example.org")
+      page.should_not have_content(@event.public_email)
+      page.should_not have_content(@event.volunteer_details)
+      page.should_not have_content(@event.student_details)
     end
 
-    it "does not display the Volunteer or Student details" do
-      visit event_path(@event)
-      expect(page).not_to have_content("I am some details for volunteers.")
-      expect(page).not_to have_content("I am some details for students.")
-    end
+    describe "course section" do
+      let(:chosen_course_text) { "The focus will be on " }
 
-    context "when a course is chosen" do
-      it "displays a course and has a link to get the course level descriptions" do
-        visit event_path(@event)
-        page.should have_content("The focus will be on ")
+      context "when a course is chosen" do
+        it "displays a course and has a link to get the course level descriptions" do
+          visit event_path(@event)
+          page.should have_content(chosen_course_text)
 
-        click_link "Click here for more information about class levels in this course!"
-        page.should have_content("Class Levels for")
-      end
-    end
-
-    context "when a course is not chosen" do
-      before do
-        @event.update_attributes(:course_id => nil)
+          click_link "Click here for more information about class levels in this course!"
+          page.should have_content("Class Levels for")
+        end
       end
 
-      it "does not display a course if course is nil" do
-        visit event_path(@event)
-        page.should_not have_content("The focus will be on ")
+      context "when a course is not chosen" do
+        before do
+          @event.update_attributes(:course_id => nil)
+        end
+
+        it "does not display a course" do
+          visit event_path(@event)
+          page.should_not have_content(chosen_course_text)
+        end
       end
     end
 
@@ -110,32 +110,25 @@ describe "the individual event page" do
   end
 
   context "user is logged in but is not an organizer for the event" do
+    let(:attend_as_student_text) { "Attend as a student" }
+    let(:join_waitlist_text) { "Join the waitlist" }
     before do
       @user = create(:user)
       sign_in_as(@user)
     end
 
-    it "does not display the Edit link" do
+    it "displays the event public email but not the Edit link" do
       visit event_path(@event)
+      page.should have_content("public_email@example.org")
       page.should_not have_content("Edit")
     end
 
-    it "displays the event public email" do
-      visit event_path(@event)
-      page.should have_content("public_email@example.org")
-    end
-
     context "when user has not rsvp'd to event" do
-      it "should allow user to volunteer" do
+      it "should allow user to rsvp as a volunteer or student" do
         visit event_path(@event)
         page.should have_link("Volunteer")
-      end
-
-      it "should allow user to attend as a student" do
-        visit event_path(@event)
-
-        page.should have_link("Attend as a student")
-        page.should_not have_link("Join the waitlist")
+        page.should have_link(attend_as_student_text)
+        page.should_not have_link(join_waitlist_text)
       end
 
       context "when the event is full" do
@@ -145,8 +138,8 @@ describe "the individual event page" do
 
         it "should allow the user to join the waitlist" do
           visit event_path(@event)
-          page.should_not have_link("Attend as a student")
-          page.should have_link("Join the waitlist")
+          page.should_not have_link(attend_as_student_text)
+          page.should have_link(join_waitlist_text)
         end
       end
     end
@@ -157,12 +150,10 @@ describe "the individual event page" do
         visit event_path(@event)
       end
 
-      it "should allow user to cancel their RSVP" do
-        page.should have_link("Cancel RSVP")
-      end
+      it "allows user to see volunteer details and lets them cancel their RSVP" do
+        expect(page).to have_content(@event.volunteer_details)
 
-      it "allows user to see volunteer details" do
-        expect(page).to have_content("I am some details for volunteers.")
+        page.should have_link("Cancel RSVP")
       end
     end
 
@@ -172,8 +163,10 @@ describe "the individual event page" do
         visit event_path(@event)
       end
 
-      it "allows user to see student details" do
-        expect(page).to have_content("I am some details for students.")
+      it "allows user to see student details and lets them cancel their RSVP" do
+        expect(page).to have_content(@event.student_details)
+
+        page.should have_link("Cancel RSVP")
       end
     end
   end

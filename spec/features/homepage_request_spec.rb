@@ -23,26 +23,26 @@ describe "visiting the home page" do
       end
       page.should have_content('A message with a confirmation link has been sent to your email address. Please open the link to activate your account.')
     end
-
-    it "is prompted to Sign In/Up but not to view Profile" do
-      visit '/'
-      page.should have_link("Sign In")
-      page.should have_link("Sign Up")
-      page.should_not have_link("Profile")
-    end
   end
 
-  describe "as an authenticated user" do
-    before do
-      @user = create(:user)
-      sign_in_as(@user)
+  describe "navbar" do
+    describe "as an unauthenticated user" do
+      it "has only sign in / sign up links" do
+        visit '/'
+        page.all('.navbar li a').map(&:text).should == ['Sign In', 'Sign Up']
+      end
     end
 
-    it 'is prompted to view Profile but not Sign In/Up' do
-      visit '/'
-      page.should_not have_link("Sign In")
-      page.should_not have_link("Sign Up")
-      page.should have_link("Profile")
+    describe "as an authenticated user" do
+      before do
+        @user = create(:user)
+        sign_in_as(@user)
+      end
+
+      it 'allows the user to log out or view/edit their account details' do
+        visit '/'
+        page.all('.navbar li a').map(&:text).should == ['Sign Out', 'Account', 'Profile']
+      end
     end
   end
 end

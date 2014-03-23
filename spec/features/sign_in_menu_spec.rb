@@ -5,12 +5,9 @@ describe "sign in lightbox" do
     @user = create(:user)
   end
 
-  it "should be hidden" do
-    page.all('#sign_in_dialog', :visible => false)
-  end
-
   it "should show on home page on click" do
     visit "/"
+    page.find('#sign_in_dialog', :visible => false)
     click_link('Sign In')
     page.find('#sign_in_dialog', :visible => true)
   end

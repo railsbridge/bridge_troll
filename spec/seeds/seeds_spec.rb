@@ -42,6 +42,6 @@ describe "#seed_event" do
     event.organizers << innocent_user
 
     Seeder::destroy_event(event)
-    User.find_by_id(innocent_user.id).should_not be_nil
+    User.find_by_id(innocent_user.id).should be_present
   end
 end

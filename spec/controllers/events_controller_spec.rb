@@ -30,16 +30,18 @@ describe EventsController do
       end
 
       describe "#allow_student_rsvp?" do
+        let(:attend_text) { 'Attend' }
+
         it "shows an 'Attend' button when allowing student RSVP" do
           @event.update_attribute(:allow_student_rsvp, true)
           get :index
-          response.body.should include('Attend')
+          response.body.should include(attend_text)
         end
 
         it "hides the 'Attend' button when not allowing student RSVP" do
           @event.update_attribute(:allow_student_rsvp, false)
           get :index
-          response.body.should_not include('Attend')
+          response.body.should_not include(attend_text)
         end
       end
     end
@@ -69,6 +71,7 @@ describe EventsController do
       end
 
       describe "#allow_student_rsvp?" do
+        let(:attend_text) { 'Attend' }
         before do
           sign_in create(:user)
         end
@@ -76,13 +79,13 @@ describe EventsController do
         it "shows an 'Attend' button when allowing student RSVP" do
           @event.update_attribute(:allow_student_rsvp, true)
           get :show, id: @event.id
-          response.body.should include('Attend')
+          response.body.should include(attend_text)
         end
 
         it "hides the 'Attend' button when not allowing student RSVP" do
           @event.update_attribute(:allow_student_rsvp, false)
           get :show, id: @event.id
-          response.body.should_not include('Attend')
+          response.body.should_not include(attend_text)
         end
       end
 
@@ -272,7 +275,7 @@ describe EventsController do
 
         it "shows a success message" do
           make_request(create_params)
-          flash[:notice].should_not be_empty
+          flash[:notice].should be_present
         end
 
         describe "notifying publishers of events" do
@@ -420,7 +423,7 @@ describe EventsController do
 
         it "shows a success message" do
           make_request(update_params)
-          flash[:notice].should_not be_empty
+          flash[:notice].should be_present
         end
       end
 

@@ -15,7 +15,7 @@ describe Event do
   it "validates that there is at least one event session" do
     event = create(:event)
     event.event_sessions.destroy_all
-    event.should_not be_valid
+    event.should have(1).error_on(:event_sessions)
 
     event.event_sessions << build(:event_session)
     event.should be_valid
@@ -236,13 +236,10 @@ describe Event do
     context "when the event has a limit" do
       let(:event) { create(:event,  student_rsvp_limit: 2) }
       
-      it 'is false when the limit is not exceeded has not exceeded it' do
-        event.should_not be_at_limit
-      end
-      
       it 'is true when the limit is exceeded' do
-        3.times { create(:student_rsvp, event: event) }
-        event.should be_at_limit
+        expect {
+          3.times { create(:student_rsvp, event: event) }
+        }.to change { event.reload.at_limit? }.from(false).to(true)
       end
     end
 

@@ -24,7 +24,6 @@ describe UsersController do
       @event2.rsvps << create(:rsvp, user: @user1, event: @event2)
 
       @event1.rsvps << create(:rsvp, user: @user2, event: @event1)
-
     end
 
     context "when rendering" do

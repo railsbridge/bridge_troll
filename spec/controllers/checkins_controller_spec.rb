@@ -31,15 +31,12 @@ describe CheckinsController do
       @rsvp_session = create(:rsvp_session, rsvp: @rsvp, event_session: @session)
     end
 
-    it "returns the total amount of checked in attendees" do
-      post :create, event_id: @event.id, event_session_id: @session.id, rsvp_session: { id: @rsvp_session.id }
-      JSON.parse(response.body)['checked_in_count'].should == 1
-    end
+    it "checks in the volunteer and returns the number of checked-in persons" do
+      expect {
+        post :create, event_id: @event.id, event_session_id: @session.id, rsvp_session: { id: @rsvp_session.id }
+      }.to change { @rsvp_session.reload.checked_in? }.from(false).to(true)
 
-    it "checks in the volunteer" do
-      @rsvp_session.should_not be_checked_in
-      post :create, event_id: @event.id, event_session_id: @session.id, rsvp_session: { id: @rsvp_session.id }
-      @rsvp_session.reload.should be_checked_in
+      JSON.parse(response.body)['checked_in_count'].should == 1
     end
   end
 
@@ -50,15 +47,12 @@ describe CheckinsController do
       @rsvp_session = create(:rsvp_session, rsvp: @rsvp, event_session: @session, checked_in: true)
     end
 
-    it "returns the total amount of checked in attendees" do
-      delete :destroy, event_id: @event.id, event_session_id: @session.id, id: @rsvp_session.id, rsvp_session: { id: @rsvp_session.id }
-      JSON.parse(response.body)["checked_in_count"].should == 0
-    end
+    it "removes checked-in status for the volunteer and returns the number of checked-in persons" do
+      expect {
+        delete :destroy, event_id: @event.id, event_session_id: @session.id, id: @rsvp_session.id, rsvp_session: { id: @rsvp_session.id }
+      }.to change { @rsvp_session.reload.checked_in? }.from(true).to(false)
 
-    it "removes checked-in status for the volunteer" do
-      @rsvp_session.should be_checked_in
-      delete :destroy, event_id: @event.id, event_session_id: @session.id, id: @rsvp_session.id, rsvp_session: { id: @rsvp_session.id }
-      @rsvp_session.reload.should_not be_checked_in
+      JSON.parse(response.body)["checked_in_count"].should == 0
     end
   end
 end

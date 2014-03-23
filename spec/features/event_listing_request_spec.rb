@@ -63,7 +63,7 @@ describe "the event listing page" do
       sign_in_as(@user)
     end
 
-    context 'when organzing an event' do
+    context 'when organizing an event' do
       before do
         visit events_path
         click_link "Organize Event"
@@ -160,6 +160,7 @@ describe "the event listing page" do
         page.should have_content("This is a Front End workshop. The focus will be on")
       end
     end
+
     context 'given an event' do
       before(:each) do
         @event = create(:event)
@@ -175,6 +176,7 @@ describe "the event listing page" do
           click_link("Volunteer")
           fill_in "rsvp_subject_experience", :with => "I am cool and I use a Mac (but those two things are not related)"
         end
+
         it "allows registration as a teacher" do
           page.should have_content("almost signed up")
           fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
@@ -198,6 +200,7 @@ describe "the event listing page" do
           rsvp.rsvp_sessions.length.should == 1
           rsvp.rsvp_sessions.first.event_session.should == @session1
         end
+
         it "allows registration without course level for non-teaching roles" do
           fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
 
@@ -210,9 +213,8 @@ describe "the event listing page" do
           rsvp.user_id.should == @user.id
           rsvp.event_id.should == @event.id
         end
-
-
       end
+
       it "allows a student to register for an event" do
         visit events_path
         click_link("Attend as a student")
