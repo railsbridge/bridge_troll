@@ -5,7 +5,6 @@
     <h3><i class='fa fa-question-circle' style='margin-right: 5px;'></i>Why do I need to sign up?</h3>
     <p>Bridge Troll needs to send you a couple of emails: RSVP confirmations, upcoming workshop reminders, etc. We may also send you follow up surveys after the workshop to help us learn how to help you better.</p>
 
-
     <% if !resource.password_required? %>
       <% auth = OmniauthProviders.provider_data_for(resource.authentications.first.provider) %>
       <div class="alert alert-success" style="white-space: pre-line;">We didn't find a Bridge Troll account associated with your <%= auth[:name] %> account.
@@ -14,7 +13,13 @@
 
       Otherwise, fill out the form below to create a new account.
       </div>
-    <% end %>
+
+      <% if resource.errors.added?(:email, :taken) %>
+        <div class="alert alert-danger">
+          There is already a Bridge Troll user with the email address <strong><%= resource.email %></strong>. If you are the owner of this account, please log in to it before associating. If you forgot your password, or never set a password, <%= link_to 'you can generate a new one here', new_user_password_path %>.
+        </div>
+      <% end %>
+  <% end %>
 
     <div id="sign-up">
       <%= render 'form', button_text: 'Sign up', is_registered: false %>
