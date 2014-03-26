@@ -75,6 +75,8 @@ class EventsController < ApplicationController
   end
 
   def organize
+    @organizer_dashboard = true
+
     @volunteer_rsvps = @event.volunteer_rsvps
 
     @childcare_requests = @event.rsvps_with_childcare
