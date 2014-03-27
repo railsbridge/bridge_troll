@@ -270,7 +270,9 @@ MESSAGE
     location.chapter = chapter
     location_attributes = venue_json.slice('address_1', 'address_2', 'city', 'state', 'zip').reject { |_, v| v.length > 100 }
 
-    location.update_attributes(location_attributes.inject({}) { |hsh, (k, v)| hsh[k] = v.strip; hsh })
+    location.update_attributes(location_attributes.each_with_object({}) { |(k, v), hsh|
+      hsh[k] = v.strip
+    })
     location
   end
 end

@@ -8,9 +8,8 @@ class Role < ActiveHash::Base
   enum_accessor :name
 
   def self.empty_attendance
-    Role.all.inject({}) do |hsh, role|
+    Role.all.each_with_object({}) do |role, hsh|
       hsh[role.id] = 0
-      hsh
     end
   end
 end

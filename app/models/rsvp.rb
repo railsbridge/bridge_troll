@@ -85,9 +85,8 @@ class Rsvp < ActiveRecord::Base
   end
 
   def volunteer_carryover_attributes
-    [:subject_experience, :teaching_experience, :job_details].inject({}) do |hsh, field|
+    [:subject_experience, :teaching_experience, :job_details].each_with_object({}) do |field, hsh|
       hsh[field] = send(field)
-      hsh
     end
   end
 
