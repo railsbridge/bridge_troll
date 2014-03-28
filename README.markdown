@@ -82,11 +82,7 @@ To receive/develop emails locally, install the MailCatcher gem at http://mailcat
 
 Note that MailCatcher just makes it easy to see the HTML output of your mails: it doesn't guarantee that the way the mail looks like in MailCatcher is how it will look in Gmail or Outlook. Beware!
 
-### Meetup Integration
-
-The following section is only necessary if you want to import Meetup data or work on Meetup OAuth features. The app will still work, and the tests will all pass, without setting any Meetup API keys.
-
-#### Setting up environment
+### Setting up environment
 
 To populate environment variables, we recommend you start your rails server with **foreman**, which is available in the [Heroku Toolbelt](https://toolbelt.heroku.com/). Once foreman is installed, You'll need to create an `.env` file in the Bridge Troll directory for foreman to start effectively. Here's a sample one (note these are not real API keys):
 
@@ -101,15 +97,32 @@ PORT=3000
 
 With the `.env` file in place, simply run `foreman start` in your Bridge Troll directory instead of starting with `rails server`.
 
-#### Historical Meetup Importing
-To import historical data from Meetup, use the rake task `rake meetup:import`. This requires you set up a MEETUP_API_KEY in your local environment, which you can find on Meetup at http://www.meetup.com/meetup_api/key/.
+### External Authentication
 
-#### Meetup OAuth
+Bridge Troll uses [Omniauth](https://github.com/intridea/omniauth) to allow external authentication to a number of services.
+
+* Twitter through [omniauth-twitter](https://github.com/arunagw/omniauth-twitter) - [set up a consumer here](https://apps.twitter.com/)
+* Facebook through [omniauth-facebook](https://github.com/mkdynamic/omniauth-facebook) - [set up a consumer here](https://developers.facebook.com/apps/)
+* Github through [omniauth-github](https://github.com/intridea/omniauth-github) - [set up a consumer here](https://github.com/settings/applications)
+* Meetup through [omniauth-meetup](https://github.com/tapster/omniauth-meetup) - [set up a consumer here](http://www.meetup.com/meetup_api/oauth_consumers/)
+
+To set up external authentication, create an oauth consumer on the site you want to authenticate with, then add [PROVIDER]_OAUTH_KEY and [PROVIDER]_OAUTH_SECRET value to the app environment.
+
+When developing locally, it is often helpful to set up **local.bridgetroll.org** to point at your localhost server via your [hosts file](https://en.wikipedia.org/wiki/Hosts_%28file%29). You can then tell the OAuth provider to use the url local.bridgetroll.org. Often, a separate OAuth consumer needs to be set up for each environment (localhost/staging/production), but some providers (like Facebook) allow a consumer set up as "www.bridgetroll.org" to function for any subdomain (like "local.bridgetroll.org").
+
+#### OAuth Example
+
 To test authenticating with Meetup using your localhost server, you need to [register a new OAuth Consumer at Meetup](http://www.meetup.com/meetup_api/oauth_consumers/).
 
 When you add a new OAuth consumer, set the _Website_ as `http://www.bridgetroll.org`, the _Redirect URI_ as `http://localhost:3000/users/auth/meetup/callback`.
 
 The values for _key_ and _secret_ on the OAuth consumers page should be added to your local environment as MEETUP_OAUTH_KEY and MEETUP_OAUTH_SECRET, respectively.
+
+### Importing data from Meetup
+
+This section is only necessary if you want to import Meetup data. The app will still work, and the tests will all pass, without setting any Meetup API keys.
+
+To import historical data from Meetup, use the rake task `rake meetup:import`. This requires you set up a MEETUP_API_KEY in your local environment, which you can find on Meetup at http://www.meetup.com/meetup_api/key/.
 
 ## Contributors
 Literally one billion thanks to our [super awesome contributors](https://github.com/railsbridge/bridge_troll/contributors).
