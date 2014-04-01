@@ -5,7 +5,7 @@ A new event, "<%= @event.title %>", has been posted to Bridge Troll!
 <%= render 'new_event_detail' %>
 
 <% if @event.published %>
-This event is already published, so you should be able to find it here: <%= events_path %>
+This event is already published, so you should be able to find it here: <%= events_url %>
 <% else %>
-Go see the list of unpublished events to see if this is worth approving by clicking this link: <%= unpublished_events_path %>
+Go see the list of unpublished events to see if this is worth approving by clicking this link: <%= unpublished_events_url %>
 <% end %>

@@ -11,7 +11,7 @@
 <%= render 'new_event_detail' %>
 
 <% if @event.published %>
-<p><%= link_to 'This event is already published, so you should be able to find it on the list of upcoming events!', events_path %></p>
+<p><%= link_to 'This event is already published, so you should be able to find it on the list of upcoming events!', events_url %></p>
 <% else %>
 <p><%= link_to 'Go see the list of unpublished events to see if this is worth approving!', unpublished_events_url %></p>
 <% end %>
