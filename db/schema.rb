@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140319070914) do
+ActiveRecord::Schema.define(:version => 20140403064124) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(:version => 20140319070914) do
 
   create_table "events", :force => true do |t|
     t.string   "title"
-    t.datetime "created_at",                                  :null => false
-    t.datetime "updated_at",                                  :null => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
     t.integer  "location_id"
     t.text     "details"
     t.string   "time_zone"
@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(:version => 20140319070914) do
     t.integer  "student_rsvp_limit"
     t.integer  "course_id"
     t.boolean  "allow_student_rsvp",        :default => true
-    t.boolean  "published",                 :default => true
+    t.boolean  "published",                 :default => false
     t.text     "student_details"
   end
 
