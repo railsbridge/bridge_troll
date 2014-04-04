@@ -297,10 +297,10 @@ All students need to bring their own laptop and powercord.
 
 Since bandwidth is usually at a premium at the Installfest, please download RailsInstaller (for PCs and most Mac installations) or XCode (if you're going that route).
 
-You can find more information on what to download by getting started with the Installfest instructions: http://installfest.railsbridge.org
+You can find more information on what to download by getting started with the Installfest instructions: <a href="http://docs.railsbridge.org/installfest">http://docs.railsbridge.org/installfest</a>
   END
 
   DEFAULT_VOLUNTEER_DETAILS = <<-END
-Be sure to review the curriculum before the workshop. We have several curricula available at http://docs.railsbridge.org.
+Be sure to review the curriculum before the workshop. We have several curricula available at <a href="http://docs.railsbridge.org">http://docs.railsbridge.org</a>.
   END
 end
