@@ -1,7 +1,10 @@
 language: ruby
 rvm:
   - 2.0.0
-bundler_args: "--without development"
+bundler_args: "--without development --without production --deployment"
+cache: bundler
+before_install:
+  - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
 before_script:
   - "./config/before-travis.sh"
 script: "bundle exec rake && bundle exec rake jasmine:ci"
