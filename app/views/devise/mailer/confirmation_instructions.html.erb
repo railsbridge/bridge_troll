@@ -4,7 +4,7 @@
   <p>Click the link below to begin a magical journey to a RailsBridge workshop.</p>
 
   <p>
-    <%= link_to confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) do %>
+    <%= link_to confirmation_url(@resource, confirmation_token: @token) do %>
       <img alt='Confirm your account!' src="http://<%= Rails.configuration.action_mailer.default_url_options[:host] %>/assets/confirm_account.gif">
     <% end %>
   </p>

@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   devise :database_authenticatable, :registerable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :token_authenticatable, :confirmable, :timeoutable
+         :confirmable, :timeoutable
 
   has_many :authentications, inverse_of: :user, dependent: :destroy
   has_many :rsvps, conditions: { user_type: 'User' }, dependent: :destroy
