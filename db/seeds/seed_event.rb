@@ -79,6 +79,7 @@ module Seeder
       time_zone: 'Pacific Time (US & Canada)',
       course_id: Course::RAILS.id,
       location: location,
+      published: true,
       details: <<-DETAILS.strip_heredoc
         <h2>Workshop Description</h2>
 
