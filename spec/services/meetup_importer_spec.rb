@@ -119,7 +119,7 @@ describe MeetupImporter do
   describe "when users have already associated their meetup id with Bridgetroll" do
     let(:bridgetroll_user) { create(:user) }
     before do
-      bridgetroll_user.authentications.create(provider: 'meetup', uid: sally[:id])
+      bridgetroll_user.authentications.create(provider: 'meetup', uid: sally[:id].to_s)
 
       @importer.import_student_and_volunteer_event(event_params)
     end
@@ -214,14 +214,14 @@ describe MeetupImporter do
     it "claims existing RSVPs when associating" do
       @event.volunteers_with_legacy.should =~ [@sven_model, @sally_model]
 
-      bridgetroll_user.authentications.create(provider: 'meetup', uid: sven[:id])
+      bridgetroll_user.authentications.create(provider: 'meetup', uid: sven[:id].to_s)
 
       @event.reload.volunteers_with_legacy.should =~ [bridgetroll_user, @sally_model]
     end
 
     context "when a bridgetroll user is already associated to a meetup user" do
       before do
-        bridgetroll_user.authentications.create(provider: 'meetup', uid: sven[:id])
+        bridgetroll_user.authentications.create(provider: 'meetup', uid: sven[:id].to_s)
       end
 
       it "removes claim to RSVPs when disassociating" do

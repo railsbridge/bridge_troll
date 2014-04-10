@@ -216,7 +216,7 @@ MESSAGE
   def find_user(meetup_id)
     meetup_user = MeetupUser.where(meetup_id: meetup_id).first_or_initialize
 
-    associated_user = User.joins(:authentications).where('authentications.provider = ? AND authentications.uid = ?', 'meetup', meetup_id).first
+    associated_user = User.joins(:authentications).where('authentications.provider = ? AND authentications.uid = ?', 'meetup', meetup_id.to_s).first
     if associated_user.present?
       associated_user
     else

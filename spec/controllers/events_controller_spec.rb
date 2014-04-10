@@ -505,6 +505,40 @@ describe EventsController do
     end
   end
 
+  describe "GET unpublished" do
+    before do
+      @chapter1 = @event.chapter
+      @chapter1.update_attributes(name: 'RailsBridge Shellmound')
+      @chapter2 = create(:chapter, name: 'RailsBridge Meriloft')
+
+      user_none = create(:user)
+
+      user_chapter1 = create(:user)
+      user_chapter1.chapters << @chapter1
+
+      user_chapter2 = create(:user)
+      user_chapter2.chapters << @chapter2
+
+      user_both_chapters = create(:user)
+      user_both_chapters.chapters << @chapter1
+      user_both_chapters.chapters << @chapter2
+      
+      user_no_email = create(:user, allow_event_email: false)
+      user_no_email.chapters << @chapter1
+
+      sign_in create(:user, publisher: true)
+    end
+    
+    it "assigns a hash of chapter/user counts" do
+      get :unpublished
+      
+      assigns(:chapter_user_counts).should == {
+        @chapter1.id => 2,
+        @chapter2.id => 2
+      }
+    end
+  end
+  
   describe "POST publish" do
     before do
       this_chapter = @event.chapter
@@ -515,6 +549,9 @@ describe EventsController do
 
       @user_this_chapter = create(:user)
       @user_this_chapter.chapters << this_chapter
+
+      @user_no_email = create(:user, allow_event_email: false)
+      @user_no_email.chapters << this_chapter
 
       @user_other_chapter = create(:user)
       @user_other_chapter.chapters << other_chapter

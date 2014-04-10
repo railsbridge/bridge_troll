@@ -42,7 +42,7 @@ class EventMailer < ActionMailer::Base
     @chapter = @event.chapter
 
     headers['X-SMTPAPI'] = {
-      to: User.joins(:chapters).where('chapters.id' => [@chapter.id]).map(&:email)
+      to: User.joins(:chapters).where('users.allow_event_email = ?', true).where('chapters.id' => [@chapter.id]).map(&:email)
     }.to_json
 
     mail(
