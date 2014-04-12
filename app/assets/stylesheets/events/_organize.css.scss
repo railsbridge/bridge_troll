@@ -39,6 +39,9 @@
   display: inline-block;
   width: 300px;
   vertical-align: top;
+  @media (max-width: $phone-width) {
+    width: auto;
+  }
 }
 
 .organizer-action {

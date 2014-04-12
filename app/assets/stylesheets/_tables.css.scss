@@ -21,6 +21,42 @@ table.checkins {
   }
 }
 
+@media (max-width: $phone-width) {
+  .checkins-table-container {
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+
+  table.checkins {
+    width: 100% !important;
+    display: block;
+    td {
+      text-align: center;
+    }
+    th.checkins-action, td.checkins-action {
+      font-size: 8px;
+    }
+    td .user-name {
+      display: block;
+    }
+    tr td .btn {
+      margin: 0;
+      width: 100%;
+      font-size: 10px;
+      padding: 5px;
+      height: 44px;
+    }
+    tbody td {
+      img {
+        margin: 0;
+      }
+      .fa-check-square-o {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
 table.attendees {
   th { width: 20%; }
   th.attendee-role { width: 10%; }
