@@ -30,6 +30,9 @@ table.checkins {
   table.checkins {
     width: 100% !important;
     display: block;
+    th.checkins-name { width: 40%; }
+    th.checkins-role { width: 20%; }
+    th.checkins-action { width: 40%; }
     td {
       text-align: center;
     }
@@ -41,7 +44,7 @@ table.checkins {
     }
     tr td .btn {
       margin: 0;
-      width: 100%;
+      width: 90%;
       font-size: 10px;
       padding: 5px;
       height: 44px;
