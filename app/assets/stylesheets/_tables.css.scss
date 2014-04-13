@@ -30,9 +30,6 @@ table.checkins {
   table.checkins {
     width: 100% !important;
     display: block;
-    th.checkins-name { width: 40%; }
-    th.checkins-role { width: 20%; }
-    th.checkins-action { width: 40%; }
     td {
       text-align: center;
     }
@@ -41,10 +38,14 @@ table.checkins {
     }
     td .user-name {
       display: block;
+      margin: 0 auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 90px; // 100% doesn't work. sad :(
     }
     tr td .btn {
       margin: 0;
-      width: 90%;
+      width: 100%;
       font-size: 10px;
       padding: 5px;
       height: 44px;
