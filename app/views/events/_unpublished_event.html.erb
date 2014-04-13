@@ -16,5 +16,7 @@
   <div class='event-actions'>
     <%= button_to 'Publish', publish_event_path(event), class: 'btn', method: :post,
                   data: {confirm: "Are you sure? This will email #{pluralize(@chapter_user_counts[event.location.chapter.id], 'member')} of #{event.location.chapter.name}"} %>
+    <%= button_to 'Flag as Spam', flag_event_path(event), class: 'btn', method: :post,
+                  data: {confirm: "Are you sure? This will remove this event from the approval page, and flag #{event.organizers.first.full_name} as a spammer so that all subsequent events they create will immediately be flagged as spam."} %>
   </div>
 </div>

@@ -1,6 +1,7 @@
 class OrganizersController < ApplicationController
   before_filter :authenticate_user!
   before_filter :validate_organizer!
+  before_filter :validate_published!
 
   def index
     @organizer_rsvps = @event.organizer_rsvps
@@ -21,5 +22,16 @@ class OrganizersController < ApplicationController
 
     @event_organizer.destroy
     redirect_to event_organizers_path(@event)
+  end
+
+  private
+
+  def validate_published!
+    @event = @event || Event.find(params[:event_id])
+    unless @event.published?
+      flash[:error] = "This feature is not available for unpublished events"
+      redirect_to @event
+      false
+    end
   end
 end

@@ -49,6 +49,7 @@ Bridgetroll::Application.routes.draw do
 
     member do
       post "publish"
+      post "flag"
       get "organize"
       get "organize_sections"
       get "levels"
@@ -60,6 +61,7 @@ Bridgetroll::Application.routes.draw do
   resources :external_events
 
   get "/about" => "static_pages#about"
+  get "/admin_dashboard" => "admin_pages#admin_dashboard"
 
   if Rails.env.development?
     get "/style_guide" => "static_pages#style_guide"

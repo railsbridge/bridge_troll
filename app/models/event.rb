@@ -152,7 +152,7 @@ class Event < ActiveRecord::Base
   def self.published_or_organized_by(user = nil)
     if user
       if user.admin?
-        scoped
+        where(spam: false)
       else
         includes(:rsvps).where('(rsvps.role_id = ? AND rsvps.user_id = ?) OR (published = ?)', Role::ORGANIZER, user.id, true)
       end

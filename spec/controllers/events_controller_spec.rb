@@ -278,6 +278,19 @@ describe EventsController do
           flash[:notice].should be_present
         end
 
+        context "but the user is flagged as a spammer" do
+          before do
+            @user.update_attribute(:spammer, true)
+          end
+
+          it "sends no email and flags the event as spam after creation" do
+            expect {
+              make_request(create_params)
+            }.not_to change(ActionMailer::Base.deliveries, :count)
+            Event.last.should be_spam
+          end
+        end
+
         describe "notifying publishers of events" do
           before do
             @user.update_attributes(first_name: 'Nitro', last_name: 'Boost')

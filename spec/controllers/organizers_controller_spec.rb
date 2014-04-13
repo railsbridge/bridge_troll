@@ -17,7 +17,7 @@ describe OrganizersController do
       ).to redirect_to(new_user_session_path)
 
       expect(
-        delete :destroy, event_id: @event.id, id: @user.id
+        delete :destroy, event_id: @event.id, id: 12345
       ).to redirect_to(new_user_session_path)
     end
   end
@@ -25,10 +25,6 @@ describe OrganizersController do
   context "a user that is not an organizer for the event" do
     before do
       sign_in @user
-
-      @user_organizer = create(:user)
-      @event.organizers << @user_organizer
-      @event_organizer = Rsvp.last
     end
 
     it "can not edit, create, or delete an event organizer" do
@@ -41,19 +37,41 @@ describe OrganizersController do
       ).to redirect_to(events_path)
 
       expect(
-        delete :destroy, event_id: @event.id, id: @user_organizer.id
+        delete :destroy, event_id: @event.id, id: 12345
       ).to redirect_to(events_path)
     end
   end
 
-  context "a user that is logged in and is an organizer for the event" do
+  context "a user that is logged in and is an organizer for an unpublished event" do
     before do
-      @user_organizer = create(:user)
-      @user1 = create(:user)
-      @event = create(:event)
-      @event.organizers << @user_organizer
+      @event = create(:event, published: false)
+      @event.organizers << @user
 
-      sign_in @user_organizer
+      sign_in @user
+    end
+
+    it "can not edit, create, or delete an event organizer" do
+      expect(
+        get :index, event_id: @event.id
+      ).to redirect_to(@event)
+
+      expect(
+        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, :user_id => @user.id}
+      ).to redirect_to(@event)
+
+      expect(
+        delete :destroy, event_id: @event.id, id: 12345
+      ).to redirect_to(@event)
+    end
+  end
+
+  context "a user that is logged in and is an organizer for a published event" do
+    before do
+      @other_user = create(:user)
+      @event = create(:event)
+      @event.organizers << @user
+
+      sign_in @user
     end
 
     it "can see list of organizers" do
@@ -63,7 +81,7 @@ describe OrganizersController do
 
     it "can create an organizer and redirect to the event organizer assignment page" do
       expect {
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @user1.id}
+        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @other_user.id}
       }.to change(Rsvp, :count).by(1)
       response.should redirect_to(event_organizers_path(@event))
     end
@@ -77,10 +95,10 @@ describe OrganizersController do
     end
 
     it "can delete an event organizer" do
-      @event.organizers << @user1
-      event_co_organizer = Rsvp.last
+      @event.organizers << @other_user
+      organizer_rsvp = Rsvp.last
       expect {
-        delete :destroy, event_id: @event.id, id: event_co_organizer.id, _method: "delete"
+        delete :destroy, event_id: @event.id, id: organizer_rsvp.id, _method: "delete"
       }.to change(Rsvp, :count).by(-1)
     end
   end

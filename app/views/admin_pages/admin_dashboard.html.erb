@@ -1,0 +1,70 @@
+<%= content_for(:header_text, 'Admin Dashboard') %>
+
+<div class='span6'>
+  <h2>Who can see this page?</h2>
+  <div>
+    Your Bridge Troll admins are the following <%= pluralize(@admins.count, "people") %>:
+    <ul>
+      <% @admins.each do |admin| %>
+        <li><%= link_to admin.full_name, user_profile_path(admin) %></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <h2>Who can approve events?</h2>
+  <div>
+    Your Bridge Troll event approvers are all the above admins plus these <%= pluralize(@publishers.count, "people") %>:
+    <ul>
+      <% @publishers.each do |publisher| %>
+        <li><%= link_to publisher.full_name, user_profile_path(publisher) %></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <h2># of authentication providers set up</h2>
+
+  <strong><%= @users.select { |u| u.encrypted_password.present? }.count %></strong> out of <%= @users.count %> users have set up a password to log in to Bridge Troll.
+
+  <table class='table table-bordered table-condensed table-striped' style="width: 30%;">
+    <th># Providers</th>
+    <th># Users</th>
+    <% @user_authentication_counts.keys.sort.reverse.each do |authentication_count| %>
+        <tr>
+          <td><%= authentication_count %></td>
+          <td><%= @user_authentication_counts[authentication_count] %></td>
+        </tr>
+    <% end %>
+  </table>
+
+  <h2>Usage of authentication providers</h2>
+  <table class='table table-bordered table-condensed table-striped' style="width: 30%;">
+    <th>Provider</th>
+    <th># Users</th>
+    <% @authentication_counts.each do |provider, count| %>
+      <tr>
+        <td><%= provider %></td>
+        <td><%= count %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <h2>Spammers</h2>
+  <div>
+    <%= pluralize(@spammers.count, "user has", "users have") %> been flagged as a spammer.
+    <ul>
+    <% @spammers.each do |spammer| %>
+      <li><%= link_to spammer.full_name, user_profile_path(spammer) %></li>
+    <% end %>
+    </ul>
+  </div>
+
+  <h2>Spam events</h2>
+  <div>
+    <%= pluralize(@spam_events.count, "event has", "events have") %> been marked as spam.
+    <ul>
+      <% @spam_events.each do |event| %>
+        <li><%= link_to event.title, event %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

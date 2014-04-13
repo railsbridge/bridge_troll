@@ -50,7 +50,12 @@ class EventsController < ApplicationController
 
     if @event.save
       @event.organizers << current_user
-      EventMailer.unpublished_event(@event).deliver
+      if current_user.spammer?
+        @event.update_attribute(:spam, true)
+      else
+        EventMailer.unpublished_event(@event).deliver
+      end
+
       if @event.published
         redirect_to @event, notice: 'Event was successfully created.'
       else
@@ -110,13 +115,19 @@ class EventsController < ApplicationController
     @chapter_user_counts = Hash[Chapter.includes(:users).where('users.allow_event_email = ?', true).map { |chapter|
       [chapter.id, chapter.users.length]
     }]
-    @events = Event.where(published: false)
+    @events = Event.where(published: false, spam: false)
   end
 
   def publish
     @event.update_attribute(:published, true)
     EventMailer.new_event(@event).deliver
     redirect_to @event, notice: "This event has been published. Now everyone in the world can see it!"
+  end
+
+  def flag
+    @event.update_attribute(:spam, true)
+    @event.organizers.first.update_attribute(:spammer, true)
+    redirect_to unpublished_events_path, notice: "#{@event.title} has been flagged as spam, and #{@event.organizers.first.full_name} has been flagged as a spammer so any other events they create will immediately be flagged as spam."
   end
 
   protected
