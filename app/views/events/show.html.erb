@@ -86,7 +86,7 @@
       <ul>
         <% if organizer_list.any? %>
           <% organizer_list.each do |organizer| %>
-            <li><%= organizer.full_name %></li>
+            <li><%= link_to organizer.full_name, user_profile_path(organizer) %></li>
           <% end %>
         <% else %>
           <li>No Organizer Assigned</li>
