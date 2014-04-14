@@ -5,6 +5,7 @@
     <th>Date</th>
     <th>Location</th>
     <th>Role</th>
+    <th>Session Checkins</th>
   </tr>
   </thead>
   <tbody>
@@ -23,6 +24,7 @@
       <td><%= formatted_session_date(event.event_sessions.first) %></td>
       <td><%= event.location.name rescue nil %></td>
       <td><%= rsvp.role.title %></td>
+      <td><%= rsvp.checkins_count %></td>
     </tr>
   <% end %>
   </tbody>
