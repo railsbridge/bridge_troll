@@ -27,6 +27,10 @@ class LocationsController < ApplicationController
   end
 
   def update
+    unless @location.editable_by?(current_user)
+      return redirect_to @location, alert: 'This location is only editable by admins and organizers of events that have taken place there.'
+    end
+
     @location.gmaps = false
 
     if @location.update_attributes(params[:location])

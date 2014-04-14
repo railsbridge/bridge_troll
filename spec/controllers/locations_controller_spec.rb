@@ -60,9 +60,26 @@ describe LocationsController do
       it "should be able to edit an location" do
         get :edit, {:id => @location.id}
         response.should be_success
-        
-        put :update, {:id => @location.id}
-        response.should redirect_to(location_path(@location))
+      end
+
+      describe "updating a location" do
+        let(:new_name) { 'Cowabunga' }
+        let(:perform_update_request) do
+          put :update, id: @location.id, location: {name: new_name}
+        end
+
+        it "is allowed when editable_by? returns true" do
+          expect {
+            perform_update_request
+          }.to change { @location.reload.name }.to(new_name)
+        end
+
+        it "is disallowed otherwise" do
+          create(:event, location: @location)
+          expect {
+            perform_update_request
+          }.not_to change { @location.reload.name }
+        end
       end
 
       describe "#destroy" do

@@ -18,6 +18,20 @@ class Location < ActiveRecord::Base
     "#{name} (#{chapter.name})"
   end
 
+  def editable_by?(user)
+    return true if events_count == 0
+    return true if user.admin?
+
+    published_events = events.where(published: true)
+    notable_events = if published_events.present?
+      published_events
+    else
+      events.where(published: false)
+    end
+
+    notable_events.map { |e| e.organizers }.flatten.map(&:id).include?(user.id)
+  end
+
   def as_json(options = {})
     {
       name: name,
