@@ -1,4 +1,4 @@
-<table class="datatable-sorted table table-striped table-bordered table-condensed">
+<table class="datatable-sorted table table-striped table-bordered table-condensed responsive-table">
   <thead>
   <tr>
     <th>Title</th>
@@ -24,7 +24,7 @@
       <td><%= formatted_session_date(event.event_sessions.first) %></td>
       <td><%= event.location.name rescue nil %></td>
       <td><%= rsvp.role.title %></td>
-      <td><%= rsvp.checkins_count %></td>
+      <td data-label="Session Checkins:"><%= rsvp.checkins_count %></td>
     </tr>
   <% end %>
   </tbody>

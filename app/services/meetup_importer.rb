@@ -103,6 +103,7 @@ MESSAGE
 
     event = options[:event] || Event.where(options[:finder_key] => options[:event_id]).first_or_initialize
     event.update_attributes(
+      published: true,
       title: options[:name],
       details: sanitize(event_json['description']),
       time_zone: 'Pacific Time (US & Canada)',

@@ -29,6 +29,7 @@
 }
 
 .details {
+  word-wrap: break-word;
   h2 {
     margin-top: 20px;
   }
@@ -54,5 +55,14 @@
         color: $darkgray-color;
       }
     }
+  }
+
+  @media (max-width: $phone-width) {
+    div {
+      &:first-child {
+        font-size: 24px;
+      }
+    }
+    overflow: hidden;
   }
 }
