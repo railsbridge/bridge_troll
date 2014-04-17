@@ -24,7 +24,7 @@
       <td><%= formatted_session_date(event.event_sessions.first) %></td>
       <td><%= event.location.name rescue nil %></td>
       <td><%= rsvp.role.title %></td>
-      <td data-label="Session Checkins:"><%= rsvp.checkins_count %></td>
+      <td data-label="Session Checkins:"><%= event.historical? ? 'N/A' : rsvp.checkins_count %></td>
     </tr>
   <% end %>
   </tbody>
