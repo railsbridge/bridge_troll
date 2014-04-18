@@ -1,5 +1,5 @@
 class Location < ActiveRecord::Base
-  has_many :events
+  has_many :events, conditions: { published: true }
   belongs_to :chapter, counter_cache: true
 
   attr_accessible :name, :address_1, :address_2, :city, :state, :zip, :chapter_id
@@ -22,11 +22,11 @@ class Location < ActiveRecord::Base
     return true if events_count == 0
     return true if user.admin?
 
-    published_events = events.where(published: true)
+    published_events = events
     notable_events = if published_events.present?
       published_events
     else
-      events.where(published: false)
+      Event.where(location_id: id, published: false)
     end
 
     notable_events.map { |e| e.organizers }.flatten.map(&:id).include?(user.id)
