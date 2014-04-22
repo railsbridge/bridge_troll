@@ -81,22 +81,21 @@
       </div>
     <% end %>
 
+    <% if user_signed_in? && @event.public_email.present? %>
+      <p class='public-email'>Questions? Email <%= mail_to @event.public_email %></p>
+    <% end %>
+
     <div class="organizers">
       <h3>Organized By:</h3>
-      <ul>
+      <ul class="attendees">
         <% if organizer_list.any? %>
           <% organizer_list.each do |organizer| %>
-            <li><%= link_to organizer.full_name, user_profile_path(organizer) %></li>
+            <li class='attendee'><%= render 'shared/viewed_gravatars', :email => organizer.email %><%= link_to organizer.full_name, organizer.profile_path %></li>
           <% end %>
         <% else %>
           <li>No Organizer Assigned</li>
         <% end %>
       </ul>
-      <% if user_signed_in? && @event.public_email.present? %>
-        <p>Questions? Email
-          <%= mail_to @event.public_email %>
-        </p>
-      <% end %>
     </div>
     <h3><%= pluralize(@event.checked_in_volunteer_rsvps.count, "volunteer") %>!</h3>
     <% if @event.volunteer_rsvps.none? %>
