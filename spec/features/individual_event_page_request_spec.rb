@@ -74,12 +74,7 @@ describe "the individual event page" do
         visit event_path(@event)
         click_link 'Volunteer'
 
-        page.should have_selector('#sign_in_dialog', visible: true)
-        within "#sign_in_dialog" do
-          fill_in "Email", with: @user.email
-          fill_in "Password", with: @user.password
-          click_button "Sign in"
-        end
+        sign_in_with_modal(@user)
 
         page.should have_content('RSVP')
         current_path.should == volunteer_new_event_rsvp_path(@event)

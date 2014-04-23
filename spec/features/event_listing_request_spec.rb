@@ -46,11 +46,8 @@ describe "the event listing page" do
       page.should have_link("Attend as a student")
       page.should have_link('Volunteer')
       click_link "Attend as a student"
-      within "#sign_in_dialog" do
-        fill_in "Email", with: @user.email
-        fill_in "Password", with: @user.password
-        click_button "Sign in"
-      end
+
+      sign_in_with_modal(@user)
 
       page.find('div.header-container > h1').should have_content("#{event.title}")
       current_path.should == event_path(event)

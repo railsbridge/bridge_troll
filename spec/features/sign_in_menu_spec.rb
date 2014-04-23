@@ -18,6 +18,24 @@ describe "sign in lightbox" do
     page.should have_link("Sign Out")
     page.should_not have_link("Sign in")
   end
+
+  it "always returns the user to the current page, instead of the last path Devise remembers", js: true do
+    visit "/users"
+    within '.alert' do
+      page.should have_content('sign in')
+    end
+    visit "/"
+    page.should have_content('Upcoming events')
+
+    within ".navbar" do
+      click_on 'Sign In'
+    end
+
+    sign_in_with_modal(@user)
+
+    page.should have_content('Signed in successfully')
+    page.should have_content('Upcoming events')
+  end
 end
 
 describe "user" do
