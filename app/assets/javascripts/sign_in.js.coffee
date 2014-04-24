@@ -14,6 +14,9 @@ $(document).on 'click', '.sign-in-button', (e) ->
   return_to_link = $link.data('returnTo')
   url.search = if return_to_link then ('return_to=' + encodeURIComponent(return_to_link)) else null
 
+  $modal.find('.external-auth a').each (ix, el) ->
+    el.search = 'origin=' + encodeURIComponent(return_to_link)
+
   sign_up_return_to_link = $link.data('signUpReturnTo')
   if sign_up_return_to_link
     sign_up_link = $modal.find('.sign_up_link').attr('href')
@@ -21,3 +24,4 @@ $(document).on 'click', '.sign-in-button', (e) ->
 
   $modal.find('form').attr('action', url.pathname + url.search)
   $modal.modal();
+  false
