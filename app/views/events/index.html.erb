@@ -15,22 +15,23 @@
       <% end %>
     </div>
 
+    <% if user_signed_in? %>
+      <% links = [
+        ['Organize Event', new_event_path],
+        ['Manage Locations', locations_path],
+        ['Manage Chapters', chapters_path]
+      ] %>
+      <% if current_user.admin? %>
+        <% links << ['Manage External Events', external_events_path] %>
+        <% links << ['Publish Unpublished Events', unpublished_events_path] %>
+      <% end %>
+      <%= render 'shared/actions', links: links %>
+    <% end %>
+
     <div class='past-events'>
       <h1>Past events</h1>
       <%= render 'shared/events_table', events: @past_events %>
 
-      <% if user_signed_in? %>
-        <% links = [
-          ['Organize Event', new_event_path],
-          ['Manage Locations', locations_path],
-          ['Manage Chapters', chapters_path]
-        ] %>
-        <% if current_user.admin? %>
-          <% links << ['Manage External Events', external_events_path] %>
-          <% links << ['Publish Unpublished Events', unpublished_events_path] %>
-        <% end %>
-        <%= render 'shared/actions', links: links %>
-      <% end %>
     </div>
   </div>
 </div>
