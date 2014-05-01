@@ -253,11 +253,11 @@ $attendee-height: 20px;
       }
     }
   }
+  ul {
+    list-style-type: none;
+  }
 }
 
-ul {
-  list-style-type: none;
-}
 
 .bridgetroll-attendee-detail {
   .role {
