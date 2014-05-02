@@ -151,9 +151,12 @@ td.wide {
   }
 }
 
+ul {
+  list-style-type: none;
+}
+
 .actions {
   margin: 20px 0 0 0;
-  list-style-type: none;
 
   li {
     display: inline-block;
