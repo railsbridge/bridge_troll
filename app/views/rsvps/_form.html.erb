@@ -31,6 +31,20 @@
           show_no_preference: false
         } %>
       </div>
+
+      <% if @event.plus_one_host_toggle == true %>
+        <div class="field">
+          <h2>Are you someone's plus-one?</h2>
+          <p>RailsBridge workshops focus on providing opportunities for under-represented populations in tech. If you are not a member of an underrepresented group, you can only attend as a student if you're the guest of someone who is a member of the workshop's target population. (For example, men can come as the guest of a woman, a straight person can attend as the guest of a gay person, etc.)</p>
+          <p class="question">If you are not a member of this workshop's target demographic, list the name of the person who is bringing you here: </p>
+          <div class="field">
+            <%= f.text_field :plus_one_host %>
+          </div>
+          <% if user_signed_in? && @event.public_email.present? %>
+            <p>Questions or not sure if you should RSVP? You can email your organizer at <%= mail_to @event.public_email %>.</p>
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
 
     <% if @rsvp.role_volunteer? %>
@@ -72,7 +86,7 @@
     <% end %>
 
     <% if @rsvp.event.event_sessions.length > 1 %>
-      <p class="question">Sessions you're attending</p>
+      <h2>Sessions you're attending</h2>
       <%= f.collection_check_boxes(:event_session_ids,
                                    @event.event_sessions.order('starts_at ASC'),
                                    :id,
