@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140413194259) do
+ActiveRecord::Schema.define(:version => 20140503223539) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20140413194259) do
     t.boolean  "published",                 :default => false
     t.text     "student_details"
     t.boolean  "spam",                      :default => false
+    t.boolean  "plus_one_host_toggle",      :default => true
   end
 
   create_table "external_events", :force => true do |t|
@@ -177,6 +178,7 @@ ActiveRecord::Schema.define(:version => 20140413194259) do
     t.string   "dietary_info"
     t.integer  "section_id"
     t.boolean  "checkiner",                              :default => false
+    t.text     "plus_one_host"
   end
 
   add_index "rsvps", ["user_id", "event_id", "user_type"], :name => "index_rsvps_on_user_id_and_event_id_and_event_type", :unique => true

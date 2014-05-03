@@ -38,6 +38,23 @@
       </div>
 
       <div class="field workshop-only">
+        <h3>Ask for plus-one host name?</h3>
+        <h4>The plus-one host form says this:</h4>
+        <p>
+          <small>RailsBridge workshops focus on providing opportunities for under-represented populations in tech. If you are not a member of an underrepresented group, you can only attend as a student if you're the guest of someone who is a member of the workshop's target population. (For example, men can come as the guest of a woman, a straight person can attend as the guest of a gay person, etc.)</small>
+        </p>
+        <p>
+          <small>If you are not a member of this workshop's target demographic, list the name of the person who is bringing you here: [text field]</small>
+        </p>
+        <%= label_tag do %>
+          <%= f.radio_button :plus_one_host_toggle, true %> Show plus-one host name form
+        <% end %>
+        <%= label_tag do %>
+          <%= f.radio_button :plus_one_host_toggle, false %> Don't show plus-one host name form
+        <% end %>
+      </div>
+
+      <div class="field workshop-only">
         <%= f.label :course_id %>
         <%= collection_select :event, :course_id, Course.all, :id, :title %>
       </div>

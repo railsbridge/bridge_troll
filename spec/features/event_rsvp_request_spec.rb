@@ -100,6 +100,21 @@ describe 'creating or editing an rsvp' do
       it "should not show option for any class level" do
         page.should_not have_content "No preference"
       end
+
+      it "should ask for the name of the person's host (if they are a plus-one)" do
+        page.should have_content "If you are not a member of this workshop's target demographic"
+      end
+
+      context "when plus-one host toggle is false" do
+        before do
+          @event.update_attribute(:plus_one_host_toggle, false)
+          visit learn_new_event_rsvp_path(@event)
+        end
+
+        it "should not show the plus-one host form if event organizer has toggled the form off" do
+          page.should_not have_content "If you are not a member of this workshop's target demographic"
+        end
+      end
     end
   end
 
