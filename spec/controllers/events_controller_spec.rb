@@ -360,33 +360,72 @@ describe EventsController do
 
       describe "checked in user counts" do
         before do
+          @event.update_attribute(:student_rsvp_limit, 2)
           @session1 = @event.event_sessions.first
           @session2 = create(:event_session, event: @event)
 
-          attendee1 = create(:user)
-          rsvp1 = create(:rsvp, event: @event, user: attendee1, role: Role::VOLUNTEER)
-          create(:rsvp_session, rsvp: rsvp1, event_session: @session1, checked_in: true)
-          create(:rsvp_session, rsvp: rsvp1, event_session: @session2, checked_in: true)
+          def deep_copy(o)
+            Marshal.load(Marshal.dump(o))
+          end
+          
+          expectation = {
+            Role::VOLUNTEER.id => {
+              @session1.id => [],
+              @session2.id => []
+            },
+            Role::STUDENT.id => {
+              @session1.id => [],
+              @session2.id => []
+            }
+          }
+          @rsvps = deep_copy(expectation)
+          @checkins = deep_copy(expectation)
 
-          attendee2 = create(:user)
-          rsvp2 = create(:rsvp, event: @event, user: attendee2, role: Role::VOLUNTEER)
-          create(:rsvp_session, rsvp: rsvp2, event_session: @session1, checked_in: true)
-          create(:rsvp_session, rsvp: rsvp2, event_session: @session2, checked_in: false)
+          def add_session_rsvp(rsvp, session, checked_in)
+            create(:rsvp_session, rsvp: rsvp, event_session: session, checked_in: checked_in)
+            @rsvps[rsvp.role.id][session.id] << rsvp
+            @checkins[rsvp.role.id][session.id] << rsvp if checked_in
+          end
 
-          attendee3 = create(:user)
-          rsvp3 = create(:rsvp, event: @event, user: attendee3, role: Role::VOLUNTEER)
-          create(:rsvp_session, rsvp: rsvp3, event_session: @session1, checked_in: true)
+          rsvp1 = create(:volunteer_rsvp, event: @event)
+          add_session_rsvp(rsvp1, @session1, true)
+          add_session_rsvp(rsvp1, @session2, true)
+
+          rsvp2 = create(:volunteer_rsvp, event: @event)
+          add_session_rsvp(rsvp2, @session1, true)
+          add_session_rsvp(rsvp2, @session2, false)
+
+          rsvp3 = create(:volunteer_rsvp, event: @event)
+          add_session_rsvp(rsvp3, @session1, true)
+
+          rsvp4 = create(:student_rsvp, event: @event)
+          add_session_rsvp(rsvp4, @session2, true)
+
+          rsvp5 = create(:student_rsvp, event: @event)
+          add_session_rsvp(rsvp5, @session2, true)
+
+          waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
+          create(:rsvp_session, rsvp: waitlisted, event_session: @session2, checked_in: false)
         end
 
         it "sends checked in user counts to the view" do
           make_request
-          assigns(:checkin_counts)[:rsvp].should == {
-            @session1.id => 3,
-            @session2.id => 2
+          assigns(:checkin_counts)[Role::VOLUNTEER.id][:rsvp].should == {
+            @session1.id => @rsvps[Role::VOLUNTEER.id][@session1.id].length,
+            @session2.id => @rsvps[Role::VOLUNTEER.id][@session2.id].length
           }
-          assigns(:checkin_counts)[:checkin].should == {
-            @session1.id => 3,
-            @session2.id => 1
+          assigns(:checkin_counts)[Role::VOLUNTEER.id][:checkin].should == {
+            @session1.id => @checkins[Role::VOLUNTEER.id][@session1.id].length,
+            @session2.id => @checkins[Role::VOLUNTEER.id][@session2.id].length
+          }
+          
+          assigns(:checkin_counts)[Role::STUDENT.id][:rsvp].should == {
+            @session1.id => @rsvps[Role::STUDENT.id][@session1.id].length,
+            @session2.id => @rsvps[Role::STUDENT.id][@session2.id].length
+          }
+          assigns(:checkin_counts)[Role::STUDENT.id][:checkin].should == {
+            @session1.id => @checkins[Role::STUDENT.id][@session1.id].length,
+            @session2.id => @checkins[Role::STUDENT.id][@session2.id].length
           }
         end
       end

@@ -99,13 +99,23 @@ class Event < ActiveRecord::Base
 
   def checkin_counts
     counts = {
-      rsvp: {},
-      checkin: {}
+      Role::VOLUNTEER.id => {
+        rsvp: {},
+        checkin: {}
+      },
+      Role::STUDENT.id => {
+        rsvp: {},
+        checkin: {}
+      }
     }
 
     event_sessions.each do |session|
-      counts[:rsvp][session.id] = session.rsvp_sessions.count
-      counts[:checkin][session.id] = session.rsvp_sessions.where(checked_in: true).count
+      non_waitlisted_rsvps = session.rsvp_sessions.includes(:rsvp).where('rsvps.waitlist_position IS NULL')
+      [Role::VOLUNTEER.id, Role::STUDENT.id].each do |role_id|
+        role_rsvps = non_waitlisted_rsvps.where('rsvps.role_id = ?', role_id)
+        counts[role_id][:rsvp][session.id] = role_rsvps.count
+        counts[role_id][:checkin][session.id] = role_rsvps.where(checked_in: true).count
+      end
     end
 
     counts

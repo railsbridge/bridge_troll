@@ -44,8 +44,22 @@
       <% @event.event_sessions.each do |session| %>
         <div>
           <%= session.name %>:
-          <strong><%= @checkin_counts[:checkin][session.id] %>/<%= @checkin_counts[:rsvp][session.id] %></strong>
-          checked in
+          <ul>
+            <% [Role::VOLUNTEER, Role::STUDENT].each do |role| %>
+              <% checked_in = @checkin_counts[role.id][:checkin][session.id] %>
+              <% total = @checkin_counts[role.id][:rsvp][session.id] %>
+              <li>
+                <%= role.title.pluralize %>:
+                <strong>
+                <%= checked_in %>/<%= total %>
+                <% if total > 0 %>
+                  (<%= (checked_in / total.to_f).round(2) * 100 %>%)
+                <% end %>
+                </strong>
+                checked in
+              </li>
+            <% end %>
+          </ul>
         </div>
       <% end %>
     </section>
