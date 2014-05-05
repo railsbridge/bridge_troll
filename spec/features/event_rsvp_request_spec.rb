@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'creating or editing an rsvp' do
   context "for a teaching event" do
+    let(:no_preference_text) { 'No preference' }
     before do
       @event = create(:event)
       @user = create(:user)
@@ -32,7 +33,7 @@ describe 'creating or editing an rsvp' do
       end
 
       it "should show option for any class level" do
-        page.should have_content "No preference"
+        page.should have_content no_preference_text
       end
 
       context "with a valid RSVP" do
@@ -80,16 +81,13 @@ describe 'creating or editing an rsvp' do
       end
     end
 
-    context "given a new learn rsvp" do
-      before do
-        visit learn_new_event_rsvp_path(@event)
-      end
-
+    describe "a new learn rsvp" do
       it "should show rails levels for rails events" do
+        visit learn_new_event_rsvp_path(@event)
         page.should have_content "Totally New to Programming"
       end
 
-      it "should show frontend levels for frontent events" do
+      it "should show frontend levels for frontend events" do
         @event.update_attributes(:course_id => Course::FRONTEND.id)
         @event.save!
 
@@ -97,22 +95,30 @@ describe 'creating or editing an rsvp' do
         page.should have_content "Totally new to HTML and CSS"
       end
 
-      it "should not show option for any class level" do
-        page.should_not have_content "No preference"
+      it "should not allow students to have 'No preference'" do
+        visit learn_new_event_rsvp_path(@event)
+        page.should_not have_content no_preference_text
       end
 
-      it "should ask for the name of the person's host (if they are a plus-one)" do
-        page.should have_content "If you are not a member of this workshop's target demographic"
-      end
+      describe "plus-one host toggle" do
+        let(:plus_one_host_text) { "If you are not a member of this workshop's target demographic" }
 
-      context "when plus-one host toggle is false" do
-        before do
-          @event.update_attribute(:plus_one_host_toggle, false)
-          visit learn_new_event_rsvp_path(@event)
+        context "when enabled" do
+          it "should ask for the name of the person's host (if they are a plus-one)" do
+            visit learn_new_event_rsvp_path(@event)
+            page.should have_content plus_one_host_text
+          end
         end
 
-        it "should not show the plus-one host form if event organizer has toggled the form off" do
-          page.should_not have_content "If you are not a member of this workshop's target demographic"
+        context "when disabled" do
+          before do
+            @event.update_attribute(:plus_one_host_toggle, false)
+          end
+
+          it "should not show the plus-one host form" do
+            visit learn_new_event_rsvp_path(@event)
+            page.should_not have_content plus_one_host_text
+          end
         end
       end
     end
