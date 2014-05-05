@@ -29,7 +29,8 @@
         <th class='attendee-dietary-info'>Dietary Info</th>
         <th class='attendee-childcare-info'>Childcare Info</th>
         <th class='attendee-job-details'>Job Details</th>
-        <th class='attendee-job-details'>Gender</th>
+        <th class='attendee-gender'>Gender</th>
+        <th class='attendee-dietary-info'>Plus-One Host</th>
         <th class='attendee-waitlisted'>Waitlisted</th>
       </tr>
     </thead>
@@ -45,6 +46,7 @@
           <td><%= rsvp.childcare_info %></td>
           <td><%= rsvp.job_details %></td>
           <td><%= rsvp.user.gender %></td>
+          <td><%= rsvp.plus_one_host %></td>
           <td><%= if rsvp.waitlist_position then "yes" else "no" end %></td>
           </tr>
         <% end %>
