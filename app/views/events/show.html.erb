@@ -52,8 +52,8 @@
     <% links = [] %>
 
     <% if @organizer %>
-      <% links << ['Edit', edit_event_path(@event)] %>
-      <% links << ['Organizer Console', organize_event_path(@event)] %>
+      <% links << ['Edit', edit_event_path(@event), 'fa-before fa-edit'] %>
+      <% links << ['Organizer Console', organize_event_path(@event), 'fa-before fa-bullhorn'] %>
     <% elsif @checkiner %>
       <% links << ['Checkin Console', event_event_sessions_path(@event)] %>
     <% end %>

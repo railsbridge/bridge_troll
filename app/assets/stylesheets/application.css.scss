@@ -12,6 +12,13 @@ $tableBorder: #BFBFBF;
 
 @import "font-awesome";
 
+.fa-before:before {
+  @extend .fa;
+}
+.btn.fa-before:before {
+  margin-right: 10px;
+}
+
 @import "fonts";
 @import "style_guide";
 @import "base";
