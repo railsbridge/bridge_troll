@@ -22,14 +22,20 @@
     </div>
   {{/if}}
   <div class='section-checkin-highlight-legend'>
-    Highlighting checkins for:
-    <div class='dropdown'>
-      <a class='dropdown-toggle' href='#'>{{selectedSession.name}} <b class="caret"></b></a>
-      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-        {{#each sessions}}
-          <li><a tabindex="-1" data-id="{{this.id}}" class='section-highlight-link' href="#">{{this.name}}</a></li>
-        {{/each}}
-      </ul>
+    <div>
+      Highlighting checkins for:
+      <div class='dropdown'>
+        <a class='dropdown-toggle' href='#'>{{selectedSession.name}} <b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+          {{#each sessions}}
+            <li><a tabindex="-1" data-id="{{this.id}}" class='section-highlight-link' href="#">{{this.name}}</a></li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+    <div class='pull-right'>
+      <strong>{{checkinCounts.students.checkedIn}}/{{checkinCounts.students.total}}</strong> Students,
+      <strong>{{checkinCounts.volunteers.checkedIn}}/{{checkinCounts.volunteers.total}}</strong> Volunteers
     </div>
   </div>
   <a href="#section_organizer_help" class='btn' data-toggle="modal"><i class='fa fa-question-circle' style='margin-right: 5px;'></i>Help</a>

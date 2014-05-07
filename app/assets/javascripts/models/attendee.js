@@ -35,5 +35,21 @@ Bridgetroll.Models.Attendee = Backbone.Model.extend({
 
   unassign: function () {
     this.set('section_id', null);
+  },
+
+  volunteerLetter: function () {
+    if (this.get('teaching') && this.get('taing')) {
+      return '?';
+    } else if (this.get('teaching')) {
+      return 'T';
+    } else if (this.get('taing')) {
+      return 't';
+    } else {
+      return 'x';
+    }
+  },
+
+  checkedInTo: function (sessionId) {
+    return _.include(this.get('checked_in_session_ids'), sessionId);
   }
 });

@@ -5,13 +5,13 @@ Bridgetroll.Models.Session = Backbone.Model.extend({
 
   checkedInVolunteers: function (volunteers) {
     return volunteers.filter(_.bind(function (a) {
-      return _.include(a.get('checked_in_session_ids'), this.get('id'));
+      return a.checkedInTo(this.get('id'));
     }, this)).length;
   },
 
   checkedInStudents: function (students) {
     return students.filter(_.bind(function (a) {
-      return _.include(a.get('checked_in_session_ids'), this.get('id'));
+      return a.checkedInTo(this.get('id'));
     }, this)).length;
   }
 });

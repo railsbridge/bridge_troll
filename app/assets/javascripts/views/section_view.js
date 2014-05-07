@@ -30,27 +30,18 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   },
 
   presentedStudents: function () {
-    return _.map(_.pluck(this.students(), 'attributes'), _.bind(function (student_attributes) {
-      student_attributes.selected_session_checkins_count = _.include(student_attributes.checked_in_session_ids, this.selectedSession.get('id'));
-      return student_attributes;
+    return _.map(this.students(), _.bind(function (student) {
+      return _.extend({}, student.attributes, {
+        selected_session_checkins_count: student.checkedInTo(this.selectedSession.get('id'))
+      });
     }, this));
   },
 
   presentedVolunteers: function () {
-    return _.map(_.pluck(this.volunteers(), 'attributes'), _.bind(function (volunteer_attributes) {
-      var volunteer_letter;
-      if (volunteer_attributes.teaching && volunteer_attributes.taing) {
-        volunteer_letter = '?';
-      } else if (volunteer_attributes.teaching) {
-        volunteer_letter = 'T';
-      } else if (volunteer_attributes.taing) {
-        volunteer_letter = 't';
-      } else {
-        volunteer_letter = 'x';
-      }
-      volunteer_attributes.selected_session_checkins_count = _.include(volunteer_attributes.checked_in_session_ids, this.selectedSession.get('id'));
-      return _.extend({}, volunteer_attributes, {
-        volunteer_letter: volunteer_letter
+    return _.map(this.volunteers(), _.bind(function (volunteer) {
+      return _.extend({}, volunteer.attributes, {
+        volunteer_letter: volunteer.volunteerLetter(),
+        selected_session_checkins_count: volunteer.checkedInTo(this.selectedSession.get('id'))
       });
     }, this));
   },

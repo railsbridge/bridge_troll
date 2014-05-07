@@ -96,6 +96,23 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       return this.attendees.where({role_id: Bridgetroll.Enums.Role.STUDENT})
     },
 
+    checkinCounts: function () {
+      return {
+        students: {
+          checkedIn: _.filter(this.students(), _.bind(function (a) {
+            return a.checkedInTo(this.selectedSession.get('id'))
+          }, this)).length,
+          total: this.students().length
+        },
+        volunteers: {
+          checkedIn: _.filter(this.volunteers(), _.bind(function (a) {
+            return a.checkedInTo(this.selectedSession.get('id'))
+          }, this)).length,
+          total: this.volunteers().length
+        }
+      }
+    },
+
     context: function () {
       return {
         hasSections: this.sections.length > 0,
@@ -103,7 +120,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
         showOS: this.showOS,
         polling: this.poller.polling(),
         sessions: this.sessions.toJSON(),
-        selectedSession: this.selectedSession.toJSON()
+        selectedSession: this.selectedSession.toJSON(),
+        checkinCounts: this.checkinCounts()
       };
     },
 
