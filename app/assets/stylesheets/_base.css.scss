@@ -75,6 +75,13 @@ td.wide {
   width: 20%;
 }
 
+@media (max-width: $phone-width) {
+  .btn {
+    display: block;
+    margin-bottom: 4px;
+  }
+}
+
 .btn, .btn:focus {
   font-size: 16px;
   font-family: 'AmbleLight';
@@ -162,6 +169,10 @@ ul {
   li {
     display: inline-block;
     margin: 10px 10px 0 0;
+    @media (max-width: $phone-width) {
+      display: block;
+      margin: 10px 10px 10px 0;
+    }
   }
 }
 
