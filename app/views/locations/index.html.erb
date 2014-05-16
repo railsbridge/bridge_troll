@@ -1,37 +1,6 @@
 <%= content_for(:header_text, 'Listing locations') %>
 
-<table class="table table-striped table-bordered table-condensed">
-  <tr>
-    <th>Name</th>
-    <th>Address</th>
-    <th>City</th>
-    <th>State</th>
-    <th>Zip</th>
-    <th>Events</th>
-    <% if user_signed_in? %>
-      <th></th>
-    <% end %>
-  </tr>
-
-  <% @locations.each do |location| %>
-    <tr>
-      <td><%= link_to location.name, location %></td>
-      <td><%= location.address_1 %><% if location.address_2.present? %> <%= location.address_2 %><% end %></td>
-      <td><%= location.city %></td>
-      <td><%= location.state %></td>
-      <td><%= location.zip %></td>
-      <td><%= location.events_count %></td>
-      <% if user_signed_in? %>
-        <td>
-          <%= link_to 'Edit', edit_location_path(location), class: :btn %>
-          <% if location.events_count == 0 %>
-            <%= link_to 'Destroy', location, data: { confirm: 'Are you sure?' }, method: :delete, class: :btn %>
-          <% end %>
-        </td>
-      <% end %>
-    </tr>
-  <% end %>
-</table>
+<%= render 'shared/locations_table', locations: @locations %>
 
 <%= render 'shared/actions', links: [
   user_signed_in? ? ['New Location', new_location_path] : nil,

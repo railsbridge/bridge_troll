@@ -3,6 +3,9 @@
 <h2>Events</h2>
 <%= render 'shared/events_table', events: @chapter.events %>
 
+<h2>Locations</h2>
+<%= render 'shared/locations_table', locations: @chapter.locations %>
+
 <%= render 'shared/actions', links: [
   ['Edit', edit_chapter_path(@chapter)],
   ['Back', chapters_path]
