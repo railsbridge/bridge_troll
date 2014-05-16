@@ -13,6 +13,9 @@
 
   .header-actions {
     float: right;
+    @media (max-width: $phone-width) {
+      float: none;
+    }
   }
 }
 
@@ -77,6 +80,10 @@
 
     &:hover {
       @include background(linear-gradient(0deg, #ccc 30%, #ddd 70%));
+    }
+
+    @media (max-width: $phone-width) {
+      margin: 0 auto;
     }
   }
 
