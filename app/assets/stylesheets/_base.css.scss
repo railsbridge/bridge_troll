@@ -76,9 +76,12 @@ td.wide {
 }
 
 @media (max-width: $phone-width) {
-  .btn {
+  .btn, input[type=submit].btn {
     display: block;
     margin-bottom: 4px;
+  }
+  input[type=submit].btn {
+    width: 100%;
   }
 }
 
@@ -171,7 +174,7 @@ ul {
     margin: 10px 10px 0 0;
     @media (max-width: $phone-width) {
       display: block;
-      margin: 10px 10px 10px 0;
+      margin: 0;
     }
   }
 }
