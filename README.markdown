@@ -18,13 +18,13 @@ New? Keep reading this, and then head to the wiki to read the [contributor guide
 * The continuous integration server is at [travis-ci.org/railsbridge/bridge_troll](http://travis-ci.org/railsbridge/bridge_troll)
 
 ### Features & Bugs
-* New features are in our [Pivotal Tracker project](https://www.pivotaltracker.com/projects/608983).
+* New features are in our [Pivotal Tracker project](https://www.pivotaltracker.com/s/projects/608983).
 * Bugs are in [GitHub Issues](https://github.com/railsbridge/bridge_troll/issues?state=open).
 
 ### Want to help out?
 Join the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) and send a quick note introducing yourself.
 
-Then, have a look at our [feature backlog](https://www.pivotaltracker.com/projects/608983). Pick a feature to work on, fork the project, code some code, and send a [really good pull request](http://railsbridge.github.com/bridge_troll/). Not sure what to do? Ask the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) for advice!
+Then, have a look at our [feature backlog](https://www.pivotaltracker.com/s/projects/608983). Pick a feature to work on, fork the project, code some code, and send a [really good pull request](http://railsbridge.github.com/bridge_troll/). Not sure what to do? Ask the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) for advice!
 
 
 ## Setting up for development
