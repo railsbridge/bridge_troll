@@ -33,22 +33,34 @@ You'll need a version manager for Ruby.  We recommend [rvm](http://rvm.io), but 
 
 ### Quickstart
 
-Note: change `git clone` below to be *your* repo.
-
+We're using a fork & pull model (see [Fork A Repo](https://help.github.com/articles/fork-a-repo) for an example), so fork this repo then clone the *forked* repo.
+(Note: change *username* below to be *your* repo.)
 ```
-git clone git@github.com:yourname/bridge_troll
+git clone https://github.com/username/bridge_troll.git
 cd bridge_troll
+```
+
+Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run this `rvm install 2.0.0`. For rbenv, run this `rbenv install 2.0.0 -p353`.
+```
+bundle install
+brew update
+```
+
+Finish setting up your environment (Note: This has nothing to do with Twitter Bootstrap)
+```
 script/bootstrap
+```
+
+To verify your environment is set up correctly, run the server
+```
 rails s
 ```
-
-Go to http://localhost:3000/ and you can play with the app. (Pro-tip: to create a valid user without setting up email, run User.last.confirm! in the Rails console after signing up.)
+and go to http://localhost:3000/ and you can play with the app. (Pro-tip: to create a valid user without setting up email, run User.last.confirm! in the Rails console after signing up.)
 
 ### Running tests
 
 You will need to install phantomjs for tests to run successfully. On OSX with Homebrew, try
 ```
-brew update
 brew install phantomjs
 ```
 
