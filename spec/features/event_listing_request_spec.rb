@@ -15,9 +15,8 @@ describe "the event listing page" do
                    location_id: nil,
                    title: 'mytitle2',
                    time_zone: 'Pacific Time (US & Canada)')
-    starts_at = Time.utc(next_year, 01, 31, 11, 20)
     event.event_sessions.first.update_attributes(
-      starts_at: starts_at,
+      starts_at: Time.utc(next_year, 01, 31, 11, 20),
       ends_at: Time.utc(next_year, 01, 31, 11, 55)
     )
 
@@ -60,27 +59,32 @@ describe "the event listing page" do
       sign_in_as(@user)
     end
 
-    context 'when organizing an event' do
+    context 'when organizing an event', js: true do
       before do
         visit events_path
         click_link "Organize Event"
       end
-      it "can create a new course", js: true do
+
+      def fill_in_event_time
+        fill_in "event_event_sessions_attributes_0_session_date", with: '2055-01-12'
+
+        start_time_selects = all('.start_time')
+        start_time_selects[0].select "03 PM"
+        start_time_selects[1].select "15"
+
+        end_time_selects = all('.end_time')
+        end_time_selects[0].select "05 PM"
+        end_time_selects[1].select "45"
+      end
+
+      it "can create a new course" do
         fill_in "Title", with: "February Workshop"
         select "Ruby on Rails", :from => "event_course_id"
         fill_in "Student RSVP limit", with: 100
 
         within ".event-sessions" do
           fill_in "Session Name", with: 'My Amazing Session'
-          fill_in "event_event_sessions_attributes_0_session_date", with: '2015-01-12'
-
-          start_time_selects = all('.start_time')
-          start_time_selects[0].select "03 PM"
-          start_time_selects[1].select "15"
-
-          end_time_selects = all('.end_time')
-          end_time_selects[0].select "05 PM"
-          end_time_selects[1].select "45"
+          fill_in_event_time
         end
 
         select "(GMT-09:00) Alaska", from: 'event_time_zone'
@@ -95,7 +99,7 @@ describe "the event listing page" do
         page.body.should include("This is a note in the detail text box\n<br> With a new line!alert('hi') and a (missing) javascript injection, as well as an unclosed </p><h1> tag</h1>")
         page.should have_css '.details br'
         page.should_not have_css '.details script'
-        page.should have_content("1/12/2015")
+        page.should have_content("1/12/2055")
         page.should have_css(".details p", text: 'With a new line!')
         page.should have_content("This is a Ruby on Rails event. The focus will be on developing functional web apps and programming in Ruby.")
 
@@ -105,13 +109,13 @@ describe "the event listing page" do
         page.should have_content("Organizer Console")
       end
 
-      it "can create a non-teaching event", js: true do
+      it "can create a non-teaching event" do
         fill_in "Title", with: "Volunteer Work Day"
         choose "Just Volunteers"
 
         within ".event-sessions" do
           fill_in "Session Name", with: 'Do Awesome Stuff'
-          fill_in "event_event_sessions_attributes_0_session_date", with: '2015-01-12'
+          fill_in "event_event_sessions_attributes_0_session_date", with: '2055-01-12'
           uncheck "Required for Students?"
         end
 
@@ -138,15 +142,7 @@ describe "the event listing page" do
 
         within ".event-sessions" do
           fill_in "Session Name", with: 'My Amazing Session'
-          fill_in "event[event_sessions_attributes][0][session_date]", with: '2015-01-12'
-
-          start_time_selects = all('.start_time')
-          start_time_selects[0].select "03 PM"
-          start_time_selects[1].select "15"
-
-          end_time_selects = all('.end_time')
-          end_time_selects[0].select "05 PM"
-          end_time_selects[1].select "45"
+          fill_in_event_time
         end
 
         select "(GMT-09:00) Alaska", from: 'event_time_zone'

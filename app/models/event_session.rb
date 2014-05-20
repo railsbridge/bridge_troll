@@ -2,6 +2,16 @@ class EventSession < ActiveRecord::Base
   attr_accessible :starts_at, :ends_at, :name, :required_for_students
   validates_presence_of :starts_at, :ends_at, :name
   validates_uniqueness_of :name, scope: [:event_id]
+  validate on: :create do
+    if starts_at && starts_at < Time.now
+      errors.add(:starts_at, 'must start in the future') unless event && event.historical?
+    end
+  end
+  validate do
+    if starts_at && ends_at && ends_at < starts_at
+      errors.add(:ends_at, 'must be after session start time')
+    end
+  end
 
   belongs_to :event, inverse_of: :event_sessions
   has_many :rsvp_sessions, dependent: :destroy

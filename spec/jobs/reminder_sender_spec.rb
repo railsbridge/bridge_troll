@@ -3,8 +3,9 @@ require 'spec_helper'
 describe ReminderSender do
   describe '.send_all' do
     it 'sends the reminders for each of the upcoming events' do
-      upcoming_event = create(:event, starts_at: Time.now + 1.day)
-      past_event = create(:event, starts_at: Time.now - 1.day)
+      upcoming_event = create(:event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
+      past_event = create(:event)
+      past_event.event_sessions.first.update_attributes(starts_at: 2.days.ago, ends_at: 1.day.ago)
       ReminderSender.should_receive(:remind_attendees_for).with(upcoming_event)
       ReminderSender.should_not_receive(:remind_attendees_for).with(past_event)
       ReminderSender.send_all_reminders
@@ -50,7 +51,8 @@ describe UpcomingEventsQuery do
   end
 
   it 'doesnt include events in the past' do
-    past_event = create(:event, starts_at: Time.now - 1.day)
+    past_event = create(:event)
+    past_event.update_attributes(starts_at: 2.days.ago, ends_at: 1.day.ago)
     events.find_each { |event| event.should_not eq(past_event) }
   end
 end

@@ -23,7 +23,7 @@ FactoryGirl.define do
     sequence(:title) { |n| "Event #{n}" }
     details "This is note in the details attribute."
     time_zone "Hawaii"
-    starts_at DateTime.now
+    starts_at 1.hour.from_now
     ends_at { starts_at + 1.day }
     published true
     student_rsvp_limit 100
@@ -52,8 +52,8 @@ FactoryGirl.define do
 
   factory :event_session do
     sequence(:name) { |n| "Test Session #{n}" }
-    starts_at DateTime.now
-    ends_at (DateTime.now + 1.day)
+    starts_at 1.day.from_now
+    ends_at { starts_at + 6.hours }
   end
 
   factory :role do

@@ -27,7 +27,8 @@ describe Event do
     session2 = event.event_sessions.first
     session2.update_attributes(starts_at: Time.now, ends_at: 1.hour.from_now)
     session3 = create(:event_session, event: event, starts_at: 20.days.from_now, ends_at: 21.days.from_now)
-    session1 = create(:event_session, event: event, starts_at: 10.days.ago, ends_at: 9.days.ago)
+    session1 = create(:event_session, event: event)
+    session1.update_attributes(starts_at: 10.days.ago, ends_at: 9.days.ago)
 
     event.reload.event_sessions.should == [session1, session2, session3]
   end

@@ -17,7 +17,8 @@ describe EventsController do
 
       describe "when external events are present" do
         before do
-          create(:event, title: 'PastBridge', starts_at: 5.days.ago, ends_at: 4.days.ago, time_zone: 'Alaska')
+          event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
+          event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
           create(:external_event, name: 'SalsaBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
         end
 
@@ -48,14 +49,10 @@ describe EventsController do
   end
 
   describe "GET show" do
-    it "succeeds" do
-      get :show, id: @event.id
-      response.should be_success
-    end
-
-    it "assigns the event" do
+    it "successfully assigns the event" do
       get :show, id: @event.id
       assigns(:event).should == @event
+      response.should be_success
     end
 
     describe "when rendering views" do
@@ -161,14 +158,10 @@ describe EventsController do
         sign_in @user
       end
 
-      it "succeeds" do
-        get :new
-        response.should be_success
-      end
-
-      it "assigns an event" do
+      it "successfully assigns an event" do
         get :new
         assigns(:event).should be_new_record
+        response.should be_success
       end
 
       it "uses the logged in user's time zone as the event's time zone" do
@@ -192,14 +185,10 @@ describe EventsController do
         sign_in user
       end
 
-      it "succeeds" do
-        make_request
-        response.should be_success
-      end
-
-      it "assigns the event" do
+      it "successfully assigns the event" do
         make_request
         assigns(:event).should == @event
+        response.should be_success
       end
     end
   end
@@ -234,12 +223,12 @@ describe EventsController do
               "event_sessions_attributes" => {
                 "0" => {
                   "name" => 'I am good at naming sessions',
-                  "starts_at(1i)" => "2013",
+                  "starts_at(1i)" => "2053",
                   "starts_at(2i)" => "1",
                   "starts_at(3i)" => "12",
                   "starts_at(4i)" => "12",
                   "starts_at(5i)" => "30",
-                  "ends_at(1i)" => "2013",
+                  "ends_at(1i)" => "2053",
                   "ends_at(2i)" => "1",
                   "ends_at(3i)" => "12",
                   "ends_at(4i)" => "22",
@@ -524,11 +513,12 @@ describe EventsController do
 
   describe "GET past_events" do
     before do
-      @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 4.days.from_now, time_zone: 'Alaska')
-      @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 2.days.from_now)
-      @past_event = create(:event, title: 'PastBridge', starts_at: 5.days.ago, ends_at: 4.days.ago, time_zone: 'Alaska')
+      @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska')
+      @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 4.days.from_now)
+      @past_event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
+      @past_event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
       @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
-      @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 4.days.from_now, published: false)
+      @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, published: false)
     end
 
     it 'renders published past events as json' do
@@ -543,11 +533,12 @@ describe EventsController do
   describe "GET all_events" do
     before do
       @event.delete
-      @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 4.days.from_now, time_zone: 'Alaska')
+      @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska')
       @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 2.days.from_now)
-      @past_event = create(:event, title: 'PastBridge', starts_at: 5.days.ago, ends_at: 4.days.ago, time_zone: 'Alaska')
+      @past_event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
+      @past_event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
       @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
-      @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 4.days.from_now, published: false)
+      @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, published: false)
     end
 
     it 'renders all published events as json' do
