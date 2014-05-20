@@ -115,7 +115,7 @@ class EventsController < ApplicationController
     @chapter_user_counts = Hash[Chapter.includes(:users).where('users.allow_event_email = ?', true).map { |chapter|
       [chapter.id, chapter.users.length]
     }]
-    @events = Event.where(published: false, spam: false)
+    @events = Event.upcoming.where(published: false, spam: false)
   end
 
   def publish
