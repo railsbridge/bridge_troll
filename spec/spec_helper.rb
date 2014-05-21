@@ -8,6 +8,9 @@ require 'capybara-screenshot/rspec'
 require 'webmock/rspec'
 
 Capybara.javascript_driver = :poltergeist
+Capybara.asset_host = 'http://localhost:3000'
+
+Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
@@ -19,8 +22,6 @@ RSpec.configure do |config|
   config.before(:each) do
     WebMock.disable_net_connect!(:allow_localhost => true)
   end
-
-  Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 
   config.include Devise::TestHelpers, :type => :controller
 
