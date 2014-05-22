@@ -60,6 +60,16 @@ describe 'creating or editing an rsvp' do
           expect(page.find("#affiliate_with_chapter").value).to eq("1")
         end
       end
+
+      context 'with an invalid RSVP' do
+        it 'should maintain state when the form is submitted' do
+          check 'Vegetarian'
+
+          click_on 'Submit'
+
+          expect(find_field('Vegetarian')).to be_checked
+        end
+      end
     end
 
     context "given an rsvp with childcare info" do
@@ -78,6 +88,27 @@ describe 'creating or editing an rsvp' do
         page.check "rsvp_needs_childcare"
 
         page.find("#rsvp_childcare_info").should have_text(@rsvp.childcare_info)
+      end
+    end
+
+    context 'given an rsvp with dietary restrictions' do
+      let(:rsvp) {
+        create(:rsvp,
+          user: @user,
+          dietary_restrictions: [build(:dietary_restriction, restriction: 'vegetarian')]
+        )
+      }
+      let(:form_url) { edit_event_rsvp_path(rsvp.event, rsvp) }
+
+      it 'allows user to change them' do
+        visit form_url
+        check 'Vegan'
+        uncheck 'Vegetarian'
+        click_on 'Submit'
+
+        visit form_url
+        expect(find_field('Vegan')).to be_checked
+        expect(find_field('Vegetarian')).not_to be_checked
       end
     end
 
