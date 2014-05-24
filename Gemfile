@@ -19,7 +19,7 @@ gem 'gravatar_image_tag'
 gem 'simple_form'
 gem 'sentry-raven'
 gem 'rack-canonical-host'
-gem 'icalendar', '~> 1.5.4'
+gem 'icalendar'
 
 group :production do
   gem 'pg'

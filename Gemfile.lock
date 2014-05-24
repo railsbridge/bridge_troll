@@ -143,7 +143,7 @@ GEM
       rake
     hike (1.2.3)
     i18n (0.6.9)
-    icalendar (1.5.4)
+    icalendar (2.0.1)
     jasmine (2.0.1)
       jasmine-core (~> 2.0.0)
       phantomjs
@@ -358,7 +358,7 @@ DEPENDENCIES
   handlebars_assets
   heroku_rails_deflate
   heroku_san
-  icalendar (~> 1.5.4)
+  icalendar
   jasmine
   jquery-datatables-rails
   jquery-rails
