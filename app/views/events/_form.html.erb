@@ -63,19 +63,25 @@
 
       <em>There should be one session for each thing that a student or volunteer might be checked in for. This usually means 'Installfest' and 'Workshop'. If there's no Installfest, just keep the one session.</em>
 
-      <div class="event-sessions">
+      <div class="event-sessions form-horizontal">
         <%= f.fields_for :event_sessions do |event_sessions_form| %>
           <span class="remove-session hidden pull-right">(<a href="#">Remove Session</a>)</span>
           <%= event_sessions_form.label :name, 'Session Name' %>
-          <div><%= event_sessions_form.text_field :name %></div>
+          <div class='control-group'>
+            <%= event_sessions_form.text_field :name %>
+          </div>
 
-          <%= event_sessions_form.text_field :session_date, class: 'datepicker' %>
-          <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
-          -
-          <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
-          <%= event_sessions_form.label :required_for_students do %>
-            <%= event_sessions_form.check_box :required_for_students %> Required for Students?
-          <% end %>
+          <div class='control-group'>
+            <%= event_sessions_form.text_field :session_date, class: 'datepicker' %>
+            <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
+            -
+            <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
+          </div>
+          <div class='control-group'>
+            <%= event_sessions_form.label :required_for_students do %>
+              <%= event_sessions_form.check_box :required_for_students %> Required for Students?
+            <% end %>
+          </div>
         <% end %>
         <%= f.link_to_add :event_sessions, class: 'btn' do %>
           <i class='fa fa-plus-square' style='margin-right: 5px;'></i>Add a session
