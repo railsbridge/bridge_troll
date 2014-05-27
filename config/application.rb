@@ -57,7 +57,7 @@ module Bridgetroll
     config.assets.initialize_on_precompile = false
 
     # set default from address across
-    ActionMailer::Base.default :from => 'troll@bridgetroll.org'
+    ActionMailer::Base.default :from => 'RailsBridge <troll@bridgetroll.org>'
 
     config.i18n.enforce_available_locales = false
   end

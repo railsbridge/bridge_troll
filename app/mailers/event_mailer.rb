@@ -31,7 +31,6 @@ class EventMailer < ActionMailer::Base
 
     mail(
       to: 'info@bridgetroll.org',
-      from: 'troll@bridgetroll.org',
       subject: "Bridge Troll event #{@event.published? ? 'created' : 'awaits approval'}: '#{@event.title}' by #{@event.organizers.first.full_name}"
     )
   end
