@@ -34,6 +34,11 @@
     padding: 5px;
     display: inline-block;
   }
+  &.external-auth-existing li {
+    @media (max-width: $phone-width) {
+      display: block;
+    }
+  }
 
   a, a:link, a:visited {
     text-decoration: none;

@@ -76,7 +76,7 @@
     <hr>
     <div>
       <h2>Authentication methods</h2>
-      <ul class='external-auth'>
+      <ul class='external-auth external-auth-existing'>
         <% OmniauthProviders.provider_data.each do |provider| %>
           <li>
             <% existing_authentication = f.object.authentications.find { |a| a.provider.to_sym == provider[:key] } %>
