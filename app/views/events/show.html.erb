@@ -71,7 +71,7 @@
       <% end %>
     </div>
 
-    <% unless @event.historical? %>
+    <% unless @event.historical? || @event.past? %>
       <div class='rsvp-actions'>
         <% if user_signed_in? %>
           <%= render 'shared/rsvp_actions', event: @event %>

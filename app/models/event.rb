@@ -187,6 +187,10 @@ class Event < ActiveRecord::Base
     ends_at > Time.now
   end
 
+  def past?
+    !upcoming?
+  end
+
   def volunteers_with_legacy
     volunteers + legacy_volunteers
   end

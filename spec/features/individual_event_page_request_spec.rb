@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe "the individual event page" do
+  let(:rsvp_actions_selector) { '.rsvp-actions' }
   before do
     @event = create(:event, :public_email => "public_email@example.org")
   end
-  
+
   context "user is not logged in" do
     it "shows a list of volunteers for the event" do
       user1 = create(:user)
@@ -72,6 +73,8 @@ describe "the individual event page" do
         @user = create(:user)
 
         visit event_path(@event)
+
+        page.should have_selector(rsvp_actions_selector)
         click_link 'Volunteer'
 
         sign_in_with_modal(@user)
@@ -196,7 +199,18 @@ describe "the individual event page" do
 
     it 'does not render rsvp actions' do
       visit event_path(@event)
-      page.should_not have_selector('.rsvp-actions')
+      page.should_not have_selector(rsvp_actions_selector)
+    end
+  end
+
+  context "past events" do
+    before do
+      @event.update_attributes(ends_at: 1.day.ago)
+    end
+
+    it 'does not render rsvp actions' do
+      visit event_path(@event)
+      page.should_not have_selector(rsvp_actions_selector)
     end
   end
 end

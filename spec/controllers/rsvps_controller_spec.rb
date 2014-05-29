@@ -16,6 +16,24 @@ describe RsvpsController do
       sign_in @user
     end
 
+    describe "when the event is in the past" do
+      before do
+        @event.update_attributes(ends_at: 1.day.ago)
+      end
+
+      it 'does not allow RSVPing' do
+        get :volunteer, event_id: @event.id
+        response.should redirect_to(events_path)
+
+        get :learn, event_id: @event.id
+        response.should redirect_to(events_path)
+
+        rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event)
+        post :create, event_id: @event.id, rsvp: rsvp_params
+        response.should redirect_to(events_path)
+      end
+    end
+
     describe "#volunteer" do
       it "creates an RSVP for the volunteer role" do
         get :volunteer, event_id: @event.id

@@ -3,6 +3,7 @@ class RsvpsController < ApplicationController
   before_filter :assign_event
   before_filter :load_rsvp, except: [:volunteer, :learn, :create]
   before_filter :redirect_if_rsvp_exists, only: [:volunteer, :learn]
+  before_filter :redirect_if_event_upcoming
 
   def volunteer
     last_rsvp = current_user.rsvps.includes(:event).order('events.ends_at').last
@@ -108,6 +109,10 @@ class RsvpsController < ApplicationController
 
   def redirect_if_rsvp_exists
     redirect_to @event if @event.rsvps.where(user_id: current_user.id).present?
+  end
+
+  def redirect_if_event_upcoming
+    redirect_to events_path if @event.past?
   end
 
   def assign_event
