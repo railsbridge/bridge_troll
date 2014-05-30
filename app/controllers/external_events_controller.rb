@@ -16,7 +16,7 @@ class ExternalEventsController < ApplicationController
   end
 
   def create
-    @external_event = ExternalEvent.new(params[:external_event])
+    @external_event = ExternalEvent.new(external_event_params)
 
     if @external_event.save
       redirect_to external_events_url, notice: 'External event was successfully created.'
@@ -28,7 +28,7 @@ class ExternalEventsController < ApplicationController
   def update
     @external_event = ExternalEvent.find(params[:id])
 
-    if @external_event.update_attributes(params[:external_event])
+    if @external_event.update_attributes(external_event_params)
       redirect_to external_events_url, notice: 'External event was successfully updated.'
     else
       render action: :edit
@@ -40,5 +40,11 @@ class ExternalEventsController < ApplicationController
     @external_event.destroy
 
     redirect_to external_events_url
+  end
+
+  private
+
+  def external_event_params
+    params.require(:external_event).permit(ExternalEvent::PERMITTED_ATTRIBUTES)
   end
 end

@@ -305,17 +305,18 @@ describe EventsController do
       end
 
       describe "with invalid params" do
-        it "does not create an event" do
-          expect { make_request }.to_not change { Event.count }
-        end
+        let(:invalid_params) {
+          {
+            "event" => {
+              "title" => "Party Zone"
+            }
+          }
+        }
 
-        it "assigns the event" do
-          make_request
+        it "renders :new without creating an event" do
+          expect { make_request(invalid_params) }.to_not change { Event.count }
+
           assigns(:event).should be_new_record
-        end
-
-        it "renders the new page" do
-          make_request
           response.should be_success
           response.should render_template('events/new')
         end

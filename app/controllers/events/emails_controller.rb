@@ -9,8 +9,6 @@ class Events::EmailsController < ApplicationController
   end
 
   def create
-    email_params = params[:event_email]
-
     if email_params[:attendee_group] == 'All'
       recipient_rsvps = @event.rsvps.where(role_id: [Role::VOLUNTEER.id, Role::STUDENT.id]).includes(:user)
     else
@@ -60,6 +58,10 @@ class Events::EmailsController < ApplicationController
   end
 
   private
+
+  def email_params
+    params.require(:event_email)
+  end
 
   def find_event
     @event = Event.find_by_id(params[:event_id])

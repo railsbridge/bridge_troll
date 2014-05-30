@@ -1,7 +1,8 @@
 class Section < ActiveRecord::Base
+  PERMITTED_ATTRIBUTES = [:name, :class_level]
+
   belongs_to :event
   has_many :rsvps, dependent: :nullify
-  attr_accessible :name, :class_level
 
   def student_rsvps
     rsvps.where(role_id: Role::STUDENT.id)

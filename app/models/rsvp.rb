@@ -1,7 +1,5 @@
 class Rsvp < ActiveRecord::Base
-  attr_accessible :subject_experience, :teaching, :taing, :teaching_experience, :teaching_experience,
-                  :childcare_info, :operating_system_id, :job_details, :class_level, :dietary_info,
-                  :needs_childcare, :event_session_ids, :plus_one_host
+  PERMITTED_ATTRIBUTES = [:subject_experience, :teaching, :taing, :teaching_experience, :teaching_experience, :childcare_info, :operating_system_id, :job_details, :class_level, :dietary_info, :needs_childcare, :plus_one_host]
 
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
   belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id

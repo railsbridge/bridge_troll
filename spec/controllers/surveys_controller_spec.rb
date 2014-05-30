@@ -48,8 +48,14 @@ describe SurveysController do
       context "with good params" do
         it "makes the survey" do
           params = {
-            event_id: @event.id, rsvp_id: @rsvp.id, good_things: "Ruby",
-            bad_things: "Moar cake", other_comments: "Superfun", recommendation_likelihood: "9"
+            event_id: @event.id,
+            rsvp_id: @rsvp.id,
+            survey: {
+              good_things: "Ruby",
+              bad_things: "Moar cake",
+              other_comments: "Superfun",
+              recommendation_likelihood: "9"
+            }
           }
 
           expect { put :create, params }.to change { Survey.count }.by(1)

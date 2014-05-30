@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  PERMITTED_ATTRIBUTES = [:first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :time_zone, :gender, :allow_event_email]
+
   after_create :make_empty_profile
 
   devise :database_authenticatable, :registerable, :omniauthable,
@@ -11,9 +13,6 @@ class User < ActiveRecord::Base
 
   has_one :profile, dependent: :destroy
   has_and_belongs_to_many :chapters
-
-  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation,
-                  :remember_me, :time_zone, :chapter_ids, :gender, :allow_event_email
 
   validates_presence_of :first_name, :last_name
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true

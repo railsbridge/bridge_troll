@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) do |u|
-      u.permit(*User.attr_accessible[:default].map(&:to_sym) + [chapter_ids: []])
+      u.permit(User::PERMITTED_ATTRIBUTES + [chapter_ids: []])
     end
   end
 end

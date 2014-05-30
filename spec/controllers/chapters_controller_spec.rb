@@ -49,10 +49,10 @@ describe ChaptersController do
       end
 
       it "should be able to edit an chapter" do
-        get :edit, {:id => @chapter.id}
+        get :edit, id: @chapter.id
         response.should be_success
 
-        put :update, {:id => @chapter.id}
+        put :update, id: @chapter.id, chapter: {name: 'Sandwich Chapter'}
         response.should redirect_to(chapter_path(@chapter))
       end
 

@@ -8,15 +8,6 @@ describe User do
   it { should have_one(:profile) }
   it { should have_and_belong_to_many(:chapters) }
 
-  it { should allow_mass_assignment_of(:first_name) }
-  it { should allow_mass_assignment_of(:last_name) }
-  it { should allow_mass_assignment_of(:email) }
-  it { should allow_mass_assignment_of(:gender) }
-  it { should allow_mass_assignment_of(:password) }
-  it { should allow_mass_assignment_of(:password_confirmation) }
-  it { should allow_mass_assignment_of(:remember_me) }
-  it { should_not allow_mass_assignment_of(:admin) }
-
   it { should validate_presence_of(:first_name) }
   it { should validate_presence_of(:last_name) }
   it { should validate_presence_of(:email) } # devise adds this

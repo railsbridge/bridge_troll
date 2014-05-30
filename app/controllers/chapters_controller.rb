@@ -17,7 +17,7 @@ class ChaptersController < ApplicationController
   end
 
   def create
-    @chapter = Chapter.new(params[:chapter])
+    @chapter = Chapter.new(chapter_params)
 
     if @chapter.save
       redirect_to @chapter, notice: 'Chapter was successfully created.'
@@ -27,7 +27,7 @@ class ChaptersController < ApplicationController
   end
 
   def update
-    if @chapter.update_attributes(params[:chapter])
+    if @chapter.update_attributes(chapter_params)
       redirect_to @chapter, notice: 'Chapter was successfully updated.'
     else
       render action: "edit"
@@ -45,6 +45,10 @@ class ChaptersController < ApplicationController
   end
 
   private
+
+  def chapter_params
+    params.require(:chapter).permit(Chapter::PERMITTED_ATTRIBUTES)
+  end
 
   def assign_chapter
     @chapter = Chapter.find(params[:id])

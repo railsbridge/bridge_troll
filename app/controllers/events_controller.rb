@@ -46,7 +46,7 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(params[:event])
+    @event = Event.new(event_params)
 
     if @event.save
       @event.organizers << current_user
@@ -67,7 +67,7 @@ class EventsController < ApplicationController
   end
 
   def update
-    if @event.update_attributes(params[:event])
+    if @event.update_attributes(event_params)
       redirect_to @event, notice: 'Event was successfully updated.'
     else
       render status: :unprocessable_entity, action: "edit"
@@ -131,6 +131,12 @@ class EventsController < ApplicationController
   end
 
   protected
+
+  def event_params
+    permitted = Event::PERMITTED_ATTRIBUTES.dup
+    permitted << {event_sessions_attributes: EventSession::PERMITTED_ATTRIBUTES + [:id]}
+    params.require(:event).permit(permitted)
+  end
 
   def set_time_zone
     if params[:event] && params[:event][:time_zone].present?

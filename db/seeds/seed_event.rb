@@ -14,19 +14,19 @@ module Seeder
   end
 
   def self.create_volunteer_rsvp options
-    rsvp = Rsvp.create!(options.merge({
+    rsvp = Rsvp.create!(options.merge(
       role: Role::VOLUNTEER,
       subject_experience: Faker::Lorem.sentence,
       teaching_experience: Faker::Lorem.sentence,
       job_details: Faker::Name.title
-                        }), without_protection: true)
+                        ))
     options[:event].event_sessions.each do |session|
       RsvpSession.create!(rsvp: rsvp, event_session: session)
     end
   end
 
   def self.create_student_rsvp options
-    rsvp = Rsvp.create!({
+    rsvp = Rsvp.create!(
       event: options[:event],
       user: options[:user],
       waitlist_position: options[:waitlist_position],
@@ -34,7 +34,7 @@ module Seeder
       operating_system: OperatingSystem.all.sample,
       job_details: Faker::Name.title,
       class_level: options[:class_level]
-                        }, without_protection: true)
+                        )
     options[:event].event_sessions.each do |session|
       RsvpSession.create!(rsvp: rsvp, event_session: session)
     end
@@ -61,7 +61,7 @@ module Seeder
 
     chapter = Chapter.where(name: 'RailsBridge San Francisco').first_or_create!
 
-    location = Location.create!({
+    location = Location.create!(
       chapter_id: chapter.id,
       name: "Sutro Tower",
       address_1: "Sutro Tower",
@@ -70,7 +70,7 @@ module Seeder
       zip: "94131",
       latitude: 37.75519999999999,
       longitude: -122.4528,
-      gmaps: true}, without_protection: true)
+      gmaps: true)
 
     event = Event.new(
       title: 'Seeded Test Event',

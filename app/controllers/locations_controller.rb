@@ -17,7 +17,7 @@ class LocationsController < ApplicationController
   end
 
   def create
-    @location = Location.new(params[:location])
+    @location = Location.new(location_params)
 
     if @location.save
       redirect_to @location, notice: 'Location was successfully created.'
@@ -33,7 +33,7 @@ class LocationsController < ApplicationController
 
     @location.gmaps = false
 
-    if @location.update_attributes(params[:location])
+    if @location.update_attributes(location_params)
       redirect_to @location, notice: 'Location was successfully updated.'
     else
       render action: "edit"
@@ -51,6 +51,10 @@ class LocationsController < ApplicationController
   end
 
   private
+
+  def location_params
+    params.require(:location).permit(Location::PERMITTED_ATTRIBUTES)
+  end
 
   def assign_location
     @location = Location.find(params[:id])

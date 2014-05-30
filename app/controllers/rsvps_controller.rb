@@ -22,8 +22,7 @@ class RsvpsController < ApplicationController
   end
 
   def create
-    enforce_session_attendance
-    @rsvp = Rsvp.new(params[:rsvp])
+    @rsvp = Rsvp.new(rsvp_params)
     @rsvp.event = @event
     @rsvp.user = current_user
     if [Role::VOLUNTEER.id, Role::STUDENT.id].include?(params[:rsvp][:role_id].to_i)
@@ -60,9 +59,8 @@ class RsvpsController < ApplicationController
   end
 
   def update
-    enforce_session_attendance
     set_dietary_restrictions(@rsvp,  params[:dietary_restrictions])
-    if @rsvp.update_attributes(params[:rsvp])
+    if @rsvp.update_attributes(rsvp_params)
       @rsvp.user.update_attributes(gender: params[:user][:gender])
       redirect_to @event
     else
@@ -80,22 +78,25 @@ class RsvpsController < ApplicationController
 
   protected
 
+  def rsvp_params
+    role_id = params[:rsvp][:role_id].to_i
+    params.require(:rsvp).permit(Rsvp::PERMITTED_ATTRIBUTES + [event_session_ids: []]).tap do |params|
+      if role_id == Role::STUDENT.id
+        user_choices = Array(params[:event_session_ids]).select(&:present?).map(&:to_i)
+        required_sessions = @event.event_sessions.where(required_for_students: true).pluck(:id)
+        params[:event_session_ids] = user_choices | required_sessions
+      end
+      if @event.event_sessions.length == 1
+        params[:event_session_ids] = [@event.event_sessions.first.id]
+      end
+    end
+  end
+
   def set_dietary_restrictions(rsvp, restrictions_params)
     restrictions_params ||= {}
 
     rsvp.dietary_restrictions = restrictions_params.keys.map do |diet|
       DietaryRestriction.new(restriction: diet)
-    end
-  end
-
-  def enforce_session_attendance
-    if params[:rsvp][:role_id].to_i == Role::STUDENT.id
-      user_choices = Array(params[:rsvp][:event_session_ids]).select(&:present?).map(&:to_i)
-      required_sessions = @event.event_sessions.where(required_for_students: true).pluck(:id)
-      params[:rsvp][:event_session_ids] = user_choices | required_sessions
-    end
-    if @event.event_sessions.length == 1
-      params[:rsvp][:event_session_ids] = [@event.event_sessions.first.id]
     end
   end
 

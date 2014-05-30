@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
   before_filter :validate_user!, only: [:edit, :update]
 
   def update
-    if @profile.update_attributes(params[:profile])
+    if @profile.update_attributes(profile_params)
       redirect_to user_profile_path, notice: 'Profile was successfully updated.'
     else
       render status: :unprocessable_entity, action: "edit"
@@ -12,6 +12,10 @@ class ProfilesController < ApplicationController
   end
 
   protected
+
+  def profile_params
+    params.require(:profile).permit(Profile::PERMITTED_ATTRIBUTES)
+  end
 
   def load_user_and_profile
     @user = User.find(params[:user_id])

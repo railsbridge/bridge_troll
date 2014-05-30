@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RsvpsController do
   def extract_rsvp_params(rsvp)
-    accessible_attrs = Rsvp.attr_accessible[:default].map(&:to_s) + ['role_id']
+    accessible_attrs = Rsvp::PERMITTED_ATTRIBUTES.map(&:to_s) + ['role_id']
     rsvp.attributes.select { |attr, val| accessible_attrs.include?(attr) }
   end
 

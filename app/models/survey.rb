@@ -1,5 +1,5 @@
 class Survey < ActiveRecord::Base
-  attr_accessible :good_things, :bad_things, :other_comments, :rsvp_id, :recommendation_likelihood
+  PERMITTED_ATTRIBUTES = [:good_things, :bad_things, :other_comments, :rsvp_id, :recommendation_likelihood]
 
   belongs_to :rsvp
 

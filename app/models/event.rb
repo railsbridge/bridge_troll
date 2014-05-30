@@ -1,6 +1,8 @@
 require 'meetups'
 
 class Event < ActiveRecord::Base
+  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle]
+
   after_initialize :set_defaults
   after_save :reorder_waitlist!
 

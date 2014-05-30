@@ -22,7 +22,7 @@ describe Events::EmailsController do
 
     it "sends no emails if a subject or body is omitted" do
       expect {
-        post :create, event_id: @event.id, event_email: {}
+        post :create, event_id: @event.id, event_email: {include_waitlisted: true}
       }.not_to change(ActionMailer::Base.deliveries, :count)
     end
 

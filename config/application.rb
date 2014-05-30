@@ -54,8 +54,5 @@ module Bridgetroll
     ActionMailer::Base.default :from => 'RailsBridge <troll@bridgetroll.org>'
 
     config.i18n.enforce_available_locales = false
-
-    # TODO: Remove someday after moving from protected_attributes to strong_parameters
-    config.active_record.whitelist_attributes = false
   end
 end

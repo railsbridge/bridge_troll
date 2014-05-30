@@ -13,7 +13,7 @@ class SurveysController < ApplicationController
   end
 
   def create
-    @survey = Survey.new(params[:survey])
+    @survey = Survey.new(survey_params)
     @survey.rsvp_id = params[:rsvp_id]
 
     if @survey.save
@@ -31,6 +31,10 @@ class SurveysController < ApplicationController
   end
 
   private
+
+  def survey_params
+    params.require(:survey).permit(Survey::PERMITTED_ATTRIBUTES)
+  end
 
   def load_resources
     @event = Event.find(params[:event_id])

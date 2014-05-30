@@ -1,5 +1,5 @@
 class Chapter < ActiveRecord::Base
-  attr_accessible :name
+  PERMITTED_ATTRIBUTES = [:name]
 
   has_many :locations
   has_many :events, -> { where published: true }, through: :locations
