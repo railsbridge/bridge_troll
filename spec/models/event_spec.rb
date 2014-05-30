@@ -303,6 +303,19 @@ describe Event do
     end
   end
 
+  describe "#students" do
+    before do
+      @event = create(:event)
+      @volunteer_rsvp = create(:volunteer_rsvp, event: @event, role: Role::VOLUNTEER)
+      @confirmed_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT)
+      @waitlist_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT, waitlist_position: 1)
+    end
+
+    it 'should only include non-waitlisted students' do
+      @event.students.should == [@confirmed_rsvp.user]
+    end
+  end
+
   describe "#rsvps_with_checkins" do
     before do
       @event = create(:event)
