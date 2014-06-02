@@ -1,5 +1,6 @@
 require 'spec_helper'
 require Rails.root.join('db', 'seeds', 'seed_event')
+require Rails.root.join('db', 'seeds', 'admin_user')
 
 def assert_no_rows_present
   rows = {}
@@ -44,5 +45,16 @@ describe "#seed_event" do
 
     Seeder::destroy_event(event)
     User.find_by_id(innocent_user.id).should be_present
+  end
+end
+
+describe '#admin_user' do
+  it 'creates an admin user' do
+    expect {
+      Seeder::admin_user
+    }.to change(User, :count).by(1)
+    created_user = User.last
+    created_user.should be_admin
+    created_user.should be_confirmed
   end
 end
