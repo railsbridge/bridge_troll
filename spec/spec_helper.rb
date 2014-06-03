@@ -17,7 +17,17 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 RSpec.configure do |config|
   config.mock_with :rspec
 
+  config.infer_spec_type_from_file_location!
+
   config.use_transactional_fixtures = true
+
+  config.expect_with :rspec do |c|
+    c.syntax = [:should, :expect]
+  end
+
+  config.mock_with :rspec do |mocks|
+    mocks.syntax = [:should, :expect]
+  end
 
   config.before(:each) do
     WebMock.disable_net_connect!(:allow_localhost => true)
@@ -39,11 +49,11 @@ RSpec.configure do |config|
     config.include Warden::Test::Helpers, type: type
   end
 
-  config.before do
+  config.before do |example|
     Warden.test_mode! if example.metadata[:js]
   end
 
-  config.after do
+  config.after do |example|
     Warden.test_reset! if example.metadata[:js]
   end
 end

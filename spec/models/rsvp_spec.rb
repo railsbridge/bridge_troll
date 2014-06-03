@@ -47,7 +47,7 @@ describe Rsvp do
     end
 
     it "should only require teaching_experience if teaching or TAing" do
-      subject.teaching.should be_false
+      subject.teaching.should be false
       subject.should_not validate_presence_of(:teaching_experience)
 
       subject.teaching = true

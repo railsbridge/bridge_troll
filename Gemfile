@@ -51,6 +51,7 @@ group :test, :development do
   gem 'jasmine'
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'rspec-collection_matchers'
   gem 'awesome_print'
 end
 

@@ -24,7 +24,7 @@ describe "Profile" do
       fill_in("Current password", with: "MyPassword")
       click_button "Update"
 
-      @user.reload.valid_password?("Blueberry23").should be_true
+      @user.reload.valid_password?("Blueberry23").should be true
     end
 
     it "is unsuccessful when password and confirmation don't match" do
@@ -33,7 +33,7 @@ describe "Profile" do
       fill_in("Current password", with: "MyPassword")
       click_button "Update"
 
-      @user.reload.valid_password?("Blueberry23").should be_false
+      @user.reload.valid_password?("Blueberry23").should be false
     end
 
     it "is unsuccessful when current password not provided" do
@@ -41,7 +41,7 @@ describe "Profile" do
       fill_in("Password confirmation", with: "Blueberry23")
       click_button "Update"
 
-      @user.reload.valid_password?("Blueberry23").should be_false
+      @user.reload.valid_password?("Blueberry23").should be false
     end
 
     it "is unsuccessful when current password is incorrect" do
@@ -50,7 +50,7 @@ describe "Profile" do
       fill_in("Current password", with: "SomeOtherPassword")
       click_button "Update"
 
-      @user.reload.valid_password?("Blueberry23").should be_false
+      @user.reload.valid_password?("Blueberry23").should be false
     end
   end
 

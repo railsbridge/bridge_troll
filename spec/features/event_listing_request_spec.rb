@@ -129,7 +129,7 @@ describe "the event listing page" do
         page.should have_content("Organizer Console")
 
         Event.last.course.should be_nil
-        Event.last.allow_student_rsvp.should be_false
+        Event.last.allow_student_rsvp.should be false
       end
 
       it "should display frontend content for frontend events" do

@@ -42,7 +42,7 @@ describe UpcomingEventsQuery do
     event_tomorrow = create(:event, starts_at: Time.now + 1.day)
     found = false
     events.find_each { |event| found = true if event_tomorrow == event }
-    found.should be_true
+    found.should be true
   end
 
   it 'doesnt include events in the far future' do
