@@ -14,8 +14,13 @@
     <% end %>
   </div>
   <div class='event-actions'>
-    <%= button_to 'Publish', publish_event_path(event), class: 'btn', method: :post,
-                  data: {confirm: "Are you sure? This will email #{pluralize(@chapter_user_counts[event.location.chapter.id], 'member')} of #{event.location.chapter.name}"} %>
+    <% if event.email_on_approval %>
+      <%= button_to 'Publish', publish_event_path(event, send_mail: true), class: 'btn', method: :post,
+                    data: {confirm: "Are you sure? This will email #{pluralize(@chapter_user_counts[event.location.chapter.id], 'member')} of #{event.location.chapter.name}"} %>
+    <% else %>
+      <%= button_to 'Publish', publish_event_path(event), class: 'btn', method: :post,
+                    data: {confirm: "Are you sure? The event will start showing for all users, but no one will be emailed."} %>
+    <% end %>
     <%= button_to 'Flag as Spam', flag_event_path(event), class: 'btn', method: :post,
                   data: {confirm: "Are you sure? This will remove this event from the approval page, and flag #{event.organizers.first.full_name} as a spammer so that all subsequent events they create will immediately be flagged as spam."} %>
   </div>

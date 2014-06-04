@@ -621,5 +621,13 @@ describe EventsController do
       mail.subject.should include(@event.chapter.name)
       mail.body.should include(@event.title)
     end
+
+    it 'sends no emails if the event has email_on_approval set to false' do
+      @event.update_attribute(:email_on_approval, false)
+      expect {
+        post :publish, id: @event.id
+      }.not_to change(ActionMailer::Base.deliveries, :count)
+      @event.reload.should be_published
+    end
   end
 end

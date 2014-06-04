@@ -37,6 +37,14 @@
         <% end %>
       </div>
 
+      <% unless @event.published? %>
+        <div class="field">
+          <%= f.label :email_on_approval do %>
+            <%= f.check_box :email_on_approval %> Send announcement email to chapter when the event is approved
+          <% end %>
+        </div>
+      <% end %>
+
       <div class="field workshop-only">
         <h3>Ask for plus-one host name?</h3>
         <h4>The plus-one host form says this:</h4>
