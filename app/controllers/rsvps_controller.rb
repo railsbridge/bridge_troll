@@ -3,7 +3,7 @@ class RsvpsController < ApplicationController
   before_filter :assign_event
   before_filter :load_rsvp, except: [:volunteer, :learn, :create]
   before_filter :redirect_if_rsvp_exists, only: [:volunteer, :learn]
-  before_filter :redirect_if_event_upcoming
+  before_filter :redirect_if_event_in_past
 
   def volunteer
     last_rsvp = current_user.rsvps.includes(:event).order('events.ends_at').last
@@ -36,15 +36,8 @@ class RsvpsController < ApplicationController
       set_dietary_restrictions(@rsvp, params[:dietary_restrictions])
 
       if @rsvp.save
-        if @event.location
-          if params[:affiliate_with_chapter]
-            @rsvp.user.chapter_ids += [@event.chapter.id]
-          else
-            @rsvp.user.chapter_ids -= [@event.chapter.id]
-          end
-        end
+        apply_other_changes_from_params
 
-        @rsvp.user.update_attributes(gender: params[:user][:gender])
         RsvpMailer.confirmation(@rsvp).deliver
         notice_message = 'Thanks for signing up!'
         notice_message << " We've added you to the waitlist." if @rsvp.waitlisted?
@@ -61,7 +54,8 @@ class RsvpsController < ApplicationController
   def update
     set_dietary_restrictions(@rsvp,  params[:dietary_restrictions])
     if @rsvp.update_attributes(rsvp_params)
-      @rsvp.user.update_attributes(gender: params[:user][:gender])
+      apply_other_changes_from_params
+
       redirect_to @event
     else
       render :edit
@@ -77,6 +71,18 @@ class RsvpsController < ApplicationController
   end
 
   protected
+
+  def apply_other_changes_from_params
+    @rsvp.user.update_attributes(gender: params[:user][:gender])
+
+    if @event.location
+      if params[:affiliate_with_chapter]
+        @rsvp.user.chapter_ids += [@event.chapter.id]
+      else
+        @rsvp.user.chapter_ids -= [@event.chapter.id]
+      end
+    end
+  end
 
   def rsvp_params
     role_id = params[:rsvp][:role_id].to_i
@@ -112,7 +118,7 @@ class RsvpsController < ApplicationController
     redirect_to @event if @event.rsvps.where(user_id: current_user.id).present?
   end
 
-  def redirect_if_event_upcoming
+  def redirect_if_event_in_past
     redirect_to events_path if @event.past?
   end
 
