@@ -111,7 +111,6 @@ class RsvpsController < ApplicationController
     unless @rsvp && @rsvp.user == current_user
       redirect_to events_path, notice: 'You are not signed up for this event'
     end
-    false
   end
 
   def redirect_if_rsvp_exists

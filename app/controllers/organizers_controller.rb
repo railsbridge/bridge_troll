@@ -31,7 +31,6 @@ class OrganizersController < ApplicationController
     unless @event.published?
       flash[:error] = "This feature is not available for unpublished events"
       redirect_to @event
-      false
     end
   end
 end
