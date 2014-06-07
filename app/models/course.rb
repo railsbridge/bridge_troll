@@ -174,8 +174,7 @@ class Course < ActiveHash::Base
           title: "Experienced Programmer new to iOS programming",
           level_description: [
             'Very comfortable in programming lanugages other than Objective-C.',
-            'Experienced programmer, but new to creating iOS apps':w
-          ,
+            'Experienced programmer, but new to creating iOS apps',
           ]
         },
       ]
