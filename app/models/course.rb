@@ -147,9 +147,9 @@ class Course < ActiveHash::Base
       name: 'iOS',
       title: 'Intro to iOS Development',
       description: 'This workshop will cover how to make an iOS application.'\
-                   'You can find temporary curriculum outline at <a'\
+                   'You can find the curriculum outline at <a'\
                    'href="https://github.com/thecodepath/ios_guides/wiki/'\
-                   'iOS-1-day-Weekend-Workshop"</a>.',
+                   'iOS-1-day-Weekend-Workshop">the temporary location</a>.',
       levels: [
         {
           level: 1,
