@@ -156,8 +156,7 @@ class Course < ActiveHash::Base
           color: 'blue',
           title: "No Programming Experience",
           level_description: [
-            'Totally new to all programming, including iOS',
-            'Made a webpage before, maybe at a RailsBridge Front End Workshop',
+            'New to programming, including iOS programming',
             'No experience with programming languages other than HTML and CSS',
           ]
         }, {
