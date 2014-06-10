@@ -1,59 +1,27 @@
-ENV["RAILS_ENV"] ||= 'test'
-
-require File.expand_path("../../config/environment", __FILE__)
-require 'rspec/rails'
-require 'capybara/rspec'
-require 'capybara/poltergeist'
-require 'capybara-screenshot/rspec'
-require 'webmock/rspec'
-
-Capybara.javascript_driver = :poltergeist
-Capybara.asset_host = 'http://localhost:3000'
-
-Rails.application.routes.default_url_options[:host] = 'localhost:3000'
-
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+# See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 RSpec.configure do |config|
-  config.mock_with :rspec
+  # Run specs in random order to surface order dependencies. If you find an
+  # order dependency and want to debug it, you can fix the order by providing
+  # the seed, which is printed after each run.
+  #     --seed 1234
+  config.order = :random
 
-  config.infer_spec_type_from_file_location!
+  # Seed global randomization in this process using the `--seed` CLI option.
+  # Setting this allows you to use `--seed` to deterministically reproduce
+  # test failures related to randomization by passing the same `--seed` value
+  # as the one that triggered the failure.
+  Kernel.srand config.seed
 
-  config.use_transactional_fixtures = true
-
-  config.expect_with :rspec do |c|
-    c.syntax = [:should, :expect]
+  config.expect_with :rspec do |expectations|
+    expectations.syntax = [:should, :expect]
   end
 
   config.mock_with :rspec do |mocks|
     mocks.syntax = [:should, :expect]
-  end
 
-  config.before(:each) do
-    WebMock.disable_net_connect!(:allow_localhost => true)
-  end
-
-  config.include Devise::TestHelpers, :type => :controller
-
-  config.include FactoryGirl::Syntax::Methods
-
-  # Monkey-patch to force single DB connection even in multithreaded
-  #   tests (selenium/capybara-webkit/poltergeist)
-  ActiveRecord::ConnectionAdapters::ConnectionPool.class_eval do
-    def current_connection_id
-      Thread.main.object_id
-    end
-  end
-
-  [:feature, :request].each do |type|
-    config.include Warden::Test::Helpers, type: type
-  end
-
-  config.before do |example|
-    Warden.test_mode! if example.metadata[:js]
-  end
-
-  config.after do |example|
-    Warden.test_reset! if example.metadata[:js]
+    # Prevents you from mocking or stubbing a method that does not exist on
+    # a real object. This is generally recommended.
+    mocks.verify_partial_doubles = true
   end
 end

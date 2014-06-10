@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'creating or editing an rsvp' do
   context "for a teaching event" do

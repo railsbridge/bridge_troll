@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe DeviseOverrides::RegistrationsController do
   before do

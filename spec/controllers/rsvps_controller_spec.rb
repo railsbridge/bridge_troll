@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe RsvpsController do
   def extract_rsvp_params(rsvp)

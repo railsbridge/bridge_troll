@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "the individual event page" do
   let(:rsvp_actions_selector) { '.rsvp-actions' }

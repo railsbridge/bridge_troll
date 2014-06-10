@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe IcsGenerator do
   describe '#event_session_ics' do

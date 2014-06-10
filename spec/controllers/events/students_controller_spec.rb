@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Events::StudentsController do
   let(:student_rsvp) { create(:student_rsvp) }
