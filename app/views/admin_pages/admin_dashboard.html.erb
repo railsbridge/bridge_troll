@@ -26,8 +26,10 @@
   <strong><%= @users.select { |u| u.encrypted_password.present? }.count %></strong> out of <%= @users.count %> users have set up a password to log in to Bridge Troll.
 
   <table class='table table-bordered table-condensed table-striped' style="width: 30%;">
-    <th># Providers</th>
-    <th># Users</th>
+    <tr>
+      <th># Providers</th>
+      <th># Users</th>
+    </tr>
     <% @user_authentication_counts.keys.sort.reverse.each do |authentication_count| %>
         <tr>
           <td><%= authentication_count %></td>
@@ -38,12 +40,28 @@
 
   <h2>Usage of authentication providers</h2>
   <table class='table table-bordered table-condensed table-striped' style="width: 30%;">
-    <th>Provider</th>
-    <th># Users</th>
+    <tr>
+      <th>Provider</th>
+      <th># Users</th>
+    </tr>
     <% @authentication_counts.each do |provider, count| %>
       <tr>
         <td><%= provider %></td>
         <td><%= count %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <h2>Chapter Membership</h2>
+  <table class='table table-bordered table-condensed table-striped' style="width: 50%;">
+    <tr>
+      <th>Chapter</th>
+      <th>Followers</th>
+    </tr>
+    <% Chapter.all.each do |chapter| %>
+      <tr>
+        <td><%= chapter.name %></td>
+        <td><%= chapter.users.count %></td>
       </tr>
     <% end %>
   </table>
