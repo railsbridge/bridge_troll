@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe SurveyMailer do
   let(:rsvp) { create(:rsvp) }

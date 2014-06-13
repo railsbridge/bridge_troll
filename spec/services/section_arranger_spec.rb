@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe SectionArranger do
   def preference(volunteer_rsvp)

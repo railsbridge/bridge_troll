@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe MeetupUser do
   let(:user) { create(:meetup_user) }

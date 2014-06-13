@@ -6,9 +6,9 @@
           <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
 
           <ul>
-          <% @event.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
+            <% @event.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
           </ul>
         </div>
       <% end %>
@@ -101,7 +101,6 @@
         <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
       </div>
 
-
       <div class='workshop-only'>
         <h3>Capacity</h3>
 
@@ -125,26 +124,24 @@
 
       <div class="field">
         <%= f.label :public_email, 'What email address should users contact you at with questions?' %>
-        <%= f.text_field :public_email, :class => "input-xxlarge"%>
+        <%= f.text_field :public_email, :class => "input-xxlarge" %>
       </div>
 
       <div class="field">
         <%= f.label :details, 'General Event Details (some html allowed)' %>
-        <%= f.text_area :details, :rows => 14, :class => "input-xxlarge"%>
+        <%= f.text_area :details, :rows => 14, :class => "input-xxlarge" %>
       </div>
 
       <h3>Post-RSVP Details</h3>
-      <p>The following details will be included in the confirmation & reminder emails
-      and will appear at the bottom of the event detail page <em>after</em> the student or
-      volunteer has signed up.</p>
+      <p>The following details will be included in the confirmation & reminder emails and will appear at the bottom of the event detail page <em>after</em> the student or volunteer has signed up.</p>
       <div class="field">
         <%= f.label :volunteer_details, 'Volunteer Details' %>
-        <%= f.text_area :volunteer_details, :rows => 4, :class => "input-xxlarge"%>
+        <%= f.text_area :volunteer_details, :rows => 4, :class => "input-xxlarge" %>
       </div>
 
       <div class="field workshop-only">
         <%= f.label :student_details, 'Student Details' %>
-        <%= f.text_area :student_details, :rows => 4, :class => "input-xxlarge"%>
+        <%= f.text_area :student_details, :rows => 4, :class => "input-xxlarge" %>
       </div>
 
       <% if @event.new_record? %>

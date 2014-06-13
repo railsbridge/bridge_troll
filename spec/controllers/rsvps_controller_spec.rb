@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe RsvpsController do
   def extract_rsvp_params(rsvp)
@@ -332,9 +332,8 @@ describe RsvpsController do
   describe "#update" do
     before do
       @user = create(:user)
-      @other_user = create(:user)
       @my_rsvp = create(:rsvp, user: @user, event: @event)
-      @other_rsvp = create(:rsvp, user: @other_user, event: @event)
+      @other_rsvp = create(:rsvp, event: @event)
 
       sign_in @user
     end
@@ -351,7 +350,17 @@ describe RsvpsController do
       response.should redirect_to(@event)
     end
 
-    it 'does not update rsvps owned by other users' do
+    it 'can update chapter affiliation' do
+      expect(@user.chapters).to match_array([])
+
+      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: {gender: 'human'}, affiliate_with_chapter: true
+      expect(@user.reload.chapters).to match_array([@event.chapter])
+
+      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: {gender: 'human'}
+      expect(@user.reload.chapters).to match_array([])
+    end
+
+    it 'cannot update rsvps owned by other users' do
       expect {
         put :update, event_id: @event.id, id: @other_rsvp.id, rsvp: rsvp_params, user: { gender: "human" }
       }.not_to change { @other_rsvp.reload.subject_experience }

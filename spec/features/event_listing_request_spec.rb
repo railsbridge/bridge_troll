@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "the event listing page" do
   it "listing should show blank Location if no location_id exists" do

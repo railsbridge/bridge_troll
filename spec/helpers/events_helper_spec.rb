@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 def event_for_dates(starts_at, ends_at)
   event = build(:event_with_no_sessions)

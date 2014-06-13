@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "visiting the home page" do
   describe "as an unauthenticated user" do

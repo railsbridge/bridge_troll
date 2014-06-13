@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'rails_helper'
 
 describe RsvpMailer do
   let(:user) { rsvp.user }

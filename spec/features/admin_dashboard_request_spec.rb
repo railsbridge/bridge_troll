@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "the admin dashboard" do
   context "when signed in as a normal user" do

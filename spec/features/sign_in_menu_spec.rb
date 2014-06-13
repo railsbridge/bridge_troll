@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require Rails.root.join('spec', 'services', 'omniauth_responses')
 
 describe "sign in lightbox" do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe 'creating or editing an rsvp' do
   context "for a teaching event" do
@@ -40,7 +40,7 @@ describe 'creating or editing an rsvp' do
         before do
           fill_in "rsvp_subject_experience", with: "asdfasdfasdfasd"
           fill_in "rsvp_teaching_experience", with: "asdfasdfasdfasd"
-          choose "Blue Totally New to Programming"
+          choose Course.find_by_name('RAILS').levels[0][:title]
         end
 
         it "should allow the user to update their gender" do
@@ -115,7 +115,7 @@ describe 'creating or editing an rsvp' do
     describe "a new learn rsvp" do
       it "should show rails levels for rails events" do
         visit learn_new_event_rsvp_path(@event)
-        page.should have_content "Totally New to Programming"
+        page.should have_content Course.find_by_name('RAILS').levels[0][:title]
       end
 
       it "should show frontend levels for frontend events" do
@@ -123,7 +123,7 @@ describe 'creating or editing an rsvp' do
         @event.save!
 
         visit learn_new_event_rsvp_path(@event)
-        page.should have_content "Totally new to HTML and CSS"
+        page.should have_content Course.find_by_name('FRONTEND').levels[0][:title]
       end
 
       it "should not allow students to have 'No preference'" do

@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
     unless current_user.admin?
       flash[:error] = "You must be an Admin to see this page"
       redirect_to events_path
-      false
     end
   end
 
@@ -15,8 +14,7 @@ class ApplicationController < ActionController::Base
     @event = @event || Event.find(params[:event_id])
     if @event.historical?
       flash[:error] = "This feature is not available for historical events"
-      redirect_to events_path
-      false
+      return redirect_to events_path
     end
 
     @organizer = @event.organizer?(current_user) || current_user.admin?
@@ -24,7 +22,6 @@ class ApplicationController < ActionController::Base
     unless @organizer
       flash[:error] = "You must be an organizer for the event or an Admin to see this page"
       redirect_to events_path
-      false
     end
   end
 

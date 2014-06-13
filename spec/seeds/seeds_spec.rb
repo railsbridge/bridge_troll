@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require Rails.root.join('db', 'seeds', 'seed_event')
 require Rails.root.join('db', 'seeds', 'admin_user')
 

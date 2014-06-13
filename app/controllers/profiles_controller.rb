@@ -25,7 +25,6 @@ class ProfilesController < ApplicationController
   def validate_user!
     unless @user == current_user
       redirect_to events_path, notice: "You're not allowed to do that. Here, look at some events instead!"
-      false
     end
   end
 end
