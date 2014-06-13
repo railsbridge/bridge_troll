@@ -26,53 +26,65 @@
   <strong><%= @users.select { |u| u.encrypted_password.present? }.count %></strong> out of <%= @users.count %> users have set up a password to log in to Bridge Troll.
 
   <table class='table table-bordered table-condensed table-striped' style="width: 30%;">
+    <thead>
     <tr>
       <th># Providers</th>
       <th># Users</th>
     </tr>
+    </thead>
+    <tbody>
     <% @user_authentication_counts.keys.sort.reverse.each do |authentication_count| %>
-        <tr>
-          <td><%= authentication_count %></td>
-          <td><%= @user_authentication_counts[authentication_count] %></td>
-        </tr>
+      <tr>
+        <td><%= authentication_count %></td>
+        <td><%= @user_authentication_counts[authentication_count] %></td>
+      </tr>
     <% end %>
+    </tbody>
   </table>
 
   <h2>Usage of authentication providers</h2>
-  <table class='table table-bordered table-condensed table-striped' style="width: 30%;">
+  <table class='table table-bordered table-condensed table-striped datatable-sorted' style="width: 30%;">
+    <thead>
     <tr>
       <th>Provider</th>
       <th># Users</th>
     </tr>
+    </thead>
+    <tbody>
     <% @authentication_counts.each do |provider, count| %>
       <tr>
         <td><%= provider %></td>
         <td><%= count %></td>
       </tr>
     <% end %>
+    </tbody>
   </table>
 
   <h2>Chapter Membership</h2>
-  <table class='table table-bordered table-condensed table-striped' style="width: 50%;">
+  <table class='table table-bordered table-condensed table-striped datatable-sorted' style="width: 50%;">
+    <thead>
     <tr>
       <th>Chapter</th>
       <th>Followers</th>
     </tr>
+    </thead>
+    <tbody>
     <% Chapter.all.each do |chapter| %>
       <tr>
         <td><%= chapter.name %></td>
         <td><%= chapter.users.count %></td>
       </tr>
     <% end %>
+    </tbody>
   </table>
 
   <h2>Spammers</h2>
   <div>
     <%= pluralize(@spammers.count, "user has", "users have") %> been flagged as a spammer.
     <ul>
-    <% @spammers.each do |spammer| %>
-      <li><%= link_to spammer.full_name, user_profile_path(spammer) %></li>
-    <% end %>
+      <% @spammers.each do |spammer| %>
+        <li><%= link_to spammer.full_name, user_profile_path(spammer) %></li>
+      <% end %>
     </ul>
   </div>
 
