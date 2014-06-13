@@ -142,6 +142,41 @@ class Course < ActiveHash::Base
           ]
         }
       ]
+    }, {
+      id: 4,
+      name: 'iOS',
+      title: 'Intro to iOS Development',
+      description: 'This workshop will cover how to make an iOS application.'\
+                   'You can find the curriculum outline at <a'\
+                   'href="https://github.com/thecodepath/ios_guides/wiki/'\
+                   'iOS-1-day-Weekend-Workshop">the temporary location</a>.',
+      levels: [
+        {
+          level: 1,
+          color: 'blue',
+          title: "No Programming Experience",
+          level_description: [
+            'New to programming, including iOS programming',
+            'No experience with programming languages other than HTML and CSS',
+          ]
+        }, {
+          level: 2,
+          color: 'orange',
+          title: "New programmer, and new to iOS programming",
+          level_description: [
+            'Some programming experiencein another language like Ruby, Python, C, Java',
+            'Has perhaps seen Objective-C, but didn\'t really understand how it worked',
+          ]
+        }, {
+          level: 3,
+          color: 'purple',
+          title: "Experienced Programmer new to iOS programming",
+          level_description: [
+            'Very comfortable in programming lanugages other than Objective-C.',
+            'Experienced programmer, but new to creating iOS apps',
+          ]
+        },
+      ]
     }
   ]
   enum_accessor :name
