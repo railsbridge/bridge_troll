@@ -49,6 +49,7 @@ end
 
 group :test, :development do
   gem 'jasmine'
+  gem 'jasmine-jquery-rails'
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'

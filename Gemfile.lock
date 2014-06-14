@@ -151,6 +151,7 @@ GEM
       rack (>= 1.2.1)
       rake
     jasmine-core (2.0.0)
+    jasmine-jquery-rails (2.0.3)
     jquery-datatables-rails (1.12.2)
       jquery-rails
     jquery-rails (3.1.0)
@@ -361,6 +362,7 @@ DEPENDENCIES
   heroku_san
   icalendar
   jasmine
+  jasmine-jquery-rails
   jquery-datatables-rails
   jquery-rails
   jquery-ui-rails
