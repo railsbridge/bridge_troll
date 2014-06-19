@@ -1,5 +1,6 @@
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
     actionmailer (4.0.4)
       actionpack (= 4.0.4)
@@ -240,6 +241,7 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.0.4)
       sprockets-rails (~> 2.0.0)
+    rails-assets-sinonjs (1.10.2)
     rails-observers (0.1.2)
       activemodel (~> 4.0)
     rails_12factor (0.0.2)
@@ -377,6 +379,7 @@ DEPENDENCIES
   quiet_assets
   rack-canonical-host
   rails (= 4.0.4)
+  rails-assets-sinonjs
   rails_12factor
   rb-fsevent
   rspec-collection_matchers

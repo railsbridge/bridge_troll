@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
 ruby '2.1.2'
 gem 'rails', '4.0.4'
@@ -54,6 +55,7 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'awesome_print'
+  gem 'rails-assets-sinonjs'
 end
 
 group :test do
