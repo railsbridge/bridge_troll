@@ -34,7 +34,7 @@
 //= require dataTables/jquery.dataTables.bootstrap
 
 $(document).ready(function () {
-  var tableNeedsPagination = $('.datatable-sorted tbody tr').length > 10 ? true : false;
+  var tableNeedsPagination = $('.datatable-sorted tbody tr').length > 10;
   $.extend( $.fn.dataTable.defaults, {
     "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
     "sPaginationType": "bootstrap",
