@@ -24,6 +24,10 @@ module OmniauthProviders
     ]
   end
 
+  def self.provider_count
+    self.provider_data.count
+  end
+
   def self.finish_auth_for(authentication)
     if authentication.provider == 'meetup'
       MeetupImporter.new.associate_user(authentication.user, authentication.uid)
@@ -35,14 +39,17 @@ module OmniauthProviders
   end
 
   def self.user_attributes_from_omniauth(omniauth)
-    if omniauth['provider'] == 'facebook'
-      self.facebook_omniauth_attributes(omniauth)
-    elsif omniauth['provider'] == 'twitter'
-      self.twitter_omniauth_attributes(omniauth)
-    elsif omniauth['provider'] == 'github'
-      self.github_omniauth_attributes(omniauth)
-    elsif omniauth['provider'] == 'meetup'
-      self.meetup_omniauth_attributes(omniauth)
+    case omniauth['provider']
+      when 'facebook'
+        self.facebook_omniauth_attributes(omniauth)
+      when 'twitter'
+        self.twitter_omniauth_attributes(omniauth)
+      when 'github'
+        self.github_omniauth_attributes(omniauth)
+      when 'meetup'
+        self.meetup_omniauth_attributes(omniauth)
+      else
+        raise 'Unknown Provider'
     end
   end
 

@@ -91,6 +91,12 @@
             <% end %>
           </li>
         <% end %>
+        <% if f.object.authentications.length == OmniauthProviders.provider_count %>
+          <li>
+            <i class='fa fa-trophy' style="color: rgb(231, 180, 53); text-shadow: 3px 3px 2px rgba(150, 150, 150, 0.5);"></i>
+            That's all the providers. Woo!
+          </li>
+        <% end %>
       </ul>
     </div>
   <% end %>
