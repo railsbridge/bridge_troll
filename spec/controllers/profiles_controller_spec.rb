@@ -30,6 +30,12 @@ describe ProfilesController do
       get :edit, user_id: @other_user.id
       response.should_not be_success
     end
+
+    it "returns 406 for requests outside of html format" do
+      get :show, user_id: @user.id, format: :json
+      response.should_not be_success
+      response.status.should == 406
+    end
   end
 
   describe "updating profiles" do

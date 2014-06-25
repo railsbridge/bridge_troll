@@ -3,6 +3,14 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  rescue_from(ActionView::MissingTemplate) do |e|
+    if request.format != :html
+      head(:not_acceptable)
+    else
+      raise
+    end
+  end
+
   def validate_admin!
     unless current_user.admin?
       flash[:error] = "You must be an Admin to see this page"
