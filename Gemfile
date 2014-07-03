@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 source 'https://rails-assets.org'
 
 ruby '2.1.2'
-gem 'rails', '4.0.4'
+gem 'rails', '4.0.8'
 gem 'devise', '~> 3.2.0'
 gem 'thin'
 gem 'jquery-rails'
