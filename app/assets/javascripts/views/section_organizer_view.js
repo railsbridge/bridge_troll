@@ -25,6 +25,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
 
     events: {
       'click .add-section': 'onAddSectionClick',
+      'click .show-help': 'onHelpClick',
       'click .show-os': 'onShowOSClick',
       'click .show-unassigned': 'onShowUnassignedClick',
       'click .poll-for-changes': 'onPollForChangesClick',
@@ -143,6 +144,11 @@ Bridgetroll.Views.SectionOrganizer = (function () {
         .error(function () {
           alert('Error creating section.')
         });
+    },
+
+    onHelpClick: function () {
+      var dialog = new Bridgetroll.Views.HelpDialog();
+      dialog.showModally();
     },
 
     onShowOSClick: function () {
