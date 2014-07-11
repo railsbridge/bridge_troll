@@ -27,7 +27,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       'click .add-section': 'onAddSectionClick',
       'click .show-help': 'onHelpClick',
       'click .show-os': 'onShowOSClick',
-      'click .show-unassigned': 'onShowUnassignedClick',
+      'click .projector-mode': 'onProjectorModeClick',
       'click .poll-for-changes': 'onPollForChangesClick',
       'click .auto-arrange-choices': 'onAutoArrangeChoicesClick',
       'click .section-checkin-highlight-legend .dropdown': 'onSectionRsvpHighlightLegendClick',
@@ -43,7 +43,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.selectedSession = this.sessions.last().clone();
 
       this.showOS = false;
-      this.showUnassigned = true;
+      this.projectorMode = false;
 
       this.unsortedSection = new Bridgetroll.Models.Section({
         id: null,
@@ -117,7 +117,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
     context: function () {
       return {
         hasSections: this.sections.length > 0,
-        showUnassigned: this.showUnassigned,
+        projectorMode: this.projectorMode,
         showOS: this.showOS,
         polling: this.poller.polling(),
         sessions: this.sessions.toJSON(),
@@ -157,10 +157,10 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.$el.toggleClass('showing-os', this.showOS);
     },
 
-    onShowUnassignedClick: function () {
-      this.showUnassigned = !this.showUnassigned;
+    onProjectorModeClick: function () {
+      this.projectorMode = !this.projectorMode;
       this.render();
-      this.$el.toggleClass('showing-unassigned', this.showUnassigned);
+      $('body').toggleClass('section-organizer-projector-mode', this.projectorMode);
     },
 
     onPollForChangesClick: function () {

@@ -2,6 +2,12 @@ $linux-color: rgb(215, 255, 215);
 $osx-color: rgb(215, 215, 255);
 $windows-color: rgb(255, 215, 215);
 
+body.section-organizer-projector-mode {
+  .navbar, .header-container, .organizer-breadcrumb, .hide-on-projector {
+    display: none;
+  }
+}
+
 #section-organizer {
   min-height: 500px;
   border: 1px solid #ccc;
@@ -13,6 +19,10 @@ $windows-color: rgb(255, 215, 215);
     @include clearfix;
     margin: 0 0 10px 0;
     display: block;
+
+    button i {
+      margin-right: 5px;
+    }
   }
 }
 
@@ -67,18 +77,18 @@ $bridgetroll-section-width-narrow: 175px;
 .bridgetroll-section-level {
   vertical-align: top;
   display: inline-block;
-  width: $bridgetroll-section-width-wide;
+  width: $bridgetroll-section-width-narrow;
   margin-right: 10px;
 
-  .showing-unassigned & {
-    width: $bridgetroll-section-width-narrow;
+  .section-organizer-projector-mode & {
+    width: $bridgetroll-section-width-wide;
   }
 
   &.level0 {
-    display: none;
+    display: inline-block;
 
-    .showing-unassigned & {
-      display: inline-block;
+    .section-organizer-projector-mode & {
+      display: none;
     }
   }
 }
@@ -109,6 +119,10 @@ $bridgetroll-section-width-narrow: 175px;
     &.level3 { background-color: $level-gold; }
     &.level4 { background-color: $level-orange; }
     &.level5 { background-color: $level-purple; }
+
+    .section-organizer-projector-mode & {
+      display: none;
+    }
   }
 
   .title-text {
@@ -242,10 +256,10 @@ $attendee-height: 20px;
       background-color: white;
       box-shadow: 0 0 10px rgba(50, 50, 50, 0.75);
       padding: 2px 5px 2px 0;
-      width: $bridgetroll-section-width-wide;
+      width: $bridgetroll-section-width-narrow;
 
-      .showing-unassigned & {
-        width: $bridgetroll-section-width-narrow;
+      .section-organizer-projector-mode & {
+        width: $bridgetroll-section-width-wide;
       }
 
       .info {
