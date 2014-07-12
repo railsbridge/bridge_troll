@@ -133,6 +133,12 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.$el.on('mousemove', _.throttle(_.bind(function () {
         this.poller.stallPolling();
       }, this), 100));
+      if (this.displayProperties.get('masonry')) {
+        this.$el.find('.masonry-container').masonry({
+          itemSelector: '.bridgetroll-section',
+          gutterWidth: 10
+        });
+      }
     },
 
     onAddSectionClick: function () {
@@ -162,14 +168,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
     onProjectorModeClick: function () {
       this.projectorMode = !this.projectorMode;
       this.displayProperties.set('masonry', this.projectorMode);
-      this.render();
       $('body').toggleClass('section-organizer-projector-mode', this.projectorMode);
-      if (this.projectorMode) {
-        this.$el.find('.masonry-container').masonry({
-          itemSelector: '.bridgetroll-section',
-          gutterWidth: 10
-        });
-      }
+      this.render();
     },
 
     onPollForChangesClick: function () {
