@@ -2,6 +2,10 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   className: 'bridgetroll-section',
   template: 'section_organizer/section',
   attachPoint: function () {
+    if (this.displayProperties.get('masonry')) {
+      return '.masonry-container';
+    }
+
     var sectionClassPrefix = '.bridgetroll-section-level.level';
     return sectionClassPrefix + (this.section.get("class_level") || 0);
   },
@@ -18,6 +22,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
     this.section = options.section;
     this.attendees = options.attendees;
     this.selectedSession = options.selectedSession;
+    this.displayProperties = options.displayProperties;
   },
 
   context: function () {
@@ -27,6 +32,17 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
       volunteers: this.presentedVolunteers(),
       destructable: !this.section.isUnassigned()
     }
+  },
+
+  skipRendering: function () {
+    return this.displayProperties.get('masonry') && this.section.isUnassigned();
+  },
+
+  render: function () {
+    // Restore inline style and className that may have been set by Masonry
+    this.$el.attr('style', '');
+    this.$el.removeClass().addClass(_.result(this, 'className'));
+    this._super('render', arguments);
   },
 
   presentedStudents: function () {

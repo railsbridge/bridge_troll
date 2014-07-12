@@ -17,6 +17,7 @@
 //= require gmaps/google
 //= require backbone
 //= require backbone-super
+//= require masonry/jquery.masonry
 //= require jquery.event.drag
 //= require jquery.event.drop
 //= require bridgetroll

@@ -2,9 +2,17 @@ $linux-color: rgb(215, 255, 215);
 $osx-color: rgb(215, 215, 255);
 $windows-color: rgb(255, 215, 215);
 
+$bridgetroll-section-border-color: #BBB;
+$bridgetroll-section-width-wide: 214px;
+$bridgetroll-section-width-narrow: 175px;
+
 body.section-organizer-projector-mode {
   .navbar, .header-container, .organizer-breadcrumb, .hide-on-projector {
     display: none;
+  }
+
+  .bridgetroll-section {
+    width: $bridgetroll-section-width-wide;
   }
 }
 
@@ -68,11 +76,6 @@ body.section-organizer-projector-mode {
     &.windows { background-color: $windows-color; }
   }
 }
-
-$bridgetroll-section-border-color: #BBB;
-$bridgetroll-section-width-wide: 214px;
-$bridgetroll-section-width-narrow: 175px;
-
 
 .bridgetroll-section-level {
   vertical-align: top;

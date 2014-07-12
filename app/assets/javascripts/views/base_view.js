@@ -14,6 +14,10 @@ Bridgetroll.Views.Base = Backbone.View.extend({
     }
 
     _.each(this.subViews, function (view, id) {
+      if (view.skipRendering()) {
+        return;
+      }
+
       view.render();
       if (view.attachPoint) {
         this.$(view.attachPoint()).append(view.$el);
@@ -25,6 +29,8 @@ Bridgetroll.Views.Base = Backbone.View.extend({
     this.postRender();
     this.delegateEvents();
   },
+
+  skipRendering: $.noop,
 
   destroy: function () {
     _.invoke(this.subViews, 'destroy');

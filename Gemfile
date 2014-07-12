@@ -38,6 +38,7 @@ gem 'bootstrap-sass-rails', '~> 2.3.0'
 gem 'font-awesome-rails'
 gem 'jquery-ui-rails'
 gem 'backbone-on-rails'
+gem 'masonry-rails'
 
 group :development do
   gem 'quiet_assets'

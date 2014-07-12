@@ -3,7 +3,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
     var sectionView = new Bridgetroll.Views.Section({
       section: section,
       attendees: this.attendees,
-      selectedSession: this.selectedSession
+      selectedSession: this.selectedSession,
+      displayProperties: this.displayProperties
     });
 
     this.addSubview(sectionView);
@@ -41,6 +42,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.sections = options.sections;
       this.sessions = options.sessions;
       this.selectedSession = this.sessions.last().clone();
+      this.displayProperties = new Backbone.Model();
 
       this.showOS = false;
       this.projectorMode = false;
@@ -159,8 +161,15 @@ Bridgetroll.Views.SectionOrganizer = (function () {
 
     onProjectorModeClick: function () {
       this.projectorMode = !this.projectorMode;
+      this.displayProperties.set('masonry', this.projectorMode);
       this.render();
       $('body').toggleClass('section-organizer-projector-mode', this.projectorMode);
+      if (this.projectorMode) {
+        this.$el.find('.masonry-container').masonry({
+          itemSelector: '.bridgetroll-section',
+          gutterWidth: 10
+        });
+      }
     },
 
     onPollForChangesClick: function () {
