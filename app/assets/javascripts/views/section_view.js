@@ -30,7 +30,8 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
       title: this.section.get('name'),
       students: this.presentedStudents(),
       volunteers: this.presentedVolunteers(),
-      destructable: !this.section.isUnassigned()
+      destructable: !this.section.isUnassigned(),
+      level: this.section.get('class_level')
     }
   },
 

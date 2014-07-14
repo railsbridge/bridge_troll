@@ -113,15 +113,17 @@ body.section-organizer-projector-mode {
     }
   }
 
-  &.header {
-    margin-bottom: 15px;
-    color: white;
-
+  &.header, .section-organizer-projector-mode & {
     &.level1 { background-color: $level-blue; }
     &.level2 { background-color: $level-green; }
     &.level3 { background-color: $level-gold; }
     &.level4 { background-color: $level-orange; }
     &.level5 { background-color: $level-purple; }
+  }
+
+  &.header {
+    margin-bottom: 15px;
+    color: white;
 
     .section-organizer-projector-mode & {
       display: none;
