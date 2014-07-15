@@ -6,7 +6,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.ui.datepicker
+//= require jquery-ui/datepicker
 //= require twitter/bootstrap/modal
 //= require twitter/bootstrap/transition
 //= require twitter/bootstrap/tooltip

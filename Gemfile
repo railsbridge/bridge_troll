@@ -67,5 +67,5 @@ group :test do
   gem "launchy"
   gem 'shoulda-matchers'
   gem "faker"
-  gem 'capybara-screenshot'
+  gem 'capybara-screenshot', '0.3.19'
 end

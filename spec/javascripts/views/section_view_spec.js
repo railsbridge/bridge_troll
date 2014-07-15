@@ -31,7 +31,8 @@ describe("Bridgetroll.Views.Section", function () {
     view = new Bridgetroll.Views.Section({
       section: model,
       attendees: attendees,
-      selectedSession: new Bridgetroll.Models.Section({id: 2, name: 'Cool Section'})
+      selectedSession: new Bridgetroll.Models.Section({id: 2, name: 'Cool Section'}),
+      displayProperties: new Backbone.Model()
     });
   });
 
