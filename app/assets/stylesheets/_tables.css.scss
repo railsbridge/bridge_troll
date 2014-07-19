@@ -61,6 +61,12 @@ table.checkins {
   }
 }
 
+table.survey-results {
+  th:nth-child(1) { width: 30% }
+  th:nth-child(2) { width: 40% }
+  th:nth-child(3) { width: 30% }
+}
+
 table.attendees {
   th.attendee-role { width: 10%; }
   th.attendee-waitlisted { width: 10%; }
