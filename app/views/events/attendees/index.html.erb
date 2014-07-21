@@ -21,7 +21,7 @@
 <% if @rsvps.empty? %>
   <p>No one is coming to this workshop yet. ;_;</p>
 <% else %>
-  <table class="datatable table table-striped table-bordered table-condensed attendees">
+  <table class="datatable table table-striped table-bordered table-condensed attendees responsive-table">
     <thead>
       <tr>
         <th class='attendee-name'>Name</th>
@@ -41,13 +41,13 @@
             <%= render 'shared/viewed_gravatars', :email => rsvp.user.email %>
             <%= link_to rsvp.user.full_name, user_profile_path(rsvp.user) %>
           </td>
-          <td><%= rsvp.role.title %></td>
-          <td><%= rsvp.dietary_info %></td>
-          <td><%= rsvp.childcare_info %></td>
-          <td><%= rsvp.job_details %></td>
-          <td><%= rsvp.user.gender %></td>
-          <td><%= rsvp.plus_one_host %></td>
-          <td><%= if rsvp.waitlist_position then "yes" else "no" end %></td>
+          <td data-label="Attending as:"><%= rsvp.role.title %></td>
+          <%= content_tag_maybe_hidden(:td, rsvp.dietary_info, 'data-label' => 'Dietary info:') %>
+          <%= content_tag_maybe_hidden(:td, rsvp.childcare_info, 'data-label' => 'Childcare info:') %>
+          <td data-label="Job details:"><%= rsvp.job_details %></td>
+          <td data-label="Gender:"><%= rsvp.user.gender %></td>
+          <%= content_tag_maybe_hidden(:td, rsvp.plus_one_host, 'data-label' => 'Plus-one host:') %>
+          <td data-label="Waitlisted?:"><%= if rsvp.waitlist_position then "yes" else "no" end %></td>
           </tr>
         <% end %>
       </tbody>

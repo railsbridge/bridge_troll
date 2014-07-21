@@ -76,6 +76,10 @@ td.wide {
 }
 
 @media (max-width: $phone-width) {
+  .hide-on-phone {
+    display: none !important;
+  }
+
   .btn, input[type=submit].btn {
     display: block;
     margin-bottom: 4px;
