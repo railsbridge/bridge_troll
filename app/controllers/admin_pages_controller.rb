@@ -8,7 +8,7 @@ class AdminPagesController < ApplicationController
 
     @users = User.includes(:authentications).to_a
     @user_authentication_counts = @users.each_with_object(Hash.new(0)) do |user, hsh|
-      hsh[user.authentications.count] += 1
+      hsh[user.authentications_count] += 1
     end
 
     @authentication_counts = Authentication.all.each_with_object(Hash.new(0)) do |auth, hsh|

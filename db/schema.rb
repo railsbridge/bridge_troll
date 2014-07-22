@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140604060532) do
+ActiveRecord::Schema.define(version: 20140723013138) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -226,6 +226,7 @@ ActiveRecord::Schema.define(version: 20140604060532) do
     t.boolean  "allow_event_email",      default: true
     t.boolean  "publisher",              default: false
     t.boolean  "spammer",                default: false
+    t.integer  "authentications_count"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

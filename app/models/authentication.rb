@@ -1,7 +1,7 @@
 class Authentication < ActiveRecord::Base
   validates_uniqueness_of :provider, scope: [:uid]
 
-  belongs_to :user, inverse_of: :authentications
+  belongs_to :user, inverse_of: :authentications, counter_cache: true
 
   after_create :authentication_created
 
