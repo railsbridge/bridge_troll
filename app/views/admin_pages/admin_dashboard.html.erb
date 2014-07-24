@@ -23,7 +23,7 @@
 
   <h2># of authentication providers set up</h2>
 
-  <strong><%= @users.select { |u| u.encrypted_password.present? }.count %></strong> out of <%= @users.count %> users have set up a password to log in to Bridge Troll.
+  <strong><%= User.where('encrypted_password != ?', '').count %></strong> out of <%= User.count %> users have set up a password to log in to Bridge Troll.
 
   <table class='table table-bordered table-condensed table-striped' style="width: 30%;">
     <thead>
