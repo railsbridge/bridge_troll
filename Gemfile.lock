@@ -153,7 +153,7 @@ GEM
       rake
     jasmine-core (2.0.1)
     jasmine-jquery-rails (2.0.3)
-    jquery-datatables-rails (2.1.10.0.3)
+    jquery-datatables-rails (2.1.10.0.4)
       jquery-rails
       sass-rails
     jquery-rails (3.1.1)

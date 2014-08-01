@@ -37,28 +37,26 @@
 $(document).ready(function () {
   var tableNeedsPagination = $('.datatable-sorted tbody tr').length > 10;
   $.extend( $.fn.dataTable.defaults, {
-    "sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
-    "sPaginationType": "bootstrap",
-    "iDisplayLength": 50
+    "dom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
+    "pagingType": "bootstrap",
+    "pageLength": 50
   });
 
   $('.datatable').dataTable();
 
   $('.datatable-sorted').dataTable({
-    "bPaginate": tableNeedsPagination,
-    "aaSorting": [[ 1, "desc" ]],
-    "aoColumnDefs": [
-      {'aTargets': ['date'], "sType": "date"}
+    "paging": tableNeedsPagination,
+    "order": [[ 1, "desc" ]],
+    "columnDefs": [
+      {'targets': ['date'], "type": "date"}
     ]
   });
 
   $('.datatable-checkins').dataTable({
-    "bPaginate": false,
-    "aaSorting": [[ 0, "asc" ]],
-    "aoColumnDefs": [
-      {'aTargets': ['checkins-name']},
-      {'aTargets': ['checkins-role']},
-      {'aTargets': ['checkins-action'], bSortable: false}
+    "paging": false,
+    "order": [[ 0, "asc" ]],
+    "columnDefs": [
+      {'targets': ['checkins-action'], sortable: false}
     ]
   });
 
