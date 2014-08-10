@@ -10,4 +10,10 @@ module ApplicationHelper
   def devise_mapping
     @devise_mapping ||= Devise.mappings[:user]
   end
+
+  def test_only_stylesheet
+    content_tag :style do
+      Rails.application.assets.find_asset('test').to_s.html_safe
+    end
+  end
 end

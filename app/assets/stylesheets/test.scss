@@ -1,0 +1,6 @@
+// Turn off transition animations in test to reduce flakiness
+* {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  transition: none !important;
+}
