@@ -49,7 +49,7 @@ GEM
       railties (>= 3.1.0)
       sass-rails (>= 3.1.0)
     builder (3.1.4)
-    bullet (4.13.0)
+    bullet (4.13.1)
       activesupport (>= 3.0.0)
       uniform_notifier (>= 1.6.0)
     capybara (2.4.1)
@@ -98,7 +98,7 @@ GEM
     ejs (1.1.1)
     erubis (2.7.0)
     eventmachine (1.0.3)
-    excon (0.38.0)
+    excon (0.39.4)
     execjs (2.2.1)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
@@ -153,7 +153,7 @@ GEM
       rake
     jasmine-core (2.0.1)
     jasmine-jquery-rails (2.0.3)
-    jquery-datatables-rails (2.1.10.0.4)
+    jquery-datatables-rails (2.2.1)
       jquery-rails
       sass-rails
     jquery-rails (3.1.1)
@@ -197,8 +197,8 @@ GEM
     omniauth (1.2.2)
       hashie (>= 1.2, < 4)
       rack (~> 1.0)
-    omniauth-facebook (1.6.0)
-      omniauth-oauth2 (~> 1.1)
+    omniauth-facebook (2.0.0)
+      omniauth-oauth2 (~> 1.2)
     omniauth-github (1.1.2)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.1)
@@ -329,7 +329,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.40)
+    tzinfo (0.3.41)
     uglifier (2.5.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
