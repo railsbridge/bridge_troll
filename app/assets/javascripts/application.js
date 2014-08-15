@@ -35,7 +35,6 @@
 //= require dataTables/bootstrap/2/jquery.dataTables.bootstrap
 
 $(document).ready(function () {
-  var tableNeedsPagination = $('.datatable-sorted tbody tr').length > 10;
   $.extend( $.fn.dataTable.defaults, {
     "dom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
     "pagingType": "bootstrap",
@@ -44,9 +43,13 @@ $(document).ready(function () {
 
   $('.datatable').dataTable();
 
+  var tableNeedsPagination = $('.datatable-sorted tbody tr').length > 10;
+  var tableSortIndex = $('.datatable-sorted th').map(function (ix, element) {
+    return $(element).hasClass('sort-field') ? ix : null;
+  })[0];
   $('.datatable-sorted').dataTable({
     "paging": tableNeedsPagination,
-    "order": [[ 1, "desc" ]],
+    "order": [[ tableSortIndex === undefined ? 1 : tableSortIndex, "desc" ]],
     "columnDefs": [
       {'targets': ['date'], "type": "date"}
     ]

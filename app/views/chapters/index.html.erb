@@ -1,9 +1,9 @@
 <%= content_for(:header_text, 'Listing chapters') %>
 
-<table class="table table-striped table-bordered table-condensed responsive-table">
+<table class="table table-striped table-bordered table-condensed responsive-table datatable-sorted">
   <thead>
     <tr>
-      <th>Name</th>
+      <th class="sort-field">Name</th>
       <th>Locations</th>
       <th>Events</th>
       <% if user_signed_in? %>
