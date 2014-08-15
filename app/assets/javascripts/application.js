@@ -44,12 +44,13 @@ $(document).ready(function () {
   $('.datatable').dataTable();
 
   var tableNeedsPagination = $('.datatable-sorted tbody tr').length > 10;
-  var tableSortIndex = $('.datatable-sorted th').map(function (ix, element) {
-    return $(element).hasClass('sort-field') ? ix : null;
+  var tableSortOrder = $('.datatable-sorted th').map(function (ix, element) {
+    var defaultSortDirection = $(element).data('default-sort');
+    return defaultSortDirection ? [[ix, defaultSortDirection]] : null;
   })[0];
   $('.datatable-sorted').dataTable({
     "paging": tableNeedsPagination,
-    "order": [[ tableSortIndex === undefined ? 1 : tableSortIndex, "desc" ]],
+    "order": tableSortOrder || [[ 1, "desc" ]],
     "columnDefs": [
       {'targets': ['date'], "type": "date"}
     ]
