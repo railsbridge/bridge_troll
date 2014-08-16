@@ -27,9 +27,9 @@ Join the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridg
 Then, have a look at our [feature backlog](https://www.pivotaltracker.com/s/projects/608983). Pick a feature to work on, fork the project, code some code, and send a [really good pull request](http://railsbridge.github.com/bridge_troll/). Not sure what to do? Ask the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) for advice!
 
 
-## Setting up for development
+## Setting up for your local development environment
 
-You'll need a version manager for Ruby.  We recommend [rvm](http://rvm.io), but [rbenv](https://github.com/sstephenson/rbenv) will work.
+You'll need a version manager for Ruby.  A version manager is a command-line tool which allows you to easily install, manage, and work with multiple ruby environments. We recommend [rvm](http://rvm.io), but [rbenv](https://github.com/sstephenson/rbenv) will work.
 
 ### Quickstart
 
@@ -40,7 +40,7 @@ git clone https://github.com/username/bridge_troll.git
 cd bridge_troll
 ```
 
-Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run this `rvm install 2.0.0`. For rbenv, run this `rbenv install 2.0.0 -p353`.
+Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run this `rvm install 2.1.2`. For rbenv, run this `rbenv install 2.1.2`.
 ```
 bundle install
 brew update
@@ -55,11 +55,12 @@ To verify your environment is set up correctly, run the server
 ```
 rails s
 ```
-and go to http://localhost:3000/ and you can play with the app. (Pro-tip: to create a valid user without setting up email, run User.last.confirm! in the Rails console after signing up.)
+
+Go to http://localhost:3000/ and verify your successs! You can play with the app locally to become more familiar with it. (Pro-tip: to create a valid user without setting up email, run User.last.confirm! in the Rails console after signing up.)
 
 ### Running tests
 
-You will need to install phantomjs for tests to run successfully. On OSX with Homebrew, try
+This project has many tests that you should run before submitting a pull request, even if it's just a simple text change. You will need to install PhantomJS to run the tests. On OSX with Homebrew, try
 ```
 brew install phantomjs
 ```
@@ -70,6 +71,8 @@ script/test
 ```
 
 ### Seed Data
+
+Seed data refers to the initial data provided with the site for training, testing, or as template for the data that you enter.
 
 `rake db:seed` will create a sample event (called 'Seeded Test Event'), organized by a sample user, with many more sample user volunteers and students.
 
@@ -82,7 +85,13 @@ We have created a living style guide to keep track of HTML components and their 
 
 We're still working on adding every element to the page, so if you see missing components, add it to the erb template ([static_pages/style_guide.html.erb](style_guide.html.erb))
 
+##Additional Services
+
+The following setup is only required if you are developing for these specific features.
+
 ### Email
+
+You don't have to set up email locally in order to develop. Note that the text of the email will appear in the log (which appears in your terminal, after you type `rails s`).
 
 To receive/develop emails locally, install the MailCatcher gem at http://mailcatcher.me. The process is as follows:
 
@@ -94,9 +103,15 @@ To receive/develop emails locally, install the MailCatcher gem at http://mailcat
 
 Note that MailCatcher just makes it easy to see the HTML output of your mails: it doesn't guarantee that the way the mail looks like in MailCatcher is how it will look in Gmail or Outlook. Beware!
 
-### Setting up environment
+### Working with external services
 
-To populate environment variables, we recommend you start your rails server with **foreman**, which is available in the [Heroku Toolbelt](https://toolbelt.heroku.com/). Once foreman is installed, You'll need to create an `.env` file in the Bridge Troll directory for foreman to start effectively. Here's a sample one (note these are not real API keys):
+If you are just getting started, skip these steps for now.
+
+When developing the parts of Bridge Troll that communicate with external services such as meetup and authentication, you will need to use API keys, which are most easily managed with environment variables. Environment variables control various aspects of how your code runs. 
+
+To populate environment variables, we recommend you start your rails server with **foreman**, which is available in the [Heroku Toolbelt](https://toolbelt.heroku.com/). Foreman is an open source project that gives system administrators the power to easily automate repetitive tasks, quickly deploy applications, and proactively manage servers. To verify your foreman is installed run `foreman -v`. If you need to install foreman, run `foreman-installer`.
+
+Once foreman is installed, You'll need to create an `.env` file in the Bridge Troll directory for foreman to start effectively. Here's a sample one (note these are not real API keys):
 
 ```
 MEETUP_API_KEY=12345
@@ -107,7 +122,7 @@ RACK_ENV=development
 PORT=3000
 ```
 
-With the `.env` file in place, simply run `foreman start` in your Bridge Troll directory instead of starting with `rails server`.
+With the `.env` file in place, simply run `foreman start` in your Bridge Troll directory instead of starting with `rails s`.
 
 ### External Authentication
 
