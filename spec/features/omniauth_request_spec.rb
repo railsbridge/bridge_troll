@@ -29,12 +29,12 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a new authentication if the user already exists' do
-      @user = create(:user)
-      sign_in_as @user
+      user = create(:user)
+      sign_in_as user
 
       visit user_omniauth_authorize_path(:facebook)
 
-      authentication = @user.authentications.first
+      authentication = user.authentications.first
       authentication.provider.should == 'facebook'
       authentication.uid.should == facebook_response[:uid]
     end
@@ -150,5 +150,21 @@ describe "signing in with omniauth" do
       find_field('user[first_name]').value.should == 'Enigma'
       find_field('user[last_name]').value.should be_blank
     end
+  end
+
+  it 'retains the original return_to location when signing in' do
+    facebook_response = OmniauthResponses.facebook_response
+
+    OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new(facebook_response)
+
+    user = create(:user, admin: true)
+    user.authentications.create(provider: :facebook, uid: facebook_response[:uid])
+
+    visit admin_dashboard_path
+    within '#sign-in-page' do
+      click_on 'Facebook'
+    end
+
+    page.should have_content('Admin Dashboard')
   end
 end

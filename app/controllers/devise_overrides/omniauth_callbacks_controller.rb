@@ -9,7 +9,7 @@ class DeviseOverrides::OmniauthCallbacksController < Devise::OmniauthCallbacksCo
     end
 
     user = User.from_omniauth(omniauth)
-    store_location_for(user, request.env['omniauth.origin'] || '/')
+    store_location_for(user, request.env['omniauth.origin']) if request.env['omniauth.origin']
     if user.persisted?
       flash[:notice] = "#{provider_name} login successful."
       sign_in_and_redirect user
