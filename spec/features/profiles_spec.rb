@@ -12,7 +12,8 @@ describe "Profile" do
                                     :windows => true,
                                     :linux => true,
                                     :other => "This is a note in other",
-                                    :bio => "This is a Bio"
+                                    :bio => "This is a Bio",
+                                    :github_username => "sally33"
     )
 
     sign_in_as(@user)
@@ -23,6 +24,7 @@ describe "Profile" do
     click_link "Profile"
     page.should have_content(@user.full_name)
     page.should have_content(@user.profile.bio)
+    page.should have_content(@user.profile.github_username)
     page.should have_content("Childcare")
     page.should have_content("Writer")
     page.should have_content("Designer")
@@ -34,6 +36,7 @@ describe "Profile" do
     page.should have_content("This is a note in other")
     page.should have_content("This is a Bio")
     page.should have_content("Workshop History")
+    page.should have_content("sally33")
   end
 
   it "user should be able to add his/her skills" do
@@ -53,6 +56,8 @@ describe "Profile" do
 
     fill_in "profile_other", :with => "Speaking Spanish"
     fill_in "profile_bio", :with => "This is my bio..."
+    fill_in "profile_github_username", :with => "sally33"
+
 
     click_button "Update"
 
@@ -67,6 +72,8 @@ describe "Profile" do
     page.should have_content("Linux")
     page.should have_content("Speaking Spanish")
     page.should have_content("This is my bio...")
+    page.should have_content("sally33")
+
   end
 
   context "when the user has attended some workshops" do

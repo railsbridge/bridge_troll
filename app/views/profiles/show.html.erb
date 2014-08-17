@@ -20,6 +20,13 @@
   <%= @profile.bio %>
 </div>
 
+<% if !(@profile.github_username.blank?) %>
+<strong>GitHub</strong>
+<div>
+  <%= link_to @profile.github_username, "https://github.com/#{@profile.github_username}", :target => "_blank" %>
+</div>
+<% end %>
+
 <h3>Workshop History</h3>
 
 <%= render 'shared/rsvps', rsvps: @user.rsvps %>

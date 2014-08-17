@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140815031614) do
+ActiveRecord::Schema.define(version: 20140831221929) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -143,10 +143,11 @@ ActiveRecord::Schema.define(version: 20140815031614) do
     t.boolean  "windows"
     t.boolean  "linux"
     t.text     "other"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.text     "bio"
     t.boolean  "outreach"
+    t.string   "github_username"
   end
 
   create_table "rsvp_sessions", force: true do |t|

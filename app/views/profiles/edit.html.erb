@@ -19,6 +19,11 @@
     <%= f.text_area :bio, :rows => 3, :class => 'input-xxlarge' %>
   </div>
 
+  <div class='field'>
+    <%= f.label :github_username %>
+    <%= f.text_field :github_username, :class => 'input-xxlarge' %>
+  </div>
+
   <div><%= f.submit "Update", class: 'btn btn-submit' %></div>
 <% end %>
 
