@@ -4,37 +4,38 @@
   <h2>Colors</h2>
 
   <ul class='swatches'>
-    <li>
-      <div class='swatch red-color'></div>
-      $red-color<br>
-      (#E34D0B)
-    </li>
-    <li>
-      <div class='swatch orange-color'></div>
-      $orange-color<br>
-      (#FFCC66)
-    </li>
-    <li>
-      <div class='swatch yellow-color'></div>
-      $yellow-color<br>
-      (#FFF17F)
-    </li>
-    <li>
-      <div class='swatch green-color'></div>
-      $green-color<br>
-      (#A5E587)
-    </li>
-    <li>
-      <div class='swatch blue-color'></div>
-      $blue-color<br>
-      (#A5E587)
-    </li>
-    <li>
-      <div class='swatch black-color'></div>
-      $black-color<br>
-      (#333333)
-    </li>
+    <% %w(red orange yellow green blue black).each do |color| %>
+      <li>
+        <div class='swatch <%= color %>-color'></div>
+        $<%= color %>-color<br>
+        <span class="color-value"></span>
+      </li>
+    <% end %>
   </ul>
+
+  <script>
+    // Populate color-value placeholders with computed value at render time
+    $(document).ready(function () {
+      function componentToHex(c) {
+        var hex = parseInt(c).toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+      }
+
+      function rgbToHex(r, g, b) {
+        return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+      }
+
+      $('.swatch').each(function (ix, el) {
+        var $el = $(el);
+        var value = $el.css('background-color');
+        var rgbMatch = value.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        if (rgbMatch) {
+          value = rgbToHex.apply(this, rgbMatch.slice(1));
+        }
+        $el.closest('li').find('.color-value').text(value.toUpperCase());
+      });
+    });
+  </script>
 
   <h2>Site Background</h2>
 

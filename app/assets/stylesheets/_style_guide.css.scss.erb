@@ -1,0 +1,32 @@
+.style-guide {
+  ul.swatches {
+    margin: 10px 0;
+
+    li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    .swatch {
+      width: 60px;
+      height: 60px;
+
+      <% %w(red orange yellow green blue black).each do |color| %>
+        &.<%= color %>-color {
+          background-color: $<%= color %>-color;
+        }
+      <% end %>
+    }
+  }
+
+  .background-swatch {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    background-image: image_url('background.png');
+  }
+
+  .paragraph-sample {
+   margin-top: 30px;
+  }
+}
