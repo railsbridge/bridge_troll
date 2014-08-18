@@ -56,7 +56,7 @@ To verify your environment is set up correctly, run the server
 rails s
 ```
 
-Go to http://localhost:3000/ and verify your successs! You can play with the app locally to become more familiar with it. (Pro-tip: to create a valid user without setting up email, run User.last.confirm! in the Rails console after signing up.)
+Go to http://localhost:3000/ and verify your success! You can play with the app locally to become more familiar with it. (Pro-tip: to create a valid user without setting up email, run User.last.confirm! in the Rails console after signing up.)
 
 ### Running tests
 
