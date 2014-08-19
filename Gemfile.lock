@@ -90,6 +90,11 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    dotenv (0.11.1)
+      dotenv-deployment (~> 0.0.2)
+    dotenv-deployment (0.0.2)
+    dotenv-rails (0.11.1)
+      dotenv (= 0.11.1)
     eco (1.0.0)
       coffee-script
       eco-source
@@ -358,6 +363,7 @@ DEPENDENCIES
   coffee-rails
   compass-rails
   devise (~> 3.3.0)
+  dotenv-rails
   factory_girl_rails
   faker
   font-awesome-rails

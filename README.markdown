@@ -109,9 +109,7 @@ If you are just getting started, skip these steps for now.
 
 When developing the parts of Bridge Troll that communicate with external services such as meetup and authentication, you will need to use API keys, which are most easily managed with environment variables. Environment variables control various aspects of how your code runs. 
 
-To populate environment variables, we recommend you start your rails server with **foreman**, which is available in the [Heroku Toolbelt](https://toolbelt.heroku.com/). Foreman is an open source project that gives system administrators the power to easily automate repetitive tasks, quickly deploy applications, and proactively manage servers. To verify your foreman is installed run `foreman -v`. If you need to install foreman, run `foreman-installer`.
-
-Once foreman is installed, You'll need to create an `.env` file in the Bridge Troll directory for foreman to start effectively. Here's a sample one (note these are not real API keys):
+To set up environment variables for the Rails server, you'll need to create an `.env` file in the Bridge Troll directory. Here's a sample one (note these are not real API keys):
 
 ```
 MEETUP_API_KEY=12345
@@ -122,7 +120,7 @@ RACK_ENV=development
 PORT=3000
 ```
 
-With the `.env` file in place, simply run `foreman start` in your Bridge Troll directory instead of starting with `rails s`.
+With the `.env` file in place, the environment variables will be set every time you start the server with `rails s`.
 
 ### External Authentication
 
