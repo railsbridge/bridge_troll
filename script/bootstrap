@@ -99,7 +99,7 @@ then
 	attempt_to gem install bundler
 fi
 
-attempt_to bundle install
+attempt_to bundle install --without production
 
 if [ -z "$MEETUP_API_KEY" ]
 then
