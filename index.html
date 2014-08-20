@@ -82,7 +82,8 @@
 		<p>Now, use the GitHub website to make the pull request:</p>
 		<p>On your fork on GitHub, switch to the branch that you just pushed to. Click the Pull Request button. Review the diff by clicking the "Files Changed" tab and make sure the diff makes sense. Write a compelling explanation of the awesome changes you made, and click Submit Pull Request. First pull request? <a href="https://help.github.com/articles/using-pull-requests">GitHub has a guide with awesome screen shots</a>.</p>
 		<h2>Make requested changes</h2>
-		<p>Most pull requests don't get merged as-is. The maintainers often have requests for code changes. Luckily, anything you push to your feature branch will be included in the pull request. (So don't do any other work on that branch once the pull request has been made. New branch!)</p>
+    <p>Most pull requests don't get merged as-is. The maintainers often have requests for code changes. If you have to make revisions, squash them locally as explained above. You'll then need to force push onto your branch on GitHub, using <span class="code">git push -f origin head</span> while on your feature branch. (Force pushing is something you only do on your own forks of things.)</p>
+    <p>If you decide to start working on any other features while your pull request is getting reviewed, be sure to make a new branch!</p>
 	</div>
 </div>
 </body>
