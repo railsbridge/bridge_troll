@@ -55,3 +55,11 @@ jQuery ->
     $field = event.field
     $dateField = $field.find('.datepicker')
     setUpDatePicker($dateField)
+
+  $('.chapter-select').on 'change', (event) ->
+    chapterId = $(this).val()
+    if (chapterId)
+      $('.event-card').hide()
+      $(".event-card[data-chapter-id=#{chapterId}]").show()
+    else
+      $('.event-card').show()

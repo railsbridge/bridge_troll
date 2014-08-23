@@ -6,7 +6,8 @@ class EventsController < ApplicationController
   before_filter :set_time_zone, only: [:create, :update]
 
   def index
-    @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location)
+    @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location, :chapter)
+    @event_chapters = @events.map { |e| e.chapter }.compact.uniq
     respond_to do |format|
       format.html do
         @past_events = sort_by_starts_at(combined_past_events)

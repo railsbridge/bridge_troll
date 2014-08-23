@@ -2,6 +2,12 @@
   margin-top: 30px;
 }
 
+@media (min-width: $phone-width) {
+  .chapter-select-container {
+    margin-right: 100px;
+  }
+}
+
 .event-card {
   border: 1px solid #ddd;
   background-color: #fcfcfc;
