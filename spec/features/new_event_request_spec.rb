@@ -28,6 +28,10 @@ describe "New Event" do
     page.should have_field("Student Details")
   end
 
+  it "should have the code of conduct checkbox checked" do
+    page.should have_unchecked_field("coc")
+  end
+
   context 'after clicking "Add a session"', js: true do
     before do
       click_on 'Add a session'
@@ -41,5 +45,15 @@ describe "New Event" do
 
       page.should have_selector(:link, 'Remove Session', visible: false)
     end
+  end
+
+  context 'submit form', js: true do
+
+    it 'requires code of conduct to be checked' do
+      page.should have_button 'Create Event', disabled: true
+      check ("coc")
+      page.should have_button 'Create Event', disabled: false
+    end
+
   end
 end

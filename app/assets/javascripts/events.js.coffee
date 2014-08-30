@@ -56,6 +56,12 @@ jQuery ->
     $dateField = $field.find('.datepicker')
     setUpDatePicker($dateField)
 
+  cocChanged = ->
+    $el = $('#coc')
+    $('.btn-submit').prop('disabled', !$el[0].checked)
+
+  $('#coc').on('change', cocChanged)
+
   $('.chapter-select').on 'change', (event) ->
     chapterId = $(this).val()
     if (chapterId)
