@@ -13,6 +13,8 @@
         </div>
       <% end %>
 
+
+
       <div class="field">
         <%= f.label :title %>
         <%= f.text_field :title %>
@@ -152,7 +154,11 @@
         <p>Pay particular attention to the <a href="https://github.com/railsbridge/docs/wiki/Workshop-Planning-Tasks">Workshop Planning Tasks</a> page. You're already posting an event on Bridge Troll, which is a thing on that page!</p>
 
         <p><b>If you post the event on Meetup for advertising</b>, please make only ONE event <i>(RailsBridge workshop at YOUR_VENUE)</i> and set the RSVP limit to 1 <i>(yourself)</i>. This event should be for publicity only (people who are a member of the Meetup group will get emailed about it) &mdash; you should direct attendees to do their actual registration on this Bridge Troll event.</p>
+        <div class="field">
+          <%= check_box_tag :coc %> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a>  and will communicate it at the beginning of the event
+        </div>
       <% end %>
+
 
       <div class="actions">
         <%= f.submit class: 'btn btn-submit' %>

@@ -89,7 +89,7 @@ describe "the event listing page" do
 
         select "(GMT-09:00) Alaska", from: 'event_time_zone'
         fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
-
+        check("coc")
         click_button "Create Event"
 
         page.should have_content("February Workshop")
@@ -121,7 +121,7 @@ describe "the event listing page" do
 
         select "(GMT-09:00) Alaska", from: 'event_time_zone'
         fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
-
+        check("coc")
         click_button "Create Event"
 
         page.should have_content("Volunteer Work Day")
@@ -147,7 +147,7 @@ describe "the event listing page" do
 
         select "(GMT-09:00) Alaska", from: 'event_time_zone'
         fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
-
+        check("coc")
         click_button "Create Event"
 
         page.should have_content("This is a Front End workshop. The focus will be on")
