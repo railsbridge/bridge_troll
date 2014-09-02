@@ -20,7 +20,7 @@
   <%= @profile.bio %>
 </div>
 
-<% if !(@profile.github_username.blank?) %>
+<% if @profile.github_username.present? %>
 <strong>GitHub</strong>
 <div>
   <%= link_to @profile.github_username, "https://github.com/#{@profile.github_username}", :target => "_blank" %>
