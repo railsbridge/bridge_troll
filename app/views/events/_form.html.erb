@@ -155,7 +155,9 @@
 
         <p><b>If you post the event on Meetup for advertising</b>, please make only ONE event <i>(RailsBridge workshop at YOUR_VENUE)</i> and set the RSVP limit to 1 <i>(yourself)</i>. This event should be for publicity only (people who are a member of the Meetup group will get emailed about it) &mdash; you should direct attendees to do their actual registration on this Bridge Troll event.</p>
         <div class="field">
-          <%= check_box_tag :coc %> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a>  and will communicate it at the beginning of the event
+          <%= label_tag do %>
+            <%= check_box_tag :coc %> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a> and will communicate it at the beginning of the event
+          <% end %>
         </div>
       <% end %>
 
