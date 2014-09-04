@@ -43,7 +43,7 @@ describe Rsvp do
 
       subject.teaching = true
       subject.should have(1).errors_on(:class_level)
-      subject.should ensure_inclusion_of(:class_level).in_range(0..5)
+      subject.should validate_inclusion_of(:class_level).in_range(0..5)
     end
 
     it "should only require teaching_experience if teaching or TAing" do
