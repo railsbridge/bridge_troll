@@ -13,7 +13,7 @@
     <section class='organizer-dashboard-section bordered'>
       <h3>Childcare Requests</h3>
       <% if @childcare_requests.length > 0 %>
-        <table class="table">
+        <table class="table responsive-table">
           <thead>
           <tr>
             <th>Requester Name</th>
@@ -24,10 +24,10 @@
           <tbody>
           <% @childcare_requests.each do |request| %>
             <tr>
-              <td>
+              <td data-label="Attendee:">
                 <%= request.user.full_name %>
               </td>
-              <td>
+              <td data-label="Attendee Email:">
                 <%= request.user.email %>
               </td>
               <td style="white-space: pre-line;"><%= request.childcare_info %></td>
