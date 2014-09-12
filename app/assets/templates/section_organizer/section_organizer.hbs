@@ -59,18 +59,8 @@
 {{#unless projectorMode}}
   <div class='bridgetroll-section-level level0'></div>
 {{/unless}}
-<div class='bridgetroll-section-level level1'>
-  <div class='bridgetroll-section-title header level1'>Blue</div>
-</div>
-<div class='bridgetroll-section-level level2'>
-  <div class='bridgetroll-section-title header level2'>Green</div>
-</div>
-<div class='bridgetroll-section-level level3'>
-  <div class='bridgetroll-section-title header level3'>Gold</div>
-</div>
-<div class='bridgetroll-section-level level4'>
-  <div class='bridgetroll-section-title header level4'>Orange</div>
-</div>
-<div class='bridgetroll-section-level level5'>
-  <div class='bridgetroll-section-title header level5'>Purple</div>
-</div>
+{{#each levels}}
+  <div class='bridgetroll-section-level level{{this.index}}'>
+    <div class='bridgetroll-section-title header level{{this.index}}'>{{this.color}}</div>
+  </div>
+{{/each}}

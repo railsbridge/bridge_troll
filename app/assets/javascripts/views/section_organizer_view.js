@@ -4,7 +4,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       section: section,
       attendees: this.attendees,
       selectedSession: this.selectedSession,
-      displayProperties: this.displayProperties
+      displayProperties: this.displayProperties,
+      levels: this.levels()
     });
 
     this.addSubview(sectionView);
@@ -116,6 +117,16 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       }
     },
 
+    levels: function () {
+      return [
+        {index: 1, color: 'Blue'},
+        {index: 2, color: 'Green'},
+        {index: 3, color: 'Gold'},
+        {index: 4, color: 'Orange'},
+        {index: 5, color: 'Purple'}
+      ];
+    },
+
     context: function () {
       return {
         hasSections: this.sections.length > 0,
@@ -124,7 +135,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
         polling: this.poller.polling(),
         sessions: this.sessions.toJSON(),
         selectedSession: this.selectedSession.toJSON(),
-        checkinCounts: this.checkinCounts()
+        checkinCounts: this.checkinCounts(),
+        levels: this.levels()
       };
     },
 
@@ -176,7 +188,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.poller.togglePolling();
       this.render();
     },
-    
+
     onAutoArrangeChoicesClick: function () {
       var choicesView = new Bridgetroll.Views.AutoArrangeChoices({
         sessions: this.sessions,

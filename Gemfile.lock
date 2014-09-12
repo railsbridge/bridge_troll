@@ -153,7 +153,7 @@ GEM
     hike (1.2.3)
     hitimes (1.2.2)
     i18n (0.6.11)
-    icalendar (2.1.1)
+    icalendar (2.1.2)
     jasmine (2.0.2)
       jasmine-core (~> 2.0.0)
       phantomjs
@@ -278,7 +278,7 @@ GEM
       rspec-mocks (~> 3.1.0)
     rspec-collection_matchers (1.0.0)
       rspec-expectations (>= 2.99.0.beta1)
-    rspec-core (3.1.1)
+    rspec-core (3.1.2)
       rspec-support (~> 3.1.0)
     rspec-expectations (3.1.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -307,9 +307,8 @@ GEM
       sprockets-rails (~> 2.0.0)
     select2-rails (3.5.9.1)
       thor (~> 0.14)
-    sentry-raven (0.9.4)
+    sentry-raven (0.10.1)
       faraday (>= 0.7.6)
-      hashie (>= 1.1.0)
       uuidtools
     shoulda-matchers (2.7.0)
       activesupport (>= 3.0.0)
@@ -335,7 +334,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
-    timers (4.0.0)
+    timers (4.0.1)
       hitimes
     treetop (1.4.15)
       polyglot

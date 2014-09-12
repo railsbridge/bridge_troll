@@ -19,6 +19,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   initialize: function (options) {
     this._super('initialize', arguments);
 
+    this.levels = options.levels;
     this.section = options.section;
     this.attendees = options.attendees;
     this.selectedSession = options.selectedSession;
@@ -154,7 +155,8 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
     }
 
     var sectionView = new Bridgetroll.Views.EditSection({
-      model: this.section
+      model: this.section,
+      levels: this.levels
     });
     sectionView.showModally();
   },

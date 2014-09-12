@@ -7,15 +7,18 @@ Bridgetroll.Views.EditSection = (function () {
       'submit form': 'onSubmit'
     },
 
+    initialize: function (options) {
+      this._super('initialize', arguments);
+
+      this.levels = options.levels;
+    },
+
     levelName: function (level) {
-      return {
-        0: 'Unassigned',
-        1: 'Blue',
-        2: 'Green',
-        3: 'Gold',
-        4: 'Orange',
-        5: 'Purple'
-      }[level];
+      if (level == 0) {
+        return 'Unassigned';
+      } else {
+        return this.levels[level-1].color;
+      }
     },
 
     context: function () {
