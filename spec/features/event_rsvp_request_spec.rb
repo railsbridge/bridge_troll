@@ -36,6 +36,10 @@ describe 'creating or editing an rsvp' do
         page.should have_content no_preference_text
       end
 
+      it "should have a code of conduct checkbox" do
+        page.should have_unchecked_field('coc')
+      end
+
       context "with a valid RSVP" do
         before do
           fill_in "rsvp_subject_experience", with: "asdfasdfasdfasd"
@@ -58,6 +62,14 @@ describe 'creating or editing an rsvp' do
           }.to change { @user.chapters.count }.by(1)
           visit edit_event_rsvp_path(@event, Rsvp.last)
           expect(page.find("#affiliate_with_chapter").value).to eq("1")
+        end
+      end
+      
+      context 'with a valid rsvp', js: true do
+        it "code of conduct to be checked" do
+          page.should have_button 'Submit', disabled: true
+          check('coc')
+          page.should have_button 'Submit', disabled: false
         end
       end
 

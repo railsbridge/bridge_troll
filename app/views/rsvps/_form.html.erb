@@ -136,6 +136,12 @@
       </div>
     <% end %>
 
+    <div class="field">
+      <%= label_tag do %>
+        <%= check_box_tag :coc %> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a>
+      <% end %>
+    </div>
+
     <div class="actions">
       <%= f.hidden_field :event_id %>
       <%= f.hidden_field :role_id %>
