@@ -73,6 +73,20 @@ describe 'creating or editing an rsvp' do
         end
       end
 
+      context 'On Editing the rsvp ' do
+        let(:rsvp) {
+          create(:rsvp,
+            user: @user,
+            dietary_restrictions:[build(:dietary_restriction, restriction: 'vegetarian')],
+            childcare_info: "Bobbie: 17, Susie: 20000007"
+          )
+        }
+        it 'should not show the code of conduct' do
+          visit edit_event_rsvp_path rsvp.event, rsvp
+          page.should have_no_content('I accept the Code of Conduct')
+        end
+      end
+
       context 'with an invalid RSVP' do
         it 'should maintain state when the form is submitted' do
           check 'Vegetarian'
