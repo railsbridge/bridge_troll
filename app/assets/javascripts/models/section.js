@@ -9,6 +9,10 @@ Bridgetroll.Models.Section = Backbone.Model.extend({
     };
   },
 
+  classLevel: function () {
+    return parseInt(this.get('class_level'), 10);
+  },
+
   isUnassigned: function () {
     return this.get('id') === null;
   }

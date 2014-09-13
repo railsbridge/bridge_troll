@@ -28,7 +28,7 @@ Bridgetroll.Views.EditSection = (function () {
           return {
             name: this.levelName(n),
             value: n,
-            selected: parseInt(this.model.get('class_level'), 10) == n
+            selected: this.model.classLevel() == n
           };
         }, this)
       }

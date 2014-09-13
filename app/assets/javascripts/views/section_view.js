@@ -69,20 +69,19 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
       role_id: Bridgetroll.Enums.Role.STUDENT,
       section_id: this.section.get('id')
     });
-    return students.sort(function (a, b) {
-      var left_class_level = a.get('class_level');
-      var right_class_level = b.get('class_level');
-
-      if (left_class_level !== right_class_level) {
-        return (left_class_level > right_class_level) ? 1 : -1;
-      }
-
-      var left_full_name = a.get('full_name');
-      var right_full_name = b.get('full_name');
-      if (left_full_name === right_full_name) {
+    function cmp (lhs, rhs) {
+      if (lhs === rhs) {
         return 0;
       }
-      return (left_full_name > right_full_name) ? 1 : -1;
+      return (lhs > rhs) ? 1 : -1;
+    }
+    return students.sort(function (a, b) {
+      var classComparison = cmp(a.get('class_level'), b.get('class_level'));
+      if (classComparison !== 0) {
+        return classComparison;
+      }
+
+      return cmp(a.get('full_name'), b.get('full_name'));
     });
   },
 
