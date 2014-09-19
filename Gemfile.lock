@@ -2,33 +2,33 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    actionmailer (4.1.5)
-      actionpack (= 4.1.5)
-      actionview (= 4.1.5)
-      mail (~> 2.5.4)
-    actionpack (4.1.5)
-      actionview (= 4.1.5)
-      activesupport (= 4.1.5)
+    actionmailer (4.1.6)
+      actionpack (= 4.1.6)
+      actionview (= 4.1.6)
+      mail (~> 2.5, >= 2.5.4)
+    actionpack (4.1.6)
+      actionview (= 4.1.6)
+      activesupport (= 4.1.6)
       rack (~> 1.5.2)
       rack-test (~> 0.6.2)
-    actionview (4.1.5)
-      activesupport (= 4.1.5)
+    actionview (4.1.6)
+      activesupport (= 4.1.6)
       builder (~> 3.1)
       erubis (~> 2.7.0)
     active_hash (1.4.0)
       activesupport (>= 2.2.2)
-    activemodel (4.1.5)
-      activesupport (= 4.1.5)
+    activemodel (4.1.6)
+      activesupport (= 4.1.6)
       builder (~> 3.1)
-    activerecord (4.1.5)
-      activemodel (= 4.1.5)
-      activesupport (= 4.1.5)
+    activerecord (4.1.6)
+      activemodel (= 4.1.6)
+      activesupport (= 4.1.6)
       arel (~> 5.0.0)
     activeresource (4.0.0)
       activemodel (~> 4.0)
       activesupport (~> 4.0)
       rails-observers (~> 0.1.1)
-    activesupport (4.1.5)
+    activesupport (4.1.6)
       i18n (~> 0.6, >= 0.6.9)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -60,8 +60,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-screenshot (0.3.19)
+    capybara-screenshot (1.0.1)
       capybara (>= 1.0, < 3)
+      colored
       launchy
     celluloid (0.16.0)
       timers (~> 4.0.0)
@@ -75,6 +76,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    colored (1.2)
     compass (0.12.7)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -121,7 +123,7 @@ GEM
       railties (>= 3.2, < 5.0)
     formatador (0.2.5)
     fssm (0.2.10)
-    geocoder (1.2.4)
+    geocoder (1.2.5)
     gmaps4rails (2.1.2)
     gravatar_image_tag (1.2.0)
     guard (2.6.1)
@@ -133,7 +135,7 @@ GEM
     guard-rspec (4.3.1)
       guard (~> 2.1)
       rspec (>= 2.14, < 4.0)
-    handlebars_assets (0.17.1)
+    handlebars_assets (0.17.2)
       execjs (>= 1.2.9)
       multi_json
       sprockets (>= 2.0.3)
@@ -178,13 +180,12 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     lumberjack (1.0.9)
-    mail (2.5.4)
-      mime-types (~> 1.16)
-      treetop (~> 1.4.8)
+    mail (2.6.1)
+      mime-types (>= 1.16, < 3)
     masonry-rails (0.2.1)
       rails
     method_source (0.8.2)
-    mime-types (1.25.1)
+    mime-types (2.3)
     mini_portile (0.6.0)
     minitest (5.4.1)
     multi_json (1.10.1)
@@ -232,7 +233,6 @@ GEM
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
-    polyglot (0.3.5)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -245,15 +245,15 @@ GEM
       rack (~> 1.0)
     rack-test (0.6.2)
       rack (>= 1.0)
-    rails (4.1.5)
-      actionmailer (= 4.1.5)
-      actionpack (= 4.1.5)
-      actionview (= 4.1.5)
-      activemodel (= 4.1.5)
-      activerecord (= 4.1.5)
-      activesupport (= 4.1.5)
+    rails (4.1.6)
+      actionmailer (= 4.1.6)
+      actionpack (= 4.1.6)
+      actionview (= 4.1.6)
+      activemodel (= 4.1.6)
+      activerecord (= 4.1.6)
+      activesupport (= 4.1.6)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.1.5)
+      railties (= 4.1.6)
       sprockets-rails (~> 2.0)
     rails-assets-sinonjs (1.10.2)
     rails-observers (0.1.2)
@@ -263,9 +263,9 @@ GEM
       rails_stdout_logging
     rails_serve_static_assets (0.0.2)
     rails_stdout_logging (0.0.3)
-    railties (4.1.5)
-      actionpack (= 4.1.5)
-      activesupport (= 4.1.5)
+    railties (4.1.6)
+      actionpack (= 4.1.6)
+      activesupport (= 4.1.6)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.3.2)
@@ -278,12 +278,12 @@ GEM
       rspec-mocks (~> 3.1.0)
     rspec-collection_matchers (1.0.0)
       rspec-expectations (>= 2.99.0.beta1)
-    rspec-core (3.1.2)
+    rspec-core (3.1.4)
       rspec-support (~> 3.1.0)
-    rspec-expectations (3.1.0)
+    rspec-expectations (3.1.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.1.0)
-    rspec-mocks (3.1.0)
+    rspec-mocks (3.1.1)
       rspec-support (~> 3.1.0)
     rspec-rails (3.1.0)
       actionpack (>= 3.0)
@@ -336,9 +336,6 @@ GEM
     tilt (1.4.1)
     timers (4.0.1)
       hitimes
-    treetop (1.4.15)
-      polyglot
-      polyglot (>= 0.3.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.5.3)
@@ -365,7 +362,7 @@ DEPENDENCIES
   bootstrap-sass-rails (~> 2.3.0)
   bullet
   capybara (>= 2.0.1)
-  capybara-screenshot (= 0.3.19)
+  capybara-screenshot
   coffee-rails
   compass-rails
   devise (~> 3.3.0)
@@ -377,7 +374,7 @@ DEPENDENCIES
   gmaps4rails
   gravatar_image_tag
   guard-rspec
-  handlebars_assets
+  handlebars_assets (~> 0.17.0)
   heroku_rails_deflate
   heroku_san
   icalendar
@@ -397,7 +394,7 @@ DEPENDENCIES
   poltergeist
   quiet_assets
   rack-canonical-host
-  rails (= 4.1.5)
+  rails (= 4.1.6)
   rails-assets-sinonjs
   rails_12factor
   rb-fsevent

@@ -5,7 +5,7 @@ ruby '2.1.2'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem 'rails', '4.1.5'
+gem 'rails', '4.1.6'
 gem 'devise', '~> 3.3.0'
 gem 'thin'
 gem 'jquery-rails'
@@ -31,7 +31,7 @@ group :production do
   gem 'heroku_rails_deflate'
 end
 
-gem 'handlebars_assets'
+gem 'handlebars_assets', '~> 0.17.0'
 gem 'jquery-datatables-rails'
 gem 'sass-rails', '4.0.2' # https://github.com/rails/sass-rails/issues/191
 gem 'compass-rails'
@@ -70,5 +70,5 @@ group :test do
   gem "launchy"
   gem 'shoulda-matchers'
   gem "faker"
-  gem 'capybara-screenshot', '0.3.19'
+  gem 'capybara-screenshot'
 end
