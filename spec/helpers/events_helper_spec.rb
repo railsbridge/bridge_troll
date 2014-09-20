@@ -45,7 +45,6 @@ describe EventsHelper do
                                   DateTime.parse('2014-01-02'))
       end
 
-
       it "should return a string with both months and years" do
         #off by a day because of time zones
         helper.formatted_event_date_range(@event).should == "Dec 29 2013-Jan 1 2014"

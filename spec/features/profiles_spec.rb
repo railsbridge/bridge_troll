@@ -58,7 +58,6 @@ describe "Profile" do
     fill_in "profile_bio", :with => "This is my bio..."
     fill_in "profile_github_username", :with => "sally33"
 
-
     click_button "Update"
 
     page.should have_content("Profile was successfully updated.")
