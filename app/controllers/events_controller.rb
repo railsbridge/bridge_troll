@@ -1,9 +1,9 @@
 class EventsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :past_events, :all_events, :show, :levels]
-  before_filter :find_event, except: [:index, :unpublished, :past_events, :all_events, :create, :new]
-  before_filter :validate_organizer!, except: [:index, :unpublished, :publish, :past_events, :all_events, :create, :show, :new, :levels]
-  before_filter :validate_publisher!, only: [:unpublished, :publish]
-  before_filter :set_time_zone, only: [:create, :update]
+  before_action :authenticate_user!, except: [:index, :past_events, :all_events, :show, :levels]
+  before_action :find_event, except: [:index, :unpublished, :past_events, :all_events, :create, :new]
+  before_action :validate_organizer!, except: [:index, :unpublished, :publish, :past_events, :all_events, :create, :show, :new, :levels]
+  before_action :validate_publisher!, only: [:unpublished, :publish]
+  before_action :set_time_zone, only: [:create, :update]
 
   def index
     @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location, :chapter)

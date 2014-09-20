@@ -1,6 +1,6 @@
 class AdminPagesController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :validate_admin!
+  before_action :authenticate_user!
+  before_action :validate_admin!
 
   def admin_dashboard
     @admins = User.where(admin: true)
