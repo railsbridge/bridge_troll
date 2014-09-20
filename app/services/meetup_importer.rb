@@ -8,7 +8,9 @@ class MeetupImporter
   end
 
   def show_message message
-    puts ('-' * 40) + "\n" + message + ('-' * 40)
+    puts '-' * 40
+    puts message
+    puts '-' * 40
   end
 
   def assert_key_exists

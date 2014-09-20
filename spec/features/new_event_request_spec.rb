@@ -17,7 +17,7 @@ describe "New Event" do
   it "should have a public organizer email field" do
     label = "What email address should users contact you at with questions?"
     page.should have_field(label)
-    page.field_labeled(label)[:value].should == "organizer@mail.com" 
+    page.field_labeled(label)[:value].should == "organizer@mail.com"
   end
 
   it "should have 'Volunteer Details'" do
@@ -51,7 +51,7 @@ describe "New Event" do
 
     it 'requires code of conduct to be checked' do
       page.should have_button 'Create Event', disabled: true
-      check ("coc")
+      check "coc"
       page.should have_button 'Create Event', disabled: false
     end
 
