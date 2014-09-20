@@ -4,7 +4,7 @@ describe LocationsController do
   before do
     @location = create(:location)
   end
-  
+
   describe "permissions" do
     context "a user that is not logged in" do
       it "should not be able to create a new location" do

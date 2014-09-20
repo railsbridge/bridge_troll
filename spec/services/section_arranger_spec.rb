@@ -12,7 +12,7 @@ describe SectionArranger do
       'x'
     end
   end
-  
+
   def calculate_arrangement(event)
     arrangement = Hash.new { |hsh, key| hsh[key] = []; hsh[key] }
     event.sections.each do |section|

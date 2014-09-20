@@ -71,4 +71,3 @@ describe 'the post-workshop survey' do
     end
   end
 end
-

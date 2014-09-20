@@ -138,7 +138,7 @@ class Rsvp < ActiveRecord::Base
     attendances
   end
 
-  def as_json(options={})
+  def as_json(options = {})
     options = {
       methods: [:full_name, :operating_system_title, :operating_system_type]
     }.merge(options)

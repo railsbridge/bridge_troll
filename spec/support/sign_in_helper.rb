@@ -1,4 +1,4 @@
-def sign_in_as(user, options={})
+def sign_in_as(user, options = {})
   if options[:slowly]
     visit new_user_session_path
     within("#sign-in-page") do

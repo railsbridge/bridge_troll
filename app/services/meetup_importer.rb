@@ -244,7 +244,7 @@ MESSAGE
     end
   end
 
-  def get_api_response_for path, params=nil
+  def get_api_response_for path, params = nil
     params ||= {}
     params[:key] = ENV['MEETUP_API_KEY']
     params[:sign] = true
