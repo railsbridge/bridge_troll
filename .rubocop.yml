@@ -1,0 +1,20 @@
+# inherit_from:
+# - ../.rubocop.yml
+
+AllCops:
+  Include:
+    - '**/Rakefile'
+    - '**/config.ru'
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'vendor/**/*'
+    - 'script/**/*'
+    # - !ruby/regexp /old_and_unused\.rb$/
+  RunRailsCops: true
+
+# Don't require documentation at the top of each class, so we don't flag things
+# like models & controllers that don't need them.
+Documentation:
+  Enabled: false
+
