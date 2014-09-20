@@ -526,7 +526,7 @@ describe EventsController do
       get :past_events, format: 'json'
       response.should be_success
 
-      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles = JSON.parse(response.body).map { |e| e['title'] }
       result_titles.should == [@past_event, @past_external_event].map(&:title)
     end
   end
@@ -544,7 +544,7 @@ describe EventsController do
 
     it 'renders all published events as json' do
       get :all_events, format: 'json'
-      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles = JSON.parse(response.body).map { |e| e['title'] }
       result_titles.should == [@past_event, @past_external_event, @future_external_event, @future_event].map(&:title)
     end
   end
