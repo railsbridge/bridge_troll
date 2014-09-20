@@ -60,6 +60,7 @@ group :test, :development do
   gem 'rspec-collection_matchers'
   gem 'awesome_print'
   gem 'rails-assets-sinonjs'
+  gem 'rubocop', require: false
 end
 
 group :test do
