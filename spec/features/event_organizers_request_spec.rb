@@ -24,7 +24,7 @@ describe "Event Organizers page" do
 
     page.should have_select('event_organizer[user_id]', options: ['', @user1.full_name])
 
-    select(@user1.full_name, :from =>'event_organizer_user_id')
+    select(@user1.full_name, :from => 'event_organizer_user_id')
 
     click_button "Assign"
 

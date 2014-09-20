@@ -32,7 +32,7 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
   private
 
   def user_params
-    params.require(:user).permit(User::PERMITTED_ATTRIBUTES + [:current_password, {chapter_ids: []}])
+    params.require(:user).permit(User::PERMITTED_ATTRIBUTES + [:current_password, { chapter_ids: [] }])
   end
 
   # check if we need password to update user data

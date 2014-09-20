@@ -18,14 +18,14 @@ class CheckinsController < ApplicationController
     @rsvp_session.checked_in = true
     @rsvp_session.save!
 
-    render json: {checked_in_count: @session.rsvp_sessions.where(:checked_in=>true).length }
+    render json: { checked_in_count: @session.rsvp_sessions.where(:checked_in => true).length }
   end
 
   def destroy
     @rsvp_session.checked_in = false
     @rsvp_session.save!
 
-    render json: {checked_in_count: @session.rsvp_sessions.where(:checked_in=>true).length }
+    render json: { checked_in_count: @session.rsvp_sessions.where(:checked_in => true).length }
   end
 
   private

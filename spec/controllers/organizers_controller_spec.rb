@@ -13,7 +13,7 @@ describe OrganizersController do
       ).to redirect_to(new_user_session_path)
 
       expect(
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @user.id}
+        post :create, event_id: @event.id, event_organizer: { event_id: @event.id, user_id: @user.id }
       ).to redirect_to(new_user_session_path)
 
       expect(
@@ -33,7 +33,7 @@ describe OrganizersController do
       ).to redirect_to(events_path)
 
       expect(
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, :user_id => @user.id}
+        post :create, event_id: @event.id, event_organizer: { event_id: @event.id, :user_id => @user.id }
       ).to redirect_to(events_path)
 
       expect(
@@ -56,7 +56,7 @@ describe OrganizersController do
       ).to redirect_to(@event)
 
       expect(
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, :user_id => @user.id}
+        post :create, event_id: @event.id, event_organizer: { event_id: @event.id, :user_id => @user.id }
       ).to redirect_to(@event)
 
       expect(
@@ -81,7 +81,7 @@ describe OrganizersController do
 
     it "can create an organizer and redirect to the event organizer assignment page" do
       expect {
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @other_user.id}
+        post :create, event_id: @event.id, event_organizer: { event_id: @event.id, user_id: @other_user.id }
       }.to change(Rsvp, :count).by(1)
       response.should redirect_to(event_organizers_path(@event))
     end
@@ -89,7 +89,7 @@ describe OrganizersController do
     it "can promote an existing volunteer to organizer" do
       volunteer_rsvp = create(:rsvp, event: @event, role: Role::VOLUNTEER)
       expect {
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: volunteer_rsvp.user.id}
+        post :create, event_id: @event.id, event_organizer: { event_id: @event.id, user_id: volunteer_rsvp.user.id }
       }.not_to change(Rsvp, :count)
       volunteer_rsvp.reload.role.should == Role::ORGANIZER
     end

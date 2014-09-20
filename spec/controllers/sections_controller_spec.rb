@@ -28,13 +28,13 @@ describe SectionsController do
     end
 
     it 'changes the section' do
-      put :update, event_id: @event.id, id: @section.id, section: {name: 'Scrabble Sands'}
+      put :update, event_id: @event.id, id: @section.id, section: { name: 'Scrabble Sands' }
       @section.reload.name.should == 'Scrabble Sands'
       response.should be_success
     end
 
     it 'does not respect invalid params' do
-      put :update, event_id: @event.id, id: @section.id, section: {name: 'Scrabble Sands', event_id: 1}
+      put :update, event_id: @event.id, id: @section.id, section: { name: 'Scrabble Sands', event_id: 1 }
       @section.reload.event_id.should == @event.id
     end
   end

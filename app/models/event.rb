@@ -268,7 +268,7 @@ class Event < ActiveRecord::Base
 
   def session_details
     event_sessions.map do |e|
-      {name: e.name, starts_at: e.starts_at, ends_at: e.ends_at}
+      { name: e.name, starts_at: e.starts_at, ends_at: e.ends_at }
     end
   end
 

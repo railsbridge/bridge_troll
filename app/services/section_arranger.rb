@@ -32,7 +32,7 @@ class SectionArranger
         where("rsvp_sessions.checked_in = ?", true).readonly(false)
     end
 
-    section_counts = Hash[self.rsvp_counts(event).map { |level, count| [level, self.section_size_given_total_students(count)]}]
+    section_counts = Hash[self.rsvp_counts(event).map { |level, count| [level, self.section_size_given_total_students(count)] }]
     sections = Hash.new { |hsh, key| hsh[key] = []; hsh[key] }
 
     student_rsvps.each do |rsvp|

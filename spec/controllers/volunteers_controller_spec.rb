@@ -27,7 +27,7 @@ describe VolunteersController do
       render_views
 
       it "should be able to see list of volunteers" do
-        get :index, {:event_id => @event.id}
+        get :index, { :event_id => @event.id }
         response.should be_success
 
         response.body.should have_content 'Vol1'

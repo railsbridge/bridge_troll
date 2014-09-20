@@ -60,7 +60,7 @@ MESSAGE
 
     events = group ? MEETUP_EVENTS[group] : all_meetup_events
     events.each_with_index do |event_data, index|
-      puts "Importing event #{index+1} of #{events.length} (students: #{event_data[:student_event_id]}, volunteers: #{event_data[:volunteer_event_id]})"
+      puts "Importing event #{index + 1} of #{events.length} (students: #{event_data[:student_event_id]}, volunteers: #{event_data[:volunteer_event_id]})"
       import_student_and_volunteer_event(event_data)
     end
   end
