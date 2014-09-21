@@ -555,8 +555,6 @@ describe EventsController do
       @chapter1.update_attributes(name: 'RailsBridge Shellmound')
       @chapter2 = create(:chapter, name: 'RailsBridge Meriloft')
 
-      user_none = create(:user)
-
       user_chapter1 = create(:user)
       user_chapter1.chapters << @chapter1
 
