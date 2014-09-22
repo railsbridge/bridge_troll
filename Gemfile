@@ -29,6 +29,7 @@ group :production do
   gem 'pg'
   gem 'rails_12factor'
   gem 'heroku_rails_deflate'
+  gem 'newrelic_rpm'
 end
 
 gem 'handlebars_assets', '~> 0.17.0'
