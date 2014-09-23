@@ -60,12 +60,13 @@ describe "the organizer dashboard" do
 
     session1 = @event.event_sessions.first
     session1.update_attribute(:name, 'Installfest')
-    session2 = create(:event_session, event: @event, name: 'Curriculum')
+    # session2 = create(:event_session, event: @event, name: 'Curriculum')
 
     rsvp1 = create(:rsvp, user: user1, event: @event)
     rsvp2 = create(:rsvp, user: user2, event: @event)
 
     rsvp_session1 = create(:rsvp_session, rsvp: rsvp1, event_session: session1)
+    # TODO: figure out if this should be session 2 from line 63.
     rsvp_session2 = create(:rsvp_session, rsvp: rsvp2, event_session: session1)
 
     visit organize_event_path(@event)
