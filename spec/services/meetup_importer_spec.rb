@@ -5,14 +5,14 @@ describe MeetupImporter do
   let(:volunteer_event_id) { 1234 }
   let(:student_event_id) { 5678 }
 
-  let(:sven) { {name: 'Sven Volunteeren', id: 2599323} }
-  let(:sally) { {name: 'Sally Voluntally', id: 2604303} }
-  let(:liz) { {name: 'Liz Organiz', id: 10603531} }
-  let(:hugh) { {name: 'Hugh Studentu', id: 3232599} }
-  let(:betty) { {name: 'Betty Studetty', id: 3032604} }
-  let(:irma) { {name: 'Irma Orgorama', id: 35311060} }
-  let(:veronica) { {name: 'Veronica Vaitlist', id: 54322311} }
-  let(:sid) { {name: 'Sid Waitlist', id: 29284812} }
+  let(:sven) { { name: 'Sven Volunteeren', id: 2599323 } }
+  let(:sally) { { name: 'Sally Voluntally', id: 2604303 } }
+  let(:liz) { { name: 'Liz Organiz', id: 10603531 } }
+  let(:hugh) { { name: 'Hugh Studentu', id: 3232599 } }
+  let(:betty) { { name: 'Betty Studetty', id: 3032604 } }
+  let(:irma) { { name: 'Irma Orgorama', id: 35311060 } }
+  let(:veronica) { { name: 'Veronica Vaitlist', id: 54322311 } }
+  let(:sid) { { name: 'Sid Waitlist', id: 29284812 } }
 
   let(:all_fixture_users) { [sven, sally, liz, hugh, betty, irma, veronica] }
 
@@ -52,12 +52,12 @@ describe MeetupImporter do
   before do
     ENV['MEETUP_API_KEY'] = 'sandwich'
     stubs = [
-      {event_id: volunteer_event_id, event_response: volunteer_event_response, rsvp_response: volunteer_rsvp_response},
-      {event_id: student_event_id, event_response: student_event_response, rsvp_response: student_rsvp_response},
+      { event_id: volunteer_event_id, event_response: volunteer_event_response, rsvp_response: volunteer_rsvp_response },
+      { event_id: student_event_id, event_response: student_event_response, rsvp_response: student_rsvp_response },
     ]
     stubs.each do |stub_data|
-      stub_request(:get, "https://api.meetup.com/2/event/#{stub_data[:event_id]}?key=sandwich&sign=true").to_return({body: stub_data[:event_response].to_json})
-      stub_request(:get, "https://api.meetup.com/2/rsvps?key=sandwich&sign=true&event_id=#{stub_data[:event_id]}&fields=host").to_return({body: stub_data[:rsvp_response].to_json})      
+      stub_request(:get, "https://api.meetup.com/2/event/#{stub_data[:event_id]}?key=sandwich&sign=true").to_return({ body: stub_data[:event_response].to_json })
+      stub_request(:get, "https://api.meetup.com/2/rsvps?key=sandwich&sign=true&event_id=#{stub_data[:event_id]}&fields=host").to_return({ body: stub_data[:rsvp_response].to_json })
     end
 
     @importer = MeetupImporter.new
@@ -67,9 +67,9 @@ describe MeetupImporter do
     expect {
       @importer.import_student_and_volunteer_event(event_params)
     }.to change(Event, :count).by(1)
-    
+
     event = Event.last
-    
+
     event.meetup_volunteer_event_id.should == volunteer_event_id
     event.meetup_student_event_id.should == student_event_id
   end

@@ -32,8 +32,8 @@ class ExternalEvent < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    fake_sessions =  [{starts_at: starts_at}]
-    fake_sessions << {starts_at: ends_at} if ends_at && starts_at.to_date != ends_at.to_date
+    fake_sessions =  [{ starts_at: starts_at }]
+    fake_sessions << { starts_at: ends_at } if ends_at && starts_at.to_date != ends_at.to_date
 
     {
       url: url,

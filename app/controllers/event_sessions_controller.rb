@@ -1,5 +1,5 @@
 class EventSessionsController < ApplicationController
-  before_filter :authenticate_user!, :find_event, :validate_checkiner!, only: [:index]
+  before_action :authenticate_user!, :find_event, :validate_checkiner!, only: [:index]
 
   def index
     @checkin_counts = @event.checkin_counts

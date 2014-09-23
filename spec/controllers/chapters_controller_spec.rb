@@ -13,12 +13,12 @@ describe ChaptersController do
       end
 
       it "should not be able to edit a chapter" do
-        get :edit, {id: @chapter.id}
+        get :edit, id: @chapter.id
         response.should redirect_to(new_user_session_path)
       end
 
       it "should not be able to delete a chapter" do
-        delete :destroy, {id: @chapter.id}
+        delete :destroy, id: @chapter.id
         response.should redirect_to(new_user_session_path)
       end
     end
@@ -45,28 +45,28 @@ describe ChaptersController do
         get :new
         response.should be_success
 
-        expect { post :create, chapter: {name: "Fabulous Chapter"} }.to change(Chapter, :count).by(1)
+        expect { post :create, chapter: { name: "Fabulous Chapter" } }.to change(Chapter, :count).by(1)
       end
 
       it "should be able to edit an chapter" do
         get :edit, id: @chapter.id
         response.should be_success
 
-        put :update, id: @chapter.id, chapter: {name: 'Sandwich Chapter'}
+        put :update, id: @chapter.id, chapter: { name: 'Sandwich Chapter' }
         response.should redirect_to(chapter_path(@chapter))
       end
 
       describe "#destroy" do
         it "can delete a chapter that belongs to no locations" do
           expect {
-            delete :destroy, {id: @chapter.id}
+            delete :destroy, { id: @chapter.id }
           }.to change(Chapter, :count).by(-1)
         end
 
         it "cannot delete a chapter that belongs to a location" do
           create(:location, chapter: @chapter)
           expect {
-            delete :destroy, {id: @chapter.id}
+            delete :destroy, { id: @chapter.id }
           }.not_to change(Chapter, :count)
         end
       end

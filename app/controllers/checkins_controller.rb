@@ -1,8 +1,8 @@
 class CheckinsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :find_event_and_session
-  before_filter :validate_checkiner!
-  before_filter :find_rsvp_session, only: [:create, :destroy]
+  before_action :authenticate_user!
+  before_action :find_event_and_session
+  before_action :validate_checkiner!
+  before_action :find_rsvp_session, only: [:create, :destroy]
 
   def index
     @rsvp_sessions = @session.rsvp_sessions.joins(
@@ -18,14 +18,14 @@ class CheckinsController < ApplicationController
     @rsvp_session.checked_in = true
     @rsvp_session.save!
 
-    render json: {checked_in_count: @session.rsvp_sessions.where(:checked_in=>true).length }
+    render json: { checked_in_count: @session.rsvp_sessions.where(:checked_in => true).length }
   end
 
   def destroy
     @rsvp_session.checked_in = false
     @rsvp_session.save!
 
-    render json: {checked_in_count: @session.rsvp_sessions.where(:checked_in=>true).length }
+    render json: { checked_in_count: @session.rsvp_sessions.where(:checked_in => true).length }
   end
 
   private

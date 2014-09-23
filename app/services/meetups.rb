@@ -271,7 +271,7 @@ MEETUP_EVENTS[:sv] = [
     student_event_id: 106648522,
     volunteer_event_id: 106653212
   },
-# second Outright workshop occurred here, but had checkins on bridgetroll proper (http://www.bridgetroll.org/events/39)
+  # second Outright workshop occurred here, but had checkins on bridgetroll proper (http://www.bridgetroll.org/events/39)
   {
     name: "RailsBridge Ruby on Rails Workshop for Women",
     student_event_id: 120215942,
@@ -339,8 +339,8 @@ MEETUP_EVENTS[:la] = [
 ]
 
 MEETUP_EVENTS[:boulder] = [
-# boulder does events on meetup as a single event, not student + volunteers.
-# maybe find time to deal with that later
+  # boulder does events on meetup as a single event, not student + volunteers.
+  # maybe find time to deal with that later
 ]
 
 MEETUP_EVENTS[:chicago] = [

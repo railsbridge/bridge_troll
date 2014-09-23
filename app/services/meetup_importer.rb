@@ -8,7 +8,9 @@ class MeetupImporter
   end
 
   def show_message message
-    puts ('-' * 40) + "\n" + message + ('-' * 40)
+    puts '-' * 40
+    puts message
+    puts '-' * 40
   end
 
   def assert_key_exists
@@ -58,7 +60,7 @@ MESSAGE
 
     events = group ? MEETUP_EVENTS[group] : all_meetup_events
     events.each_with_index do |event_data, index|
-      puts "Importing event #{index+1} of #{events.length} (students: #{event_data[:student_event_id]}, volunteers: #{event_data[:volunteer_event_id]})"
+      puts "Importing event #{index + 1} of #{events.length} (students: #{event_data[:student_event_id]}, volunteers: #{event_data[:volunteer_event_id]})"
       import_student_and_volunteer_event(event_data)
     end
   end
@@ -244,7 +246,7 @@ MESSAGE
     end
   end
 
-  def get_api_response_for path, params=nil
+  def get_api_response_for path, params = nil
     params ||= {}
     params[:key] = ENV['MEETUP_API_KEY']
     params[:sign] = true

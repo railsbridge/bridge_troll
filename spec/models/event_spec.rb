@@ -137,7 +137,7 @@ describe Event do
 
   describe "#volunteer?" do
     let(:event) { create(:event) }
-    
+
     it "is true when a user is volunteering at an event" do
       create(:rsvp, :user => @user, :event => event)
       event.volunteer?(@user).should == true
@@ -150,7 +150,7 @@ describe Event do
 
   describe "#waitlisted_student?" do
     let(:event) { create(:event) }
-    
+
     it "returns true when a user is a waitlisted student" do
       create(:student_rsvp, :user => @user, :event => event,  waitlist_position: 1)
       event.waitlisted_student?(@user).should == true
@@ -236,7 +236,7 @@ describe Event do
   describe "#at_limit?" do
     context "when the event has a limit" do
       let(:event) { create(:event,  student_rsvp_limit: 2) }
-      
+
       it 'is true when the limit is exceeded' do
         expect {
           3.times { create(:student_rsvp, event: event) }
@@ -348,7 +348,7 @@ describe Event do
       ]
     end
   end
-  
+
   describe "waitlists" do
     before do
       @event = create(:event,  student_rsvp_limit: 2)
@@ -366,18 +366,18 @@ describe Event do
   end
 
   describe "methods for presenting dietary restrictions" do
-      before do
-        @event = create(:event)
-        @rsvp = create(:rsvp, event: @event)
-        @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins")
-        create(:dietary_restriction, restriction: "gluten-free", rsvp: @rsvp )
-        create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp )
-        create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp2 )
-      end
+    before do
+      @event = create(:event)
+      @rsvp = create(:rsvp, event: @event)
+      @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins")
+      create(:dietary_restriction, restriction: "gluten-free", rsvp: @rsvp)
+      create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp)
+      create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp2)
+    end
 
     describe "#dietary_restrictions_totals" do
       it "should return the total for each dietary restrictions" do
-        @event.dietary_restrictions_totals.should == {"gluten-free" => 1, "vegan" => 2}
+        @event.dietary_restrictions_totals.should == { "gluten-free" => 1, "vegan" => 2 }
       end
     end
 

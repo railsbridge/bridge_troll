@@ -357,7 +357,7 @@ describe EventsController do
           def deep_copy(o)
             Marshal.load(Marshal.dump(o))
           end
-          
+
           expectation = {
             Role::VOLUNTEER.id => {
               @session1.id => [],
@@ -408,7 +408,7 @@ describe EventsController do
             @session1.id => @checkins[Role::VOLUNTEER.id][@session1.id].length,
             @session2.id => @checkins[Role::VOLUNTEER.id][@session2.id].length
           }
-          
+
           assigns(:checkin_counts)[Role::STUDENT.id][:rsvp].should == {
             @session1.id => @rsvps[Role::STUDENT.id][@session1.id].length,
             @session2.id => @rsvps[Role::STUDENT.id][@session2.id].length
@@ -502,7 +502,7 @@ describe EventsController do
 
       it "destroys the event" do
         make_request
-        Event.find_by_id(@event.id).should == nil
+        Event.find_by_id(@event.id).should be_nil
       end
 
       it "redirects to the events page" do
@@ -526,7 +526,7 @@ describe EventsController do
       get :past_events, format: 'json'
       response.should be_success
 
-      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles = JSON.parse(response.body).map { |e| e['title'] }
       result_titles.should == [@past_event, @past_external_event].map(&:title)
     end
   end
@@ -544,7 +544,7 @@ describe EventsController do
 
     it 'renders all published events as json' do
       get :all_events, format: 'json'
-      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles = JSON.parse(response.body).map { |e| e['title'] }
       result_titles.should == [@past_event, @past_external_event, @future_external_event, @future_event].map(&:title)
     end
   end
@@ -555,8 +555,6 @@ describe EventsController do
       @chapter1.update_attributes(name: 'RailsBridge Shellmound')
       @chapter2 = create(:chapter, name: 'RailsBridge Meriloft')
 
-      user_none = create(:user)
-
       user_chapter1 = create(:user)
       user_chapter1.chapters << @chapter1
 
@@ -566,23 +564,23 @@ describe EventsController do
       user_both_chapters = create(:user)
       user_both_chapters.chapters << @chapter1
       user_both_chapters.chapters << @chapter2
-      
+
       user_no_email = create(:user, allow_event_email: false)
       user_no_email.chapters << @chapter1
 
       sign_in create(:user, publisher: true)
     end
-    
+
     it "assigns a hash of chapter/user counts" do
       get :unpublished
-      
+
       assigns(:chapter_user_counts).should == {
         @chapter1.id => 2,
         @chapter2.id => 2
       }
     end
   end
-  
+
   describe "POST publish" do
     before do
       this_chapter = @event.chapter

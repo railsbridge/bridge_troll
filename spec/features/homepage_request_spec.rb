@@ -2,12 +2,14 @@ require 'rails_helper'
 
 describe "visiting the home page" do
   describe "as an unauthenticated user" do
-    let(:new_user_form_values) { {
-      :first_name => "Jane",
-      :last_name => "Doe",
-      :email => "jane@doe.com",
-      :password => "password"
-    } }
+    let(:new_user_form_values) do
+      {
+        :first_name => "Jane",
+        :last_name => "Doe",
+        :email => "jane@doe.com",
+        :password => "password"
+      }
+    end
 
     it "can sign up" do
       visit '/'

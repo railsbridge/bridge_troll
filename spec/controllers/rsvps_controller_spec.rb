@@ -112,7 +112,7 @@ describe RsvpsController do
       def do_request
         post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
       end
-      
+
       it "should allow the user to newly volunteer for an event" do
         expect { do_request }.to change { Rsvp.count }.by(1)
       end
@@ -338,9 +338,7 @@ describe RsvpsController do
       sign_in @user
     end
 
-    let(:rsvp_params) do
-      {subject_experience: 'Abracadabra'}
-    end
+    let(:rsvp_params) { { subject_experience: 'Abracadabra' } }
 
     it 'updates rsvps owned by the logged in user' do
       expect {
@@ -353,10 +351,10 @@ describe RsvpsController do
     it 'can update chapter affiliation' do
       expect(@user.chapters).to match_array([])
 
-      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: {gender: 'human'}, affiliate_with_chapter: true
+      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' }, affiliate_with_chapter: true
       expect(@user.reload.chapters).to match_array([@event.chapter])
 
-      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: {gender: 'human'}
+      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' }
       expect(@user.reload.chapters).to match_array([])
     end
 

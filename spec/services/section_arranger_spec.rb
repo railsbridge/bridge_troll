@@ -12,7 +12,7 @@ describe SectionArranger do
       'x'
     end
   end
-  
+
   def calculate_arrangement(event)
     arrangement = Hash.new { |hsh, key| hsh[key] = []; hsh[key] }
     event.sections.each do |section|
@@ -52,11 +52,11 @@ describe SectionArranger do
       it 'arranges students into classes based on their level' do
         SectionArranger.arrange(@event)
         expected_arrangement = {
-          1 => [{students: 1, volunteers: 2}],
-          2 => [{students: 5, volunteers: 2}, {students: 5, volunteers: 2}],
-          3 => [{students: 7, volunteers: 2}],
-          4 => [{students: 1, volunteers: 2}],
-          5 => [{students: 1, volunteers: 2}]
+          1 => [{ students: 1, volunteers: 2 }],
+          2 => [{ students: 5, volunteers: 2 }, { students: 5, volunteers: 2 }],
+          3 => [{ students: 7, volunteers: 2 }],
+          4 => [{ students: 1, volunteers: 2 }],
+          5 => [{ students: 1, volunteers: 2 }]
         }
 
         calculate_arrangement(@event).should == expected_arrangement
@@ -79,8 +79,8 @@ describe SectionArranger do
       it "assigns the students to sections without incident" do
         SectionArranger.arrange(@event)
         expected_arrangement = {
-          1 => [{students: 1, volunteers: 0}],
-          2 => [{students: 1, volunteers: 0}]
+          1 => [{ students: 1, volunteers: 0 }],
+          2 => [{ students: 1, volunteers: 0 }]
         }
         calculate_arrangement(@event).should == expected_arrangement
       end

@@ -14,15 +14,12 @@ describe Events::EmailsController do
       sign_in @organizer
     end
 
-    let(:mail_params) do
-      {subject: "What's up, rails", body: 'Hello!'}
-    end
-
+    let(:mail_params) { { subject: "What's up, rails", body: 'Hello!' } }
     let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
 
     it "sends no emails if a subject or body is omitted" do
       expect {
-        post :create, event_id: @event.id, event_email: {include_waitlisted: true}
+        post :create, event_id: @event.id, event_email: { include_waitlisted: true }
       }.not_to change(ActionMailer::Base.deliveries, :count)
     end
 

@@ -1,7 +1,7 @@
 module ProfilesHelper
 
   def skills
-    [ 
+    [
       [:childcaring, "Childcare"],
       [:writing, "Writer"],
       [:designing, "Designer"],

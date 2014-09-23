@@ -3,15 +3,16 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
   # cf. https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
   def update
     @user = User.find(current_user.id)
+    successfully_updated = nil
 
-    successfully_updated = if needs_password?(@user, params)
-      @user.update_with_password(user_params)
+    if needs_password?(@user, params)
+      successfully_updated = @user.update_with_password(user_params)
     else
       # remove the virtual current_password attribute update_without_password
       # doesn't know how to ignore it
       filtered_params = user_params
       filtered_params.delete(:current_password)
-      @user.update_without_password(filtered_params)
+      successfully_updated = @user.update_without_password(filtered_params)
     end
 
     if successfully_updated
@@ -31,7 +32,7 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
   private
 
   def user_params
-    params.require(:user).permit(User::PERMITTED_ATTRIBUTES + [:current_password, {chapter_ids: []}])
+    params.require(:user).permit(User::PERMITTED_ATTRIBUTES + [:current_password, { chapter_ids: [] }])
   end
 
   # check if we need password to update user data

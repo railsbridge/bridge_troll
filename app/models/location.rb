@@ -23,10 +23,10 @@ class Location < ActiveRecord::Base
     return true if user.admin?
 
     published_events = events
-    notable_events = if published_events.present?
-      published_events
+    if published_events.present?
+      notable_events = published_events
     else
-      Event.where(location_id: id, published: false)
+      notable_events = Event.where(location_id: id, published: false)
     end
 
     notable_events.map { |e| e.organizers }.flatten.map(&:id).include?(user.id)

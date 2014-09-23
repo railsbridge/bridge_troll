@@ -1,6 +1,6 @@
 class ChaptersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :index]
-  before_filter :assign_chapter, :only => [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :except => [:show, :index]
+  before_action :assign_chapter, :only => [:show, :edit, :update, :destroy]
 
   def index
     @chapters = Chapter.all

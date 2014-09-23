@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   protect_from_forgery
 
@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def validate_organizer!
-    @event = @event || Event.find(params[:event_id])
+    @event ||= Event.find(params[:event_id])
     if @event.historical?
       flash[:error] = "This feature is not available for historical events"
       return redirect_to events_path

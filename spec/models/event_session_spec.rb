@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe EventSession do  
+describe EventSession do
   it { should belong_to(:event) }
 
   it { should validate_presence_of(:starts_at) }

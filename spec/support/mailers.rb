@@ -11,7 +11,7 @@ shared_examples_for 'a mailer view' do
       body = mail.parts.find do |p|
         p.content_type.starts_with?('text/html')
       end.body.encoded
-    else 
+    else
       body = mail.body.encoded
     end
 

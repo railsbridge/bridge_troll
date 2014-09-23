@@ -15,7 +15,7 @@ class Rsvp < ActiveRecord::Base
   has_many :dietary_restrictions, dependent: :destroy
   has_many :event_email_recipients, foreign_key: :recipient_rsvp_id, dependent: :destroy
 
-  has_one  :survey
+  has_one :survey
 
   validates_uniqueness_of :user_id, scope: [:event_id, :user_type]
   validates_presence_of :user, :event, :role
@@ -26,12 +26,12 @@ class Rsvp < ActiveRecord::Base
 
   MAX_EXPERIENCE_LENGTH = 250
   with_options(unless: :historical?) do |normal_event|
-    normal_event.with_options(if: Proc.new {|rsvp| rsvp.role_volunteer? }) do |for_volunteers|
+    normal_event.with_options(if: Proc.new { |rsvp| rsvp.role_volunteer? }) do |for_volunteers|
       for_volunteers.validates_presence_of :subject_experience
       for_volunteers.validates_length_of :subject_experience, :in => 10..MAX_EXPERIENCE_LENGTH
     end
 
-    normal_event.with_options(if: Proc.new {|rsvp| rsvp.teaching || rsvp.taing  }) do |for_teachers|
+    normal_event.with_options(if: Proc.new { |rsvp| rsvp.teaching || rsvp.taing  }) do |for_teachers|
       for_teachers.validates_presence_of :class_level
       for_teachers.validates_inclusion_of :class_level, in: (0..5), allow_blank: true
       for_teachers.validates_presence_of :teaching_experience
@@ -138,7 +138,7 @@ class Rsvp < ActiveRecord::Base
     attendances
   end
 
-  def as_json(options={})
+  def as_json(options = {})
     options = {
       methods: [:full_name, :operating_system_title, :operating_system_type]
     }.merge(options)

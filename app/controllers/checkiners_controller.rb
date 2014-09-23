@@ -1,6 +1,6 @@
 class CheckinersController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :validate_organizer!
+  before_action :authenticate_user!
+  before_action :validate_organizer!
 
   def index
     @checkiner_rsvps = @event.attendee_rsvps.where(checkiner: true).includes(:user)

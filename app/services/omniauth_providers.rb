@@ -40,16 +40,16 @@ module OmniauthProviders
 
   def self.user_attributes_from_omniauth(omniauth)
     case omniauth['provider']
-      when 'facebook'
-        self.facebook_omniauth_attributes(omniauth)
-      when 'twitter'
-        self.twitter_omniauth_attributes(omniauth)
-      when 'github'
-        self.github_omniauth_attributes(omniauth)
-      when 'meetup'
-        self.meetup_omniauth_attributes(omniauth)
-      else
-        raise 'Unknown Provider'
+    when 'facebook'
+      self.facebook_omniauth_attributes(omniauth)
+    when 'twitter'
+      self.twitter_omniauth_attributes(omniauth)
+    when 'github'
+      self.github_omniauth_attributes(omniauth)
+    when 'meetup'
+      self.meetup_omniauth_attributes(omniauth)
+    else
+      raise 'Unknown Provider'
     end
   end
 
