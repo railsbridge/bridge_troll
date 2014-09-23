@@ -12,7 +12,7 @@ class SectionArranger
 
   def self.arrange(event, checked_in = 'indiscriminate')
     event.sections.destroy_all
-    return if event.student_rsvps.count == 0
+    return if event.student_rsvps_count == 0
 
     if checked_in == 'any'
       student_rsvps = event.student_rsvps.where("checkins_count > 0")

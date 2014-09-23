@@ -72,12 +72,12 @@ class Event < ActiveRecord::Base
 
   def at_limit?
     if student_rsvp_limit
-      student_rsvps.count >= student_rsvp_limit
+      student_rsvps_count >= student_rsvp_limit
     end
   end
 
   def validate_rsvp_limit
-    if persisted? && student_rsvp_limit < student_rsvps.count
+    if persisted? && student_rsvp_limit < student_rsvps_count
       errors.add(:student_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
       false
     end
@@ -236,7 +236,7 @@ class Event < ActiveRecord::Base
 
     Rsvp.transaction do
       unless at_limit?
-        number_of_open_spots = student_rsvp_limit - student_rsvps.count
+        number_of_open_spots = student_rsvp_limit - student_rsvps_count
         to_be_confirmed = student_waitlist_rsvps.order(:waitlist_position).limit(number_of_open_spots)
         to_be_confirmed.each do |rsvp|
           rsvp.promote_from_waitlist!
@@ -272,6 +272,14 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def update_rsvp_counts
+    update_columns(
+      volunteer_rsvps_count: volunteer_rsvps.count,
+      student_rsvps_count: student_rsvps.count,
+      student_waitlist_rsvps_count: student_waitlist_rsvps.count
+    )
+  end
+
   def as_json(options = {})
     {
       id: id,
@@ -279,9 +287,9 @@ class Event < ActiveRecord::Base
       location: location,
       organizers: organizer_names,
       sessions: session_details,
-      volunteer_rsvp_count: volunteer_rsvps.count,
-      student_rsvp_count: student_rsvps.count,
-      student_waitlist_rsvp_count: student_waitlist_rsvps.count,
+      volunteer_rsvp_count: volunteer_rsvps_count,
+      student_rsvp_count: student_rsvps_count,
+      student_waitlist_rsvp_count: student_waitlist_rsvps_count,
       student_rsvp_limit: student_rsvp_limit
     }
   end

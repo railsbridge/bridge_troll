@@ -24,6 +24,9 @@ class Rsvp < ActiveRecord::Base
   scope :confirmed, -> { where("waitlist_position IS NULL") }
   scope :needs_childcare, -> { where("childcare_info <> ''") }
 
+  after_save :update_counter_cache
+  after_destroy :update_counter_cache
+
   MAX_EXPERIENCE_LENGTH = 250
   with_options(unless: :historical?) do |normal_event|
     normal_event.with_options(if: Proc.new {|rsvp| rsvp.role_volunteer? }) do |for_volunteers|
@@ -136,6 +139,10 @@ class Rsvp < ActiveRecord::Base
     end
 
     attendances
+  end
+
+  def update_counter_cache
+    event.update_rsvp_counts if event
   end
 
   def as_json(options={})

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140831221929) do
+ActiveRecord::Schema.define(version: 20140923063428) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -77,8 +77,8 @@ ActiveRecord::Schema.define(version: 20140831221929) do
 
   create_table "events", force: true do |t|
     t.string   "title"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.integer  "location_id"
     t.text     "details"
     t.string   "time_zone"
@@ -90,12 +90,15 @@ ActiveRecord::Schema.define(version: 20140831221929) do
     t.datetime "ends_at"
     t.integer  "student_rsvp_limit"
     t.integer  "course_id"
-    t.boolean  "allow_student_rsvp",        default: true
-    t.boolean  "published",                 default: false
+    t.boolean  "allow_student_rsvp",           default: true
+    t.boolean  "published",                    default: false
     t.text     "student_details"
-    t.boolean  "spam",                      default: false
-    t.boolean  "plus_one_host_toggle",      default: true
-    t.boolean  "email_on_approval",         default: true
+    t.boolean  "spam",                         default: false
+    t.boolean  "plus_one_host_toggle",         default: true
+    t.boolean  "email_on_approval",            default: true
+    t.integer  "student_rsvps_count",          default: 0
+    t.integer  "student_waitlist_rsvps_count", default: 0
+    t.integer  "volunteer_rsvps_count",        default: 0
   end
 
   create_table "external_events", force: true do |t|
