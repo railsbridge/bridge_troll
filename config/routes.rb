@@ -15,6 +15,7 @@ Bridgetroll::Application.routes.draw do
   resources :chapters
 
   resources :events do
+    resource :organizer_tools, only: [:show], controller: "events/organizer_tools"
     resources :organizers, :only => [:index, :create, :destroy]
     resources :checkiners, :only => [:index, :create, :destroy]
     resources :volunteers, :only => [:index, :update]
@@ -50,7 +51,6 @@ Bridgetroll::Application.routes.draw do
     member do
       post "publish"
       post "flag"
-      get "organize"
       get "organize_sections"
       get "levels"
       get "diets"

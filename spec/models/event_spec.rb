@@ -137,7 +137,7 @@ describe Event do
 
   describe "#volunteer?" do
     let(:event) { create(:event) }
-    
+
     it "is true when a user is volunteering at an event" do
       create(:rsvp, :user => @user, :event => event)
       event.volunteer?(@user).should == true
@@ -150,9 +150,9 @@ describe Event do
 
   describe "#waitlisted_student?" do
     let(:event) { create(:event) }
-    
+
     it "returns true when a user is a waitlisted student" do
-      create(:student_rsvp, :user => @user, :event => event,  waitlist_position: 1)
+      create(:student_rsvp, :user => @user, :event => event, waitlist_position: 1)
       event.waitlisted_student?(@user).should == true
     end
 
@@ -235,8 +235,8 @@ describe Event do
 
   describe "#at_limit?" do
     context "when the event has a limit" do
-      let(:event) { create(:event,  student_rsvp_limit: 2) }
-      
+      let(:event) { create(:event, student_rsvp_limit: 2) }
+
       it 'is true when the limit is exceeded' do
         expect {
           3.times { create(:student_rsvp, event: event) }
@@ -255,7 +255,7 @@ describe Event do
 
   describe "#reorder_waitlist!" do
     before do
-      @event = create(:event,  student_rsvp_limit: 2)
+      @event = create(:event, student_rsvp_limit: 2)
       @confirmed1 = create(:student_rsvp, event: @event)
       @confirmed2 = create(:student_rsvp, event: @event)
       @waitlist1 = create(:student_rsvp, event: @event, waitlist_position: 1)
@@ -348,10 +348,83 @@ describe Event do
       ]
     end
   end
-  
+
+  describe "#checkin_counts" do
+    before do
+      @event = create(:event)
+      @event.update_attribute(:student_rsvp_limit, 2)
+      @session1 = @event.event_sessions.first
+      @session2 = create(:event_session, event: @event)
+
+      def deep_copy(o)
+        Marshal.load(Marshal.dump(o))
+      end
+
+      expectation = {
+        Role::VOLUNTEER.id => {
+          @session1.id => [],
+          @session2.id => []
+        },
+        Role::STUDENT.id => {
+          @session1.id => [],
+          @session2.id => []
+        }
+      }
+      @rsvps = deep_copy(expectation)
+      @checkins = deep_copy(expectation)
+
+      def add_session_rsvp(rsvp, session, checked_in)
+        create(:rsvp_session, rsvp: rsvp, event_session: session, checked_in: checked_in)
+        @rsvps[rsvp.role.id][session.id] << rsvp
+        @checkins[rsvp.role.id][session.id] << rsvp if checked_in
+      end
+
+      rsvp1 = create(:volunteer_rsvp, event: @event)
+      add_session_rsvp(rsvp1, @session1, true)
+      add_session_rsvp(rsvp1, @session2, true)
+
+      rsvp2 = create(:volunteer_rsvp, event: @event)
+      add_session_rsvp(rsvp2, @session1, true)
+      add_session_rsvp(rsvp2, @session2, false)
+
+      rsvp3 = create(:volunteer_rsvp, event: @event)
+      add_session_rsvp(rsvp3, @session1, true)
+
+      rsvp4 = create(:student_rsvp, event: @event)
+      add_session_rsvp(rsvp4, @session2, true)
+
+      rsvp5 = create(:student_rsvp, event: @event)
+      add_session_rsvp(rsvp5, @session2, true)
+
+      waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
+      create(:rsvp_session, rsvp: waitlisted, event_session: @session2, checked_in: false)
+    end
+
+    it "sends checked in user counts to the view" do
+      checkin_counts = @event.checkin_counts
+      checkin_counts[Role::VOLUNTEER.id][:rsvp].should == {
+        @session1.id => @rsvps[Role::VOLUNTEER.id][@session1.id].length,
+        @session2.id => @rsvps[Role::VOLUNTEER.id][@session2.id].length
+      }
+      checkin_counts[Role::VOLUNTEER.id][:checkin].should == {
+        @session1.id => @checkins[Role::VOLUNTEER.id][@session1.id].length,
+        @session2.id => @checkins[Role::VOLUNTEER.id][@session2.id].length
+      }
+
+      checkin_counts[Role::STUDENT.id][:rsvp].should == {
+        @session1.id => @rsvps[Role::STUDENT.id][@session1.id].length,
+        @session2.id => @rsvps[Role::STUDENT.id][@session2.id].length
+      }
+      checkin_counts[Role::STUDENT.id][:checkin].should == {
+        @session1.id => @checkins[Role::STUDENT.id][@session1.id].length,
+        @session2.id => @checkins[Role::STUDENT.id][@session2.id].length
+      }
+    end
+  end
+
   describe "waitlists" do
     before do
-      @event = create(:event,  student_rsvp_limit: 2)
+      @event = create(:event, student_rsvp_limit: 2)
       @confirmed_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT)
       @waitlist_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT, waitlist_position: 1)
     end
@@ -366,18 +439,18 @@ describe Event do
   end
 
   describe "methods for presenting dietary restrictions" do
-      before do
-        @event = create(:event)
-        @rsvp = create(:rsvp, event: @event)
-        @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins")
-        create(:dietary_restriction, restriction: "gluten-free", rsvp: @rsvp )
-        create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp )
-        create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp2 )
-      end
+    before do
+      @event = create(:event)
+      @rsvp = create(:rsvp, event: @event)
+      @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins")
+      create(:dietary_restriction, restriction: "gluten-free", rsvp: @rsvp)
+      create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp)
+      create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp2)
+    end
 
     describe "#dietary_restrictions_totals" do
       it "should return the total for each dietary restrictions" do
-        @event.dietary_restrictions_totals.should == {"gluten-free" => 1, "vegan" => 2}
+        @event.dietary_restrictions_totals.should == { "gluten-free" => 1, "vegan" => 2 }
       end
     end
 

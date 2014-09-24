@@ -80,16 +80,6 @@ class EventsController < ApplicationController
     redirect_to events_url
   end
 
-  def organize
-    @organizer_dashboard = true
-
-    @volunteer_rsvps = @event.volunteer_rsvps
-
-    @childcare_requests = @event.rsvps_with_childcare
-
-    @checkin_counts = @event.checkin_counts
-  end
-
   def organize_sections
     respond_to do |format|
       format.html { render :organize_sections }
@@ -106,7 +96,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     SurveySender.send_surveys(@event)
     flash[:notice] = "Follow up survey emails sent!"
-    redirect_to organize_event_path(@event)
+    redirect_to event_organizer_tools_path(@event)
   end
 
   def diets

@@ -53,7 +53,7 @@
 
     <% if @organizer %>
       <% links << ['Edit', edit_event_path(@event), 'fa-before fa-edit'] %>
-      <% links << ['Organizer Console', organize_event_path(@event), 'fa-before fa-bullhorn'] %>
+      <% links << ['Organizer Console', event_organizer_tools_path(@event), 'fa-before fa-bullhorn'] %>
     <% elsif @checkiner %>
       <% links << ['Checkin Console', event_event_sessions_path(@event)] %>
     <% end %>

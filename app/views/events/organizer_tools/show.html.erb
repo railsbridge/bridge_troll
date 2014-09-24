@@ -7,7 +7,7 @@
   <div class="span6">
     <h2>Tools for before the event</h2>
     <section class='organizer-dashboard-section'>
-      <%= render :partial => 'organizer_preworkshop_buttons' %>
+      <%= render :partial => 'events/organizer_preworkshop_buttons' %>
     </section>
 
     <section class='organizer-dashboard-section bordered'>
@@ -51,10 +51,10 @@
               <li>
                 <%= role.title.pluralize %>:
                 <strong>
-                <%= checked_in %>/<%= total %>
-                <% if total > 0 %>
-                  (<%= (100 * checked_in / total.to_f).round(0) %>%)
-                <% end %>
+                  <%= checked_in %>/<%= total %>
+                  <% if total > 0 %>
+                    (<%= (100 * checked_in / total.to_f).round(0) %>%)
+                  <% end %>
                 </strong>
                 checked in
               </li>

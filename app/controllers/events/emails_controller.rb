@@ -47,7 +47,7 @@ class Events::EmailsController < ApplicationController
 
     @email.save!
 
-    redirect_to organize_event_path(@event), notice: <<-EOT
+    redirect_to event_organizer_tools_path(@event), notice: <<-EOT
       Your mail has been sent. Woo!
       You will also get a copy of the email in your inbox to prove that email sending is working.
     EOT

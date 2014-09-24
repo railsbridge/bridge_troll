@@ -1,5 +1,5 @@
 <%= content_for(:header_text, @event.title) %>
-<%= content_for(:header_link, organize_event_path(@event)) %>
+<%= content_for(:header_link, event_organizer_tools_path(@event)) %>
 
 <h2>Students</h2>
 
@@ -26,7 +26,7 @@
 </table>
 
 <%= render 'shared/actions', links: [
-  ['Back', organize_event_path(@event)]
+  ['Back', event_organizer_tools_path(@event)]
 ] %>
 
 

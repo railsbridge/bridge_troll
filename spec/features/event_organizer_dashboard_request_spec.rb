@@ -9,18 +9,18 @@ describe "the organizer dashboard" do
   end
 
   it "should have a page" do
-    visit organize_event_path(@event)
+    visit event_organizer_tools_path(@event)
     page.should have_content('RailsBridge for Dik Diks')
   end
 
   it "lets the user manage organizers" do
-    visit organize_event_path(@event)
+    visit event_organizer_tools_path(@event)
     click_link "Manage Organizers"
     page.should have_content("Organizer Assignment")
   end
 
   it "lets the user assign students and volunteers to sections" do
-    visit organize_event_path(@event)
+    visit event_organizer_tools_path(@event)
     click_link "Arrange Class Sections"
     page.should have_content("Section Organizer")
   end
@@ -42,7 +42,7 @@ describe "the organizer dashboard" do
   end
 
   it 'lets the user download a CSV of student rsvps' do
-    visit organize_event_path(@event)
+    visit event_organizer_tools_path(@event)
     click_link 'Show all Attendee RSVP Details'
 
     click_link 'Download Student Details CSV'
@@ -68,7 +68,7 @@ describe "the organizer dashboard" do
     rsvp_session1 = create(:rsvp_session, rsvp: rsvp1, event_session: session1)
     rsvp_session2 = create(:rsvp_session, rsvp: rsvp2, event_session: session1)
 
-    visit organize_event_path(@event)
+    visit event_organizer_tools_path(@event)
 
     page.should have_content("Check in for Installfest")
     page.should have_content("Check in for Curriculum")
