@@ -43,14 +43,15 @@ Bridgetroll::Application.routes.draw do
     end
 
     collection do
-      get "unpublished"
       get "past_events"
       get "all_events"
+      resources :unpublished_events, only: [:index], controller: "events/unpublished_events" do
+        post "publish"
+        post "flag"
+      end
     end
 
     member do
-      post "publish"
-      post "flag"
       get "organize_sections"
       get "levels"
       get "diets"
