@@ -2,24 +2,16 @@ describe("Bridgetroll.Views.Section", function () {
   var view, model, attendees, vols, Role;
   beforeEach(function () {
     vols = {};
-    Role = Bridgetroll.Enums.Role;
-    var id = 9;
-    function attendee(attrs) {
-      id++;
-      return _.extend({id: id, event_id: 191}, attrs);
-    }
-    function volunteer(attrs) { return _.extend(attendee({role_id: Role.VOLUNTEER}), attrs); }
-    function student(attrs) { return _.extend(attendee({role_id: Role.STUDENT}), attrs); }
-    vols['bother']  = volunteer({section_id: 401, teaching: true, taing: true});
-    vols['teacher'] = volunteer({section_id: 401, teaching: true, taing: false});
-    vols['taer']    = volunteer({section_id: 401, teaching: false, taing: true});
-    vols['neither'] = volunteer({section_id: 401, teaching: false, taing: false});
+    vols['bother']  = Factories.volunteer({event_id: 191, section_id: 401, teaching: true, taing: true});
+    vols['teacher'] = Factories.volunteer({event_id: 191, section_id: 401, teaching: true, taing: false});
+    vols['taer']    = Factories.volunteer({event_id: 191, section_id: 401, teaching: false, taing: true});
+    vols['neither'] = Factories.volunteer({event_id: 191, section_id: 401, teaching: false, taing: false});
 
     attendees = new Bridgetroll.Collections.Attendee([
-      student({full_name: 'Othersection Rand', section_id: 11}),
-      student({full_name: 'Lana Lang', class_level: 1, section_id: 401}),
-      student({full_name: 'Zana Zang', class_level: 1, section_id: 401}),
-      student({full_name: 'Student Person', class_level: 2, section_id: 401}),
+      Factories.student({event_id: 191, full_name: 'Othersection Rand', section_id: 11}),
+      Factories.student({event_id: 191, full_name: 'Lana Lang', class_level: 1, section_id: 401}),
+      Factories.student({event_id: 191, full_name: 'Zana Zang', class_level: 1, section_id: 401}),
+      Factories.student({event_id: 191, full_name: 'Student Person', class_level: 2, section_id: 401}),
       vols['bother'], vols['teacher'], vols['taer'], vols['neither']
     ]);
     model = new Bridgetroll.Models.Section({
@@ -130,12 +122,14 @@ describe("Bridgetroll.Views.Section", function () {
   });
 
   describe("#moveAttendeeToSection", function () {
+    var movingStudent;
     beforeEach(function () {
-      view.moveAttendeeToSection(10);
+      movingStudent = attendees.at(1);
+      view.moveAttendeeToSection(movingStudent.id);
     });
 
     it("makes a request to save the new section_id", function () {
-      var request = this.server.requestFor('/events/191/attendees/10');
+      var request = this.server.requestFor('/events/191/attendees/' + movingStudent.id);
       expect(request).not.toBeUndefined();
       expect(JSON.parse(request.requestBody).attendee.section_id).toEqual(401);
     });
@@ -143,11 +137,11 @@ describe("Bridgetroll.Views.Section", function () {
     describe("when the request completes successfully", function () {
       beforeEach(function () {
         spyOn(view, 'trigger');
-        this.server.completeRequest('/events/191/attendees/10', {
-          id: 10,
+        this.server.completeRequest('/events/191/attendees/' + movingStudent.id, {
+          id: movingStudent.id,
           event_id: 191,
           section_id: 401,
-          full_name: "Lana Lang"
+          full_name: movingStudent.get('full_name')
         });
       });
 
