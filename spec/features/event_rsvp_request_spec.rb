@@ -64,26 +64,27 @@ describe 'creating or editing an rsvp' do
           expect(page.find("#affiliate_with_chapter").value).to eq("1")
         end
       end
-      
-      context 'with a valid rsvp', js: true do
-        it "code of conduct to be checked" do
-          page.should have_button 'Submit', disabled: true
-          check('coc')
-          page.should have_button 'Submit', disabled: false
-        end
-      end
 
-      context 'On Editing the rsvp ' do
-        let(:rsvp) {
-          create(:rsvp,
-            user: @user,
-            dietary_restrictions:[build(:dietary_restriction, restriction: 'vegetarian')],
-            childcare_info: "Bobbie: 17, Susie: 20000007"
-          )
-        }
-        it 'should not show the code of conduct' do
-          visit edit_event_rsvp_path rsvp.event, rsvp
-          page.should have_no_content('I accept the Code of Conduct')
+      describe 'code of conduct' do
+        let(:coc_text) { 'I accept the Code of Conduct' }
+
+        context 'for new records', js: true do
+          it "must be checked before the RSVP is accepted" do
+            page.should have_content(coc_text)
+
+            page.should have_button 'Submit', disabled: true
+            check('coc')
+            page.should have_button 'Submit', disabled: false
+          end
+        end
+
+        context 'for existing records' do
+          let(:rsvp) { create(:rsvp, user: @user) }
+
+          it 'is not shown' do
+            visit edit_event_rsvp_path rsvp.event, rsvp
+            page.should have_no_content(coc_text)
+          end
         end
       end
 
