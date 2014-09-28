@@ -101,6 +101,14 @@ td.wide {
   text-shadow: none;
   box-shadow: none;
 
+  // TODO: reorganize these when upgrading to Bootstrap 3
+  // so as to remove double-.btn precedence hack
+  &.btn:disabled, &.btn:disabled:hover {
+    background: #eee;
+    color: #868686;
+    cursor: not-allowed;
+  }
+
   &.btn-primary {
     background: $blue-color;
     text-shadow: none;
