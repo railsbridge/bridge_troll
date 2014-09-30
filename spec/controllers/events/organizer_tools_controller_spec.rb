@@ -12,7 +12,7 @@ describe Events::OrganizerToolsController do
 
     it "always allows admins, even if they aren't organizers of the event" do
       sign_in(create(:admin))
-      get :show, event_id: event.id
+      make_request
       expect(response).to be_success
     end
 
@@ -23,43 +23,24 @@ describe Events::OrganizerToolsController do
         sign_in user
       end
 
-      it "succeeds" do
-        get :show, event_id: event.id
+      it "assigns properties for the view" do
+        stub_data = {
+          volunteer_rsvps: [create(:rsvp)],
+          rsvps_with_childcare: [create(:rsvp)],
+          checkin_counts: {1 => {foo: 'bar'}}
+        }
+        stub_data.each do |method, value|
+          Event.any_instance.stub(method).and_return(value)
+        end
+
+        make_request
         expect(response).to be_success
-      end
 
-      it "assigns the right event" do
-        get :show, event_id: event.id
         expect(assigns(:event)).to eq(event)
-      end
-
-      it "assigns organizer_dashboard to true" do
-        get :show, event_id: event.id
         expect(assigns(:organizer_dashboard)).to eq(true)
-      end
-
-      it "assigns the volunteer RSVPs" do
-        rsvps = [create(:rsvp)]
-        Event.any_instance.stub(:volunteer_rsvps).and_return(rsvps)
-
-        get :show, event_id: event.id
-        expect(assigns(:volunteer_rsvps)).to eq(rsvps)
-      end
-
-      it "assigns the childcare requests" do
-        rsvps = [create(:rsvp)]
-        Event.any_instance.stub(:rsvps_with_childcare).and_return(rsvps)
-
-        get :show, event_id: event.id
-        expect(assigns(:childcare_requests)).to eq(rsvps)
-      end
-
-      it "assigns the check-in counts" do
-        checkin_counts = {1 => {foo: 'bar'}}
-        Event.any_instance.stub(:checkin_counts).and_return(checkin_counts)
-
-        get :show, event_id: event.id
-        expect(assigns(:checkin_counts)).to eq(checkin_counts)
+        expect(assigns(:volunteer_rsvps)).to eq(stub_data[:volunteer_rsvps])
+        expect(assigns(:childcare_requests)).to eq(stub_data[:rsvps_with_childcare])
+        expect(assigns(:checkin_counts)).to eq(stub_data[:checkin_counts])
       end
 
       context "historical event" do
@@ -67,7 +48,7 @@ describe Events::OrganizerToolsController do
           event.meetup_volunteer_event_id = 1337
           event.save!
 
-          get :show, event_id: event.id
+          make_request
           expect(response).to redirect_to(events_path)
         end
       end
