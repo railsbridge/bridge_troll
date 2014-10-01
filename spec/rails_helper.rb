@@ -10,9 +10,7 @@ require 'capybara-screenshot/rspec'
 require 'webmock/rspec'
 
 Capybara.javascript_driver = :poltergeist
-Capybara.asset_host = 'http://localhost:3000'
-
-Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:host]}"
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
@@ -28,14 +26,6 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, :type => :controller
 
   config.include FactoryGirl::Syntax::Methods
-
-  # Monkey-patch to force single DB connection even in multithreaded
-  #   tests (selenium/capybara-webkit/poltergeist)
-  ActiveRecord::ConnectionAdapters::ConnectionPool.class_eval do
-    def current_connection_id
-      Thread.main.object_id
-    end
-  end
 
   [:feature, :request].each do |type|
     config.include Warden::Test::Helpers, type: type
