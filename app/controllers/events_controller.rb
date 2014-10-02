@@ -92,7 +92,6 @@ class EventsController < ApplicationController
   end
 
   def send_survey_email
-    @event = Event.find(params[:id])
     SurveySender.send_surveys(@event)
     flash[:notice] = "Follow up survey emails sent!"
     redirect_to event_organizer_tools_path(@event)
