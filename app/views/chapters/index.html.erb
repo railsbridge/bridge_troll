@@ -20,9 +20,9 @@
         <td data-label="Events:"><%= chapter.events.count %></td>
         <% if user_signed_in? %>
           <td>
-            <%= link_to 'Edit', edit_chapter_path(chapter), class: :btn %>
+            <%= link_to 'Edit', edit_chapter_path(chapter), class: 'btn fa-before fa-edit'  %>
             <% if chapter.locations_count == 0 %>
-              <%= link_to 'Destroy', chapter, data: { confirm: 'Are you sure?' }, method: :delete, class: :btn %>
+              <%= link_to 'Destroy', chapter, data: { confirm: 'Are you sure?' }, method: :delete, class: 'btn btn-danger' %>
             <% end %>
           </td>
         <% end %>

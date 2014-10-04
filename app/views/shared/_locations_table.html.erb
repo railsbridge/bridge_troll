@@ -24,9 +24,9 @@
         <td data-label="Events:"><%= location.events_count %></td>
         <% if user_signed_in? %>
           <td>
-            <%= link_to 'Edit', edit_location_path(location), class: :btn %>
+            <%= link_to 'Edit', edit_location_path(location), class: 'btn fa-before fa-edit' %>
             <% if location.events_count == 0 %>
-              <%= link_to 'Destroy', location, data: { confirm: 'Are you sure?' }, method: :delete, class: :btn %>
+              <%= link_to 'Destroy', location, data: { confirm: 'Are you sure?' }, method: :delete, class: 'btn btn-danger' %>
             <% end %>
           </td>
         <% end %>
