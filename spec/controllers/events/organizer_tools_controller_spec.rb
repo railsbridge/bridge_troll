@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe Events::OrganizerToolsController do
-  describe "GET #show" do
+  describe "GET #index" do
     let(:event) { FactoryGirl.create(:event) }
 
     def make_request
-      get :show, event_id: event.id
+      get :index, event_id: event.id
     end
 
     it_behaves_like "an event action that requires an organizer"

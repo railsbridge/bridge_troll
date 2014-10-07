@@ -30,7 +30,7 @@ describe "arranging sections for an event", js: true do
   end
 
   it "groups the attendees by their chosen level" do
-    visit organize_sections_event_path(@event)
+    visit event_organize_sections_path(@event)
 
     page.should have_css('.auto-assign-reminder')
 

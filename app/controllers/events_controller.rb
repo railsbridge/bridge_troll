@@ -79,27 +79,6 @@ class EventsController < ApplicationController
     redirect_to events_url
   end
 
-  def organize_sections
-    respond_to do |format|
-      format.html { render :organize_sections }
-      format.json do
-        render json: {
-          sections: @event.sections,
-          attendees: @event.rsvps_with_checkins
-        }
-      end
-    end
-  end
-
-  def send_survey_email
-    SurveySender.send_surveys(@event)
-    flash[:notice] = "Follow up survey emails sent!"
-    redirect_to event_organizer_tools_path(@event)
-  end
-
-  def diets
-  end
-
   protected
 
   def event_params

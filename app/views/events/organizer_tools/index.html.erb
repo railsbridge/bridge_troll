@@ -87,7 +87,7 @@
 
     <section class='organizer-dashboard-section'>
       <%= render partial: 'shared/organizer_action', locals: {
-        path: organize_sections_event_path(@event),
+        path: event_organize_sections_path(@event),
         icon: 'fa fa-random',
         text: 'Arrange Class Sections',
         tip: 'This drag-and-drop interface allows you to take all the checked-in
@@ -101,7 +101,7 @@
     <h2>Tools for after the event</h2>
     <section class="organizer-dashboard-section">
       <%= render partial: 'shared/organizer_action', locals: {
-        path: send_survey_email_event_path(@event),
+        path: event_send_survey_email_path(@event),
         icon: 'fa fa-envelope',
         text: 'Send Survey',
         tip: 'Click here to send a link to the follow up survey to all students and volunteers.',

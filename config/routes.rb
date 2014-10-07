@@ -15,7 +15,6 @@ Bridgetroll::Application.routes.draw do
   resources :chapters
 
   resources :events do
-    resource :organizer_tools, only: [:show], controller: "events/organizer_tools"
     resources :organizers, :only => [:index, :create, :destroy]
     resources :checkiners, :only => [:index, :create, :destroy]
     resources :volunteers, :only => [:index, :update]
@@ -42,6 +41,13 @@ Bridgetroll::Application.routes.draw do
       resources :checkins, :only => [:index, :create, :destroy]
     end
 
+    resources :organizer_tools, :only => [:index], controller: "events/organizer_tools"
+    controller "events/organizer_tools" do
+      get "send_survey_email"
+      get "organize_sections"
+      get 'diets'
+    end
+
     collection do
       get "past_events"
       get "all_events"
@@ -52,10 +58,7 @@ Bridgetroll::Application.routes.draw do
     end
 
     member do
-      get "organize_sections"
       get "levels"
-      get "diets"
-      get "send_survey_email"
     end
   end
 
