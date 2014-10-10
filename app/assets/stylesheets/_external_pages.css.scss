@@ -3,7 +3,7 @@
   margin: 0 auto 10px auto;
   padding: 15px;
 
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     box-sizing: border-box;
     padding: 8px;
     width: 100%;
@@ -14,7 +14,7 @@
   margin: 0 3em;
   display: table;
 
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     margin: 0;
     width: 100%;
   }
@@ -31,7 +31,7 @@
       margin-top: 10px;
     }
 
-    @media (max-width: $phone-width) {
+    @media (max-width: $screen-xs-max) {
       font-size: 14px;
     }
   }
@@ -46,7 +46,7 @@
     max-width: 190px;
   }
 
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     display: none;
   }
 }

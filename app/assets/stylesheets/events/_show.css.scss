@@ -65,7 +65,7 @@
     }
   }
 
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     div {
       &:first-child {
         font-size: 24px;

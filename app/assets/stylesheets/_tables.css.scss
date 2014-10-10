@@ -21,7 +21,7 @@ table.checkins {
   }
 }
 
-@media (max-width: $phone-width) {
+@media (max-width: $screen-xs-max) {
   .checkins-table-container {
     margin-left: -10px;
     margin-right: -10px;
@@ -102,7 +102,7 @@ table.sent-emails {
 }
 
 table.responsive-table {
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     border: none;
     thead {
       display: none;

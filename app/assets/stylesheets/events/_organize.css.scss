@@ -13,7 +13,7 @@
 
   .header-actions {
     float: right;
-    @media (max-width: $phone-width) {
+    @media (max-width: $screen-xs-max) {
       float: none;
     }
   }
@@ -38,7 +38,7 @@
   display: inline-block;
   width: 300px;
   vertical-align: top;
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     width: auto;
   }
 }
@@ -49,7 +49,7 @@
   margin-right: 10px;
   display: inline-block;
 
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     margin-bottom: 10px;
     width: 100%;
   }
@@ -82,7 +82,7 @@
       @include background(linear-gradient(0deg, #ccc 30%, #ddd 70%));
     }
 
-    @media (max-width: $phone-width) {
+    @media (max-width: $screen-xs-max) {
       margin: 0 auto;
     }
   }
@@ -112,7 +112,7 @@
   .section-arranger-link-text {
     margin-left: 15px;
 
-    @media (max-width: $phone-width) {
+    @media (max-width: $screen-xs-max) {
       margin: 0;
       font-size: 24px;
       text-align: center;
@@ -129,7 +129,7 @@
   border: 1px solid rgb(205, 205, 228);
   padding: 7px;
 
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     box-sizing: border-box;
     text-align: center;
     margin-bottom: 10px;

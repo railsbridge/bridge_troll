@@ -1,4 +1,4 @@
-$phone-width: 520px;
+$screen-xs-max: 767px;
 
 body {
   font-family: 'AmbleLight', sans-serif;
@@ -21,7 +21,7 @@ h1 {
   font-size: 42px;
   color: $red-color;
 
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     font-size: 32px;
   }
 
@@ -75,7 +75,7 @@ td.wide {
   width: 20%;
 }
 
-@media (max-width: $phone-width) {
+@media (max-width: $screen-xs-max) {
   .hide-on-phone {
     display: none !important;
   }
@@ -184,7 +184,7 @@ ul {
   li {
     display: inline-block;
     margin: 10px 10px 0 0;
-    @media (max-width: $phone-width) {
+    @media (max-width: $screen-xs-max) {
       display: block;
       margin: 0;
     }

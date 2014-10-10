@@ -2,7 +2,7 @@
   margin-top: 30px;
 }
 
-@media (min-width: $phone-width) {
+@media (min-width: $screen-xs-max) {
   .chapter-select-container {
     margin-right: 100px;
   }
@@ -28,7 +28,7 @@
     color: $red-color;
   }
 
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     width: 100%;
     margin-right: 0;
   }

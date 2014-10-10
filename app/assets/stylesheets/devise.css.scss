@@ -11,7 +11,7 @@
     margin: 5px 0 10px 0;
   }
 
-  @media (max-width: $phone-width) {
+  @media (max-width: $screen-xs-max) {
     .login-option:last-child {
       margin-top: 20px;
     }
@@ -35,7 +35,7 @@
     display: inline-block;
   }
   &.external-auth-existing li {
-    @media (max-width: $phone-width) {
+    @media (max-width: $screen-xs-max) {
       display: block;
     }
   }
