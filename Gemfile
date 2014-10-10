@@ -6,7 +6,7 @@ ruby '2.1.2'
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'rails', '4.1.6'
-gem 'devise', '~> 3.3.0'
+gem 'devise', '~> 3.4.0'
 gem 'thin'
 gem 'jquery-rails'
 gem 'nested_form'
