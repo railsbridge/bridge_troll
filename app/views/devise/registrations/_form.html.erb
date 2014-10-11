@@ -34,7 +34,9 @@
 
   <div class='field'>
     <%= f.label :chapter_ids, 'Chapters' %>
-    <%= f.collection_check_boxes(:chapter_ids, Chapter.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
+    <div class='chapter-checkboxes'>
+      <%= f.collection_check_boxes(:chapter_ids, Chapter.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
+    </div>
   </div>
 
   <div class='field'>

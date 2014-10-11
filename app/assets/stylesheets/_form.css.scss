@@ -1,3 +1,5 @@
+@import "compass/css3/columns";
+
 form {
   .question {
     font-family: 'AmbleRegular', sans-serif;
@@ -29,5 +31,13 @@ form {
   input[type="submit"] {
     display: block;
     margin-top: 20px;
+  }
+}
+
+.chapter-checkboxes {
+  @media (min-width: $screen-sm-min) {
+    width: 600px;
+
+    @include column-count(2);
   }
 }
