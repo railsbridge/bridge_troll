@@ -18,7 +18,7 @@ class ProfilesController < ApplicationController
   end
 
   def load_user_and_profile
-    @user = User.find(params[:user_id])
+    @user = User.includes(:profile).references(:profile).find(params[:user_id])
     @profile = @user.profile
   end
 

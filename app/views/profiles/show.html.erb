@@ -1,38 +1,57 @@
-<h3>Profile for <%= @user.full_name %></h3>
-<%= render 'shared/profile_gravatars'%>
-<div>
-  <strong>Skills</strong>
-</div>
+<div class="user-profile">
+  <h2>Profile for <strong><%= @user.full_name %></strong></h2>
 
-<ul>
-  <% skills.each do |skill| %>
-    <%= content_tag(:li, skill_title(skill)) if @user.profile[skill_symbol(skill)] %>
+  <%= render 'shared/profile_gravatars' %>
+
+  <section>
+    <h3>Skills</h3>
+    <% if has_skills(@user) %>
+      <ul>
+        <% skills.each do |skill| %>
+          <%= content_tag(:li, skill_title(skill)) if @user.profile[skill_symbol(skill)] %>
+        <% end %>
+      </ul>
+    <% else %>
+      N/A
+    <% end %>
+  </section>
+
+  <section>
+    <h3>Other skills</h3>
+    <% if @profile.other.present? %>
+      <%= @profile.other %>
+    <% else %>
+      N/A
+    <% end %>
+  </section>
+
+  <section>
+    <h3>Bio</h3>
+    <% if @profile.bio.present? %>
+      <%= @profile.bio %>
+    <% else %>
+      N/A
+    <% end %>
+  </section>
+
+  <% if @profile.github_username.present? %>
+    <section>
+      <h3>GitHub</h3>
+      <%= link_to "https://github.com/#{@profile.github_username}", :target => "_blank" do %>
+        <i class="fa fa-github" style="margin-right: 4px;"></i><%= @profile.github_username %>
+    <% end %>
+    </section>
   <% end %>
-</ul>
 
-<strong>Other skills</strong>
-<div>
-  <%= @profile.other %>
+  <section>
+    <h3>Workshop History</h3>
+
+    <%= render 'shared/rsvps', rsvps: @user.rsvps %>
+
+    <% if @user == current_user %>
+      <%= render 'shared/actions', links: [
+        ["Edit Profile", edit_user_profile_path(@user)]
+      ] %>
+    <% end %>
+  </section>
 </div>
-
-<strong>Bio</strong>
-<div>
-  <%= @profile.bio %>
-</div>
-
-<% if @profile.github_username.present? %>
-<strong>GitHub</strong>
-<div>
-  <%= link_to @profile.github_username, "https://github.com/#{@profile.github_username}", :target => "_blank" %>
-</div>
-<% end %>
-
-<h3>Workshop History</h3>
-
-<%= render 'shared/rsvps', rsvps: @user.rsvps %>
-
-<% if @user == current_user %>
-  <%= render 'shared/actions', links: [
-    ["Edit Profile", edit_user_profile_path(@user)]
-  ] %>
-<% end %>

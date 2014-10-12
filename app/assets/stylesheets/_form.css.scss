@@ -34,9 +34,12 @@ form {
   }
 }
 
-.chapter-checkboxes {
-  @media (min-width: $screen-sm-min) {
+@media (min-width: $screen-sm-min) {
+  .checkbox-columns {
     width: 600px;
+    &.checkbox-columns-small {
+      width: 300px;
+    }
 
     @include column-count(2);
   }

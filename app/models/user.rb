@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   has_many :rsvps, -> { where user_type: 'User' }, dependent: :destroy
   has_many :events, -> { where published: true }, through: :rsvps
 
-  has_one :profile, dependent: :destroy
+  has_one :profile, dependent: :destroy, inverse_of: :user
   has_and_belongs_to_many :chapters
 
   validates_presence_of :first_name, :last_name
