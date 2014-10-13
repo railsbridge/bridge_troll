@@ -41,7 +41,7 @@ describe "visiting the home page" do
 
       it 'allows the user to log out or view/edit their account details' do
         visit '/'
-        page.all('.navbar li a').map(&:text).should == ['Sign Out', 'Account', 'Profile']
+        page.all('.navbar li a').map(&:text).should == ['Sign Out', 'Settings']
       end
     end
   end

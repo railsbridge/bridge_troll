@@ -12,10 +12,7 @@
           <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'btn' %>
         </li>
         <li>
-          <%= link_to 'Account',edit_user_registration_path, class: 'btn' %>
-        </li>
-        <li>
-          <%= link_to 'Profile', user_profile_path(current_user.id), class: 'btn' %>
+          <%= link_to 'Settings',edit_user_registration_path, class: 'btn fa-before fa-gear' %>
         </li>
       <% else %>
         <li id="sign_in">

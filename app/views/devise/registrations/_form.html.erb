@@ -50,6 +50,35 @@
     <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
   </div>
 
+  <% if resource.persisted? %>
+    <%= f.fields_for :profile do |ff| %>
+      <h3>Skills</h3>
+
+      <div class='checkbox-columns checkbox-columns-small'>
+        <% skills.each do |skill| %>
+          <%= ff.label skill_symbol(skill) do %>
+            <%= ff.check_box skill_symbol(skill) %> <%= "#{skill_title(skill)}" %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class='field'>
+        <%= ff.label :other, "Other Skills" %>
+        <%= ff.text_area :other, :rows => 3, :class => 'input-xxlarge' %>
+      </div>
+
+      <div class='field'>
+        <%= ff.label :bio %>
+        <%= ff.text_area :bio, :rows => 3, :class => 'input-xxlarge' %>
+      </div>
+
+      <div class='field'>
+        <%= ff.label :github_username %>
+        <%= ff.text_field :github_username, :class => 'input-xxlarge' %>
+      </div>
+    <% end %>
+  <% end %>
+
   <% if f.object.password_required? %>
     <div class='field'>
       <%= f.label :password %>

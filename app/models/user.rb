@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
   has_one :profile, dependent: :destroy, inverse_of: :user
   has_and_belongs_to_many :chapters
 
+  accepts_nested_attributes_for :profile
+
   validates_presence_of :first_name, :last_name
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 

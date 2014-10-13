@@ -47,11 +47,5 @@
     <h3>Workshop History</h3>
 
     <%= render 'shared/rsvps', rsvps: @user.rsvps %>
-
-    <% if @user == current_user %>
-      <%= render 'shared/actions', links: [
-        ["Edit Profile", edit_user_profile_path(@user)]
-      ] %>
-    <% end %>
   </section>
 </div>

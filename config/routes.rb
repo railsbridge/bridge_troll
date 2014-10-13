@@ -7,7 +7,7 @@ Bridgetroll::Application.routes.draw do
   }
 
   resources :users, only: [:index] do
-    resource :profile, :only => [:edit, :update, :show]
+    resource :profile, :only => [:show]
   end
   resources :meetup_users, :only => [:show]
 
