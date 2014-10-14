@@ -1,8 +1,3 @@
 <div id="gravatar">
-<%= gravatar_image_tag(@user.email, :alt => 'Gravatar', :gravatar => { :size => 115 }) %>
-<br/>
-	<% if @user.email == current_user.email %>
-		<div id="change_gravatar"><%=link_to 'Change Gravatar', 'https://en.gravatar.com/emails', :target => "_blank" %>
-		</div>
-	<% end %>
+  <%= gravatar_image_tag(@user.email, :alt => 'Gravatar', :gravatar => { :size => 115 }) %>
 </div>

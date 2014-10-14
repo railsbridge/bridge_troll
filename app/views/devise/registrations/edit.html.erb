@@ -1,8 +1,12 @@
 <h1>Edit <%= resource_name.to_s.humanize %></h1>
 
-<%= render 'shared/profile_gravatars'%>
+<div style="margin-bottom: 20px;">
+  <%= render 'shared/profile_gravatars'%>
 
-<%= link_to 'View Public Profile', user_profile_path(resource) %>
+  <%= link_to 'Change Gravatar', 'https://en.gravatar.com/emails', :target => "_blank", class: 'btn fa-before fa-upload' %>
+
+  <%= link_to 'View Public Profile', user_profile_path(resource), class: 'btn fa-before fa-user' %>
+</div>
 
 <%= render 'form', button_text: 'Update', is_registered: true %>
 
