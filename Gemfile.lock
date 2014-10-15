@@ -95,9 +95,9 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    dotenv (1.0.1)
-    dotenv-rails (1.0.1)
-      dotenv (= 1.0.1)
+    dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     eco (1.0.0)
       coffee-script
       eco-source
@@ -107,7 +107,7 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.3)
     excon (0.40.0)
-    execjs (2.2.1)
+    execjs (2.2.2)
     factory_girl (4.4.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.4.1)
@@ -258,7 +258,7 @@ GEM
     rails-assets-sinonjs (1.10.2)
     rails-observers (0.1.2)
       activemodel (~> 4.0)
-    rails_12factor (0.0.2)
+    rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
     rails_serve_static_assets (0.0.2)

@@ -181,6 +181,9 @@ ul {
 
 .actions {
   margin: 20px 0 0 0;
+  &.no-margin {
+    margin: 0;
+  }
 
   li {
     display: inline-block;

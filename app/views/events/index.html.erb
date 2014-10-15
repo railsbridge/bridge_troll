@@ -22,6 +22,7 @@
     </div>
 
     <% if user_signed_in? %>
+      <h1>Get Involved</h1>
       <% links = [
         ['Organize Event', new_event_path],
         ['Manage Locations', locations_path],
@@ -31,7 +32,7 @@
         <% links << ['Manage External Events', external_events_path] %>
         <% links << ['Publish Unpublished Events', unpublished_events_path] %>
       <% end %>
-      <%= render 'shared/actions', links: links %>
+      <%= render 'shared/actions', links: links, additional_class: 'no-margin' %>
     <% end %>
 
     <div class='past-events'>
