@@ -34,6 +34,11 @@
                   <%= rsvp.class_level %>
                 </div>
               <% end %>
+              <% if rsvp.waitlist_position %>
+                <div style="font-size: 12px;">
+                  (#<%= rsvp.waitlist_position %> on waitlist)
+                </div>
+              <% end %>
             <% end %>
           </td>
           <td class="checkins-action" id="rsvp_session_<%= rsvp_session.id %>">
