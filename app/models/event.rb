@@ -20,7 +20,7 @@ class Event < ActiveRecord::Base
   has_many :attendee_rsvps,  -> { where(role_id: [Role::STUDENT.id, Role::VOLUNTEER.id], waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
 
   has_many :student_rsvps, -> { where(role_id: Role::STUDENT.id, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
-  has_many :student_waitlist_rsvps, -> { where("role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL") }, class_name: 'Rsvp', inverse_of: :event
+  has_many :student_waitlist_rsvps, -> { where("role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL").order(:waitlist_position) }, class_name: 'Rsvp', inverse_of: :event
   has_many :students, through: :student_rsvps, source: :user, source_type: 'User'
   has_many :legacy_students, through: :student_rsvps, source: :user, source_type: 'MeetupUser'
 
@@ -237,14 +237,14 @@ class Event < ActiveRecord::Base
     Rsvp.transaction do
       unless at_limit?
         number_of_open_spots = student_rsvp_limit - student_rsvps_count
-        to_be_confirmed = student_waitlist_rsvps.order(:waitlist_position).limit(number_of_open_spots)
+        to_be_confirmed = student_waitlist_rsvps.limit(number_of_open_spots)
         to_be_confirmed.each do |rsvp|
           rsvp.promote_from_waitlist!
         end
       end
 
       index = 1
-      student_waitlist_rsvps.order(:waitlist_position).find_each do |rsvp|
+      student_waitlist_rsvps.reload.each do |rsvp|
         rsvp.update_attribute(:waitlist_position, index)
         index += 1
       end

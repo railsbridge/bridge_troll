@@ -123,8 +123,8 @@
     <% if @event.student_waitlist_rsvps.any? %>
       <h3><%= @event.student_waitlist_rsvps.length %> waitlisted!</h3>
       <ul class="attendees">
-        <% @event.student_waitlist_rsvps.each_with_index do |rsvp, ix| %>
-          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path %><span class='waitlist-number pull-right'>#<%= ix + 1 %></span></li>
+        <% @event.student_waitlist_rsvps.each do |rsvp| %>
+          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path %><span class='waitlist-number pull-right'>#<%= rsvp.waitlist_position %></span></li>
         <% end %>
       </ul>
     <% end %>

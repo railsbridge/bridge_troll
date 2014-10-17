@@ -430,11 +430,11 @@ describe Event do
     end
 
     it "returns only confirmed rsvps in #student_rsvps" do
-      @event.student_rsvps.should == [@confirmed_rsvp]
+      @event.student_rsvps.reload.should == [@confirmed_rsvp]
     end
 
     it "returns only waitlisted rsvps in #student_waitlist_rsvps" do
-      @event.student_waitlist_rsvps.should == [@waitlist_rsvp]
+      @event.student_waitlist_rsvps.reload.should == [@waitlist_rsvp]
     end
   end
 
