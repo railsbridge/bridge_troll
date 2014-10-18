@@ -377,7 +377,7 @@ describe RsvpsController do
 
     context "when there is an existing rsvp" do
       before do
-        @rsvp = create(:rsvp, user: @user)
+        @rsvp = create(:student_rsvp, event: @event, user: @user)
       end
 
       it "should destroy the rsvp" do
@@ -393,9 +393,15 @@ describe RsvpsController do
       end
 
       it "should reorder the waitlist" do
-        Event.should_receive(:find_by_id).and_return(@rsvp.event)
-        @rsvp.event.should_receive(:reorder_waitlist!)
+        @event.update_attribute(:student_rsvp_limit, 2)
+        create(:student_rsvp, event: @event)
+        @waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
+
+        @event.reload.should be_at_limit
+
         delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
+
+        @waitlisted.reload.waitlist_position.should be_nil
       end
     end
 
