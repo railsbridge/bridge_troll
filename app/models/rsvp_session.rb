@@ -15,4 +15,8 @@ class RsvpSession < ActiveRecord::Base
     rsvp.checkins_count = rsvp.rsvp_sessions.where('rsvp_sessions.checked_in = ?', true).count
     rsvp.save
   end
+
+  def as_json(options = {})
+    super.merge(role_id: rsvp.role_id)
+  end
 end

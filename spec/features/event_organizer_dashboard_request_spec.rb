@@ -83,7 +83,9 @@ describe "the organizer dashboard" do
       page.should have_content('Checked In!')
     end
 
-    page.should have_content("Total check-ins for this session: 1")
+    within '.checkin-counts' do
+      page.should have_content("1")
+    end
 
     rsvp_session1.reload.should be_checked_in
     rsvp_session2.reload.should_not be_checked_in
@@ -95,7 +97,9 @@ describe "the organizer dashboard" do
       page.should have_content('Checked In!')
     end
 
-    page.should have_content("Total check-ins for this session: 2")
+    within '.checkin-counts' do
+      page.should have_content("2")
+    end
 
     rsvp_session1.reload.should be_checked_in
     rsvp_session2.reload.should be_checked_in
@@ -116,7 +120,9 @@ describe "the organizer dashboard" do
       page.should_not have_content 'Saving'
     end
 
-    page.should have_content("Total check-ins for this session: 1")
+    within '.checkin-counts' do
+      page.should have_content("1")
+    end
 
     rsvp_session1.reload.should_not be_checked_in
   end

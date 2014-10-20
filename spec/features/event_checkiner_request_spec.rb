@@ -42,7 +42,9 @@ describe "checking in attendees" do
         page.should have_content('Checked In!')
       end
 
-      page.should have_content("Total check-ins for this session: 1")
+      within '.checkin-counts' do
+        page.should have_content("1")
+      end
     end
   end
 end

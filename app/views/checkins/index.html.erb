@@ -8,8 +8,14 @@
 
 
 <h2 style='margin-bottom: 10px;'>Check-ins for <%= @session.name %></h2>
-<h3>Total check-ins for this session:
-  <span id='checked_in_count'><%= @rsvp_sessions.where(:checked_in => true).length %></span></h3>
+<div class="checkin-counts">
+  <div>
+    Students: <span id='student_checked_in_count'><%= @checkin_counts[:student_checked_in_count] %></span>
+  </div>
+  <div>
+    Volunteers: <span id='volunteer_checked_in_count'><%= @checkin_counts[:volunteer_checked_in_count] %></span>
+  </div>
+</div>
 <div class='checkins-table-container'>
   <table class="datatable-checkins table table-striped table-bordered table-condensed checkins">
     <thead>

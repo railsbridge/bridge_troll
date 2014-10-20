@@ -36,7 +36,8 @@ describe CheckinsController do
         post :create, event_id: @event.id, event_session_id: @session.id, rsvp_session: { id: @rsvp_session.id }
       }.to change { @rsvp_session.reload.checked_in? }.from(false).to(true)
 
-      JSON.parse(response.body)['checked_in_count'].should == 1
+      JSON.parse(response.body)['volunteer_checked_in_count'].should == 1
+      JSON.parse(response.body)['student_checked_in_count'].should == 0
     end
   end
 
@@ -52,7 +53,8 @@ describe CheckinsController do
         delete :destroy, event_id: @event.id, event_session_id: @session.id, id: @rsvp_session.id, rsvp_session: { id: @rsvp_session.id }
       }.to change { @rsvp_session.reload.checked_in? }.from(true).to(false)
 
-      JSON.parse(response.body)["checked_in_count"].should == 0
+      JSON.parse(response.body)["volunteer_checked_in_count"].should == 0
+      JSON.parse(response.body)["student_checked_in_count"].should == 0
     end
   end
 end
