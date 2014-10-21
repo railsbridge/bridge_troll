@@ -9,12 +9,18 @@
 
 <h2 style='margin-bottom: 10px;'>Check-ins for <%= @session.name %></h2>
 <div class="checkin-counts">
-  <div>
-    Students: <span id='student_checked_in_count'><%= @checkin_counts[:student_checked_in_count] %></span>
-  </div>
-  <div>
-    Volunteers: <span id='volunteer_checked_in_count'><%= @checkin_counts[:volunteer_checked_in_count] %></span>
-  </div>
+  <% [Role::VOLUNTEER, Role::STUDENT].each do |role| %>
+    <div>
+      <% checked_in = @checkin_counts[role.id][:checkin][@session.id] %>
+      <% total = @checkin_counts[role.id][:rsvp][@session.id] %>
+      <%= role.title.pluralize %>:
+      <strong>
+        <span id='<%= role.title.downcase %>_checked_in_count'><%= checked_in %></span>
+        /
+        <span id='<%= role.title.downcase %>_rsvp_count'><%= total %></span>
+      </strong>
+    </div>
+  <% end %>
 </div>
 <div class='checkins-table-container'>
   <table class="datatable-checkins table table-striped table-bordered table-condensed checkins">

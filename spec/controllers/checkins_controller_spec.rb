@@ -36,8 +36,16 @@ describe CheckinsController do
         post :create, event_id: @event.id, event_session_id: @session.id, rsvp_session: { id: @rsvp_session.id }
       }.to change { @rsvp_session.reload.checked_in? }.from(false).to(true)
 
-      JSON.parse(response.body)['volunteer_checked_in_count'].should == 1
-      JSON.parse(response.body)['student_checked_in_count'].should == 0
+      JSON.parse(response.body).as_json.should == JSON.parse({
+        Role::VOLUNTEER.id => {
+          checkin: {@rsvp_session.id => 1},
+          rsvp: {@rsvp_session.id => 1}
+        },
+        Role::STUDENT.id => {
+          checkin: {@rsvp_session.id => 0},
+          rsvp: {@rsvp_session.id => 0}
+        }
+      }.to_json).as_json
     end
   end
 
@@ -53,8 +61,16 @@ describe CheckinsController do
         delete :destroy, event_id: @event.id, event_session_id: @session.id, id: @rsvp_session.id, rsvp_session: { id: @rsvp_session.id }
       }.to change { @rsvp_session.reload.checked_in? }.from(true).to(false)
 
-      JSON.parse(response.body)["volunteer_checked_in_count"].should == 0
-      JSON.parse(response.body)["student_checked_in_count"].should == 0
+      JSON.parse(response.body).as_json.should == JSON.parse({
+        Role::VOLUNTEER.id => {
+          checkin: {@rsvp_session.id => 0},
+          rsvp: {@rsvp_session.id => 1}
+        },
+        Role::STUDENT.id => {
+          checkin: {@rsvp_session.id => 0},
+          rsvp: {@rsvp_session.id => 0}
+        }
+      }.to_json).as_json
     end
   end
 end

@@ -1,15 +1,3 @@
-$(document).ready ->
-  $('.toggle_rsvp_session')
-    .on 'ajax:beforeSend', ->
-      $(this).addClass('hidden')
-      $(this).parent().append('<span id="saving_indicator">Saving...</span>')
-    .on 'ajax:success', (event, response) ->
-      $('#saving_indicator').remove()
-      showSelector = $(this).data('shows')
-      $('#' + showSelector).removeClass('hidden')
-      $('#student_checked_in_count').text(response.student_checked_in_count)
-      $('#volunteer_checked_in_count').text(response.volunteer_checked_in_count)
-
 Bridgetroll.Models.RsvpSession = Backbone.Model.extend
   constructorName: 'RsvpSession'
 
@@ -30,6 +18,22 @@ window.setupCheckinsPage = (options) ->
   session_id = options.session_id
   rsvpSessions = new Bridgetroll.Collections.RsvpSession()
 
+  updateRsvpCounts = (counts) ->
+    $('#student_checked_in_count').text(counts[Bridgetroll.Enums.Role.STUDENT].checkin[session_id])
+    $('#volunteer_checked_in_count').text(counts[Bridgetroll.Enums.Role.VOLUNTEER].checkin[session_id])
+    $('#student_rsvp_count').text(counts[Bridgetroll.Enums.Role.STUDENT].rsvp[session_id])
+    $('#volunteer_rsvp_count').text(counts[Bridgetroll.Enums.Role.VOLUNTEER].rsvp[session_id])
+
+  $('.toggle_rsvp_session')
+    .on 'ajax:beforeSend', ->
+      $(this).addClass('hidden')
+      $(this).parent().append('<span id="saving_indicator">Saving...</span>')
+    .on 'ajax:success', (event, response) ->
+      $('#saving_indicator').remove()
+      showSelector = $(this).data('shows')
+      $('#' + showSelector).removeClass('hidden')
+      updateRsvpCounts(response)
+
   poller = new Bridgetroll.Services.Poller
     pollUrl: "/events/#{event_id}/event_sessions/#{session_id}/checkins.json",
     afterPoll: (json) ->
@@ -37,16 +41,21 @@ window.setupCheckinsPage = (options) ->
 
   rsvpSessions.on 'change', ->
     poller.resetPollingInterval()
-    student_checked_in_count = 0
-    volunteer_checked_in_count = 0
+    counts = {}
+    for role in [Bridgetroll.Enums.Role.STUDENT, Bridgetroll.Enums.Role.VOLUNTEER]
+      counts[role] = {checkin: {}, rsvp: {}}
+      counts[role].checkin[session_id] = 0
+      counts[role].rsvp[session_id] = 0
+
     rsvpSessions.each (sessionRsvp) ->
-      student_checked_in_count += 1 if sessionRsvp.get('checked_in') && sessionRsvp.get('role_id') == Bridgetroll.Enums.Role.STUDENT
-      volunteer_checked_in_count += 1 if sessionRsvp.get('checked_in') && sessionRsvp.get('role_id') == Bridgetroll.Enums.Role.VOLUNTEER
+      counts[sessionRsvp.get('role_id')].rsvp[session_id] += 1
+      if sessionRsvp.get('checked_in')
+        counts[sessionRsvp.get('role_id')].checkin[session_id] += 1
       row = $('#rsvp_session_' + sessionRsvp.get('id'))
       row.find('.create').toggleClass('hidden', sessionRsvp.get('checked_in'))
       row.find('.destroy').toggleClass('hidden', !sessionRsvp.get('checked_in'))
-    $('#student_checked_in_count').text(student_checked_in_count)
-    $('#volunteer_checked_in_count').text(volunteer_checked_in_count)
+
+    updateRsvpCounts(counts)
 
   if options.poll
     poller.startPolling()

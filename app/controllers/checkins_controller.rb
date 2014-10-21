@@ -9,7 +9,7 @@ class CheckinsController < ApplicationController
         :rsvp => :bridgetroll_user
     ).order('users.first_name asc, users.last_name asc, users.email asc')
     respond_to do |format|
-      format.html { @checkin_counts = checkin_counts }
+      format.html { @checkin_counts = @event.checkin_counts }
       format.json { render json: @rsvp_sessions }
     end
   end
@@ -18,14 +18,14 @@ class CheckinsController < ApplicationController
     @rsvp_session.checked_in = true
     @rsvp_session.save!
 
-    render json: checkin_counts
+    render json: @event.checkin_counts
   end
 
   def destroy
     @rsvp_session.checked_in = false
     @rsvp_session.save!
 
-    render json: checkin_counts
+    render json: @event.checkin_counts
   end
 
   private
@@ -37,14 +37,6 @@ class CheckinsController < ApplicationController
 
   def rsvp_sessions_with_rsvp
     @session.rsvp_sessions.includes(:rsvp)
-  end
-
-  def checkin_counts
-    checked_in_rsvps = @session.rsvp_sessions.joins(:rsvp).where(checked_in: true)
-    {
-      student_checked_in_count: checked_in_rsvps.where('rsvps.role_id = ?', Role::STUDENT.id).length,
-      volunteer_checked_in_count: checked_in_rsvps.where('rsvps.role_id = ?', Role::VOLUNTEER.id).length
-    }
   end
 
   def find_rsvp_session
