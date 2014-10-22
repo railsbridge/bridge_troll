@@ -19,10 +19,9 @@ window.setupCheckinsPage = (options) ->
   rsvpSessions = new Bridgetroll.Collections.RsvpSession()
 
   updateRsvpCounts = (counts) ->
-    $('#student_checked_in_count').text(counts[Bridgetroll.Enums.Role.STUDENT].checkin[session_id])
-    $('#volunteer_checked_in_count').text(counts[Bridgetroll.Enums.Role.VOLUNTEER].checkin[session_id])
-    $('#student_rsvp_count').text(counts[Bridgetroll.Enums.Role.STUDENT].rsvp[session_id])
-    $('#volunteer_rsvp_count').text(counts[Bridgetroll.Enums.Role.VOLUNTEER].rsvp[session_id])
+    for role in [Bridgetroll.Enums.Role.STUDENT, Bridgetroll.Enums.Role.VOLUNTEER]
+      $('#checked_in_count_' + role).text(counts[role].checkin[session_id])
+      $('#rsvp_count_' + role).text(counts[role].rsvp[session_id])
 
   $('.toggle_rsvp_session')
     .on 'ajax:beforeSend', ->

@@ -15,9 +15,9 @@
       <% total = @checkin_counts[role.id][:rsvp][@session.id] %>
       <%= role.title.pluralize %>:
       <strong>
-        <span id='<%= role.title.downcase %>_checked_in_count'><%= checked_in %></span>
+        <span id='checked_in_count_<%= role.id %>'><%= checked_in %></span>
         /
-        <span id='<%= role.title.downcase %>_rsvp_count'><%= total %></span>
+        <span id='rsvp_count_<%= role.id %>'><%= total %></span>
       </strong>
     </div>
   <% end %>
