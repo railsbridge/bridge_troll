@@ -42,21 +42,31 @@ describe RsvpsController do
 
       describe "when the user has previously volunteered" do
         before do
-          old_event = create(:event)
-          @old_rsvp = create(:rsvp,
-                 user: @user,
-                 event: old_event,
-                 subject_experience: 'I have made many websites',
-                 teaching_experience: 'I have taught many websites',
-                 job_details: 'Software Engineer'
-          )
+          frontend_event = create(:event, course: Course::FRONTEND)
+          @frontend_rsvp = create(:rsvp, {
+            user: @user,
+            event: frontend_event,
+            subject_experience: 'I know about HTML',
+            teaching_experience: 'I have taught many websites',
+            job_details: 'Software Engineer'
+          })
+
+          rails_event = create(:event, course: Course::RAILS)
+          @rails_rsvp = create(:rsvp, {
+            user: @user,
+            event: rails_event,
+            subject_experience: 'I know about Rails',
+            teaching_experience: 'I have taught many rubies',
+            job_details: 'Software Engineer'
+          })
         end
 
-        it "creates a new RSVP with detail sfrom their previous RSVPs" do
+        it "creates a new RSVP with details from their last RSVP for the same course" do
           get :volunteer, event_id: @event.id
-          assigns(:rsvp).subject_experience.should == @old_rsvp.subject_experience
-          assigns(:rsvp).teaching_experience.should == @old_rsvp.teaching_experience
-          assigns(:rsvp).job_details.should == @old_rsvp.job_details
+          rsvp = assigns(:rsvp)
+          rsvp.subject_experience.should == @rails_rsvp.subject_experience
+          rsvp.teaching_experience.should == @rails_rsvp.teaching_experience
+          rsvp.job_details.should == @rails_rsvp.job_details
         end
       end
     end
