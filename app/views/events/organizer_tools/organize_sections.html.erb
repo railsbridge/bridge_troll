@@ -21,6 +21,7 @@
 
     Bridgetroll.sectionOrganizer = new Bridgetroll.Views.SectionOrganizer({
       event_id: <%= @event.id %>,
+      upcoming: <%= @event.upcoming? %>,
       sections: sections,
       sessions: sessions,
       attendees: attendees

@@ -42,6 +42,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.attendees = options.attendees;
       this.sections = options.sections;
       this.sessions = options.sessions;
+      this.upcoming = options.upcoming;
       this.selectedSession = this.sessions.last().clone();
       this.displayProperties = new Backbone.Model();
 
@@ -131,6 +132,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       return {
         hasSections: this.sections.length > 0,
         projectorMode: this.projectorMode,
+        upcoming: this.upcoming,
         showOS: this.showOS,
         polling: this.poller.polling(),
         sessions: this.sessions.toJSON(),
