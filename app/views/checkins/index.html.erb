@@ -6,7 +6,6 @@
   <%= content_for(:header_link, event_path(@event)) %>
 <% end %>
 
-
 <h2 style='margin-bottom: 10px;'>Check-ins for <%= @session.name %></h2>
 <div class="checkin-counts">
   <% [Role::VOLUNTEER, Role::STUDENT].each do |role| %>
