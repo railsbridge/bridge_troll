@@ -113,4 +113,7 @@ class EventsController < ApplicationController
     events.sort_by { |e| e.starts_at.to_time }
   end
 
+  def allow_insecure?
+    request.get? && request.format.json?
+  end
 end

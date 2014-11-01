@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_filter :configure_permitted_parameters, if: :devise_controller?
+  force_ssl if: -> { Rails.env.production? }, unless: :allow_insecure?
 
   protect_from_forgery
 
@@ -55,5 +56,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) do |u|
       u.permit(User::PERMITTED_ATTRIBUTES + [chapter_ids: []])
     end
+  end
+
+  def allow_insecure?
+    false
   end
 end
