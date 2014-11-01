@@ -5,7 +5,7 @@ ruby '2.1.2'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem 'rails', '4.1.6'
+gem 'rails', '4.1.7'
 gem 'devise', '~> 3.4.0'
 gem 'thin'
 gem 'jquery-rails'
@@ -33,7 +33,7 @@ group :production do
 end
 
 gem 'handlebars_assets', '~> 0.17.0'
-gem 'jquery-datatables-rails'
+gem 'jquery-datatables-rails', '~> 2.2.3'
 gem 'sass-rails', '4.0.2' # https://github.com/rails/sass-rails/issues/191
 gem 'compass-rails'
 gem 'coffee-rails'
