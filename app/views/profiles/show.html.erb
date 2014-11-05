@@ -16,14 +16,12 @@
     <% end %>
   </section>
 
-  <section>
-    <h3>Other skills</h3>
-    <% if @profile.other.present? %>
+  <% if @profile.other.present? %>
+    <section>
+      <h3>Other skills</h3>
       <%= @profile.other %>
-    <% else %>
-      N/A
-    <% end %>
-  </section>
+    </section>
+  <% end %>
 
   <section>
     <h3>Bio</h3>
