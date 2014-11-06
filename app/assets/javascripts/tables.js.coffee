@@ -5,7 +5,7 @@ $(document).ready ->
     pageLength: 50
   })
 
-  $('.datatable').dataTable()
+  $('.datatable').DataTable()
 
   tableNeedsPagination = $('.datatable-sorted tbody tr').length > 10
 
@@ -15,14 +15,14 @@ $(document).ready ->
       if defaultSortDirection then [[ix, defaultSortDirection]] else null
     tableSortPreferences[0]
 
-  $('.datatable-sorted').dataTable
+  $('.datatable-sorted').DataTable
     paging: tableNeedsPagination,
     order: discoverSortOrder() || [[ 1, "desc" ]],
     columnDefs: [
       {targets: ['date'], type: "date"}
     ]
 
-  $('.datatable-checkins').dataTable
+  $('.datatable-checkins').DataTable
     paging: false,
     order: [[ 0, "asc" ]],
     columnDefs: [
