@@ -40,6 +40,6 @@ class CheckinsController < ApplicationController
   end
 
   def find_rsvp_session
-    @rsvp_session = @session.rsvp_sessions.find(params[:rsvp_session][:id])
+    @rsvp_session = @session.rsvp_sessions.find(params[:id] || params[:rsvp_session][:id])
   end
 end

@@ -52,33 +52,16 @@
               <% end %>
             <% end %>
           </td>
-          <td class="checkins-action" id="rsvp_session_<%= rsvp_session.id %>">
-            <% destroy_id = "destroy_rsvp_session_#{rsvp_session.id}" %>
-            <% create_id = "create_rsvp_session_#{rsvp_session.id}" %>
-            <%= form_for([@event, @session, rsvp_session],
-                         method: :delete,
-                         url: event_event_session_checkin_path(@event, @session, rsvp_session),
-                         html: {
-                           id: destroy_id,
-                           class: "toggle_rsvp_session destroy #{rsvp_session.checked_in ? '' : 'hidden'}",
-                           data: {shows: create_id}
-                         },
-                         remote: true) do |f| %>
-              <%= f.hidden_field :id %>
-              <i class='fa fa-check-square-o'></i>Checked In! <%= f.submit "Un-Check In", class: 'btn', data: {confirm: "Are you sure you want to un-check in #{rsvp_session.user_full_name}?"} %>
-            <% end %>
-            <%= form_for([@event, @session, rsvp_session],
-                         method: :create,
-                         url: event_event_session_checkins_path(@event, @session),
-                         html: {
-                           id: create_id,
-                           class: "toggle_rsvp_session create #{rsvp_session.checked_in ? 'hidden' : ''}",
-                           data: {shows: destroy_id}
-                         },
-                         remote: true) do |f| %>
-              <%= f.hidden_field :id %>
-              <%= f.submit "Check In", class: 'btn' %>
-            <% end %>
+          <td class="checkins-action <% if rsvp_session.checked_in? %>checked-in<% end %>"
+              id="rsvp_session_<%= rsvp_session.id %>"
+              data-rsvp-session-id="<%= rsvp_session.id %>"
+              data-user-name="<%= rsvp_session.user_full_name %>">
+            <div class="toggle_rsvp_session destroy">
+              <i class='fa fa-check-square-o'></i>Checked In! <%= button_tag "Un-Check In", class: 'btn' %>
+            </div>
+            <div class="toggle_rsvp_session create">
+              <%= button_tag "Check In", class: 'btn' %>
+            </div>
           </td>
         </tr>
       <% end %>

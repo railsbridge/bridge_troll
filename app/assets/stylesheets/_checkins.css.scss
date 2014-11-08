@@ -12,3 +12,24 @@
     margin-bottom: 0;
   }
 }
+
+.checkins-action {
+  &.saving {
+    .toggle_rsvp_session {
+      display: none !important;
+    }
+  }
+
+  .destroy {
+    display: none;
+  }
+
+  &.checked-in {
+    .create {
+      display: none;
+    }
+    .destroy {
+      display: block;
+    }
+  }
+}

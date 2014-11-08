@@ -24,14 +24,36 @@ window.setupCheckinsPage = (options) ->
       $('#rsvp_count_' + role).text(counts[role].rsvp[session_id])
 
   $('.toggle_rsvp_session')
-    .on 'ajax:beforeSend', ->
-      $(this).addClass('hidden')
+    .on 'click', ->
+      $cell = $(this).closest('td')
+      rsvp_session_id = $cell.data('rsvp-session-id')
+
+      options = {
+        data: {
+          rsvp_session: {
+            id: rsvp_session_id
+          }
+        },
+        url: "/events/#{event_id}/event_sessions/#{session_id}/checkins"
+      }
+      if $(this).hasClass('destroy')
+        options.method = 'DELETE'
+        options.url = options.url + "/#{rsvp_session_id}"
+      else
+        options.method = 'POST'
+
+      if options.method == 'DELETE'
+        confirmation = confirm("Are you sure you want to un-check in #{$cell.data('user-name')}?")
+        return unless confirmation
+
+      $cell.addClass('saving')
       $(this).parent().append('<span id="saving_indicator">Saving...</span>')
-    .on 'ajax:success', (event, response) ->
-      $('#saving_indicator').remove()
-      showSelector = $(this).data('shows')
-      $('#' + showSelector).removeClass('hidden')
-      updateRsvpCounts(response)
+
+      $.ajax(options).done (response) ->
+        $cell.removeClass('saving')
+        $('#saving_indicator').remove()
+        $cell.toggleClass('checked-in', options.method != 'DELETE')
+        updateRsvpCounts(response)
 
   poller = new Bridgetroll.Services.Poller
     pollUrl: "/events/#{event_id}/event_sessions/#{session_id}/checkins.json",
@@ -50,9 +72,8 @@ window.setupCheckinsPage = (options) ->
       counts[sessionRsvp.get('role_id')].rsvp[session_id] += 1
       if sessionRsvp.get('checked_in')
         counts[sessionRsvp.get('role_id')].checkin[session_id] += 1
-      row = $('#rsvp_session_' + sessionRsvp.get('id'))
-      row.find('.create').toggleClass('hidden', sessionRsvp.get('checked_in'))
-      row.find('.destroy').toggleClass('hidden', !sessionRsvp.get('checked_in'))
+      $cell = $('#rsvp_session_' + sessionRsvp.get('id'))
+      $cell.toggleClass('checked-in', sessionRsvp.get('checked_in'))
 
     updateRsvpCounts(counts)
 

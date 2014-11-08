@@ -77,7 +77,7 @@ describe "the organizer dashboard" do
     page.should have_content(user1.first_name)
 
     within "#rsvp_session_#{rsvp_session1.id}" do
-      within "#create_rsvp_session_#{rsvp_session1.id}" do
+      within '.create' do
         click_on 'Check In'
       end
       page.should have_content('Checked In!')
@@ -91,7 +91,7 @@ describe "the organizer dashboard" do
     rsvp_session2.reload.should_not be_checked_in
 
     within "#rsvp_session_#{rsvp_session2.id}" do
-      within "#create_rsvp_session_#{rsvp_session2.id}" do
+      within '.create' do
         click_on 'Check In'
       end
       page.should have_content('Checked In!')
@@ -114,7 +114,7 @@ describe "the organizer dashboard" do
     end
 
     within "#rsvp_session_#{rsvp_session1.id}" do
-      within "#destroy_rsvp_session_#{rsvp_session1.id}" do
+      within '.destroy' do
         click_on 'Un-Check In'
       end
       page.should_not have_content 'Saving'

@@ -36,7 +36,7 @@ describe "checking in attendees" do
       page.should have_content("Check-ins for Unique Session Name")
 
       within "#rsvp_session_#{@student_rsvp_session.id}" do
-        within "#create_rsvp_session_#{@student_rsvp_session.id}" do
+        within '.create' do
           click_on 'Check In'
         end
         page.should have_content('Checked In!')
