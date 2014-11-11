@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bridge Troll</title>
+    <title>
+      <% if content_for?(:header_text) %>
+        <%= content_for(:header_text) %> - Bridge Troll
+      <% else %>
+        Bridge Troll
+      <% end %>
+    </title>
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
     <![endif]-->
@@ -17,8 +23,8 @@
   <body>
    <%= render 'shared/navbar' %>
     <div class='container header-container'>
-      <% if content_for(:header_text).present? %>
-        <% if content_for(:header_link).present? %>
+      <% if content_for?(:header_text) %>
+        <% if content_for?(:header_link) %>
           <h1><%= link_to yield(:header_text), yield(:header_link) %></h1>
         <% else %>
           <h1><%= yield(:header_text) %></h1>
