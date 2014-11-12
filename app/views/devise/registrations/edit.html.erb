@@ -1,4 +1,4 @@
-<h1>Edit <%= resource_name.to_s.humanize %></h1>
+<%= content_for(:header_text, "Edit #{resource_name.to_s.humanize}") %>
 
 <div style="margin-bottom: 20px;">
   <%= render 'shared/profile_gravatars'%>

@@ -1,6 +1,6 @@
-<div class="user-profile">
-  <h2>Profile for <strong><%= @user.full_name %></strong></h2>
+<%= content_for(:header_text, "Profile for #{@user.full_name}") %>
 
+<div class="user-profile">
   <%= render 'shared/profile_gravatars' %>
 
   <section>
