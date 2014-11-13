@@ -46,7 +46,7 @@ class EventMailer < ActionMailer::Base
 
     mail(
       to: 'info@bridgetroll.org',
-      subject: "A new #{@chapter.name} event is on Bridge Troll!"
+      subject: "[#{@chapter.name}] New event posted: '#{@event.title}'"
     )
   end
 end
