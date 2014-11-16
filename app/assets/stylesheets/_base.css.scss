@@ -179,6 +179,10 @@ ul {
   list-style-type: none;
 }
 
+.bulleted {
+  list-style-type: circle;
+}
+
 .actions {
   margin: 20px 0 0 0;
   &.no-margin {

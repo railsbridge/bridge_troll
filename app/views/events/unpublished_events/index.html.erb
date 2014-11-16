@@ -3,6 +3,15 @@
 <div class="row-fluid">
   <div class="span12">
     <div class='unpublished-events'>
+      <p>Before you approve an event, be sure to check on these things: </p>
+      <ul class="bulleted">
+        <li>Workshops need to explicitly state the group(s) of underrepresented people they are reaching out to. This should be toward the top of the workshop description. (It is often forgotten.)</li>
+        <li>Workshop should be free (not usually a problem).</li>
+        <li>The event dates make sense (aren't in the past, aren't super far apart).</li>
+        <li>Fix typos if you feel like it.</li>
+      </ul>
+      <p>If anything is unclear or if you have questions, email the organizer (their email address is listed under the Google map on the event page). You can also seek guidance from <%= mail_to "board@railsbridge.org" %>.</p>
+
       <% if @events.empty? %>
         <h2>There are currently no unpublished events.</h2>
       <% end %>
