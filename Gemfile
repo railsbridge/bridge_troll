@@ -51,6 +51,8 @@ group :development do
   gem 'terminal-notifier-guard'
   gem "bullet"
   gem "heroku_san"
+  gem "better_errors"
+  gem "binding_of_caller"
 end
 
 group :test, :development do
