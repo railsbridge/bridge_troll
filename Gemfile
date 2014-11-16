@@ -21,7 +21,6 @@ gem 'omniauth-twitter'
 gem 'omniauth-github'
 gem 'gravatar_image_tag'
 gem 'simple_form'
-gem 'sentry-raven'
 gem 'rack-canonical-host'
 gem 'icalendar'
 
@@ -30,6 +29,7 @@ group :production do
   gem 'rails_12factor'
   gem 'heroku_rails_deflate'
   gem 'newrelic_rpm'
+  gem 'sentry-raven'
 end
 
 gem 'handlebars_assets', '~> 0.17.0'
