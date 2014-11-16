@@ -12,7 +12,9 @@ Bridgetroll::Application.routes.draw do
   resources :meetup_users, :only => [:show]
 
   resources :locations
-  resources :chapters
+  resources :chapters do
+    resources :chapter_leaderships, :only => [:index, :create, :destroy]
+  end
 
   resources :events do
     resources :organizers, :only => [:index, :create, :destroy]

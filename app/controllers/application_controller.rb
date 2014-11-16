@@ -46,6 +46,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def validate_chapter_leader!
+    @chapter = @chapter || Chapter.find(params[:chapter_id])
+
+    unless @chapter.has_leader?(current_user) || current_user.admin?
+      flash[:error] = "You must be a chapter leader or admin to view this page."
+      redirect_to events_path
+    end
+  end
+
   def after_sign_in_path_for(resource)
     params[:return_to] || super
   end

@@ -1,5 +1,18 @@
 <%= content_for(:header_text, @chapter.name) %>
 
+<% if @chapter.leaders.present? %>
+  <h2>Chapter Leaders</h2>
+    <ul>
+    <% @chapter.leaders.each do |leader| %>
+      <li><%= link_to leader.full_name, user_profile_path(leader) %></li>
+    <% end %>
+    </ul>
+<% end %>
+
+<% if @chapter.has_leader?(current_user) || current_user.admin? %>
+  <%= link_to 'Edit Chapter Leaders', chapter_chapter_leaderships_path(@chapter), class: "btn mb-20" %>
+<% end %>
+
 <h2>Events</h2>
 <%= render 'shared/events_table', events: @chapter.events %>
 

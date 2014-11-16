@@ -1,0 +1,34 @@
+<h1>Chapter Leaders for <%= @chapter.name %></h1>
+
+<h3>Potential Leaders</h3>
+<%= form_tag(chapter_chapter_leaderships_path(@chapter), :method => :post)  do %>
+  <%= select("", "id", @users.collect {|u| [ u.full_name, u.id ] }, {:include_blank => ''}) %>
+  <%= submit_tag "Assign", :class => "btn btn-primary" %>
+<% end %>
+
+<table class="table">
+  <thead>
+  <tr>
+    <td></td>
+    <td>Name</td>
+    <td>Email</td>
+    <td></td>
+  </tr>
+  </thead>
+  <tbody>
+  <% @chapter.leaders.each do |leader|  %>
+    <tr>
+      <td class="span1"><%= render 'shared/viewed_gravatars', :email => leader.email %></td>
+      <td><%= leader.full_name %></td>
+      <td><%= leader.email %></td>
+      <td>
+        <% if leader.id != current_user.id %>
+          <%= button_to 'Remove', chapter_chapter_leadership_path(@chapter, leader), method: :delete,
+                        :form => {:style => "margin-bottom : 0;"}, :class => "btn btn-mini" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
