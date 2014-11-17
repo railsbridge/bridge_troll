@@ -43,7 +43,8 @@ class ExternalEvent < ActiveRecord::Base
         city: city
       },
       organizers: organizers,
-      sessions: fake_sessions
+      sessions: fake_sessions,
+      workshop: true
     }
   end
 end

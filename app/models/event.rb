@@ -60,7 +60,7 @@ class Event < ActiveRecord::Base
   end
 
   def historical?
-    meetup_volunteer_event_id || meetup_student_event_id
+    !!(meetup_volunteer_event_id || meetup_student_event_id)
   end
 
   def meetup_url meetup_event_id
@@ -281,17 +281,18 @@ class Event < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    {
-      id: id,
-      title: title,
-      location: location,
+    options = {
+      only: [:id, :title, :student_rsvp_limit],
+      methods: [:location]
+    }.merge(options)
+    super(options).merge(
+      workshop: !!(allow_student_rsvp || historical?),
       organizers: organizer_names,
       sessions: session_details,
       volunteer_rsvp_count: volunteer_rsvps_count,
       student_rsvp_count: student_rsvps_count,
       student_waitlist_rsvp_count: student_waitlist_rsvps_count,
-      student_rsvp_limit: student_rsvp_limit
-    }
+    )
   end
 
   private
