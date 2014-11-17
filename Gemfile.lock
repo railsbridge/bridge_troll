@@ -162,12 +162,12 @@ GEM
     hitimes (1.2.2)
     i18n (0.6.11)
     icalendar (2.2.0)
-    jasmine (2.0.3)
-      jasmine-core (~> 2.0.0)
+    jasmine (2.1.0)
+      jasmine-core (~> 2.1.0)
       phantomjs
       rack (>= 1.2.1)
       rake
-    jasmine-core (2.0.2)
+    jasmine-core (2.1.2)
     jasmine-jquery-rails (2.0.3)
     jquery-datatables-rails (3.0.0)
       jquery-rails
@@ -181,7 +181,7 @@ GEM
     jwt (1.0.0)
     launchy (2.4.3)
       addressable (~> 2.3)
-    listen (2.7.11)
+    listen (2.8.0)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -198,7 +198,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     nested_form (0.3.2)
-    newrelic_rpm (3.9.6.257)
+    newrelic_rpm (3.9.7.266)
     nokogiri (1.6.4.1)
       mini_portile (~> 0.6.0)
     nokogumbo (1.1.12)

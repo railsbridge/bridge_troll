@@ -7,43 +7,43 @@ Bridgetroll::Application.routes.draw do
   }
 
   resources :users, only: [:index] do
-    resource :profile, :only => [:show]
+    resource :profile, only: [:show]
   end
-  resources :meetup_users, :only => [:show]
+  resources :meetup_users, only: [:show]
 
   resources :locations
   resources :chapters do
-    resources :chapter_leaderships, :only => [:index, :create, :destroy]
+    resources :chapter_leaderships, only: [:index, :create, :destroy]
   end
 
   resources :events do
-    resources :organizers, :only => [:index, :create, :destroy]
-    resources :checkiners, :only => [:index, :create, :destroy]
-    resources :volunteers, :only => [:index, :update]
+    resources :organizers, only: [:index, :create, :destroy]
+    resources :checkiners, only: [:index, :create, :destroy]
+    resources :volunteers, only: [:index, :update]
 
-    resources :students, :only => [:index], :controller => 'events/students'
-    resources :attendees, :only => [:index, :update], :controller => 'events/attendees'
-    resources :emails, :only => [:new, :create, :show], :controller => 'events/emails'
+    resources :students, only: [:index], controller: 'events/students'
+    resources :attendees, only: [:index, :update], controller: 'events/attendees'
+    resources :emails, only: [:new, :create, :show], controller: 'events/emails'
 
-    resources :sections, :only => [:create, :update, :destroy] do
+    resources :sections, only: [:create, :update, :destroy] do
       post :arrange, on: :collection
     end
 
-    resources :rsvps, :except => [:index, :new] do
+    resources :rsvps, except: [:index, :new] do
       new do
         get :volunteer
         get :learn
       end
-      resources :surveys, :only => [:new, :create]
+      resources :surveys, only: [:new, :create]
     end
 
-    resources :surveys, :only => :index
+    resources :surveys, only: :index
 
-    resources :event_sessions, :only => [:index, :show] do
-      resources :checkins, :only => [:index, :create, :destroy]
+    resources :event_sessions, only: [:index, :show] do
+      resources :checkins, only: [:index, :create, :destroy]
     end
 
-    resources :organizer_tools, :only => [:index], controller: "events/organizer_tools"
+    resources :organizer_tools, only: [:index], controller: "events/organizer_tools"
     controller "events/organizer_tools" do
       get "send_survey_email"
       get "organize_sections"

@@ -1,9 +1,10 @@
 <% if Rails.env.production? %>
 $(document).ready(function () {
-  var fontTracking = document.createElement('link');
-  fontTracking.type = 'text/css';
-  fontTracking.rel = 'stylesheet';
-  fontTracking.href = '//hello.myfonts.net/count/262127';
+  var fontTracking = _.extend(document.createElement('link'), {
+    type: 'text/css',
+    rel: 'stylesheet',
+    href: '//hello.myfonts.net/count/262127'
+  });
   document.getElementsByTagName('head')[0].appendChild(fontTracking);
 });
 <% end %>
