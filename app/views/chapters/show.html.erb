@@ -9,8 +9,10 @@
     </ul>
 <% end %>
 
-<% if @chapter.has_leader?(current_user) || current_user.admin? %>
-  <%= link_to 'Edit Chapter Leaders', chapter_chapter_leaderships_path(@chapter), class: "btn mb-20" %>
+<% if user_signed_in? %>
+  <% if @chapter.has_leader?(current_user) || current_user.admin? %>
+    <%= link_to 'Edit Chapter Leaders', chapter_chapter_leaderships_path(@chapter), class: "btn mb-20" %>
+  <% end %>
 <% end %>
 
 <h2>Events</h2>
