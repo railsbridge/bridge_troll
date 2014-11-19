@@ -7,6 +7,9 @@ class ChaptersController < ApplicationController
   end
 
   def show
+    if @chapter.has_leader?(current_user)
+      @organizer_rsvps = Rsvp.joins([event: [location: :chapter]]).includes(:user, event: :location).where('chapters.id = ? AND role_id = ?', @chapter.id, Role::ORGANIZER.id)
+    end
   end
 
   def new

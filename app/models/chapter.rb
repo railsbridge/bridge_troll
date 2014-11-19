@@ -11,6 +11,10 @@ class Chapter < ActiveRecord::Base
   validates_uniqueness_of :name
 
   def has_leader?(user)
+    return false unless user
+
+    return true if user.admin?
+
     leaders.include?(user)
   end
 end

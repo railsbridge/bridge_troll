@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
   def validate_chapter_leader!
     @chapter = @chapter || Chapter.find(params[:chapter_id])
 
-    unless @chapter.has_leader?(current_user) || current_user.admin?
+    unless @chapter.has_leader?(current_user)
       flash[:error] = "You must be a chapter leader or admin to view this page."
       redirect_to events_path
     end
