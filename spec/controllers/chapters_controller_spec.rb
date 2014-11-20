@@ -84,5 +84,40 @@ describe ChaptersController do
         end
       end
     end
+
+    context "a chapter lead" do
+      before do
+        @user = create(:user)
+        @chapter.leaders << @user
+        sign_in @user
+      end
+
+      describe "for a chapter with multiple events" do
+        before do
+          @location = create(:location, chapter: @chapter)
+
+          @org1 = create(:user)
+          @org2 = create(:user)
+
+          @event1 = create(:event, location: @location)
+          @event1.organizers << @org1
+          @event1.organizers << @org2
+
+          @event2 = create(:event, location: @location)
+          @event2.organizers << @org1
+        end
+
+        it "can see a list of unique organizers" do
+          get :show, id: @chapter.id
+          @organizer_rsvps = assigns(:organizer_rsvps)
+          @organizer_rsvps.map do |rsvp|
+            [rsvp.user.full_name, rsvp.events_count]
+          end.should =~ [
+            [@org1.full_name, 2],
+            [@org2.full_name, 1]
+          ]
+        end
+      end
+    end
   end
 end

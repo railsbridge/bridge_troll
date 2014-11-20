@@ -17,9 +17,7 @@
     <thead>
     <tr>
       <th>Name</th>
-      <th>Date</th>
-      <th>Location</th>
-      <th>Event</th>
+      <th># Events</th>
     </tr>
     </thead>
     <tbody>
@@ -28,11 +26,7 @@
         <td>
           <%= link_to rsvp.user.full_name, user_profile_path(rsvp.user) %>
         </td>
-        <td><%= formatted_event_date(rsvp.event) %></td>
-        <td><%= rsvp.event.location.name rescue nil %></td>
-        <td>
-          <%= link_to rsvp.event.title, rsvp.event %>
-        </td>
+        <td><%= rsvp.events_count %></td>
       </tr>
     <% end %>
     </tbody>

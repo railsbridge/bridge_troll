@@ -8,7 +8,15 @@ class ChaptersController < ApplicationController
 
   def show
     if @chapter.has_leader?(current_user)
-      @organizer_rsvps = Rsvp.joins([event: [location: :chapter]]).includes(:user, event: :location).where('chapters.id = ? AND role_id = ?', @chapter.id, Role::ORGANIZER.id)
+      @organizer_rsvps = Rsvp.
+        group(:user_id).
+        joins([event: [location: :chapter]]).
+        includes(:user).
+        select("user_id, 'User' as user_type, count(*) as events_count").
+        where('chapters.id = ? AND role_id = ? AND user_type = ?',
+              @chapter.id,
+              Role::ORGANIZER.id,
+              'User')
     end
   end
 
