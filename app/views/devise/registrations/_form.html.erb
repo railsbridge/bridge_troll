@@ -79,7 +79,7 @@
     <% end %>
   <% end %>
 
-  <% if f.object.password_required? %>
+  <% if f.object.password_required? || f.object.encrypted_password.present? %>
     <div class='field'>
       <%= f.label :password %>
       <%= f.password_field :password %>
