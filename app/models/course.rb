@@ -146,36 +146,52 @@ class Course < ActiveHash::Base
       id: 4,
       name: 'iOS',
       title: 'Intro to iOS Development',
-      description: 'This workshop will cover how to make an iOS application.'\
-                   'You can find the curriculum outline at <a'\
-                   'href="https://github.com/thecodepath/ios_guides/wiki/'\
-                   'iOS-1-day-Weekend-Workshop">the temporary location</a>.',
+      description: 'This workshop will cover how to make an iOS application.',
       levels: [
         {
           level: 1,
           color: 'blue',
-          title: "No Programming Experience",
+          title: "Totally New to Programming",
           level_description: [
-            'New to programming, including iOS programming',
-            'No experience with programming languages other than HTML and CSS',
+            'You have little to no experience with the terminal or a graphical IDE',
+            'You might have done a little bit with HTML or CSS, but not necessarily',
           ]
         }, {
           level: 2,
-          color: 'orange',
-          title: "New programmer, and new to iOS programming",
+          color: 'green',
+          title: "Somewhat New to Programming",
           level_description: [
-            'Some programming experiencein another language like Ruby, Python, C, Java',
-            'Has perhaps seen Objective-C, but didn\'t really understand how it worked',
+            'You may have used the terminal a little — to change directories, for instance',
+            'You might have done an online programming tutorial or two',
+            'You know what a method is',
           ]
         }, {
           level: 3,
-          color: 'purple',
+          color: 'gold',
+          title: "Some iOS App Development Experience",
+          level_description: [
+            "You're comfortable using the terminal, but not necessarily a Power User",
+            'You have a general understanding of XCode and of iOS app structure, perhaps from a prior workshop or tutorial',
+            'Some programming experience in another language like Ruby, Python, C, Java',
+          ]
+        }, {
+          level: 4,
+          color: 'silver',
+          title: "Experienced Designer new to iOS programming",
+          level_description: [
+            "You're proficient in design tools (Adobe Creative Suite, etc)",
+            "You're new to the XCode environment and to iOS app development",            
+          ]
+        }, {
+          level: 5,
+          color: 'orange',
           title: "Experienced Programmer new to iOS programming",
           level_description: [
-            'Very comfortable in programming lanugages other than Objective-C.',
-            'Experienced programmer, but new to creating iOS apps',
+            "You're proficient in another language and understand general programming concepts",
+            "You're new to the XCode environment and to iOS app development",
+            'You might be familiar with version control',
           ]
-        },
+        },        
       ]
     }
   ]
