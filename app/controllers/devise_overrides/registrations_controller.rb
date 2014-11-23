@@ -4,7 +4,9 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
   def update
     @user = User.find(current_user.id)
 
-    successfully_updated = if needs_password?(@user, params)
+    successfully_updated = if assigning_password?(@user, params)
+      @user.update(user_params)
+    elsif needs_password?(@user, params)
       @user.update_with_password(user_params)
     else
       # remove the virtual current_password attribute update_without_password
@@ -43,6 +45,10 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
   def needs_password?(user, params)
     user.email != params[:user][:email] ||
       params[:user][:password].present?
+  end
+
+  def assigning_password?(user, params)
+    params[:user][:password].present? && user.encrypted_password.blank?
   end
 
   def build_resource(*args)

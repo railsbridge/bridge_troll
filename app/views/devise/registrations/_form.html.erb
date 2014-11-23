@@ -79,22 +79,24 @@
     <% end %>
   <% end %>
 
-  <% if f.object.password_required? || f.object.encrypted_password.present? %>
-    <div class='field'>
-      <%= f.label :password %>
-      <%= f.password_field :password %>
-      <% if is_registered %>
-        <span class="help-block">(leave blank if you don't want to change it)</span>
-      <% end %>
-    </div>
-
-    <div class='field'>
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation %>
-    </div>
+  <% if is_registered && f.object.encrypted_password.blank? %>
+    <span class="help-block">You don't currently have a Bridge Troll password set up, because you use <%= f.object.authentications.map(&:provider).join('/') %> to log in. That's fine with us, but if you want to set up a password as well, you can do it here:</span>
   <% end %>
 
-  <% if is_registered %>
+  <div class='field'>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+    <% if is_registered && f.object.encrypted_password? %>
+      <span class="help-block">(leave blank if you don't want to change it)</span>
+    <% end %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+  </div>
+
+  <% if is_registered && f.object.encrypted_password? %>
     <div class='field'>
       <%= f.label :current_password %>
       <%= f.password_field :current_password %>
