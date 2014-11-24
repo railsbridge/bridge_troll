@@ -180,6 +180,8 @@ class Course < ActiveHash::Base
           title: "Experienced Designer new to iOS programming",
           level_description: [
             "You're proficient in design tools (Adobe Creative Suite, etc)",
+            "You're familiar with general UI design principles",
+            "You might be familiar with HTML and CSS.",
             "You're new to the XCode environment and to iOS app development",            
           ]
         }, {
