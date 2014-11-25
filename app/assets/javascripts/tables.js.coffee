@@ -1,10 +1,10 @@
 $(document).ready ->
-  domWithoutActions = "t<'row-fluid'<'span6'i><'span6'p>>"
-  domWithActions = "<'row-fluid'<'span6'l><'span6'f>r>" + domWithoutActions
+  domWithoutActions = "t<'row'<'col-md-6'i><'col-md-6'p>>"
+  domWithActions = "<'row'<'col-md-6'l><'col-md-6'f>r>" + domWithoutActions
 
   $.extend($.fn.dataTable.defaults, {
     dom: domWithActions,
-    pagingType: "bootstrap",
+    pagingType: 'full_numbers',
     pageLength: 50
   })
 

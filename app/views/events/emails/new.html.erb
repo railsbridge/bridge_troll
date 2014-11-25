@@ -33,19 +33,25 @@
 
     <div class='row'>
 
-      <div class='span4'>
-        <%= label_tag do %>
-          <%= f.radio_button(:attendee_group, 'All', class: 'attendee-group') %> All Attendees
-        <% end %>
-        <%= label_tag do %>
-          <%= f.radio_button(:attendee_group, Role::STUDENT.id, class: 'attendee-group') %> Only Students
-        <% end %>
-        <%= label_tag do %>
-          <%= f.radio_button(:attendee_group, Role::VOLUNTEER.id, class: 'attendee-group') %> Only Volunteers
-        <% end %>
+      <div class='col-md-4'>
+        <div>
+          <%= label_tag do %>
+            <%= f.radio_button(:attendee_group, 'All', class: 'attendee-group') %> All Attendees
+          <% end %>
+        </div>
+        <div>
+          <%= label_tag do %>
+            <%= f.radio_button(:attendee_group, Role::STUDENT.id, class: 'attendee-group') %> Only Students
+          <% end %>
+        </div>
+        <div>
+          <%= label_tag do %>
+            <%= f.radio_button(:attendee_group, Role::VOLUNTEER.id, class: 'attendee-group') %> Only Volunteers
+          <% end %>
+        </div>
       </div>
 
-      <div class='span6'>
+      <div class='col-md-6'>
         <%= label_tag do %>
           <%= f.check_box(:include_waitlisted, {class: 'include-waitlisted'}, true, false) %> Include waitlisted students
         <% end %>
@@ -63,15 +69,15 @@
 
     <%= label_tag do %>
       <div>Subject</div>
-      <%= f.text_field(:subject, placeholder: 'A message from your RailsBridge organizer') %>
+      <%= f.text_field(:subject, placeholder: 'A message from your RailsBridge organizer', class: 'form-control') %>
     <% end %>
 
     <%= label_tag do %>
       <div>Message Body</div>
-      <%= f.text_area(:body, placeholder: "Here's some important information about the upcoming workshop...") %>
+      <%= f.text_area(:body, placeholder: "Here's some important information about the upcoming workshop...", class: 'form-control') %>
     <% end %>
 
-    <%= f.submit 'Send Mail', class: 'btn' %>
+    <div style="margin-top: 10px;"><%= f.submit 'Send Mail', class: 'btn' %></div>
   <% end %>
 </div>
 

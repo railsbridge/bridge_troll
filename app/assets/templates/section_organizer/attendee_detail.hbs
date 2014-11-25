@@ -1,33 +1,37 @@
-<div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+<div class='modal-dialog'>
+  <div class='modal-content'>
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
   <h1><a href="/users/{{user_id}}/profile">{{full_name}}</a></h1>
-</div>
-<div class="modal-body">
-  {{#if volunteer}}
-    <div class='role'>Volunteer</div>
+    </div>
+    <div class="modal-body">
+      {{#if volunteer}}
+        <div class='role'>Volunteer</div>
 
-    <div class='detail-header'>Teaching Preference</div>
-    <div class='detail'>{{teaching_preference_description}}</div>
+        <div class='detail-header'>Teaching Preference</div>
+        <div class='detail'>{{teaching_preference_description}}</div>
 
-    <div class='detail-header'>Subject Experience</div>
-    <div class='detail'>{{subject_experience}}</div>
+        <div class='detail-header'>Subject Experience</div>
+        <div class='detail'>{{subject_experience}}</div>
 
-    <div class='detail-header'>Teaching Experience</div>
-    <div class='detail'>{{teaching_experience}}</div>
-  {{/if}}
-  {{#if student}}
-    <div class='role'>Student</div>
+        <div class='detail-header'>Teaching Experience</div>
+        <div class='detail'>{{teaching_experience}}</div>
+      {{/if}}
+      {{#if student}}
+        <div class='role'>Student</div>
 
-    <div class='detail-header'>Operating System</div>
-    <div class='detail'>{{operating_system_title}}</div>
-  {{/if}}
-  {{#if organizer}}
-    <div class='role'>Workshop Organizer</div>
-  {{else}}
-    <div class='detail-header'>Job Details</div>
-    <div class='detail'>{{job_details}}</div>
-  {{/if}}
-</div>
-<div class="modal-footer">
-  <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <div class='detail-header'>Operating System</div>
+        <div class='detail'>{{operating_system_title}}</div>
+      {{/if}}
+      {{#if organizer}}
+        <div class='role'>Workshop Organizer</div>
+      {{else}}
+        <div class='detail-header'>Job Details</div>
+        <div class='detail'>{{job_details}}</div>
+      {{/if}}
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+  </div>
 </div>

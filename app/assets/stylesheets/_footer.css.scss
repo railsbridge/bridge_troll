@@ -1,3 +1,14 @@
+.form-date {
+  label {
+    display: block;
+  }
+
+  select.form-control {
+    width: 33%;
+    display: inline-block;
+  }
+}
+
 footer {
   display: none;
 

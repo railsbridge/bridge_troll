@@ -1,27 +1,25 @@
-<div class="navbar navbar-fixed-top">
-  <div class="navbar-inner">
-    <%= link_to events_path, class: 'app-name' do %>
-      <%= image_tag asset_path('logo.svg') %>
-    <% end %>
+<nav class="navbar navbar-default">
+  <%= link_to events_path, class: 'app-name' do %>
+    <%= image_tag asset_path('logo.svg') %>
+  <% end %>
+  <% if user_signed_in? %>
+    <span class="nav-blurb">Found a bug? Or some unexpected behavior? <a href="https://github.com/railsbridge/bridge_troll/issues" target="_blank">Let us know</a>!</span>
+  <% end %>
+  <ul class="nav navbar-nav navbar-right">
     <% if user_signed_in? %>
-      <span class="nav-blurb">Found a bug? Or some unexpected behavior? <a href="https://github.com/railsbridge/bridge_troll/issues" target="_blank">Let us know</a>!</span>
+      <li>
+        <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'btn' %>
+      </li>
+      <li>
+        <%= link_to 'Settings',edit_user_registration_path, class: 'btn fa-before fa-gear' %>
+      </li>
+    <% else %>
+      <li id="sign_in">
+        <a href="#sign_in_dialog" role="button" class="btn sign-in-button" data-return-to="<%= request.fullpath %>">Sign In</a>
+      </li>
+      <li>
+        <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-primary' %>
+      </li>
     <% end %>
-    <ul class="nav pull-right">
-      <% if user_signed_in? %>
-        <li>
-          <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'btn' %>
-        </li>
-        <li>
-          <%= link_to 'Settings',edit_user_registration_path, class: 'btn fa-before fa-gear' %>
-        </li>
-      <% else %>
-        <li id="sign_in">
-          <a href="#sign_in_dialog" role="button" class="btn sign-in-button" data-return-to="<%= request.fullpath %>">Sign In</a>
-        </li>
-        <li>
-          <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-primary' %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-</div>
+  </ul>
+</nav>

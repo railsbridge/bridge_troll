@@ -1,3 +1,10 @@
+table {
+  td.avatar-column {
+    width: 60px;
+    text-align: center;
+  }
+}
+
 table.checkins {
   th.checkins-name { width: 50%; }
   th.checkins-role { width: 20%; }
@@ -107,6 +114,19 @@ table.responsive-table {
     thead {
       display: none;
     }
+
+    &.table-striped tbody > tr {
+      background-color: transparent;
+    }
+
+    &.table-bordered tbody td {
+      border-left-width: 1px;
+    }
+
+    &.table-bordered td:last-child {
+      border-right-width: 1px;
+    }
+
     // The added specificity here is mostly to undo the work of bootstrap's tabling
     tbody > tr > td, tbody > tr > th {
       background-color: #f9f9f9;

@@ -1,29 +1,19 @@
-<div class='row-fluid sign-in'>
-  <div class='span6 login-option'>
+<div class='row sign-in'>
+  <div class='col-md-6 login-option'>
     <h3>Sign in with BridgeTroll</h3>
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div>
-        <%= f.label :email %>
-        <%= f.email_field :email %>
-      </div>
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), wrapper_mappings: {boolean: :vertical_boolean}) do |f| %>
+      <%= f.input :email %>
 
-      <div>
-        <%= f.label :password %>
-        <%= f.password_field :password %>
-      </div>
+      <%= f.input :password %>
 
       <% if devise_mapping.rememberable? -%>
-        <div>
-          <%= f.label :remember_me, class: 'checkbox' do %>
-              <%= f.check_box :remember_me %> Remember Me
-          <% end %>
-        </div>
+        <%= f.input :remember_me, as: :boolean %>
       <% end -%>
 
       <div><%= f.submit "Sign in", class: 'btn btn-submit' %></div>
     <% end %>
   </div>
-  <div class='span6 login-option'>
+  <div class='col-md-6 login-option'>
     <h3>Sign in with something else</h3>
     <ul class='external-auth'>
       <% OmniauthProviders.provider_data.each do |provider| %>

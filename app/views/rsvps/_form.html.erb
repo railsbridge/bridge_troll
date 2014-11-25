@@ -1,5 +1,9 @@
 <div id="rsvp-form">
-  <%= simple_form_for([@event, @rsvp], html: {:class => 'form-vertical'}) do |f| %>
+  <%= simple_form_for([@event, @rsvp], html: {:class => 'form-vertical'},
+                      wrapper_mappings: {
+                        boolean: :vertical_boolean,
+                        radio_buttons: :vertical_radio_and_checkboxes
+                      }) do |f| %>
     <% if @rsvp.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(@rsvp.errors.count, "error") %> prohibited this rsvp from being saved:</h2>
@@ -38,7 +42,7 @@
           <p>RailsBridge workshops focus on providing opportunities for under-represented populations in tech. If you are not a member of an underrepresented group, you can only attend as a student if you're the guest of someone who is a member of the workshop's target population. (For example, men can come as the guest of a woman, a straight person can attend as the guest of a gay person, etc.)</p>
           <p class="question">If you are not a member of this workshop's target demographic, list the name of the person who is bringing you here: </p>
           <div class="field">
-            <%= f.text_field :plus_one_host %>
+            <%= f.input :plus_one_host %>
           </div>
           <% if user_signed_in? && @event.public_email.present? %>
             <p>Questions or not sure if you should RSVP? You can email your organizer at <%= mail_to @event.public_email %>.</p>
@@ -48,29 +52,30 @@
     <% end %>
 
     <% if @rsvp.role_volunteer? %>
-      <div class="field">
-        <%= f.label :subject_experience, "What's your experience with this workshop's subject matter?", class: "question" %>
-        <%= f.text_area :subject_experience, rows: 3, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH, class: "input-xxlarge" %>
-      </div>
-
+      <%= f.input :subject_experience, as: :text, label: "What's your experience with this workshop's subject matter?", class: "question", input_html: {
+        maxlength: Rsvp::MAX_EXPERIENCE_LENGTH,
+        rows: 3,
+      } %>
 
       <% unless @rsvp.event.course.blank? %>
         <h2>Volunteer Preferences</h2>
         <p class="question">Would you prefer to teach or TA? (Checking neither means you'd prefer to do something else entirely)</p>
-        <div class="field">
+        <div class="checkbox">
           <%= f.label :teaching, class: 'checkbox' do %>
             <%= f.check_box :teaching %> Teaching
           <% end %>
+        </div>
+        <div class="checkbox">
           <%= f.label :taing, class: 'checkbox' do %>
             <%= f.check_box :taing %> TAing
           <% end %>
         </div>
         <p class="details">If you checked "Teaching" or "TAing" tell us a bit about any teaching or mentoring experience you have had, even one-on-one or non-programming subject. (No experience is ok!)</p>
         <% unless @rsvp.event.course.blank? %>
-          <div class="field">
-            <%= f.label :teaching_experience, "What's your experience with teaching?", class: "question" %>
-            <%= f.text_area :teaching_experience, rows: 3, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH, class: "input-xxlarge" %>
-          </div>
+          <%= f.input :teaching_experience, as: :text, label: "What's your experience with teaching?", class: "question", input_html: {
+            maxlength: Rsvp::MAX_EXPERIENCE_LENGTH,
+            rows: 3,
+          } %>
         <% end %>
 
         <p class="question">Do you have a class level preference?</p>
@@ -99,15 +104,16 @@
     <% end %>
 
     <h2>About You</h2>
-    <div class="field">
-      <%= f.label :job_details, "What's your job? (i.e. Accountant, Full-Time Parent, Student, Job-Hunter, Horse Whisperer)", class: "question" %>
-      <%= f.text_area :job_details, rows: 1, maxlength: Rsvp::MAX_EXPERIENCE_LENGTH, class: "input-xxlarge" %>
+    <div class="field question">
+      <%= f.input :job_details, as: :text, label: "What's your job? (i.e. Accountant, Full-Time Parent, Student, Job-Hunter, Horse Whisperer)", input_html: {
+        rows: 1,
+        maxlength: Rsvp::MAX_EXPERIENCE_LENGTH
+      } %>
     </div>
 
-    <div class="field">
-      <%= fields_for current_user do |ff| %>
-        <%= ff.label :gender, 'Gender (This will update your account, too.)', class: "question" %>
-        <%= ff.text_field :gender %>
+    <div class="field question">
+      <%= simple_fields_for current_user do |ff| %>
+        <%= ff.input :gender, label: 'Gender (This will update your account, too.)' %>
       <% end %>
     </div>
 
@@ -116,10 +122,8 @@
       <%= render partial: 'dietary_restrictions', locals: {f: f} %>
     </div>
 
-    <div class="field">
-      <%= f.label :needs_childcare, class: 'checkbox question' do %>
-        <%= f.check_box :needs_childcare %> Do you need childcare?
-      <% end %>
+    <div class="field question">
+      <%= f.input :needs_childcare, as: :boolean, label: 'Do you need childcare?' %>
     </div>
 
     <div class="field<%= ' hidden' unless f.object.needs_childcare? %>">
@@ -128,17 +132,21 @@
     </div>
 
     <% if @event.location %>
-      <div class="field">
-        <%= label_tag :affiliate_with_chapter, class: 'checkbox question' do %>
-          <%= check_box_tag :affiliate_with_chapter, 1, current_user.chapters.include?(@event.chapter) %> I want to be notified of future RailsBridge events in the "<%= @event.chapter.name %>" chapter.
-        <% end %>
-        <small>(Full email preferences are available <%= link_to 'on your User Account', edit_user_registration_path %>)</small>
+      <div class="field question">
+        <div class="form-group boolean optional affiliate_with_chapter">
+          <div class="checkbox">
+            <%= label_tag :affiliate_with_chapter do %>
+              <%= check_box_tag :affiliate_with_chapter, 1, current_user.chapters.include?(@event.chapter) %> I want to be notified of future RailsBridge events in the "<%= @event.chapter.name %>" chapter.
+            <% end %>
+            <small>(Full email preferences are available <%= link_to 'on your User Account', edit_user_registration_path %>)</small>
+          </div>
+        </div>
       </div>
     <% end %>
 
    <% if @rsvp.new_record?%>
-      <div class="field">
-        <%= label_tag :coc, class: 'checkbox question' do %>
+      <div class="checkbox">
+        <%= label_tag :coc, class: 'question' do %>
           <%= check_box_tag :coc %> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a>
         <% end %>
       </div>

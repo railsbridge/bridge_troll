@@ -1,6 +1,6 @@
-<div class="row-fluid">
-  <div class="span6">
-    <%= nested_form_for @event do |f| %>
+<div class="row">
+  <div class="col-md-6">
+    <%= simple_nested_form_for @event do |f| %>
       <% if @event.errors.any? %>
         <div id="error_explanation">
           <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
@@ -13,15 +13,12 @@
         </div>
       <% end %>
 
-
-
-      <div class="field">
-        <%= f.label :title %>
-        <%= f.text_field :title %>
-      </div>
+      <%= f.input :title, required: false %>
 
       <div class="field">
-        <%= f.label :location_id %>
+        <div>
+          <%= f.label :location_id %>
+        </div>
         <%= collection_select(:event, :location_id, Location.all, :id, :name_with_chapter, :prompt => true) %>
         <p>
           <em>If your location isn't in this list, head over to the <%= link_to 'locations page', locations_path %> and add it before you continue.</em>
@@ -56,38 +53,41 @@
         <p>
           <small>If you are not a member of this workshop's target demographic, list the name of the person who is bringing you here: [text field]</small>
         </p>
-        <%= label_tag do %>
-          <%= f.radio_button :plus_one_host_toggle, true %> Show plus-one host name form
-        <% end %>
-        <%= label_tag do %>
-          <%= f.radio_button :plus_one_host_toggle, false %> Don't show plus-one host name form
-        <% end %>
+        <div>
+          <%= label_tag do %>
+            <%= f.radio_button :plus_one_host_toggle, true %> Show plus-one host name form
+          <% end %>
+        </div>
+        <div>
+          <%= label_tag do %>
+            <%= f.radio_button :plus_one_host_toggle, false %> Don't show plus-one host name form
+          <% end %>
+        </div>
       </div>
 
       <div class="field workshop-only">
-        <%= f.label :course_id %>
-        <%= collection_select :event, :course_id, Course.all, :id, :title %>
+        <div>
+          <%= f.label :course_id %>
+        </div>
+        <%= collection_select :event, :course_id, Course.all, :id, :title, {}, {class: 'form-control'} %>
       </div>
 
       <h3>Sessions</h3>
 
       <em>There should be one session for each thing that a student or volunteer might be checked in for. This usually means 'Installfest' and 'Workshop'. If there's no Installfest, just keep the one session.</em>
 
-      <div class="event-sessions form-horizontal">
+      <div class="event-sessions">
         <%= f.fields_for :event_sessions do |event_sessions_form| %>
           <span class="remove-session hidden pull-right">(<a href="#">Remove Session</a>)</span>
-          <%= event_sessions_form.label :name, 'Session Name' %>
-          <div class='control-group'>
-            <%= event_sessions_form.text_field :name %>
-          </div>
+          <%= event_sessions_form.input :name, label: 'Session Name', required: false %>
 
-          <div class='control-group'>
-            <%= event_sessions_form.text_field :session_date, class: 'datepicker' %>
-            <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {:class => "input-small start_time"} %>
+          <div class='form-group'>
+            <%= event_sessions_form.text_field :session_date, class: 'datepicker form-control' %>
+            <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {class: "input-small start_time form-control"} %>
             -
-            <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {:class => "input-small end_time"} %>
+            <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {class: "input-small end_time form-control"} %>
           </div>
-          <div class='control-group'>
+          <div class='form-group'>
             <%= event_sessions_form.label :required_for_students do %>
               <%= event_sessions_form.check_box :required_for_students %> Required for Students?
             <% end %>
@@ -99,8 +99,7 @@
       </div>
 
       <div class="field">
-        <%= f.label :time_zone %>
-        <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
+        <%= f.input :time_zone, priority: ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone', required: false %>
       </div>
 
       <div class='workshop-only'>
@@ -120,30 +119,25 @@
       </div>
 
       <div class="field workshop-only">
-        <%= f.label :student_rsvp_limit, 'Student RSVP limit' %>
-        <%= f.text_field :student_rsvp_limit %>
+        <%= f.input :student_rsvp_limit, label: 'Student RSVP limit' %>
       </div>
 
       <div class="field">
-        <%= f.label :public_email, 'What email address should users contact you at with questions?' %>
-        <%= f.text_field :public_email, :class => "input-xxlarge" %>
+        <%= f.input :public_email, label: 'What email address should users contact you at with questions?' %>
       </div>
 
       <div class="field">
-        <%= f.label :details, 'General Event Details (some html allowed)' %>
-        <%= f.text_area :details, :rows => 14, :class => "input-xxlarge" %>
+        <%= f.input :details, label: 'General Event Details (some html allowed)', as: :text, input_html: {rows: 14} %>
       </div>
 
       <h3>Post-RSVP Details</h3>
       <p>The following details will be included in the confirmation & reminder emails and will appear at the bottom of the event detail page <em>after</em> the student or volunteer has signed up.</p>
       <div class="field">
-        <%= f.label :volunteer_details, 'Volunteer Details' %>
-        <%= f.text_area :volunteer_details, :rows => 4, :class => "input-xxlarge" %>
+        <%= f.input :volunteer_details, label: 'Volunteer Details', input_html: {rows: 4} %>
       </div>
 
       <div class="field workshop-only">
-        <%= f.label :student_details, 'Student Details' %>
-        <%= f.text_area :student_details, :rows => 4, :class => "input-xxlarge" %>
+        <%= f.input :student_details, label: 'Student Details', input_html: {rows: 4} %>
       </div>
 
       <% if @event.new_record? %>
@@ -155,12 +149,11 @@
 
         <p><b>If you post the event on Meetup for advertising</b>, please make only ONE event <i>(RailsBridge workshop at YOUR_VENUE)</i> and set the RSVP limit to 1 <i>(yourself)</i>. This event should be for publicity only (people who are a member of the Meetup group will get emailed about it) &mdash; you should direct attendees to do their actual registration on this Bridge Troll event.</p>
         <div class="field">
-          <%= label_tag :coc, class: 'checkbox question' do %>
+          <%= label_tag :coc, class: 'question' do %>
             <%= check_box_tag :coc %> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a> and will communicate it at the beginning of the event
           <% end %>
         </div>
       <% end %>
-
 
       <div class="actions">
         <%= f.submit class: 'btn btn-submit' %>

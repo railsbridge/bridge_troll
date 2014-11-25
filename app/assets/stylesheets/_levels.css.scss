@@ -20,16 +20,16 @@
 
   label {
     margin: 0;
-    display: inline;
-    line-height: 25px;
+    line-height: 20px;
   }
 
   .label {
     margin: 0 2px 5px 2px;
     text-align: center;
-    width: 45px;
-    height: 22px;
+    width: 49px;
+    height: 27px;
     line-height: 22px;
+    display: inline-block;
 
     &.btn-blue {
       @include gradient(#5BC0DE, $level-blue);
@@ -50,10 +50,16 @@
     &.btn-orange {
       @include gradient(#ffa84c, $level-orange);
     }
+
+    &.btn-gray {
+      background-color: #999999;
+    }
   }
 
   ul {
     list-style: circle;
+    margin-left: 25px;
+    margin-bottom: 10px;
   }
 
   .popover {

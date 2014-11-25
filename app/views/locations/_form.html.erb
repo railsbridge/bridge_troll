@@ -1,49 +1,41 @@
-<%= form_for(@location) do |f| %>
-  <% if @location.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@location.errors.count, "error") %> prohibited this location from being saved:</h2>
+<div class="row">
+  <div class="col-md-6">
+    <%= simple_form_for(@location) do |f| %>
+      <% if @location.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@location.errors.count, "error") %> prohibited this location from being saved:</h2>
 
-      <ul>
-        <% @location.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+          <ul>
+            <% @location.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div class="field">
-    <%= f.label :chapter_id %>
-    <%= f.collection_select(:chapter_id, Chapter.all, :id, :name, :prompt => true) %>
-    <p>
-      <em>If your chapter isn't in this list, head over to the <%= link_to 'chapters page', chapters_path %> and add it before you continue.</em>
-    </p>
-  </div>
+      <div class="form-group">
+        <%= f.label :chapter_id %>
+        <%= f.collection_select(:chapter_id, Chapter.all, :id, :name, {:prompt => true}, {class: 'form-control'}) %>
+        <p>
+          <em>If your chapter isn't in this list, head over to the <%= link_to 'chapters page', chapters_path %> and add it before you continue.</em>
+        </p>
+      </div>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+      <%= f.input :name, required: false %>
+
+      <%= f.input :address_1, required: false %>
+
+      <%= f.input :address_2, required: false %>
+
+      <%= f.input :city, required: false %>
+
+      <%= f.input :state, required: false %>
+
+      <%= f.input :zip, required: false %>
+
+      <div class="actions">
+        <%= f.submit class: 'btn btn-submit' %>
+      </div>
+    <% end %>
   </div>
-  <div class="field">
-    <%= f.label :address_1 %>
-    <%= f.text_field :address_1 %>
-  </div>
-  <div class="field">
-    <%= f.label :address_2 %>
-    <%= f.text_field :address_2 %>
-  </div>
-  <div class="field">
-    <%= f.label :city %>
-    <%= f.text_field :city %>
-  </div>
-  <div class="field">
-    <%= f.label :state %>
-    <%= f.text_field :state %>
-  </div>
-  <div class="field">
-    <%= f.label :zip %>
-    <%= f.text_field :zip %>
-  </div>
-  <div class="actions">
-    <%= f.submit class: 'btn btn-submit' %>
-  </div>
-<% end %>
+</div>

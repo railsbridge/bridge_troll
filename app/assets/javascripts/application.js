@@ -7,10 +7,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui/datepicker
-//= require twitter/bootstrap/modal
-//= require twitter/bootstrap/transition
-//= require twitter/bootstrap/tooltip
-//= require twitter/bootstrap/popover
+//= require bootstrap/transition
+//= require bootstrap/modal
+//= require bootstrap/tooltip
+//= require bootstrap/popover
 //= require select2
 //= require handlebars.runtime
 //= require underscore
@@ -30,7 +30,7 @@
 //= require ./dialogs/base_dialog
 //= require_tree ./dialogs
 //= require dataTables/jquery.dataTables
-//= require dataTables/bootstrap/2/jquery.dataTables.bootstrap
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require_tree .
 //= require jquery_nested_form
 

@@ -16,10 +16,10 @@ body.section-organizer-projector-mode {
   }
 }
 
-#section-organizer {
+.section-organizer {
   min-height: 500px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  margin-left: -20px;
+  margin-right: -20px;
   padding: 15px;
   position: relative;
 
@@ -168,13 +168,10 @@ $attendee-height: 20px;
   border-radius: 5px;
   vertical-align: top;
 
-  .actions {
+  .bridgetroll-section-title .actions {
     display: inline-block;
     float: right;
-
-    span {
-      font-size: 2em;
-    }
+    margin: 0;
 
     i {
       font-size: 1.5em;
@@ -222,7 +219,7 @@ $attendee-height: 20px;
   }
 
   .attendee {
-    height: $attendee-height;
+    height: $attendee-height + 4px;
     line-height: $attendee-height;
     padding: 2px 0;
 

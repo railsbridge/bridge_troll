@@ -19,15 +19,21 @@
 }
 
 .external-auth {
+  $auth-button-width: 75px;
+  $auth-button-margin: 5px;
   text-align: left;
   #sign_in_dialog & {
     text-align: center;
+    @media (min-width: $screen-xs-max) {
+      width: ($auth-button-width + $auth-button-margin) * 2 + 10;
+      margin: 0 auto;
+    }
   }
   margin-left: 0;
 
   li {
-    margin: 0 5px 5px 0;
-    min-width: 75px;
+    margin: 0 $auth-button-margin $auth-button-margin 0;
+    min-width: $auth-button-width;
     text-align: center;
     border: 1px solid #eee;
     border-radius: 5px;

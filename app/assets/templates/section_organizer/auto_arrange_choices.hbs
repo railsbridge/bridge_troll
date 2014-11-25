@@ -1,26 +1,30 @@
-<div class="modal-header">
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-  <h1>Auto Arrange</h1>
-</div>
-<div class="modal-body">
-  <p>Auto Arranging the sections in your event will remove all existing sections and re-create them, attempting to fit about six students to a section.</p>
-  <p>This is generally a good starting point for organizing the sections in your event, but you will still need to make manual tweaks afterwards.</p>
-  <p>When auto arranging, you can choose to arrange only:</p>
-  <label>
-    <input type="radio" name="auto-arrange-choice" value="any" checked> Attendees who have been checked-in to at least one session ({{checkedInCounts.any.volunteers}} volunteers, {{checkedInCounts.any.students}} students)
-  </label>
-  {{#each sessions}}
-    <label>
-      <input type="radio" name="auto-arrange-choice" value="{{this.id}}"> Attendees who have been checked-in to {{this.name}} ({{this.checkedInVolunteers}} volunteers, {{this.checkedInStudents}} students)
-    </label>
-  {{/each}}
-  <label>
-    <input type="radio" name="auto-arrange-choice" value="indiscriminate"> All RSVP'd attendees ({{checkedInCounts.indiscriminate.volunteers}} volunteers, {{checkedInCounts.indiscriminate.students}} students) <strong>(Not Recommended)</strong>
-  </label>
-</div>
-<div class="modal-footer">
-  <a id="perform-auto-arrange"
-     data-method='post'
-     href="sections/arrange?checked_in_to=any"
-     class='btn'>Auto-Arrange</a>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h1>Auto Arrange</h1>
+    </div>
+    <div class="modal-body">
+      <p>Auto Arranging the sections in your event will remove all existing sections and re-create them, attempting to fit about six students to a section.</p>
+      <p>This is generally a good starting point for organizing the sections in your event, but you will still need to make manual tweaks afterwards.</p>
+      <p>When auto arranging, you can choose to arrange only:</p>
+      <label>
+        <input type="radio" name="auto-arrange-choice" value="any" checked> Attendees who have been checked-in to at least one session ({{checkedInCounts.any.volunteers}} volunteers, {{checkedInCounts.any.students}} students)
+      </label>
+      {{#each sessions}}
+        <label>
+          <input type="radio" name="auto-arrange-choice" value="{{this.id}}"> Attendees who have been checked-in to {{this.name}} ({{this.checkedInVolunteers}} volunteers, {{this.checkedInStudents}} students)
+        </label>
+      {{/each}}
+      <label>
+        <input type="radio" name="auto-arrange-choice" value="indiscriminate"> All RSVP'd attendees ({{checkedInCounts.indiscriminate.volunteers}} volunteers, {{checkedInCounts.indiscriminate.students}} students) <strong>(Not Recommended)</strong>
+      </label>
+    </div>
+    <div class="modal-footer">
+      <a id="perform-auto-arrange"
+         data-method='post'
+         href="sections/arrange?checked_in_to=any"
+         class='btn'>Auto-Arrange</a>
+    </div>
+  </div>
 </div>

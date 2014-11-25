@@ -6,8 +6,8 @@
 <h2>How was <%= @event.title %>?</h2>
 <p>We love feedback, so let us know how things went for you and anything you think we could make better in the future!</p>
 
-<div class="row-fluid">
-  <div class="span6" id="survey-form">
+<div class="row">
+  <div class="col-md-6" id="survey-form">
     <%= form_for @survey, url: event_rsvp_surveys_path(@event.id, @rsvp.id) do |f| %>
       <%= f.label :good_things, "What was great?" %>
       <%= f.text_area :good_things %>

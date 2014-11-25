@@ -5,106 +5,85 @@
     <%= hidden_field_tag :return_to, params[:return_to] %>
   <% end %>
 
-  <% if !resource.persisted? && !resource.password_required? %>
-    <% auth = OmniauthProviders.provider_data_for(resource.authentications.first.provider) %>
-    <div class='field'>
-      Primary authentication method: <i style="margin-right: 5px; font-size: 20px;" class='fa <%= auth[:icon] %>'></i><strong><%= auth[:name] %></strong>
-    </div>
-  <% end %>
+  <div class="row">
+    <div class="col-md-6">
+      <% if !resource.persisted? && !resource.password_required? %>
+        <% auth = OmniauthProviders.provider_data_for(resource.authentications.first.provider) %>
+        <div class='field'>
+          Primary authentication method: <i style="margin-right: 5px; font-size: 20px;" class='fa <%= auth[:icon] %>'></i><strong><%= auth[:name] %></strong>
+        </div>
+      <% end %>
 
-  <div class='field'>
-    <%= f.label :first_name, "First/Given Name" %>
-    <%= f.text_field :first_name %>
-  </div>
+      <%= f.input :first_name, label: "First/Given Name", required: false %>
 
-  <div class='field'>
-    <%= f.label :last_name, "Last/Family Name" %>
-    <%= f.text_field :last_name %>
-  </div>
+      <%= f.input :last_name, label: "Last/Family Name", required: false %>
 
-  <div class='field'>
-    <%= f.label :email %>
-    <%= f.email_field :email %>
-  </div>
+      <%= f.input :email, required: false %>
 
-  <div class='field'>
-    <%= f.label :gender %>
-    <%= f.text_field :gender %>
-  </div>
+      <%= f.input :gender, required: false %>
 
-  <div class='field'>
-    <%= f.label :chapter_ids, 'Chapters' %>
-    <div class='checkbox-columns'>
-      <%= f.collection_check_boxes(:chapter_ids, Chapter.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
-    </div>
-  </div>
+      <div class='form-group'>
+        <%= f.label :chapter_ids, 'Chapters' %>
+        <div class='checkbox-columns'>
+          <%= f.collection_check_boxes(:chapter_ids, Chapter.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
+        </div>
+      </div>
 
-  <div class='field'>
-    <%= f.label :allow_event_email do %>
-      <%= f.check_box :allow_event_email %> Allow Bridge Troll to send you an email when a new event is posted in one of those chapters
-    <% end %>
-  </div>
-
-  <div class='field'>
-    <%= f.label :time_zone %>
-    <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
-  </div>
-
-  <% if resource.persisted? %>
-    <%= f.fields_for :profile do |ff| %>
-      <h3>Skills</h3>
-
-      <div class='checkbox-columns checkbox-columns-small'>
-        <% skills.each do |skill| %>
-          <%= ff.label skill_symbol(skill) do %>
-            <%= ff.check_box skill_symbol(skill) %> <%= "#{skill_title(skill)}" %>
-          <% end %>
+      <div class='form-group'>
+        <%= f.label :allow_event_email do %>
+          <%= f.check_box :allow_event_email %> Allow Bridge Troll to send you an email when a new event is posted in one of those chapters
         <% end %>
       </div>
 
-      <div class='field'>
-        <%= ff.label :other, "Other Skills" %>
-        <%= ff.text_area :other, :rows => 3, :class => 'input-xxlarge' %>
+      <div class='form-group'>
+        <%= f.label :time_zone %>
+        <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {include_blank: 'Select Time Zone  '}, {class: 'form-control'} %>
       </div>
 
-      <div class='field'>
-        <%= ff.label :bio %>
-        <%= ff.text_area :bio, :rows => 3, :class => 'input-xxlarge' %>
-      </div>
+      <% if resource.persisted? %>
+        <%= f.fields_for :profile do |ff| %>
+          <h3>Skills</h3>
 
-      <div class='field'>
-        <%= ff.label :github_username %>
-        <%= ff.text_field :github_username, :class => 'input-xxlarge' %>
-      </div>
-    <% end %>
-  <% end %>
+          <div class='checkbox-columns checkbox-columns-small'>
+            <% skills.each do |skill| %>
+              <div class="checkbox-row">
+                <%= ff.label skill_symbol(skill) do %>
+                  <%= ff.check_box skill_symbol(skill) %> <%= "#{skill_title(skill)}" %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
 
-  <% if is_registered && f.object.encrypted_password.blank? %>
-    <span class="help-block">You don't currently have a Bridge Troll password set up, because you use <%= f.object.authentications.map(&:provider).join('/') %> to log in. That's fine with us, but if you want to set up a password as well, you can do it here:</span>
-  <% end %>
+          <%= ff.input :other, label: "Other Skills", input_html: {rows: 3} %>
 
-  <div class='field'>
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-    <% if is_registered && f.object.encrypted_password? %>
-      <span class="help-block">(leave blank if you don't want to change it)</span>
-    <% end %>
-  </div>
+          <%= ff.input :bio, input_html: {rows: 3} %>
 
-  <div class='field'>
-    <%= f.label :password_confirmation %>
-    <%= f.password_field :password_confirmation %>
-  </div>
+          <%= ff.input :github_username %>
+        <% end %>
+      <% end %>
 
-  <% if is_registered && f.object.encrypted_password? %>
-    <div class='field'>
-      <%= f.label :current_password %>
-      <%= f.password_field :current_password %>
-      <span class="help-block">(we need your current password to confirm your changes if you are updating your password or your email address)</span>
+      <% if is_registered && f.object.encrypted_password.blank? %>
+        <span class="help-block">You don't currently have a Bridge Troll password set up, because you use <%= f.object.authentications.map(&:provider).join('/') %> to log in. That's fine with us, but if you want to set up a password as well, you can do it here:</span>
+      <% end %>
+
+      <%= f.input :password %>
+      <% if is_registered && f.object.encrypted_password? %>
+        <span class="help-block">(leave blank if you don't want to change it)</span>
+      <% end %>
+
+      <%= f.input :password_confirmation %>
+
+      <% if is_registered && f.object.encrypted_password? %>
+        <div class='field'>
+          <%= f.input :current_password %>
+          <span class="help-block">(we need your current password to confirm your changes if you are updating your password or your email address)</span>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
 
   <div><%= f.submit button_text, class: 'btn btn-submit' %></div>
+
   <% if is_registered %>
     <hr>
     <div>

@@ -1,47 +1,39 @@
-<%= form_for(@external_event) do |f| %>
-  <% if @external_event.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@external_event.errors.count, "error") %> prohibited this event from being saved:</h2>
+<div class="row">
+  <div class="col-md-8">
+    <%= simple_form_for(@external_event) do |f| %>
+      <% if @external_event.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@external_event.errors.count, "error") %> prohibited this event from being saved:</h2>
 
-      <ul>
-        <% @external_event.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+          <ul>
+            <% @external_event.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div class="row-fluid row-long-fields">
-    <div class="field">
-      <%= f.label :name %>
-      <%= f.text_field :name %>
-    </div>
-    <div class="field">
-      <%= f.label :url, 'URL' %>
-      <%= f.text_field :url %>
-    </div>
-    <div class="field">
-      <%= f.label :starts_at %>
-      <%= f.date_select :starts_at %>
-    </div>
-    <div class="field">
-      <%= f.label :ends_at %>
-      <%= f.date_select :ends_at %>
-    </div>
-    <div class="field">
-      <%= f.label :city %>
-      <%= f.text_field :city %>
-    </div>
-    <div class="field">
-      <%= f.label :location %>
-      <%= f.text_field :location %>
-    </div>
-    <div class="field">
-      <%= f.label :organizers %>
-      <%= f.text_area :organizers %>
-    </div>
-    <div class="actions">
-      <%= f.submit class: :btn %>
-    </div>
+      <%= f.input :name, required: false %>
+
+      <%= f.input :url, label: 'URL', required: false %>
+
+      <div class="form-date">
+        <%= f.input :starts_at, required: false %>
+      </div>
+
+      <div class="form-date">
+        <%= f.input :ends_at, required: false %>
+      </div>
+
+      <%= f.input :city, required: false %>
+
+      <%= f.input :location, required: false %>
+
+      <%= f.input :organizers, required: false %>
+
+      <div class="actions">
+        <%= f.submit class: :btn %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>

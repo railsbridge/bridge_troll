@@ -1,34 +1,45 @@
 .navbar {
-  .navbar-inner {
-    background: #333;
-    padding: 0 !important;
+  background: #333;
+  &.navbar-default {
+    border: none;
+    border-radius: 0;
+    margin: 0;
 
-    @media (max-width: $screen-xs-max) {
+    .navbar-right {
+      margin-right: 0;
+    }
+  }
 
-      .nav {
-        text-align: center;
+  @media (max-width: $screen-xs-max) {
+    padding-right: 0;
 
-        li {
-          float: none;
+    .navbar-nav {
+      margin: 0;
+      text-align: center;
+
+      li {
+        float: none;
+        display: inline-block;
+
+        a {
           display: inline-block;
-
-          a {
-            display: inline-block;
-            margin-right: 5px;
-          }
+          margin-right: 5px;
         }
       }
     }
   }
 
-  .nav li a { 
+  .navbar-nav li a {
     color: white;
     text-shadow: none;
-    margin-right: 20px;
+    margin-right: 15px;
     margin-top: 7px;
     margin-bottom: 7px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 
     &:hover, &:focus {
+      color: black;
       background: $orange-color;
     }
   }
@@ -56,7 +67,7 @@
     display: inline-block;
     text-decoration: none;
     padding-top: 10px;
-    height: 44px;
+    height: 54px;
 
     img {
       width: 170px;

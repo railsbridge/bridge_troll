@@ -2,9 +2,9 @@ Bridgetroll.Dialogs.Base = (function () {
   return Bridgetroll.Views.Base.extend({
     className: function () {
       if (Bridgetroll.railsEnv === 'test') {
-        return 'modal hide';
+        return 'modal';
       } else {
-        return 'modal hide fade';
+        return 'modal fade';
       }
     },
     showModally: function () {

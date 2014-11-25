@@ -24,9 +24,9 @@ recalculateRecipients = ->
 
   recipients = _.sortBy recipients, 'full_name'
 
-  $('.recipients-popover').data('popover').hide()
+  $('.recipients-popover').data('bs.popover').hide()
   template = HandlebarsTemplates['email_attendees_popover']
-  $('.recipients-popover').data('popover').options.content = template({recipients: recipients})
+  $('.recipients-popover').data('bs.popover').options.content = template({recipients: recipients})
 
 window.setupEmailPage = ->
   $('.attendee-group, .include-waitlisted, .only-checked-in').change(recalculateRecipients)

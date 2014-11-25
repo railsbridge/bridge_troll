@@ -1,100 +1,110 @@
 <%= content_for(:header_text, 'Admin Dashboard') %>
 
-<div class='span6'>
-  <h2>Who can see this page?</h2>
-  <div>
-    Your Bridge Troll admins are the following <%= pluralize(@admins.count, "people") %>:
-    <ul>
-      <% @admins.each do |admin| %>
-        <li><%= link_to admin.full_name, user_profile_path(admin) %></li>
-      <% end %>
-    </ul>
-  </div>
-
-  <h2>Who can approve events?</h2>
-  <div>
-    Your Bridge Troll event approvers are all the above admins plus these <%= pluralize(@publishers.count, "people") %>:
-    <ul>
-      <% @publishers.each do |publisher| %>
-        <li><%= link_to publisher.full_name, user_profile_path(publisher) %></li>
-      <% end %>
-    </ul>
-  </div>
-
-  <h2># of authentication providers set up</h2>
-
-  <strong><%= User.where('encrypted_password != ?', '').count %></strong> out of <%= User.count %> users have set up a password to log in to Bridge Troll.
-
-  <table class='table table-bordered table-condensed table-striped' style="width: 30%;">
-    <thead>
-    <tr>
-      <th># Providers</th>
-      <th># Users</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @user_authentication_counts.keys.sort.reverse.each do |authentication_count| %>
-      <tr>
-        <td><%= authentication_count %></td>
-        <td><%= @user_authentication_counts[authentication_count] %></td>
-      </tr>
+<h2>Who can see this page?</h2>
+<div>
+  Your Bridge Troll admins are the following <%= pluralize(@admins.count, "people") %>:
+  <ul>
+    <% @admins.each do |admin| %>
+      <li><%= link_to admin.full_name, user_profile_path(admin) %></li>
     <% end %>
-    </tbody>
-  </table>
+  </ul>
+</div>
 
-  <h2>Usage of authentication providers</h2>
-  <table class='table table-bordered table-condensed table-striped datatable-sorted' style="width: 30%;">
-    <thead>
-    <tr>
-      <th>Provider</th>
-      <th># Users</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @authentication_counts.each do |provider, count| %>
-      <tr>
-        <td><%= provider %></td>
-        <td><%= count %></td>
-      </tr>
+<h2>Who can approve events?</h2>
+<div>
+  Your Bridge Troll event approvers are all the above admins plus these <%= pluralize(@publishers.count, "people") %>:
+  <ul>
+    <% @publishers.each do |publisher| %>
+      <li><%= link_to publisher.full_name, user_profile_path(publisher) %></li>
     <% end %>
-    </tbody>
-  </table>
+  </ul>
+</div>
 
-  <h2>Chapter Membership</h2>
-  <table class='table table-bordered table-condensed table-striped datatable-sorted' style="width: 50%;">
-    <thead>
-    <tr>
-      <th>Chapter</th>
-      <th>Followers</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% Chapter.all.each do |chapter| %>
+<h2># of authentication providers set up</h2>
+
+<strong><%= User.where('encrypted_password != ?', '').count %></strong> out of <%= User.count %> users have set up a password to log in to Bridge Troll.
+
+<div class="row">
+  <div class="col-md-4">
+    <table class='table table-bordered table-condensed table-striped'>
+      <thead>
       <tr>
-        <td><%= chapter.name %></td>
-        <td><%= chapter.users.count %></td>
+        <th># Providers</th>
+        <th># Users</th>
       </tr>
+      </thead>
+      <tbody>
+      <% @user_authentication_counts.keys.sort.reverse.each do |authentication_count| %>
+        <tr>
+          <td><%= authentication_count %></td>
+          <td><%= @user_authentication_counts[authentication_count] %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h2>Usage of authentication providers</h2>
+<div class="row">
+  <div class="col-md-4">
+    <table class='table table-bordered table-condensed table-striped datatable-sorted'>
+      <thead>
+      <tr>
+        <th>Provider</th>
+        <th># Users</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @authentication_counts.each do |provider, count| %>
+        <tr>
+          <td><%= provider %></td>
+          <td><%= count %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h2>Chapter Membership</h2>
+<div class="row">
+  <div class="col-md-8 col-lg-7">
+    <table class='table table-bordered table-condensed table-striped datatable-sorted'>
+      <thead>
+      <tr>
+        <th>Chapter</th>
+        <th>Followers</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% Chapter.all.each do |chapter| %>
+        <tr>
+          <td><%= chapter.name %></td>
+          <td><%= chapter.users.count %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h2>Spammers</h2>
+<div>
+  <%= pluralize(@spammers.count, "user has", "users have") %> been flagged as a spammer.
+  <ul>
+    <% @spammers.each do |spammer| %>
+      <li><%= link_to spammer.full_name, user_profile_path(spammer) %></li>
     <% end %>
-    </tbody>
-  </table>
+  </ul>
+</div>
 
-  <h2>Spammers</h2>
-  <div>
-    <%= pluralize(@spammers.count, "user has", "users have") %> been flagged as a spammer.
-    <ul>
-      <% @spammers.each do |spammer| %>
-        <li><%= link_to spammer.full_name, user_profile_path(spammer) %></li>
-      <% end %>
-    </ul>
-  </div>
-
-  <h2>Spam events</h2>
-  <div>
-    <%= pluralize(@spam_events.count, "event has", "events have") %> been marked as spam.
-    <ul>
-      <% @spam_events.each do |event| %>
-        <li><%= link_to event.title, event %></li>
-      <% end %>
-    </ul>
-  </div>
+<h2>Spam events</h2>
+<div>
+  <%= pluralize(@spam_events.count, "event has", "events have") %> been marked as spam.
+  <ul>
+    <% @spam_events.each do |event| %>
+      <li><%= link_to event.title, event %></li>
+    <% end %>
+  </ul>
 </div>

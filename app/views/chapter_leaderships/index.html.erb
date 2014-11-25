@@ -1,10 +1,12 @@
 <h1>Chapter Leaders for <%= @chapter.name %></h1>
 
 <h3>Potential Leaders</h3>
-<%= form_tag(chapter_chapter_leaderships_path(@chapter), :method => :post)  do %>
-  <%= select("", "id", @users.collect {|u| [ u.full_name, u.id ] }, {:include_blank => ''}) %>
-  <%= submit_tag "Assign", :class => "btn btn-primary" %>
-<% end %>
+<%= render 'shared/user_chooser',
+           action: chapter_chapter_leaderships_path(@chapter),
+           select_id: '',
+           foreign_key: 'id',
+           choices: @users.collect {|u| [ u.full_name, u.id ] }
+%>
 
 <table class="table">
   <thead>
@@ -18,7 +20,7 @@
   <tbody>
   <% @chapter.leaders.each do |leader|  %>
     <tr>
-      <td class="span1"><%= render 'shared/viewed_gravatars', :email => leader.email %></td>
+      <td class="avatar-column"><%= render 'shared/viewed_gravatars', :email => leader.email %></td>
       <td><%= leader.full_name %></td>
       <td><%= leader.email %></td>
       <td>

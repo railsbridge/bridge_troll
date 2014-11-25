@@ -1,14 +1,15 @@
 <h2>Forgot your password?</h2>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
-  <%= devise_error_messages! %>
+<div class="row">
+  <div class="col-md-6">
+    <%= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+      <%= devise_error_messages! %>
 
-  <div>
-    <%= f.label :email %>
-    <%= f.email_field :email %>
+      <%= f.input :email %>
+
+      <div><%= f.submit "Send me reset password instructions", class: 'btn btn-submit' %></div>
+    <% end %>
   </div>
-
-  <div><%= f.submit "Send me reset password instructions", class: 'btn btn-submit' %></div>
-<% end %>
+</div>
 
 <%= render :partial => "devise/shared/links" %>

@@ -4,10 +4,12 @@
 <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Checkiner Assignments'} %>
 
 <h3>Potential Checkiners</h3>
-<%= form_tag(event_checkiners_path(@event), :method => :post)  do %>
-    <%= select("event_checkiner", "rsvp_id", @potential_checkiners.collect {|rsvp| [ rsvp.user.full_name, rsvp.id ] }, {:include_blank => ''}) %>
-    <%= submit_tag "Assign", :class => "btn btn-primary" %>
-<% end %>
+<%= render 'shared/user_chooser',
+           action: event_checkiners_path(@event),
+           select_id: 'event_checkiner',
+           foreign_key: 'rsvp_id',
+           choices: @potential_checkiners.collect {|rsvp| [ rsvp.user.full_name, rsvp.id ] }
+%>
 
 <h3>Assigned Checkiners</h3>
 <table class="table">
@@ -22,7 +24,7 @@
   <tbody>
   <% @checkiner_rsvps.each do |rsvp|  %>
       <tr>
-        <td class="span1"><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %></td>
+        <td class="avatar-column"><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %></td>
         <td><%= rsvp.user.full_name %></td>
         <td><%= rsvp.user.email %></td>
         <td>

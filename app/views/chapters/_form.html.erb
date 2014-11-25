@@ -1,21 +1,23 @@
-<%= form_for(@chapter) do |f| %>
-  <% if @chapter.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@chapter.errors.count, "error") %> prohibited this chapter from being saved:</h2>
+<div class="row">
+  <div class="col-md-6">
+    <%= simple_form_for(@chapter) do |f| %>
+      <% if @chapter.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@chapter.errors.count, "error") %> prohibited this chapter from being saved:</h2>
 
-      <ul>
-        <% @chapter.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+          <ul>
+            <% @chapter.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+      <%= f.input :name, required: false %>
+
+      <div class="actions">
+        <%= f.submit class: 'btn btn-submit' %>
+      </div>
+    <% end %>
   </div>
-  <div class="actions">
-    <%= f.submit class: 'btn btn-submit' %>
-  </div>
-<% end %>
+</div>
