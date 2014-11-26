@@ -5,7 +5,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       attendees: this.attendees,
       selectedSession: this.selectedSession,
       displayProperties: this.displayProperties,
-      levels: this.levels()
+      levels: this.levels
     });
 
     this.addSubview(sectionView);
@@ -43,6 +43,8 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       this.sections = options.sections;
       this.sessions = options.sessions;
       this.upcoming = options.upcoming;
+      this.levels = options.levels;
+
       this.selectedSession = this.sessions.last().clone();
       this.displayProperties = new Backbone.Model();
 
@@ -118,16 +120,6 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       }
     },
 
-    levels: function () {
-      return [
-        {index: 1, color: 'Blue'},
-        {index: 2, color: 'Green'},
-        {index: 3, color: 'Gold'},
-        {index: 4, color: 'Orange'},
-        {index: 5, color: 'Purple'}
-      ];
-    },
-
     context: function () {
       return {
         hasSections: this.sections.length > 0,
@@ -138,7 +130,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
         sessions: this.sessions.toJSON(),
         selectedSession: this.selectedSession.toJSON(),
         checkinCounts: this.checkinCounts(),
-        levels: this.levels()
+        levels: this.levels
       };
     },
 

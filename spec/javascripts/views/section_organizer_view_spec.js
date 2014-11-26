@@ -34,8 +34,15 @@ describe("Bridgetroll.Views.SectionOrganizer", function () {
         event_id: 191,
         sections: sections,
         attendees: attendees,
-        sessions: sessions
-      });
+        sessions: sessions,
+        levels: [
+          {index: 1, color: 'Blue'},
+          {index: 2, color: 'Green'},
+          {index: 3, color: 'Gold'},
+          {index: 4, color: 'Orange'},
+          {index: 5, color: 'Purple'}
+        ]
+    });
     });
 
     describe("after rendering", function () {

@@ -13,22 +13,15 @@ Bridgetroll.Views.EditSection = (function () {
       this.levels = options.levels;
     },
 
-    levelName: function (level) {
-      if (level == 0) {
-        return 'Unassigned';
-      } else {
-        return this.levels[level-1].color;
-      }
-    },
-
     context: function () {
+      var levels = [{index: 0}].concat(this.levels);
       return {
         section_name: this.model.get('name'),
-        options: _.map([0, 1, 2, 3, 4, 5], function (n) {
+        options: _.map(levels, function (level) {
           return {
-            name: this.levelName(n),
-            value: n,
-            selected: this.model.classLevel() == n
+            name: level.color || 'Unassigned',
+            value: level.index,
+            selected: this.model.classLevel() == level.index
           };
         }, this)
       }

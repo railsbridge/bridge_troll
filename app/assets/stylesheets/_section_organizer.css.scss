@@ -113,14 +113,6 @@ body.section-organizer-projector-mode {
     }
   }
 
-  &.header, .section-organizer-projector-mode & {
-    &.level1 { background-color: $level-blue; }
-    &.level2 { background-color: $level-green; }
-    &.level3 { background-color: $level-gold; }
-    &.level4 { background-color: $level-orange; }
-    &.level5 { background-color: $level-purple; }
-  }
-
   &.header {
     margin-bottom: 15px;
     color: white;
@@ -155,11 +147,6 @@ $attendee-height: 20px;
   color: white;
 
   &.level0 { background-color: #777; }
-  &.level1 { background-color: $level-blue; }
-  &.level2 { background-color: $level-green; }
-  &.level3 { background-color: $level-gold; }
-  &.level4 { background-color: $level-orange; }
-  &.level5 { background-color: $level-purple; }
 }
 
 .bridgetroll-section {
@@ -271,7 +258,6 @@ $attendee-height: 20px;
   }
 }
 
-
 .bridgetroll-attendee-detail {
   .role {
     font-size: 24px;
@@ -287,3 +273,14 @@ $attendee-height: 20px;
     margin-bottom: 30px;
   }
 }
+
+body:not(.section-organizer-projector-mode) .bridgetroll-section .bridgetroll-section-title {
+  background-color: #555;
+}
+
+.level-blue { background-color: $level-blue; }
+.level-green { background-color: $level-green; }
+.level-gold { background-color: $level-gold; }
+.level-orange { background-color: $level-orange; }
+.level-purple { background-color: $level-purple; }
+.level-silver { background-color: $level-silver; }

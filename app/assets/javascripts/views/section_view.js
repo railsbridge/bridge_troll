@@ -32,7 +32,8 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
       students: this.presentedStudents(),
       volunteers: this.presentedVolunteers(),
       destructable: !this.section.isUnassigned(),
-      level: this.section.get('class_level')
+      level: this.section.get('class_level'),
+      level_color: _.result(_.find(this.levels, {index: this.section.get('class_level')}), 'color')
     }
   },
 
@@ -47,19 +48,21 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
     this._super('render', arguments);
   },
 
+  decorateAttendee: function (attendee) {
+    return _.extend({}, attendee.attributes, {
+      class_level_color: _.result(_.find(this.levels, {index: attendee.get('class_level')}), 'color') || 'none',
+      selected_session_checkins_count: attendee.checkedInTo(this.selectedSession.get('id'))
+    });
+  },
+
   presentedStudents: function () {
-    return _.map(this.students(), _.bind(function (student) {
-      return _.extend({}, student.attributes, {
-        selected_session_checkins_count: student.checkedInTo(this.selectedSession.get('id'))
-      });
-    }, this));
+    return _.map(this.students(), _.bind(this.decorateAttendee, this));
   },
 
   presentedVolunteers: function () {
     return _.map(this.volunteers(), _.bind(function (volunteer) {
-      return _.extend({}, volunteer.attributes, {
-        volunteer_letter: volunteer.volunteerLetter(),
-        selected_session_checkins_count: volunteer.checkedInTo(this.selectedSession.get('id'))
+      return _.extend(this.decorateAttendee(volunteer), {
+        volunteer_letter: volunteer.volunteerLetter()
       });
     }, this));
   },

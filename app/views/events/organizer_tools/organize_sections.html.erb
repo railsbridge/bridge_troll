@@ -24,7 +24,11 @@
       upcoming: <%= @event.upcoming? %>,
       sections: sections,
       sessions: sessions,
-      attendees: attendees
+      attendees: attendees,
+      levels: <%= @event.course.levels.map do |l|
+          {index: l[:level], color: l[:color]}
+        end.to_json.html_safe
+      %>
     });
     Bridgetroll.sectionOrganizer.setElement($('#section-organizer'));
     Bridgetroll.sectionOrganizer.render();

@@ -21,7 +21,7 @@ describe("Bridgetroll.Views.Section", function () {
       name: "Wizard's Throne"
     });
     view = new Bridgetroll.Views.Section({
-      levels: _.map([1, 2, 3, 4, 5], function (n) { return {color: n, index: n}}),
+      levels: _.map([1, 2, 3, 4, 5], function (n) { return {color: 'color-' + n, index: n}}),
       section: model,
       attendees: attendees,
       selectedSession: new Bridgetroll.Models.Section({id: 2, name: 'Cool Section'}),
