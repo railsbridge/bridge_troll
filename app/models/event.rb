@@ -77,7 +77,9 @@ class Event < ActiveRecord::Base
   end
 
   def validate_rsvp_limit
-    if persisted? && student_rsvp_limit < student_rsvps_count
+    return unless persisted? && student_rsvp_limit
+
+    if student_rsvp_limit < student_rsvps_count
       errors.add(:student_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
       false
     end

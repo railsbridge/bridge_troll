@@ -64,6 +64,11 @@ describe Event do
         @event.update_attributes(student_rsvp_limit: 1)
         @event.should have(1).errors_on(:student_rsvp_limit)
       end
+
+      it 'is disallowed if the proposed limit is empty' do
+        @event.update_attributes(student_rsvp_limit: '')
+        @event.should have(1).errors_on(:student_rsvp_limit)
+      end
     end
 
     it "does allow student_rsvp_limit to be increased" do
