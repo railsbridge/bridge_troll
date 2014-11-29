@@ -1,0 +1,35 @@
+.event-form {
+  h2 {
+    margin: 30px 0 5px 0;
+    font-family: AmbleBold, sans-serif;
+  }
+
+  .mb-10-only {
+    margin: 0 0 10px;
+  }
+
+  h3 {
+    font-family: AmbleBold, sans-serif;
+  }
+
+  label {
+    font-family: AmbleBold, sans-serif;
+    font-size: 16px;
+  }
+
+  .non-bolded {
+    label {
+      font-size: 15px;
+      font-family: AmbleLight, sans-serif;
+    }
+  }
+
+  em {
+    font-size: 14px;
+  }
+
+  li {
+    font-size: 15px;
+  }
+}
+
