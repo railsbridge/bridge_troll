@@ -1,4 +1,4 @@
-<h1>Chapter Leaders for <%= @chapter.name %></h1>
+<%= content_for(:header_text, "Chapter Leaders for #{@chapter.name}") %>
 
 <h3>Potential Leaders</h3>
 <%= render 'shared/user_chooser',
@@ -34,3 +34,6 @@
   </tbody>
 </table>
 
+<%= render 'shared/actions', links: [
+  ['Back', chapter_path(@chapter)]
+] %>

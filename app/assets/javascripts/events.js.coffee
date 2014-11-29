@@ -33,9 +33,8 @@ jQuery ->
 
   $.datepicker.setDefaults
     dateFormat: 'yy-mm-dd'
-  $('#event_location_id').select2(width: 'element')
-  $('#event_organizer_user_id').select2(width: 'element')
-  $('#event_checkiner_rsvp_id').select2(width: 'element')
+
+  $('.select2-dropdown').select2(width: 'element')
 
   setUpDatePicker($('.datepicker'))
 

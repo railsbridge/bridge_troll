@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-3">
     <%= form_tag(action, method: :post)  do %>
-      <%= select(select_id, foreign_key, choices, {include_blank: ''}, class: 'form-control') %>
+      <%= select(select_id, foreign_key, choices, {include_blank: ''}, class: 'form-control select2-dropdown') %>
       <%= submit_tag "Assign", class: "btn btn-primary", style: 'margin: 10px 0;' %>
     <% end %>
   </div>
