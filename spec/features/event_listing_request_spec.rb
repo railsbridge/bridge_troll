@@ -75,6 +75,9 @@ describe "the event listing page" do
         end_time_selects = all('.end_time')
         end_time_selects[0].select "05 PM"
         end_time_selects[1].select "45"
+
+        # Dismiss the date picker that might be active from "fill_in [...] session_date"
+        end_time_selects[0].click
       end
 
       it "can create a new course" do
@@ -115,7 +118,7 @@ describe "the event listing page" do
 
         within ".event-sessions" do
           fill_in "Session Name", with: 'Do Awesome Stuff'
-          fill_in "event_event_sessions_attributes_0_session_date", with: '2055-01-12'
+          fill_in_event_time
           uncheck "Required for Students?"
         end
 

@@ -10,8 +10,8 @@ describe "New Event" do
   end
 
   it "should pre-fill the event details textarea" do
-    page.should have_field('General Event Details')
-    page.field_labeled('General Event Details')[:value].should =~ /Workshop Description/
+    page.should have_field('Details')
+    page.field_labeled('Details')[:value].should =~ /Workshop Description/
   end
 
   it "should have a public organizer email field" do
@@ -32,9 +32,9 @@ describe "New Event" do
     page.should have_unchecked_field("coc")
   end
 
-  context 'after clicking "Add a session"', js: true do
+  context 'after clicking "Add another session"', js: true do
     before do
-      click_on 'Add a session'
+      click_on 'Add another session'
     end
 
     it 'should have two event session options, of which only the second can be removed' do
