@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 describe Events::OrganizerToolsController do
+  let(:event) { FactoryGirl.create(:event) }
+  let(:admin) { create(:admin) }
+
   describe "GET #index" do
-    let(:event) { FactoryGirl.create(:event) }
 
     def make_request
       get :index, event_id: event.id
@@ -11,7 +13,7 @@ describe Events::OrganizerToolsController do
     it_behaves_like "an event action that requires an organizer"
 
     it "always allows admins, even if they aren't organizers of the event" do
-      sign_in(create(:admin))
+      sign_in(admin)
       make_request
       expect(response).to be_success
     end
@@ -51,6 +53,66 @@ describe Events::OrganizerToolsController do
           make_request
           expect(response).to redirect_to(events_path)
         end
+      end
+    end
+  end
+
+  describe "GET #student_rsvp_preview" do
+    let(:event) { FactoryGirl.create(:event) }
+
+    def make_request
+      get :student_rsvp_preview, event_id: event.id
+    end
+
+    it_behaves_like "an event action that requires an organizer"
+
+    it "always allows admins, even if they aren't organizers of the event" do
+      sign_in(admin)
+      make_request
+      expect(response).to be_success
+    end
+
+    context "logged in as the organizer" do
+      before do
+        user = create(:user)
+        event.organizers << user
+        sign_in user
+      end
+
+      it "shows you the student RSVP for that event" do
+        make_request
+        expect(response).to render_template(:new)
+        expect(assigns(:rsvp)).to be_a_new(Rsvp)
+      end
+    end
+  end
+
+  describe "GET #volunteer_rsvp_preview" do
+    let(:event) { FactoryGirl.create(:event) }
+
+    def make_request
+      get :volunteer_rsvp_preview, event_id: event.id
+    end
+
+    it_behaves_like "an event action that requires an organizer"
+
+    it "always allows admins, even if they aren't organizers of the event" do
+      sign_in(admin)
+      make_request
+      expect(response).to be_success
+    end
+
+    context "logged in as the organizer" do
+      before do
+        user = create(:user)
+        event.organizers << user
+        sign_in user
+      end
+
+      it "shows you the volunteer RSVP for that event" do
+        get :volunteer_rsvp_preview, event_id: event.id
+        expect(response).to render_template(:new)
+        expect(assigns(:rsvp)).to be_a_new(Rsvp)
       end
     end
   end

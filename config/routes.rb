@@ -47,7 +47,9 @@ Bridgetroll::Application.routes.draw do
     controller "events/organizer_tools" do
       get "send_survey_email"
       get "organize_sections"
-      get 'diets'
+      get "diets"
+      get "student_rsvp_preview"
+      get "volunteer_rsvp_preview"
     end
 
     collection do

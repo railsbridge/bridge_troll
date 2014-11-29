@@ -29,7 +29,7 @@
           Our experience is that people tend to underestimate their skills, so don't be
           shy about picking a higher class level if the description fits!
         </p>
-        <%= render partial: 'class_levels', locals: {
+        <%= render partial: 'rsvps/class_levels', locals: {
           f: f,
           levels: (@rsvp.event.course || Course::RAILS).levels,
           show_no_preference: false
@@ -81,7 +81,7 @@
         <p class="question">Do you have a class level preference?</p>
         <p class="details">(We'll try to get you into that class level, but no promises.)</p>
         <div class="field">
-          <%= render partial: 'class_levels', locals: {
+          <%= render partial: 'rsvps/class_levels', locals: {
             f: f,
             levels: (@rsvp.event.course || Course::RAILS).levels,
             show_no_preference: true
@@ -119,7 +119,7 @@
 
     <div class="field">
       <p class="question">The food's on us. Let us know if you have any dietary restrictions.</p>
-      <%= render partial: 'dietary_restrictions', locals: {f: f} %>
+      <%= render partial: 'rsvps/dietary_restrictions', locals: {f: f} %>
     </div>
 
     <div class="field question">

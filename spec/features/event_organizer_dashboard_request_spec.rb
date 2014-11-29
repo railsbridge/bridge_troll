@@ -19,6 +19,18 @@ describe "the organizer dashboard" do
     page.should have_content("Organizer Assignment")
   end
 
+  it "lets the user preview the student RSVP page" do
+    visit event_organizer_tools_path(@event)
+    click_link "Preview Student RSVP Form"
+    page.should have_content("Operating System")
+  end
+
+  it "lets the user preview the student RSVP page" do
+    visit event_organizer_tools_path(@event)
+    click_link "Preview Volunteer RSVP Form"
+    page.should have_content("Volunteer Preferences")
+  end
+
   it "lets the user assign students and volunteers to sections" do
     visit event_organizer_tools_path(@event)
     click_link "Arrange Class Sections"
