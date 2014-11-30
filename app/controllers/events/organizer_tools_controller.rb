@@ -30,17 +30,10 @@ class Events::OrganizerToolsController < ApplicationController
   def diets
   end
 
-  def student_rsvp_preview
-    @rsvp = @event.rsvps.build
-    @rsvp.role = Role::STUDENT
+  def rsvp_preview
+    @rsvp = @event.rsvps.build(role: Role.find_by_id(params[:role_id]))
     @rsvp.event_session_ids = @event.event_sessions.pluck(:id)
-    render "rsvps/new"
-  end
-
-  def volunteer_rsvp_preview
-    @rsvp = @event.rsvps.build
-    @rsvp.role = Role::VOLUNTEER
-    @rsvp.event_session_ids = @event.event_sessions.pluck(:id)
+    @rsvp_preview_mode = true
     render "rsvps/new"
   end
 end

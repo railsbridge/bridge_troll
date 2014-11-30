@@ -155,7 +155,9 @@
     <div class="actions">
       <%= f.hidden_field :event_id %>
       <%= f.hidden_field :role_id %>
-      <%= f.submit "Submit", class: 'btn btn-submit' %>
+      <% unless @rsvp_preview_mode %>
+        <%= f.submit "Submit", class: 'btn btn-submit' %>
+      <% end %>
     </div>
   <% end %>
 </div>

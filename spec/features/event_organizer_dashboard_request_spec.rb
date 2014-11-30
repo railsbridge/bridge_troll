@@ -25,7 +25,7 @@ describe "the organizer dashboard" do
     page.should have_content("Operating System")
   end
 
-  it "lets the user preview the student RSVP page" do
+  it "lets the user preview the volunteer RSVP page" do
     visit event_organizer_tools_path(@event)
     click_link "Preview Volunteer RSVP Form"
     page.should have_content("Volunteer Preferences")

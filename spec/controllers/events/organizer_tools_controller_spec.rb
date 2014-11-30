@@ -5,7 +5,6 @@ describe Events::OrganizerToolsController do
   let(:admin) { create(:admin) }
 
   describe "GET #index" do
-
     def make_request
       get :index, event_id: event.id
     end
@@ -57,11 +56,11 @@ describe Events::OrganizerToolsController do
     end
   end
 
-  describe "GET #student_rsvp_preview" do
-    let(:event) { FactoryGirl.create(:event) }
+  describe "GET #rsvp_preview" do
+    let(:role) { Role::STUDENT }
 
     def make_request
-      get :student_rsvp_preview, event_id: event.id
+      get :rsvp_preview, event_id: event.id, role_id: role.id
     end
 
     it_behaves_like "an event action that requires an organizer"
@@ -79,40 +78,26 @@ describe Events::OrganizerToolsController do
         sign_in user
       end
 
-      it "shows you the student RSVP for that event" do
-        make_request
-        expect(response).to render_template(:new)
-        expect(assigns(:rsvp)).to be_a_new(Rsvp)
-      end
-    end
-  end
+      describe "previewing students" do
+        let(:role) { Role::STUDENT }
 
-  describe "GET #volunteer_rsvp_preview" do
-    let(:event) { FactoryGirl.create(:event) }
-
-    def make_request
-      get :volunteer_rsvp_preview, event_id: event.id
-    end
-
-    it_behaves_like "an event action that requires an organizer"
-
-    it "always allows admins, even if they aren't organizers of the event" do
-      sign_in(admin)
-      make_request
-      expect(response).to be_success
-    end
-
-    context "logged in as the organizer" do
-      before do
-        user = create(:user)
-        event.organizers << user
-        sign_in user
+        it "shows the volunteer RSVP for that event" do
+          make_request
+          expect(response).to render_template(:new)
+          expect(assigns(:rsvp)).to be_a_new(Rsvp)
+          expect(assigns(:rsvp).role).to eq(Role::STUDENT)
+        end
       end
 
-      it "shows you the volunteer RSVP for that event" do
-        get :volunteer_rsvp_preview, event_id: event.id
-        expect(response).to render_template(:new)
-        expect(assigns(:rsvp)).to be_a_new(Rsvp)
+      describe "previewing volunteers" do
+        let(:role) { Role::VOLUNTEER }
+
+        it "shows the volunteer RSVP for that event" do
+          make_request
+          expect(response).to render_template(:new)
+          expect(assigns(:rsvp)).to be_a_new(Rsvp)
+          expect(assigns(:rsvp).role).to eq(Role::VOLUNTEER)
+        end
       end
     end
   end

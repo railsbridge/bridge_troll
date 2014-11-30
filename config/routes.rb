@@ -48,8 +48,7 @@ Bridgetroll::Application.routes.draw do
       get "send_survey_email"
       get "organize_sections"
       get "diets"
-      get "student_rsvp_preview"
-      get "volunteer_rsvp_preview"
+      get "rsvp_preview"
     end
 
     collection do

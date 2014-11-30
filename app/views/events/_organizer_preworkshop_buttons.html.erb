@@ -6,17 +6,15 @@
       They will have access to the same actions as you (including this page
       and the event edit page)."
      ],
-     [event_student_rsvp_preview_path(@event),
+     [event_rsvp_preview_path(@event, role_id: Role::STUDENT.id),
       'fa fa-pencil',
       'Preview Student RSVP Form',
-      "This is what the form the students are filling out looks like. Submitting
-      it won't work because you're already organizing this event. :D"
+      "This is what the form the students are filling out looks like."
      ],
-     [event_volunteer_rsvp_preview_path(@event),
+     [event_rsvp_preview_path(@event, role_id: Role::VOLUNTEER.id),
       'fa fa-pencil',
       'Preview Volunteer RSVP Form',
-      "This is what the form the volunteers are filling out looks like. Submitting
-      it won't work because you're already organizing this event. :D"
+      "This is what the form the volunteers are filling out looks like."
      ],
      [new_event_email_path(@event),
       'fa fa-envelope',
