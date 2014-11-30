@@ -53,6 +53,7 @@ h5 {
 
 strong {
   font-family: 'AmbleBold', sans-serif;
+  font-weight: normal;
 }
 
 ul {
@@ -134,6 +135,15 @@ td.wide {
   &:hover {
     color: white;
     background: lighten($red-color, 20%);
+  }
+}
+
+.btn-info {
+  background: $darkgray-color;
+
+  &:hover {
+    color: white;
+    background: lighten($darkgray-color, 20%);
   }
 }
 

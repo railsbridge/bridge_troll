@@ -1,9 +1,12 @@
 <%= content_for(:header_text, @event.title) %>
 <%= content_for(:header_link, event_path(@event)) %>
 
-<h1>Editing event</h1>
-
-<%= render 'form' %>
+<div class="row">
+  <div class="col-md-8 event-form">
+    <h1>Editing event</h1>
+    <%= render 'form' %>
+  </div>
+</div>
 
 <%= render 'shared/actions', links: [
   ['Back', @event],
