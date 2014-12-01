@@ -176,7 +176,7 @@
 
     <div class="field">
       <%= label_tag :coc, class: 'question' do %>
-        <strong><%= check_box_tag :coc %>
+        <strong><%= check_box_tag :coc, '1', params[:coc] %>
           I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a> and will communicate it at the beginning of the event.
         </strong>
       <% end %>

@@ -76,6 +76,16 @@ describe 'creating or editing an rsvp' do
             check('coc')
             page.should have_button 'Submit', disabled: false
           end
+
+          it "preserves checked-ness on errors" do
+            page.should have_unchecked_field('coc')
+            check('coc')
+
+            click_on 'Submit'
+
+            page.should have_css('#error_explanation')
+            page.should have_checked_field('coc')
+          end
         end
 
         context 'for existing records' do

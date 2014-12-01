@@ -48,12 +48,20 @@ describe "New Event" do
   end
 
   context 'submit form', js: true do
-
     it 'requires code of conduct to be checked' do
       page.should have_button 'Create Event', disabled: true
       check ("coc")
       page.should have_button 'Create Event', disabled: false
     end
 
+    it "preserves checked-ness on errors" do
+      page.should have_unchecked_field('coc')
+      check('coc')
+
+      click_on 'Create Event'
+
+      page.should have_css('#error_explanation')
+      page.should have_checked_field('coc')
+    end
   end
 end

@@ -144,10 +144,10 @@
       </div>
     <% end %>
 
-   <% if @rsvp.new_record?%>
+   <% if @rsvp.new_record? %>
       <div class="checkbox">
         <%= label_tag :coc, class: 'question' do %>
-          <%= check_box_tag :coc %> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a>
+          <%= check_box_tag :coc, '1', params[:coc] %> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a>
         <% end %>
       </div>
     <%end%>
