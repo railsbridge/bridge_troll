@@ -176,7 +176,7 @@ class Course < ActiveHash::Base
           ]
         }, {
           level: 4,
-          color: 'silver',
+          color: 'pink',
           title: "Experienced Designer new to iOS programming",
           level_description: [
             "You're proficient in design tools (Adobe Creative Suite, etc)",
