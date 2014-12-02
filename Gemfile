@@ -5,7 +5,7 @@ ruby '2.1.2'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem 'rails', '4.1.7'
+gem 'rails', '4.1.8'
 gem 'devise', '~> 3.4.0'
 gem 'thin'
 gem 'jquery-rails'
@@ -20,7 +20,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 gem 'gravatar_image_tag'
-gem 'simple_form', '3.1.0.rc2'
+gem 'simple_form'
 gem 'rack-canonical-host'
 gem 'icalendar'
 
