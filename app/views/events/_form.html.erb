@@ -1,15 +1,6 @@
 <%= simple_nested_form_for @event do |f| %>
-  <% if @event.errors.any? %>
-    <div id="error_explanation" class="alert alert-danger">
-      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+  <%= render 'shared/model_error_messages', model: @event %>
 
-      <ul>
-        <% @event.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
   <h2>Basic Event Information</h2>
 
   <div class="field">

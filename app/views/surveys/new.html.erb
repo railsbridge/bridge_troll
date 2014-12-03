@@ -1,22 +1,18 @@
 <%= content_for(:header_text, "Follow-up Survey") %>
-<% if @survey.errors %>
-  <%= @survey.errors.full_messages.to_sentence %>
-<% end %>
+
+<%= render 'shared/model_error_messages', model: @survey %>
 
 <h2>How was <%= @event.title %>?</h2>
 <p>We love feedback, so let us know how things went for you and anything you think we could make better in the future!</p>
 
 <div class="row">
   <div class="col-md-6" id="survey-form">
-    <%= form_for @survey, url: event_rsvp_surveys_path(@event.id, @rsvp.id) do |f| %>
-      <%= f.label :good_things, "What was great?" %>
-      <%= f.text_area :good_things %>
+    <%= simple_form_for @survey, url: event_rsvp_surveys_path(@event.id, @rsvp.id) do |f| %>
+      <%= f.input :good_things, label: "What was great?" %>
 
-      <%= f.label :bad_things, "What could have been better?" %>
-      <%= f.text_area :bad_things %>
+      <%= f.input :bad_things, label: "What could have been better?" %>
 
-      <%= f.label :other_comments, "Any other comments?" %>
-      <%= f.text_area :other_comments %>
+      <%= f.input :other_comments, label: "Any other comments?" %>
 
       <%= f.label :recommendation_likelihood, "How likely are you to recommend a Railsbridge workshop to a friend or colleague? (10 is very likely, 1 is unlikely)" %>
       <%= f.select :recommendation_likelihood, (1..10).to_a.reverse %>

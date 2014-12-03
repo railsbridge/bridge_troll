@@ -19,20 +19,9 @@
 <div class='event_email'>
 
   <%= simple_form_for(@email) do |f| %>
-    <% if @email.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@email.errors.count, "error") %> prohibited this mail from being sent:</h2>
-
-        <ul>
-          <% @email.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+    <%= render 'shared/model_error_messages', model: @email %>
 
     <div class='row'>
-
       <div class='col-md-4'>
         <div>
           <%= label_tag do %>
