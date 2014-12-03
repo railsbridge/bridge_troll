@@ -40,11 +40,7 @@ git clone https://github.com/username/bridge_troll.git
 cd bridge_troll
 ```
 
-Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run this `rvm install 2.1.2`. For rbenv, run this `rbenv install 2.1.2`.
-```
-bundle install
-brew update
-```
+Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run: `rvm install 2.1.2`. For rbenv, run: `rbenv install 2.1.2`.
 
 Finish setting up your environment (Note: This has nothing to do with Twitter Bootstrap)
 ```
@@ -62,6 +58,7 @@ Go to http://localhost:3000/ and verify your success! You can play with the app 
 
 This project has many tests that you should run before submitting a pull request, even if it's just a simple text change. You will need to install PhantomJS to run the tests. On OSX with Homebrew, try
 ```
+brew update
 brew install phantomjs
 ```
 
