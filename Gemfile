@@ -32,7 +32,7 @@ group :production do
   gem 'sentry-raven'
 end
 
-gem 'handlebars_assets', '~> 0.17.0'
+gem 'handlebars_assets'
 gem 'jquery-datatables-rails'
 gem 'sass-rails', '4.0.2' # https://github.com/rails/sass-rails/issues/191
 gem 'compass-rails'
