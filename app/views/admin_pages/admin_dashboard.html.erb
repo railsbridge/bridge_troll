@@ -108,3 +108,12 @@
     <% end %>
   </ul>
 </div>
+
+<h2>System Health</h2>
+<%= render partial: 'shared/organizer_action', locals: {
+  path: '/admin_dashboard/send_test_email',
+  icon: 'fa fa-envelope',
+  text: 'Send Test Email',
+  tip: "Send an email from Bridge Troll to #{current_user.email}",
+  confirm: 'Are you sure?'
+} %>
