@@ -223,16 +223,8 @@ ul.bulleted {
     border-radius: 10px;
     margin: 10px 0;
 
-    .datepicker {
-      width: 100px;
-    }
-
-    .input-small:nth-of-type(odd) {
-      width: 78px;
-    }
-
-    .input-small:nth-of-type(even) {
-      width: 55px;
+    .datepicker, .input-small {
+      width: auto;
     }
   }
 

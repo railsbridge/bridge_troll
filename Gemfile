@@ -46,7 +46,7 @@ gem 'masonry-rails'
 
 group :development do
   gem 'quiet_assets'
-  gem 'guard-rspec'
+  gem 'guard-rspec', '~> 4.3.1'
   gem 'rb-fsevent'
   gem 'terminal-notifier-guard'
   gem "bullet"

@@ -112,7 +112,7 @@ GEM
     ejs (1.1.1)
     erubis (2.7.0)
     eventmachine (1.0.3)
-    excon (0.42.0)
+    excon (0.42.1)
     execjs (2.2.2)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -146,7 +146,7 @@ GEM
       sprockets (>= 2.0.3)
       tilt
     hashie (3.3.2)
-    heroku-api (0.3.20)
+    heroku-api (0.3.21)
       excon (~> 0.38)
       multi_json (~> 1.8)
     heroku_rails_deflate (1.0.3)
@@ -160,7 +160,7 @@ GEM
     hike (1.2.3)
     hitimes (1.2.2)
     i18n (0.6.11)
-    icalendar (2.2.0)
+    icalendar (2.2.1)
     jasmine (2.1.0)
       jasmine-core (~> 2.1.0)
       phantomjs
@@ -199,7 +199,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     nested_form (0.3.2)
-    newrelic_rpm (3.9.7.266)
+    newrelic_rpm (3.9.8.273)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     nokogumbo (1.1.12)
@@ -276,7 +276,7 @@ GEM
       activesupport (= 4.1.8)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.4.1)
+    rake (10.4.2)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
@@ -383,7 +383,7 @@ DEPENDENCIES
   geocoder
   gmaps4rails
   gravatar_image_tag
-  guard-rspec
+  guard-rspec (~> 4.3.1)
   handlebars_assets
   heroku_rails_deflate
   heroku_san
