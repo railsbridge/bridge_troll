@@ -9,15 +9,13 @@ class RsvpsController < ApplicationController
     last_rsvp = find_relevant_prior_rsvp
 
     @rsvp = @event.rsvps.build(last_rsvp ? last_rsvp.volunteer_carryover_attributes : {})
-    @rsvp.role = Role::VOLUNTEER
-    @rsvp.event_session_ids = @event.event_sessions.pluck(:id)
+    @rsvp.setup_for_role(Role::VOLUNTEER)
     render :new
   end
 
   def learn
     @rsvp = @event.rsvps.build
-    @rsvp.role = Role::STUDENT
-    @rsvp.event_session_ids = @event.event_sessions.pluck(:id)
+    @rsvp.setup_for_role(Role::STUDENT)
     render :new
   end
 

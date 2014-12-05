@@ -31,8 +31,9 @@ class Events::OrganizerToolsController < ApplicationController
   end
 
   def rsvp_preview
-    @rsvp = @event.rsvps.build(role: Role.find_by_id(params[:role_id]))
-    @rsvp.event_session_ids = @event.event_sessions.pluck(:id)
+    role = Role.find_by_id(params[:role_id])
+    @rsvp = @event.rsvps.build(role: role)
+    @rsvp.setup_for_role(role)
     @rsvp_preview_mode = true
     render "rsvps/new"
   end

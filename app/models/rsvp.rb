@@ -53,6 +53,15 @@ class Rsvp < ActiveRecord::Base
   belongs_to_active_hash :operating_system
   belongs_to_active_hash :volunteer_preference
 
+  def setup_for_role(role)
+    self.role = role
+    if role == Role::VOLUNTEER
+      self.event_session_ids = event.event_sessions.pluck(:id)
+    elsif role == Role::STUDENT
+      self.event_session_ids = event.event_sessions.where(required_for_students: true).pluck(:id)
+    end
+  end
+
   def operating_system_title
     operating_system.try(:title)
   end
