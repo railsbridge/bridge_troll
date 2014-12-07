@@ -26,6 +26,13 @@ describe EventSession do
     session.should have(0).errors_on(:starts_at)
   end
 
+  it 'does not allow required_for_students and volunteers_only simultaneously' do
+    session = create(:event_session)
+    session.volunteers_only = true
+    session.required_for_students = true
+    session.should have(1).error_on(:base)
+  end
+
   describe "#update_event_times" do
     it "denormalizes starts_at and ends_at onto the event" do
       event = create(:event)

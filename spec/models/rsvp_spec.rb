@@ -127,6 +127,37 @@ describe Rsvp do
     end
   end
 
+  describe "#selectable_sessions" do
+    let(:event) do
+      build(:event_with_no_sessions).tap do |event|
+        @session_no_options = build(:event_session, event: event, required_for_students: false, volunteers_only: false)
+        event.event_sessions << @session_no_options
+        event.save!
+      end
+    end
+
+    before do
+      @session_required_for_students = create(:event_session, event: event, required_for_students: true, volunteers_only: false)
+      @session_volunteers_only = create(:event_session, event: event, required_for_students: false, volunteers_only: true)
+    end
+
+    describe "for students" do
+      let(:rsvp) { create(:student_rsvp, event: event) }
+
+      it "returns only those sessions which are not marked as volunteer only" do
+        rsvp.selectable_sessions.pluck(:id).should =~ [@session_no_options.id, @session_required_for_students.id]
+      end
+    end
+
+    describe "for volunteers" do
+      let(:rsvp) { create(:volunteer_rsvp, event: event) }
+
+      it "returns all sessions" do
+        rsvp.selectable_sessions.pluck(:id).should =~ [@session_no_options.id, @session_required_for_students.id, @session_volunteers_only.id]
+      end
+    end
+  end
+
   describe "#as_json" do
     before do
       @user = create(:user, first_name: 'Bill', last_name: 'Blank')

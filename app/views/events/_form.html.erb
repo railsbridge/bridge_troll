@@ -53,9 +53,13 @@
         -
         <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {class: "input-small end_time form-control"} %>
       </div>
-      <div class='form-group'>
+      <div class='form-group session-checkboxes'>
         <%= event_sessions_form.label :required_for_students do %>
-          <%= event_sessions_form.check_box :required_for_students %> Required for Students?
+          <%= event_sessions_form.check_box :required_for_students, class: 'exclusive-checkbox' %> Required for Students?
+        <% end %>
+
+        <%= event_sessions_form.label :volunteers_only do %>
+          <%= event_sessions_form.check_box :volunteers_only, class: 'exclusive-checkbox' %> Volunteers Only!
         <% end %>
       </div>
     <% end %>

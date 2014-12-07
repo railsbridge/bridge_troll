@@ -20,6 +20,14 @@ setUpDatePicker = ($el) ->
   $el.on('change', dateChanged)
   $el.datepicker()
 
+setUpExclusiveCheckboxes = ($el) ->
+  $el.find('.exclusive-checkbox').on 'change', (e) ->
+    $target = $(e.target)
+    if ($target.prop('checked'))
+      $target.closest('.form-group').find('.exclusive-checkbox').each (ix, checkbox) ->
+        if (checkbox.id != e.target.id)
+          $(checkbox).prop('checked', false)
+
 setupRemoveSessions = ->
   if $('.remove-session').length
     $(document).on 'click', '.remove-session > a', (e)->
@@ -37,6 +45,7 @@ jQuery ->
   $('.select2-dropdown').select2(width: 'element')
 
   setUpDatePicker($('.datepicker'))
+  setUpExclusiveCheckboxes($('body'))
 
   rsvpTypesChanged = ->
     $el = $('.workshop-only')
@@ -54,6 +63,7 @@ jQuery ->
     $field = event.field
     $dateField = $field.find('.datepicker')
     setUpDatePicker($dateField)
+    setUpExclusiveCheckboxes($field)
 
   cocChanged = ->
     $el = $('#coc')

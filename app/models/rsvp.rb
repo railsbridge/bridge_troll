@@ -62,6 +62,15 @@ class Rsvp < ActiveRecord::Base
     end
   end
 
+  def selectable_sessions
+    sessions = event.event_sessions.order('starts_at ASC')
+    if role == Role::VOLUNTEER
+      sessions
+    elsif role == Role::STUDENT
+      sessions.where(volunteers_only: false)
+    end
+  end
+
   def operating_system_title
     operating_system.try(:title)
   end

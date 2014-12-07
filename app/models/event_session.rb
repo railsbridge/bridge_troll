@@ -1,5 +1,5 @@
 class EventSession < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:starts_at, :ends_at, :name, :required_for_students]
+  PERMITTED_ATTRIBUTES = [:starts_at, :ends_at, :name, :required_for_students, :volunteers_only]
 
   validates_presence_of :starts_at, :ends_at, :name
   validates_uniqueness_of :name, scope: [:event_id]
@@ -11,6 +11,11 @@ class EventSession < ActiveRecord::Base
   validate do
     if starts_at && ends_at && ends_at < starts_at
       errors.add(:ends_at, 'must be after session start time')
+    end
+  end
+  validate do
+    if required_for_students && volunteers_only
+      errors.add(:base, "A session cannot be both Required for Students and Volunteers Only")
     end
   end
 

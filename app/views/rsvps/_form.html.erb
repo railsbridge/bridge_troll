@@ -83,7 +83,7 @@
     <% if @rsvp.event.event_sessions.length > 1 %>
       <h2>Sessions you're attending</h2>
       <%= f.collection_check_boxes(:event_session_ids,
-                                   @event.event_sessions.order('starts_at ASC'),
+                                   @rsvp.selectable_sessions,
                                    :id,
                                    -> (session) { "#{session.name}: #{formatted_session_date(session)} #{formatted_session_timerange(session)}" },
                                    {
