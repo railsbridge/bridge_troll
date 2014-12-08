@@ -79,22 +79,35 @@ describe Rsvp do
 
     context 'when the event has passed' do
       let(:event) { create(:event) }
+      let(:event_session) do
+        event.event_sessions.first.tap do |event_session|
+          event_session.update_attributes(starts_at: 1.year.ago, ends_at: 6.months.ago)
+        end
+      end
+      let(:rsvp) do
+        build(:rsvp, event: event).tap do |rsvp|
+          rsvp.rsvp_sessions.build(event_session: event_session)
+          rsvp.save!
+        end
+      end
       before do
-        event.event_sessions.first.update_attributes(starts_at: 1.year.ago, ends_at: 6.months.ago)
+        rsvp.rsvp_sessions.first.update_attributes(checked_in: checked_in)
       end
 
-      it 'is false if the user got checked in to any sessions' do
-        rsvp = create(:rsvp, user: create(:user), event: event)
-        rsvp.rsvp_sessions.create(checked_in: true)
-        rsvp.save!
-        rsvp.reload.should_not be_no_show
+      context 'when the user has checked in' do
+        let(:checked_in) { true }
+
+        it 'is false' do
+          rsvp.reload.should_not be_no_show
+        end
       end
 
-      it 'is true if the user was never checked in' do
-        rsvp = create(:rsvp, user: create(:user), event: event)
-        rsvp.rsvp_sessions.create(checked_in: false)
-        rsvp.save!
-        rsvp.should be_no_show
+      context 'when the user has not checked in' do
+        let(:checked_in) { false }
+
+        it 'is true' do
+          rsvp.reload.should be_no_show
+        end
       end
     end
 

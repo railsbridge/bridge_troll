@@ -3,6 +3,8 @@ class RsvpSession < ActiveRecord::Base
   belongs_to :event_session
 
   validates_uniqueness_of :rsvp_id, scope: :event_session_id
+  validates_presence_of :event_session
+  validates_presence_of :rsvp
 
   after_save :update_counter_cache
   after_destroy :update_counter_cache
