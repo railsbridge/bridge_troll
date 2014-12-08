@@ -56,15 +56,14 @@
       .</span> <span class='recipients-popover'>[Who?]</span>
     </div>
 
-    <%= label_tag do %>
-      <div>Subject</div>
-      <%= f.text_field(:subject, placeholder: 'A message from your RailsBridge organizer', class: 'form-control') %>
-    <% end %>
-
-    <%= label_tag do %>
-      <div>Message Body</div>
-      <%= f.text_area(:body, placeholder: "Here's some important information about the upcoming workshop...", class: 'form-control') %>
-    <% end %>
+    <div class="row">
+      <div class="col-md-8">
+        <%= f.label :subject, "Subject" %>
+        <%= f.text_field :subject, placeholder: 'A message from your RailsBridge organizer', class: "form-control" %>
+        <%= f.label :body, "Message Body" %>
+        <%= f.text_area :body, placeholder: "Here's some important information about the upcoming workshop...", class: 'form-control' %>
+      </div>
+    </div>
 
     <div style="margin-top: 10px;"><%= f.submit 'Send Mail', class: 'btn' %></div>
   <% end %>
