@@ -65,6 +65,9 @@
 {{/unless}}
 {{#each levels}}
   <div class='bridgetroll-section-level level{{this.index}}'>
-    <div class='bridgetroll-section-title header level{{this.index}} level-{{this.color}}'>{{capitalize this.color}}</div>
+    <div class='bridgetroll-section-title header level{{this.index}} level-{{this.color}}'>
+      {{capitalize this.color}}
+      <a href="levels" target="_blank"><i class='fa fa-info-circle info'></i></a>
+    </div>
   </div>
 {{/each}}

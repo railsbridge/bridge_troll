@@ -116,6 +116,10 @@ body.section-organizer-projector-mode {
   &.header {
     margin-bottom: 15px;
     color: white;
+    .info {
+      float: right;
+      color: white;
+    }
 
     .section-organizer-projector-mode & {
       display: none;
