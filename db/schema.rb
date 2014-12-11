@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141205091133) do
+ActiveRecord::Schema.define(version: 20141211050151) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -165,6 +165,7 @@ ActiveRecord::Schema.define(version: 20141205091133) do
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.boolean  "checked_in",       default: false
+    t.datetime "reminded_at"
   end
 
   create_table "rsvps", force: true do |t|

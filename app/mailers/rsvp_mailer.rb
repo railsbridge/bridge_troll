@@ -14,6 +14,11 @@ class RsvpMailer < ActionMailer::Base
     email(rsvp, "Reminder: You've signed up for #{rsvp.event.title}")
   end
 
+  def reminder_for_session(rsvp_session)
+    rsvp = rsvp_session.rsvp
+    email(rsvp_session.rsvp, "Reminder: You've signed up for #{rsvp_session.event_session.name} at #{rsvp.event.title}")
+  end
+
   def off_waitlist(rsvp)
     @rsvp = rsvp
     mail(
