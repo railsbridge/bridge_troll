@@ -58,10 +58,8 @@
 
     <div class="row">
       <div class="col-md-8">
-        <%= f.label :subject, "Subject" %>
-        <%= f.text_field :subject, placeholder: 'A message from your RailsBridge organizer', class: "form-control" %>
-        <%= f.label :body, "Message Body" %>
-        <%= f.text_area :body, placeholder: "Here's some important information about the upcoming workshop...", class: 'form-control' %>
+        <%= f.input :subject, label: "Subject", placeholder: 'A message from your RailsBridge organizer', required: false %>
+        <%= f.input :body, label: "Message Body", placeholder: "Here's some important information about the upcoming workshop...", required: false %>
       </div>
     </div>
 

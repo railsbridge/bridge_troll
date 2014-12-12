@@ -117,8 +117,7 @@
     </div>
 
     <div class="field<%= ' hidden' unless f.object.needs_childcare? %>">
-      <%= f.label :childcare_info, "Please list your childrens' names and ages." %>
-      <%= f.text_area :childcare_info, rows: 3, class: "input-xxlarge" %>
+      <%= f.input :childcare_info, label: "Please list your childrens' names and ages.", input_html: {rows: 3} %>
     </div>
 
     <% if @event.location %>
