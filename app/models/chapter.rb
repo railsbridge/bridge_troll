@@ -17,4 +17,8 @@ class Chapter < ActiveRecord::Base
 
     leaders.include?(user)
   end
+
+  def editable_by?(user)
+    user.admin? || has_leader?(user)
+  end
 end

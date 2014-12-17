@@ -58,15 +58,41 @@ describe ChaptersController do
         get :new
         response.should be_success
 
-        expect { post :create, chapter: {name: "Fabulous Chapter"} }.to change(Chapter, :count).by(1)
+        expect {
+          post :create, chapter: {name: "Fabulous Chapter"}
+        }.to change(Chapter, :count).by(1)
+        Chapter.last.should have_leader(@user)
       end
 
-      it "should be able to edit an chapter" do
-        get :edit, id: @chapter.id
-        response.should be_success
+      describe 'who is a chapter leader' do
+        before do
+          @chapter.leaders << @user
+          @chapter.reload
+        end
 
-        put :update, id: @chapter.id, chapter: {name: 'Sandwich Chapter'}
-        response.should redirect_to(chapter_path(@chapter))
+        it "should be able to edit an chapter" do
+          get :edit, id: @chapter.id
+          response.should be_success
+
+          expect {
+            put :update, id: @chapter.id, chapter: {name: 'Sandwich Chapter'}
+          }.to change { @chapter.reload.name }
+          response.should redirect_to(chapter_path(@chapter))
+        end
+      end
+
+      describe 'who is not a chapter leader' do
+        it "should not be able to edit an chapter" do
+          get :edit, id: @chapter.id
+          response.should be_redirect
+          flash[:error].should be_present
+
+          expect {
+            put :update, id: @chapter.id, chapter: {name: 'Sandwich Chapter'}
+          }.not_to change { @chapter.reload.name }
+          response.should be_redirect
+          flash[:error].should be_present
+        end
       end
 
       describe "#destroy" do

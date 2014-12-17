@@ -1,9 +1,10 @@
 class ChaptersController < ApplicationController
   before_filter :authenticate_user!, :except => [:show, :index]
   before_filter :assign_chapter, :only => [:show, :edit, :update, :destroy]
+  before_filter :validate_chapter_leader!, only: [:edit, :update]
 
   def index
-    @chapters = Chapter.all
+    @chapters = Chapter.includes(:leaders).all
   end
 
   def show
@@ -29,6 +30,7 @@ class ChaptersController < ApplicationController
 
   def create
     @chapter = Chapter.new(chapter_params)
+    @chapter.chapter_leaderships.build(user: current_user)
 
     if @chapter.save
       redirect_to @chapter, notice: 'Chapter was successfully created.'
