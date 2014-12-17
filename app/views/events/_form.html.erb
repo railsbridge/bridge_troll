@@ -4,7 +4,7 @@
   <h2>Basic Event Information</h2>
 
   <div class="field">
-    <%= f.input :title, required: false %>
+    <%= f.input :title %>
   </div>
 
   <div class="field">
@@ -26,7 +26,7 @@
   </div>
 
   <div class="field">
-    <%= f.input :time_zone, priority: ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone', required: false %>
+    <%= f.input :time_zone, priority: ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
   </div>
 
   <div class="field">
@@ -45,7 +45,7 @@
   <div class="event-sessions">
     <%= f.fields_for :event_sessions do |event_sessions_form| %>
       <span class="remove-session hidden pull-right">(<a href="#">Remove Session</a>)</span>
-      <%= event_sessions_form.input :name, label: 'Session Name', required: false %>
+      <%= event_sessions_form.input :name, label: 'Session Name' %>
 
       <div class='form-group'>
         <%= event_sessions_form.text_field :session_date, class: 'datepicker form-control' %>

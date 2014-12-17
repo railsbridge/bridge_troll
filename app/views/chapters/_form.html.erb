@@ -3,7 +3,7 @@
     <%= simple_form_for(@chapter) do |f| %>
       <%= render 'shared/model_error_messages', model: @chapter %>
 
-      <%= f.input :name, required: false %>
+      <%= f.input :name %>
 
       <div class="actions">
         <%= f.submit class: 'btn btn-submit' %>

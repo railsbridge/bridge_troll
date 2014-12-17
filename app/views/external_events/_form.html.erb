@@ -3,23 +3,23 @@
     <%= simple_form_for(@external_event) do |f| %>
       <%= render 'shared/model_error_messages', model: @external_event %>
 
-      <%= f.input :name, required: false %>
+      <%= f.input :name %>
 
-      <%= f.input :url, label: 'URL', required: false %>
+      <%= f.input :url, label: 'URL' %>
 
       <div class="form-date">
-        <%= f.input :starts_at, required: false %>
+        <%= f.input :starts_at %>
       </div>
 
       <div class="form-date">
-        <%= f.input :ends_at, required: false %>
+        <%= f.input :ends_at %>
       </div>
 
-      <%= f.input :city, required: false %>
+      <%= f.input :city %>
 
-      <%= f.input :location, required: false %>
+      <%= f.input :location %>
 
-      <%= f.input :organizers, required: false %>
+      <%= f.input :organizers %>
 
       <div class="actions">
         <%= f.submit class: :btn %>
