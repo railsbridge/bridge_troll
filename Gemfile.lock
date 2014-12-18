@@ -147,7 +147,7 @@ GEM
       sprockets (>= 2.0.3)
       tilt
     hashie (3.3.2)
-    heroku-api (0.3.21)
+    heroku-api (0.3.22)
       excon (~> 0.38)
       multi_json (~> 1.8)
     heroku_rails_deflate (1.0.3)
@@ -358,7 +358,7 @@ GEM
     webmock (1.20.4)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
-    websocket-driver (0.5.0)
+    websocket-driver (0.5.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.1)
     xpath (2.0.0)

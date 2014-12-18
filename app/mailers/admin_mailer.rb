@@ -1,11 +1,8 @@
-class AdminMailer < ActionMailer::Base
+class AdminMailer < BaseMailer
   def test_group_mail(options)
-    headers['X-SMTPAPI'] = {
-      to: [options[:to]]
-    }.to_json
+    set_recipients([options[:to]])
 
     mail(
-      to: 'info@bridgetroll.org',
       from: "info@bridgetroll.org",
       subject: '[Bridge Troll] Group Email Test'
     ) do |format|
