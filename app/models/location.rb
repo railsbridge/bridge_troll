@@ -32,6 +32,10 @@ class Location < ActiveRecord::Base
     notable_events.map { |e| e.organizers }.flatten.map(&:id).include?(user.id)
   end
 
+  def additional_details_editable_by?(user)
+    chapter && chapter.has_leader?(user)
+  end
+
   def as_json(options = {})
     {
       name: name,

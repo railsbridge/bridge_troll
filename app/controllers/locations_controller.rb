@@ -53,7 +53,9 @@ class LocationsController < ApplicationController
   private
 
   def location_params
-    params.require(:location).permit(Location::PERMITTED_ATTRIBUTES)
+    attributes = Location::PERMITTED_ATTRIBUTES
+    attributes = attributes + [:contact_info, :notes] if @location.try(:additional_details_editable_by?, current_user)
+    params.require(:location).permit(attributes)
   end
 
   def assign_location

@@ -3,6 +3,15 @@
 <h2>Address:</h2>
 <%= link_to pretty_print_address(@location), location_map_link(@location) %>
 
+<% if @location.chapter.has_leader?(current_user) %>
+  <%= label_tag 'Contact Info' do %>
+    <%= @location.contact_info %>
+  <% end %>
+  <%= label_tag 'Notes' do %>
+    <%= @location.notes %>
+  <% end %>
+<% end %>
+
 <%= render "shared/map", location: @location %>
 
 <h2 style="margin-top: 40px;">Events</h2>

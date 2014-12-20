@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141211050151) do
+ActiveRecord::Schema.define(version: 20141219074438) do
 
   create_table "authentications", force: true do |t|
     t.integer  "user_id"
@@ -133,6 +133,8 @@ ActiveRecord::Schema.define(version: 20141211050151) do
     t.boolean  "gmaps"
     t.integer  "events_count", default: 0
     t.integer  "chapter_id"
+    t.text     "contact_info"
+    t.text     "notes"
   end
 
   create_table "meetup_users", force: true do |t|

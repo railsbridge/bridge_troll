@@ -25,7 +25,32 @@ describe 'Locations' do
 
     page.should have_content("February Event Location")
   end
-  
+
+  context "as a chapter leader" do
+    let(:location) { create(:location) }
+    let(:chapter_leader) { create(:user) }
+
+    before do
+      location.chapter.chapter_leaderships.create(user: chapter_leader)
+
+      sign_in_as(chapter_leader)
+    end
+
+    it "can edit additional fields" do
+      visit edit_location_path(location)
+
+      fill_in 'Contact info', with: 'someone'
+      fill_in 'Notes', with: 'cool notes'
+
+      click_button "Update Location"
+
+      location.reload
+
+      location.contact_info.should == 'someone'
+      location.notes.should == 'cool notes'
+    end
+  end
+
   it "should not create a new location if user is not signed in" do
     visit new_location_path
     page.should have_content("You need to sign in or sign up before continuing")
