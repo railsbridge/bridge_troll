@@ -12,7 +12,7 @@ class Events::UnpublishedEventsController < ApplicationController
 
   def publish
     @event.update_attribute(:published, true)
-    EventMailer.new_event(@event).deliver if @event.email_on_approval
+    EventMailer.new_event(@event).deliver_now if @event.email_on_approval
     redirect_to @event, notice: "This event has been published. Now everyone in the world can see it!"
   end
 

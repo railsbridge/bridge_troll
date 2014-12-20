@@ -20,8 +20,8 @@ class AdminPagesController < ApplicationController
   end
 
   def send_test_email
-    AdminMailer.test_group_mail(to: current_user.email).deliver
-    AdminMailer.test_individual_mail(to: current_user.email).deliver
+    AdminMailer.test_group_mail(to: current_user.email).deliver_now
+    AdminMailer.test_individual_mail(to: current_user.email).deliver_now
 
     redirect_to '/admin_dashboard', notice: "If mail is working, you should see two messages in your #{current_user.email} inbox."
   end

@@ -53,7 +53,7 @@ class EventsController < ApplicationController
       if current_user.spammer?
         @event.update_attribute(:spam, true)
       else
-        EventMailer.unpublished_event(@event).deliver
+        EventMailer.unpublished_event(@event).deliver_now
       end
 
       if @event.published

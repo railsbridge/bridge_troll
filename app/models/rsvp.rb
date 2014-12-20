@@ -119,7 +119,7 @@ class Rsvp < ActiveRecord::Base
 
   def promote_from_waitlist!
     update_attribute(:waitlist_position, nil)
-    RsvpMailer.off_waitlist(self).deliver
+    RsvpMailer.off_waitlist(self).deliver_now
   end
 
   def needs_childcare?

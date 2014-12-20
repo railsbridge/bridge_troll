@@ -43,7 +43,7 @@ class Events::EmailsController < ApplicationController
       subject: email_params[:subject],
       body: email_params[:body],
       event: @event
-    ).deliver
+    ).deliver_now
 
     @email.save!
 
