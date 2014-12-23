@@ -56,7 +56,7 @@ GEM
       jquery-rails
       railties
     bcrypt (3.1.9)
-    better_errors (2.0.0)
+    better_errors (2.1.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
       rack (>= 0.9.0)
@@ -78,8 +78,6 @@ GEM
       capybara (>= 1.0, < 3)
       colored
       launchy
-    celluloid (0.16.0)
-      timers (~> 4.0.0)
     chunky_png (1.3.3)
     cliver (0.3.2)
     coderay (1.1.0)
@@ -91,15 +89,23 @@ GEM
       execjs
     coffee-script-source (1.8.0)
     colored (1.2)
-    compass (0.12.7)
+    compass (1.0.1)
       chunky_png (~> 1.2)
-      fssm (>= 0.2.7)
-      sass (~> 3.2.19)
-    compass-rails (2.0.0)
-      compass (>= 0.12.2)
+      compass-core (~> 1.0.1)
+      compass-import-once (~> 1.0.5)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+      sass (>= 3.3.13, < 3.5)
+    compass-core (1.0.1)
+      multi_json (~> 1.0)
+      sass (>= 3.3.0, < 3.5)
+    compass-import-once (1.0.5)
+      sass (>= 3.2, < 3.5)
+    compass-rails (2.0.1)
+      compass (~> 1.0.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
-    crass (0.2.1)
+    crass (1.0.1)
     daemons (1.1.9)
     debug_inspector (0.0.2)
     devise (3.4.1)
@@ -135,23 +141,11 @@ GEM
     ffi (1.9.6)
     font-awesome-rails (4.2.0.0)
       railties (>= 3.2, < 5.0)
-    formatador (0.2.5)
-    fssm (0.2.10)
     geocoder (1.2.6)
     globalid (0.3.0)
       activesupport (>= 4.1.0)
     gmaps4rails (2.1.2)
     gravatar_image_tag (1.2.0)
-    guard (2.10.4)
-      formatador (>= 0.2.4)
-      listen (~> 2.7)
-      lumberjack (~> 1.0)
-      nenv (~> 0.1)
-      pry (>= 0.9.12)
-      thor (>= 0.18.1)
-    guard-rspec (4.3.1)
-      guard (~> 2.1)
-      rspec (>= 2.14, < 4.0)
     handlebars_assets (0.18)
       execjs (>= 1.2.9)
       multi_json
@@ -170,7 +164,6 @@ GEM
       json
       rake
     hike (1.2.3)
-    hitimes (1.2.2)
     i18n (0.7.0)
     icalendar (2.2.1)
     jasmine (2.1.0)
@@ -195,30 +188,23 @@ GEM
     jwt (1.2.0)
     launchy (2.4.3)
       addressable (~> 2.3)
-    listen (2.8.4)
-      celluloid (>= 0.15.2)
-      rb-fsevent (>= 0.9.3)
-      rb-inotify (>= 0.9)
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
-    lumberjack (1.0.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     masonry-rails (0.2.4)
       railties
-    method_source (0.8.2)
     mime-types (2.4.3)
     mini_portile (0.6.1)
     minitest (5.5.0)
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    nenv (0.1.1)
     nested_form (0.3.2)
     newrelic_rpm (3.9.8.273)
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
-    nokogumbo (1.1.12)
+    nokogumbo (1.2.0)
       nokogiri
     oauth (0.4.7)
     oauth2 (1.0.0)
@@ -257,11 +243,7 @@ GEM
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
-    pry (0.10.1)
-      coderay (~> 1.1.0)
-      method_source (~> 0.8.1)
-      slop (~> 3.4)
-    quiet_assets (1.0.3)
+    quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.0)
     rack-canonical-host (0.1.0)
@@ -294,7 +276,7 @@ GEM
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
-    rails_serve_static_assets (0.0.2)
+    rails_serve_static_assets (0.0.3)
     rails_stdout_logging (0.0.3)
     railties (4.2.0)
       actionpack (= 4.2.0)
@@ -307,10 +289,6 @@ GEM
       ffi (>= 0.5.0)
     responders (2.0.2)
       railties (>= 4.2.0.alpha, < 5)
-    rspec (3.1.0)
-      rspec-core (~> 3.1.0)
-      rspec-expectations (~> 3.1.0)
-      rspec-mocks (~> 3.1.0)
     rspec-collection_matchers (1.1.2)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.1.7)
@@ -330,16 +308,17 @@ GEM
       rspec-support (~> 3.1.0)
     rspec-support (3.1.2)
     safe_yaml (1.0.4)
-    sanitize (3.0.4)
-      crass (~> 0.2.0)
+    sanitize (3.1.0)
+      crass (~> 1.0.1)
       nokogiri (>= 1.4.4)
-      nokogumbo (= 1.1.12)
-    sass (3.2.19)
-    sass-rails (4.0.2)
+      nokogumbo (= 1.2.0)
+    sass (3.4.9)
+    sass-rails (5.0.0)
       railties (>= 4.0.0, < 5.0)
-      sass (~> 3.2.0)
-      sprockets (~> 2.8, <= 2.11.0)
-      sprockets-rails (~> 2.0.0)
+      sass (~> 3.1)
+      sprockets (>= 2.8, < 4.0)
+      sprockets-rails (>= 2.0, < 4.0)
+      tilt (~> 1.1)
     select2-rails (3.5.9.1)
       thor (~> 0.14)
     sentry-raven (0.12.2)
@@ -349,18 +328,16 @@ GEM
     simple_form (3.1.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
-    slop (3.6.0)
-    sprockets (2.11.0)
+    sprockets (2.12.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sprockets-rails (2.0.1)
+    sprockets-rails (2.2.2)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
-      sprockets (~> 2.8)
+      sprockets (>= 2.8, < 4.0)
     sqlite3 (1.3.10)
-    terminal-notifier-guard (1.6.4)
     thin (1.6.3)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0)
@@ -368,8 +345,6 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
-    timers (4.0.1)
-      hitimes
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.6.0)
@@ -410,7 +385,6 @@ DEPENDENCIES
   geocoder
   gmaps4rails
   gravatar_image_tag
-  guard-rspec (~> 4.3.1)
   handlebars_assets
   heroku_rails_deflate
   heroku_san
@@ -439,13 +413,12 @@ DEPENDENCIES
   rspec-collection_matchers
   rspec-rails
   sanitize
-  sass-rails (= 4.0.2)
+  sass-rails
   select2-rails
   sentry-raven
   shoulda-matchers
   simple_form
   sqlite3
-  terminal-notifier-guard
   thin
   uglifier
   webmock

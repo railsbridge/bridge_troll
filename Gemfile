@@ -34,7 +34,7 @@ end
 
 gem 'handlebars_assets'
 gem 'jquery-datatables-rails'
-gem 'sass-rails', '4.0.2' # https://github.com/rails/sass-rails/issues/191
+gem 'sass-rails'
 gem 'compass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
@@ -46,9 +46,7 @@ gem 'masonry-rails'
 
 group :development do
   gem 'quiet_assets'
-  gem 'guard-rspec', '~> 4.3.1'
   gem 'rb-fsevent'
-  gem 'terminal-notifier-guard'
   gem "bullet"
   gem "heroku_san"
   gem "better_errors"
