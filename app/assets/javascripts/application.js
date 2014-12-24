@@ -42,11 +42,11 @@ $(document).ready(function () {
   function matchHeights ($element) {
     var maxHeight;
     var items = $element.find('.js-match-height-item');
-    items.css('height', 'auto');
+    items.css('min-height', 0);
     maxHeight = Math.max.apply(Math, _.map(items, function(item) {
       return $(item).outerHeight();
     }));
-    items.css({ 'height': maxHeight });
+    items.css({ 'min-height': maxHeight });
   }
 
   $(window).resize(function() {

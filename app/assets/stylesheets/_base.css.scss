@@ -286,6 +286,6 @@ label {
 
 @media (max-width: $screen-xs-max) {
   .js-match-height-item {
-    height: auto !important;
+    min-height: 0 !important;
   }
 }
