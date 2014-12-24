@@ -35,7 +35,7 @@ end
 gem 'handlebars_assets'
 gem 'jquery-datatables-rails'
 gem 'sass-rails'
-gem 'compass-rails'
+gem 'compass-rails', github: 'danielpclark/compass-rails' # https://github.com/Compass/compass-rails/issues/195
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'bootstrap-sass'

@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/danielpclark/compass-rails.git
+  revision: 2c17afc98516924c9720ca8e4baef75b50da8976
+  specs:
+    compass-rails (2.0.2)
+      compass (~> 1.0.0)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -101,8 +108,6 @@ GEM
       sass (>= 3.3.0, < 3.5)
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
-    compass-rails (2.0.1)
-      compass (~> 1.0.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     crass (1.0.1)
@@ -376,7 +381,7 @@ DEPENDENCIES
   capybara (>= 2.0.1)
   capybara-screenshot
   coffee-rails
-  compass-rails
+  compass-rails!
   devise (~> 3.4.0)
   dotenv-rails
   factory_girl_rails
