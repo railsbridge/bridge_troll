@@ -1,10 +1,13 @@
+/*
+ *= require jquery-ui/datepicker
+ */
+
 $tableBorder: #BFBFBF;
 
 @import "constants";
 
 @import "compass/css3/images";
 
-@import "jquery-ui/datepicker";
 @import "bootstrap";
 @import "dataTables/bootstrap/3/jquery.dataTables.bootstrap";
 @import "select2";
