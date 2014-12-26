@@ -33,27 +33,3 @@
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require_tree .
 //= require jquery_nested_form
-
-$(document).ready(function () {
-  if ($(window).height() < $('html').height()) {
-    $('footer').show();
-  }
-
-  function matchHeights ($element) {
-    var maxHeight;
-    var items = $element.find('.js-match-height-item');
-    items.css('min-height', 0);
-    maxHeight = Math.max.apply(Math, _.map(items, function(item) {
-      return $(item).outerHeight();
-    }));
-    items.css({ 'min-height': maxHeight });
-  }
-
-  $(window).resize(function() {
-    if ($(document).width() > 768) {
-      matchHeights($('.upcoming-events'));
-    }
-  });
-
-  matchHeights($('.upcoming-events'));
-});
