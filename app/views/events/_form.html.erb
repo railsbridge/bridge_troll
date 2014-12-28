@@ -74,12 +74,12 @@
   <div class="field non-bolded">
     <div>
       <%= label_tag do %>
-        <%= f.radio_button :allow_student_rsvp, true, class: 'rsvp-types-radio' %> Students and Volunteers (normal workshop)
+        <%= f.radio_button :allow_student_rsvp, true, data: {'toggle-target' => 'workshop-only', 'toggle-show-when' => true} %> Students and Volunteers (normal workshop)
     <% end %>
     </div>
     <div>
       <%= label_tag do %>
-        <%= f.radio_button :allow_student_rsvp, false, class: 'rsvp-types-radio' %> Just Volunteers (work party, teacher
+        <%= f.radio_button :allow_student_rsvp, false, data: {'toggle-target' => 'workshop-only', 'toggle-show-when' => true} %> Just Volunteers (work party, teacher
         training)
     <% end %>
     </div>

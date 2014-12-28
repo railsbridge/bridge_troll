@@ -28,6 +28,26 @@ setUpExclusiveCheckboxes = ($el) ->
         if (checkbox.id != e.target.id)
           $(checkbox).prop('checked', false)
 
+setUpVisibilityTogglingRadios = ->
+  radioChanged = ->
+    $radio = $(this)
+    visibleValue = $radio.data('toggle-show-when').toString()
+    selector = $radio.data('toggle-target')
+    checked = $("input[type=radio][name='#{$radio.attr('name')}']:checked").val() == visibleValue
+
+    $togglables = $(".#{selector}")
+    if (checked)
+      $togglables.toggle(true)
+      $togglables.find('input, select').prop('disabled', false)
+    else
+      $togglables.toggle(false)
+      $togglables.find('input, select').prop('disabled', true)
+
+  $('[data-toggle-target]').on('change', radioChanged)
+  $('[data-toggle-target]:checked').each (ix, el) ->
+    radioChanged.call(el)
+
+
 setupRemoveSessions = ->
   if $('.remove-session').length
     $(document).on 'click', '.remove-session > a', (e)->
@@ -46,18 +66,7 @@ jQuery ->
 
   setUpDatePicker($('.datepicker'))
   setUpExclusiveCheckboxes($('body'))
-
-  rsvpTypesChanged = ->
-    $el = $('.workshop-only')
-    if ($('.rsvp-types-radio:checked').val() == "true")
-      $el.toggle(true)
-      $el.find('input, select').prop('disabled', false)
-    else
-      $el.toggle(false)
-      $el.find('input, select').prop('disabled', true)
-
-  $('.rsvp-types-radio').on('change', rsvpTypesChanged)
-  rsvpTypesChanged()
+  setUpVisibilityTogglingRadios()
 
   $(document).on 'nested:fieldAdded', (event) ->
     $field = event.field

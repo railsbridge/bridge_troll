@@ -170,7 +170,7 @@ GEM
       rake
     hike (1.2.3)
     i18n (0.7.0)
-    icalendar (2.2.1)
+    icalendar (2.2.2)
     jasmine (2.1.0)
       jasmine-core (~> 2.1.0)
       phantomjs
