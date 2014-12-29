@@ -1,6 +1,3 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 dateChanged = ->
   date = $(this).val()
 
@@ -28,12 +25,16 @@ setUpExclusiveCheckboxes = ($el) ->
         if (checkbox.id != e.target.id)
           $(checkbox).prop('checked', false)
 
-setUpVisibilityTogglingRadios = ->
-  radioChanged = ->
-    $radio = $(this)
-    visibleValue = $radio.data('toggle-show-when').toString()
-    selector = $radio.data('toggle-target')
-    checked = $("input[type=radio][name='#{$radio.attr('name')}']:checked").val() == visibleValue
+setUpToggles = ->
+  getSelectedValue = ($input) ->
+    if $input.attr('type') == 'radio'
+      $("input[type=radio][name='#{$input.attr('name')}']:checked").val()
+
+  inputChanged = ->
+    $input = $(this)
+    visibleValue = $input.data('toggle-show-when').toString()
+    selector = $input.data('toggle-target')
+    checked = getSelectedValue($input) == visibleValue
 
     $togglables = $(".#{selector}")
     if (checked)
@@ -43,10 +44,9 @@ setUpVisibilityTogglingRadios = ->
       $togglables.toggle(false)
       $togglables.find('input, select').prop('disabled', true)
 
-  $('[data-toggle-target]').on('change', radioChanged)
-  $('[data-toggle-target]:checked').each (ix, el) ->
-    radioChanged.call(el)
-
+  $('[data-toggle-target]').on('change', inputChanged)
+  $('[data-toggle-target]').each (ix, el) ->
+    inputChanged.call(el)
 
 setupRemoveSessions = ->
   if $('.remove-session').length
@@ -66,7 +66,7 @@ jQuery ->
 
   setUpDatePicker($('.datepicker'))
   setUpExclusiveCheckboxes($('body'))
-  setUpVisibilityTogglingRadios()
+  setUpToggles()
 
   $(document).on 'nested:fieldAdded', (event) ->
     $field = event.field

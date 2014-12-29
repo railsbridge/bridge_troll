@@ -1,18 +1,21 @@
 <%= content_for(:header_text, @location.name) %>
 
-<h2>Address:</h2>
-<%= link_to pretty_print_address(@location), location_map_link(@location) %>
+<div class="row">
+  <div class="col-md-4">
+    <%= render "shared/map", location: @location %>
+  </div>
+  <div class="col-md-6">
+    <h2>Address:</h2>
+    <%= link_to pretty_print_address(@location), location_map_link(@location) %>
 
-<% if @location.chapter.has_leader?(current_user) %>
-  <%= label_tag 'Contact Info' do %>
-    <%= @location.contact_info %>
-  <% end %>
-  <%= label_tag 'Notes' do %>
-    <%= @location.notes %>
-  <% end %>
-<% end %>
-
-<%= render "shared/map", location: @location %>
+    <% if @location.chapter.has_leader?(current_user) %>
+      <h2>Contact info:</h2>
+      <%= @location.contact_info %>
+      <h2>Notes:</h2>
+      <%= @location.notes %>
+    <% end %>
+  </div>
+</div>
 
 <h2 style="margin-top: 40px;">Events</h2>
 <%= render 'shared/events_table', events: @location.events %>
