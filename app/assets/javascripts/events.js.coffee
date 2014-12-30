@@ -25,29 +25,6 @@ setUpExclusiveCheckboxes = ($el) ->
         if (checkbox.id != e.target.id)
           $(checkbox).prop('checked', false)
 
-setUpToggles = ->
-  getSelectedValue = ($input) ->
-    if $input.attr('type') == 'radio'
-      $("input[type=radio][name='#{$input.attr('name')}']:checked").val()
-
-  inputChanged = ->
-    $input = $(this)
-    visibleValue = $input.data('toggle-show-when').toString()
-    selector = $input.data('toggle-target')
-    checked = getSelectedValue($input) == visibleValue
-
-    $togglables = $(".#{selector}")
-    if (checked)
-      $togglables.toggle(true)
-      $togglables.find('input, select').prop('disabled', false)
-    else
-      $togglables.toggle(false)
-      $togglables.find('input, select').prop('disabled', true)
-
-  $('[data-toggle-target]').on('change', inputChanged)
-  $('[data-toggle-target]').each (ix, el) ->
-    inputChanged.call(el)
-
 setupRemoveSessions = ->
   if $('.remove-session').length
     $(document).on 'click', '.remove-session > a', (e)->
@@ -65,22 +42,12 @@ jQuery ->
   $('.select2-dropdown').select2(width: 'element')
 
   setUpDatePicker($('.datepicker'))
-  setUpExclusiveCheckboxes($('body'))
-  setUpToggles()
 
   $(document).on 'nested:fieldAdded', (event) ->
     $field = event.field
     $dateField = $field.find('.datepicker')
     setUpDatePicker($dateField)
     setUpExclusiveCheckboxes($field)
-
-  cocChanged = ->
-    $el = $('#coc')
-    if ($el.length > 0)
-      $('.btn-submit').prop('disabled', !$el[0].checked)
-
-  $('#coc').on('change', cocChanged)
-  cocChanged()
 
   $('.chapter-select').on 'change', (event) ->
     chapterId = $(this).val()

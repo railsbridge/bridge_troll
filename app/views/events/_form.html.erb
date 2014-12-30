@@ -3,6 +3,21 @@
 
   <h2>Basic Event Information</h2>
 
+  <h3>Event Type</h3>
+  <div class="field non-bolded">
+    <div>
+      <%= label_tag do %>
+        <%= f.radio_button :allow_student_rsvp, true, data: {'toggle-target' => 'workshop-only', 'toggle-show-when' => true} %> Students and Volunteers (normal workshop)
+      <% end %>
+    </div>
+    <div>
+      <%= label_tag do %>
+        <%= f.radio_button :allow_student_rsvp, false, data: {'toggle-target' => 'workshop-only', 'toggle-show-when' => true} %> Just Volunteers (work party, teacher
+        training)
+      <% end %>
+    </div>
+  </div>
+
   <div class="field">
     <%= f.input :title %>
   </div>
@@ -68,57 +83,32 @@
     <% end %>
   </div>
 
-  <h2 class="mb-10-only">Who can attend?</h2>
-
-  <h3>Event Type</h3>
-  <div class="field non-bolded">
-    <div>
-      <%= label_tag do %>
-        <%= f.radio_button :allow_student_rsvp, true, data: {'toggle-target' => 'workshop-only', 'toggle-show-when' => true} %> Students and Volunteers (normal workshop)
-    <% end %>
-    </div>
-    <div>
-      <%= label_tag do %>
-        <%= f.radio_button :allow_student_rsvp, false, data: {'toggle-target' => 'workshop-only', 'toggle-show-when' => true} %> Just Volunteers (work party, teacher
-        training)
-    <% end %>
-    </div>
-  </div>
-
-  <h3>Announcement Email</h3>
-
-  <% unless @event.published? %>
-    <div class="field non-bolded">
-      <%= f.label :email_on_approval do %>
-        <%= f.check_box :email_on_approval %> Send announcement email to chapter when the event is approved
-      <% end %>
-    </div>
-  <% end %>
-
-  <div class="field workshop-only">
-    <h3>Ask for plus-one host name?</h3>
-    <p>Historically, *Bridge workshops for women have allowed men to attend as the guest of a woman. If you want to do a similar +1 thing, you can ask attendees to list who they are the guest of.</p>
-      <p>The plus-one host form says this:</p>
-    <blockquote>
-      <p>All workshops on Bridge Troll focus on providing opportunities for under-represented populations in tech. If you are not a member of an underrepresented group, you can only attend as a student if you're the guest of someone who is a member of the workshop's target population. (For example, men can come as the guest of a woman, a straight person can attend as the guest of a gay person, etc.)
-      </p>
-      <p>If you are not a member of this workshop's target demographic, list the name of the person who is bringing you here: [text field]
-      </p>
-      </blockquote>
-    <p>If your workshop isn't open to +1s, you can choose not to show that field.</p>
-    <div>
-      <%= label_tag do %>
-        <%= f.radio_button :plus_one_host_toggle, true %> Show plus-one host name form
-      <% end %>
-    </div>
-    <div>
-      <%= label_tag do %>
-        <%= f.radio_button :plus_one_host_toggle, false %> Don't show plus-one host name form
-      <% end %>
-    </div>
-  </div>
-
   <div class='workshop-only'>
+    <h2>Student details</h2>
+
+    <div class="field">
+      <h3>Ask for plus-one host name?</h3>
+      <p>Historically, *Bridge workshops for women have allowed men to attend as the guest of a woman. If you want to do a similar +1 thing, you can ask attendees to list who they are the guest of.</p>
+        <p>The plus-one host form says this:</p>
+      <blockquote>
+        <p>All workshops on Bridge Troll focus on providing opportunities for under-represented populations in tech. If you are not a member of an underrepresented group, you can only attend as a student if you're the guest of someone who is a member of the workshop's target population. (For example, men can come as the guest of a woman, a straight person can attend as the guest of a gay person, etc.)
+        </p>
+        <p>If you are not a member of this workshop's target demographic, list the name of the person who is bringing you here: [text field]
+        </p>
+        </blockquote>
+      <p>If your workshop isn't open to +1s, you can choose not to show that field.</p>
+      <div>
+        <%= label_tag do %>
+          <%= f.radio_button :plus_one_host_toggle, true %> Show plus-one host name form
+        <% end %>
+      </div>
+      <div>
+        <%= label_tag do %>
+          <%= f.radio_button :plus_one_host_toggle, false %> Don't show plus-one host name form
+        <% end %>
+      </div>
+    </div>
+
     <h3>Capacity</h3>
 
     <p>
@@ -160,6 +150,16 @@
     <%= f.input :student_details, label: 'Student Details', input_html: {rows: 4} %>
   </div>
 
+  <h2>Announcement Email</h2>
+
+  <% unless @event.published? %>
+    <div class="field non-bolded">
+      <%= f.label :email_on_approval do %>
+        <%= f.check_box :email_on_approval %> Send announcement email to chapter when the event is approved
+      <% end %>
+    </div>
+  <% end %>
+
   <% if @event.new_record? %>
     <h2>Ready to create your Event? Hold on a second...</h2>
 
@@ -171,7 +171,10 @@
 
     <div class="field">
       <%= label_tag :coc, class: 'question' do %>
-        <strong><%= check_box_tag :coc, '1', params[:coc] %>
+        <strong><%= check_box_tag :coc, '1', params[:coc], data: {
+          'toggle-target' => 'coc-required',
+          'toggle-enable-when-checked' => true
+        } %>
           I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a> and will communicate it at the beginning of the event.
         </strong>
       <% end %>
@@ -179,6 +182,6 @@
   <% end %>
 
   <div class="actions">
-    <%= f.submit class: 'btn btn-submit' %>
+    <%= f.submit class: 'btn btn-submit coc-required' %>
   </div>
 <% end %>
