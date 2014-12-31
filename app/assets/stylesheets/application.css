@@ -1,0 +1,32 @@
+/*
+ *= require jquery-ui/datepicker
+ *= require bootstrap_with_overrides
+ *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require select2
+ *= require select2-bootstrap
+ *= require select2-bootstrap
+ *= require font_awesome_with_extensions
+ *= require _fonts
+ *= require _style_guide
+ *= require _base
+ *= require _header
+ *= require _footer
+ *= require _tables
+ *= require _section_organizer
+ *= require _checkins
+ *= require events/_index
+ *= require events/_show
+ *= require events/_organize
+ *= require events/_email
+ *= require events/_form
+
+ *= require _gravatars
+
+ *= require devise
+ *= require _levels
+ *= require _form
+ *= require _profile
+
+ *= require _external_pages
+ *= require utilities
+ */

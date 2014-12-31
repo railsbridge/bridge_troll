@@ -1,0 +1,8 @@
+@import "font-awesome";
+
+.fa-before:before {
+  @extend .fa;
+}
+.btn.fa-before:before {
+  margin-right: 10px;
+}

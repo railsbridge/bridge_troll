@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/compass/compass-rails.git
-  revision: ad4ad93dabf95b3dd85fe6833c6b62d02879c0ab
+  revision: 0f14dcc643f0067f45607cc6a73f986624d6bd7e
   specs:
     compass-rails (2.0.1)
       compass (~> 1.0.0)
@@ -200,7 +200,7 @@ GEM
     masonry-rails (0.2.4)
       railties
     mime-types (2.4.3)
-    mini_portile (0.6.1)
+    mini_portile (0.6.2)
     minitest (5.5.0)
     multi_json (1.10.1)
     multi_xml (0.5.5)

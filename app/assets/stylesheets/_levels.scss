@@ -1,3 +1,5 @@
+@import "constants";
+
 @mixin gradient($from, $to) {
   /* fallback/image non-cover color */
   background-color: $from;
