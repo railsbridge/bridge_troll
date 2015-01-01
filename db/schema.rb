@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20141219074438) do
 
-  create_table "authentications", force: true do |t|
+  create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "provider"
     t.string   "uid"
@@ -21,33 +21,33 @@ ActiveRecord::Schema.define(version: 20141219074438) do
     t.datetime "updated_at"
   end
 
-  create_table "chapter_leaderships", force: true do |t|
+  create_table "chapter_leaderships", force: :cascade do |t|
     t.integer "user_id"
     t.integer "chapter_id"
   end
 
-  create_table "chapters", force: true do |t|
+  create_table "chapters", force: :cascade do |t|
     t.string   "name"
     t.integer  "locations_count", default: 0
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
 
-  create_table "chapters_users", id: false, force: true do |t|
+  create_table "chapters_users", id: false, force: :cascade do |t|
     t.integer "chapter_id"
     t.integer "user_id"
   end
 
   add_index "chapters_users", ["chapter_id", "user_id"], name: "index_chapters_users_on_chapter_id_and_user_id", unique: true
 
-  create_table "dietary_restrictions", force: true do |t|
+  create_table "dietary_restrictions", force: :cascade do |t|
     t.string   "restriction"
     t.integer  "rsvp_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
-  create_table "event_email_recipients", force: true do |t|
+  create_table "event_email_recipients", force: :cascade do |t|
     t.integer  "event_email_id"
     t.integer  "recipient_rsvp_id"
     t.datetime "created_at",        null: false
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20141219074438) do
   add_index "event_email_recipients", ["event_email_id"], name: "index_event_email_recipients_on_event_email_id"
   add_index "event_email_recipients", ["recipient_rsvp_id"], name: "index_event_email_recipients_on_recipient_rsvp_id"
 
-  create_table "event_emails", force: true do |t|
+  create_table "event_emails", force: :cascade do |t|
     t.integer  "event_id"
     t.integer  "sender_id"
     t.string   "subject"
@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 20141219074438) do
 
   add_index "event_emails", ["event_id"], name: "index_event_emails_on_event_id"
 
-  create_table "event_sessions", force: true do |t|
+  create_table "event_sessions", force: :cascade do |t|
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.integer  "event_id"
@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 20141219074438) do
 
   add_index "event_sessions", ["event_id", "name"], name: "index_event_sessions_on_event_id_and_name", unique: true
 
-  create_table "events", force: true do |t|
+  create_table "events", force: :cascade do |t|
     t.string   "title"
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20141219074438) do
     t.integer  "volunteer_rsvps_count",        default: 0
   end
 
-  create_table "external_events", force: true do |t|
+  create_table "external_events", force: :cascade do |t|
     t.string   "name"
     t.string   "url"
     t.date     "starts_at"
@@ -119,7 +119,7 @@ ActiveRecord::Schema.define(version: 20141219074438) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "locations", force: true do |t|
+  create_table "locations", force: :cascade do |t|
     t.string   "name"
     t.string   "address_1"
     t.datetime "created_at",               null: false
@@ -137,14 +137,14 @@ ActiveRecord::Schema.define(version: 20141219074438) do
     t.text     "notes"
   end
 
-  create_table "meetup_users", force: true do |t|
+  create_table "meetup_users", force: :cascade do |t|
     t.string   "full_name"
     t.integer  "meetup_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "profiles", force: true do |t|
+  create_table "profiles", force: :cascade do |t|
     t.integer  "user_id"
     t.boolean  "childcaring"
     t.boolean  "writing"
@@ -161,7 +161,7 @@ ActiveRecord::Schema.define(version: 20141219074438) do
     t.string   "github_username"
   end
 
-  create_table "rsvp_sessions", force: true do |t|
+  create_table "rsvp_sessions", force: :cascade do |t|
     t.integer  "rsvp_id"
     t.integer  "event_session_id"
     t.datetime "created_at",                       null: false
@@ -170,7 +170,7 @@ ActiveRecord::Schema.define(version: 20141219074438) do
     t.datetime "reminded_at"
   end
 
-  create_table "rsvps", force: true do |t|
+  create_table "rsvps", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "event_id"
     t.datetime "created_at",                                          null: false
@@ -197,7 +197,7 @@ ActiveRecord::Schema.define(version: 20141219074438) do
 
   add_index "rsvps", ["user_id", "event_id", "user_type"], name: "index_rsvps_on_user_id_and_event_id_and_event_type", unique: true
 
-  create_table "sections", force: true do |t|
+  create_table "sections", force: :cascade do |t|
     t.integer  "event_id"
     t.string   "name"
     t.datetime "created_at",  null: false
@@ -207,7 +207,7 @@ ActiveRecord::Schema.define(version: 20141219074438) do
 
   add_index "sections", ["event_id"], name: "index_sections_on_event_id"
 
-  create_table "surveys", force: true do |t|
+  create_table "surveys", force: :cascade do |t|
     t.integer "rsvp_id"
     t.text    "good_things"
     t.text    "bad_things"
@@ -215,7 +215,7 @@ ActiveRecord::Schema.define(version: 20141219074438) do
     t.integer "recommendation_likelihood"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
