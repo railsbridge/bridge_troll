@@ -2,6 +2,8 @@ setUpToggles = ->
   getSelectedValue = ($input) ->
     if $input.attr('type') == 'radio'
       $("input[type=radio][name='#{$input.attr('name')}']:checked").val()
+    else if $input.attr('type') == 'checkbox'
+      $input.filter(':checked').val()
 
   inputChanged = ->
     $input = $(this)

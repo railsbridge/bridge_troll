@@ -113,10 +113,16 @@
     </div>
 
     <div class="field question">
-      <%= f.input :needs_childcare, as: :boolean, label: 'Do you need childcare?' %>
+      <%= f.input :needs_childcare,
+                  as: :boolean,
+                  label: 'Do you need childcare?',
+                  input_html: {
+                    'data-toggle-target' => 'childcare-info-wrapper',
+                    'data-toggle-show-when' => '1'
+                  } %>
     </div>
 
-    <div class="field<%= ' hidden' unless f.object.needs_childcare? %>">
+    <div class="field childcare-info-wrapper">
       <%= f.input :childcare_info, label: "Please list your childrens' names and ages.", input_html: {rows: 3} %>
     </div>
 
