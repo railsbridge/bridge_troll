@@ -1,16 +1,20 @@
 dateChanged = ->
+  # Copy values from the visible text 'date' into the hidden date component
+  # fields so that they are better received by the Rails controller.
+
   date = $(this).val()
 
   [year, month, day] = date.split('-')
 
-  index = parseInt(this.id.match(/\d+/)[0], 10)
+  # matched part will be something like event_event_sessions_attributes_0
+  selectorPrefix = '#' + this.id.match(/(.*attributes_\d+)/)[1]
 
-  $('#event_event_sessions_attributes_' + index + '_starts_at_1i').val(year)
-  $('#event_event_sessions_attributes_' + index + '_starts_at_2i').val(month)
-  $('#event_event_sessions_attributes_' + index + '_starts_at_3i').val(day)
-  $('#event_event_sessions_attributes_' + index + '_ends_at_1i').val(year)
-  $('#event_event_sessions_attributes_' + index + '_ends_at_2i').val(month)
-  $('#event_event_sessions_attributes_' + index + '_ends_at_3i').val(day)
+  $("#{selectorPrefix}_starts_at_1i").val(year)
+  $("#{selectorPrefix}_starts_at_2i").val(month)
+  $("#{selectorPrefix}_starts_at_3i").val(day)
+  $("#{selectorPrefix}_ends_at_1i").val(year)
+  $("#{selectorPrefix}_ends_at_2i").val(month)
+  $("#{selectorPrefix}_ends_at_3i").val(day)
 
 setUpDatePicker = ($el) ->
   $el.attr('name', null) # So that the session_date field is not actually submitted.
