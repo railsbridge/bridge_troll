@@ -7,6 +7,10 @@ class Role < ActiveHash::Base
   ]
   enum_accessor :name
 
+  def self.attendee_role_ids
+    [Role::VOLUNTEER.id, Role::STUDENT.id]
+  end
+
   def self.empty_attendance
     Role.all.each_with_object({}) do |role, hsh|
       hsh[role.id] = 0

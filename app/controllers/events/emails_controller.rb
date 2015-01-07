@@ -9,11 +9,12 @@ class Events::EmailsController < ApplicationController
   end
 
   def create
-    if email_params[:attendee_group] == 'All'
-      recipient_rsvps = @event.rsvps.where(role_id: [Role::VOLUNTEER.id, Role::STUDENT.id]).includes(:user)
+    role_ids = if email_params[:attendee_group] == 'All'
+      Role.attendee_role_ids
     else
-      recipient_rsvps = @event.rsvps.where(role_id: email_params[:attendee_group]).includes(:user)
+      email_params[:attendee_group]
     end
+    recipient_rsvps = @event.rsvps.where(role_id: role_ids).includes(:user)
 
     unless email_params[:include_waitlisted]
       recipient_rsvps = recipient_rsvps.where(waitlist_position: nil)
@@ -68,7 +69,7 @@ class Events::EmailsController < ApplicationController
   end
 
   def assign_ivars
-    @rsvps = @event.rsvps.where(role_id: [Role::VOLUNTEER.id, Role::STUDENT.id]).includes(:user)
+    @rsvps = @event.rsvps.where(role_id: Role.attendee_role_ids).includes(:user)
     @emails = @event.event_emails.order(:created_at)
 
     @email_recipients = {}

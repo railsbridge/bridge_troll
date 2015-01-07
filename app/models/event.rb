@@ -17,7 +17,7 @@ class Event < ActiveRecord::Base
   has_many :sections, dependent: :destroy
   has_many :event_emails, dependent: :destroy
 
-  has_many :attendee_rsvps,  -> { where(role_id: [Role::STUDENT.id, Role::VOLUNTEER.id], waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
+  has_many :attendee_rsvps,  -> { where(role_id: Role.attendee_role_ids, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
 
   has_many :student_rsvps, -> { where(role_id: Role::STUDENT.id, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
   has_many :student_waitlist_rsvps, -> { where("role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL").order(:waitlist_position) }, class_name: 'Rsvp', inverse_of: :event
@@ -102,20 +102,16 @@ class Event < ActiveRecord::Base
   end
 
   def checkin_counts
-    counts = {
-      Role::VOLUNTEER.id => {
-        rsvp: {},
-        checkin: {}
-      },
-      Role::STUDENT.id => {
+    counts = Role.attendee_role_ids.each_with_object({}) do |role_id, hsh|
+      hsh[role_id] = {
         rsvp: {},
         checkin: {}
       }
-    }
+    end
 
     event_sessions.each do |session|
       non_waitlisted_rsvps = session.rsvp_sessions.includes(:rsvp).where('rsvps.waitlist_position IS NULL').references(:rsvps)
-      [Role::VOLUNTEER.id, Role::STUDENT.id].each do |role_id|
+      Role.attendee_role_ids.each do |role_id|
         role_rsvps = non_waitlisted_rsvps.where('rsvps.role_id = ?', role_id)
         counts[role_id][:rsvp][session.id] = role_rsvps.count
         counts[role_id][:checkin][session.id] = role_rsvps.where(checked_in: true).count
@@ -254,7 +250,7 @@ class Event < ActiveRecord::Base
   end
 
   def dietary_restrictions_totals
-    diets = self.rsvps.includes(:dietary_restrictions).map(&:dietary_restrictions).flatten
+    diets = rsvps.includes(:dietary_restrictions).map(&:dietary_restrictions).flatten
     restrictions = diets.group_by(&:restriction)
     restrictions.map { |name, diet| restrictions[name] = diet.length }
     restrictions
@@ -265,7 +261,7 @@ class Event < ActiveRecord::Base
   end
 
   def organizer_names
-    organizers_with_legacy.map { |org| org.full_name }
+    organizers_with_legacy.map(&:full_name)
   end
 
   def session_details

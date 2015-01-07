@@ -23,7 +23,7 @@ class RsvpsController < ApplicationController
     @rsvp = Rsvp.new(rsvp_params)
     @rsvp.event = @event
     @rsvp.user = current_user
-    if [Role::VOLUNTEER.id, Role::STUDENT.id].include?(params[:rsvp][:role_id].to_i)
+    if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
       @rsvp.role = Role.find(params[:rsvp][:role_id])
     end
 
