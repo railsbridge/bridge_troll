@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   def validate_organizer!
-    @event = @event || Event.find(params[:event_id])
+    @event ||= Event.find(params[:event_id])
     if @event.historical?
       flash[:error] = "This feature is not available for historical events"
       return redirect_to events_path
@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
   end
 
   def validate_chapter_leader!
-    @chapter = @chapter || Chapter.find(params[:chapter_id])
+    @chapter ||= Chapter.find(params[:chapter_id])
 
     unless @chapter.has_leader?(current_user)
       flash[:error] = "You must be a chapter leader or admin to view this page."
