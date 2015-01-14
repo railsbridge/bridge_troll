@@ -109,6 +109,7 @@ describe Event do
 
   describe '#starts_at, #ends_at' do
     it 'populates from the event_session when creating an event+session together' do
+      next_year = DateTime.current.year + 1
       event = Event.create(
         title: "Amazingly Sessioned Event",
         details: "This is note in the details attribute.",
@@ -122,12 +123,12 @@ describe Event do
           "0" => {
             name: "My Amazing Session",
             required_for_students: "1",
-            "starts_at(1i)" => "2015",
+            "starts_at(1i)" => next_year.to_s,
             "starts_at(2i)" => "01",
             "starts_at(3i)" => "12",
             "starts_at(4i)" => "15",
             "starts_at(5i)" => "15",
-            "ends_at(1i)" => "2015",
+            "ends_at(1i)" => next_year.to_s,
             "ends_at(2i)" => "01",
             "ends_at(3i)" => "12",
             "ends_at(4i)" => "17",

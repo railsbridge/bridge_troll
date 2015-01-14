@@ -215,6 +215,7 @@ describe EventsController do
 
       describe "with valid params" do
         let(:create_params) {
+          next_year = Date.current.year + 1
           {
             "event" => {
               "title" => "Party Zone",
@@ -223,12 +224,12 @@ describe EventsController do
               "event_sessions_attributes" => {
                 "0" => {
                   "name" => 'I am good at naming sessions',
-                  "starts_at(1i)" => "2053",
+                  "starts_at(1i)" => next_year.to_s,
                   "starts_at(2i)" => "1",
                   "starts_at(3i)" => "12",
                   "starts_at(4i)" => "12",
                   "starts_at(5i)" => "30",
-                  "ends_at(1i)" => "2053",
+                  "ends_at(1i)" => next_year.to_s,
                   "ends_at(2i)" => "1",
                   "ends_at(3i)" => "12",
                   "ends_at(4i)" => "22",
