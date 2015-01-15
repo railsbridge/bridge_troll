@@ -1,15 +1,13 @@
 require 'rails_helper'
 
 describe EventsController do
-  before do
-    @event = create(:event, title: 'DonutBridge')
-  end
-
   describe "GET index" do
+    let!(:event) { create(:event, title: 'DonutBridge') }
+
     it "successfully assigns upcoming events" do
       get :index
       response.should be_success
-      assigns(:events).should == [@event]
+      assigns(:events).should == [event]
     end
 
     describe "when rendering views" do
@@ -34,13 +32,13 @@ describe EventsController do
         let(:attend_text) { 'Attend' }
 
         it "shows an 'Attend' button when allowing student RSVP" do
-          @event.update_attribute(:allow_student_rsvp, true)
+          event.update_attribute(:allow_student_rsvp, true)
           get :index
           response.body.should include(attend_text)
         end
 
         it "hides the 'Attend' button when not allowing student RSVP" do
-          @event.update_attribute(:allow_student_rsvp, false)
+          event.update_attribute(:allow_student_rsvp, false)
           get :index
           response.body.should_not include(attend_text)
         end
@@ -49,21 +47,23 @@ describe EventsController do
   end
 
   describe "GET show" do
+    let!(:event) { create(:event, title: 'DonutBridge') }
+
     it "successfully assigns the event" do
-      get :show, id: @event.id
-      assigns(:event).should == @event
+      get :show, id: event.id
+      assigns(:event).should == event
       response.should be_success
     end
 
     describe "when rendering views" do
       render_views
       before do
-        @event.location = create(:location, name: 'Carbon Nine')
-        @event.save!
+        event.location = create(:location, name: 'Carbon Nine')
+        event.save!
       end
 
       it "includes the location" do
-        get :show, id: @event.id
+        get :show, id: event.id
         response.body.should include('Carbon Nine')
       end
 
@@ -74,26 +74,22 @@ describe EventsController do
         end
 
         it "shows an 'Attend' button when allowing student RSVP" do
-          @event.update_attribute(:allow_student_rsvp, true)
-          get :show, id: @event.id
+          event.update_attribute(:allow_student_rsvp, true)
+          get :show, id: event.id
           response.body.should include(attend_text)
         end
 
         it "hides the 'Attend' button when not allowing student RSVP" do
-          @event.update_attribute(:allow_student_rsvp, false)
-          get :show, id: @event.id
+          event.update_attribute(:allow_student_rsvp, false)
+          get :show, id: event.id
           response.body.should_not include(attend_text)
         end
       end
 
       context "when no volunteers or students are attending" do
-        it "shows a message about the lack of volunteers" do
-          get :show, id: @event.id
+        it "shows messages about the lack of volunteers and students" do
+          get :show, id: event.id
           response.body.should include('No volunteers')
-        end
-
-        it "shows a message about the lack of students" do
-          get :show, id: @event.id
           response.body.should include('No students')
         end
       end
@@ -101,11 +97,11 @@ describe EventsController do
       context "when volunteers are attending" do
         before do
           volunteer = create(:user, first_name: 'Ron', last_name: 'Swanson')
-          create(:rsvp, event: @event, user: volunteer, role: Role::VOLUNTEER)
+          create(:rsvp, event: event, user: volunteer, role: Role::VOLUNTEER)
         end
 
         it "shows the volunteer somewhere on the page" do
-          get :show, id: @event.id
+          get :show, id: event.id
           response.body.should include('Ron Swanson')
         end
       end
@@ -113,32 +109,36 @@ describe EventsController do
       context "when students are attending" do
         before do
           student = create(:user, first_name: 'Jane', last_name: 'Fontaine')
-          create(:student_rsvp, event: @event, user: student, role: Role::STUDENT)
+          create(:student_rsvp, event: event, user: student, role: Role::STUDENT)
         end
 
         it "shows the student somewhere on the page" do
-          get :show, id: @event.id
+          get :show, id: event.id
           response.body.should include('Jane Fontaine')
         end
 
-        context "and there is no waitlist" do
-          it "doesn't have the waitlist header" do
-            get :show, id: @event.id
-            response.body.should_not include('waitlist')
-          end
-        end
+        describe 'waitlists' do
+          let(:waitlist_label) { 'waitlist' }
 
-        context "and there is a waitlist" do
-          before do
-            @event.update_attribute(:student_rsvp_limit, 1)
-            student = create(:user, first_name: 'Sandy', last_name: 'Sontaine')
-            create(:student_rsvp, event: @event, user: student, role: Role::STUDENT, waitlist_position: 1)
+          context "when there is no waitlist" do
+            it "doesn't have the waitlist header" do
+              get :show, id: event.id
+              response.body.should_not include(waitlist_label)
+            end
           end
 
-          it "shows waitlisted students in a waitlist section" do
-            get :show, id: @event.id
-            response.body.should include('waitlisted')
-            response.body.should include('Sandy Sontaine')
+          context "when there is a waitlist" do
+            before do
+              event.update_attribute(:student_rsvp_limit, 1)
+              student = create(:user, first_name: 'Sandy', last_name: 'Sontaine')
+              create(:student_rsvp, event: event, user: student, role: Role::STUDENT, waitlist_position: 1)
+            end
+
+            it "shows waitlisted students in a waitlist section" do
+              get :show, id: event.id
+              response.body.should include(waitlist_label)
+              response.body.should include('Sandy Sontaine')
+            end
           end
         end
       end
@@ -172,8 +172,10 @@ describe EventsController do
   end
 
   describe "GET edit" do
+    let!(:event) { create(:event, title: 'DonutBridge') }
+
     def make_request
-      get :edit, :id => @event.id
+      get :edit, :id => event.id
     end
 
     it_behaves_like "an event action that requires an organizer"
@@ -181,21 +183,23 @@ describe EventsController do
     context "organizer is logged in" do
       before do
         user = create(:user)
-        @event.organizers << user
+        event.organizers << user
         sign_in user
       end
 
       it "successfully assigns the event" do
         make_request
-        assigns(:event).should == @event
+        assigns(:event).should == event
         response.should be_success
       end
     end
   end
 
   describe "GET levels" do
+    let!(:event) { create(:event, title: 'DonutBridge') }
+
     it "succeeds without requiring any permissions" do
-      get :levels, :id => @event.id
+      get :levels, :id => event.id
       response.should be_success
     end
   end
@@ -242,30 +246,19 @@ describe EventsController do
           }
         }
 
-        it "creates a new event" do
+        it "creates a new event with the creator as an organizer" do
           expect {
             make_request(create_params)
           }.to change(Event, :count).by(1)
+
+          Event.last.organizers.should include(@user)
+          response.should redirect_to event_path(Event.last)
+          flash[:notice].should be_present
         end
 
         it "sets the event's session times in the event's time zone" do
           make_request(create_params)
           Event.last.event_sessions.last.starts_at.zone.should == 'AKST'
-        end
-
-        it "adds the current user to the organizers of the event" do
-          make_request(create_params)
-          Event.last.organizers.should include(@user)
-        end
-
-        it "redirects to the new event's page" do
-          make_request(create_params)
-          response.should redirect_to event_path(Event.last)
-        end
-
-        it "shows a success message" do
-          make_request(create_params)
-          flash[:notice].should be_present
         end
 
         context "but the user is flagged as a spammer" do
@@ -326,8 +319,10 @@ describe EventsController do
   end
 
   describe "PUT update" do
+    let!(:event) { create(:event, title: 'DonutBridge') }
+
     def make_request(params = {})
-      put :update, id: @event.id, event: params
+      put :update, id: event.id, event: params
     end
 
     it_behaves_like "an event action that requires an organizer"
@@ -335,7 +330,7 @@ describe EventsController do
     context "organizer is logged in" do
       before do
         user = create(:user)
-        @event.organizers << user
+        event.organizers << user
         sign_in user
       end
 
@@ -348,27 +343,19 @@ describe EventsController do
           }
         }
 
-        it "updates the event" do
+        it "updates the event and redirects to the event page" do
           make_request(update_params)
-          @event.reload
-          @event.title.should == "Updated event title"
-          @event.details.should == "Updated event details"
+          event.reload
+          event.title.should == "Updated event title"
+          event.details.should == "Updated event details"
+          response.should redirect_to event_path(event)
+          flash[:notice].should be_present
         end
 
         it "sets the event's session times in the event's time zone" do
           make_request(update_params)
-          event_session = @event.reload.event_sessions.last
+          event_session = event.reload.event_sessions.last
           event_session.starts_at.zone.should == 'VET'
-        end
-
-        it "redirects to the event page" do
-          make_request(update_params)
-          response.should redirect_to event_path(@event)
-        end
-
-        it "shows a success message" do
-          make_request(update_params)
-          flash[:notice].should be_present
         end
       end
 
@@ -381,7 +368,7 @@ describe EventsController do
 
         it "re-renders the edit form" do
           make_request(invalid_params)
-          assigns(:event).should == @event
+          assigns(:event).should == event
           response.should be_unprocessable
           response.should render_template('events/edit')
         end
@@ -390,8 +377,10 @@ describe EventsController do
   end
 
   describe "DELETE destroy" do
+    let!(:event) { create(:event, title: 'DonutBridge') }
+
     def make_request
-      delete :destroy, :id => @event.id
+      delete :destroy, :id => event.id
     end
 
     it_behaves_like "an event action that requires an organizer"
@@ -399,17 +388,13 @@ describe EventsController do
     context "organizer is logged in" do
       before do
         user = create(:user)
-        @event.organizers << user
+        event.organizers << user
         sign_in user
       end
 
-      it "destroys the event" do
+      it "destroys the event and redirects to the events page" do
         make_request
-        Event.find_by_id(@event.id).should == nil
-      end
-
-      it "redirects to the events page" do
-        make_request
+        Event.find_by_id(event.id).should == nil
         response.should redirect_to events_path
       end
     end
@@ -436,7 +421,6 @@ describe EventsController do
 
   describe "GET all_events" do
     before do
-      @event.delete
       @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska')
       @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 2.days.from_now)
       @past_event = create(:event, title: 'PastBridge', time_zone: 'Alaska')

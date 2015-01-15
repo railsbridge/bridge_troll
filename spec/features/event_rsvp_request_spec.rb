@@ -69,17 +69,13 @@ describe 'creating or editing an rsvp' do
         let(:coc_text) { 'I accept the Code of Conduct' }
 
         context 'for new records', js: true do
-          it "must be checked before the RSVP is accepted" do
+          it "requires code of conduct to be checked, and preserves checked-ness on error" do
             page.should have_content(coc_text)
 
             page.should have_button 'Submit', disabled: true
-            check('coc')
-            page.should have_button 'Submit', disabled: false
-          end
-
-          it "preserves checked-ness on errors" do
             page.should have_unchecked_field('coc')
             check('coc')
+            page.should have_button 'Submit', disabled: false
 
             click_on 'Submit'
 
