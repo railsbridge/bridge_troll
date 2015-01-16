@@ -116,11 +116,7 @@ class Course < ActiveHash::Base
       id: 3,
       name: 'JAVASCRIPT',
       title: 'Intro to Javascript',
-      description: 'This workshop will teach programming using Javascript.'\
-                   'You can find all the curriculum materials at <a'\
-                   'href="http://snake-tutorial.zeespencer.com.s3-website-us'\
-                   '-west-2.amazonaws.com/lesson-1/">the temporary location'\
-                   '</a>.',
+      description: 'This workshop will teach programming using Javascript. You can find all the curriculum materials at <a href="http://docs.railsbridge.org">docs.railsbridge.org</a>.',
       levels: [
         {
           level: 1,
@@ -137,7 +133,7 @@ class Course < ActiveHash::Base
           title: "Programmer new to Javascript",
           level_description: [
             'Comfortable making a complex webpage',
-            'Some experience in a programming lanugage like ActionScript, C, Java, Ruby or Python',
+            'Some experience in a programming language like ActionScript, C, Java, Ruby or Python',
             'Has seen javascript, but didn\'t really understand how it worked',
           ]
         }, {
