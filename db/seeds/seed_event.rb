@@ -7,6 +7,7 @@ module Seeder
       password: 'password',
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
+      time_zone: 'Pacific Time (US & Canada)',
       gender: ["genderqueer", "male", "female", "trans*"].sample
     )
     user.confirm!

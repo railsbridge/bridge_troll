@@ -6,6 +6,7 @@ module Seeder
       password: 'password',
       first_name: 'Admin',
       last_name: 'User',
+      time_zone: 'Pacific Time (US & Canada)',
       admin: true
     )
     admin.confirm!
