@@ -140,7 +140,17 @@ class Course < ActiveHash::Base
             'Some experience in a programming lanugage like ActionScript, C, Java, Ruby or Python',
             'Has seen javascript, but didn\'t really understand how it worked',
           ]
+        }, {
+          level: 3,
+          color: 'purple',
+          title: "Some experience with JavaScript",
+          level_description: [
+            'Feels comfortable writing functions and objects in JavaScript',
+            'Used jQuery before and has seen an AJAX request, but doesn\'t understand all the moving parts',
+            'Interested in learning how to organize JavaScript code using models and views'
+          ]
         }
+
       ]
     }, {
       id: 4,
