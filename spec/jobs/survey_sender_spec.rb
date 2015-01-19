@@ -20,5 +20,11 @@ describe SurveySender do
         SurveySender.send_surveys(event)
       }.to change(ActionMailer::Base.deliveries, :count).by(2)
     end
+
+    it "updates survey_sent_at to the current time" do
+      expect {
+        SurveySender.send_surveys(event)
+      }.to change { event.reload.survey_sent_at }
+    end
   end
 end

@@ -76,6 +76,10 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def survey_sent?
+    !!survey_sent_at
+  end
+
   def validate_rsvp_limit
     return unless persisted? && student_rsvp_limit
 

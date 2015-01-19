@@ -7,6 +7,8 @@ describe SurveyMailer do
   let(:mail) { SurveyMailer.notification(rsvp) }
 
   describe "the survey email" do
+    it_behaves_like 'a mailer view'
+
     it "is sent to the RSVP'd person" do
       expect(mail.to).to eq([user.email])
     end
@@ -16,7 +18,5 @@ describe SurveyMailer do
       expect(mail.body).to include "Click right here to take the survey!"
       expect(mail.body).to include event.title
     end
-
-    it_behaves_like 'a mailer view'
   end
 end

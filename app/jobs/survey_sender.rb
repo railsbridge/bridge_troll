@@ -4,5 +4,6 @@ class SurveySender
     attendee_rsvps.each do |rsvp|
       SurveyMailer.notification(rsvp).deliver_now
     end
+    event.update_attribute(:survey_sent_at, DateTime.now)
   end
 end
