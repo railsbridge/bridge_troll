@@ -6,7 +6,7 @@ describe("Bridgetroll.Views.SectionOrganizer", function () {
       Factories.student({section_id: null, class_level: 0, full_name: 'Sue Storm'}),
       Factories.student({section_id: null, class_level: 0, full_name: 'Ted Moesby'}),
       Factories.student({section_id: null, class_level: 0, full_name: 'Apricot Jam'}),
-      Factories.student({section_id: null, class_level: 0, full_name: 'Grace Hopper'}),
+      Factories.student({section_id: null, class_level: 0, full_name: 'Grace Hopper'})
     ]);
   });
 
@@ -26,7 +26,7 @@ describe("Bridgetroll.Views.SectionOrganizer", function () {
           name: 'Spaceship #491'
         }
       ]);
-      sessions = new Bridgetroll.Collections.Session([{
+      var sessions = new Bridgetroll.Collections.Session([{
         id: 1,
         name: 'Workshop'
       }]);

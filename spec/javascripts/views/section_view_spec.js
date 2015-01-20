@@ -1,5 +1,5 @@
 describe("Bridgetroll.Views.Section", function () {
-  var view, model, attendees, vols, Role;
+  var view, model, attendees, vols;
   beforeEach(function () {
     vols = {};
     vols['bother']  = Factories.volunteer({event_id: 191, section_id: 401, teaching: true, taing: true});

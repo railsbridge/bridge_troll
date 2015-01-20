@@ -1,5 +1,5 @@
 Factories = (function () {
-  Role = Bridgetroll.Enums.Role;
+  var Role = Bridgetroll.Enums.Role;
 
   var id = 9;
   return {
