@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150119053117) do
+ActiveRecord::Schema.define(version: 20150120043336) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -209,11 +209,13 @@ ActiveRecord::Schema.define(version: 20150119053117) do
   add_index "sections", ["event_id"], name: "index_sections_on_event_id"
 
   create_table "surveys", force: :cascade do |t|
-    t.integer "rsvp_id"
-    t.text    "good_things"
-    t.text    "bad_things"
-    t.text    "other_comments"
-    t.integer "recommendation_likelihood"
+    t.integer  "rsvp_id"
+    t.text     "good_things"
+    t.text     "bad_things"
+    t.text     "other_comments"
+    t.integer  "recommendation_likelihood"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: :cascade do |t|
