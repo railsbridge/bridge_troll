@@ -150,9 +150,9 @@
     <%= f.input :student_details, label: 'Student Details', input_html: {rows: 4} %>
   </div>
 
-  <h2>Announcement Email</h2>
-
   <% unless @event.published? %>
+    <h2>Announcement Email</h2>
+
     <div class="field non-bolded">
       <%= f.label :email_on_approval do %>
         <%= f.check_box :email_on_approval %> Send announcement email to chapter when the event is approved
