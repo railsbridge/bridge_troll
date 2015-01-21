@@ -59,7 +59,13 @@
 
   <div class="event-sessions">
     <%= f.fields_for :event_sessions do |event_sessions_form| %>
-      <span class="remove-session hidden pull-right">(<a href="#">Remove Session</a>)</span>
+      <span class="remove-session pull-right <% if @event.event_sessions.length == 1 || event_sessions_form.object.has_rsvps? %>hidden<% end %>">
+        <% if @event.persisted? %>
+          <%= link_to '(Remove Session)', [@event, event_sessions_form.object], method: :delete, data: { confirm: 'Are you sure?' } %>
+        <% else %>
+          (<a href="#">Remove Session</a>)
+        <% end %>
+      </span>
       <%= event_sessions_form.input :name, label: 'Session Name' %>
 
       <div class='form-group'>

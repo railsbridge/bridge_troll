@@ -32,10 +32,17 @@ setUpExclusiveCheckboxes = ($el) ->
 setupRemoveSessions = ->
   if $('.remove-session').length
     $(document).on 'click', '.remove-session > a', (e)->
-      $(this).closest('.fields').remove();
+      unless $(e.target).attr('data-method')
+        $(this).closest('.fields').remove();
       false
-    $(document).on 'nested:fieldAdded', (event) ->
-      event.field.find('.remove-session').removeClass('hidden')
+    $(document).on 'nested:fieldAdded', (e) ->
+      e.field.find('.remove-session').removeClass('hidden')
+      # Persisted sessions get a real 'delete' link, but newly created sessions
+      # need to scrape off jquery-ujs delete properties.
+      e.field.find('.remove-session a')
+        .attr('href', '#')
+        .removeAttr('data-method')
+        .removeAttr('data-confirm')
 
 jQuery ->
   setupRemoveSessions()

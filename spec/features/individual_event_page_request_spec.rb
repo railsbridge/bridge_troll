@@ -186,9 +186,21 @@ describe "the individual event page" do
       page.should have_content "New totally awesome event"
     end
 
-    it "doesn't let user remove sessions" do
-      visit event_path(@event)
-      page.should_not have_selector('.remove-session')
+    context 'when an event has some sessions with no RSVPs' do
+      before do
+        create(:event_session, event: @event)
+      end
+
+      it "can remove those sessions", js: true do
+        expect(@event.event_sessions.count).to eq(2)
+
+        visit edit_event_path(@event)
+        page.all('.remove-session')[-1].click
+
+        page.should have_css('.event-sessions .fields', count: 1)
+
+        expect(@event.event_sessions.count).to eq(1)
+      end
     end
   end
 

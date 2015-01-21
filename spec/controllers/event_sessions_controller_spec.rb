@@ -32,5 +32,4 @@ describe EventSessionsController do
       end
     end
   end
-
 end

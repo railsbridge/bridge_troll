@@ -54,4 +54,8 @@ class EventSession < ActiveRecord::Base
   def date_in_time_zone start_or_end
     read_attribute(start_or_end).in_time_zone(ActiveSupport::TimeZone.new(event.time_zone))
   end
+
+  def has_rsvps?
+    persisted? && rsvps.count > 0
+  end
 end
