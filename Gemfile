@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-source 'https://rails-assets.org'
 
 ruby '2.1.2'
 
@@ -60,7 +59,6 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'awesome_print'
-  gem 'rails-assets-sinonjs'
 end
 
 group :test do
@@ -72,4 +70,10 @@ group :test do
   gem 'shoulda-matchers'
   gem "faker"
   gem 'capybara-screenshot'
+end
+
+source 'https://rails-assets.org' do
+  group :test, :development do
+    gem 'rails-assets-sinonjs'
+  end
 end

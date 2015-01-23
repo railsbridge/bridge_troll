@@ -412,7 +412,7 @@ DEPENDENCIES
   quiet_assets
   rack-canonical-host
   rails (= 4.2.0)
-  rails-assets-sinonjs
+  rails-assets-sinonjs!
   rails_12factor
   rb-fsevent
   rspec-collection_matchers
