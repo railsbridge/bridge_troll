@@ -8,7 +8,7 @@ class RsvpsController < ApplicationController
   def volunteer
     last_rsvp = find_relevant_prior_rsvp
 
-    @rsvp = @event.rsvps.build(last_rsvp ? last_rsvp.volunteer_carryover_attributes : {})
+    @rsvp = @event.rsvps.build(last_rsvp ? last_rsvp.volunteer_carryover_attributes(@event.course_id) : {})
     @rsvp.setup_for_role(Role::VOLUNTEER)
     render :new
   end
@@ -114,7 +114,7 @@ class RsvpsController < ApplicationController
   def find_relevant_prior_rsvp
     prior_rsvps = current_user.rsvps.includes(:event).order('events.ends_at')
 
-    prior_rsvps.where('events.course_id = ?', @event.course_id).last
+    prior_rsvps.where('events.course_id = ?', @event.course_id).last || prior_rsvps.last
   end
 
   def redirect_if_rsvp_exists

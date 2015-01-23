@@ -103,8 +103,14 @@ class Rsvp < ActiveRecord::Base
     VolunteerPreference::NEITHER.id
   end
 
-  def volunteer_carryover_attributes
-    [:subject_experience, :teaching_experience, :job_details].each_with_object({}) do |field, hsh|
+  def volunteer_carryover_attributes(new_event_course_id)
+    fields = [:job_details]
+
+    if event.course_id == new_event_course_id
+      fields += [:subject_experience, :teaching_experience]
+    end
+
+    fields.each_with_object({}) do |field, hsh|
       hsh[field] = send(field)
     end
   end

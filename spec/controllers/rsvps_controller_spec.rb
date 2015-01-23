@@ -68,6 +68,20 @@ describe RsvpsController do
           rsvp.teaching_experience.should == @rails_rsvp.teaching_experience
           rsvp.job_details.should == @rails_rsvp.job_details
         end
+
+        context 'when the RSVP is for a course they have never attended' do
+          before do
+            @event.update_attributes(course_id: Course::JAVASCRIPT.id)
+          end
+
+          it "carries over only limited details" do
+            get :volunteer, event_id: @event.id
+            rsvp = assigns(:rsvp)
+            rsvp.subject_experience.should be_blank
+            rsvp.teaching_experience.should be_blank
+            rsvp.job_details.should == @rails_rsvp.job_details
+          end
+        end
       end
     end
 
