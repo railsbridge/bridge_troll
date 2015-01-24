@@ -1,6 +1,7 @@
 class SurveysController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :load_resources, except: :index
+  before_filter :find_event
+  before_filter :find_rsvp, except: :index
   before_filter :validate_user!, except: :index
   before_filter :validate_organizer!, only: :index
 
@@ -25,9 +26,8 @@ class SurveysController < ApplicationController
   end
 
   def index
-    @event = Event.find(params[:event_id])
-    @student_rsvps = @event.student_rsvps
-    @volunteer_rsvps = @event.volunteer_rsvps
+    @student_surveys = Survey.where(rsvp_id: @event.rsvps.where(role_id: Role::STUDENT.id).pluck(:id))
+    @volunteer_surveys = Survey.where(rsvp_id: @event.volunteer_rsvps.pluck(:id))
   end
 
   private
@@ -36,8 +36,11 @@ class SurveysController < ApplicationController
     params.require(:survey).permit(Survey::PERMITTED_ATTRIBUTES)
   end
 
-  def load_resources
+  def find_event
     @event = Event.find(params[:event_id])
+  end
+
+  def find_rsvp
     @rsvp = Rsvp.find(params[:rsvp_id])
   end
 

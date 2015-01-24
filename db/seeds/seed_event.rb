@@ -163,6 +163,22 @@ module Seeder
       recipient_rsvps: event.volunteer_rsvps
     )
 
+    User.find_by_email('volunteer1@example.com').rsvps.last.create_survey!(
+      good_things: 'The textboxes! Boy, I love filling out textboxes!',
+      bad_things: 'Too many terminator robots allowed at the workshop',
+      other_comments: 'jolly good show, old bean',
+      recommendation_likelihood: 7
+    )
+
+    User.find_by_email('student1-1@example.com').rsvps.last.create_survey!(
+      good_things: 'I liked the food and also the learning',
+      bad_things: "Volunteers could've tried to do a more interesting dance",
+      other_comments: 'pip pip, cheerio',
+      recommendation_likelihood: 8
+    )
+
+    event.update_attribute(:survey_sent_at, DateTime.now)
+
     event
   end
 end

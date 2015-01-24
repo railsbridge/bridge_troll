@@ -7,15 +7,12 @@
       <th title="Likelihood to recommend to a friend or colleague">#</th>
     </tr>
   </thead>
-  <% rsvps.each do |rsvp| %>
-    <% if rsvp.survey %>
-      <% survey = rsvp.survey %>
-      <tr>
-        <td data-label="What was great:"><%= survey.good_things%></td>
-        <td data-label="What could have been better:"><%= survey.bad_things %></td>
-        <td data-label="Comments:"><%= survey.other_comments %></td>
-        <td data-label="Recommendation likelihood:"><%= survey.recommendation_likelihood %></td>
-      </tr>
-    <% end %>
+  <% surveys.each do |survey| %>
+    <tr>
+      <td data-label="What was great:"><%= survey.good_things%></td>
+      <td data-label="What could have been better:"><%= survey.bad_things %></td>
+      <td data-label="Comments:"><%= survey.other_comments %></td>
+      <td data-label="Recommendation likelihood:"><%= survey.recommendation_likelihood %></td>
+    </tr>
   <% end %>
 </table>

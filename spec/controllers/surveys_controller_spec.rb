@@ -84,6 +84,7 @@ describe SurveysController do
       before do
         @organizer = create(:user)
         @event.organizers << @organizer
+        create(:survey, rsvp: @rsvp)
         sign_in @organizer
       end
 
@@ -91,7 +92,7 @@ describe SurveysController do
         get :index, event_id: @event.id
         expect(response).to be_success
         expect(assigns(:event)).to eq @event
-        expect(assigns(:volunteer_rsvps)).to eq @event.attendee_rsvps
+        expect(assigns(:volunteer_surveys).to_a).to eq [@rsvp.survey]
       end
     end
 
