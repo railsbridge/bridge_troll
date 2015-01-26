@@ -1,6 +1,6 @@
 Howdy, Bridge Troll administrator!
 
-A new event, "<%= @event.title %>", has been posted to Bridge Troll!
+A new event, "<%= @event.title %>", has been posted to Bridge Troll by <%= @event.organizers.first.full_name %>!
 
 <%= render 'new_event_detail' %>
 

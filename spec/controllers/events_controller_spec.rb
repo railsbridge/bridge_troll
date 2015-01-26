@@ -292,6 +292,7 @@ describe EventsController do
             mail.subject.should include('Nitro Boost')
             mail.subject.should include('Party Zone')
             mail.body.should include('Party Zone')
+            mail.body.should include('Nitro Boost')
 
             recipients.should =~ [@admin.email, @publisher.email]
           end
