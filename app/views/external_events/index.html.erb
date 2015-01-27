@@ -3,6 +3,7 @@
 <table class="table table-striped table-bordered table-condensed">
   <tr>
     <th>Name</th>
+    <th>Chapter</th>
     <th>Starts at</th>
     <th>Ends at</th>
     <th>City</th>
@@ -18,6 +19,11 @@
           <%= link_to external_event.name, external_event.url %>
         <% else %>
           <%= external_event.name %>
+        <% end %>
+      </td>
+      <td>
+        <% if external_event.chapter %>
+          <%= link_to external_event.chapter.name, external_event.chapter %>
         <% end %>
       </td>
       <td><%= external_event.starts_at %></td>

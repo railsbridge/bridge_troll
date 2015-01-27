@@ -3,13 +3,7 @@
     <%= simple_form_for(@location) do |f| %>
       <%= render 'shared/model_error_messages', model: @location %>
 
-      <div class="form-group">
-        <%= f.label :chapter_id %>
-        <%= f.collection_select(:chapter_id, Chapter.all, :id, :name, {:prompt => true}, {class: 'form-control'}) %>
-        <p>
-          <em>If your chapter isn't in this list, head over to the <%= link_to 'chapters page', chapters_path %> and add it before you continue.</em>
-        </p>
-      </div>
+      <%= render 'shared/chapter_select', f: f %>
 
       <%= f.input :name %>
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150120043336) do
+ActiveRecord::Schema.define(version: 20150127065630) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -28,9 +28,10 @@ ActiveRecord::Schema.define(version: 20150120043336) do
 
   create_table "chapters", force: :cascade do |t|
     t.string   "name"
-    t.integer  "locations_count", default: 0
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.integer  "locations_count",       default: 0
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "external_events_count", default: 0
   end
 
   create_table "chapters_users", id: false, force: :cascade do |t|
@@ -118,7 +119,10 @@ ActiveRecord::Schema.define(version: 20150120043336) do
     t.string   "organizers"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "chapter_id"
   end
+
+  add_index "external_events", ["chapter_id"], name: "index_external_events_on_chapter_id"
 
   create_table "locations", force: :cascade do |t|
     t.string   "name"

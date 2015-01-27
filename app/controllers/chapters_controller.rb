@@ -8,6 +8,7 @@ class ChaptersController < ApplicationController
   end
 
   def show
+    @chapter_events = (@chapter.events + @chapter.external_events).sort_by(&:ends_at)
     if @chapter.has_leader?(current_user)
       @organizer_rsvps = Rsvp.
         group(:user_id).

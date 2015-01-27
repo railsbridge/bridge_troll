@@ -1,5 +1,7 @@
 class ExternalEvent < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:city, :ends_at, :location, :name, :organizers, :starts_at, :url]
+  PERMITTED_ATTRIBUTES = [:city, :ends_at, :location, :name, :organizers, :starts_at, :url, :chapter_id]
+
+  belongs_to :chapter, counter_cache: true
 
   validates_presence_of :name, :starts_at, :location
 
