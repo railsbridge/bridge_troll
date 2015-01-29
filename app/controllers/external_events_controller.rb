@@ -3,7 +3,7 @@ class ExternalEventsController < ApplicationController
   before_filter :validate_admin!
 
   def index
-    @external_events = ExternalEvent.includes(:chapter).all
+    @external_events = ExternalEvent.includes(:chapter).order(:ends_at)
   end
 
   def new
