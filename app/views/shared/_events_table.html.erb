@@ -17,7 +17,11 @@
   <% events.each do |event| %>
     <tr>
       <td>
-        <%= link_to event.title, event.respond_to?(:url) ? event.url : event %>
+        <% if event.to_linkable.present? %>
+          <%= link_to event.title, event.to_linkable %>
+        <% else %>
+          <%= event.title %>
+        <% end %>
         <% if event.meetup_student_event_id %>
           <%= link_to "[S]", event.meetup_url(event.meetup_student_event_id), class: 'meetup-link' %>
         <% end %>

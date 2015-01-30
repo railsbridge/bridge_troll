@@ -297,6 +297,10 @@ class Event < ActiveRecord::Base
     )
   end
 
+  def to_linkable
+    self
+  end
+
   private
 
   def set_defaults

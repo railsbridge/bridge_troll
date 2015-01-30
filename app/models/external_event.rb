@@ -49,4 +49,8 @@ class ExternalEvent < ActiveRecord::Base
       workshop: true
     }
   end
+
+  def to_linkable
+    url.presence
+  end
 end

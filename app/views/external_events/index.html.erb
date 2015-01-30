@@ -1,21 +1,21 @@
 <%= content_for(:header_text, 'Listing external events') %>
 
-<table class="table table-striped table-bordered table-condensed">
+<table class="table table-striped table-bordered table-condensed external-events">
   <tr>
     <th>Name</th>
     <th>Chapter</th>
     <th>Start/End</th>
     <th>City</th>
     <th>Location</th>
-    <th>Organizers</th>
+    <th class='organizers'>Organizers</th>
     <th></th>
   </tr>
 
   <% @external_events.each do |external_event| %>
     <tr>
       <td>
-        <% if external_event.url %>
-          <%= link_to external_event.name, external_event.url %>
+        <% if external_event.to_linkable.present? %>
+          <%= link_to external_event.name, external_event.to_linkable %>
         <% else %>
           <%= external_event.name %>
         <% end %>
