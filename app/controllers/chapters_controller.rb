@@ -49,8 +49,8 @@ class ChaptersController < ApplicationController
   end
 
   def destroy
-    if @chapter.locations_count > 0
-      return redirect_to root_url, alert: "Can't delete a chapter that's still assigned to a location."
+    unless @chapter.destroyable?
+      return redirect_to root_url, alert: "Can't delete a chapter that's still assigned to a location or external event."
     end
 
     @chapter.destroy

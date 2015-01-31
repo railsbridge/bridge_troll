@@ -22,4 +22,8 @@ class Chapter < ActiveRecord::Base
   def editable_by?(user)
     user.admin? || has_leader?(user)
   end
+
+  def destroyable?
+    (locations_count + external_events_count) == 0
+  end
 end
