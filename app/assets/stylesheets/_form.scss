@@ -9,6 +9,12 @@ form {
   }
 }
 
+@media (max-width: $screen-xs-max) {
+  select.form-control {
+    font-size: 16px;
+  }
+}
+
 #rsvp-form {
   h2 {
     margin-top: 20px;

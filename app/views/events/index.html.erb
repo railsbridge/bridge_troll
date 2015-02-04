@@ -5,7 +5,7 @@
 <div class="row">
   <div class="col-md-12">
     <div class='upcoming-events'>
-      <label class="pull-right chapter-select-container form-inline">
+      <label class="chapter-select-container form-inline">
         Filter: <%= select_tag :chapter,
                                options_from_collection_for_select(@event_chapters, "id", "name"),
                                prompt: "All Chapters",

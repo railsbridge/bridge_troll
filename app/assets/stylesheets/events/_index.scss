@@ -5,8 +5,14 @@
   margin-top: 30px;
 }
 
+.chapter-select-container {
+  width: 100%;
+}
+
 @media (min-width: $screen-xs-max) {
   .chapter-select-container {
+    float: right;
+    width: auto;
     margin-right: 100px;
 
     select.form-control {
