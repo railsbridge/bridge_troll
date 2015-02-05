@@ -17,15 +17,17 @@ describe 'the post-workshop survey' do
       it 'should have survey questions' do
         expect(page).to have_content "How was #{@event.title}"
 
-        within("#survey-form") do
+        within(".survey-form") do
           expect(page).to have_content "What was great?"
           expect(page).to have_button "Submit"
         end
       end
 
       it 'should take you home on submit' do
-        fill_in 'What was great?', with: "Hotdogs"
-        click_button 'Submit'
+        within(".survey-form") do
+          fill_in 'What was great?', with: "Hotdogs"
+          click_button 'Submit'
+        end
 
         expect(page).to have_content "Thanks for taking the survey!"
       end

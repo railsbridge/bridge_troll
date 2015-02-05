@@ -6,7 +6,7 @@
 <p>We love feedback, so let us know how things went for you and anything you think we could make better in the future!</p>
 
 <div class="row">
-  <div class="col-md-6" id="survey-form">
+  <div class="col-md-6 survey-form">
     <%= simple_form_for @survey, url: event_rsvp_surveys_path(@event.id, @rsvp.id) do |f| %>
       <%= f.input :good_things, label: "What was great?" %>
 
@@ -15,7 +15,7 @@
       <%= f.input :other_comments, label: "Any other comments?" %>
 
       <%= f.label :recommendation_likelihood, "How likely are you to recommend a Railsbridge workshop to a friend or colleague? (10 is very likely, 1 is unlikely)" %>
-      <%= f.select :recommendation_likelihood, (1..10).to_a.reverse %>
+      <%= f.select :recommendation_likelihood, (1..10).to_a.reverse, {}, {class: 'form-control'} %>
 
       <%= f.submit "Submit", class: "btn" unless @survey.persisted? %>
     <% end %>
