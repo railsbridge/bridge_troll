@@ -5,7 +5,7 @@ $(document).on 'click', '.sign-in-button', (e) ->
   $link = $(e.target)
 
   $modal = $($link.attr('href'))
-  $modal.on 'shown', () ->
+  $modal.on 'shown.bs.modal', () ->
     $(this).find('#user_email').focus()
 
   url = document.createElement('a');
