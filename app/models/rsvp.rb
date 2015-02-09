@@ -29,12 +29,12 @@ class Rsvp < ActiveRecord::Base
 
   MAX_EXPERIENCE_LENGTH = 250
   with_options(unless: :historical?) do |normal_event|
-    normal_event.with_options(if: Proc.new {|rsvp| rsvp.role_volunteer? }) do |for_volunteers|
+    normal_event.with_options(if: :role_volunteer?) do |for_volunteers|
       for_volunteers.validates_presence_of :subject_experience
       for_volunteers.validates_length_of :subject_experience, :in => 10..MAX_EXPERIENCE_LENGTH
     end
 
-    normal_event.with_options(if: Proc.new {|rsvp| rsvp.teaching || rsvp.taing  }) do |for_teachers|
+    normal_event.with_options(if: :teaching_or_taing?) do |for_teachers|
       for_teachers.validates_presence_of :class_level
       for_teachers.validates_inclusion_of :class_level, in: (0..5), allow_blank: true
       for_teachers.validates_presence_of :teaching_experience
@@ -92,6 +92,10 @@ class Rsvp < ActiveRecord::Base
 
   def role_student?
     role == Role::STUDENT
+  end
+
+  def teaching_or_taing?
+    teaching || taing
   end
 
   def volunteer_preference_id

@@ -48,6 +48,16 @@
     <%= f.input :public_email, label: 'What email address should users contact you at with questions?' %>
   </div>
 
+  <h3>Childcare</h3>
+
+  <div class="field non-bolded">
+    <%= f.label :has_childcare do %>
+      <%= f.check_box :has_childcare %> Offer childcare at this event
+    <% end %>
+
+    <p>If you are offering childcare at this event, volunteers and students requesting childcare will be prompted to enter their children's names and ages when they RSVP.</p>
+  </div>
+
   <h3>Sessions</h3>
 
   <p>

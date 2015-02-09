@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150127065630) do
+ActiveRecord::Schema.define(version: 20150209050400) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 20150127065630) do
     t.integer  "student_waitlist_rsvps_count", default: 0
     t.integer  "volunteer_rsvps_count",        default: 0
     t.datetime "survey_sent_at"
+    t.boolean  "has_childcare",                default: true
   end
 
   create_table "external_events", force: :cascade do |t|

@@ -10,35 +10,12 @@
       <%= render :partial => 'events/organizer_preworkshop_buttons' %>
     </section>
 
-    <section class='organizer-dashboard-section bordered'>
-      <h3>Childcare Requests</h3>
-      <% if @childcare_requests.length > 0 %>
-        <table class="table responsive-table">
-          <thead>
-          <tr>
-            <th>Requester Name</th>
-            <th>Email</th>
-            <th>Children Info</th>
-          </tr>
-          </thead>
-          <tbody>
-          <% @childcare_requests.each do |request| %>
-            <tr>
-              <td data-label="Attendee:">
-                <%= request.user.full_name %>
-              </td>
-              <td data-label="Attendee Email:">
-                <%= request.user.email %>
-              </td>
-              <td style="white-space: pre-line;"><%= request.childcare_info %></td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-      <% else %>
-        No one has requested childcare for this event yet.
-      <% end %>
-    </section>
+    <% if @event.has_childcare? %>
+      <section class='organizer-dashboard-section bordered'>
+        <%= render :partial => 'childcare_requests' %>
+      </section>
+    <% end %>
+
     <section class='organizer-dashboard-section bordered'>
       <h3>Current Checkin Counts</h3>
       <% @event.event_sessions.each do |session| %>
