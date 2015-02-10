@@ -90,7 +90,7 @@
       <ul class="attendees">
         <% if organizer_list.any? %>
           <% organizer_list.each do |organizer| %>
-            <li class='attendee'><%= render 'shared/viewed_gravatars', :email => organizer.email %><%= link_to organizer.full_name, organizer.profile_path %></li>
+            <li class='attendee'><%= render 'shared/viewed_gravatars', email: organizer.email %><%= link_to organizer.full_name, organizer.profile_path %></li>
           <% end %>
         <% else %>
           <li>No Organizer Assigned</li>
@@ -103,7 +103,7 @@
     <% else %>
       <ul class="attendees">
         <% @event.ordered_volunteer_rsvps.each do |rsvp| %>
-          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path, class: rsvp_class(rsvp) %></li>
+          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.loaded_user.email %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path, class: rsvp_class(rsvp) %></li>
         <% end %>
       </ul>
     <% end %>
@@ -114,7 +114,7 @@
       <% else %>
         <ul class="attendees">
           <% @event.ordered_student_rsvps.each do |rsvp| %>
-            <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path, class: rsvp_class(rsvp) %></li>
+            <li class='attendee'><%= render 'shared/viewed_gravatars', email: rsvp.loaded_user.email %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path, class: rsvp_class(rsvp) %></li>
           <% end %>
         </ul>
       <% end %>
@@ -124,7 +124,7 @@
       <h3><%= @event.student_waitlist_rsvps.length %> waitlisted!</h3>
       <ul class="attendees">
         <% @event.student_waitlist_rsvps.each do |rsvp| %>
-          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %><%= link_to rsvp.user.full_name, rsvp.user.profile_path %><span class='waitlist-number pull-right'>#<%= rsvp.waitlist_position %></span></li>
+          <li class='attendee'><%= render 'shared/viewed_gravatars', email: rsvp.loaded_user.email %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path %><span class='waitlist-number pull-right'>#<%= rsvp.waitlist_position %></span></li>
         <% end %>
       </ul>
     <% end %>

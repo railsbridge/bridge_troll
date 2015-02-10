@@ -53,6 +53,18 @@ class Rsvp < ActiveRecord::Base
   belongs_to_active_hash :operating_system
   belongs_to_active_hash :volunteer_preference
 
+  # Dispatch to the two possible types of user, the modern kind (User) or imports
+  # from meetup (MeetupUser). This is mostly important for weird eager loading
+  # situations like Event#ordered_rsvps
+  #
+  # Ideally eager loading would work better for polymorphic associations, so the
+  # regular 'user' association could be used instead of this. But it doesn't!
+  # This can probably be removed if this Rails PR ever gets accepted:
+  # https://github.com/rails/rails/pull/17479
+  def loaded_user
+    user_type == 'MeetupUser' ? meetup_user : bridgetroll_user
+  end
+
   def setup_for_role(role)
     self.role = role
     if role == Role::VOLUNTEER
