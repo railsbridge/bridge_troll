@@ -105,13 +105,10 @@
     <div class="field">
       <h3>Ask for plus-one host name?</h3>
       <p>Historically, *Bridge workshops for women have allowed men to attend as the guest of a woman. If you want to do a similar +1 thing, you can ask attendees to list who they are the guest of.</p>
-        <p>The plus-one host form says this:</p>
+      <p>The plus-one host form says this:</p>
       <blockquote>
-        <p>All workshops on Bridge Troll focus on providing opportunities for under-represented populations in tech. If you are not a member of an underrepresented group, you can only attend as a student if you're the guest of someone who is a member of the workshop's target population. (For example, men can come as the guest of a woman, a straight person can attend as the guest of a gay person, etc.)
-        </p>
-        <p>If you are not a member of this workshop's target demographic, list the name of the person who is bringing you here: [text field]
-        </p>
-        </blockquote>
+      <%= render :partial => "shared/plus_one_disclaimer" %>
+      </blockquote>
       <p>If your workshop isn't open to +1s, you can choose not to show that field.</p>
       <div>
         <%= label_tag do %>
