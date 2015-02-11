@@ -17,3 +17,19 @@ a {
   color: #337ab7;
   text-decoration: none;
 }
+
+table {
+  width: 100%;
+}
+
+tbody td {
+  background-color: #fcfcfc;
+}
+
+.content__left {
+  border-left: 1px solid #ddd;
+}
+
+.content__right {
+  border-right: 1px solid #ddd;
+}
