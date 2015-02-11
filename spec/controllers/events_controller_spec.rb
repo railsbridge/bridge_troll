@@ -293,8 +293,8 @@ describe EventsController do
 
             mail.subject.should include('Nitro Boost')
             mail.subject.should include('Party Zone')
-            mail.body.should include('Party Zone')
-            mail.body.should include('Nitro Boost')
+            mail.body.encoded.should include('Party Zone')
+            mail.body.encoded.should include('Nitro Boost')
 
             recipients.should =~ [@admin.email, @publisher.email]
           end
@@ -317,8 +317,8 @@ describe EventsController do
 
             mail.subject.should include('Party Zone')
             mail.subject.should include('pending approval')
-            mail.body.should include('Evel')
-            mail.body.should include('event needs to be approved')
+            mail.body.encoded.should include('Evel')
+            mail.body.encoded.should include('event needs to be approved')
 
             recipients.should =~ [@user.email]
           end

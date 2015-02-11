@@ -75,7 +75,7 @@ describe Events::UnpublishedEventsController do
 
       mail = ActionMailer::Base.deliveries.last
       mail.subject.should include(@event.chapter.name)
-      mail.body.should include(@event.title)
+      mail.body.encoded.should include(@event.title)
     end
 
     it 'sends no emails if the event has email_on_approval set to false' do

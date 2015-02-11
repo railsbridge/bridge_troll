@@ -21,11 +21,11 @@ describe AdminPagesController do
 
       group_mail = ActionMailer::Base.deliveries[-2]
       JSON.parse(group_mail.header['X-SMTPAPI'].to_s)['to'].should == [admin.email]
-      group_mail.body.should include(site_host)
+      group_mail.body.encoded.should include(site_host)
 
       individual_mail = ActionMailer::Base.deliveries[-1]
       individual_mail.to.should == [admin.email]
-      individual_mail.body.should include(site_host)
+      individual_mail.body.encoded.should include(site_host)
     end
   end
 end
