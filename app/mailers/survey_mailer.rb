@@ -1,4 +1,4 @@
-class SurveyMailer < ActionMailer::Base
+class SurveyMailer < BaseMailer
   def notification(rsvp)
     @rsvp = rsvp
     mail(
