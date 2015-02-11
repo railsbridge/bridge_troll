@@ -5,7 +5,7 @@
   <% if user_signed_in? %>
     <span class="nav-blurb">Found a bug? Or some unexpected behavior? <a href="https://github.com/railsbridge/bridge_troll/issues" target="_blank">Let us know</a>!</span>
   <% end %>
-  <ul class="nav navbar-nav navbar-right">
+  <ul class="nav navbar-nav header-user-controls">
     <% if user_signed_in? %>
       <li>
         <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'btn' %>

@@ -1,16 +1,20 @@
 @import "constants";
 @import "bootstrap/variables";
 
+.header-user-controls {
+  @media (min-width: $screen-xs-max) {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
 .navbar {
   background: #333;
   &.navbar-default {
     border: none;
     border-radius: 0;
     margin: 0;
-
-    .navbar-right {
-      margin-right: 0;
-    }
   }
 
   @media (max-width: $screen-xs-max) {
