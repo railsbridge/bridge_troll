@@ -1,5 +1,5 @@
 <%= @sender.full_name %> has something to say about <%= @event.upcoming? ? 'an upcoming event' : 'a past event' %>:
 
-<p><%= sanitize(@body).gsub(/(\r)?\n/, "<br/>").html_safe %></p>
+<blockquote><%= sanitize(@body).gsub(/(\r)?\n/, "<br/>").html_safe %></blockquote>
 
-<p><%= link_to 'Check out this event on Bridge Troll by clicking this link!', event_url(@event) %></p>
+<%= link_to 'View event details', event_url(@event), :class => 'btn' %>

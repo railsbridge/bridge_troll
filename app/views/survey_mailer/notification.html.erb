@@ -2,6 +2,6 @@
 
 <p>We're always trying to improve, so if you could take five minutes and give us your feedback, we'd really, truly appreciate it.</p>
 
-<p><%= link_to "Click right here to take the survey!", new_event_rsvp_survey_url(@rsvp.event, @rsvp)%></p>
+<%= link_to "Take the survey", new_event_rsvp_survey_url(@rsvp.event, @rsvp), :class => 'btn' %>
 
 <p>- The Troll</p>

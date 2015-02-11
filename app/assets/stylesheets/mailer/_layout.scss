@@ -1,13 +1,12 @@
 .content {
-  padding: 20px;
+  padding: 20px 20px 40px 20px;
 }
-// @media (min-width: 640px) {
-//   .content__inner {
-//     padding: 20px;
-//   }
-// }
 
 .content__inner {
   max-width: 600px;
   margin: 0 auto;
+}
+
+.section {
+  padding: 20px 0;
 }
