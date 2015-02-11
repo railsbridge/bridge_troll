@@ -59,6 +59,19 @@ class User < ActiveRecord::Base
     authentications.find { |a| a.provider == 'meetup' }.try(:uid)
   end
 
+  def event_attendances
+    @event_attendances ||= rsvps.each_with_object({}) do |rsvp, hsh|
+      hsh[rsvp.event_id] = {
+        role: rsvp.role,
+        waitlist_position: rsvp.waitlist_position
+      }
+    end
+  end
+
+  def event_role(event)
+    event_attendances.fetch(event.id, {})[:role]
+  end
+
   private
 
   def make_empty_profile

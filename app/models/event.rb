@@ -208,23 +208,23 @@ class Event < ActiveRecord::Base
   end
 
   def no_rsvp?(user)
-    !rsvps.where(user_id: user.id).any?
+    user.event_role(self).blank?
   end
 
   def student?(user)
-    student_rsvps.where(user_id: user.id).any?
+    user.event_role(self) == Role::STUDENT
   end
 
   def waitlisted_student?(user)
-    student_waitlist_rsvps.where(user_id: user.id).any?
+    student?(user) && user.event_attendances[id][:waitlist_position].present?
   end
 
   def volunteer?(user)
-    volunteer_rsvps.where(user_id: user.id).any?
+    user.event_role(self) == Role::VOLUNTEER
   end
 
   def organizer?(user)
-    organizer_rsvps.where(user_id: user.id).any?
+    user.event_role(self) == Role::ORGANIZER
   end
 
   def checkiner?(user)
