@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-</head>
-<body>
 Hey <%= @rsvp.user.full_name %>,
 
 <p>A spot opened up! You are now confirmed as a <%= @rsvp.role.name.downcase %> for <%= @rsvp.event.title %>!</p>
@@ -11,5 +5,3 @@ Hey <%= @rsvp.user.full_name %>,
 <%= render :partial => 'event_details' %>
 
 <p>- The Troll</p>
-</body>
-</html>

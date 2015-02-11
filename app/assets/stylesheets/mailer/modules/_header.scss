@@ -1,0 +1,14 @@
+@import "mailer/variables";
+
+.header {
+  height: $header-height;
+  background-color: #333;
+}
+
+.header__logo {
+  display: block;
+  padding: 0 20px;
+  height: $header-height;
+  background-color: #E34D0B;
+  float: left;
+}

@@ -1,4 +1,4 @@
-class RsvpMailer < ActionMailer::Base
+class RsvpMailer < BaseMailer
   add_template_helper(EventsHelper)
   add_template_helper(LocationsHelper)
 
@@ -16,7 +16,7 @@ class RsvpMailer < ActionMailer::Base
 
   def reminder_for_session(rsvp_session)
     rsvp = rsvp_session.rsvp
-    email(rsvp_session.rsvp, "Reminder: You've signed up for #{rsvp_session.event_session.name} at #{rsvp.event.title}")
+    email(rsvp, "Reminder: You've signed up for #{rsvp_session.event_session.name} at #{rsvp.event.title}")
   end
 
   def off_waitlist(rsvp)

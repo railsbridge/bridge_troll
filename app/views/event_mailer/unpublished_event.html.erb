@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-</head>
-<body>
 <p>Howdy, Bridge Troll administrator!</p>
 
 <p>A new event, "<%= link_to @event.title, event_url(@event) %>", has been posted to Bridge Troll by <strong><%= link_to @event.organizers.first.full_name, user_profile_url(@event.organizers.first) %></strong>!</p>
@@ -15,6 +9,3 @@
 <% else %>
 <p><%= link_to 'Go see the list of unpublished events to see if this is worth approving!', unpublished_events_url %></p>
 <% end %>
-
-</body>
-</html>

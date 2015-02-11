@@ -1,0 +1,13 @@
+.content {
+  padding: 20px;
+}
+// @media (min-width: 640px) {
+//   .content__inner {
+//     padding: 20px;
+//   }
+// }
+
+.content__inner {
+  max-width: 600px;
+  margin: 0 auto;
+}

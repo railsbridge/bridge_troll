@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-</head>
-<body>
 <p>Thanks so much for attending <%= @rsvp.event.title %>!!!</p>
 
 <p>We're always trying to improve, so if you could take five minutes and give us your feedback, we'd really, truly appreciate it.</p>
@@ -11,5 +5,3 @@
 <p><%= link_to "Click right here to take the survey!", new_event_rsvp_survey_url(@rsvp.event, @rsvp)%></p>
 
 <p>- The Troll</p>
-</body>
-</html>
