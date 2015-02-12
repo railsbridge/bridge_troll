@@ -54,6 +54,7 @@ class EventsController < ApplicationController
         @event.update_attribute(:spam, true)
       else
         EventMailer.unpublished_event(@event).deliver_now
+        EventMailer.event_pending_approval(@event).deliver_now
       end
 
       if @event.published

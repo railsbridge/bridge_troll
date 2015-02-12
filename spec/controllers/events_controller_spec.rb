@@ -281,14 +281,16 @@ describe EventsController do
             @publisher = create(:user, publisher: true)
           end
 
-          let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
+          let(:mail) do
+            ActionMailer::Base.deliveries.select {|d| d.subject.include? 'awaits approval' }.last
+          end
+          let(:recipients) { JSON.parse(mail.header['X-SMTPAPI'].to_s)['to'] }
 
           it "sends an email to all admins/publishers on event creation" do
             expect {
               make_request(create_params)
-            }.to change(ActionMailer::Base.deliveries, :count).by(1)
+            }.to change(ActionMailer::Base.deliveries, :count).by(2)
 
-            mail = ActionMailer::Base.deliveries.last
             mail.subject.should include('Nitro Boost')
             mail.subject.should include('Party Zone')
             mail.body.should include('Party Zone')
@@ -297,6 +299,31 @@ describe EventsController do
             recipients.should =~ [@admin.email, @publisher.email]
           end
         end
+
+        describe "notifying the user of pending approval" do
+          before do
+            @user.update_attributes(first_name: 'Evel', last_name: 'Knievel')
+          end
+
+          let(:mail) do
+            ActionMailer::Base.deliveries.select {|d| d.subject.include? 'Your Bridge Troll event' }.last
+          end
+          let(:recipients) { JSON.parse(mail.header['X-SMTPAPI'].to_s)['to'] }
+
+          it "sends an email to the user" do
+            expect {
+              make_request(create_params)
+            }.to change(ActionMailer::Base.deliveries, :count).by(2)
+
+            mail.subject.should include('Party Zone')
+            mail.subject.should include('pending approval')
+            mail.body.should include('Evel')
+            mail.body.should include('event needs to be approved')
+
+            recipients.should =~ [@user.email]
+          end
+        end
+
       end
 
       describe "with invalid params" do
