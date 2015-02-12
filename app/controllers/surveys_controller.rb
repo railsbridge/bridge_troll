@@ -41,11 +41,11 @@ class SurveysController < ApplicationController
   end
 
   def find_rsvp
-    @rsvp = Rsvp.find(params[:rsvp_id])
+    @rsvp = current_user.rsvps.find_by(event_id: @event.id)
   end
 
   def validate_user!
-    unless current_user.rsvps.include?(@rsvp)
+    if !@rsvp || (params[:rsvp_id] && params[:rsvp_id].to_i != @rsvp.id)
       redirect_to root_path, notice: "You're not allowed to do that. Here, look at some events instead!"
     end
   end

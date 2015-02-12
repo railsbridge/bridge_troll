@@ -20,6 +20,13 @@ describe SurveysController do
         expect(assigns(:rsvp)).to eq @rsvp
       end
 
+      it "shows the survey form when only an event_id is provided" do
+        get :new, event_id: @event.id
+        expect(response).to render_template(:new)
+        expect(assigns(:event)).to eq @event
+        expect(assigns(:rsvp)).to eq @rsvp
+      end
+
       context "if the survey has already been taken" do
         before do
           Survey.create(rsvp_id: @rsvp.id)
@@ -70,8 +77,14 @@ describe SurveysController do
 
         it "doesn't make a survey" do
           params = {
-            event_id: @event.id, rsvp_id: @other_rsvp.id, good_things: "Ruby",
-            bad_things: "Moar cake", other_comments: "Superfun", recommendation_likelihood: "9"
+            event_id: @event.id,
+            rsvp_id: @other_rsvp.id,
+            survey: {
+              good_things: "Ruby",
+              bad_things: "Moar cake",
+              other_comments: "Superfun",
+              recommendation_likelihood: "9"
+            }
           }
           expect { put :create, params }.to change { Survey.count }.by(0)
         end

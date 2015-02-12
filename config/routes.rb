@@ -37,7 +37,7 @@ Bridgetroll::Application.routes.draw do
       resources :surveys, only: [:new, :create]
     end
 
-    resources :surveys, only: :index
+    resources :surveys, only: [:new, :index]
 
     resources :event_sessions, only: [:index, :show, :destroy] do
       resources :checkins, only: [:index, :create, :destroy]
