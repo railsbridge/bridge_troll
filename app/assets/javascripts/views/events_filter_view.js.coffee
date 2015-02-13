@@ -9,26 +9,45 @@ class window.EventsFilterView extends Backbone.View
     'change': 'handleChange'
 
   initialize: ->
+    validValues = _.map @$('option'), (o) -> o.value
+    @model = new EventsFilterModel('eventFilterChapterId', validValues)
     @restore()
 
   handleChange: (e) =>
     chapterId = e.currentTarget.value
-    @save(chapterId)
-    @filter(chapterId)
+    @filter(@model.set(chapterId))
 
   filter: (chapterId) =>
-    if chapterId
+    if chapterId != @model.defaultValue
       $('.event-card').hide()
       $(".event-card[data-chapter-id=#{chapterId}]").show()
     else
       $('.event-card').show()
 
   restore: ->
-    if supportsLocalStorage()
-      chapterId = localStorage['eventFilterChapterId']
-      @$el.val(chapterId)
-      @filter(chapterId)
+    @$el.val(@model.get())
+    @filter(@model.get())
 
-  save: (chapterId) ->
+
+class EventsFilterModel
+  defaultValue: ""
+
+  constructor: (@key, @validValues) ->
+    @restore()
+
+  set: (value) ->
+    newValue = if _.contains(@validValues, value) then value else @defaultValue
+    @value = newValue
+    @persist()
+    newValue
+
+  get: ->
+    @value
+
+  persist: ->
     if supportsLocalStorage()
-      localStorage['eventFilterChapterId'] = chapterId
+      localStorage[@key] = @value
+
+  restore: ->
+    if supportsLocalStorage()
+      @set(localStorage[@key])
