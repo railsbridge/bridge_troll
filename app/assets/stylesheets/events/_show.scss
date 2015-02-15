@@ -47,6 +47,16 @@
   h2 {
     margin-top: 20px;
   }
+
+  h3 {
+    margin: 20px 0 5px 0;
+    font-family: 'AmbleRegular', sans-serif;
+  }
+
+  ul {
+    margin: 0 0 10px 25px;
+    list-style-type: disc;
+  }
 }
 
 .critical-details {
@@ -54,7 +64,7 @@
   font-size: 18px;
 
   a {
-    text-decoration: none ;
+    text-decoration: none;
   }
 
   div {

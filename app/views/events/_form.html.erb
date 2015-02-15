@@ -146,7 +146,8 @@
     <ul class="margined">
       <li><pre><%= "<img src='http://example.com/sponsor/logo'>" %></pre></li>
       <li><pre><%= "<a href='http://bridgetroll.org'>Link Text</a>" %></pre></li>
-      <li><pre><%= "<h3>Littler Header</h3>" %></pre></li>
+      <li><pre><%= "<h3>Littler Header</h3>\nMore text below, no blank line needed after headers" %></pre></li>
+      <li><pre><%= "<ul>\n<li>List Item One</li>\n<li>List Item Two</li>\n</ul>" %></pre></li>
     </ul>
     <p>But you don't have to put paragraph tags around everything; blank lines will do just fine.</p>
     <%= f.input :details, as: :text, input_html: {rows: 14} %>
