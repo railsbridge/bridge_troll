@@ -99,7 +99,9 @@
     </div>
     <h3><%= pluralize(@event.checked_in_volunteer_rsvps.count, "volunteer") %>!</h3>
     <% if @event.volunteer_rsvps.none? %>
-      No volunteers are currently signed up for this event.
+      <div class="mb20">
+        No volunteers are currently signed up for this event.
+      </div>
     <% else %>
       <ul class="attendees">
         <% @event.ordered_volunteer_rsvps.each do |rsvp| %>
@@ -110,7 +112,9 @@
     <% if @event.allow_student_rsvp? %>
       <h3><%= pluralize(@event.checked_in_student_rsvps.count, "student") %>!</h3>
       <% if @event.student_rsvps.none? %>
-        No students are currently signed up for this event.
+        <div class="mb20">
+          No students are currently signed up for this event.
+        </div>
       <% else %>
         <ul class="attendees">
           <% @event.ordered_student_rsvps.each do |rsvp| %>
