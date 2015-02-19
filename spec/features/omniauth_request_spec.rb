@@ -16,7 +16,9 @@ describe "signing in with omniauth" do
     it 'creates a user and authentication if the user does not exist' do
       visit user_omniauth_authorize_path(:facebook)
 
-      click_on 'Sign up'
+      within '#sign-up' do
+        click_on 'Sign up'
+      end
 
       user = User.last
       user.first_name.should == facebook_response[:info][:first_name]
@@ -52,9 +54,8 @@ describe "signing in with omniauth" do
 
       within '#sign-up' do
         fill_in 'Email', with: 'cool_tweeter@example.com'
+        click_on 'Sign up'
       end
-
-      click_on 'Sign up'
 
       user = User.last
       user.first_name.should == "John"
@@ -79,9 +80,8 @@ describe "signing in with omniauth" do
 
       within '#sign-up' do
         fill_in 'Email', with: 'meetup_user@example.com'
+        click_on 'Sign up'
       end
-
-      click_on 'Sign up'
 
       user = User.last
       user.first_name.should == "Franz"
@@ -104,7 +104,9 @@ describe "signing in with omniauth" do
     it 'creates a user and authentication after the user provides an email' do
       visit user_omniauth_authorize_path(:github)
 
-      click_on 'Sign up'
+      within '#sign-up' do
+        click_on 'Sign up'
+      end
 
       user = User.last
       user.first_name.should == "Fancy"

@@ -1,4 +1,4 @@
-<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+<%- if devise_mapping.registerable? && controller_name != 'registrations' && !defined?(no_sign_up) %>
   <%= link_to "Sign up", new_registration_path(resource_name), class: 'sign_up_link' %><br />
 <% end -%>
 
