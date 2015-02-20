@@ -90,6 +90,18 @@ describe RsvpsController do
         get :learn, event_id: @event.id
         assigns(:rsvp).role.should == Role::STUDENT
       end
+
+      describe "when the user has previously attended" do
+        let!(:existing_rsvp) do
+          create(:rsvp, user: @user, job_details: 'Firetruck')
+        end
+
+        it "creates a new RSVP with some details from their last RSVP" do
+          get :learn, event_id: @event.id
+          rsvp = assigns(:rsvp)
+          rsvp.job_details.should == existing_rsvp.job_details
+        end
+      end
     end
 
     describe "when there is an existing RSVP for this user" do

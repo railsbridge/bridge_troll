@@ -6,15 +6,13 @@ class RsvpsController < ApplicationController
   before_filter :redirect_if_event_in_past
 
   def volunteer
-    last_rsvp = find_relevant_prior_rsvp
-
-    @rsvp = @event.rsvps.build(last_rsvp ? last_rsvp.volunteer_carryover_attributes(@event.course_id) : {})
+    @rsvp = @event.rsvps.build(user: current_user)
     @rsvp.setup_for_role(Role::VOLUNTEER)
     render :new
   end
 
   def learn
-    @rsvp = @event.rsvps.build
+    @rsvp = @event.rsvps.build(user: current_user)
     @rsvp.setup_for_role(Role::STUDENT)
     render :new
   end
@@ -109,12 +107,6 @@ class RsvpsController < ApplicationController
     unless @rsvp && @rsvp.user == current_user
       redirect_to events_path, notice: 'You are not signed up for this event'
     end
-  end
-
-  def find_relevant_prior_rsvp
-    prior_rsvps = current_user.rsvps.includes(:event).order('events.ends_at')
-
-    prior_rsvps.where('events.course_id = ?', @event.course_id).last || prior_rsvps.last
   end
 
   def redirect_if_rsvp_exists

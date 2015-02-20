@@ -72,6 +72,16 @@ class Rsvp < ActiveRecord::Base
     elsif role == Role::STUDENT
       self.event_session_ids = event.event_sessions.where(required_for_students: true).pluck(:id)
     end
+
+    return unless user
+
+    prior_rsvps = user.rsvps.includes(:event).order('events.ends_at')
+
+    last_rsvp = prior_rsvps.where('events.course_id = ?', event.course_id).last || prior_rsvps.last
+
+    new_attributes = last_rsvp ? last_rsvp.carryover_attributes(event.course_id, role) : {}
+
+    assign_attributes(new_attributes)
   end
 
   def selectable_sessions
@@ -119,10 +129,10 @@ class Rsvp < ActiveRecord::Base
     VolunteerPreference::NEITHER.id
   end
 
-  def volunteer_carryover_attributes(new_event_course_id)
+  def carryover_attributes(new_event_course_id, role)
     fields = [:job_details]
 
-    if event.course_id == new_event_course_id
+    if role == Role::VOLUNTEER && event.course_id == new_event_course_id
       fields += [:subject_experience, :teaching_experience]
     end
 
