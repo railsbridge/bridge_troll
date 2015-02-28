@@ -21,7 +21,7 @@ class ExternalEventsController < ApplicationController
     if @external_event.save
       redirect_to external_events_url, notice: 'External event was successfully created.'
     else
-      render action: :new
+      render :new
     end
   end
 
@@ -31,7 +31,7 @@ class ExternalEventsController < ApplicationController
     if @external_event.update_attributes(external_event_params)
       redirect_to external_events_url, notice: 'External event was successfully updated.'
     else
-      render action: :edit
+      render :edit
     end
   end
 

@@ -36,7 +36,7 @@ class ChaptersController < ApplicationController
     if @chapter.save
       redirect_to @chapter, notice: 'Chapter was successfully created.'
     else
-      render action: "new"
+      render :new
     end
   end
 
@@ -44,7 +44,7 @@ class ChaptersController < ApplicationController
     if @chapter.update_attributes(chapter_params)
       redirect_to @chapter, notice: 'Chapter was successfully updated.'
     else
-      render action: "edit"
+      render :edit
     end
   end
 

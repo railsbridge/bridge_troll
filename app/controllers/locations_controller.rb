@@ -22,7 +22,7 @@ class LocationsController < ApplicationController
     if @location.save
       redirect_to @location, notice: 'Location was successfully created.'
     else
-      render action: "new"
+      render :new
     end
   end
 
@@ -36,7 +36,7 @@ class LocationsController < ApplicationController
     if @location.update_attributes(location_params)
       redirect_to @location, notice: 'Location was successfully updated.'
     else
-      render action: "edit"
+      render :edit
     end
   end
 

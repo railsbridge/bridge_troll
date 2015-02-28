@@ -19,7 +19,7 @@ Bridgetroll::Application.routes.draw do
   resources :events do
     resources :organizers, only: [:index, :create, :destroy]
     resources :checkiners, only: [:index, :create, :destroy]
-    resources :volunteers, only: [:index, :update]
+    resources :volunteers, only: [:index]
 
     resources :students, only: [:index], controller: 'events/students'
     resources :attendees, only: [:index, :update], controller: 'events/attendees'
@@ -29,7 +29,7 @@ Bridgetroll::Application.routes.draw do
       post :arrange, on: :collection
     end
 
-    resources :rsvps, except: [:index, :new] do
+    resources :rsvps, except: [:show, :index, :new] do
       new do
         get :volunteer
         get :learn
@@ -65,7 +65,7 @@ Bridgetroll::Application.routes.draw do
     end
   end
 
-  resources :external_events
+  resources :external_events, except: [:show]
 
   get "/about" => "static_pages#about"
   get "/admin_dashboard" => "admin_pages#admin_dashboard"

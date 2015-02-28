@@ -63,7 +63,7 @@ class EventsController < ApplicationController
         redirect_to @event, notice: 'Your event is awaiting approval and will appear to other users once it has been reviewed by an admin.'
       end
     else
-      render action: "new"
+      render :new
     end
   end
 

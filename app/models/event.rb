@@ -223,6 +223,10 @@ class Event < ActiveRecord::Base
     user.event_role(self) == Role::VOLUNTEER
   end
 
+  def attendee?(user)
+    student?(user) || volunteer?(user)
+  end
+
   def organizer?(user)
     user.event_role(self) == Role::ORGANIZER
   end

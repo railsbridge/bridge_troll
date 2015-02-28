@@ -6,7 +6,7 @@ module EventsHelper
     @skills << 'TA-ing'       if(volunteer_rsvp.taing)
     @skills << 'Childcare'    if(profile.childcaring)
     @skills << 'Writing'      if(profile.writing)
-    @skills << 'Outreach'      if(profile.outreach)
+    @skills << 'Outreach'     if(profile.outreach)
     @skills << 'Designing'    if(profile.designing)
     @skills << 'Mentoring'    if(profile.mentoring)
     @skills << 'Mac OS X'     if(profile.macosx)
@@ -17,12 +17,12 @@ module EventsHelper
 
   def rsvp_class(rsvp)
     if rsvp.waitlisted?
-      return 'waitlisted'
+      'waitlisted'
+    elsif rsvp.no_show?
+      'no-show'
+    else
+      ''
     end
-    if rsvp.no_show?
-      return 'no-show'
-    end
-    return ''
   end
 
   def organizer_list
@@ -89,11 +89,7 @@ module EventsHelper
   end
 
   def pretty_print_session(session)
-    p = ''
-
-    p << session.name
-    p << " on #{formatted_session_date(session)}"
-    p << " from #{formatted_session_timerange(session)}"
+    "#{session.name} on #{formatted_session_date(session)} from #{formatted_session_timerange(session)}"
   end
 
   def verb(role)
