@@ -62,7 +62,7 @@ describe "Profile" do
 
     fill_in "Other Skills", with: "Speaking Spanish"
     fill_in "Bio", with: "This is my bio..."
-    fill_in "Github username", with: "sally33"
+    fill_in "GitHub username", with: "sally33"
 
     click_button "Update"
 

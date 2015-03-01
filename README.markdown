@@ -125,7 +125,7 @@ Bridge Troll uses [Omniauth](https://github.com/intridea/omniauth) to allow exte
 
 * Twitter through [omniauth-twitter](https://github.com/arunagw/omniauth-twitter) - [set up a consumer here](https://apps.twitter.com/)
 * Facebook through [omniauth-facebook](https://github.com/mkdynamic/omniauth-facebook) - [set up a consumer here](https://developers.facebook.com/apps/)
-* Github through [omniauth-github](https://github.com/intridea/omniauth-github) - [set up a consumer here](https://github.com/settings/applications)
+* GitHub through [omniauth-github](https://github.com/intridea/omniauth-github) - [set up a consumer here](https://github.com/settings/applications)
 * Meetup through [omniauth-meetup](https://github.com/tapster/omniauth-meetup) - [set up a consumer here](http://www.meetup.com/meetup_api/oauth_consumers/)
 
 To set up external authentication, create an oauth consumer on the site you want to authenticate with, then add [PROVIDER]_OAUTH_KEY and [PROVIDER]_OAUTH_SECRET value to the app environment.

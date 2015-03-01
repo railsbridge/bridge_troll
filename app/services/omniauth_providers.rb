@@ -13,7 +13,7 @@ module OmniauthProviders
       },
       {
         key: :github,
-        name: 'Github',
+        name: 'GitHub',
         icon: 'fa-github-square'
       },
       {
