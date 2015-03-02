@@ -22,6 +22,7 @@ gem 'gravatar_image_tag'
 gem 'simple_form'
 gem 'rack-canonical-host'
 gem 'icalendar'
+gem 'premailer-rails'
 
 group :production do
   gem 'pg'

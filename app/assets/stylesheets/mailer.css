@@ -1,0 +1,6 @@
+/*
+ *= require mailer/_variables
+ *= require mailer/_base
+ *= require mailer/_layout
+ *= require_tree ./mailer/modules
+ */

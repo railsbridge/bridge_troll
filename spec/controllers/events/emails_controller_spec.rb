@@ -88,7 +88,7 @@ describe Events::EmailsController do
         it "describes the event as 'upcoming'" do
           post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All')
           email = ActionMailer::Base.deliveries.last
-          email.body.should include('upcoming event')
+          email.body.encoded.should include('upcoming event')
         end
       end
 
@@ -100,7 +100,7 @@ describe Events::EmailsController do
         it "describes the event as 'past'" do
           post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All')
           email = ActionMailer::Base.deliveries.last
-          email.body.should include('past event')
+          email.body.encoded.should include('past event')
         end
       end
     end

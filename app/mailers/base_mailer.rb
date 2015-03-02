@@ -1,4 +1,6 @@
 class BaseMailer < ActionMailer::Base
+  layout 'mailer'
+
   private
 
   def set_recipients(recipients)

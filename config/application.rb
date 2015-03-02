@@ -27,5 +27,10 @@ module Bridgetroll
 
     # set default from address across
     ActionMailer::Base.default :from => 'RailsBridge <troll@bridgetroll.org>'
+
+    # Devise emails use our layout
+    config.to_prepare do
+      Devise::Mailer.layout "mailer"
+    end
   end
 end

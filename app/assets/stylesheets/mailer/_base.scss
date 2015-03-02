@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+
+  color: #515151;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 140%;
+  font-weight: lighter;
+}
+
+blockquote {
+  font-style: italic;
+  padding-bottom: 20px;
+}
+
+a {
+  color: #337ab7;
+  text-decoration: none;
+}
+
+table {
+  width: 100%;
+}
+
+tbody td {
+  background-color: #fcfcfc;
+}
+
+.content__left {
+  border-left: 1px solid #ddd;
+}
+
+.content__right {
+  border-right: 1px solid #ddd;
+}
