@@ -31,6 +31,7 @@ FactoryGirl.define do
     ends_at { starts_at + 1.day }
     published true
     student_rsvp_limit 100
+    volunteer_rsvp_limit 75
     location
     course_id Course::RAILS.id
     volunteer_details "I am some details for volunteers."
@@ -89,7 +90,6 @@ FactoryGirl.define do
     factory :organizer_rsvp do
       role Role.find_by_title 'Organizer'
     end
-
     transient do
       session_checkins nil
     end

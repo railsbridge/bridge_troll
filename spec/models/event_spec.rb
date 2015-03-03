@@ -9,6 +9,7 @@ describe Event do
   it { should have_many(:rsvps) }
   it { should have_many(:event_sessions) }
   it { should validate_numericality_of(:student_rsvp_limit) }
+  it { should validate_numericality_of(:volunteer_rsvp_limit) }
 
   it { should validate_presence_of(:title) }
 
@@ -81,12 +82,18 @@ describe Event do
       end
 
       it 'is disallowed if the proposed limit is empty' do
-        @event.update_attributes(student_rsvp_limit: '')
-        @event.should have(1).errors_on(:student_rsvp_limit)
+        @event.update_attributes(student_rsvp_limit: 0)
+        @event.should have(2).errors_on(:student_rsvp_limit)
       end
     end
 
     it "does allow student_rsvp_limit to be increased" do
+      event = create(:event, volunteer_rsvp_limit: 10)
+      event.update_attributes(volunteer_rsvp_limit: 20)
+      event.should have(0).errors_on(:volunteer_rsvp_limit)
+    end
+
+    it "does allow volunteer_rsvp_limit to be increased" do
       event = create(:event, student_rsvp_limit: 10)
       event.update_attributes(student_rsvp_limit: 20)
       event.should have(0).errors_on(:student_rsvp_limit)
@@ -140,6 +147,7 @@ describe Event do
         time_zone: "Hawaii",
         published: true,
         student_rsvp_limit: 100,
+        volunteer_rsvp_limit: 75,
         course_id: Course::RAILS.id,
         volunteer_details: "I am some details for volunteers.",
         student_details: "I am some details for students.",
@@ -189,6 +197,20 @@ describe Event do
     it "returns false when a user is not waitlisted" do
       create(:student_rsvp, :user => @user, :event => event)
       event.waitlisted_student?(@user).should == false
+    end
+  end
+
+  describe "#waitlisted_volunteer?" do
+    let(:event) { create(:event) }
+
+    it "returns true when a user is a waitlisted volunteer" do
+      create(:volunteer_rsvp, :user => @user, :event => event, waitlist_position: 1)
+      event.waitlisted_volunteer?(@user).should == true
+    end
+
+    it "returns false when a user is not waitlisted" do
+      create(:volunteer_rsvp, :user => @user, :event => event)
+      event.waitlisted_volunteer?(@user).should == false
     end
   end
 
@@ -292,14 +314,14 @@ describe Event do
     end
   end
 
-  describe "#at_limit?" do
-    context "when the event has a limit" do
+  describe "#students_at_limit?" do
+    context "when the event has a student limit" do
       let(:event) { create(:event, student_rsvp_limit: 2) }
 
       it 'is true when the limit is exceeded' do
         expect {
           3.times { create(:student_rsvp, event: event) }
-        }.to change { event.reload.at_limit? }.from(false).to(true)
+        }.to change { event.reload.students_at_limit? }.from(false).to(true)
       end
     end
 
@@ -307,7 +329,47 @@ describe Event do
       let(:event) { create(:event, student_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902) }
 
       it 'is false' do
-        event.should_not be_at_limit
+        event.should_not be_students_at_limit
+      end
+    end
+  end
+
+  describe "#volunteers_at_limit?" do
+    context "when the event has a volunteer limit" do
+      let(:event) { create(:event, volunteer_rsvp_limit: 2) }
+
+      it 'is true when the limit is exceeded' do
+        expect {
+          3.times { create(:volunteer_rsvp, event: event) }
+        }.to change { event.reload.volunteers_at_limit? }.from(false).to(true)
+      end
+    end
+
+    context "when the event has no limit (historical events)" do
+      let(:event) { create(:event, volunteer_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902) }
+
+      it 'is false' do
+        event.should_not be_volunteers_at_limit
+      end
+    end
+  end
+
+  describe "#volunteers_at_limit?" do
+    context "when the event has a volunteer limit" do
+      let(:event) { create(:event, volunteer_rsvp_limit: 2) }
+
+      it 'is true when the limit is exceeded' do
+        expect {
+          3.times { create(:volunteer_rsvp, event: event) }
+        }.to change { event.reload.volunteers_at_limit? }.from(false).to(true)
+      end
+    end
+
+    context "when the event has no limit (historical events)" do
+      let(:event) { create(:event, volunteer_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902) }
+
+      it 'is false' do
+        event.should_not be_volunteers_at_limit
       end
     end
   end
@@ -322,6 +384,19 @@ describe Event do
 
     it 'should only include non-waitlisted students' do
       @event.students.should == [@confirmed_rsvp.user]
+    end
+  end
+
+  describe "#volunteers" do
+    before do
+      @event = create(:event)
+      @confirmed_rsvp = create(:volunteer_rsvp, event: @event, role: Role::VOLUNTEER)
+      @waitlist_rsvp = create(:student_rsvp, event: @event, role: Role::VOLUNTEER, waitlist_position: 1)
+      @student_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT)
+    end
+
+    it 'should only include non-waitlisted volunteers' do
+      @event.volunteers.should == [@confirmed_rsvp.user]
     end
   end
 
@@ -437,17 +512,27 @@ describe Event do
 
   describe "waitlists" do
     before do
-      @event = create(:event, student_rsvp_limit: 2)
+      @event = create(:event, student_rsvp_limit: 2, volunteer_rsvp_limit: 2)
       @confirmed_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT)
       @waitlist_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT, waitlist_position: 1)
+      @confirmed_volunteer_rsvp = create(:volunteer_rsvp, event: @event, role: Role::VOLUNTEER)
+      @waitlist_volunteer_rsvp = create(:volunteer_rsvp, event: @event, role: Role::VOLUNTEER, waitlist_position: 1)
     end
 
     it "returns only confirmed rsvps in #student_rsvps" do
       @event.student_rsvps.reload.should == [@confirmed_rsvp]
     end
 
+    it "returns only confirmed rsvps in #volunteer_rsvps" do
+      @event.volunteer_rsvps.reload.should == [@confirmed_volunteer_rsvp]
+    end
+
     it "returns only waitlisted rsvps in #student_waitlist_rsvps" do
       @event.student_waitlist_rsvps.reload.should == [@waitlist_rsvp]
+    end
+
+    it "returns only waitlisted rsvps in #volunteer_waitlist_rsvps" do
+      @event.volunteer_waitlist_rsvps.reload.should == [@waitlist_volunteer_rsvp]
     end
   end
 

@@ -49,6 +49,22 @@ describe WaitlistManager do
         @waitlist3.reload.waitlist_position.should == 2
       end
     end
+    
+    context "when the volunteer waitlist limit is removed" do
+      before do
+        @event.update_attribute(:volunteer_rsvp_limit, 1)
+        @confirmed = create(:volunteer_rsvp, event: @event)
+        @waitlist = create(:volunteer_rsvp, event: @event, waitlist_position: 1)
+        @event.update_column(:volunteer_rsvp_limit, nil)
+      end
+
+      it 'promotes everyone from the volunteer waitlist' do
+        WaitlistManager.new(@event).reorder_waitlist!
+
+        expect(@confirmed.reload.waitlist_position).to be_nil
+        expect(@waitlist.reload.waitlist_position).to be_nil
+      end
+    end
   end
 
   describe "#promote_from_waitlist!" do

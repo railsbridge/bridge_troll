@@ -3,12 +3,12 @@
      class="btn sign-in-button"
      data-sign-up-return-to="<%= event_path(event) %>"
      data-return-to="<%= if stay_on_event then event_path(event) else learn_new_event_rsvp_path(event) end %>">
-    <%= attend_button_text(event) %>
+    <%= student_attend_button_text(event) %>
   </a>
 <% end %>
 <a href="#sign_in_dialog"
    class="btn sign-in-button"
    data-sign-up-return-to="<%= event_path(event) %>"
    data-return-to="<%= if stay_on_event then event_path(event) else volunteer_new_event_rsvp_path(event) end %>">
-  Volunteer
+  <%= volunteer_attend_button_text(event) %>
 </a>
