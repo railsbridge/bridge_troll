@@ -427,6 +427,31 @@ describe RsvpsController do
       @user = create(:user)
       sign_in @user
     end
+    context "when an organizer deletes by id" do
+      before do
+        create(:organizer_rsvp, event: @event, user: @user)
+        @rsvp = create(:student_rsvp, event: @event, user: create(:user))
+      end
+      it "should destroy the rsvp" do
+        expect {
+          delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
+        }.to change { Rsvp.count }.by(-1)
+        
+        expect {
+          @rsvp.reload
+        }.to raise_error(ActiveRecord::RecordNotFound)
+        flash[:notice].should match(/no longer signed up/i)
+      end
+      it "should reorder the waitlist" do
+        @event.update_attribute(:student_rsvp_limit, 2)
+        create(:student_rsvp, event: @event)
+        @waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
+        @event.reload.should be_at_limit
+        delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
+        @waitlisted.reload.waitlist_position.should be_nil
+        flash[:notice].should match(/no longer signed up/i)
+      end
+    end
 
     context "when an organizer deletes by id" do
       before do
@@ -494,5 +519,5 @@ describe RsvpsController do
         flash[:notice].should match(/You are not signed up/i)
       end
     end
-  end
+end
 end

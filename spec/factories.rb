@@ -89,7 +89,6 @@ FactoryGirl.define do
     factory :organizer_rsvp do
       role Role.find_by_title 'Organizer'
     end
-
     transient do
       session_checkins nil
     end
