@@ -86,6 +86,10 @@ FactoryGirl.define do
       class_level 0
     end
 
+    factory :organizer_rsvp do
+      role Role.find_by_title 'Organizer'
+    end
+    
   end
 
   factory :dietary_restriction do

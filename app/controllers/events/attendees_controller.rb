@@ -2,7 +2,7 @@ class Events::AttendeesController < ApplicationController
   before_filter :authenticate_user!, :validate_organizer!, :find_event
 
   def index
-    @rsvps = @event.attendee_rsvps
+    @rsvps = @event.rsvps.where(role_id: Role.attendee_role_ids)
     respond_to do |format|
       format.csv { render csv: @rsvps }
       format.html { }

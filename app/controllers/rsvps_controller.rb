@@ -5,6 +5,7 @@ class RsvpsController < ApplicationController
   before_filter :redirect_if_rsvp_exists, only: [:volunteer, :learn]
   before_filter :redirect_if_event_in_past
 
+
   def volunteer
     @rsvp = @event.rsvps.build(user: current_user)
     @rsvp.setup_for_role(Role::VOLUNTEER)
@@ -59,11 +60,16 @@ class RsvpsController < ApplicationController
   end
 
   def destroy
+    n = @rsvp.user.first_name
     Rsvp.transaction do
       @rsvp.destroy
       @event.reload.reorder_waitlist!
     end
-    redirect_to events_path, notice: "You are now no longer signed up for #{@event.title}"
+    if @event.organizer?(current_user)
+      redirect_to event_attendees_path(@event), notice: "#{n} is no longer signed up for #{@event.title}"
+    else
+      redirect_to events_path, notice: "You are now no longer signed up for #{@event.title}"
+    end
   end
 
   protected
@@ -104,7 +110,7 @@ class RsvpsController < ApplicationController
 
   def load_rsvp
     @rsvp = Rsvp.find_by_id(params[:id])
-    unless @rsvp && @rsvp.user == current_user
+    unless @rsvp && ((@rsvp.user == current_user) || (@rsvp.event.organizer?(current_user)))
       redirect_to events_path, notice: 'You are not signed up for this event'
     end
   end

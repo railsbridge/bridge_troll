@@ -32,6 +32,7 @@
         <th class='attendee-gender'>Gender</th>
         <th class='attendee-dietary-info'>Plus-One Host</th>
         <th class='attendee-waitlisted'>Waitlisted</th>
+        <th>Remove RSVP</th>
       </tr>
     </thead>
     <tbody>
@@ -48,6 +49,10 @@
           <td data-label="Gender:"><%= rsvp.user.gender %></td>
           <%= content_tag_maybe_hidden(:td, rsvp.plus_one_host, 'data-label' => 'Plus-one host:') %>
           <td data-label="Waitlisted?:"><%= if rsvp.waitlist_position then "yes" else "no" end %></td>
+
+
+          <td><%= link_to 'Destroy', [rsvp.event, rsvp], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
           </tr>
         <% end %>
       </tbody>
