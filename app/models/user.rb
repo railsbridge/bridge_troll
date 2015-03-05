@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   PERMITTED_ATTRIBUTES = [:first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :time_zone, :gender, :allow_event_email]
 
-  after_create :make_empty_profile
+  before_validation :build_profile, on: :create
 
   devise :database_authenticatable, :registerable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -12,12 +12,12 @@ class User < ActiveRecord::Base
   has_many :events, -> { where published: true }, through: :rsvps
   has_many :chapter_leaderships
 
-  has_one :profile, dependent: :destroy, inverse_of: :user
+  has_one :profile, dependent: :destroy, inverse_of: :user, validate: true
   has_and_belongs_to_many :chapters
 
   accepts_nested_attributes_for :profile
 
-  validates_presence_of :first_name, :last_name
+  validates_presence_of :first_name, :last_name, :profile
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
   def self.from_omniauth(omniauth)
@@ -70,12 +70,5 @@ class User < ActiveRecord::Base
 
   def event_role(event)
     event_attendances.fetch(event.id, {})[:role]
-  end
-
-  private
-
-  def make_empty_profile
-    self.build_profile
-    self.profile.save
   end
 end
