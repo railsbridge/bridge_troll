@@ -9,7 +9,7 @@
 #this seeds the database with an admin user--for development only
 
 if Rails.env.development? then
-  new_user=User.new({ :name => 'admin', :email => 'admin@example.com', :password => 'password', :password_confirmation => 'password'})
+  new_user=User.new({ :first_name => 'Admin', :last_name => 'McAdminpants', :email => 'admin@example.com', :password => 'password', :password_confirmation => 'password'})
   new_user.admin = true
   new_user.save
   puts "Finished running seeds.rb.  Check to see if the there is an admin user."
@@ -17,5 +17,5 @@ else
   puts "This seeds.rb task is intended for the development environment only."
 end
 
-  
+
 
