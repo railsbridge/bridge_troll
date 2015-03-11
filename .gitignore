@@ -19,3 +19,6 @@
 
 # Ignore Redcar directory
 .redcar/*
+
+# Ignore user-specific OSX stuff
+.DS_Store
