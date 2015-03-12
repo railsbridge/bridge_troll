@@ -60,4 +60,6 @@ jQuery ->
     setUpDatePicker($dateField)
     setUpExclusiveCheckboxes($field)
 
-  new EventsFilterView(el: $('.chapter-select'))
+  $chapterSelect = $('.chapter-select')
+  if $chapterSelect.length > 0
+    new EventsFilterView(el: $chapterSelect)
