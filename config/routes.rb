@@ -8,6 +8,7 @@ Bridgetroll::Application.routes.draw do
 
   resources :users, only: [:index] do
     resource :profile, only: [:show]
+    resources :events, only: [:index], controller: 'users/events'
   end
   resources :meetup_users, only: [:show]
 
