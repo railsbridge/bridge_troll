@@ -25,4 +25,8 @@ class AdminPagesController < ApplicationController
 
     redirect_to '/admin_dashboard', notice: "If mail is working, you should see two messages in your #{current_user.email} inbox."
   end
+
+  def raise_exception
+    raise 'This error was intentionally raised to check error handling.'
+  end
 end

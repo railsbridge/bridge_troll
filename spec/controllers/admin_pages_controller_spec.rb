@@ -28,4 +28,16 @@ describe AdminPagesController do
       individual_mail.body.should include(site_host)
     end
   end
+
+  describe "GET #raise_exception" do
+    before do
+      sign_in admin
+    end
+
+    it 'raises an exception' do
+      expect {
+        get :raise_exception
+      }.to raise_error
+    end
+  end
 end

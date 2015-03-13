@@ -117,3 +117,11 @@
   tip: "Send an email from Bridge Troll to #{current_user.email}",
   confirm: 'Are you sure?'
 } %>
+
+<%= render partial: 'shared/organizer_action', locals: {
+  path: '/admin_dashboard/raise_exception',
+  icon: 'fa fa-warning',
+  text: 'Raise an Exception',
+  tip: "Intentionally raise an exception (to test whether exception handling is configured correctly)",
+  confirm: 'Are you sure?'
+} %>
