@@ -21,6 +21,7 @@ describe "signing in with omniauth" do
       end
 
       user = User.last
+      user.should be_valid
       user.first_name.should == facebook_response[:info][:first_name]
       user.last_name.should == facebook_response[:info][:last_name]
       user.email.should == facebook_response[:info][:email]
@@ -58,6 +59,7 @@ describe "signing in with omniauth" do
       end
 
       user = User.last
+      user.should be_valid
       user.first_name.should == "John"
       user.last_name.should == "Q Public"
       user.email.should == "cool_tweeter@example.com"
@@ -84,6 +86,7 @@ describe "signing in with omniauth" do
       end
 
       user = User.last
+      user.should be_valid
       user.first_name.should == "Franz"
       user.last_name.should == "Meetuper"
       user.email.should == "meetup_user@example.com"
@@ -109,6 +112,7 @@ describe "signing in with omniauth" do
       end
 
       user = User.last
+      user.should be_valid
       user.first_name.should == "Fancy"
       user.last_name.should == "Fjords"
       user.email.should == "ffjords@example.com"

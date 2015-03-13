@@ -3,7 +3,7 @@ class Authentication < ActiveRecord::Base
 
   belongs_to :user, inverse_of: :authentications, counter_cache: true
 
-  after_create :authentication_created
+  after_commit :authentication_created, on: :create
 
   def authentication_created
     OmniauthProviders.finish_auth_for(self)

@@ -70,6 +70,8 @@ group :test do
   gem 'shoulda-matchers'
   gem "faker"
   gem 'capybara-screenshot'
+  # Remove after Rails 5: https://github.com/rails/rails/pull/18458
+  gem 'test_after_commit'
 end
 
 source 'https://rails-assets.org' do
