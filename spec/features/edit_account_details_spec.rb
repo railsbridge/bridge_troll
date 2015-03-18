@@ -19,6 +19,18 @@ describe "Profile" do
     user.gender.should eq("Wizard")
   end
 
+  it "shows errors when changes cannot be saved" do
+    within '.edit_user', match: :first do
+      fill_in "Email", with: ""
+    end
+
+    expect {
+      click_button "Update"
+
+      page.should have_content("Email can't be blank")
+    }.not_to change { user.reload.profile.id }
+  end
+
   describe "when a user has only oauth set up (no password)" do
     let(:user) do
       build(:user, password: '').tap do |u|

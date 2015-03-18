@@ -21,6 +21,18 @@ describe User do
     Rsvp.find_by_id(rsvp.id).should be_nil
   end
 
+  it 'can update the profile via nested attributes' do
+    attributes = {
+      email: 'new_email@example.com',
+      profile_attributes: {
+        bio: "This is my updated bio"
+      }
+    }
+    expect {
+      @user.update_attributes(attributes)
+    }.not_to change { @user.profile.reload.id }
+  end
+
   it "must have a valid time zone" do
     user = build(:user, :time_zone => "xxx")
     user.should have(1).error_on(:time_zone)
