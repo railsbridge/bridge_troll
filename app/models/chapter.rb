@@ -6,7 +6,7 @@ class Chapter < ActiveRecord::Base
   has_many :external_events
   has_and_belongs_to_many :users
   has_many :leaders, through: :chapter_leaderships, source: :user
-  has_many :chapter_leaderships
+  has_many :chapter_leaderships, dependent: :destroy
 
   validates_presence_of :name
   validates_uniqueness_of :name
