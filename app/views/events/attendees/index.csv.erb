@@ -1,6 +1,11 @@
-<% headers = ['Name', 'Role', 'Gender'] -%>
-<%= CSV.generate_line headers %>
+<% headers = ['Name', 'Attending As', 'Dietary Info', 'Childcare Info',
+              'Job Details', 'Gender', 'Plus-One Host', 'Waitlisted',
+              'Waitlist Position'] -%>
+<%= CSV.generate_line(headers).strip %>
 <% @rsvps.each do |rsvp| -%>
-  <% row = [rsvp.user.full_name, rsvp.role.name] -%>
-  <%= CSV.generate_line row %>
+  <% waitlisted = rsvp.waitlisted? ? 'yes' : 'no' %>
+  <% row = [rsvp.user.full_name, rsvp.role.title, rsvp.dietary_info,
+            rsvp.childcare_info, rsvp.job_details, rsvp.user.gender,
+            rsvp.plus_one_host, waitlisted, rsvp.waitlist_position] %>
+  <%= CSV.generate_line(row).strip %>
 <% end -%>
