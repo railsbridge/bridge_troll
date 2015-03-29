@@ -16,6 +16,10 @@ describe Events::StudentsController do
       assigns(:students).should == event.student_rsvps
       response.content_type.should == 'text/csv'
       response.should be_success
+
+      csv_rows = CSV.parse(response.body)
+      expect(csv_rows[0][0]).to eq('Student Name')
+      expect(csv_rows[1][0]).to eq(student_rsvp.user.full_name)
     end
   end
 end

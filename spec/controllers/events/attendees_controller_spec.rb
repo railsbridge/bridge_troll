@@ -16,6 +16,10 @@ describe Events::AttendeesController do
       get :index, event_id: @event.id, format: :csv
       expect(response).to have_http_status(:success)
       expect(response.content_type).to eq('text/csv')
+
+      csv_rows = CSV.parse(response.body)
+      expect(csv_rows[0][0]).to eq('Name')
+      expect(csv_rows[1][0]).to eq(@rsvp.user.full_name)
     end
   end
 
