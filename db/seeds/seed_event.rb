@@ -125,7 +125,7 @@ module Seeder
     create_volunteer_rsvp(event: event, user: ta, volunteer_assignment: VolunteerAssignment::TA, class_level: 3)
 
     (1..5).each do |level|
-      students_in_level = students_per_level_range.to_a.sample
+      students_in_level = rand(students_per_level_range)
       (1..students_in_level).each do |index|
         student = create_user("student#{level}-#{index}@example.com")
         create_student_rsvp(event: event, user: student, class_level: level)
@@ -146,8 +146,10 @@ module Seeder
                             taing: [true, false].sample)
     end
 
-    waitlisted = create_user("waitlisted@example.com")
-    create_student_rsvp(event: event, user: waitlisted, class_level: 2, waitlist_position: 1)
+    rand(3..6).times do |n|
+      waitlisted = create_user("waitlisted-#{n}@example.com")
+      create_student_rsvp(event: event, user: waitlisted, class_level: 2, waitlist_position: n)
+    end
 
     event.event_emails.create!(
       sender: organizer,
