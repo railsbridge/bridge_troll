@@ -122,24 +122,6 @@ describe Rsvp do
     end
   end
 
-  describe '#promote_from_waitlist!' do
-    let(:rsvp) {
-      create(:student_rsvp, waitlist_position: 1)
-    }
-
-    it 'marks the rsvp as not on waitlist' do
-      expect {
-        rsvp.promote_from_waitlist!
-      }.to change(rsvp, :waitlist_position).to nil
-    end
-
-    it 'sends an email' do
-      expect {
-        rsvp.promote_from_waitlist!
-      }.to change(ActionMailer::Base.deliveries, :count).by(1)
-    end
-  end
-
   describe "#selectable_sessions" do
     let(:event) do
       build(:event_with_no_sessions).tap do |event|

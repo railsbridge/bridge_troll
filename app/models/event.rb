@@ -4,7 +4,9 @@ class Event < ActiveRecord::Base
   PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare]
 
   after_initialize :set_defaults
-  after_save :reorder_waitlist!
+  after_save do |event|
+    WaitlistManager.new(event).reorder_waitlist!
+  end
 
   belongs_to :location, counter_cache: true
 
@@ -234,27 +236,6 @@ class Event < ActiveRecord::Base
   def checkiner?(user)
     return true if organizer?(user)
     rsvps.where(user_id: user.id, checkiner: true).any?
-  end
-
-  def reorder_waitlist!
-    return if historical?
-    return unless student_rsvp_limit
-
-    Rsvp.transaction do
-      unless at_limit?
-        number_of_open_spots = student_rsvp_limit - student_rsvps_count
-        to_be_confirmed = student_waitlist_rsvps.limit(number_of_open_spots)
-        to_be_confirmed.each do |rsvp|
-          rsvp.promote_from_waitlist!
-        end
-      end
-
-      index = 1
-      student_waitlist_rsvps.reload.each do |rsvp|
-        rsvp.update_attribute(:waitlist_position, index)
-        index += 1
-      end
-    end
   end
 
   def dietary_restrictions_totals
