@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head><base href='http://localhost:3000' />
+    <title>
+        Event 71 - Bridge Troll
+    </title>
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+    <link rel="stylesheet" media="all" href="/assets/application.css" />
+      <style>*{-webkit-transition:none !important;-moz-transition:none !important;transition:none !important}
+</style>
+    <script src="/assets/application.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+  </head>
+  <body>
+   <nav class="navbar navbar-default">
+  <a class="app-name" href="/events">
+    <img alt="Bridge Troll" src="/assets/logo.svg" />
+</a>    <span class="nav-blurb">Found a bug? Or some unexpected behavior? <a href="https://github.com/railsbridge/bridge_troll/issues" target="_blank">Let us know</a>!</span>
+  <ul class="nav navbar-nav header-user-controls">
+      <li>
+        <a class="btn" rel="nofollow" data-method="delete" href="/users/sign_out">Sign Out</a>
+      </li>
+      <li>
+        <a class="btn fa-before fa-gear" href="/users/edit">Settings</a>
+      </li>
+  </ul>
+</nav>
+
+    <div class='container header-container'>
+          <h1>Event 71</h1>
+    </div>
+    <div class="container center bridgetroll-content">
+
+      
+
+<div class="col-md-9">
+  <h2>RSVP</h2>
+
+  <h3>AWESOME - you're almost signed up!</h3>
+
+  <div class="rsvp-form">
+  <form class="simple_form form-vertical" novalidate="novalidate" id="new_rsvp" action="/events/1/rsvps" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+    
+
+
+      <div class="form-group text optional rsvp_subject_experience"><label class="text optional control-label" for="rsvp_subject_experience">What&#39;s your experience with this workshop&#39;s subject matter?</label><textarea maxlength="250" rows="3" class="text optional form-control" name="rsvp[subject_experience]" id="rsvp_subject_experience">
+</textarea></div>
+
+        <h2>Volunteer Preferences</h2>
+        <p class="question">Would you prefer to teach or TA? (Checking neither means you'd prefer to do something else entirely)</p>
+        <div class="checkbox">
+          <label class="checkbox" for="rsvp_teaching">
+            <input name="rsvp[teaching]" type="hidden" value="0" /><input type="checkbox" value="1" name="rsvp[teaching]" id="rsvp_teaching" /> Teaching
+</label>        </div>
+        <div class="checkbox">
+          <label class="checkbox" for="rsvp_taing">
+            <input name="rsvp[taing]" type="hidden" value="0" /><input type="checkbox" value="1" name="rsvp[taing]" id="rsvp_taing" /> TAing
+</label>        </div>
+        <p class="details">If you checked "Teaching" or "TAing" tell us a bit about any teaching or mentoring experience you have had, even one-on-one or non-programming subject. (No experience is ok!)</p>
+          <div class="form-group text optional rsvp_teaching_experience"><label class="text optional control-label" for="rsvp_teaching_experience">What&#39;s your experience with teaching?</label><textarea maxlength="250" rows="3" class="text optional form-control" name="rsvp[teaching_experience]" id="rsvp_teaching_experience">
+</textarea></div>
+
+        <p class="question">Do you have a class level preference?</p>
+        <p class="details">(We'll try to get you into that class level, but no promises.)</p>
+        <div class="field">
+          <div class="level_buttons">
+    <div class="class_level_line">
+      <label class='class_level' >
+          <input type="radio" value="1" name="rsvp[class_level]" id="rsvp_class_level_1" />
+        <span class="label btn-blue">Blue</span>
+        Totally New to Programming
+        <ul>
+            <li>You have little to no experience with the terminal or a graphical IDE</li>
+            <li>You might have done a little bit with HTML or CSS, but not necessarily</li>
+            <li>You're unfamiliar with terms like methods, arrays, lists, hashes, or dictionaries.</li>
+        </ul>
+      </label>
+    </div>
+    <div class="class_level_line">
+      <label class='class_level' >
+          <input type="radio" value="2" name="rsvp[class_level]" id="rsvp_class_level_2" />
+        <span class="label btn-green">Green</span>
+        Somewhat New to Programming
+        <ul>
+            <li>You may have used the terminal a little — to change directories, for instance</li>
+            <li>You might have done an online programming tutorial or two</li>
+            <li>You don't have a lot of experience with Rails</li>
+            <li>You know what a method is</li>
+            <li>You aren't totally clear on how a request gets from the browser to your app</li>
+        </ul>
+      </label>
+    </div>
+    <div class="class_level_line">
+      <label class='class_level' >
+          <input type="radio" value="3" name="rsvp[class_level]" id="rsvp_class_level_3" />
+        <span class="label btn-gold">Gold</span>
+        Some Rails Experience
+        <ul>
+            <li>You're comfortable using the terminal, but not necessarily a Power User</li>
+            <li>You have a general understanding of a Rails app's structure, perhaps from a prior workshop or tutorial</li>
+            <li>You know how to define a method in Ruby</li>
+            <li>You have a decent handle on Ruby arrays and hashes</li>
+        </ul>
+      </label>
+    </div>
+    <div class="class_level_line">
+      <label class='class_level' >
+          <input type="radio" value="4" name="rsvp[class_level]" id="rsvp_class_level_4" />
+        <span class="label btn-orange">Orange</span>
+        Other Programming Experience
+        <ul>
+            <li>You're proficient in another language and understand general programming concepts, like collections and scope.</li>
+            <li>You're new to Ruby and Rails</li>
+            <li>You might be familiar with version control and basic web architecture</li>
+        </ul>
+      </label>
+    </div>
+    <div class="class_level_line">
+      <label class='class_level' >
+          <input type="radio" value="5" name="rsvp[class_level]" id="rsvp_class_level_5" />
+        <span class="label btn-purple">Purple</span>
+        Ready for the Next Challenge
+        <ul>
+            <li>You've exhausted the fun of the Suggestotron/Intro Rails curriculum</li>
+            <li>You're comfortable with the terminal</li>
+            <li>You want to problem-solve instead of copying other's code</li>
+            <li>You want to build an app without using scaffolds</li>
+        </ul>
+      </label>
+    </div>
+    <div class="class_level_line">
+      <label>
+          <input type="radio" value="0" name="rsvp[class_level]" id="rsvp_class_level_0" />
+        <span class="label btn-gray">Any</span>
+        No preference
+      </label>
+    </div>
+</div>
+
+        </div>
+
+
+    <h2>About You</h2>
+    <div class="field question">
+      <div class="form-group text optional rsvp_job_details"><label class="text optional control-label" for="rsvp_job_details">What&#39;s your job? (i.e. Accountant, Full-Time Parent, Student, Job-Hunter, Horse Whisperer)</label><textarea rows="1" maxlength="250" class="text optional form-control" name="rsvp[job_details]" id="rsvp_job_details">
+</textarea></div>
+    </div>
+
+    <div class="field question">
+      
+        <div class="form-group string optional user_gender"><label class="string optional control-label" for="user_gender">Gender (This will update your account, too.)</label><input class="string optional form-control" type="text" value="male" name="user[gender]" id="user_gender" /></div>
+    </div>
+
+    <div class="field">
+      <p class="question">The food's on us. Let us know if you have any dietary restrictions.</p>
+      
+  <div class="checkbox_row">
+    <label>
+      <input type="checkbox" name="dietary_restrictions[vegetarian]" id="dietary_restrictions_vegetarian" value="1" />
+      Vegetarian
+</label>  </div>
+  <div class="checkbox_row">
+    <label>
+      <input type="checkbox" name="dietary_restrictions[vegan]" id="dietary_restrictions_vegan" value="1" />
+      Vegan
+</label>  </div>
+  <div class="checkbox_row">
+    <label>
+      <input type="checkbox" name="dietary_restrictions[gluten-free]" id="dietary_restrictions_gluten-free" value="1" />
+      Gluten-free
+</label>  </div>
+  <div class="checkbox_row">
+    <label>
+      <input type="checkbox" name="dietary_restrictions[dairy-free]" id="dietary_restrictions_dairy-free" value="1" />
+      Dairy-free
+</label>  </div>
+<div class="form-group string optional rsvp_dietary_info"><label class="string optional control-label" for="rsvp_dietary_info">Other</label><input class="string optional form-control" type="text" name="rsvp[dietary_info]" id="rsvp_dietary_info" /></div>
+    </div>
+
+      <div class="field question">
+        <div class="form-group boolean optional rsvp_needs_childcare"><div class="checkbox"><input value="0" type="hidden" name="rsvp[needs_childcare]" /><label class="boolean optional" for="rsvp_needs_childcare"><input data-toggle-target="childcare-info-wrapper" data-toggle-show-when="1" class="boolean optional" type="checkbox" value="1" name="rsvp[needs_childcare]" id="rsvp_needs_childcare" />Do you need childcare?</label></div></div>
+      </div>
+
+      <div class="field childcare-info-wrapper">
+        <div class="form-group text optional rsvp_childcare_info"><label class="text optional control-label" for="rsvp_childcare_info">Please list your childrens&#39; names and ages.</label><textarea rows="3" class="text optional form-control" name="rsvp[childcare_info]" id="rsvp_childcare_info">
+</textarea></div>
+      </div>
+
+      <div class="field question">
+        <div class="form-group boolean optional affiliate_with_chapter">
+          <div class="checkbox">
+            <label for="affiliate_with_chapter">
+              <input type="checkbox" name="affiliate_with_chapter" id="affiliate_with_chapter" value="1" /> I want to be notified of future RailsBridge events in the "Chapter 94" chapter.
+</label>            <div>
+              <small>(Full email preferences are available <a href="/users/edit">on your User Account</a>)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkbox">
+        <label class="question" for="coc">
+          <input type="checkbox" name="coc" id="coc" value="1" data-toggle-target="coc-required" data-toggle-enable-when-checked="true" /> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a>
+</label>      </div>
+
+    <div class="actions">
+      <input type="hidden" value="1" name="rsvp[event_id]" id="rsvp_event_id" />
+      <input type="hidden" value="2" name="rsvp[role_id]" id="rsvp_role_id" />
+        <input type="submit" name="commit" value="Submit" class="btn btn-submit coc-required" />
+    </div>
+</form></div>
+
+
+  <ul class='actions '>
+    <li><a class="btn " href="/events">Back</a></li>
+</ul>
+
+</div>
+
+      
+    </div>
+    <footer><div class="trollholder"><img alt="" src="/assets/troll.svg" /></div></footer>
+   <div id="sign_in_dialog" class="modal " tabindex="-1" role="dialog" aria-labelledby="sign_in_dialogLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h1>Sign in</h1>
+      </div>
+      <div class="modal-body">
+        <div class='row sign-in'>
+  <div class='col-md-6 login-option'>
+    <h3>Sign in with BridgeTroll</h3>
+    <form novalidate="novalidate" class="simple_form new_user" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+      <div class="form-group email optional user_email"><label class="email optional control-label" for="user_email">Email</label><input class="string email optional form-control" type="email" value="" name="user[email]" id="user_email" /></div>
+
+      <div class="form-group password optional user_password"><label class="password optional control-label" for="user_password">Password</label><input class="password optional form-control" type="password" name="user[password]" id="user_password" /></div>
+
+        <div class="form-group boolean optional user_remember_me"><div class="checkbox"><input value="0" type="hidden" name="user[remember_me]" /><label class="boolean optional" for="user_remember_me"><input class="boolean optional" type="checkbox" value="1" name="user[remember_me]" id="user_remember_me" />Remember me</label></div></div>
+
+      <div>
+        <input type="submit" name="commit" value="Sign in" class="btn btn-submit" />
+        <a class="btn btn-primary sign_up_link" href="/users/sign_up">Sign up</a>
+      </div>
+</form>  </div>
+  <div class='col-md-6 login-option'>
+    <h3>Sign in with something else</h3>
+    <ul class='external-auth'>
+        <li>
+          <a href="/users/auth/facebook">
+            <i class='fa fa-facebook-square'></i>
+            Facebook
+</a>        </li>
+        <li>
+          <a href="/users/auth/twitter">
+            <i class='fa fa-twitter-square'></i>
+            Twitter
+</a>        </li>
+        <li>
+          <a href="/users/auth/github">
+            <i class='fa fa-github-square'></i>
+            GitHub
+</a>        </li>
+        <li>
+          <a href="/users/auth/meetup">
+            <i class='fa fa-calendar'></i>
+            Meetup
+</a>        </li>
+    </ul>
+  </div>
+</div>
+        
+  <a href="/users/password/new">Forgot your password?</a><br />
+
+  <a href="/users/confirmation/new">Didn&#39;t receive confirmation instructions?</a><br />
+
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
+  </body>
+</html>

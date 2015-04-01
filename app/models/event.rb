@@ -6,7 +6,7 @@ class Event < ActiveRecord::Base
   after_initialize :set_defaults
   before_validation :normalize_allowed_operating_system_ids
   after_save do |event|
-    WaitlistManager.new(event).reorder_waitlist!
+    WaitlistManager.new(event).reorder_student_waitlist!
   end
 
   belongs_to :location, counter_cache: true
@@ -27,7 +27,8 @@ class Event < ActiveRecord::Base
   has_many :students, through: :student_rsvps, source: :user, source_type: 'User'
   has_many :legacy_students, through: :student_rsvps, source: :user, source_type: 'MeetupUser'
 
-  has_many :volunteer_rsvps, -> { where(role_id: Role::VOLUNTEER.id) }, class_name: 'Rsvp', inverse_of: :event
+  has_many :volunteer_rsvps, -> { where(role_id: Role::VOLUNTEER.id, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
+  has_many :volunteer_waitlist_rsvps, -> { where("role_id = #{Role::VOLUNTEER.id} AND waitlist_position IS NOT NULL").order(:waitlist_position) }, class_name: 'Rsvp', inverse_of: :event
   has_many :volunteers, through: :volunteer_rsvps, source: :user, source_type: 'User'
   has_many :legacy_volunteers, through: :volunteer_rsvps, source: :user, source_type: 'MeetupUser'
 
@@ -47,6 +48,7 @@ class Event < ActiveRecord::Base
   with_options(unless: :historical?) do |normal_event|
     normal_event.with_options(if: :allow_student_rsvp?) do |workshop_event|
       workshop_event.validates_numericality_of :student_rsvp_limit, only_integer: true, greater_than: 0
+      workshop_event.validates_numericality_of :volunteer_rsvp_limit, only_integer: true, greater_than: 0
       workshop_event.validate :validate_rsvp_limit
     end
   end
@@ -74,9 +76,15 @@ class Event < ActiveRecord::Base
     "http://#{meetup_group_url}/events/#{meetup_event_id}/"
   end
 
-  def at_limit?
+  def students_at_limit?
     if student_rsvp_limit
       student_rsvps_count >= student_rsvp_limit
+    end
+  end
+
+  def volunteers_at_limit?
+    if volunteer_rsvp_limit
+      volunteer_rsvps_count >= volunteer_rsvp_limit
     end
   end
 
@@ -85,9 +93,9 @@ class Event < ActiveRecord::Base
   end
 
   def validate_rsvp_limit
-    return unless persisted? && student_rsvp_limit
+    return unless persisted? && student_rsvp_limit || persisted? && volunteer_rsvp_limit
 
-    if student_rsvp_limit < student_rsvps_count
+    if (student_rsvp_limit < student_rsvps_count) || (volunteer_rsvp_limit < volunteer_rsvps_count)
       errors.add(:student_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
       false
     end
@@ -198,6 +206,10 @@ class Event < ActiveRecord::Base
     user.event_role(self) == Role::VOLUNTEER
   end
 
+  def waitlisted_volunteer?(user)
+    volunteer?(user) && user.event_attendances[id][:waitlist_position].present?
+  end
+
   def attendee?(user)
     student?(user) || volunteer?(user)
   end
@@ -240,6 +252,7 @@ class Event < ActiveRecord::Base
   def update_rsvp_counts
     update_columns(
       volunteer_rsvps_count: volunteer_rsvps.count,
+      volunteer_waitlist_rsvps_count: volunteer_waitlist_rsvps.count,
       student_rsvps_count: student_rsvps.count,
       student_waitlist_rsvps_count: student_waitlist_rsvps.count
     )
@@ -255,6 +268,7 @@ class Event < ActiveRecord::Base
       organizers: organizer_names,
       sessions: session_details,
       volunteer_rsvp_count: volunteer_rsvps_count,
+      volunteer_waitlist_rsvp_count: volunteer_waitlist_rsvps_count,
       student_rsvp_count: student_rsvps_count,
       student_waitlist_rsvp_count: student_waitlist_rsvps_count,
     )

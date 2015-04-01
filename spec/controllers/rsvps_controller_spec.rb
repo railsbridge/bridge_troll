@@ -321,6 +321,57 @@ describe RsvpsController do
         end
       end
 
+      context "when the event is full of volunteers" do
+        before do
+          Event.any_instance.stub(:volunteers_at_limit?).and_return(true)
+        end
+
+        describe "and a volunteer rsvps" do
+          before do
+            @rsvp_params = extract_rsvp_params build(:volunteer_rsvp, event: @event, role: Role::VOLUNTEER)
+            expect {
+              post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
+            }.to change(Rsvp, :count).by(1)
+          end
+
+          it "adds the volunteer to the waitlist" do
+            Rsvp.last.waitlist_position.should == 1
+          end
+
+          it "gives a notice that mentions the waitlist" do
+            flash[:notice].should match(/waitlist/i)
+          end
+
+          describe "then another volunteer rsvps" do
+            before do
+              sign_out @user
+              sign_in create(:user)
+
+              expect {
+                post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
+              }.to change(Rsvp, :count).by(1)
+            end
+
+            it "adds the volunteer the waitlist after the original student" do
+              Rsvp.last.waitlist_position.should == 2
+            end
+          end
+        end
+
+        describe "and a student rsvps" do
+          before do
+            @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event, role: Role::STUDENT)
+          end
+
+          it "adds the student as confirmed" do
+            expect {
+              post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
+            }.to change(Rsvp, :count).by(1)
+            Rsvp.last.waitlist_position.should be_nil
+          end
+        end
+      end
+
       describe "childcare information" do
         context "when childcare_needed is unchecked" do
           before do
@@ -446,7 +497,7 @@ describe RsvpsController do
         @event.update_attribute(:student_rsvp_limit, 2)
         create(:student_rsvp, event: @event)
         @waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
-        @event.reload.should be_at_limit
+        @event.reload.should be_students_at_limit
         delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
         @waitlisted.reload.waitlist_position.should be_nil
         flash[:notice].should match(/no longer signed up/i)
@@ -503,7 +554,7 @@ describe RsvpsController do
         create(:student_rsvp, event: @event)
         @waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
 
-        @event.reload.should be_at_limit
+        @event.reload.should be_students_at_limit
 
         delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
 

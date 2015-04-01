@@ -27,8 +27,12 @@ class RsvpsController < ApplicationController
     end
 
     Rsvp.transaction do
-      if @event.at_limit? && @rsvp.role_student?
+      if @event.students_at_limit? && @rsvp.role_student?
         @rsvp.waitlist_position = (@event.rsvps.maximum(:waitlist_position) || 0) + 1
+      end
+
+      if @event.volunteers_at_limit? && @rsvp.role_volunteer?
+        @rsvp.waitlist_position = (@event.rsvps.maximum(:waitlist_position) || 0 ) + 1
       end
       set_dietary_restrictions(@rsvp, params[:dietary_restrictions])
 
@@ -68,7 +72,7 @@ class RsvpsController < ApplicationController
     n = @rsvp.user.first_name
     Rsvp.transaction do
       @rsvp.destroy
-      WaitlistManager.new(@event.reload).reorder_waitlist!
+      WaitlistManager.new(@event.reload).reorder_student_waitlist!
     end
     if @event.organizer?(current_user)
       redirect_to event_attendees_path(@event), notice: "#{n} is no longer signed up for #{@event.title}"

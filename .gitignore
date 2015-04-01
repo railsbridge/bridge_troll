@@ -32,3 +32,6 @@ custom_plan.rb
 
 # Vim swap files
 **/*.swp
+
+screenshot_*
+test.sqlite3

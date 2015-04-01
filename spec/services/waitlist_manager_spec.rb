@@ -17,7 +17,7 @@ describe WaitlistManager do
       end
 
       it "promotes people on the waitlist into available slots when the limit increases" do
-        WaitlistManager.new(@event).reorder_waitlist!
+        WaitlistManager.new(@event).reorder_student_waitlist!
         @event.reload
 
         @event.student_rsvps.count.should == 4
@@ -28,7 +28,7 @@ describe WaitlistManager do
     context "when a confirmed rsvp has been destroyed" do
       before do
         @confirmed1.destroy
-        WaitlistManager.new(@event).reorder_waitlist!
+        WaitlistManager.new(@event).reorder_student_waitlist!
       end
 
       it 'promotes a waitlisted user to confirmed when the rsvp is destroyed' do
@@ -41,7 +41,7 @@ describe WaitlistManager do
     context "when a waitlisted rsvp has been destroyed" do
       before do
         @waitlist1.destroy
-        WaitlistManager.new(@event).reorder_waitlist!
+        WaitlistManager.new(@event).reorder_student_waitlist!
       end
 
       it 'reorders the waitlist when the rsvp is destroyed' do
@@ -60,13 +60,13 @@ describe WaitlistManager do
 
     it "removes waitlist_position if there is room" do
       expect {
-        WaitlistManager.new(@event).promote_from_waitlist!(@waitlisted)
+        WaitlistManager.new(@event).promote_from_student_waitlist!(@waitlisted)
       }.to change { @waitlisted.reload.waitlist_position }.from(1).to(nil)
     end
 
     it 'sends an email' do
       expect {
-        WaitlistManager.new(@event).promote_from_waitlist!(@waitlisted)
+        WaitlistManager.new(@event).promote_from_student_waitlist!(@waitlisted)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
     end
 
@@ -74,7 +74,7 @@ describe WaitlistManager do
       @event.update_attribute(:student_rsvp_limit, 1)
 
       expect {
-        WaitlistManager.new(@event).promote_from_waitlist!(@waitlisted)
+        WaitlistManager.new(@event).promote_from_student_waitlist!(@waitlisted)
       }.not_to change { @waitlisted.reload.waitlist_position }
     end
   end
