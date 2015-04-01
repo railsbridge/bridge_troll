@@ -69,13 +69,12 @@ class RsvpsController < ApplicationController
   end
 
   def destroy
-    n = @rsvp.user.first_name
     Rsvp.transaction do
       @rsvp.destroy
       WaitlistManager.new(@event.reload).reorder_student_waitlist!
     end
     if @event.organizer?(current_user)
-      redirect_to event_attendees_path(@event), notice: "#{n} is no longer signed up for #{@event.title}"
+      redirect_to event_attendees_path(@event), notice: "#{@rsvp.user.first_name} is no longer signed up for #{@event.title}"
     else
       redirect_to events_path, notice: "You are now no longer signed up for #{@event.title}"
     end
