@@ -3,7 +3,7 @@
 
 <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Food Preferences'} %>
 <div class='food-preferences'>
-  <h2>Total Attendees: <%= @event.rsvps.count %></h2>
+  <h2>Total Attendees: <%= @event.rsvps.confirmed.count %></h2>
 
   <h2>Dietary Restrictions Totals</h2>
   <% totals = @event.dietary_restrictions_totals %>

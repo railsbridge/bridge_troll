@@ -400,16 +400,18 @@ describe Event do
 
   describe "methods for presenting dietary restrictions" do
     before do
-      @event = create(:event)
-      @rsvp = create(:rsvp, event: @event)
+      @event = create(:event, student_rsvp_limit: 2)
+      @rsvp = create(:rsvp,  event: @event, dietary_info: "Paleo")
       @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins")
+      @waitlisted = create(:rsvp, event: @event, dietary_info: "Pizza only", waitlist_position: 1)
       create(:dietary_restriction, restriction: "gluten-free", rsvp: @rsvp)
       create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp)
       create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp2)
+      create(:dietary_restriction, restriction: "vegan", rsvp: @waitlisted)
     end
 
     describe "#dietary_restrictions_totals" do
-      it "should return the total for each dietary restrictions" do
+      it "should return the total for each dietary restrictions for confirmed attendees" do
         @event.dietary_restrictions_totals.should == { "gluten-free" => 1, "vegan" => 2 }
       end
     end
@@ -419,6 +421,5 @@ describe Event do
         expect(@event.other_dietary_restrictions).to eq(["Paleo", "No sea urchins"])
       end
     end
-
   end
 end

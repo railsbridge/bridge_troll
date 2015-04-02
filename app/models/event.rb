@@ -239,14 +239,14 @@ class Event < ActiveRecord::Base
   end
 
   def dietary_restrictions_totals
-    diets = rsvps.includes(:dietary_restrictions).map(&:dietary_restrictions).flatten
+    diets = rsvps.confirmed.includes(:dietary_restrictions).map(&:dietary_restrictions).flatten
     restrictions = diets.group_by(&:restriction)
-    restrictions.map { |name, diet| restrictions[name] = diet.length }
+    restrictions.each { |name, diet| restrictions[name] = diet.length }
     restrictions
   end
 
   def other_dietary_restrictions
-    self.rsvps.map { |rsvp| rsvp.dietary_info if rsvp.dietary_info.present? }.compact
+    rsvps.confirmed.map { |rsvp| rsvp.dietary_info.presence }.compact
   end
 
   def organizer_names
