@@ -105,9 +105,14 @@ describe Event do
   end
 
   describe '#rsvps_with_childcare' do
-    it 'includes all rsvps with childcare requested' do
-      event = create(:event)
-      event.rsvps_with_childcare.should == event.student_rsvps.needs_childcare + event.volunteer_rsvps.needs_childcare
+    let(:event) { create(:event, student_rsvp_limit: 1) }
+    let!(:volunteer_rsvp) { create(:volunteer_rsvp, event: event) }
+    let!(:student_rsvp) { create(:student_rsvp, event: event) }
+    let!(:waitlisted_rsvp) { create(:student_rsvp, event: event, waitlist_position: 1) }
+
+    it 'includes all confirmed rsvps with childcare requested' do
+      event.rsvps.count.should == 3
+      event.rsvps_with_childcare.should match_array([student_rsvp, volunteer_rsvp])
     end
   end
 

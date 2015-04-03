@@ -58,7 +58,7 @@ class Event < ActiveRecord::Base
   end
 
   def rsvps_with_childcare
-    rsvps.needs_childcare
+    rsvps.confirmed.needs_childcare
   end
 
   def historical?
