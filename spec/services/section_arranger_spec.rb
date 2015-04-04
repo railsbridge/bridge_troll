@@ -14,7 +14,7 @@ describe SectionArranger do
   end
   
   def calculate_arrangement(event)
-    arrangement = Hash.new { |hsh, key| hsh[key] = []; hsh[key] }
+    arrangement = Hash.new { |hsh, key| hsh[key] = [] }
     event.sections.each do |section|
       arrangement[section.class_level] << {
         students: section.student_rsvps.count,

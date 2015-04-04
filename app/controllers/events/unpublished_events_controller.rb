@@ -4,9 +4,12 @@ class Events::UnpublishedEventsController < ApplicationController
   before_filter :find_event, except: [:index]
 
   def index
-    @chapter_user_counts = Hash[Chapter.includes(:users).where('users.allow_event_email = ?', true).references(:users).map { |chapter|
-      [chapter.id, chapter.users.length]
-    }]
+    chapters = Chapter.includes(:users)
+                 .where('users.allow_event_email = ?', true)
+                 .references(:users)
+    @chapter_user_counts = chapters.each_with_object({}) do |chapter, hsh|
+      hsh[chapter.id] = chapter.users.length
+    end
     @events = Event.upcoming.where(published: false, spam: false)
   end
 
