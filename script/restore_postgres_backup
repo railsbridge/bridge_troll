@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+backup_filename = ARGV[0]
+unless File.exist?(backup_filename)
+  puts "Please provide a database dump file."
+  exit(1)
+end
+
+def print_and_run(cmd)
+  puts cmd
+  system cmd
+end
+
+print_and_run("FORCE_POSTGRES=true bundle exec rake db:drop db:create")
+print_and_run("pg_restore --verbose --clean --no-acl --no-owner -h localhost -d bridgetroll_development #{backup_filename}")
