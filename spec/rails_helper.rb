@@ -20,22 +20,17 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before(:each) do
-    WebMock.disable_net_connect!(:allow_localhost => true)
+    WebMock.disable_net_connect!(allow_localhost: true)
   end
 
-  config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::TestHelpers, type: :controller
 
   config.include FactoryGirl::Syntax::Methods
 
   [:feature, :request].each do |type|
     config.include Warden::Test::Helpers, type: type
-  end
-
-  config.before do |example|
-    Warden.test_mode! if example.metadata[:js]
-  end
-
-  config.after do |example|
-    Warden.test_reset! if example.metadata[:js]
+    config.after(:example, type: type) do
+      Warden.test_reset!
+    end
   end
 end
