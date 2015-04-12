@@ -78,10 +78,9 @@ class Rsvp < ActiveRecord::Base
     prior_rsvps = user.rsvps.includes(:event).order('events.ends_at')
 
     last_rsvp = prior_rsvps.where('events.course_id = ?', event.course_id).last || prior_rsvps.last
-
-    new_attributes = last_rsvp ? last_rsvp.carryover_attributes(event.course_id, role) : {}
-
-    assign_attributes(new_attributes)
+    if last_rsvp
+      assign_attributes(last_rsvp.carryover_attributes(event.course_id, role))
+    end
   end
 
   def selectable_sessions
@@ -106,6 +105,14 @@ class Rsvp < ActiveRecord::Base
     return false if event.upcoming?
 
     checkins_count == 0
+  end
+
+  def checked_in_session_ids
+    if role == Role::ORGANIZER
+      event.event_sessions.map(&:id)
+    else
+      rsvp_sessions.where(checked_in: true).pluck(:event_session_id)
+    end
   end
 
   def role_volunteer?
@@ -191,9 +198,8 @@ class Rsvp < ActiveRecord::Base
   end
 
   def as_json(options={})
-    options = {
-      methods: [:full_name, :operating_system_title, :operating_system_type]
-    }.merge(options)
+    options[:methods] ||= []
+    options[:methods] |= [:full_name, :operating_system_title, :operating_system_type]
     super(options)
   end
 end

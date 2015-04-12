@@ -145,15 +145,9 @@ class Event < ActiveRecord::Base
   end
 
   def rsvps_with_checkins
-    attendee_rsvps = rsvps.where(waitlist_position: nil).includes(:user, :rsvp_sessions)
+    attendee_rsvps = rsvps.confirmed.includes(:user, :rsvp_sessions)
     attendee_rsvps.map do |rsvp|
-      json = rsvp.as_json
-      if rsvp.role == Role::ORGANIZER
-        json['checked_in_session_ids'] = event_sessions.map(&:id)
-      else
-        json['checked_in_session_ids'] = rsvp.rsvp_sessions.where(checked_in: true).pluck(:event_session_id)
-      end
-      json
+      rsvp.as_json(methods: [:checked_in_session_ids])
     end
   end
 

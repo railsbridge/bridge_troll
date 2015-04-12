@@ -17,7 +17,7 @@ class Events::EmailsController < ApplicationController
     recipient_rsvps = @event.rsvps.where(role_id: role_ids).includes(:user)
 
     unless email_params[:include_waitlisted]
-      recipient_rsvps = recipient_rsvps.where(waitlist_position: nil)
+      recipient_rsvps = recipient_rsvps.confirmed
     end
 
     if email_params[:only_checked_in]
