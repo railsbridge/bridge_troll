@@ -498,6 +498,7 @@ describe RsvpsController do
         create(:student_rsvp, event: @event)
         @waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
         @event.reload.should be_students_at_limit
+
         delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
         @waitlisted.reload.waitlist_position.should be_nil
         flash[:notice].should match(/no longer signed up/i)
@@ -570,5 +571,5 @@ describe RsvpsController do
         flash[:notice].should match(/You are not signed up/i)
       end
     end
-end
+  end
 end

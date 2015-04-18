@@ -24,7 +24,10 @@
   </div>
   <div class='event-counts'>
     <div>
-      <i class='fa fa-user'></i>Volunteers: <%= event.volunteer_rsvps_count %> / <%= event.volunteer_rsvp_limit %>
+      <i class='fa fa-user'></i>Volunteers: <%= event.volunteer_rsvps_count %> 
+      <% if event.volunteer_rsvp_limit %>
+      / <%= event.volunteer_rsvp_limit %>
+      <% end %>
       <% if event.volunteers_at_limit? %>
         (<%= event.volunteer_waitlist_rsvps_count %> Waitlisted)
       <% end %>

@@ -28,7 +28,11 @@ class RsvpsController < ApplicationController
 
     Rsvp.transaction do
       if @event.students_at_limit? && @rsvp.role_student?
-        @rsvp.waitlist_position = (@event.rsvps.maximum(:waitlist_position) || 0) + 1
+        @rsvp.waitlist_position = (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
+      end
+
+      if @event.volunteers_at_limit? && @rsvp.role_volunteer?
+        @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0 ) + 1
       end
 
       if @event.volunteers_at_limit? && @rsvp.role_volunteer?
@@ -69,12 +73,15 @@ class RsvpsController < ApplicationController
   end
 
   def destroy
+    rsvp_user_name = @rsvp.user.first_name
+    
     Rsvp.transaction do
       @rsvp.destroy
       WaitlistManager.new(@event.reload).reorder_student_waitlist!
     end
+    
     if @event.organizer?(current_user)
-      redirect_to event_attendees_path(@event), notice: "#{@rsvp.user.first_name} is no longer signed up for #{@event.title}"
+      redirect_to event_attendees_path(@event), notice: "#{rsvp_user_name} is no longer signed up for #{@event.title}"
     else
       redirect_to events_path, notice: "You are now no longer signed up for #{@event.title}"
     end

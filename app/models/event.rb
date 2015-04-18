@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems]
+  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems]
 
   serialize :allowed_operating_system_ids, JSON
 
@@ -51,7 +51,22 @@ class Event < ActiveRecord::Base
       workshop_event.validates_numericality_of :volunteer_rsvp_limit, only_integer: true, greater_than: 0
       workshop_event.validate :validate_rsvp_limit
     end
+  
+    with_options(if: :volunteer_limit_allowed?) do |workshop_event|
+      workshop_event.validates_numericality_of :volunteer_rsvp_limit, only_integer: true, greater_than: 0
+      workshop_event.validate :validate_volunteer_rsvp_limit
+    end
   end
+
+<<<<<<< HEAD
+  with_options(if: :volunteer_limit_allowed?) do |limited_event|
+    limited_event.with_options(if: :volunteer_rsvp_limit) do |workshop_event|
+      workshop_event.validates_numericality_of :volunteer_rsvp_limit, only_integer: true, greater_than: 0
+      workshop_event.validate :validate_volunteer_rsvp_limit
+    end
+  end
+=======
+>>>>>>> removed 'allow_volunteer_limit boolean
 
   def location_name
     location ? location.name : ''
@@ -63,6 +78,14 @@ class Event < ActiveRecord::Base
 
   def rsvps_with_childcare
     rsvps.confirmed.needs_childcare
+  end
+
+  def volunteer_limit_allowed?
+<<<<<<< HEAD
+    allow_volunteer_limit == true
+=======
+    volunteer_rsvp_limit != nil
+>>>>>>> removed 'allow_volunteer_limit boolean
   end
 
   def historical?
@@ -95,13 +118,30 @@ class Event < ActiveRecord::Base
   def validate_rsvp_limit
     return unless persisted? && student_rsvp_limit || persisted? && volunteer_rsvp_limit
 
-    if (student_rsvp_limit < student_rsvps_count) || (volunteer_rsvp_limit < volunteer_rsvps_count)
+    if (student_rsvp_limit < student_rsvps_count) || (volunteer_limit_allowed? && (volunteer_rsvp_limit < volunteer_rsvps_count))
       errors.add(:student_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
       false
     end
   end
 
-  def checked_in_rsvps(role)
+  def validate_volunteer_rsvp_limit
+    return unless persisted? && volunteer_rsvp_limit
+
+    if volunteer_rsvp_limit < volunteer_rsvps_count
+      errors.add(:volunteer_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{volunteer_rsvps.length})")
+      false
+    end
+  end
+
+  def checked_in_student_rsvps
+    checked_in_rsvps(student_rsvps)
+  end
+
+  def checked_in_volunteer_rsvps
+    checked_in_rsvps(volunteer_rsvps)
+  end
+
+  def checked_in_rsvps(assoc)
     if upcoming? || historical?
       confirmed_association_for_role(role)
     else

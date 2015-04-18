@@ -325,52 +325,22 @@ describe Event do
     end
   end
 
-  describe "#reorder_waitlist!" do
-    before do
-      @event = create(:event, student_rsvp_limit: 2)
-      @confirmed1 = create(:student_rsvp, event: @event)
-      @confirmed2 = create(:student_rsvp, event: @event)
-      @waitlist1 = create(:student_rsvp, event: @event, waitlist_position: 1)
-      @waitlist2 = create(:student_rsvp, event: @event, waitlist_position: 2)
-      @waitlist3 = create(:student_rsvp, event: @event, waitlist_position: 3)
-    end
+  describe "#volunteers_at_limit?" do
+    context "when the event has a volunteer limit" do
+      let(:event) { create(:event, volunteer_rsvp_limit: 2) }
 
-    context "when the limit has increased" do
-      before do
-        @event.update_attribute(:student_rsvp_limit, 4)
-      end
-
-      it "promotes people on the waitlist into available slots when the limit increases" do
-        @event.reorder_waitlist!
-        @event.reload
-
-        @event.student_rsvps.count.should == 4
-        @event.student_waitlist_rsvps.count.should == 1
+      it 'is true when the limit is exceeded' do
+        expect {
+          3.times { create(:volunteer_rsvp, event: event) }
+        }.to change { event.reload.volunteers_at_limit? }.from(false).to(true)
       end
     end
 
-    context "when a confirmed rsvp has been destroyed" do
-      before do
-        @confirmed1.destroy
-        @event.reorder_waitlist!
-      end
+    context "when the event has no limit (historical events)" do
+      let(:event) { create(:event, volunteer_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902) }
 
-      it 'promotes a waitlisted user to confirmed when the rsvp is destroyed' do
-        @waitlist1.reload.waitlist_position.should be_nil
-        @waitlist2.reload.waitlist_position.should == 1
-        @waitlist3.reload.waitlist_position.should == 2
-      end
-    end
-
-    context "when a waitlisted rsvp has been destroyed" do
-      before do
-        @waitlist1.destroy
-        @event.reorder_waitlist!
-      end
-
-      it 'reorders the waitlist when the rsvp is destroyed' do
-        @waitlist2.reload.waitlist_position.should == 1
-        @waitlist3.reload.waitlist_position.should == 2
+      it 'is false' do
+        event.should_not be_volunteers_at_limit
       end
     end
   end
@@ -396,7 +366,7 @@ describe Event do
       @student_rsvp = create(:student_rsvp, event: @event, role: Role::STUDENT)
     end
 
-    it 'should only include non-waitlisted students' do
+    it 'should only include non-waitlisted volunteers' do
       @event.volunteers.should == [@confirmed_rsvp.user]
     end
   end
