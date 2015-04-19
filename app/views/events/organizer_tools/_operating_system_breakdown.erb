@@ -1,0 +1,28 @@
+<h3>Operating System Breakdown</h3>
+<% total = @os_counts.values.reduce(&:+) %>
+<% if total.present? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>OS</th>
+        <th>Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% OperatingSystem.all.each do |os| %>
+        <% count = @os_counts[os.id] %>
+        <% next unless count.present? %>
+        <tr>
+          <td>
+            <%= os.title %>
+          </td>
+          <td>
+            <%= count %> (<%= '%.2f' % ((count.to_f / total) * 100) %>%)
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  No student RSVPs yet...
+<% end %>

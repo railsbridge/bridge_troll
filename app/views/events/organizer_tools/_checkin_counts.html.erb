@@ -1,0 +1,22 @@
+<h3>Current Checkin Counts</h3>
+<% @event.event_sessions.each do |session| %>
+  <div>
+    <%= session.name %>:
+    <ul>
+      <% [Role::VOLUNTEER, Role::STUDENT].each do |role| %>
+        <% checked_in = @checkin_counts[role.id][:checkin][session.id] %>
+        <% total = @checkin_counts[role.id][:rsvp][session.id] %>
+        <li>
+          <%= role.title.pluralize %>:
+          <strong>
+            <%= checked_in %>/<%= total %>
+            <% if total > 0 %>
+              (<%= (100 * checked_in / total.to_f).round(0) %>%)
+            <% end %>
+          </strong>
+          checked in
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

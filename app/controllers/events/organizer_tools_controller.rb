@@ -7,6 +7,9 @@ class Events::OrganizerToolsController < ApplicationController
     @volunteer_rsvps = @event.volunteer_rsvps
     @childcare_requests = @event.rsvps_with_childcare
     @checkin_counts = @event.checkin_counts
+    @os_counts = @event.student_rsvps.confirmed.each_with_object(Hash.new { 0 }) do |rsvp, hsh|
+      hsh[rsvp.operating_system_id] += 1
+    end
   end
 
   def organize_sections

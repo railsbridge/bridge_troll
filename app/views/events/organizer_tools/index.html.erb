@@ -1,44 +1,27 @@
 <%= content_for(:header_text, @event.title) %>
 <%= content_for(:header_link, event_path(@event)) %>
 
-<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Organizer Console'} %>
+<%= render partial: 'shared/organizer_breadcrumb', locals: {current_page_title: 'Organizer Console'} %>
 
 <div class="row organizer-dashboard">
   <div class="col-md-6">
     <h2>Tools for before the event</h2>
     <section class='organizer-dashboard-section'>
-      <%= render :partial => 'events/organizer_preworkshop_buttons' %>
+      <%= render partial: 'events/organizer_preworkshop_buttons' %>
     </section>
 
     <% if @event.has_childcare? %>
       <section class='organizer-dashboard-section bordered'>
-        <%= render :partial => 'childcare_requests' %>
+        <%= render partial: 'childcare_requests' %>
       </section>
     <% end %>
 
     <section class='organizer-dashboard-section bordered'>
-      <h3>Current Checkin Counts</h3>
-      <% @event.event_sessions.each do |session| %>
-        <div>
-          <%= session.name %>:
-          <ul>
-            <% [Role::VOLUNTEER, Role::STUDENT].each do |role| %>
-              <% checked_in = @checkin_counts[role.id][:checkin][session.id] %>
-              <% total = @checkin_counts[role.id][:rsvp][session.id] %>
-              <li>
-                <%= role.title.pluralize %>:
-                <strong>
-                  <%= checked_in %>/<%= total %>
-                  <% if total > 0 %>
-                    (<%= (100 * checked_in / total.to_f).round(0) %>%)
-                  <% end %>
-                </strong>
-                checked in
-              </li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render partial: 'checkin_counts' %>
+    </section>
+
+    <section class='organizer-dashboard-section bordered'>
+      <%= render partial: 'operating_system_breakdown' %>
     </section>
   </div>
 
@@ -60,7 +43,7 @@
       tip: 'You can use this to download a list of attendees which can be printed out for the security desk.'
     } %>
 
-    <%= render :partial => 'shared/checkin_event_sessions' %>
+    <%= render partial: 'shared/checkin_event_sessions' %>
 
     <section class='organizer-dashboard-section'>
       <%= render partial: 'shared/organizer_action', locals: {
