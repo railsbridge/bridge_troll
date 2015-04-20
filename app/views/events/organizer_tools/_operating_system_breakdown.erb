@@ -10,8 +10,8 @@
     </thead>
     <tbody>
       <% OperatingSystem.all.each do |os| %>
-        <% count = @os_counts[os.id] %>
-        <% next unless count.present? %>
+        <% count = @os_counts.fetch(os.id, 0) %>
+        <% next unless count > 0 %>
         <tr>
           <td>
             <%= os.title %>
