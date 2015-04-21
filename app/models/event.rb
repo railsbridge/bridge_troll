@@ -128,20 +128,11 @@ class Event < ActiveRecord::Base
   end
 
   def ordered_student_rsvps
-    ordered_rsvps(student_rsvps)
+    RsvpSorter.new(self, student_rsvps).ordered
   end
 
   def ordered_volunteer_rsvps
-    ordered_rsvps(volunteer_rsvps)
-  end
-
-  def ordered_rsvps(assoc)
-    bridgetroll_rsvps = assoc.where(user_type: 'User').includes(:bridgetroll_user).order('checkins_count > 0 DESC, lower(users.first_name) ASC, lower(users.last_name) ASC').references(:bridgetroll_users)
-    if historical?
-      bridgetroll_rsvps + assoc.where(user_type: 'MeetupUser').includes(:meetup_user).order('lower(meetup_users.full_name) ASC').references(:meetup_users)
-    else
-      bridgetroll_rsvps
-    end
+    RsvpSorter.new(self, volunteer_rsvps).ordered
   end
 
   def rsvps_with_checkins
