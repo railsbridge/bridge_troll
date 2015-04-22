@@ -42,23 +42,14 @@ describe "New Event" do
   end
 
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do
-    fill_in 'Title', with: 'Linuxless Event'
-    select "Ruby on Rails", from: "event_course_id"
-    fill_in "Student RSVP limit", with: 100
-
-    within ".event-sessions" do
-      fill_in "Session Name", with: 'Linuxless Session'
-      fill_in_event_time
-    end
-
-    select "(GMT-09:00) Alaska", from: 'event_time_zone'
-
+    fill_in_good_event_details
+    
     check('Do you want to restrict the operating systems students should use?')
     uncheck('Linux - Other')
     uncheck('Linux - Ubuntu')
 
     check("coc")
-    click_on 'Create Event'
+    click_on 'Submit Event For Approval'
 
     page.should have_css('.alert-success')
 
@@ -82,15 +73,28 @@ describe "New Event" do
 
   context 'submit form', js: true do
     it 'requires code of conduct to be checked, and preserves checked-ness on error' do
-      page.should have_button 'Create Event', disabled: true
+      page.should have_button 'Submit Event For Approval', disabled: true
       page.should have_unchecked_field('coc')
       check("coc")
-      page.should have_button 'Create Event', disabled: false
-
-      click_on 'Create Event'
+      page.should have_button 'Submit Event For Approval', disabled: false
+      click_on 'Submit Event For Approval'
 
       page.should have_css('#error_explanation')
       page.should have_checked_field('coc')
+    end
+
+    it 'allows a draft to be saved' do
+      fill_in_good_event_details
+      page.should have_button 'Save Draft'
+      click_on 'Save Draft'
+
+      page.should have_content('Draft saved')
+      page.current_path.should eq '/events'
+      page.should have_button 'Save Draft'
+
+      visit '/events'
+      page.find('.upcoming-events .event-title').text.should match(Regexp.new(good_event_title))
+      page.should have_content 'DRAFT'
     end
   end
 end

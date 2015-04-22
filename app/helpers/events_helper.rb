@@ -99,4 +99,23 @@ module EventsHelper
   def attend_button_text(event)
     event.at_limit? ? 'Join the waitlist' : 'Attend as a student'
   end
+
+  def state_display(event)
+    case event.current_state
+    when :draft_saved
+      "DRAFT"
+    when nil
+      "PENDING APPR"
+    when :published
+      "PUBLISHED"
+    end
+  end
+
+  def event_save_button_text
+    if @event.new_record? || @event.current_state == :draft_saved
+      "Save Draft"
+    else 
+      "Update Event"
+    end
+  end
 end

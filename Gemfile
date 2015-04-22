@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.2'
+ruby '2.2.2'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
@@ -51,6 +51,7 @@ group :development do
   gem "heroku_san"
   gem "better_errors"
   gem "binding_of_caller"
+  gem "byebug"
 end
 
 group :test, :development do

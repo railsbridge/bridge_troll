@@ -66,21 +66,13 @@ describe "the event listing page" do
       end
 
       it "can create a new course" do
-        fill_in "Title", with: "February Workshop"
-        select "Ruby on Rails", :from => "event_course_id"
-        fill_in "Student RSVP limit", with: 100
-
-        within ".event-sessions" do
-          fill_in "Session Name", with: 'My Amazing Session'
-          fill_in_event_time
-        end
-
-        select "(GMT-09:00) Alaska", from: 'event_time_zone'
+        fill_in_good_event_details
+        
         fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
         check("coc")
-        click_button "Create Event"
+        click_button submit_for_approval_button
 
-        page.should have_content("February Workshop")
+        page.should have_content good_event_title
         page.should have_content("My Amazing Session")
         page.should have_content("This event currently has no location!")
         #note the closed <h1> and missing script tags
@@ -93,7 +85,7 @@ describe "the event listing page" do
 
         visit events_path
 
-        page.should have_content("February Workshop")
+        page.should have_content good_event_title
         page.should have_content("Organizer Console")
       end
 
@@ -110,7 +102,7 @@ describe "the event listing page" do
         select "(GMT-09:00) Alaska", from: 'event_time_zone'
         fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
         check("coc")
-        click_button "Create Event"
+        click_button submit_for_approval_button
 
         page.should have_content("Volunteer Work Day")
         page.should have_content("Do Awesome Stuff")
@@ -129,14 +121,14 @@ describe "the event listing page" do
         fill_in "Student RSVP limit", with: 100
 
         within ".event-sessions" do
-          fill_in "Session Name", with: 'My Amazing Session'
+          fill_in "Session Name", with: good_event_session_name
           fill_in_event_time
         end
 
         select "(GMT-09:00) Alaska", from: 'event_time_zone'
         fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
         check("coc")
-        click_button "Create Event"
+        click_button submit_for_approval_button
 
         page.should have_content("This is a Front End workshop. The focus will be on")
       end

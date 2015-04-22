@@ -1,6 +1,5 @@
 class Event < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems]
-
+  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems, :draft_saved]
   serialize :allowed_operating_system_ids, JSON
 
   after_initialize :set_defaults
@@ -140,6 +139,12 @@ class Event < ActiveRecord::Base
     where(published: true)
   end
 
+  def self.drafted_by(user)
+    # Technically, only one user is the drafter, but we'll mean by this any user who has been
+    # associated as an organizer.
+    joins(:organizers).where('users.id = ? and published = ? and draft_saved = ?', user.id, false, true)
+  end
+
   def self.published_or_organized_by(user = nil)
     return self.published unless user
 
@@ -245,6 +250,16 @@ class Event < ActiveRecord::Base
     )
   end
 
+  def current_state
+    if self.published
+      :published
+    elsif self.draft_saved
+      :draft_saved
+    else
+      :pending_approval
+    end
+  end
+  
   def as_json(options = {})
     options = {
       only: [:id, :title, :student_rsvp_limit],
@@ -276,6 +291,7 @@ class Event < ActiveRecord::Base
     self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
     self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
     self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
+#    self.published = self.draft_saved = false
   end
 
   def confirmed_association_for_role(role)
