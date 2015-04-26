@@ -100,6 +100,12 @@ class Rsvp < ActiveRecord::Base
     operating_system.try(:type)
   end
 
+  def full_dietary_info
+    restrictions = dietary_restrictions.map { |dr| dr.restriction.capitalize }
+    restrictions << dietary_info if dietary_info.present?
+    restrictions.join(', ')
+  end
+
   def no_show?
     return false if event.historical?
     return false if event.upcoming?

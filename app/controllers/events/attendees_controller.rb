@@ -2,7 +2,7 @@ class Events::AttendeesController < ApplicationController
   before_filter :authenticate_user!, :validate_organizer!, :find_event
 
   def index
-    @rsvps = @event.rsvps.where(role_id: Role.attendee_role_ids)
+    @rsvps = @event.rsvps.where(role_id: Role.attendee_role_ids).includes(:dietary_restrictions)
     respond_to do |format|
       format.csv { send_data attendee_csv_data(@rsvps), type: :csv }
       format.html {}
@@ -36,7 +36,7 @@ class Events::AttendeesController < ApplicationController
       rsvps.each do |rsvp|
         waitlisted = rsvp.waitlisted? ? 'yes' : 'no'
         csv << [
-          rsvp.user.full_name, rsvp.role.title, rsvp.dietary_info,
+          rsvp.user.full_name, rsvp.role.title, rsvp.full_dietary_info,
           rsvp.childcare_info, rsvp.job_details, rsvp.user.gender,
           rsvp.plus_one_host, waitlisted, rsvp.waitlist_position
         ]

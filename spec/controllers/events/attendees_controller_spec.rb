@@ -6,7 +6,8 @@ describe Events::AttendeesController do
     @organizer = create(:user)
     @event.organizers << @organizer
 
-    @rsvp = create(:rsvp, event: @event)
+    @rsvp = create(:rsvp, event: @event, dietary_info: 'paleo')
+    create(:dietary_restriction, rsvp: @rsvp, restriction: 'vegan')
 
     sign_in @organizer
   end
@@ -20,6 +21,12 @@ describe Events::AttendeesController do
       csv_rows = CSV.parse(response.body)
       expect(csv_rows[0][0]).to eq('Name')
       expect(csv_rows[1][0]).to eq(@rsvp.user.full_name)
+    end
+
+    it 'includes all dietary info in the dietary info field' do
+      get :index, event_id: @event.id, format: :csv
+      csv_rows = CSV.parse(response.body, headers: true)
+      expect(csv_rows[0]['Dietary Info']).to eq('Vegan, paleo')
     end
   end
 
