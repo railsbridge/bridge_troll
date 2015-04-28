@@ -18,8 +18,18 @@ db_namespace = namespace :db do
 
       unless foreign_keys_supported
         new_schema_content = File.read(filename)
-        fk_rows = existing_schema_content.match(/.*?([ ]+add_foreign.+\nend\n$)/m)[1]
-        File.write(filename, new_schema_content.sub(/end\n\Z/m, fk_rows))
+        fk_rows = existing_schema_content.match(/.*?([ ]+add_foreign.+\nend\n$)/m).try(:[], 1)
+        if fk_rows
+          File.write(filename, new_schema_content.sub(/end\n\Z/m, fk_rows))
+        else
+          puts <<-EOT.strip_heredoc
+            No 'add_foreign_key' statements were found in schema.rb.
+            Try checking out an older version of the schema and running a full
+              rake db:drop
+              rake db:create
+              rake db:migrate
+          EOT
+        end
       end
 
       db_namespace['schema:dump'].reenable
