@@ -1,5 +1,20 @@
 <%= content_for(:header_text, @event.title) %>
 
+<% if @organizer || @checkiner %>
+  <div class="organizer-breadcrumb">
+    You are <%= @organizer ? 'an organizer of' : 'a checkiner for' %> this event!
+
+    <div class="header-actions">
+      <% if @organizer %>
+        <%= link_to 'Edit', edit_event_path(@event), class: "btn fa-before fa-edit" %>
+        <%= link_to 'Organizer Console', event_organizer_tools_path(@event), class: "btn fa-before fa-bullhorn" %>
+      <% elsif @checkiner %>
+        <%= link_to 'Checkin Console', event_event_sessions_path(@event), class: "btn" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
 <div class="row">
   <div class="col-md-8">
     <div class="critical-details">
@@ -48,20 +63,6 @@
         <% end %>
       <% end %>
     </div>
-
-    <% links = [] %>
-
-    <% if @organizer %>
-      <% links << ['Edit', edit_event_path(@event), 'fa-before fa-edit'] %>
-      <% links << ['Organizer Console', event_organizer_tools_path(@event), 'fa-before fa-bullhorn'] %>
-    <% elsif @checkiner %>
-      <% links << ['Checkin Console', event_event_sessions_path(@event)] %>
-    <% end %>
-
-    <% links << ['Back', events_path] %>
-
-    <%= render 'shared/actions', links: links %>
-
   </div>
   <div class="col-md-4">
 
