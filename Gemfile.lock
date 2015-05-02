@@ -162,12 +162,12 @@ GEM
     hike (1.2.3)
     i18n (0.7.0)
     icalendar (2.3.0)
-    jasmine (2.2.0)
-      jasmine-core (~> 2.2)
+    jasmine (2.3.0)
+      jasmine-core (~> 2.3)
       phantomjs
       rack (>= 1.2.1)
       rake
-    jasmine-core (2.2.0)
+    jasmine-core (2.3.0)
     jasmine-jquery-rails (2.0.3)
     jquery-datatables-rails (3.2.0)
       actionpack (>= 3.1)
@@ -386,7 +386,7 @@ DEPENDENCIES
   icalendar
   jasmine
   jasmine-jquery-rails
-  jquery-datatables-rails
+  jquery-datatables-rails (= 3.2.0)
   jquery-rails
   jquery-ui-rails
   launchy
