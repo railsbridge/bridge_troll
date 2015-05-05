@@ -165,3 +165,24 @@ table.responsive-table {
     }
   }
 }
+
+// Use font-awesome icons for dataTable sorting instead of bootstrap
+table.dataTable thead {
+  .sorting:after, .sorting_asc:after, .sorting_desc:after {
+    font-family: 'FontAwesome';
+    opacity: 1;
+  }
+
+  .sorting:after {
+    opacity: 0.3;
+    content: "\f0dc"; /* fa-sort */
+  }
+
+  .sorting_asc:after {
+    content: "\f0de"; /* fa-sort-asc */
+  }
+
+  .sorting_desc:after {
+    content: "\f0dd"; /* fa-sort-desc */
+  }
+}
