@@ -58,16 +58,6 @@ class Event < ActiveRecord::Base
     end
   end
 
-<<<<<<< HEAD
-  with_options(if: :volunteer_limit_allowed?) do |limited_event|
-    limited_event.with_options(if: :volunteer_rsvp_limit) do |workshop_event|
-      workshop_event.validates_numericality_of :volunteer_rsvp_limit, only_integer: true, greater_than: 0
-      workshop_event.validate :validate_volunteer_rsvp_limit
-    end
-  end
-=======
->>>>>>> removed 'allow_volunteer_limit boolean
-
   def location_name
     location ? location.name : ''
   end
@@ -81,11 +71,7 @@ class Event < ActiveRecord::Base
   end
 
   def volunteer_limit_allowed?
-<<<<<<< HEAD
-    allow_volunteer_limit == true
-=======
     volunteer_rsvp_limit != nil
->>>>>>> removed 'allow_volunteer_limit boolean
   end
 
   def historical?
@@ -141,7 +127,7 @@ class Event < ActiveRecord::Base
     checked_in_rsvps(volunteer_rsvps)
   end
 
-  def checked_in_rsvps(assoc)
+  def checked_in_rsvps(role)
     if upcoming? || historical?
       confirmed_association_for_role(role)
     else
