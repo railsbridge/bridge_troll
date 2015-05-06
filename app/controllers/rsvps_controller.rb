@@ -46,6 +46,11 @@ class RsvpsController < ApplicationController
   end
 
   def edit
+    if @rsvp.role == Role::ORGANIZER
+      redirect_to @event
+    else
+      render :edit
+    end
   end
 
   def update

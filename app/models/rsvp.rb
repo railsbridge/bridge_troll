@@ -89,6 +89,8 @@ class Rsvp < ActiveRecord::Base
       sessions
     elsif role == Role::STUDENT
       sessions.where(volunteers_only: false)
+    else
+      raise "No selectable_sessions for Role::#{role.name}"
     end
   end
 

@@ -151,6 +151,14 @@ describe Rsvp do
         rsvp.selectable_sessions.pluck(:id).should =~ [@session_no_options.id, @session_required_for_students.id, @session_volunteers_only.id]
       end
     end
+
+    describe "for organizers" do
+      let(:rsvp) { create(:organizer_rsvp, event: event) }
+
+      it "raises an error" do
+        expect { rsvp.selectable_sessions }.to raise_error
+      end
+    end
   end
 
   describe "#as_json" do
