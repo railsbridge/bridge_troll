@@ -1,5 +1,3 @@
-require 'meetups'
-
 class Event < ActiveRecord::Base
   PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare]
 
@@ -91,20 +89,16 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def checked_in_student_rsvps
-    checked_in_rsvps(student_rsvps)
-  end
-
-  def checked_in_volunteer_rsvps
-    checked_in_rsvps(volunteer_rsvps)
-  end
-
-  def checked_in_rsvps(assoc)
+  def checked_in_rsvps(role)
     if upcoming? || historical?
-      assoc
+      confirmed_association_for_role(role)
     else
-      assoc.where("checkins_count > 0")
+      confirmed_association_for_role(role).where("checkins_count > 0")
     end
+  end
+
+  def ordered_rsvps(role)
+    RsvpSorter.new(self, confirmed_association_for_role(role)).ordered
   end
 
   def checkin_counts
@@ -127,14 +121,6 @@ class Event < ActiveRecord::Base
     counts
   end
 
-  def ordered_student_rsvps
-    RsvpSorter.new(self, student_rsvps).ordered
-  end
-
-  def ordered_volunteer_rsvps
-    RsvpSorter.new(self, volunteer_rsvps).ordered
-  end
-
   def rsvps_with_checkins
     attendee_rsvps = rsvps.confirmed.includes(:user, :rsvp_sessions)
     attendee_rsvps.map do |rsvp|
@@ -151,14 +137,12 @@ class Event < ActiveRecord::Base
   end
 
   def self.published_or_organized_by(user = nil)
-    if user
-      if user.admin?
-        where(spam: false)
-      else
-        includes(:rsvps).where('(rsvps.role_id = ? AND rsvps.user_id = ?) OR (published = ?)', Role::ORGANIZER, user.id, true).references('rsvps')
-      end
+    return self.published unless user
+
+    if user.admin?
+      where(spam: false)
     else
-      self.published
+      includes(:rsvps).where('(rsvps.role_id = ? AND rsvps.user_id = ?) OR (published = ?)', Role::ORGANIZER, user.id, true).references('rsvps')
     end
   end
 
@@ -273,35 +257,25 @@ class Event < ActiveRecord::Base
 
   private
 
-  def set_defaults
-    self.details ||= Event::DEFAULT_DETAILS
-    self.student_details ||= Event::DEFAULT_STUDENT_DETAILS
-    self.volunteer_details ||= Event::DEFAULT_VOLUNTEER_DETAILS
+  DEFAULT_DETAIL_FILES = Dir[Rails.root.join('app', 'models', 'event_details', '*.html')]
+  DEFAULT_DETAILS = DEFAULT_DETAIL_FILES.each_with_object({}) do |f, hsh|
+    hsh[File.basename(f)] = File.read(f)
   end
 
-  DEFAULT_DETAILS = <<-END
-<h2>Workshop Description</h2>
+  def set_defaults
+    self.details ||= Event::DEFAULT_DETAILS['default_details.html']
+    self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
+    self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
+  end
 
-<h2>Sponsors</h2>
-
-<h2>Transportation and Parking</h2>
-
-<h2>Food and Drinks</h2>
-
-<h2>Childcare</h2>
-
-<h2>Afterparty</h2>
-  END
-
-  DEFAULT_STUDENT_DETAILS = <<-END
-All students need to bring their own laptop and powercord.
-
-Since bandwidth is usually at a premium at the Installfest, please download RailsInstaller (for PCs and most Mac installations) or XCode (if you're going that route).
-
-You can find more information on what to download by getting started with the Installfest instructions: <a href="http://docs.railsbridge.org/installfest">http://docs.railsbridge.org/installfest</a>
-  END
-
-  DEFAULT_VOLUNTEER_DETAILS = <<-END
-Be sure to review the curriculum before the workshop. We have several curricula available at <a href="http://docs.railsbridge.org">http://docs.railsbridge.org</a>.
-  END
+  def confirmed_association_for_role(role)
+    case role
+      when Role::VOLUNTEER
+        volunteer_rsvps
+      when Role::STUDENT
+        student_rsvps
+      else
+        raise "Can't find appropriate association for Role::#{role.name}"
+    end
+  end
 end
