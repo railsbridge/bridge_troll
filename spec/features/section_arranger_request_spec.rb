@@ -8,21 +8,13 @@ describe "arranging sections for an event", js: true do
 
     @session1, @session2 = @event.event_sessions.to_a
 
-    @session1_rsvp = create(:student_rsvp, event: @event, class_level: 1)
-    @session1_rsvp.rsvp_sessions.create(event_session: @session1, checked_in: true)
-    @session1_rsvp.rsvp_sessions.create(event_session: @session2, checked_in: false)
+    @session1_rsvp = create(:student_rsvp, event: @event, class_level: 1, session_checkins: {@session1.id => true, @session2.id => false})
 
-    @session2_rsvp = create(:student_rsvp, event: @event, class_level: 2)
-    @session2_rsvp.rsvp_sessions.create(event_session: @session1, checked_in: false)
-    @session2_rsvp.rsvp_sessions.create(event_session: @session2, checked_in: true)
+    @session2_rsvp = create(:student_rsvp, event: @event, class_level: 2, session_checkins: {@session1.id => false, @session2.id => true})
 
-    @both_rsvp = create(:student_rsvp, event: @event, class_level: 3)
-    @both_rsvp.rsvp_sessions.create(event_session: @session1, checked_in: true)
-    @both_rsvp.rsvp_sessions.create(event_session: @session2, checked_in: true)
+    @both_rsvp = create(:student_rsvp, event: @event, class_level: 3, session_checkins: {@session1.id => true, @session2.id => true})
 
-    @neither_attendee = create(:student_rsvp, event: @event, class_level: 4)
-    @neither_attendee.rsvp_sessions.create(event_session: @session1, checked_in: false)
-    @neither_attendee.rsvp_sessions.create(event_session: @session2, checked_in: false)
+    @neither_attendee = create(:student_rsvp, event: @event, class_level: 4, session_checkins: {@session1.id => false, @session2.id => false})
 
     @user_organizer = create(:user)
     @event.organizers << @user_organizer

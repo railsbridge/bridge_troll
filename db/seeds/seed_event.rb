@@ -15,30 +15,32 @@ module Seeder
   end
 
   def self.create_volunteer_rsvp options
-    rsvp = Rsvp.create!(options.merge(
+    rsvp_params = {
       role: Role::VOLUNTEER,
       subject_experience: Faker::Lorem.sentence,
       teaching_experience: Faker::Lorem.sentence,
       job_details: Faker::Name.title
-                        ))
+    }.merge(options)
+
+    rsvp = Rsvp.new(rsvp_params)
     options[:event].event_sessions.each do |session|
-      RsvpSession.create!(rsvp: rsvp, event_session: session)
+      rsvp.rsvp_sessions.build(event_session: session)
     end
+    rsvp.save!
   end
 
   def self.create_student_rsvp options
-    rsvp = Rsvp.create!(
-      event: options[:event],
-      user: options[:user],
-      waitlist_position: options[:waitlist_position],
+    rsvp_params = {
       role: Role::STUDENT,
       operating_system: OperatingSystem.all.sample,
-      job_details: Faker::Name.title,
-      class_level: options[:class_level]
-                        )
+      job_details: Faker::Name.title
+    }.merge(options)
+
+    rsvp = Rsvp.new(rsvp_params)
     options[:event].event_sessions.each do |session|
-      RsvpSession.create!(rsvp: rsvp, event_session: session)
+      rsvp.rsvp_sessions.build(event_session: session)
     end
+    rsvp.save!
   end
 
   def self.destroy_event event

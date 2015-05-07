@@ -14,7 +14,7 @@ describe "the email page" do
 
     @vol2 = create(:user, email: 'vol2@email.com')
     vol2_rsvp = create(:volunteer_rsvp, user: @vol2, event: event)
-    create(:rsvp_session, rsvp: vol2_rsvp, event_session: event.event_sessions.first, checked_in: true)
+    vol2_rsvp.rsvp_sessions.first.update_attribute(:checked_in, true)
 
     @student = create(:user, email: 'student@email.com')
     create(:student_rsvp, user: @student, event: event)

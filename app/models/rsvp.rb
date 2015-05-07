@@ -45,6 +45,10 @@ class Rsvp < ActiveRecord::Base
       for_students.validates_presence_of :operating_system_id, :class_level
       for_students.validates_inclusion_of :class_level, in: (1..5), allow_blank: true
     end
+
+    normal_event.with_options(if: :requires_session_rsvp?) do |attendee_rsvp|
+      attendee_rsvp.validates :rsvp_sessions, length: { minimum: 1, message: 'must be selected' }
+    end
   end
 
   extend ActiveHash::Associations::ActiveRecordExtensions
@@ -133,6 +137,11 @@ class Rsvp < ActiveRecord::Base
 
   def teaching_or_taing?
     teaching || taing
+  end
+
+  def requires_session_rsvp?
+    return false if role == Role::ORGANIZER
+    event.try(:upcoming?)
   end
 
   def volunteer_preference_id

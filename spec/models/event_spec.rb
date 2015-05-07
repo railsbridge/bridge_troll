@@ -289,14 +289,11 @@ describe Event do
 
       @last_session = create(:event_session, event: @event, ends_at: 1.year.from_now)
 
-      @rsvp1 = create(:rsvp, event: @event)
-      create(:rsvp_session, event_session: @first_session, rsvp: @rsvp1, checked_in: true)
+      @rsvp1 = create(:rsvp, event: @event, session_checkins: {@first_session.id => true, @last_session.id => false})
 
-      @rsvp2 = create(:rsvp, event: @event)
-      create(:rsvp_session, event_session: @last_session, rsvp: @rsvp2)
+      @rsvp2 = create(:rsvp, event: @event, session_checkins: {@first_session.id => false, @last_session.id => false})
 
-      @rsvp3 = create(:rsvp, event: @event)
-      create(:rsvp_session, event_session: @last_session, rsvp: @rsvp3, checked_in: true)
+      @rsvp3 = create(:rsvp, event: @event, session_checkins: {@first_session.id => false, @last_session.id => true})
 
       @event.reload
     end
@@ -338,31 +335,28 @@ describe Event do
       @rsvps = deep_copy(expectation)
       @checkins = deep_copy(expectation)
 
-      def add_session_rsvp(rsvp, session, checked_in)
-        create(:rsvp_session, rsvp: rsvp, event_session: session, checked_in: checked_in)
-        @rsvps[rsvp.role.id][session.id] << rsvp
-        @checkins[rsvp.role.id][session.id] << rsvp if checked_in
+      def add_rsvp(factory, session_checkins, additional_rsvp_options = {})
+        rsvp_options = {
+          event: @event,
+          session_checkins: session_checkins
+        }.merge(additional_rsvp_options)
+
+        create(factory, rsvp_options).tap do |rsvp|
+          next if additional_rsvp_options[:waitlist_position]
+
+          session_checkins.each do |session_id, checked_in|
+            @rsvps[rsvp.role.id][session_id] << rsvp
+            @checkins[rsvp.role.id][session_id] << rsvp if checked_in
+          end
+        end
       end
 
-      rsvp1 = create(:volunteer_rsvp, event: @event)
-      add_session_rsvp(rsvp1, @session1, true)
-      add_session_rsvp(rsvp1, @session2, true)
-
-      rsvp2 = create(:volunteer_rsvp, event: @event)
-      add_session_rsvp(rsvp2, @session1, true)
-      add_session_rsvp(rsvp2, @session2, false)
-
-      rsvp3 = create(:volunteer_rsvp, event: @event)
-      add_session_rsvp(rsvp3, @session1, true)
-
-      rsvp4 = create(:student_rsvp, event: @event)
-      add_session_rsvp(rsvp4, @session2, true)
-
-      rsvp5 = create(:student_rsvp, event: @event)
-      add_session_rsvp(rsvp5, @session2, true)
-
-      waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
-      create(:rsvp_session, rsvp: waitlisted, event_session: @session2, checked_in: false)
+      add_rsvp(:volunteer_rsvp, {@session1.id => true, @session2.id => true})
+      add_rsvp(:volunteer_rsvp, {@session1.id => true, @session2.id => false})
+      add_rsvp(:volunteer_rsvp, {@session1.id => true})
+      add_rsvp(:student_rsvp, {@session2.id => true})
+      add_rsvp(:student_rsvp, {@session2.id => true})
+      add_rsvp(:student_rsvp, {@session2.id => false}, waitlist_position: 1)
     end
 
     it "sends checked in user counts to the view" do

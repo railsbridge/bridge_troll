@@ -42,7 +42,7 @@ describe Events::EmailsController do
 
     describe "when some attendees have been checked in" do
       before do
-        create(:rsvp_session, rsvp: @volunteer.rsvps.first, event_session: @event.event_sessions.first, checked_in: true)
+        @volunteer.rsvps.first.rsvp_sessions.first.update_attribute(:checked_in, true)
       end
 
       it "allows emails to be sent exclusively to checked-in attendees" do

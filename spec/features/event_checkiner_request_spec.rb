@@ -24,7 +24,7 @@ describe "checking in attendees" do
 
       @student_rsvp = create(:student_rsvp, event: @event)
       @student = @student_rsvp.user
-      @student_rsvp_session = create(:rsvp_session, rsvp: @student_rsvp, event_session: @event.event_sessions.first)
+      @student_rsvp_session = @student_rsvp.rsvp_sessions.first
       sign_in_as(rsvp.user)
     end
 

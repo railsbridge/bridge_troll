@@ -28,7 +28,7 @@ describe CheckinsController do
     before do
       @vol = create(:user)
       @rsvp = create(:rsvp, user: @vol, event: @event)
-      @rsvp_session = create(:rsvp_session, rsvp: @rsvp, event_session: @session)
+      @rsvp_session = @rsvp.rsvp_sessions.last
     end
 
     it "checks in the volunteer and returns the number of checked-in persons" do
@@ -53,7 +53,8 @@ describe CheckinsController do
     before do
       @vol = create(:user)
       @rsvp = create(:rsvp, user: @vol, event: @event)
-      @rsvp_session = create(:rsvp_session, rsvp: @rsvp, event_session: @session, checked_in: true)
+      @rsvp_session = @rsvp.rsvp_sessions.last
+      @rsvp_session.update_attribute(:checked_in, true)
     end
 
     it "removes checked-in status for the volunteer and returns the number of checked-in persons" do

@@ -89,7 +89,23 @@ FactoryGirl.define do
     factory :organizer_rsvp do
       role Role.find_by_title 'Organizer'
     end
-    
+
+    transient do
+      session_checkins nil
+    end
+
+    after(:build) do |rsvp, evaluator|
+      if evaluator.session_checkins
+        evaluator.session_checkins.each do |event_session_id, checked_in|
+          rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session_id: event_session_id, checked_in: checked_in)
+        end
+        rsvp.checkins_count = evaluator.session_checkins.values.select { |v| v }.length
+      else
+        unless rsvp.rsvp_sessions.length > 0
+          rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session: rsvp.event.event_sessions.first)
+        end
+      end
+    end
   end
 
   factory :dietary_restriction do

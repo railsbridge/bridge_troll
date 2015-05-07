@@ -77,8 +77,8 @@ describe "the organizer dashboard" do
     rsvp1 = create(:rsvp, user: user1, event: @event)
     rsvp2 = create(:rsvp, user: user2, event: @event)
 
-    rsvp_session1 = create(:rsvp_session, rsvp: rsvp1, event_session: session1)
-    rsvp_session2 = create(:rsvp_session, rsvp: rsvp2, event_session: session1)
+    rsvp_session1 = rsvp1.rsvp_sessions.first
+    rsvp_session2 = rsvp2.rsvp_sessions.first
 
     visit event_organizer_tools_path(@event)
 
