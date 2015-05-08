@@ -1,0 +1,14 @@
+@import 'constants';
+
+.alert.alert-danger {
+  h2 {
+    margin: 0;
+  }
+}
+
+.alert-action {
+  border: 1px dashed $red-color;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 10px 0;
+}

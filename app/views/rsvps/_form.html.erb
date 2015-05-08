@@ -6,6 +6,13 @@
                       }) do |f| %>
     <%= render 'shared/model_error_messages', model: @rsvp %>
 
+    <% if @rsvp.persisted? && @rsvp.rsvp_sessions.length == 0 %>
+      <div class='alert-action'>
+        <strong>It looks like you tried to de-select all the sessions!</strong> If you really want to cancel your RSVP, click this button:
+        <%= link_to 'Cancel RSVP', event_rsvp_path(@rsvp.event, @rsvp), data: {confirm: 'Are you sure you want to cancel your RSVP?'}, method: :delete, class: 'btn' %>
+      </div>
+    <% end %>
+
     <% if @rsvp.role_student? %>
       <div class="field">
         <h2>Operating System</h2>

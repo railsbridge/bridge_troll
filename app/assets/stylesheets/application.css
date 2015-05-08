@@ -6,6 +6,7 @@
  *= require select2-bootstrap
  *= require select2-bootstrap
  *= require font_awesome_with_extensions
+ *= require _alerts
  *= require _fonts
  *= require _style_guide
  *= require _base
