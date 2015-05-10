@@ -127,11 +127,11 @@ table.responsive-table {
       background-color: transparent;
     }
 
-    &.table-bordered tbody td {
+    tbody td {
       border-left-width: 1px;
     }
 
-    &.table-bordered td:last-child {
+    td:last-child {
       border-right-width: 1px;
     }
 
@@ -147,6 +147,7 @@ table.responsive-table {
     }
     td {
       display: block;
+      border-left: 1px solid #bfbfbf;
       border-right: 1px solid #bfbfbf;
     }
     td[data-label]:before {

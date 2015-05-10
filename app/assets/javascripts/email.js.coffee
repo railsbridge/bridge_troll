@@ -22,7 +22,8 @@ recalculateRecipients = ->
   noun = if (count == 1) then "person." else "people."
   $('.num').html("<b>#{count}</b> #{noun}")
 
-  recipients = _.sortBy recipients, 'full_name'
+  recipients = _.sortBy recipients, (recipient) ->
+    recipient.full_name.toLowerCase()
 
   $('.recipients-popover').data('bs.popover').hide()
   template = HandlebarsTemplates['email_attendees_popover']
