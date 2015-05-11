@@ -107,21 +107,13 @@ ActiveRecord::Schema.define(version: 20150511025307) do
     t.integer  "student_waitlist_rsvps_count",   default: 0
     t.integer  "volunteer_rsvps_count",          default: 0
     t.datetime "survey_sent_at"
-<<<<<<< HEAD
     t.boolean  "has_childcare",                default: true
     t.boolean  "restrict_operating_systems",   default: false
     t.string   "allowed_operating_system_ids"
     t.integer  "volunteer_rsvp_limit"
     t.integer  "volunteer_waitlist_rsvps_count", default: 0
-=======
-    t.boolean  "has_childcare",                  default: true
-    t.integer  "volunteer_rsvp_limit"
-    t.integer  "volunteer_waitlist_rsvps_count", default: 0
-<<<<<<< HEAD
-    t.boolean  "allow_volunteer_limit",          default: false
->>>>>>> Add volunteer limit and volunteer waitlist to events
-=======
->>>>>>> removed 'allow_volunteer_limit boolean
+    t.boolean  "restrict_operating_systems",   default: false
+    t.string   "allowed_operating_system_ids"
   end
 
   create_table "external_events", force: :cascade do |t|
