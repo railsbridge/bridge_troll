@@ -16,8 +16,10 @@
     <% if @rsvp.role_student? %>
       <div class="field">
         <h2>Operating System</h2>
-        <a href="http://docs.railsbridge.org/installfest/macintosh">(Not sure what OSX version you have?)</a>
-        <%= f.association :operating_system, collection: OperatingSystem.all, label: false, label_method: :title, as: :radio_buttons %>
+        <% if @event.allowed_operating_systems.map(&:type).include?(:osx) %>
+          <a href="http://docs.railsbridge.org/installfest/macintosh">(Not sure what OSX version you have?)</a>
+        <% end %>
+        <%= f.association :operating_system, collection: @event.allowed_operating_systems, label: false, label_method: :title, as: :radio_buttons %>
       </div>
 
       <div class="field">

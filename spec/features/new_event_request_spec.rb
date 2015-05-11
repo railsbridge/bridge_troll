@@ -32,6 +32,30 @@ describe "New Event" do
     page.should have_unchecked_field("coc")
   end
 
+  it 'allows organizers to specify a whitelist of allowed OSes', js: true do
+    fill_in 'Title', with: 'Linuxless Event'
+    select "Ruby on Rails", from: "event_course_id"
+    fill_in "Student RSVP limit", with: 100
+
+    within ".event-sessions" do
+      fill_in "Session Name", with: 'Linuxless Session'
+      fill_in_event_time
+    end
+
+    select "(GMT-09:00) Alaska", from: 'event_time_zone'
+
+    check('Do you want to restrict the operating systems students should use?')
+    uncheck('Linux - Other')
+    uncheck('Linux - Ubuntu')
+
+    check("coc")
+    click_on 'Create Event'
+
+    page.should have_css('.alert-success')
+
+    expect(Event.last.allowed_operating_systems.count).to eq(OperatingSystem.count - 2)
+  end
+
   context 'after clicking "Add another session"', js: true do
     before do
       click_on 'Add another session'

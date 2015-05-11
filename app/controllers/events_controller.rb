@@ -85,6 +85,7 @@ class EventsController < ApplicationController
   def event_params
     permitted = Event::PERMITTED_ATTRIBUTES.dup
     permitted << {event_sessions_attributes: EventSession::PERMITTED_ATTRIBUTES + [:id]}
+    permitted << {allowed_operating_system_ids: []}
     params.require(:event).permit(permitted)
   end
 

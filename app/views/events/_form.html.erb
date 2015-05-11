@@ -48,6 +48,34 @@
     <%= f.input :public_email, label: 'What email address should users contact you at with questions?' %>
   </div>
 
+  <h3>Operating Systems</h3>
+
+  <div class="field workshop-only">
+    <div class="question">
+      <%= f.label :restrict_operating_systems do %>
+        <%= f.check_box :restrict_operating_systems,
+                        'data-toggle-target' => 'allowed-operating-systems-wrapper',
+                        'data-toggle-show-when' => '1' %>
+        Do you want to restrict the operating systems students should use?
+      <% end %>
+    </div>
+
+    <div class="field allowed-operating-systems-wrapper">
+      <div class="mb20">
+        <strong>Note:</strong> this feature is for disallowing operating systems due to technical restrictions, i.e. no Windows at an iOS workshop. Don't uncheck Windows just because you don't like Windows!
+      </div>
+      <%= f.collection_check_boxes(:allowed_operating_system_ids,
+                                   OperatingSystem.all,
+                                   :id,
+                                   :title,
+                                   {
+                                     item_wrapper_class: 'checkbox_row',
+                                     item_wrapper_tag: 'div',
+                                     include_hidden: false
+                                   }) %>
+    </div>
+  </div>
+
   <h3>Childcare</h3>
 
   <div class="field non-bolded">

@@ -1,7 +1,10 @@
 class Event < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare]
+  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems]
+
+  serialize :allowed_operating_system_ids, JSON
 
   after_initialize :set_defaults
+  before_validation :normalize_allowed_operating_system_ids
   after_save do |event|
     WaitlistManager.new(event).reorder_waitlist!
   end
@@ -39,6 +42,7 @@ class Event < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :time_zone
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
+  validates :allowed_operating_system_ids, array_of_ids: OperatingSystem.all.map(&:id), if: :restrict_operating_systems?
 
   with_options(unless: :historical?) do |normal_event|
     normal_event.with_options(if: :allow_student_rsvp?) do |workshop_event|
@@ -228,6 +232,11 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def allowed_operating_systems
+    return OperatingSystem.all unless restrict_operating_systems
+    OperatingSystem.all.select { |os| allowed_operating_system_ids.include?(os.id) }
+  end
+
   def update_rsvp_counts
     update_columns(
       volunteer_rsvps_count: volunteer_rsvps.count,
@@ -266,6 +275,7 @@ class Event < ActiveRecord::Base
     self.details ||= Event::DEFAULT_DETAILS['default_details.html']
     self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
     self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
+    self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
   end
 
   def confirmed_association_for_role(role)
@@ -276,6 +286,15 @@ class Event < ActiveRecord::Base
         student_rsvps
       else
         raise "Can't find appropriate association for Role::#{role.name}"
+    end
+  end
+
+  def normalize_allowed_operating_system_ids
+    self.allowed_operating_system_ids = nil unless restrict_operating_systems
+    if self.allowed_operating_system_ids.respond_to?(:each)
+      self.allowed_operating_system_ids.map! do |id|
+        id.try(:match, /\A\d+\z/) ? Integer(id) : id
+      end
     end
   end
 end

@@ -21,6 +21,21 @@ describe Event do
     event.should be_valid
   end
 
+  it "validates that allowed_operating_system_ids correspond to OperatingSystem records" do
+    valid = [nil, [OperatingSystem.first.id, OperatingSystem.last.id]]
+    invalid = ['fjord', [], [999999]]
+
+    valid.each do |value|
+      event = Event.new(restrict_operating_systems: true, allowed_operating_system_ids: value)
+      event.should have(0).errors_on(:allowed_operating_system_ids)
+    end
+
+    invalid.each do |value|
+      event = Event.new(restrict_operating_systems: true, allowed_operating_system_ids: value)
+      event.should have(1).errors_on(:allowed_operating_system_ids)
+    end
+  end
+
   it "sorts event_sessions by ends_at" do
     event = create(:event)
 
