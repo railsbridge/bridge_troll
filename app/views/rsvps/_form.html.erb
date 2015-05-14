@@ -60,30 +60,32 @@
         <p class="question">Would you prefer to teach or TA? (Checking neither means you'd prefer to do something else entirely)</p>
         <div class="checkbox">
           <%= f.label :teaching, class: 'checkbox' do %>
-            <%= f.check_box :teaching %> Teaching
+            <%= f.check_box :teaching, class: 'volunteer_preference' %> Teaching
           <% end %>
         </div>
         <div class="checkbox">
           <%= f.label :taing, class: 'checkbox' do %>
-            <%= f.check_box :taing %> TAing
+            <%= f.check_box :taing, class: 'volunteer_preference' %> TAing
           <% end %>
         </div>
-        <p class="details">If you checked "Teaching" or "TAing" tell us a bit about any teaching or mentoring experience you have had, even one-on-one or non-programming subject. (No experience is ok!)</p>
-        <% unless @rsvp.event.course.blank? %>
-          <%= f.input :teaching_experience, as: :text, label: "What's your experience with teaching?", class: "question", input_html: {
-            maxlength: Rsvp::MAX_EXPERIENCE_LENGTH,
-            rows: 3,
-          } %>
-        <% end %>
+        <div class="volunteer_preference_panel">
+          <p class="details">If you checked "Teaching" or "TAing" tell us a bit about any teaching or mentoring experience you have had, even one-on-one or non-programming subject. (No experience is ok!)</p>
+          <% unless @rsvp.event.course.blank? %>
+            <%= f.input :teaching_experience, as: :text, label: "What's your experience with teaching?", class: "question", input_html: {
+              maxlength: Rsvp::MAX_EXPERIENCE_LENGTH,
+              rows: 3,
+            } %>
+          <% end %>
 
-        <p class="question">Do you have a class level preference?</p>
-        <p class="details">(We'll try to get you into that class level, but no promises.)</p>
-        <div class="field">
-          <%= render partial: 'rsvps/class_levels', locals: {
-            f: f,
-            levels: (@rsvp.event.course || Course::RAILS).levels,
-            show_no_preference: true
-          } %>
+          <p class="question">Do you have a class level preference?</p>
+          <p class="details">(We'll try to get you into that class level, but no promises.)</p>
+          <div class="field">
+            <%= render partial: 'rsvps/class_levels', locals: {
+              f: f,
+              levels: (@rsvp.event.course || Course::RAILS).levels,
+              show_no_preference: true
+            } %>
+          </div>
         </div>
       <% end %>
     <% end %>
