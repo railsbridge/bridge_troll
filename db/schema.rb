@@ -107,9 +107,7 @@ ActiveRecord::Schema.define(version: 20150511025307) do
     t.integer  "student_waitlist_rsvps_count",   default: 0
     t.integer  "volunteer_rsvps_count",          default: 0
     t.datetime "survey_sent_at"
-    t.boolean  "has_childcare",                default: true
-    t.boolean  "restrict_operating_systems",   default: false
-    t.string   "allowed_operating_system_ids"
+    t.boolean  "has_childcare",                  default: true
     t.integer  "volunteer_rsvp_limit"
     t.integer  "volunteer_waitlist_rsvps_count", default: 0
     t.boolean  "restrict_operating_systems",   default: false

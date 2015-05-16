@@ -35,9 +35,6 @@ class RsvpsController < ApplicationController
         @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0 ) + 1
       end
 
-      if @event.volunteers_at_limit? && @rsvp.role_volunteer?
-        @rsvp.waitlist_position = (@event.rsvps.maximum(:waitlist_position) || 0 ) + 1
-      end
       set_dietary_restrictions(@rsvp, params[:dietary_restrictions])
 
       if @rsvp.save
@@ -74,7 +71,6 @@ class RsvpsController < ApplicationController
 
   def destroy
     rsvp_user_name = @rsvp.user.first_name
-    
     Rsvp.transaction do
       @rsvp.destroy
       WaitlistManager.new(@event.reload).reorder_student_waitlist!

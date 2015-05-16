@@ -526,7 +526,8 @@ describe RsvpsController do
         @event.update_attribute(:student_rsvp_limit, 2)
         create(:student_rsvp, event: @event)
         @waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
-        @event.reload.should be_at_limit
+        @event.reload.should be_students_at_limit
+
         delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
         @waitlisted.reload.waitlist_position.should be_nil
         flash[:notice].should match(/no longer signed up/i)

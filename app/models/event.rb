@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems]
+  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems, :allowed_operating_system_ids]
 
   serialize :allowed_operating_system_ids, JSON
 
@@ -48,7 +48,6 @@ class Event < ActiveRecord::Base
   with_options(unless: :historical?) do |normal_event|
     normal_event.with_options(if: :allow_student_rsvp?) do |workshop_event|
       workshop_event.validates_numericality_of :student_rsvp_limit, only_integer: true, greater_than: 0
-      workshop_event.validates_numericality_of :volunteer_rsvp_limit, only_integer: true, greater_than: 0
       workshop_event.validate :validate_rsvp_limit
     end
   
