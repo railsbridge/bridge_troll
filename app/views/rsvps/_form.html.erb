@@ -68,11 +68,7 @@
             <%= f.check_box :taing, class: 'volunteer_preference' %> TAing
           <% end %>
         </div>
-        <% if @rsvp.new_record? %>
-          <div class="volunteer_preference_panel">
-        <% else %>
-          <div class="volunteer_preference_panel_shown">
-        <% end %>
+        <div class="volunteer_preference_panel">
           <p class="details">If you checked "Teaching" or "TAing" tell us a bit about any teaching or mentoring experience you have had, even one-on-one or non-programming subject. (No experience is ok!)</p>
           <% unless @rsvp.event.course.blank? %>
             <%= f.input :teaching_experience, as: :text, label: "What's your experience with teaching?", class: "question", input_html: {
