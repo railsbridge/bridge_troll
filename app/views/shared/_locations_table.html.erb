@@ -9,6 +9,7 @@
       <th>Events</th>
       <% if user_signed_in? %>
         <th></th>
+        <th></th>
       <% end %>
     </tr>
   </thead>
@@ -24,8 +25,12 @@
         <td data-label="Events:"><%= location.events_count %></td>
         <% if user_signed_in? %>
           <td>
-            <%= link_to 'Edit', edit_location_path(location), class: 'btn fa-before fa-edit' %>
-            <% if location.events_count == 0 %>
+            <% unless location.archived? %>
+              <%= link_to 'Edit', edit_location_path(location), class: 'btn fa-before fa-edit' %>
+            <% end %>
+          </td>
+          <td>
+            <% unless location.events_count > 0 %>
               <%= link_to 'Destroy', location, data: { confirm: 'Are you sure?' }, method: :delete, class: 'btn btn-danger' %>
             <% end %>
           </td>

@@ -6,7 +6,6 @@ describe 'Locations' do
     chapter = create(:chapter, name: "Green Hill Zone")
 
     sign_in_as(@user)
-        
     visit locations_path
     click_link "New Location"
 
@@ -43,11 +42,17 @@ describe 'Locations' do
       fill_in 'Notes', with: 'cool notes'
 
       click_button "Update Location"
-
       location.reload
 
       location.contact_info.should == 'someone'
       location.notes.should == 'cool notes'
+    end
+
+    it "can archive a location that is no longer available" do
+      visit edit_location_path(location)
+      click_button "Archive Location"
+
+      page.should have_content "Location was successfully archived."
     end
   end
 
@@ -55,7 +60,7 @@ describe 'Locations' do
     visit new_location_path
     page.should have_content("You need to sign in or sign up before continuing")
   end
-  
+
   it "should not allow location editing if user is not signed in" do
     @location = create(:location)
     visit edit_location_path(@location.id)
