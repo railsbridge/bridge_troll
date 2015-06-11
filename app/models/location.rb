@@ -30,6 +30,8 @@ class Location < ActiveRecord::Base
   end
 
   def archivable_by?(user)
+    return false unless persisted?
+    return false if archived?
     editable_by?(user) || additional_details_editable_by?(user)
   end
 

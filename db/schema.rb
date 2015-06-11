@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 20150529174113) do
     t.integer  "chapter_id"
     t.text     "contact_info"
     t.text     "notes"
-    t.time     "archived_at"
+    t.datetime "archived_at"
   end
 
   create_table "meetup_users", force: :cascade do |t|

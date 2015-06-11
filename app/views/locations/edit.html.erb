@@ -1,5 +1,11 @@
 <%= content_for(:header_text, "Editing location") %>
 
+<% if @location.archived? %>
+  <div class="alert alert-warning">
+    This location is archived, and can no longer be used for events.
+  </div>
+<% end %>
+
 <%= render 'form' %>
 
 <%= render 'shared/actions', links: [
