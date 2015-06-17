@@ -23,11 +23,19 @@
     <% end %>
   </div>
   <div class='event-counts'>
-    <div><i class='fa fa-user'></i>Volunteers: <%= event.volunteer_rsvps_count %></div>
+    <div>
+      <i class='fa fa-user'></i>Volunteers: <%= event.volunteer_rsvps_count %> 
+      <% if event.volunteer_rsvp_limit %>
+      / <%= event.volunteer_rsvp_limit %>
+      <% end %>
+      <% if event.volunteers_at_limit? %>
+        (<%= event.volunteer_waitlist_rsvps_count %> Waitlisted)
+      <% end %>
+    </div>
     <% if event.allow_student_rsvp %>
       <div>
         <i class='fa fa-user'></i>Students: <%= event.student_rsvps_count %> / <%= event.student_rsvp_limit %>
-        <% if event.at_limit? %>
+        <% if event.students_at_limit? %>
           (<%= event.student_waitlist_rsvps_count %> Waitlisted)
         <% end %>
       </div>

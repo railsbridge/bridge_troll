@@ -109,7 +109,9 @@ describe "the individual event page" do
 
   context "user is logged in but is not an organizer for the event" do
     let(:attend_as_student_text) { "Attend as a student" }
-    let(:join_waitlist_text) { "Join the waitlist" }
+    let(:join_student_waitlist_text) { "Join the student waitlist" }
+    let(:attend_as_volunteer_text) { "Volunteer" }
+    let(:join_volunteer_waitlist_text){ "Join the volunteer waitlist" }
     before do
       @user = create(:user)
       sign_in_as(@user)
@@ -126,18 +128,25 @@ describe "the individual event page" do
         visit event_path(@event)
         page.should have_link("Volunteer")
         page.should have_link(attend_as_student_text)
-        page.should_not have_link(join_waitlist_text)
+        page.should_not have_link(join_student_waitlist_text)
       end
 
       context "when the event is full" do
         before(:each) do
-          Event.any_instance.stub(:at_limit?).and_return(true)
+          Event.any_instance.stub(:students_at_limit?).and_return(true)
+          Event.any_instance.stub(:volunteers_at_limit?).and_return(true)
         end
 
-        it "should allow the user to join the waitlist" do
+        it "should allow the user to join the student waitlist" do
           visit event_path(@event)
           page.should_not have_link(attend_as_student_text)
-          page.should have_link(join_waitlist_text)
+          page.should have_link(join_student_waitlist_text)
+        end
+
+        it "should allow the user to join the volunteer waitlist" do
+          visit event_path(@event)
+          page.should_not have_link(attend_as_volunteer_text)
+          page.should have_link(join_volunteer_waitlist_text)
         end
       end
     end

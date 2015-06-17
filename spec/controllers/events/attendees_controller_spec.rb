@@ -22,6 +22,9 @@ describe Events::AttendeesController do
       expect(csv_rows[0][0]).to eq('Name')
       expect(csv_rows[1][0]).to eq(@rsvp.user.full_name)
     end
+  end
+
+  describe "#update" do
 
     it 'includes all dietary info in the dietary info field' do
       get :index, event_id: @event.id, format: :csv
