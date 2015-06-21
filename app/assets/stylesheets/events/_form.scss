@@ -35,5 +35,13 @@
   .session-checkboxes label {
     margin-right: 12px;
   }
+
+  .event-new-save-draft {
+    background-color: peachpuff;
+    color: black;
+    &:hover {
+      background-color: #FF9900;
+    }
+  }
 }
 

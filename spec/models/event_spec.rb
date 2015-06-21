@@ -222,6 +222,35 @@ describe Event do
     end
   end
 
+  describe ".drafted_by" do
+    before do
+      @drafted_event = create(:event, title: 'draft saved event', draft_saved: true, published: false)
+      @not_drafted_event = create(:event, title: 'draft saved event', draft_saved: true, published: true)
+      @user = create(:user)
+      @drafted_event.organizers << @user
+      @not_drafted_event.organizers << @user
+    end
+
+    it 'returns only the event in draft, unpublished, state' do
+      Event.drafted_by(@user).should =~ [@drafted_event]
+    end
+  end
+
+  describe ".current_state" do
+    before do
+      @drafted_event = create(:event, title: 'draft saved event', draft_saved: true, published: false)
+      @not_drafted_event = create(:event, title: 'draft saved event', draft_saved: true, published: true)
+      @user = create(:user)
+      @drafted_event.organizers << @user
+      @not_drafted_event.organizers << @user
+    end
+
+    it 'identifies state correctly' do
+      @drafted_event.current_state.should eq :draft_saved
+      @not_drafted_event.current_state.should eq :published
+    end
+  end
+
   describe ".published_or_organized_by" do
     before do
       @published_event = create(:event, title: 'published event', published: true)

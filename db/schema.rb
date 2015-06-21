@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150529174113) do
+ActiveRecord::Schema.define(version: 20150615162000) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 20150529174113) do
     t.boolean  "has_childcare",                default: true
     t.boolean  "restrict_operating_systems",   default: false
     t.string   "allowed_operating_system_ids"
+    t.boolean  "draft_saved"
   end
 
   create_table "external_events", force: :cascade do |t|

@@ -48,19 +48,29 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(event_params)
 
+    if params[:save_draft]
+      @event.draft_saved = true
+    end
+
     if @event.save
       @event.organizers << current_user
-      if current_user.spammer?
-        @event.update_attribute(:spam, true)
-      else
-        EventMailer.unpublished_event(@event).deliver_now
-        EventMailer.event_pending_approval(@event).deliver_now
-      end
 
-      if @event.published
-        redirect_to @event, notice: 'Event was successfully created.'
-      else
+      case @event.current_state
+      when :pending_approval
+        if current_user.spammer?
+          @event.update_attribute(:spam, true)
+        else
+          EventMailer.unpublished_event(@event).deliver_now
+          EventMailer.event_pending_approval(@event).deliver_now
+        end
+        
         redirect_to @event, notice: 'Your event is awaiting approval and will appear to other users once it has been reviewed by an admin.'
+      when :draft_saved
+        flash[:notice] = 'Draft saved. You can continue editing.'
+        render :edit
+      when :published
+        # Note that this code path is currently unused.
+        redirect_to @event, notice: 'Event was successfully created.'
       end
     else
       render :new
@@ -69,7 +79,17 @@ class EventsController < ApplicationController
 
   def update
     if @event.update_attributes(event_params)
-      redirect_to @event, notice: 'Event was successfully updated.'
+      if params[:create_event]
+        @event.draft_saved = false
+        @event.save
+      end
+      
+      if @event.current_state == :draft_saved
+        flash[:notice] = 'Draft updated. You can continue editing.'
+        render :edit
+      else
+        redirect_to @event, notice: 'Event was successfully updated.'
+      end
     else
       render status: :unprocessable_entity, action: "edit"
     end
