@@ -291,7 +291,6 @@ class Event < ActiveRecord::Base
     self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
     self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
     self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
-#    self.published = self.draft_saved = false
   end
 
   def confirmed_association_for_role(role)
