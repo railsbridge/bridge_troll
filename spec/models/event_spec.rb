@@ -333,11 +333,11 @@ describe Event do
 
       @last_session = create(:event_session, event: @event, ends_at: 1.year.from_now)
 
-      @rsvp1 = create(:rsvp, event: @event, session_checkins: {@first_session.id => true, @last_session.id => false})
+      @rsvp1 = create(:student_rsvp, event: @event, session_checkins: {@first_session.id => true, @last_session.id => false})
 
-      @rsvp2 = create(:rsvp, event: @event, session_checkins: {@first_session.id => false, @last_session.id => false})
+      @rsvp2 = create(:student_rsvp, event: @event, session_checkins: {@first_session.id => false, @last_session.id => false})
 
-      @rsvp3 = create(:rsvp, event: @event, session_checkins: {@first_session.id => false, @last_session.id => true})
+      @rsvp3 = create(:student_rsvp, event: @event, session_checkins: {@first_session.id => false, @last_session.id => true})
 
       @event.reload
     end
@@ -352,6 +352,16 @@ describe Event do
         [@rsvp2.id, []],
         [@rsvp3.id, [@last_session.id]]
       ]
+    end
+
+    it 'includes RSVPs that are waitlisted but checked in' do
+      @event.update_attributes(student_rsvp_limit: @event.student_rsvps.count)
+      @checked_in = create(:student_rsvp, event: @event, waitlist_position: 1)
+      @checked_in.rsvp_sessions.find { |rs| rs.event_session_id = @last_session.id }.update_attribute(:checked_in, true)
+      @not_checked_in = create(:student_rsvp, event: @event, waitlist_position: 2)
+
+      rsvp_ids = @event.rsvps_with_checkins.map { |r| r['id'] }
+      expect(rsvp_ids).to match_array([@rsvp1, @rsvp2, @rsvp3, @checked_in].map(&:id))
     end
   end
 

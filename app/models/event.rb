@@ -125,7 +125,9 @@ class Event < ActiveRecord::Base
   end
 
   def rsvps_with_checkins
-    attendee_rsvps = rsvps.confirmed.includes(:user, :rsvp_sessions)
+    attendee_rsvps = rsvps
+                       .where('waitlist_position IS NULL OR checkins_count > 0')
+                       .includes(:user, :rsvp_sessions)
     attendee_rsvps.map do |rsvp|
       rsvp.as_json(methods: [:checked_in_session_ids])
     end
