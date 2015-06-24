@@ -231,7 +231,11 @@
   <% end %>
 
   <div class="actions">
-    <%= f.submit class: 'btn btn-submit coc-required', name: 'create_event', value: 'Submit Event For Approval' %>
-    <%= f.submit class: 'btn btn-submit event-new-save-draft', name: 'save_draft', value: event_save_button_text %>
+    <% if @event.new_record? || @event.draft_saved %>
+      <%= f.submit class: 'btn btn-submit coc-required', name: 'create_event', value: 'Submit Event For Approval' %>
+      <%= f.submit class: 'btn btn-submit event-new-save-draft', name: 'save_draft', value: 'Save Draft' %>
+    <% else %>
+      <%= f.submit class: 'btn btn-submit coc-required' %>
+    <% end %>
   </div>
 <% end %>

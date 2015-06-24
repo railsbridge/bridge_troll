@@ -114,12 +114,4 @@ module EventsHelper
       "PUBLISHED"
     end
   end
-
-  def event_save_button_text
-    if @event.new_record? || @event.current_state == :draft_saved
-      "Save Draft"
-    else 
-      "Update Event"
-    end
-  end
 end
