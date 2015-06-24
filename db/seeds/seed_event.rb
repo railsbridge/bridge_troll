@@ -78,7 +78,6 @@ module Seeder
     event = Event.new(
       title: 'Seeded Test Event',
       student_rsvp_limit: 5,
-      volunteer_rsvp_limit: 2,
       time_zone: 'Pacific Time (US & Canada)',
       course_id: Course::RAILS.id,
       location: location,
