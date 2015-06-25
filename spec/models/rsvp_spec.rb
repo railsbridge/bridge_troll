@@ -150,7 +150,7 @@ describe Rsvp do
       let(:rsvp) { create(:organizer_rsvp, event: event) }
 
       it "raises an error" do
-        expect { rsvp.selectable_sessions }.to raise_error
+        expect { rsvp.selectable_sessions }.to raise_error(RuntimeError)
       end
     end
   end

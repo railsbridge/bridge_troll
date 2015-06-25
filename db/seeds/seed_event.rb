@@ -10,7 +10,7 @@ module Seeder
       time_zone: 'Pacific Time (US & Canada)',
       gender: %w(genderqueer male female trans*).sample
     )
-    user.confirm!
+    user.confirm
     user
   end
 

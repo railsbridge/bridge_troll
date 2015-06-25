@@ -9,7 +9,7 @@ module Seeder
       time_zone: 'Pacific Time (US & Canada)',
       admin: true
     )
-    admin.confirm!
+    admin.confirm
     admin.save!
   end
 end

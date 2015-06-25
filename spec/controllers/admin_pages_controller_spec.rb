@@ -37,7 +37,7 @@ describe AdminPagesController do
     it 'raises an exception' do
       expect {
         get :raise_exception
-      }.to raise_error
+      }.to raise_error(RuntimeError)
     end
   end
 end
