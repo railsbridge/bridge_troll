@@ -88,9 +88,9 @@ then
 	alert_missing_ruby
 	exit 1
 else
-	if ! is_ruby_version "ruby 2.1.2"
+	if ! is_ruby_version "ruby 2.2.2"
 	then
-		alert_wrong_ruby_version "2.1.2"
+		alert_wrong_ruby_version "2.2.2"
 	fi
 fi
 
