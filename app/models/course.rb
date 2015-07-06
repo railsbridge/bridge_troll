@@ -188,7 +188,7 @@ class Course < ActiveHash::Base
             "You're proficient in design tools (Adobe Creative Suite, etc)",
             "You're familiar with general UI design principles",
             "You might be familiar with HTML and CSS.",
-            "You're new to the XCode environment and to iOS app development",            
+            "You're new to the XCode environment and to iOS app development",
           ]
         }, {
           level: 5,
@@ -199,7 +199,32 @@ class Course < ActiveHash::Base
             "You're new to the XCode environment and to iOS app development",
             'You might be familiar with version control',
           ]
-        },        
+        },
+      ]
+    }, {
+      id: 5,
+      name: 'RUBY_JS_PAIRING',
+      title: 'Open Source Pairing Workshop',
+      description: 'This workshop is an opportunity to improve your coding skills by pair programming on an open source project.',
+      levels: [
+        {
+          level: 2,
+          color: 'orange',
+          title: "Javascript",
+          level_description: [
+            'Some experience writing JavaScript at a front-end workshop or personal project',
+            'You have a basic understanding of the Browser DOM (Document Object Model)',
+            'You have built a website or other app on your own',
+          ]
+        }, {
+          level: 3,
+          color: 'purple',
+          title: "Ruby",
+          level_description: [
+            'Some experience writing Ruby at a prior workshop and/or personal project',
+            'You have built a website or other app on your own',
+          ]
+        }
       ]
     }
   ]
