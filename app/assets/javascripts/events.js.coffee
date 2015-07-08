@@ -53,6 +53,7 @@ jQuery ->
   $('.select2-dropdown').select2(width: 'element')
 
   setUpDatePicker($('.datepicker'))
+  setUpExclusiveCheckboxes($('body'))
 
   $(document).on 'nested:fieldAdded', (event) ->
     $field = event.field
