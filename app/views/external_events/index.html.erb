@@ -1,5 +1,9 @@
 <%= content_for(:header_text, 'Listing external events') %>
 
+<div class="mb20">
+  <%= render 'shared/actions', links: [['New External Event', new_external_event_path]] %>
+</div>
+
 <table class="table table-striped table-bordered table-condensed external-events">
   <tr>
     <th>Name</th>
@@ -38,7 +42,3 @@
     </tr>
   <% end %>
 </table>
-
-<%= render 'shared/actions', links: [
-  ['New External Event', new_external_event_path]
-] %>
