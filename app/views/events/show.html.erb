@@ -69,6 +69,12 @@
           <h2>Student Details</h2>
           <%= simple_format_with_html(@event.student_details) %>
         <% end %>
+
+        <% if @organizer %>
+          <h2>Survey Greeting</h2>
+          <%= simple_format_with_html(@event.survey_greeting) %>
+        <% end %>
+
       <% end %>
     </div>
   </div>
