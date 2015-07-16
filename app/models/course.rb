@@ -226,6 +226,59 @@ class Course < ActiveHash::Base
           ]
         }
       ]
+    }, {
+      id: 6,
+      name: 'Android',
+      title: 'Intro to Android Development',
+      description: 'This workshop will cover how to make an Android application.',
+      levels: [
+        {
+          level: 1,
+          color: 'blue',
+          title: "Totally New to Programming",
+          level_description: [
+            'You have little to no experience with the command line or a graphical IDE',
+            'You might have done a little bit with HTML or CSS, but not necessarily',
+            'You\'re unfamiliar with terms like methods, arrays, lists, hashes, or dictionaries.'
+          ]
+        }, {
+          level: 2,
+          color: 'green',
+          title: "Somewhat New to Programming",
+          level_description: [
+            'You may have used the command line a little — to change directories, for instance',
+            'You might have done an online programming tutorial or two',
+            'You know what a method is'
+          ]
+        }, {
+          level: 3,
+          color: 'gold',
+          title: "Some Android App Development Experience",
+          level_description: [
+            'You\'re comfortable using the command line, but not necessarily a Power User',
+            'You have a general understanding of an Android app\'s structure, perhaps from a prior workshop or tutorial',
+            'Some programming experience in another language like Ruby, Python, C, Java'
+          ]
+        }, {
+          level: 4,
+          color: 'pink',
+          title: "Experienced Non-Java Programmer new to Android app development",
+          level_description: [
+            'You\'re proficient in non-Java programming language and understand general programming concepts, like collections and scope.',
+            'You\'re new to the Android Studio environment and to Android app development',
+            'You might be familiar with version control'
+          ]
+        }, {
+          level: 5,
+          color: 'orange',
+          title: "Experienced Java Programmer new to Android app development",
+          level_description: [
+            'You\'re proficient in Java and understand general programming concepts, like collections and scope.',
+            'You\'re new to the Android Studio environment and to Android app development',
+            'You might be familiar with version control'
+          ]
+        }
+      ]
     }
   ]
   enum_accessor :name
