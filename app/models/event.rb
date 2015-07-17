@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems, :draft_saved]
+  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems, :draft_saved, :survey_greeting]
 
   serialize :allowed_operating_system_ids, JSON
 
@@ -15,6 +15,7 @@ class Event < ActiveRecord::Base
   belongs_to_active_hash :course
 
   has_one :chapter, through: :location
+  has_one :survey_greeting
 
   has_many :rsvps, dependent: :destroy, inverse_of: :event
   has_many :sections, dependent: :destroy
@@ -324,6 +325,7 @@ class Event < ActiveRecord::Base
     self.details ||= Event::DEFAULT_DETAILS['default_details.html']
     self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
     self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
+    self.survey_greeting ||= Event::DEFAULT_DETAILS['default_survey_greeting.html']
     self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
   end
 

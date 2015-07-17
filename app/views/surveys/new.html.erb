@@ -5,11 +5,12 @@
 <% if @survey_preview_mode || @rsvp.persisted? == false%>
 <%  @event_surveys_path = ''  %>
 <% else %>             %>
-<%  @event_surveys_path = event_rsvp_surveys_path(@event.id, @rsvp.id)  %>
+<%  @event_surveys_path = event_rsvp _surveys_path(@event.id, @rsvp.id)  %>
 <% end %>
 
 <h2>How was <%= @event.title %>?</h2>
-<p>We love feedback, so let us know how things went for you and anything you think we could make better in the future!</p>
+<p> <%= @event.survey_greeting %>
+</p>
 
 <div class="row">
   <div class="col-md-6 survey-form">
