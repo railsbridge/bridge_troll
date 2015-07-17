@@ -15,7 +15,7 @@
 <% end %>
 <% if event.no_rsvp?(current_user) %>
   <% if event.allow_student_rsvp? %>
-    <%= link_to student_attend_button_text(event), learn_new_event_rsvp_path(event), method: :get, class: 'btn' %>
+    <%= link_to student_attend_button_text(event), learn_new_event_rsvp_path(event), class: 'btn' %>
   <% end %>
-  <%= link_to volunteer_attend_button_text(event), volunteer_new_event_rsvp_path(event), method: :get, class: 'btn' %>
+  <%= link_to volunteer_attend_button_text(event), volunteer_new_event_rsvp_path(event), class: 'btn' %>
 <% end %>
