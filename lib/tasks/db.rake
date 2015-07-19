@@ -35,4 +35,44 @@ db_namespace = namespace :db do
       db_namespace['schema:dump'].reenable
     end
   end
+
+  desc "anonymizes local database"
+  task :anonymize => :environment do
+    if Rails.env.production?
+      puts "You can't run this on production!"
+      exit(-1)
+    else
+      DatabaseAnonymizer.anonymize_database
+      puts 'Success!'
+    end
+  end
+
+  desc "Dump current database to db/PRODUCTION.dump"
+  task :dump => :environment do
+    cmd = nil
+    with_config do |app, host, db, user|
+      cmd = "pg_dump --host #{host} --username #{user} --verbose --clean --no-owner --no-acl --format=c #{db} > #{Rails.root}/db/PRODUCtION.dump"
+    end
+    exec(cmd)
+    raise 'Error dumping database' if $?.exitstatus == 1
+  end
+
+  desc "Restores the database dump at db/PRODUCTION.dump"
+  task :restore => [:environment, 'db:drop', 'db:create' ] do
+    cmd = nil
+    with_config do |app, host, db, user|
+      cmd = "pg_restore --verbose --host #{host} --username #{user} --clean --no-owner --no-acl --dbname #{db} #{Rails.root}/db/PRODUCTION.dump"
+    end
+    exec(cmd)
+   end
+
+  private
+
+  def with_config
+    yield Rails.application.class.parent_name.underscore,
+      ActiveRecord::Base.connection_config[:host],
+      ActiveRecord::Base.connection_config[:database],
+      ActiveRecord::Base.connection_config[:username]
+  end
+
 end

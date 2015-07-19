@@ -77,6 +77,18 @@ All the created users have easyish-to-remember logins, so a great way to test ou
 
 Doing `rake db:seed` again will destroy all those sample persons and create the event again. The exact details of what is created can be found in `seed_event.rb`.
 
+#### Anonymizing Data
+You can replace sensitive personal information about events and participants from the data with a Rake task. Note that it will not run if your Rails environment is set to `production`.
+````
+rake db:anonymize
+````
+
+Restore the original data to your database with
+````
+rake db:restore
+````
+
+
 ### Styling Guidelines
 We have created a living style guide to keep track of HTML components and their styling across the site. See it at http://localhost:3000/style_guide.
 
