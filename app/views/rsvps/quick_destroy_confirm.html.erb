@@ -1,0 +1,12 @@
+<h1>
+  Are you sure you want to cancel?
+</h1>
+
+<ul class="actions no-margin">
+  <li>
+    <%= link_to 'Yes', event_rsvp_path(@event, @rsvp, token: @rsvp.token), class: 'btn btn-submit', method: :delete %>
+  </li>
+  <li>
+    <%= link_to 'No', root_path, class: 'btn' %>
+  </li>
+</ul>

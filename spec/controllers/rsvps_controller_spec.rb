@@ -10,6 +10,22 @@ describe RsvpsController do
     @event = create(:event, title: 'The Best Railsbridge')
   end
 
+  describe "#quick_destroy_confirm" do
+    def make_request
+      get :quick_destroy_confirm, event_id: @event.id, rsvp_id: rsvp.id, token: rsvp.token
+    end
+
+    let!(:rsvp) { create(:rsvp,
+      event: @event,
+      token: 'IamAtoken'
+    )}
+
+    it "assigns the rsvp" do
+      make_request
+      assigns(:rsvp).should == rsvp
+    end
+  end
+
   describe "when signed in" do
     before do
       @user = create(:user)
@@ -188,7 +204,13 @@ describe RsvpsController do
       def do_request
         post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
       end
-      
+
+      it "should generate a token for the RSVP" do
+        allow(SecureRandom).to receive(:uuid) { 'thisisatoken' }
+        do_request
+        expect(Rsvp.last.token).to eq 'thisisatoken'
+      end
+
       it "should allow the user to newly volunteer for an event" do
         expect { do_request }.to change { Rsvp.count }.by(1)
       end
@@ -497,13 +519,10 @@ describe RsvpsController do
   end
 
   describe "#destroy" do
-    before do
-      @user = create(:user)
-      sign_in @user
-    end
-
     context "when an organizer deletes by id" do
       before do
+        @user = create(:user)
+        sign_in @user
         create(:organizer_rsvp, event: @event, user: @user)
         @rsvp = create(:student_rsvp, event: @event, user: create(:user))
       end
@@ -524,8 +543,30 @@ describe RsvpsController do
         flash[:notice].should match(/no longer signed up/i)
       end
     end
-    
+
+    context "when not signed in and an RSVP token is available" do
+      before do
+        @user = create(:user)
+      end
+
+      let!(:rsvp) { create(:student_rsvp, event: @event, user: @user, token: 'iamatoken') }
+
+      def request_delete
+        delete :destroy, event_id: @event.id, id: rsvp.id, token: rsvp.token
+      end
+
+      it "should destroy the rsvp and reorder the waitlist" do
+        expect { request_delete }.to change { Rsvp.count }.by(-1)
+        expect { rsvp.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
     context "when a user has an existing rsvp" do
+      before do
+        @user = create(:user)
+        sign_in @user
+      end
+
       it "should destroy the rsvp" do
         @rsvp = create(:student_rsvp, event: @event, user: @user)
 
@@ -578,6 +619,11 @@ describe RsvpsController do
     end
 
     context "when there is no RSVP for this user" do
+      before do
+        @user = create(:user)
+        sign_in @user
+      end
+
       it "should notify the user s/he has not signed up to volunteer for the event" do
         expect {
           delete :destroy, event_id: 3298423, id: 29101

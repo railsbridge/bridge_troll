@@ -207,8 +207,10 @@ ActiveRecord::Schema.define(version: 20150813035954) do
     t.integer  "section_id"
     t.boolean  "checkiner",                           default: false
     t.text     "plus_one_host"
+    t.string   "token"
   end
 
+  add_index "rsvps", ["token"], name: "index_rsvps_on_token", unique: true
   add_index "rsvps", ["user_id", "event_id", "user_type"], name: "index_rsvps_on_user_id_and_event_id_and_event_type", unique: true
 
   create_table "sections", force: :cascade do |t|

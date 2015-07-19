@@ -18,7 +18,7 @@ You're signed up to <%= verb(@rsvp.role) %> <%= pluralize(@rsvp.rsvp_sessions.co
 
 If any of your details (childcare, class preference, food needs) change, you can <%= link_to 'update your RSVP here', edit_event_rsvp_path(@rsvp.event, @rsvp.id) %>.
 
-If your plans change and you can't make it to the workshop, be sure to <%= link_to "cancel your RSVP on the event page", event_url(@rsvp.event) %><% if @rsvp.role_student? %> so that someone from the waitlist can have your spot<% end %>.
+If your plans change and you can't make it to the workshop, be sure to <%= link_to "cancel your RSVP", event_rsvp_quick_destroy_confirm_url(@rsvp.event, @rsvp, token: @rsvp.token) } %><% if @rsvp.role_student? %> so that someone from the waitlist can have your spot<% end %>.
 
 <% if @rsvp.role_student? %>
   <%= @rsvp.event.student_details %>

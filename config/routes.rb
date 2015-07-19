@@ -35,10 +35,13 @@ Bridgetroll::Application.routes.draw do
     end
 
     resources :rsvps, except: [:show, :index, :new] do
+      get :quick_destroy_confirm
+
       new do
         get :volunteer
         get :learn
       end
+
       resources :surveys, only: [:new, :create]
     end
 
