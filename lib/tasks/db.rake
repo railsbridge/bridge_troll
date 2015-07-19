@@ -50,8 +50,8 @@ db_namespace = namespace :db do
   desc "Dump current database to db/PRODUCTION.dump"
   task :dump => :environment do
     cmd = nil
-    with_config do |app, host, db, user|
-      cmd = "pg_dump --host #{host} --username #{user} --verbose --clean --no-owner --no-acl --format=c #{db} > #{Rails.root}/db/PRODUCtION.dump"
+    with_config do |app, host, db|
+      cmd = "pg_dump --host #{host} --no-owner --no-acl --format=c #{db} > #{Rails.root}/db/PRODUCtION.dump"
     end
     exec(cmd)
     raise 'Error dumping database' if $?.exitstatus == 1
@@ -60,8 +60,8 @@ db_namespace = namespace :db do
   desc "Restores the database dump at db/PRODUCTION.dump"
   task :restore => [:environment, 'db:drop', 'db:create' ] do
     cmd = nil
-    with_config do |app, host, db, user|
-      cmd = "pg_restore --verbose --host #{host} --username #{user} --clean --no-owner --no-acl --dbname #{db} #{Rails.root}/db/PRODUCTION.dump"
+    with_config do |app, host, db|
+      cmd = "pg_restore --verbose --host #{host} --clean --no-owner --no-acl --dbname #{db} #{Rails.root}/db/PRODUCTION.dump"
     end
     exec(cmd)
    end

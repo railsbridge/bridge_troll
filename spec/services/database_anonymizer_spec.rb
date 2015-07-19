@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe DatabaseAnonymizer do
   describe '.anonymize_database' do
+    before do
+      $stdout.stub(:write)
+    end
+    
     let(:anonymize) { DatabaseAnonymizer.anonymize_database }
 
     it 'anonymizes the User table' do
@@ -43,17 +47,17 @@ describe DatabaseAnonymizer do
                                                                      user.first_name,
                                                                      user.last_name,
                                                                      user.gender,
-                                                                     user.encrypted_password] }
+                                                                     user.password] }
     end
     it 'does not replace data for a sample admin user' do
       user = create(:user)
       user.email = 'admin@example.com'
-      expect { DatabaseAnonymizer.anonymize_user(user) }.to_not change{ [user.email, user.encrypted_password] }
+      expect { DatabaseAnonymizer.anonymize_user(user) }.to_not change{ [user.email, user.password] }
     end
     it 'does not replace data for a sample organizer user' do
       user = create(:user)
       user.email = 'organizer@example.com'
-      expect { DatabaseAnonymizer.anonymize_user(user) }.to_not change{ [user.email, user.encrypted_password] }
+      expect { DatabaseAnonymizer.anonymize_user(user) }.to_not change{ [user.email, user.password] }
     end
   end
 
