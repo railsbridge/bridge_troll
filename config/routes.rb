@@ -31,14 +31,16 @@ Bridgetroll::Application.routes.draw do
     end
 
     resources :rsvps, except: [:show, :index, :new] do
+      get :quick_destroy_confirm
+
       new do
         get :volunteer
         get :learn
       end
+
       resources :surveys, only: [:new, :create]
     end
-
-    resources :surveys, only: [:new, :index]
+ resources :surveys, only: [:new, :index]
 
     resources :event_sessions, only: [:index, :show, :destroy] do
       resources :checkins, only: [:index, :create, :destroy]

@@ -1,10 +1,15 @@
 class RsvpsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [:quick_destroy_confirm, :destroy]
   before_filter :assign_event
-  before_filter :load_rsvp, except: [:volunteer, :learn, :create]
+  before_filter :load_rsvp, only: [:edit, :update]
   before_filter :redirect_if_rsvp_exists, only: [:volunteer, :learn]
   before_filter :redirect_if_event_in_past
 
+  def quick_destroy_confirm
+    @rsvp = Rsvp.where(event_id: params[:event_id], id: params[:rsvp_id]).take
+    @token = params[:token]
+    render 'rsvps/quick_destroy_confirm'
+  end
 
   def volunteer
     @rsvp = @event.rsvps.build(user: current_user)
@@ -20,6 +25,7 @@ class RsvpsController < ApplicationController
 
   def create
     @rsvp = Rsvp.new(rsvp_params)
+    generate_token
     @rsvp.event = @event
     @rsvp.user = current_user
     if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
@@ -70,12 +76,18 @@ class RsvpsController < ApplicationController
   end
 
   def destroy
+    @rsvp = Rsvp.find_by(token: params[:token]) if params[:token]
+
+    if @rsvp.nil?
+      authenticate_user! && load_rsvp
+    end
+
     Rsvp.transaction do
       @rsvp.destroy
       WaitlistManager.new(@event.reload).reorder_waitlist!
     end
 
-    if @event.organizer?(current_user)
+    if current_user && @event.organizer?(current_user)
       redirect_to event_attendees_path(@event), notice: "#{@rsvp.user.first_name} is no longer signed up for #{@event.title}"
     else
       redirect_to events_path, notice: "You are now no longer signed up for #{@event.title}"
@@ -135,5 +147,13 @@ class RsvpsController < ApplicationController
 
   def assign_event
     @event = Event.find_by_id(params[:event_id])
+    if @event.nil?
+      redirect_to events_path, notice: 'You are not signed up for this event'
+    end
+  end
+
+  def generate_token
+    token = SecureRandom.uuid.gsub(/\-/, '')
+    @rsvp.update(token: token)
   end
 end
