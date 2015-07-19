@@ -314,6 +314,14 @@ describe Event do
     end
   end
 
+  describe "#close_rsvps" do
+    it "closes the event" do
+      event = create(:event, open: true)
+      event.close_rsvps
+      expect(event.reload).to be_closed
+    end
+  end
+
   describe "#students_at_limit?" do
     context "when the event has a student limit" do
       let(:event) { create(:event, student_rsvp_limit: 2) }

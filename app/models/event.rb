@@ -86,6 +86,15 @@ class Event < ActiveRecord::Base
     "http://#{meetup_group_url}/events/#{meetup_event_id}/"
   end
 
+  def close_rsvps
+    self.open = false
+    self.save
+  end
+
+  def closed?
+    !open?
+  end
+
   def students_at_limit?
     if student_rsvp_limit
       student_rsvps_count >= student_rsvp_limit

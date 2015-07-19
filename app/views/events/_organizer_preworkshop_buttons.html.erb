@@ -37,6 +37,11 @@
       'Workshop Cookbook',
       "Organizing events is a lot of work! RailsBridge has put together a detailed
         guide to running a workshop (easily used for other events, too)."
+     ],
+     [event_close_rsvps_path(@event),
+      'fa fa-pencil',
+      'Close RSVPs',
+      "Prevent RSVPs from volunteers and students. This will also close the waitlist. To close RSVPs just for students, change the number of attendees by editing the event."
      ]
    ].each do |button| %>
   <%= render 'shared/organizer_action',
