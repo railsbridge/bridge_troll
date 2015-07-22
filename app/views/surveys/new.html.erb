@@ -2,21 +2,12 @@
 
 <%= render 'shared/model_error_messages', model: @survey %>
 
-<% if @survey_preview_mode || @rsvp.persisted? == false%>
-<%  @event_surveys_path = ''  %>
-<% else %>             %>
-<%  @event_surveys_path = event_rsvp _surveys_path(@event.id, @rsvp.id)  %>
-<% end %>
-
 <h2>How was <%= @event.title %>?</h2>
-<p> <%= @event.survey_greeting %>
-</p>
+<p>We love feedback, so let us know how things went for you and anything you think we could make better in the future!</p>
 
 <div class="row">
   <div class="col-md-6 survey-form">
-
-
-    <%= simple_form_for @survey, url: @event_surveys_path do |f| %>
+    <%= simple_form_for @survey, url: event_rsvp_surveys_path(@event.id, @rsvp.id) do |f| %>
       <%= f.input :good_things, label: "What was great?" %>
 
       <%= f.input :bad_things, label: "What could have been better?" %>
@@ -26,9 +17,7 @@
       <%= f.label :recommendation_likelihood, "How likely are you to recommend a Railsbridge workshop to a friend or colleague? (10 is very likely, 1 is unlikely)" %>
       <%= f.select :recommendation_likelihood, (1..10).to_a.reverse, {}, {class: 'form-control'} %>
 
-      <% unless @survey_preview_mode %>
-        <%= f.submit "Submit", class: "btn" unless @survey.persisted? %>
-      <% end %>
+      <%= f.submit "Submit", class: "btn" unless @survey.persisted? %>
     <% end %>
   </div>
 </div>

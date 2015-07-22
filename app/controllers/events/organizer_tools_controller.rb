@@ -24,16 +24,6 @@ class Events::OrganizerToolsController < ApplicationController
     end
   end
 
-  def preview_and_send_survey
-    role = Role.find_by_id(params[:role_id])
-    @rsvp = @event.rsvps.build(role: role)
-    @rsvp.setup_for_role(role)
-
-    @survey = Survey.new
-    @survey_preview_mode = true
-    render "surveys/new"
-  end
-
   def send_survey_email
     SurveySender.send_surveys(@event)
     flash[:notice] = "Follow up survey emails sent!"
