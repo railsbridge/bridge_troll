@@ -15,7 +15,6 @@ class Event < ActiveRecord::Base
   belongs_to_active_hash :course
 
   has_one :chapter, through: :location
-  has_one :survey_greeting
 
   has_many :rsvps, dependent: :destroy, inverse_of: :event
   has_many :sections, dependent: :destroy
