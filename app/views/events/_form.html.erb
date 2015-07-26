@@ -40,6 +40,15 @@
     <%= collection_select :event, :course_id, Course.all, :id, :title, {}, {class: 'form-control'} %>
   </div>
 
+  <div class="field workshop-only">
+    <%= f.input :target_audience, label: 'What population is this workshop reaching out to?' %>
+    <p>
+      <em>
+        All workshops must reach out to one or more underrepresented population in text, such as women, people of color, or transgender people.
+      </em>
+    </p>
+  </div>
+
   <div class="field">
     <%= f.input :time_zone, priority: ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
   </div>

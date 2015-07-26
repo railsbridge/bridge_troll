@@ -10,8 +10,26 @@ describe Event do
   it { should have_many(:event_sessions) }
   it { should validate_numericality_of(:student_rsvp_limit) }
   it { should validate_numericality_of(:volunteer_rsvp_limit) }
-
   it { should validate_presence_of(:title) }
+
+  describe "validation of target_audience" do
+    subject { Event.new }
+    before { subject.stub(:allow_student_rsvp?) { true } }
+    it { should validate_presence_of(:target_audience) }
+
+    context "when event is not a workshop" do
+      before { subject.stub(:allow_student_rsvp?) { false } }
+      it { should_not validate_presence_of(:target_audience) }
+    end
+
+    context "when event is not a new event and never had target_audience set" do
+      before {
+        subject.stub(:new_record?) { false }
+        subject.stub(:target_audience_was) { false }
+      }
+      it { should_not validate_presence_of(:target_audience) }
+    end
+  end
 
   it "validates that there is at least one event session" do
     event = create(:event)
@@ -141,33 +159,23 @@ describe Event do
   describe '#starts_at, #ends_at' do
     it 'populates from the event_session when creating an event+session together' do
       next_year = DateTime.current.year + 1
-      event = Event.create(
-        title: "Amazingly Sessioned Event",
-        details: "This is note in the details attribute.",
-        time_zone: "Hawaii",
-        published: true,
-        student_rsvp_limit: 100,
-        volunteer_rsvp_limit: 75,
-        course_id: Course::RAILS.id,
-        volunteer_details: "I am some details for volunteers.",
-        student_details: "I am some details for students.",
-        event_sessions_attributes: {
-          "0" => {
-            name: "My Amazing Session",
-            required_for_students: "1",
-            "starts_at(1i)" => next_year.to_s,
-            "starts_at(2i)" => "01",
-            "starts_at(3i)" => "12",
-            "starts_at(4i)" => "15",
-            "starts_at(5i)" => "15",
-            "ends_at(1i)" => next_year.to_s,
-            "ends_at(2i)" => "01",
-            "ends_at(3i)" => "12",
-            "ends_at(4i)" => "17",
-            "ends_at(5i)" => "45"
-          }
+      attrs = attributes_for(:event, event_sessions_attributes: {
+        "0" => {
+          name: "My Amazing Session",
+          required_for_students: "1",
+          "starts_at(1i)" => next_year.to_s,
+          "starts_at(2i)" => "01",
+          "starts_at(3i)" => "12",
+          "starts_at(4i)" => "15",
+          "starts_at(5i)" => "15",
+          "ends_at(1i)" => next_year.to_s,
+          "ends_at(2i)" => "01",
+          "ends_at(3i)" => "12",
+          "ends_at(4i)" => "17",
+          "ends_at(5i)" => "45"
         }
-      )
+      })
+      event = Event.create(attrs)
       event.starts_at.should == event.event_sessions.first.starts_at
       event.ends_at.should == event.event_sessions.first.ends_at
     end

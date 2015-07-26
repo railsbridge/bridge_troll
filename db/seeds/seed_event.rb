@@ -82,6 +82,7 @@ module Seeder
       course_id: Course::RAILS.id,
       location: location,
       published: true,
+      target_audience: 'women',
       details: <<-DETAILS.strip_heredoc
         <h2>Workshop Description</h2>
 

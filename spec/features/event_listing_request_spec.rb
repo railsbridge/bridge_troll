@@ -68,6 +68,7 @@ describe "the event listing page" do
       it "can create a new course" do
         fill_in_good_event_details
         
+        fill_in "event_target_audience", :with => "women"
         fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
         check("coc")
         click_button submit_for_approval_button
@@ -91,6 +92,7 @@ describe "the event listing page" do
 
       it "can create a non-teaching event" do
         fill_in "Title", with: "Volunteer Work Day"
+        fill_in "event_target_audience", :with => "women"
         choose "Just Volunteers"
 
         within ".event-sessions" do
@@ -117,6 +119,7 @@ describe "the event listing page" do
         click_link "Organize Event"
 
         fill_in "Title", with: "March Event"
+        fill_in "event_target_audience", :with => "women"
         select "Front End", :from => "event_course_id"
         fill_in "Student RSVP limit", with: 100
 

@@ -1,7 +1,7 @@
 require 'meetups'
 
 class Event < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:title, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems, :draft_saved]
+  PERMITTED_ATTRIBUTES = [:title, :target_audience, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems, :draft_saved]
 
   serialize :allowed_operating_system_ids, JSON
 
@@ -46,6 +46,7 @@ class Event < ActiveRecord::Base
   validates_presence_of :time_zone
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
   validates :allowed_operating_system_ids, array_of_ids: OperatingSystem.all.map(&:id), if: :restrict_operating_systems?
+  validates_presence_of :target_audience, unless: :historical?, if: [:allow_student_rsvp?, :target_audience_required?]
 
   with_options(unless: :historical?) do |normal_event|
     normal_event.with_options(if: :allow_student_rsvp?) do |workshop_event|
@@ -57,6 +58,10 @@ class Event < ActiveRecord::Base
       workshop_event.validates_numericality_of :volunteer_rsvp_limit, only_integer: true, greater_than: 0
       workshop_event.validate :validate_volunteer_rsvp_limit
     end
+  end
+
+  def target_audience_required?
+    new_record? || target_audience_was
   end
 
   def location_name

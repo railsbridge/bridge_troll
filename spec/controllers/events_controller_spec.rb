@@ -223,6 +223,7 @@ describe EventsController do
           {
             "event" => {
               "title" => "Party Zone",
+              "target_audience" => "yaya",
               "time_zone" => "Alaska",
               "student_rsvp_limit" => 100,
               "event_sessions_attributes" => {

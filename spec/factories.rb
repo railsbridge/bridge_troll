@@ -36,6 +36,7 @@ FactoryGirl.define do
     course_id Course::RAILS.id
     volunteer_details "I am some details for volunteers."
     student_details "I am some details for students."
+    target_audience "default target audience"
 
     factory :event do
       before(:create) do |event, evaluator|

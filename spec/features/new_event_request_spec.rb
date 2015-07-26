@@ -11,6 +11,11 @@ describe "New Event" do
     visit "/events/new"
   end
 
+  it "should have 'Target Audience'" do
+    label = 'What population is this workshop reaching out to?'
+    page.should have_field(label)
+  end
+
   it "should pre-fill the event details textarea" do
     page.should have_field('Details')
     page.field_labeled('Details')[:value].should =~ /Workshop Description/
@@ -43,6 +48,7 @@ describe "New Event" do
 
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do
     fill_in_good_event_details
+    fill_in 'event_target_audience', :with => "women"
     
     check('Do you want to restrict the operating systems students should use?')
     uncheck('Linux - Other')
@@ -85,6 +91,7 @@ describe "New Event" do
 
     it 'allows a draft to be saved' do
       fill_in_good_event_details
+      fill_in 'event_target_audience', :with => "women"
       page.should have_button 'Save Draft'
       click_on 'Save Draft'
 
