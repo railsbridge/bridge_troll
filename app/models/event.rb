@@ -91,6 +91,11 @@ class Event < ActiveRecord::Base
     self.save
   end
 
+  def reopen_rsvps
+    self.open = true
+    self.save
+  end
+
   def closed?
     !open?
   end

@@ -46,4 +46,10 @@ class Events::OrganizerToolsController < ApplicationController
     flash[:notice] = "RSVPs closed successfully."
     redirect_to event_organizer_tools_path(@event)
   end
+
+  def reopen_rsvps
+    @event.reopen_rsvps
+    flash[:notice] = "RSVPs reopened successfully."
+    redirect_to event_organizer_tools_path(@event)
+  end
 end

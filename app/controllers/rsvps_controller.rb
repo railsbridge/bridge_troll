@@ -7,46 +7,58 @@ class RsvpsController < ApplicationController
 
 
   def volunteer
-    @rsvp = @event.rsvps.build(user: current_user)
-    @rsvp.setup_for_role(Role::VOLUNTEER)
-    render :new
+    if @event.open?
+      @rsvp = @event.rsvps.build(user: current_user)
+      @rsvp.setup_for_role(Role::VOLUNTEER)
+      render :new
+    else
+      redirect_for_closed_event
+    end
   end
 
   def learn
-    @rsvp = @event.rsvps.build(user: current_user)
-    @rsvp.setup_for_role(Role::STUDENT)
-    render :new
+    if @event.open?
+      @rsvp = @event.rsvps.build(user: current_user)
+      @rsvp.setup_for_role(Role::STUDENT)
+      render :new
+    else
+      redirect_for_closed_event
+    end
   end
 
   def create
-    @rsvp = Rsvp.new(rsvp_params)
-    @rsvp.event = @event
-    @rsvp.user = current_user
-    if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
-      @rsvp.role = Role.find(params[:rsvp][:role_id])
-    end
-
-    Rsvp.transaction do
-      if @event.students_at_limit? && @rsvp.role_student?
-        @rsvp.waitlist_position = (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
+    if @event.open?
+      @rsvp = Rsvp.new(rsvp_params)
+      @rsvp.event = @event
+      @rsvp.user = current_user
+      if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
+        @rsvp.role = Role.find(params[:rsvp][:role_id])
       end
 
-      if @event.volunteers_at_limit? && @rsvp.role_volunteer?
-        @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0 ) + 1
+      Rsvp.transaction do
+        if @event.students_at_limit? && @rsvp.role_student?
+          @rsvp.waitlist_position = (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
+        end
+
+        if @event.volunteers_at_limit? && @rsvp.role_volunteer?
+          @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0 ) + 1
+        end
+
+        set_dietary_restrictions(@rsvp, params[:dietary_restrictions])
+
+        if @rsvp.save
+          apply_other_changes_from_params
+
+          RsvpMailer.confirmation(@rsvp).deliver_now
+          notice_message = 'Thanks for signing up!'
+          notice_message << " We've added you to the waitlist." if @rsvp.waitlisted?
+          redirect_to @event, notice: notice_message
+        else
+          render :new
+        end
       end
-
-      set_dietary_restrictions(@rsvp, params[:dietary_restrictions])
-
-      if @rsvp.save
-        apply_other_changes_from_params
-
-        RsvpMailer.confirmation(@rsvp).deliver_now
-        notice_message = 'Thanks for signing up!'
-        notice_message << " We've added you to the waitlist." if @rsvp.waitlisted?
-        redirect_to @event, notice: notice_message
-      else
-        render :new
-      end
+    else
+      redirect_for_closed_event
     end
   end
 
@@ -83,6 +95,11 @@ class RsvpsController < ApplicationController
   end
 
   protected
+
+  def redirect_for_closed_event
+    flash[:error] = "Sorry. This event is closed!"
+    redirect_to @event
+  end
 
   def apply_other_changes_from_params
     @rsvp.user.update_attributes(gender: params[:user][:gender])

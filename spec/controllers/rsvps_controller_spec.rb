@@ -34,7 +34,30 @@ describe RsvpsController do
       end
     end
 
+    describe "when the event is closed" do
+      before do
+        @event.update_attributes(open: false)
+      end
+
+      it 'does not allow RSVPing' do
+        get :volunteer, event_id: @event.id
+        response.should redirect_to(event_path(@event))
+        flash[:error].should be_present
+
+        get :learn, event_id: @event.id
+        response.should redirect_to(event_path(@event))
+        flash[:error].should be_present
+
+        rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event)
+        post :create, event_id: @event.id, rsvp: rsvp_params
+        response.should redirect_to(event_path(@event))
+        flash[:error].should be_present
+
+      end
+    end
+
     describe "#volunteer" do
+
       it "creates an RSVP for the volunteer role" do
         get :volunteer, event_id: @event.id
         assigns(:rsvp).role.should == Role::VOLUNTEER

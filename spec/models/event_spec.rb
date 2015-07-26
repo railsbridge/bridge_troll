@@ -318,7 +318,15 @@ describe Event do
     it "closes the event" do
       event = create(:event, open: true)
       event.close_rsvps
-      expect(event.reload).to be_closed
+      expect(event).to be_closed
+    end
+  end
+
+  describe "#reopen_rsvps" do
+    it "reopens the event" do
+      event = create(:event, open: false)
+      event.reopen_rsvps
+      expect(event).to be_open
     end
   end
 

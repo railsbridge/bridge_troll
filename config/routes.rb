@@ -51,6 +51,7 @@ Bridgetroll::Application.routes.draw do
       get "diets"
       get "rsvp_preview"
       get "close_rsvps"
+      get "reopen_rsvps"
     end
 
     collection do
