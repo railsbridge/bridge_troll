@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :past_events, :all_events, :show, :levels]
-  before_filter :find_event, except: [:index, :past_events, :all_events, :create, :new]
-  before_filter :validate_organizer!, except: [:index, :past_events, :all_events, :create, :show, :new, :levels]
+  before_filter :authenticate_user!, except: [:index, :feed, :past_events, :all_events, :show, :levels]
+  before_filter :find_event, except: [:index, :feed, :past_events, :all_events, :create, :new]
+  before_filter :validate_organizer!, except: [:index, :feed, :past_events, :all_events, :create, :show, :new, :levels]
   before_filter :set_time_zone, only: [:create, :update]
 
   def index
@@ -12,6 +12,15 @@ class EventsController < ApplicationController
         @past_events = sort_by_starts_at(combined_past_events)
       end
       format.json { render json: @events }
+    end
+  end
+
+  def feed
+    @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location, :chapter)
+
+    respond_to do |format|
+      format.rss {render 'events/feed.rss.builder', layout: false}
+      format.atom {render 'events/feed.atom.builder', layout: false}
     end
   end
 

@@ -464,4 +464,62 @@ describe EventsController do
       result_titles.should == [@past_event, @past_external_event, @future_external_event, @future_event].map(&:title)
     end
   end
+
+  describe "GET feed" do
+    let!(:event) { create(:event, title: 'DonutBridge') }
+    let!(:other_event) { create(:event, title: 'C5 Event!') }
+    render_views
+
+    context "when format is RSS" do
+      before do
+        get :feed, format: :rss
+      end
+
+      it "successfully directs to xml rss feed" do
+        response.should be_success
+
+        event.should be_in(assigns(:events))
+        other_event.should be_in(assigns(:events))
+      end
+
+      it "has rss formatting" do
+        response.body.should include 'rss'
+      end
+
+      it "includes the website title" do
+        response.body.should include ('RailsBridge')
+      end
+
+      it "includes all events" do
+        response.body.should include ('DonutBridge')
+        response.body.should include ('C5 Event!')
+      end
+    end
+
+    context "when format is Atom" do
+      before do
+        get :feed, format: :atom
+      end
+
+      it "successfully directs to xml rss feed" do
+        response.should be_success
+
+        event.should be_in(assigns(:events))
+        other_event.should be_in(assigns(:events))
+      end
+
+      it "has rss formatting" do
+        response.body.should include 'feed'
+      end
+
+      it "includes the website title" do
+        response.body.should include ('RailsBridge')
+      end
+
+      it "includes all events" do
+        response.body.should include ('DonutBridge')
+        response.body.should include ('C5 Event!')
+      end
+    end
+  end
 end
