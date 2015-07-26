@@ -61,16 +61,6 @@ function attempt_to() {
 	$@ || exit $?
 }
 
-function warn_missing_meetup_api_key() {
-	cat <<-MISSING_MEETUP_KEY
-		You don't have Meetup credentials in your environment.
-
-		If you want to import events from Meetup, find your Meetup account's API
-		key at http://www.meetup.com/meetup_api/key/ then add it to your .env file
-		as MEETUP_API_KEY=your_api_key_goes_here
-	MISSING_MEETUP_KEY
-}
-
 if is_missing phantomjs
 then
 	alert_missing_phantomjs
@@ -100,10 +90,5 @@ then
 fi
 
 attempt_to bundle install --without production
-
-if [ -z "$MEETUP_API_KEY" ]
-then
-	warn_missing_meetup_api_key
-fi
 
 attempt_to bundle exec rake db:create db:migrate db:test:prepare

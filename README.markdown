@@ -109,7 +109,6 @@ When developing the parts of Bridge Troll that communicate with external service
 To set up environment variables for the Rails server, you'll need to create an `.env` file in the Bridge Troll directory. Here's a sample one (note these are not real API keys):
 
 ```
-MEETUP_API_KEY=12345
 MEETUP_OAUTH_KEY=90210
 MEETUP_OAUTH_SECRET=5551212
 RAILS_ENV=development
@@ -139,12 +138,6 @@ To test authenticating with Meetup using your localhost server, you need to [reg
 When you add a new OAuth consumer, set the _Website_ as `http://www.bridgetroll.org`, the _Redirect URI_ as `http://localhost:3000/users/auth/meetup/callback`.
 
 The values for _key_ and _secret_ on the OAuth consumers page should be added to your local environment as MEETUP_OAUTH_KEY and MEETUP_OAUTH_SECRET, respectively.
-
-### Importing data from Meetup
-
-This section is only necessary if you want to import Meetup data. The app will still work, and the tests will all pass, without setting any Meetup API keys.
-
-To import historical data from Meetup, use the rake task `rake meetup:import`. This requires you set up a MEETUP_API_KEY in your local environment, which you can find on Meetup at http://www.meetup.com/meetup_api/key/.
 
 ## Contributors
 One billion thanks to our [super awesome contributors](https://github.com/railsbridge/bridge_troll/contributors).
