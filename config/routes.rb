@@ -30,6 +30,10 @@ Bridgetroll::Application.routes.draw do
       post :arrange, on: :collection
     end
 
+    collection do
+      get :feed
+    end
+
     resources :rsvps, except: [:show, :index, :new] do
       new do
         get :volunteer

@@ -4,46 +4,46 @@ describe EventsController do
   describe "GET index" do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
-    it "successfully assigns upcoming events" do
-      get :index
-      response.should be_success
-      assigns(:events).should == [event]
-    end
-
-    describe "when rendering views" do
-      render_views
-
-      describe "when external events are present" do
-        before do
-          event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
-          event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
-          create(:external_event, name: 'SalsaBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
-        end
-
-        it 'renders a combination of internal and external events' do
-          get :index
-          response.body.should include('PastBridge')
-          response.body.should include('DonutBridge')
-          response.body.should include('SalsaBridge')
-        end
+      it "successfully assigns upcoming events" do
+        get :index
+        response.should be_success
+        assigns(:events).should == [event]
       end
 
-      describe "#allow_student_rsvp?" do
-        let(:attend_text) { 'Attend' }
+      describe "when rendering views" do
+        render_views
 
-        it "shows an 'Attend' button when allowing student RSVP" do
-          event.update_attribute(:allow_student_rsvp, true)
-          get :index
-          response.body.should include(attend_text)
+        describe "when external events are present" do
+          before do
+            event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
+            event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
+            create(:external_event, name: 'SalsaBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
+          end
+
+          it 'renders a combination of internal and external events' do
+            get :index
+            response.body.should include('PastBridge')
+            response.body.should include('DonutBridge')
+            response.body.should include('SalsaBridge')
+          end
         end
 
-        it "hides the 'Attend' button when not allowing student RSVP" do
-          event.update_attribute(:allow_student_rsvp, false)
-          get :index
-          response.body.should_not include(attend_text)
+        describe "#allow_student_rsvp?" do
+          let(:attend_text) { 'Attend' }
+
+          it "shows an 'Attend' button when allowing student RSVP" do
+            event.update_attribute(:allow_student_rsvp, true)
+            get :index
+            response.body.should include(attend_text)
+          end
+
+          it "hides the 'Attend' button when not allowing student RSVP" do
+            event.update_attribute(:allow_student_rsvp, false)
+            get :index
+            response.body.should_not include(attend_text)
+          end
         end
       end
-    end
   end
 
   describe "GET show" do
@@ -461,6 +461,64 @@ describe EventsController do
       get :all_events, format: 'json'
       result_titles = JSON.parse(response.body).map{ |e| e['title'] }
       result_titles.should == [@past_event, @past_external_event, @future_external_event, @future_event].map(&:title)
+    end
+  end
+
+  describe "GET feed" do
+    let!(:event) { create(:event, title: 'DonutBridge') }
+    let!(:other_event) { create(:event, title: 'C5 Event!') }
+    render_views
+
+    context "when format is RSS" do
+      before do
+        get :feed, format: :rss
+      end
+
+      it "successfully directs to xml rss feed" do
+        response.should be_success
+
+        event.should be_in(assigns(:events))
+        other_event.should be_in(assigns(:events))
+      end
+
+      it "has rss formatting" do
+        response.body.should include 'rss'
+      end
+
+      it "includes the website title" do
+        response.body.should include ('RailsBridge')
+      end
+
+      it "includes all events" do
+        response.body.should include ('DonutBridge')
+        response.body.should include ('C5 Event!')
+      end
+    end
+
+    context "when format is Atom" do
+      before do
+        get :feed, format: :atom
+      end
+
+      it "successfully directs to xml rss feed" do
+        response.should be_success
+
+        event.should be_in(assigns(:events))
+        other_event.should be_in(assigns(:events))
+      end
+
+      it "has rss formatting" do
+        response.body.should include 'feed'
+      end
+
+      it "includes the website title" do
+        response.body.should include ('RailsBridge')
+      end
+
+      it "includes all events" do
+        response.body.should include ('DonutBridge')
+        response.body.should include ('C5 Event!')
+      end
     end
   end
 end
