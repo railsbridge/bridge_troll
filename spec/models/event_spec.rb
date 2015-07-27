@@ -560,4 +560,12 @@ describe Event do
       end
     end
   end
+
+  describe '#meetup_url' do
+    let(:event) { create(:event, meetup_student_event_id: 71323202) }
+
+    it 'creates the URL for a known meetup event' do
+      expect(event.meetup_url(event.meetup_student_event_id)).to eq('http://www.meetup.com/Los-Angeles-Womens-Ruby-on-Rails-Group/events/71323202/')
+    end
+  end
 end
