@@ -35,6 +35,7 @@
           <div class='time'>End time: <%= formatted_session_time(event_session, :ends_at) %></div>
           <%= image_tag 'ics.gif', width: 16, height: 16, alt: '' %>
           <%= link_to 'Export to iCal', event_event_session_path(@event, event_session, format: :ics), download: "#{event_session.id}.ics" %>
+          <%= link_to 'Export to google calendar', google_calendar_event_url(@event, event_session), :target => "_blank" %>
         </div>
       <% end %>
     </div>

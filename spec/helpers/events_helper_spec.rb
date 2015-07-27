@@ -52,4 +52,42 @@ describe EventsHelper do
       end
     end
   end
+
+
+  describe "#google_calendar_event_url(event, event_session)" do
+    let(:event) { event_for_dates(DateTime.tomorrow, DateTime.tomorrow + 1.day) }
+    let(:event_session) { event.event_sessions.first }
+
+    context "by default" do
+      before do
+        @calendar_event_url = URI.parse(helper.google_calendar_event_url(event, event_session))
+        @calendar_event_params = Rack::Utils.parse_nested_query(@calendar_event_url.query)
+      end
+
+      it "uses the correct google endpoint" do
+        @calendar_event_url.host.should == "www.google.com"
+        @calendar_event_url.path.should == "/calendar/event"
+      end
+
+      it "configures the event title" do
+        @calendar_event_params["action"].should == "TEMPLATE"
+      end
+
+      it "formats the title the way we talked about" do
+        @calendar_event_params["text"].should == "#{event.title}: #{event_session.name}"
+      end
+
+      it "provides the start and end time as 'dates'" do
+        @calendar_event_params.should have_key("dates")
+
+        start_date, end_date = @calendar_event_params["dates"].split('/')
+        start_date.should == event_session.starts_at.utc.strftime('%Y%m%dT%H%M00Z')
+        end_date.should == event_session.ends_at.utc.strftime('%Y%m%dT%H%M00Z')
+      end
+
+      it "puts a link to the event in the details" do
+        @calendar_event_params["details"].should == "more details here: #{event_url(event)}"
+      end
+    end
+  end
 end

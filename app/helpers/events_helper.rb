@@ -114,4 +114,16 @@ module EventsHelper
       "PUBLISHED"
     end
   end
+
+  def google_calendar_event_url(event, event_session)
+    params = {}
+    params["action"] = "TEMPLATE"
+    params["text"] = "#{event.title}: #{event_session.name}"
+    params["dates"] = [event_session.starts_at, event_session.ends_at].map {|date| 
+      date.utc.strftime('%Y%m%dT%H%M00Z')
+    }.join('/')
+    params["details"] = "more details here: #{event_url(event)}"
+
+    URI::HTTP.build(host: "www.google.com", path: "/calendar/event", query: params.to_query).to_s
+  end
 end
