@@ -1,8 +1,8 @@
-require 'faker'
-
 # anonymizes historical data to use for attendance forecasting.
 class DatabaseAnonymizer
   def initialize(logger = nil)
+    require 'faker'
+
     @logger = logger || Logger.new(STDOUT)
     @logger.formatter = proc do |severity, datetime, progname, msg|
       "#{msg}\n"
