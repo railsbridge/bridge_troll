@@ -42,7 +42,7 @@ db_namespace = namespace :db do
       puts "You can't run this on production!"
       exit(-1)
     else
-      DatabaseAnonymizer.anonymize_database
+      DatabaseAnonymizer.new.anonymize_database
       puts 'Success!'
     end
   end

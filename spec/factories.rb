@@ -124,4 +124,11 @@ FactoryGirl.define do
     bad_things "More vegan food"
     other_comments "Thank you!"
   end
+
+  factory :event_email do
+    event
+    association(:sender, factory: :user)
+    subject 'hello world'
+    body 'this is an exciting email'
+  end
 end
