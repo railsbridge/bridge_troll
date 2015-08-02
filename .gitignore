@@ -14,6 +14,9 @@ custom_plan.rb
 # Ignore the default SQLite database.
 /db/*.sqlite3
 
+# Ignore database dumps
+/db/*.dump
+
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
