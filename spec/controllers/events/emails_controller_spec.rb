@@ -40,6 +40,35 @@ describe Events::EmailsController do
       recipients.should =~ [@student.email, @waitlisted.email, @organizer.email]
     end
 
+    context 'when including organizers' do
+      let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
+      let(:another_organizer) { create :user }
+
+      before do
+        @event.organizers << another_organizer
+      end
+
+      context "when cc_organizers flag is true" do
+        it "allows emails to be cc'd to all organizers" do
+          expect {
+            post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id, cc_organizers: true)
+          }.to change(ActionMailer::Base.deliveries, :count).by(1)
+
+          expect(recipients).to include another_organizer.email
+        end
+      end
+
+      context "when cc_organizers flag is falsy" do
+        it "allows emails to be cc'd to all organizers" do
+          expect {
+            post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id, cc_organizers: false)
+          }.to change(ActionMailer::Base.deliveries, :count).by(1)
+
+          expect(recipients).to_not include another_organizer.email
+        end
+      end
+    end
+
     describe "when some attendees have been checked in" do
       before do
         @volunteer.rsvps.first.rsvp_sessions.first.update_attribute(:checked_in, true)

@@ -29,10 +29,20 @@ recalculateRecipients = ->
   template = HandlebarsTemplates['email_attendees_popover']
   $('.recipients-popover').data('bs.popover').options.content = template({recipients: recipients})
 
+toggleOrganizerCopy = (hello)->
+  checked = $('.cc-organizers').prop('checked')
+
+  if (checked)
+    $('.organizer-copy').show()
+  else
+    $('.organizer-copy').hide()
+
 window.setupEmailPage = ->
   $('.attendee-group, .include-waitlisted, .only-checked-in').change(recalculateRecipients)
+  $('.cc-organizers').change(toggleOrganizerCopy)
   $('.recipients-popover').popover
     trigger: 'click',
     html: true,
     title: 'Selected Recipients'
   recalculateRecipients();
+  toggleOrganizerCopy();

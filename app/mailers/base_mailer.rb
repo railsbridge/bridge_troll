@@ -3,11 +3,13 @@ class BaseMailer < ActionMailer::Base
 
   private
 
-  def set_recipients(recipients)
+  def set_recipients(recipients, cc = nil)
     # Sendgrid API allows a single SMTP request to send multiple
     # email messages. Change this to something else if we move
     # away from Sendgrid.
     # http://sendgrid.com/docs/API_Reference/SMTP_API/
+
+    recipients += cc unless cc == nil
 
     headers['X-SMTPAPI'] = {
       to: recipients

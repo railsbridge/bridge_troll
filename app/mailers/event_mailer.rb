@@ -7,7 +7,7 @@ class EventMailer < BaseMailer
     @sender = options[:sender]
     @body = options[:body]
 
-    set_recipients(options[:recipients])
+    set_recipients(options[:recipients], options[:cc])
 
     mail(
       from: "#{@sender.full_name} <#{@sender.email}>",

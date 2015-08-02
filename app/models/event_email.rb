@@ -1,5 +1,5 @@
 class EventEmail < ActiveRecord::Base
-  attr_accessor :attendee_group, :include_waitlisted, :only_checked_in
+  attr_accessor :attendee_group, :include_waitlisted, :only_checked_in, :cc_organizers
 
   belongs_to :sender, class_name: 'User'
 
