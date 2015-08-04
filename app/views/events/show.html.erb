@@ -34,12 +34,14 @@
           <div class='time'>Start time: <%= formatted_session_time(event_session, :starts_at) %></div>
           <div class='time'>End time: <%= formatted_session_time(event_session, :ends_at) %></div>
           <div class='ical'>
-            <%= image_tag 'ics.gif', width: 16, height: 16, alt: '' %>
-            <%= link_to 'Export to iCal', event_event_session_path(@event, event_session, format: :ics), download: "#{event_session.id}.ics" %>
+            <%= link_to event_event_session_path(@event, event_session, format: :ics), download: "#{event_session.id}.ics" do %>
+              <i class="fa fa-calendar-plus-o"></i> Export to iCal
+            <% end %>
           </div>
           <div class='gcal'>
-            <%= image_tag 'ics.gif', width: 16, height: 16, alt: '' %>
-            <%= link_to 'Export to Google Calendar', google_calendar_event_url(@event, event_session), target: "_blank" %>
+            <%= link_to google_calendar_event_url(@event, event_session), target: "_blank" do %>
+              <i class="fa fa-calendar-plus-o"></i> Export to Google Calendar
+            <% end %>
           </div>
         </div>
       <% end %>
