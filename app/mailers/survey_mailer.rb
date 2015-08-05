@@ -1,4 +1,5 @@
 class SurveyMailer < BaseMailer
+  add_template_helper(EventsHelper)
   def notification(rsvp)
     @rsvp = rsvp
     mail(
