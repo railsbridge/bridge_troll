@@ -279,6 +279,63 @@ class Course < ActiveHash::Base
           ]
         }
       ]
+    }, {
+      id: 7,
+      name: 'Go',
+      title: 'Go Programming Language',
+      description: 'This is a Golang event. The focus will be on developing a variety of systems and applications in Go. You can find all the curriculum materials at <a href="https://github.com/gobridge/hardcore-go">https://github.com/gobridge/hardcore-go</a>.',
+      levels: [
+        {
+          level: 1,
+          color: 'blue',
+          title: "Totally New to Programming",
+          level_description: [
+            'You have little to no experience with the terminal or a graphical IDE',
+            'You might have done a little bit with HTML or CSS, but not necessarily',
+            'You\'re unfamiliar with terms like functions, arrays, lists, hashes/maps, or dictionaries.'
+          ]
+        }, {
+          level: 2,
+          color: 'green',
+          title: "Somewhat New to Programming",
+          level_description: [
+            'You may have used the terminal a little — to change directories, for instance',
+            'You might have done an online programming tutorial or two',
+            'You don\'t have a lot of experience with Rails',
+            'You know what a function is',
+            'You aren\'t totally clear on how a request gets from the browser to your app'
+          ]
+        }, {
+          level: 3,
+          color: 'gold',
+          title: "Some Go Experience",
+          level_description: [
+            'You\'re comfortable using the terminal, but not necessarily a Power User',
+            'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
+            'You know how to define a function in Go',
+            'You have a decent handle on Go slices and maps',
+          ]
+        }, {
+          level: 4,
+          color: 'orange',
+          title: "Other Programming Experience",
+          level_description: [
+            'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
+            'You\'re new to Go',
+            'You might be familiar with version control and basic web architecture'
+          ]
+        }, {
+          level: 5,
+          color: 'purple',
+          title: "Ready for the Next Challenge",
+          level_description: [
+            'You\'ve gone through the <a href="http://tour.golang.org/welcome/1">Go Tour</a>.',
+            'You\'re comfortable with the terminal',
+            'You want to problem-solve instead of copying other\'s code',
+            'You want to build an app with minimum guidance'
+          ]
+        }
+      ]
     }
   ]
   enum_accessor :name
