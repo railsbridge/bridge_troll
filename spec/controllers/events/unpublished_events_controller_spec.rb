@@ -54,6 +54,10 @@ describe Events::UnpublishedEventsController do
   end
 
   describe "POST #publish" do
+    def make_request
+      post :publish, unpublished_event_id: @event.id
+    end
+
     before do
       this_chapter = @event.chapter
       this_chapter.update_attributes(name: 'RailsBridge Shellmound')
@@ -79,11 +83,13 @@ describe Events::UnpublishedEventsController do
 
     let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
 
-    it 'sets the event to "published" and mails every user that is associated with this chapter' do
-      expect {
-        post :publish, unpublished_event_id: @event.id
-      }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      @event.reload.should be_published
+    it 'publishes the event' do
+      make_request
+      expect(@event.reload).to be_published
+    end
+
+    it 'mails every user that is associated with this chapter' do
+      expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
       recipients.should =~ [@user_this_chapter.email, @user_both_chapters.email]
 
@@ -92,12 +98,21 @@ describe Events::UnpublishedEventsController do
       mail.body.should include(@event.title)
     end
 
-    it 'sends no emails if the event has email_on_approval set to false' do
-      @event.update_attribute(:email_on_approval, false)
+    context 'if the announcement emails should be sent manually' do
+      before do
+        @event.update_attribute(:email_on_approval, false)
+      end
+
+      it 'sends no emails' do
+        expect { make_request }.not_to change(ActionMailer::Base.deliveries, :count)
+      end
+    end
+
+    it 'updates the time the announcement email was sent' do
+      @event.update_attribute(:email_on_approval, true)
       expect {
-        post :publish, unpublished_event_id: @event.id
-      }.not_to change(ActionMailer::Base.deliveries, :count)
-      @event.reload.should be_published
+        make_request
+      }.to change{ @event.reload.announcement_email_sent_at.present? }.from(false).to(true)
     end
   end
 end

@@ -1,5 +1,6 @@
 <div class='organizer-action'>
-  <%= link_to path, class: "organizer-action #{local_assigns[:style] == :inline ? 'organizer-action-inline' : ''}", data: { confirm: local_assigns[:confirm] } do %>
+  <% verb ||= :get %>
+  <%= link_to path, method: verb, class: "organizer-action #{local_assigns[:style] == :inline ? 'organizer-action-inline' : ''}", data: { confirm: local_assigns[:confirm] } do %>
     <div class='organizer-action-button'>
       <i class='<%= icon %>'></i>
       <%= text %>

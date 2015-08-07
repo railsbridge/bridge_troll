@@ -59,6 +59,7 @@ Bridgetroll::Application.routes.draw do
       get "rsvp_preview"
       get "close_rsvps"
       get "reopen_rsvps"
+      post "send_announcement_email"
     end
 
     collection do

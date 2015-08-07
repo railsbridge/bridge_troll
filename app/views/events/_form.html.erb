@@ -222,7 +222,13 @@
 
     <div class="field non-bolded">
       <%= f.label :email_on_approval do %>
-        <%= f.check_box :email_on_approval %> Send announcement email to chapter when the event is approved
+        <%= label_tag do %>
+          <%= f.radio_button :email_on_approval, true %> Send the announcement email when the event is approved
+        <% end %>
+        <%= label_tag do %>
+          <%= f.radio_button :email_on_approval, false %> Let me control when to send the announcement email
+          <i>(A button will show up on your organizer console when your event is approved)</i>
+        <% end %>
       <% end %>
     </div>
   <% end %>

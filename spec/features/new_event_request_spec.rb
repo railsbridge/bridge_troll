@@ -62,6 +62,12 @@ describe "New Event" do
     expect(Event.last.allowed_operating_systems.count).to eq(OperatingSystem.count - 2)
   end
 
+  it 'allows organizer to choose when to send their announcement email' do
+    page.find('#event_email_on_approval_true')[:checked].should == 'checked'
+    choose('event_email_on_approval_true')
+    choose('event_email_on_approval_false')
+  end
+
   context 'after clicking "Add another session"', js: true do
     before do
       click_on 'Add another session'
@@ -92,12 +98,14 @@ describe "New Event" do
     it 'allows a draft to be saved' do
       fill_in_good_event_details
       fill_in 'event_target_audience', :with => "women"
+      choose('event_email_on_approval_false')
       page.should have_button 'Save Draft'
       click_on 'Save Draft'
 
       page.should have_content('Draft saved')
       page.current_path.should eq '/events'
       page.should have_button 'Save Draft'
+      page.find('#event_email_on_approval_false')[:checked].should == true
 
       visit '/events'
       page.find('.upcoming-events .event-title').text.should match(Regexp.new(good_event_title))

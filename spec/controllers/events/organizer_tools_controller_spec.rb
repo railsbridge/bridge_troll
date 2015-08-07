@@ -101,4 +101,52 @@ describe Events::OrganizerToolsController do
       end
     end
   end
+
+  describe "POST #send_announcement_email" do
+    let(:organizer) { create(:user) }
+
+    def make_request
+      post :send_announcement_email, event_id: event.id
+    end
+
+    it_behaves_like "an event action that requires an organizer"
+
+    context "as an event organizer" do
+      before do
+        sign_in organizer
+        event.organizers << organizer
+      end
+
+      context "when announcement has been sent" do
+        before do
+          event.update_attribute(:announcement_email_sent_at, DateTime.now)
+        end
+
+        it "doesn't send the email" do
+          expect { make_request }.not_to change(ActionMailer::Base.deliveries, :count)
+        end
+      end
+
+      context "when the event has not be published" do
+        before do
+          event.update_attribute(:published, false)
+        end
+
+        it "doesn't send the email" do
+          expect { make_request }.not_to change(ActionMailer::Base.deliveries, :count)
+        end
+      end
+      
+      context "when the event has been published and announcement email has not been sent" do
+        before do
+          event.update_attribute(:published, true)
+          event.update_attribute(:announcement_email_sent_at, nil)
+        end
+
+        it "sends the email" do
+          expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
+      end
+    end
+  end
 end

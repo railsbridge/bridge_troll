@@ -52,4 +52,15 @@ class Events::OrganizerToolsController < ApplicationController
     flash[:notice] = "RSVPs reopened successfully."
     redirect_to event_organizer_tools_path(@event)
   end
+
+  def send_announcement_email
+    @event = Event.find(params[:event_id])
+    if @event.announcement_email_sent_at.nil? and @event.published?
+      EventMailer.new_event(@event).deliver_now
+      @event.update_attribute(:announcement_email_sent_at, DateTime.now)
+      redirect_to event_organizer_tools_path(@event), notice: "Your announcement email was sent!"
+    else
+      redirect_to event_organizer_tools_path(@event), alert: "You can't do that."
+    end
+  end
 end
