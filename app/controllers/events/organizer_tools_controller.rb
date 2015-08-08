@@ -40,4 +40,16 @@ class Events::OrganizerToolsController < ApplicationController
     @rsvp_preview_mode = true
     render "rsvps/new"
   end
+
+  def close_rsvps
+    @event.close_rsvps
+    flash[:notice] = "RSVPs closed successfully."
+    redirect_to event_organizer_tools_path(@event)
+  end
+
+  def reopen_rsvps
+    @event.reopen_rsvps
+    flash[:notice] = "RSVPs reopened successfully."
+    redirect_to event_organizer_tools_path(@event)
+  end
 end

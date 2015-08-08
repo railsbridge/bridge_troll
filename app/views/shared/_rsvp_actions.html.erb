@@ -14,8 +14,12 @@
   <%= link_to 'Cancel RSVP', event_rsvp_path(event, event.rsvp_for_user(current_user)), data: {confirm: 'Are you sure you want to cancel your RSVP?'}, method: :delete, class: 'btn' %>
 <% end %>
 <% if event.no_rsvp?(current_user) %>
-  <% if event.allow_student_rsvp? %>
-    <%= link_to student_attend_button_text(event), learn_new_event_rsvp_path(event), class: 'btn' %>
+  <% if event.open? %>
+    <% if event.allow_student_rsvp? %>
+      <%= link_to student_attend_button_text(event), learn_new_event_rsvp_path(event), class: 'btn' %>
+    <% end %>
+    <%= link_to volunteer_attend_button_text(event), volunteer_new_event_rsvp_path(event), class: 'btn' %>
+  <% else %>
+    <div class='rsvp-text'>RSVPs are closed!</div>
   <% end %>
-  <%= link_to volunteer_attend_button_text(event), volunteer_new_event_rsvp_path(event), class: 'btn' %>
 <% end %>

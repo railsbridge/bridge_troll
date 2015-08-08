@@ -4,7 +4,7 @@ class RsvpsController < ApplicationController
   before_filter :load_rsvp, except: [:volunteer, :learn, :create]
   before_filter :redirect_if_rsvp_exists, only: [:volunteer, :learn]
   before_filter :redirect_if_event_in_past
-
+  before_filter :redirect_if_event_closed, only: [:volunteer, :learn, :create]
 
   def volunteer
     @rsvp = @event.rsvps.build(user: current_user)
@@ -83,6 +83,13 @@ class RsvpsController < ApplicationController
   end
 
   protected
+
+  def redirect_if_event_closed
+    if !@event.open?
+      flash[:error] = "Sorry. This event is closed!"
+      redirect_to @event
+    end
+  end
 
   def apply_other_changes_from_params
     @rsvp.user.update_attributes(gender: params[:user][:gender])

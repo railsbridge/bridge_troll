@@ -1,3 +1,19 @@
+<% rsvp_button = 
+  if @event.open     
+    [event_close_rsvps_path(@event),
+      'fa fa-pencil',
+      'Close RSVPs',
+      "Prevent RSVPs from volunteers and students. This will also close the waitlist. To close RSVPs just for students, change the number of attendees by editing the event."
+     ]
+   else
+    [event_reopen_rsvps_path(@event),
+      'fa fa-pencil',
+      'Open RSVPs',
+      "Reopen RSVPs for volunteers and students."
+     ]
+   end
+  %>
+
 <% [
      [event_organizers_path(@event),
       'fa fa-key',
@@ -37,7 +53,8 @@
       'Workshop Cookbook',
       "Organizing events is a lot of work! RailsBridge has put together a detailed
         guide to running a workshop (easily used for other events, too)."
-     ]
+     ],
+     rsvp_button
    ].each do |button| %>
   <%= render 'shared/organizer_action',
     path: button[0],
