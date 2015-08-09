@@ -27,6 +27,16 @@ class RsvpMailer < BaseMailer
     )
   end
 
+  def childcare_notification(rsvp)
+    @rsvp = rsvp
+    set_recipients(rsvp.event.organizers.map(&:email))
+
+    mail(
+      subject: "Childcare request for #{rsvp.event.title}",
+      template_name: 'childcare_notification'
+    )
+  end
+
   private
 
   def email(rsvp, subject)

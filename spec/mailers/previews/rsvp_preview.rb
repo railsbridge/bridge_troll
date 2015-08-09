@@ -15,4 +15,7 @@ class RsvpPreview < ActionMailer::Preview
     RsvpMailer.off_waitlist(Rsvp.first)
   end
 
+  def childcare_notification
+    RsvpMailer.childcare_notification(Rsvp.first)
+  end
 end
