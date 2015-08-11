@@ -25,7 +25,7 @@ class Events::EmailsController < ApplicationController
     end
 
     if email_params[:cc_organizers]
-      cc_recipients = @event.organizers.map(&:email)
+      cc_recipients = @event.organizers.map(&:email) - [current_user.email]
     end
 
     @email = @event.event_emails.build(

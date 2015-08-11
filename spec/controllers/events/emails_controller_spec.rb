@@ -54,7 +54,7 @@ describe Events::EmailsController do
             post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id, cc_organizers: true)
           }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-          expect(recipients).to include another_organizer.email
+          expect(recipients).to match_array([@student.email, @organizer.email, another_organizer.email])
         end
       end
 
@@ -64,7 +64,7 @@ describe Events::EmailsController do
             post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id, cc_organizers: false)
           }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-          expect(recipients).to_not include another_organizer.email
+          expect(recipients).to match_array([@student.email, @organizer.email])
         end
       end
     end
