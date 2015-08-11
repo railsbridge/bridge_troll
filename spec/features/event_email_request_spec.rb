@@ -53,4 +53,15 @@ describe "the email page" do
 
     recipients.length.should == 4
   end
+
+  it "should have a 'CC all organizers' checkbox" do
+    expect(page).to have_unchecked_field("CC all organizers")
+  end
+
+  it "should show an accurate count of the # of cc'd recipients when selecting cc checkboxes", js: true do
+    page.should_not have_content ("1 event organizer")
+    
+    check 'CC all organizers'
+    page.should have_content ("1 event organizer")
+  end
 end

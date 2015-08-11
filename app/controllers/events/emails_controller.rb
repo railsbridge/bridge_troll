@@ -24,6 +24,10 @@ class Events::EmailsController < ApplicationController
       recipient_rsvps = recipient_rsvps.where('checkins_count > 0')
     end
 
+    if email_params[:cc_organizers]
+      cc_recipients = @event.organizers.map(&:email)
+    end
+
     @email = @event.event_emails.build(
       subject: email_params[:subject],
       body: email_params[:body],
@@ -41,6 +45,7 @@ class Events::EmailsController < ApplicationController
     EventMailer.from_organizer(
       sender: current_user,
       recipients: recipient_rsvps.map { |rsvp| rsvp.user.email } + [current_user.email],
+      cc: cc_recipients,
       subject: email_params[:subject],
       body: email_params[:body],
       event: @event

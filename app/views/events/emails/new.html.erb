@@ -41,19 +41,33 @@
       </div>
 
       <div class='col-md-6'>
-        <%= label_tag do %>
-          <%= f.check_box(:include_waitlisted, {class: 'include-waitlisted'}, true, false) %> Include waitlisted students
-        <% end %>
-        <%= label_tag do %>
-          <%= f.check_box(:only_checked_in, {class: 'only-checked-in'}, true, false) %> Only attendees who checked in (Good for
-          post-event emails)
-        <% end %>
+        <div>
+          <%= label_tag do %>
+            <%= f.check_box(:include_waitlisted, {class: 'include-waitlisted'}, true, false) %> Include waitlisted students
+          <% end %>
+        </div>
+        <div>
+          <%= label_tag do %>
+            <%= f.check_box(:only_checked_in, {class: 'only-checked-in'}, true, false) %> Only attendees who checked in (Good for
+            post-event emails)
+          <% end %>
+        </div>
+        <div>
+          <%= label_tag do %>
+            <%= f.check_box(:cc_organizers, {class: 'cc-organizers'}, true, false) %> CC all organizers
+          <% end %>
+        </div>
       </div>
     </div>
 
     <div class='mail-count'>
-      This email will be sent to <span class='num'><b><%= @rsvps.length %></b> <%= pluralize @rsvps, 'people' %>
-      .</span> <span class='recipients-popover'>[Who?]</span>
+      <div>
+        This email will be sent to <span class='num'><b><%= @rsvps.length %></b> <%= pluralize @rsvps, 'people' %>
+        .</span> <span class='recipients-popover'>[Who?]</span>
+      </div>
+      <div>
+        <span class="organizer-copy"><%= pluralize @event.organizers.length, 'event organizer' %> will be CC'd.</span>
+      </div>
     </div>
 
     <div class="row">
