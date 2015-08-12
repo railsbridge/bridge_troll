@@ -7,35 +7,49 @@ describe Events::UnpublishedEventsController do
 
   describe "GET #index" do
     before do
-      @chapter1 = @event.chapter
-      @chapter1.update_attributes(name: 'RailsBridge Shellmound')
-      @chapter2 = create(:chapter, name: 'RailsBridge Meriloft')
-
-      user_none = create(:user)
-
-      user_chapter1 = create(:user)
-      user_chapter1.chapters << @chapter1
-
-      user_chapter2 = create(:user)
-      user_chapter2.chapters << @chapter2
-
-      user_both_chapters = create(:user)
-      user_both_chapters.chapters << @chapter1
-      user_both_chapters.chapters << @chapter2
-
-      user_no_email = create(:user, allow_event_email: false)
-      user_no_email.chapters << @chapter1
-
       sign_in create(:user, publisher: true)
     end
 
-    it "assigns a hash of chapter/user counts" do
+    it 'displays events that are publishable' do
+      published_event = create(:event, published: true, draft_saved: false)
+      draft_event = create(:event, published: false, draft_saved: true)
+      pending_approval_event = create(:event, published: false, draft_saved: false)
+
       get :index
 
-      assigns(:chapter_user_counts).should == {
-        @chapter1.id => 2,
-        @chapter2.id => 2
-      }
+      assigns(:events).should match_array([pending_approval_event])
+    end
+
+    describe 'chapter user counts' do
+      before do
+        @chapter1 = @event.chapter
+        @chapter1.update_attributes(name: 'RailsBridge Shellmound')
+        @chapter2 = create(:chapter, name: 'RailsBridge Meriloft')
+
+        user_none = create(:user)
+
+        user_chapter1 = create(:user)
+        user_chapter1.chapters << @chapter1
+
+        user_chapter2 = create(:user)
+        user_chapter2.chapters << @chapter2
+
+        user_both_chapters = create(:user)
+        user_both_chapters.chapters << @chapter1
+        user_both_chapters.chapters << @chapter2
+
+        user_no_email = create(:user, allow_event_email: false)
+        user_no_email.chapters << @chapter1
+      end
+
+      it "assigns a hash of chapter/user counts" do
+        get :index
+
+        assigns(:chapter_user_counts).should == {
+          @chapter1.id => 2,
+          @chapter2.id => 2
+        }
+      end
     end
   end
 

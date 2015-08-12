@@ -10,7 +10,7 @@ class Events::UnpublishedEventsController < ApplicationController
     @chapter_user_counts = chapters.each_with_object({}) do |chapter, hsh|
       hsh[chapter.id] = chapter.users.length
     end
-    @events = Event.upcoming.where(published: false, spam: false)
+    @events = Event.upcoming.where(published: false, draft_saved: false, spam: false)
   end
 
   def publish
