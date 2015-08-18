@@ -1,13 +1,13 @@
 <% rsvp_button = 
   if @event.open     
     [event_close_rsvps_path(@event),
-      'fa fa-pencil',
+      'fa fa-lock',
       'Close RSVPs',
       "Prevent RSVPs from volunteers and students. This will also close the waitlist. To close RSVPs just for students, change the number of attendees by editing the event."
      ]
    else
     [event_reopen_rsvps_path(@event),
-      'fa fa-pencil',
+      'fa fa-unlock',
       'Open RSVPs',
       "Reopen RSVPs for volunteers and students."
      ]
