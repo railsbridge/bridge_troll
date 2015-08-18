@@ -22,12 +22,7 @@
         <% else %>
           <%= event.title %>
         <% end %>
-        <% if event.meetup_student_event_id %>
-          <%= link_to "[S]", event.meetup_url(event.meetup_student_event_id), class: 'meetup-link' %>
-        <% end %>
-        <% if event.meetup_volunteer_event_id %>
-          <%= link_to "[V]", event.meetup_url(event.meetup_volunteer_event_id), class: 'meetup-link' %>
-        <% end %>
+        <%= meetup_links(event) %>
       </td>
       <td>
         <%= formatted_event_date(event) %>

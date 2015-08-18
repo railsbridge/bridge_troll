@@ -64,6 +64,17 @@ module EventsHelper
     ).gsub(%r{(</h\d>|</li>|<ul>|<li>)\s*<br\s*/>}, '\1').html_safe # remove unsightly </h2>\n<br/> combos
   end
 
+  def meetup_links(event)
+    links = []
+    if event.meetup_student_event_id
+      links << link_to("[S]", event.meetup_url(event.meetup_student_event_id), class: 'meetup-link').html_safe
+    end
+    if event.meetup_volunteer_event_id
+      links << link_to("[V]", event.meetup_url(event.meetup_volunteer_event_id), class: 'meetup-link').html_safe
+    end
+    links.join("\n").html_safe
+  end
+
   def formatted_event_date_range(event)
     first_date = event.event_sessions.map { |s| s.date_in_time_zone(:starts_at) }.min
     last_date = event.event_sessions.map { |s| s.date_in_time_zone(:ends_at) }.max
