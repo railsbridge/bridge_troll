@@ -42,8 +42,10 @@ class RsvpsController < ApplicationController
         apply_other_changes_from_params
 
         RsvpMailer.confirmation(@rsvp).deliver_now
+        RsvpMailer.childcare_notification(@rsvp).deliver_now if @rsvp.childcare_info?
         notice_message = 'Thanks for signing up!'
         notice_message << " We've added you to the waitlist." if @rsvp.waitlisted?
+
         redirect_to @event, notice: notice_message
       else
         render :new

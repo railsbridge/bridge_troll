@@ -1,0 +1,10 @@
+Hey Organizers,
+
+<p>There is a new childcare request for <%= @rsvp.event.title %>!</p>
+
+<p>The request was made by <%= @rsvp.user.full_name %>. The information about the request can be seen directly below:</p>
+<p><%= @rsvp.childcare_info %></p>
+
+<p>Visit the <%= link_to 'event page', event_url(@rsvp.event) %> for more information about the event.</p>
+
+<p>- The Troll</p>

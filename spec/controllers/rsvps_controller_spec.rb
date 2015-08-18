@@ -430,6 +430,8 @@ describe RsvpsController do
         end
 
         context "when childcare_needed is checked" do
+          let(:child_info) { "Johnnie Kiddo, 7\nJane Kidderino, 45" }
+
           it "should has validation errors for blank childcare_info" do
             post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
               needs_childcare: '1', childcare_info: '')
@@ -437,12 +439,40 @@ describe RsvpsController do
           end
 
           it "updates sets childcare_info when not blank" do
-            child_info = "Johnnie Kiddo, 7\nJane Kidderino, 45"
             post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
               needs_childcare: '1',
               childcare_info: child_info
             ), user: { gender: "human" }
+
             assigns[:rsvp].childcare_info.should == child_info
+          end
+
+          context "the email" do
+            let(:organizers) { create_list :user, 2 }
+
+            before do
+              @event.organizers = organizers
+            end
+
+            it "is sent to organizers" do
+              expect {
+                post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
+                  needs_childcare: '1',
+                  childcare_info: child_info
+                ), user: { gender: "human" }
+              }.to change(ActionMailer::Base.deliveries, :count).by(2)
+              # This action also sends a confirmation email to the student.
+            end
+
+            it "has the correct recipients" do
+              post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
+                needs_childcare: '1',
+                childcare_info: child_info
+              ), user: { gender: "human" }
+
+              recipients = JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to']
+              recipients.should =~ @event.organizers.map(&:email)
+            end
           end
         end
       end
