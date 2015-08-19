@@ -24,6 +24,8 @@ class Rsvp < ActiveRecord::Base
   scope :confirmed, -> { where("waitlist_position IS NULL") }
   scope :needs_childcare, -> { where("childcare_info <> ''") }
 
+  after_initialize :set_defaults
+
   after_save :update_counter_cache
   after_destroy :update_counter_cache
 
@@ -56,6 +58,12 @@ class Rsvp < ActiveRecord::Base
   belongs_to_active_hash :volunteer_assignment
   belongs_to_active_hash :operating_system
   belongs_to_active_hash :volunteer_preference
+
+  def set_defaults
+    if has_attribute?(:token)
+      self.token ||= SecureRandom.uuid.gsub(/\-/, '')
+    end
+  end
 
   # Dispatch to the two possible types of user, the modern kind (User) or imports
   # from meetup (MeetupUser). This is mostly important for weird eager loading

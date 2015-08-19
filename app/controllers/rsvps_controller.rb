@@ -20,7 +20,6 @@ class RsvpsController < ApplicationController
 
   def create
     @rsvp = Rsvp.new(rsvp_params)
-    @rsvp.token = SecureRandom.uuid.gsub(/\-/, '')
     @rsvp.event = @event
     @rsvp.user = current_user
     if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
@@ -73,14 +72,14 @@ class RsvpsController < ApplicationController
   end
 
   def quick_destroy_confirm
-    @rsvp = Rsvp.find_by(token: params[:token])
+    @rsvp = Rsvp.find_by(token: params[:token]) if params[:token].present?
     unless @rsvp
-      redirect_to events_path, notice: 'You are not signed up for this event'
+      redirect_to event_path(@event), notice: 'Unable to find RSVP!'
     end
   end
 
   def destroy
-    @rsvp = Rsvp.find_by(token: params[:token]) if params[:token]
+    @rsvp = Rsvp.find_by(token: params[:token]) if params[:token].present?
 
     if @rsvp.nil?
       authenticate_user! && load_rsvp

@@ -84,6 +84,10 @@ describe WaitlistManager do
       expect {
         WaitlistManager.new(@event).promote_from_waitlist!(@waitlisted)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
+
+      confirmation_mail = ActionMailer::Base.deliveries.last
+      @waitlisted.token.should be_truthy
+      confirmation_mail.body.should include(@waitlisted.token)
     end
 
     it 'does nothing if there is no room' do
