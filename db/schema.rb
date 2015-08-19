@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20150818033729) do
     t.string   "target_audience"
     t.boolean  "open",                           default: true
     t.text     "survey_greeting"
+    t.datetime "announcement_email_sent_at"
   end
 
   create_table "external_events", force: :cascade do |t|

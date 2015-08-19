@@ -7,6 +7,14 @@
   <div class="col-md-6">
     <h2>Tools for before the event</h2>
     <section class='organizer-dashboard-section'>
+      <%= render partial: 'shared/organizer_action', locals: {
+        path: event_send_announcement_email_path(@event),
+        icon: 'fa fa-envelope',
+        text: 'Send Announcement Email',
+        tip: "Send an announcement email for your event to members subscribed to your event's chapter.",
+        confirm: 'Are you sure?',
+        verb: :post
+      } %>
       <%= render partial: 'events/organizer_preworkshop_buttons' %>
     </section>
 
