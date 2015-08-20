@@ -575,19 +575,30 @@ describe RsvpsController do
     end
 
     context "when not signed in and an RSVP token is available" do
-      before do
-        @user = create(:user)
-      end
-
-      let!(:rsvp) { create(:student_rsvp, event: @event, user: @user, token: 'iamatoken') }
-
-      def request_delete
-        delete :destroy, event_id: @event.id, id: rsvp.id, token: rsvp.token
-      end
+      let!(:rsvp) { create(:student_rsvp, event: @event, token: 'iamatoken') }
 
       it "should destroy the rsvp and reorder the waitlist" do
-        expect { request_delete }.to change { Rsvp.count }.by(-1)
+        expect {
+          delete :destroy, event_id: @event.id, id: rsvp.id, token: rsvp.token
+        }.to change { Rsvp.count }.by(-1)
+
         expect { rsvp.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'when using an invalid RSVP token' do
+      before do
+        @user = create(:user)
+        sign_in @user
+      end
+
+      it 'does nothing' do
+        expect {
+          delete :destroy, event_id: @event.id, id: 123, token: 'abcdefg'
+        }.not_to change { Rsvp.count }
+
+        flash[:notice].should match(/You are not signed up/i)
+        response.should be_redirect
       end
     end
 

@@ -83,6 +83,7 @@ class RsvpsController < ApplicationController
 
     if @rsvp.nil?
       authenticate_user! && load_rsvp
+      return unless @rsvp
     end
 
     Rsvp.transaction do
