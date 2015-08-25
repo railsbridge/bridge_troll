@@ -79,8 +79,10 @@ Bridgetroll::Application.routes.draw do
 
   get "/about" => "static_pages#about"
   get "/admin_dashboard" => "admin_pages#admin_dashboard"
-  get "/admin_dashboard/send_test_email" => "admin_pages#send_test_email"
-  get "/admin_dashboard/raise_exception" => "admin_pages#raise_exception"
+  scope '/admin_dashboard', controller: :admin_pages do
+    get "send_test_email"
+    get "raise_exception"
+  end
 
   if Rails.env.development?
     get "/style_guide" => "static_pages#style_guide"

@@ -111,7 +111,7 @@
 
 <h2>System Health</h2>
 <%= render partial: 'shared/organizer_action', locals: {
-  path: '/admin_dashboard/send_test_email',
+  path: send_test_email_path,
   icon: 'fa fa-envelope',
   text: 'Send Test Email',
   tip: "Send an email from Bridge Troll to #{current_user.email}",
@@ -119,7 +119,7 @@
 } %>
 
 <%= render partial: 'shared/organizer_action', locals: {
-  path: '/admin_dashboard/raise_exception',
+  path: raise_exception_path,
   icon: 'fa fa-warning',
   text: 'Raise an Exception',
   tip: "Intentionally raise an exception (to test whether exception handling is configured correctly)",
