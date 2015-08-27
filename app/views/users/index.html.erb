@@ -16,10 +16,9 @@
     <tr>
       <td><%= link_to user.full_name, user.profile_path %></td>
       <td data-label="Meetup ID:"><% if user.meetup_id %><%= link_to user.meetup_id, "http://www.meetup.com/members/#{user.meetup_id}/" %><% end %></td>
-      <% attendance = @attendances[user.class.name.to_sym][user.id] %>
-      <td data-label="Student RSVPs:"><%= attendance[Role::STUDENT.id] %></td>
-      <td data-label="Volunteer RSVPs:"><%= attendance[Role::VOLUNTEER.id] %></td>
-      <td data-label="Organizer RSVPs:"><%= attendance[Role::ORGANIZER.id] %></td>
+      <td data-label="Student RSVPs:"><%= user.student_rsvp_count %></td>
+      <td data-label="Volunteer RSVPs:"><%= user.volunteer_rsvp_count %></td>
+      <td data-label="Organizer RSVPs:"><%= user.organizer_rsvp_count %></td>
     </tr>
   <% end %>
   </tbody>

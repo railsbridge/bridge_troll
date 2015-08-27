@@ -31,26 +31,18 @@ describe UsersController do
 
       it "shows a bunch of user names" do
         get :index
-        response.body.should include(ERB::Util.html_escape @user1.full_name)
-        response.body.should include(ERB::Util.html_escape @user2.full_name)
-      end
-
-      it "ignores users with no rsvps" do
-        get :index
-        response.body.should_not include(ERB::Util.html_escape @user_no_rsvps.full_name)
-      end
-
-      it "shows users that have associated with meetup" do
-        get :index
-        response.body.should include(ERB::Util.html_escape @bridgetroll_user.full_name)
+        [@user1, @user2, @user_no_rsvps, @bridgetroll_user].each do |user|
+          response.body.should include(ERB::Util.html_escape user.full_name)
+        end
       end
     end
 
     it "calculates attendances" do
       get :index
-      assigns(:attendances)[:MeetupUser][@user1.id][Role::VOLUNTEER.id].should == 2
-      assigns(:attendances)[:MeetupUser][@user2.id][Role::VOLUNTEER.id].should == 1
-      assigns(:attendances)[:User][@bridgetroll_user.id][Role::VOLUNTEER.id].should == 1
+      users = assigns(:users).each_with_object({}) { |u, hsh| hsh[u.to_global_id.to_s] = u }
+      users[@user1.to_global_id.to_s].volunteer_rsvp_count.should == 2
+      users[@user2.to_global_id.to_s].volunteer_rsvp_count.should == 1
+      users[@bridgetroll_user.to_global_id.to_s].volunteer_rsvp_count.should == 1
     end
   end
 end
