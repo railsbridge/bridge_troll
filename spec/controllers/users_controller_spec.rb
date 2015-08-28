@@ -31,7 +31,10 @@ describe UsersController do
 
       it "shows a bunch of user names" do
         get :index
-        [@user1, @user2, @user_no_rsvps, @bridgetroll_user].each do |user|
+        users = assigns(:users)
+        users.map { |u| u.to_global_id.to_s }.should match_array([@user1, @user2, @user_no_rsvps, @bridgetroll_user].map { |u| u.to_global_id.to_s })
+
+        users.each do |user|
           response.body.should include(ERB::Util.html_escape user.full_name)
         end
       end
