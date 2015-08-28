@@ -21,8 +21,12 @@ class UsersController < ApplicationController
   end
 
   def meetup_users
-    claimed_meetup_user_ids = meetup_ids_for_users.values.map(&:to_i)
-    MeetupUser.where('meetup_id NOT IN (?)', claimed_meetup_user_ids).all.map do |user|
+    query = <<-SQL.strip_heredoc
+      meetup_id NOT IN (
+        SELECT DISTINCT CAST(uid AS INT) FROM authentications WHERE provider = 'meetup'
+      )
+    SQL
+    MeetupUser.where(query).all.map do |user|
       IndexPageUser.new(user, user.meetup_id, @attendances[:MeetupUser][user.id])
     end
   end
