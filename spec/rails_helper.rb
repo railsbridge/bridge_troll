@@ -20,8 +20,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before(:each) do
-    # Remove after https://github.com/mattheworiordan/capybara-screenshot/pull/126
-    Capybara.save_and_open_page_path = Rails.root.join('tmp/capybara')
     WebMock.disable_net_connect!(allow_localhost: true)
   end
 
