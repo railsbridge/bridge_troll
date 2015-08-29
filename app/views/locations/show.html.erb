@@ -4,7 +4,12 @@
   <div class="col-md-4">
     <%= render "shared/map", location: @location %>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-8">
+    <% if @location.archived_at.present? %>
+      <div class="alert alert-warning">
+        This location is archived, and can no longer be used for events.
+      </div>
+    <% end %>
     <% if @location.chapter.has_leader?(current_user) %>
       <div class="pull-right">Last Updated: <%= @location.updated_at.to_formatted_s(:long) %></div>
     <% end %>
