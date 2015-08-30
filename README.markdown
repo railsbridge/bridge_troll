@@ -44,7 +44,7 @@ Make sure you have the correct version of ruby before installing the gems for th
 
 Finish setting up your environment (Note: This has nothing to do with Twitter Bootstrap)
 ```
-script/bootstrap
+bin/bootstrap
 ```
 
 To verify your environment is set up correctly, run the server
@@ -64,7 +64,7 @@ brew install phantomjs
 
 Then you can run tests by doing
 ```
-script/test
+bundle exec rake
 ```
 
 ### Seed Data
