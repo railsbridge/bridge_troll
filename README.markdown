@@ -42,9 +42,9 @@ cd bridge_troll
 
 Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run: `rvm install 2.2.2`. For rbenv, run: `rbenv install 2.2.2`.
 
-Finish setting up your environment (Note: This has nothing to do with Twitter Bootstrap)
+Finish setting up your environment
 ```
-bin/bootstrap
+bin/setup
 ```
 
 To verify your environment is set up correctly, run the server

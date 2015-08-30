@@ -1,21 +1,47 @@
 #!/usr/bin/env ruby
 require 'pathname'
 
+class String
+  def strip_heredoc
+    indent = scan(/^[ \t]*(?=\S)/).min.length
+    gsub(/^[ \t]{#{indent}}/, '')
+  end
+end
+
 # path to your application root.
 APP_ROOT = Pathname.new File.expand_path('../../',  __FILE__)
 
 Dir.chdir APP_ROOT do
-  # This script is a starting point to setup your application.
-  # Add necessary setup steps to this file:
+  is_osx = `uname`.strip == "Darwin"
 
   puts "== Installing dependencies =="
-  system "gem install bundler --conservative"
-  system "bundle check || bundle install"
+  expected_ruby_version = File.read(APP_ROOT.join('.ruby-version')).strip
+  if RUBY_VERSION != expected_ruby_version
+    puts "You're not using Ruby #{expected_ruby_version}. You should install or switch to it!"
+  end
 
-  # puts "\n== Copying sample files =="
-  # unless File.exist?("config/database.yml")
-  #   system "cp config/database.yml.sample config/database.yml"
-  # end
+  system "gem install bundler --conservative"
+  system "bundle check || bundle install --without production"
+  if `which phantomjs`.empty?
+    puts <<-EOT.strip_heredoc
+      You don't have phantomjs installed, which means you won't be able to run
+      our full test suite.
+    EOT
+
+    if is_osx
+      puts <<-EOT.strip_heredoc
+        Since you're on Mac OS X. You can install it with Homebrew using
+          brew install phantomjs
+
+        If you don't have homebrew, check out http://mxcl.github.com/homebrew/
+      EOT
+    else
+      puts <<-EOT.strip_heredoc
+        Use your system's package manager to install phantomjs.
+          http://phantomjs.org
+      EOT
+    end
+  end
 
   puts "\n== Preparing database =="
   system "bin/rake db:setup"
