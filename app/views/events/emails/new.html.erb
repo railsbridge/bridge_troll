@@ -2,112 +2,133 @@
 <%= content_for(:header_link, event_organizer_tools_path(@event)) %>
 
 <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Email Attendees'} %>
-
 <script>
-  var attendees = <%= @rsvps.includes(:user).map do |rsvp|
-    {
-      role_id: rsvp.role_id,
-      waitlisted: rsvp.waitlist_position != nil,
-      checkins_count: rsvp.checkins_count,
-      full_name: rsvp.user.full_name,
-      email: rsvp.user.email
-    }
+  var attendees = <%= @email.rsvps.map do |rsvp|
+  {
+    role_id: rsvp.role_id,
+    waitlisted: rsvp.waitlist_position != nil,
+    checkins_count: rsvp.checkins_count,
+    user_id: rsvp.user.id.to_s,
+    full_name: rsvp.user.full_name,
+    email: rsvp.user.email
+  }
   end.to_json.html_safe %>;
-  $(document).ready(setupEmailPage);
+
+  $(document).ready(function() {
+    Bridgetroll.EventEmailAddresser.init(attendees)
+  });
 </script>
 
 <div class='event_email'>
-
   <%= simple_form_for(@email) do |f| %>
-    <%= render 'shared/model_error_messages', model: @email %>
+  <%= render 'shared/model_error_messages', model: @email %>
 
-    <div class='row'>
-      <div class='col-md-4'>
-        <div>
-          <%= label_tag do %>
-            <%= f.radio_button(:attendee_group, 'All', class: 'attendee-group') %> All Attendees
-          <% end %>
-        </div>
-        <div>
-          <%= label_tag do %>
-            <%= f.radio_button(:attendee_group, Role::STUDENT.id, class: 'attendee-group') %> Only Students
-          <% end %>
-        </div>
-        <div>
-          <%= label_tag do %>
-            <%= f.radio_button(:attendee_group, Role::VOLUNTEER.id, class: 'attendee-group') %> Only Volunteers
-          <% end %>
-        </div>
-      </div>
-
-      <div class='col-md-6'>
-        <div>
-          <%= label_tag do %>
-            <%= f.check_box(:include_waitlisted, {class: 'include-waitlisted'}, true, false) %> Include waitlisted students
-          <% end %>
-        </div>
-        <div>
-          <%= label_tag do %>
-            <%= f.check_box(:only_checked_in, {class: 'only-checked-in'}, true, false) %> Only attendees who checked in (Good for
-            post-event emails)
-          <% end %>
-        </div>
-        <div>
-          <%= label_tag do %>
-            <%= f.check_box(:cc_organizers, {class: 'cc-organizers'}, true, false) %> CC all organizers
-          <% end %>
-        </div>
-      </div>
+  <div class='mail-count'>
+    <div>
+      This email will be sent to you and
+      <span class='num'>
+        <b><%= @email.rsvps.length %></b> <%= pluralize @email.rsvps, 'people' %>.
+      </span>
     </div>
+    <div>
+      <span class="organizer-copy"><%= pluralize @event.organizers.length, 'event organizer' %> will be CC'd.</span>
+    </div>
+  </div>
 
-    <div class='mail-count'>
+  <div class="row recipients-selection">
+    <div class="col-md-8">
+      <label>Recipients</label>
+      <div class="btn-group">
+        <button type="button" id="recipients-set-to-all" class="btn btn-default">All</button>
+        <button type="button" data-role-id=<%= Role::VOLUNTEER.id %> id="recipients-add-volunteers" class="btn btn-default">Volunteers</button>
+
+        <div id="recipients-open-students-dropdown" class="btn-group">
+          <button class="btn btn-default dropdown-toggle">
+            Students
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" id="recipients-add-accepted-students" data-role-id=<%= Role::STUDENT.id %>>Accepted</a></li>
+            <li><a href="#" id="recipients-add-waitlisted-students" data-role-id=<%= Role::STUDENT.id %>>Waitlisted</a></li>
+            <li><a href="#" id="recipients-add-all-students" data-role-id=<%= Role::STUDENT.id %>>All</a></li>
+          </ul>
+        </div>
+
+      </div>
+      <div id="recipients-remove-dropdown" class="btn-group">
+        <button class="btn btn-warning dropdown-toggle">
+          Remove
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="#" id="recipients-remove-no-shows" alt="blah">No-shows</a></li>
+          <li><a href="#" id="recipients-remove-all">All</a></li>
+        </ul>
+      </div>
+
+      <select name="event_email[recipients][]" class="form-control select2-hidden-accessible" id="recipients" multiple="multiple" tabindex="-1" aria-hidden="true">
+        <optgroup label="Volunteers">
+          <% @email.volunteers_rsvps.each do |rsvp| %>
+            <option value=<%= rsvp.user.id %>><%= rsvp.user.full_name %></option>
+          <% end %>
+        </optgroup>
+        <optgroup label="Accepted Students">
+          <% @email.students_accepted_rsvps.each do |rsvp| %>
+            <option value=<%= rsvp.user.id %>><%= rsvp.user.full_name %></option>
+          <% end %>
+        </optgroup>
+        <optgroup label="Waitlisted Students">
+          <% @email.students_waitlisted_rsvps.each do |rsvp| %>
+            <option value=<%= rsvp.user.id %>><%= rsvp.user.full_name %></option>
+          <% end %>
+        </optgroup>
+      </select>
       <div>
-        This email will be sent to <span class='num'><b><%= @rsvps.length %></b> <%= pluralize @rsvps, 'people' %>
-        .</span> <span class='recipients-popover'>[Who?]</span>
-      </div>
-      <div>
-        <span class="organizer-copy"><%= pluralize @event.organizers.length, 'event organizer' %> will be CC'd.</span>
+        <%= label_tag do %>
+        <%= f.check_box(:cc_organizers, {class: 'cc-organizers'}, true, false) %> CC Organizers
+        <% end %>
       </div>
     </div>
+  </div>
 
-    <div class="row">
-      <div class="col-md-8">
-        <%= f.input :subject, label: "Subject", placeholder: 'A message from your RailsBridge organizer' %>
-        <%= f.input :body, label: "Message Body", placeholder: "Here's some important information about the upcoming workshop..." %>
-      </div>
+  <div class="row">
+    <div class="col-md-8">
+      <%= f.input :subject, label: "Subject", placeholder: 'A message from your RailsBridge organizer' %>
+      <%= f.input :body, label: "Message Body", placeholder: "Here's some important information about the upcoming workshop..." %>
     </div>
+  </div>
 
-    <div style="margin-top: 10px;"><%= f.submit 'Send Mail', class: 'btn', data: {disable_with: 'Please wait...'} %></div>
+  <div style="margin-top: 10px;"><%= f.submit 'Send Email', class: 'btn', data: {disable_with: 'Please wait...'} %></div>
   <% end %>
 </div>
 
 <h2>Sent Emails</h2>
 <table class="sent-emails table table-striped table-bordered table-condensed">
   <thead>
-  <tr>
-    <th>Sent On</th>
-    <th>Sender</th>
-    <th># Recipients</th>
-    <th>Subject</th>
-    <th>Body</th>
-  </tr>
+    <tr>
+      <th>Sent On</th>
+      <th>Sender</th>
+      <th># Recipients</th>
+      <th>Subject</th>
+      <th>Body</th>
+    </tr>
   </thead>
 
   <tbody>
-  <% if @emails.empty? %>
+    <% if @past_emails.emails.empty? %>
     <tr>
       <td colspan="3">No organizer emails have been sent for this event.</td>
     </tr>
-  <% end %>
-  <% @emails.each do |email| %>
+    <% end %>
+    <% @past_emails.emails.each do |email| %>
     <tr>
       <td><%= email.created_at %></td>
       <td><%= link_to email.sender.full_name, user_profile_path(email.sender) %></td>
-      <% recipientship = @email_recipients[email.id] %>
+      <% recipientship = @past_emails.recipient_counts[email.id] %>
       <td><%= recipientship[:total] %> (<%= recipientship[:students] %> Students, <%= recipientship[:volunteers] %> Volunteers)</td>
       <td><%= email.subject %></td>
       <td class='email-body'><%= link_to truncate(email.body), event_email_path(@event, email) %></td>
     </tr>
-  <% end %>
+    <% end %>
   </tbody>
 </table>

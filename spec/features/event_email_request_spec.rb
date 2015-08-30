@@ -1,67 +1,107 @@
 require 'rails_helper'
 
-describe "the email page" do
-  let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
+RSpec.describe 'Sending an event email', js: true do
+  let(:recipients) do
+    JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to']
+  end
+  let!(:event) { FactoryGirl.create(:event, student_rsvp_limit: 1) }
+  let(:organizer) { FactoryGirl.create(:user) }
 
   before do
-    event = create(:event, student_rsvp_limit: 1)
+    FactoryGirl.create(:rsvp, user: organizer, event: event, role: Role::ORGANIZER)
 
-    organizer = create(:user)
-    create(:rsvp, user: organizer, event: event, role: Role::ORGANIZER)
+    no_show_volunteer = FactoryGirl.create(:user)
+    FactoryGirl.create(:volunteer_rsvp, user: no_show_volunteer, event: event)
 
-    @vol1 = create(:user, email: 'vol1@email.com')
-    create(:volunteer_rsvp, user: @vol1, event: event)
+    reliable_volunteer = FactoryGirl.create(:user, first_name: 'Sheila', last_name: 'Cool')
+    reliable_rsvp = FactoryGirl.create(:volunteer_rsvp, user: reliable_volunteer, event: event)
+    reliable_rsvp.rsvp_sessions.first.update(checked_in: true)
 
-    @vol2 = create(:user, email: 'vol2@email.com')
-    vol2_rsvp = create(:volunteer_rsvp, user: @vol2, event: event)
-    vol2_rsvp.rsvp_sessions.first.update_attribute(:checked_in, true)
+    accepted_student = FactoryGirl.create(:user, first_name: 'Mark', last_name: 'Mywords')
+    FactoryGirl.create(:student_rsvp, user: accepted_student, event: event)
 
-    @student = create(:user, email: 'student@email.com')
-    create(:student_rsvp, user: @student, event: event)
+    waitlisted_student = FactoryGirl.create(:user)
+    FactoryGirl.create(:student_rsvp, user: waitlisted_student, event: event, waitlist_position: 1)
 
-    @waitlisted_student = create(:user, email: 'waitlisted@email.com')
-    create(:student_rsvp, user: @waitlisted_student, event: event, waitlist_position: 1)
-
-    create(:user, email: 'unrelated_user@example.com')
+    FactoryGirl.create(:user, email: 'unrelated_user@example.com')
 
     sign_in_as(organizer)
-    visit new_event_email_path(event)
+    visit event_organizer_tools_path(event)
+    click_link 'Email Attendees'
   end
 
-  it "should show an accurate count of the # of people to be emailed when selecting radio buttons", js: true do
-    choose 'Only Volunteers'
-    expect(page).to have_content("2 people")
+  it 'should show an accurate count of the # of people to be emailed when clicking buttons' do
+    click_button 'Volunteers'
+    expect(page).to have_content('2 people')
 
-    choose 'Only Students'
-    expect(page).to have_content("1 person")
+    click_button 'Students'
+    find('#recipients-add-accepted-students').click
+    expect(page).to have_content('3 people')
 
-    choose 'All Attendees'
-    expect(page).to have_content("3 people")
+    click_button 'All'
+    expect(page).to have_content('4 people')
 
-    check 'Include waitlisted students'
-    expect(page).to have_content("4 people")
+    click_button 'Remove'
+    find('#recipients-remove-all').click
+    expect(page).to have_content('0 people')
 
-    check 'Only attendees who checked in'
-    expect(page).to have_content("1 person")
+    click_button 'Students'
+    find('#recipients-add-waitlisted-students').click
+    expect(page).to have_content('1 person')
+
+    click_button 'All'
+    click_button 'Remove'
+    find('#recipients-remove-no-shows').click
+    expect(page).to have_content('1 person')
   end
 
-  it "sends an email to the selected people" do
-    choose 'All Attendees'
+  it 'sends an email to the selected people' do
+    click_button 'All'
     fill_in 'Subject', with: 'Hello, Railsbridgers'
     fill_in 'Body', with: 'This is a cool email body!'
-    click_button 'Send Mail'
+    click_button 'Send Email'
 
-    expect(recipients.length).to eq(4)
+    expect(page).to have_content 'Your email has been sent'
+    # includes current user organizer
+    expect(recipients.length).to eq 5
   end
 
-  it "should have a 'CC all organizers' checkbox" do
-    expect(page).to have_unchecked_field("CC all organizers")
+  it 'lets organizers send emails to individuals' do
+    find('select.select2-hidden-accessible').select('Sheila Cool')
+    find('select.select2-hidden-accessible').select('Mark Mywords')
+    fill_in 'Subject', with: 'Hello, Railsbridge Friends'
+    fill_in 'Body', with: "Y'all are so cool!"
+    expect(page).to have_content 'This email will be sent to you and 2 people.'
+
+    click_button 'Send Email'
+    expect(page).to have_content 'Your email has been sent'
+    expect(recipients.length).to eq(3)
   end
 
-  it "should show an accurate count of the # of cc'd recipients when selecting cc checkboxes", js: true do
-    expect(page).not_to have_content ("1 event organizer")
-    
-    check 'CC all organizers'
-    expect(page).to have_content ("1 event organizer")
+  it 'should have a "CC Organizers" checkbox' do
+    expect(page).to have_unchecked_field('CC Organizers')
+  end
+
+  it "should show an accurate count of the # of cc'd recipients when selecting cc checkboxes" do
+    expect(page).to_not have_content ('1 event organizer')
+
+    check 'CC Organizers'
+    expect(page).to have_content ('1 event organizer')
+  end
+
+  it 'lets the user review sent emails' do
+    email = event.event_emails.create(
+      subject: 'Hello, Attendees!',
+      body: 'The event will be fun!',
+      sender: organizer
+    )
+
+    visit new_event_email_path(event)
+    expect(page).to have_content(email.subject)
+    expect(page).to have_content(email.body)
+
+    click_link email.body
+    expect(page).to have_content(email.subject)
+    expect(page).to have_content(email.body)
   end
 end
