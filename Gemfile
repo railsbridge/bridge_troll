@@ -30,6 +30,7 @@ group :production do
   gem 'heroku_rails_deflate'
   gem 'newrelic_rpm'
   gem 'sentry-raven'
+  gem 'rack-timeout'
 end
 
 gem 'handlebars_assets'
