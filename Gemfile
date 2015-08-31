@@ -36,7 +36,6 @@ end
 gem 'handlebars_assets'
 gem 'jquery-datatables-rails'
 gem 'sass-rails'
-gem 'compass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'bootstrap-sass'

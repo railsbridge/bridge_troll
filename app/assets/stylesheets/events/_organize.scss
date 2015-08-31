@@ -1,6 +1,5 @@
 @import "bootstrap/variables";
 @import "bootstrap/mixins/clearfix";
-@import "compass/css3/images";
 @import "constants";
 
 .organizer-breadcrumb {
@@ -81,10 +80,10 @@
     padding: 8px;
     margin-bottom: 10px;
     color: $blue-color;
-    @include background(linear-gradient(0deg, #ddd 30%, #eee 70%));
+    background: linear-gradient(0deg, #ddd 30%, #eee 70%);
 
     &:hover {
-      @include background(linear-gradient(0deg, #ccc 30%, #ddd 70%));
+      background: linear-gradient(0deg, #ccc 30%, #ddd 70%);
     }
 
     @media (max-width: $screen-xs-max) {
