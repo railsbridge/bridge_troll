@@ -123,6 +123,26 @@ describe "signing in with omniauth" do
     end
   end
 
+  describe "when an existing user already owns an authentication" do
+    let(:facebook_response) { OmniauthResponses.facebook_response }
+
+    before do
+      OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new(facebook_response)
+    end
+
+    it "does not error" do
+      user = create(:user)
+      user.authentications.create(provider: :facebook, uid: facebook_response[:uid])
+      sign_in_as user
+
+      expect {
+        visit user_omniauth_authorize_path(:facebook)
+      }.not_to change(Authentication, :count)
+
+      page.should have_content 'already in use'
+    end
+  end
+
   describe "parsing the name attribute" do
     it "assigns blank first name and last name if name is not present" do
       auth_response = OmniauthResponses.github_response

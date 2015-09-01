@@ -3,9 +3,15 @@ class DeviseOverrides::OmniauthCallbacksController < Devise::OmniauthCallbacksCo
     omniauth = request.env["omniauth.auth"]
     provider_name = omniauth['provider'].capitalize
     if current_user
-      flash[:notice] = "#{provider_name} authentication added."
-      current_user.authentications.create!(provider: omniauth['provider'], uid: omniauth['uid'].to_s)
-      redirect_to edit_user_registration_path and return
+      auth_args = {provider: omniauth['provider'], uid: omniauth['uid'].to_s}
+      auth = current_user.authentications.create(auth_args)
+
+      if auth.persisted?
+        return redirect_to edit_user_registration_path, notice: "#{provider_name} authentication added."
+      else
+        existing_auth = Authentication.find_by(auth_args)
+        return redirect_to edit_user_registration_path, alert: "That #{provider_name} authentication is already in use by #{existing_auth.user.email}!."
+      end
     end
 
     user = User.from_omniauth(omniauth)
