@@ -122,6 +122,10 @@ class Event < ActiveRecord::Base
     !!survey_sent_at
   end
 
+  def can_send_announcement_email?
+    upcoming? && published? && !email_on_approval && announcement_email_sent_at.nil?
+  end
+
   def validate_student_rsvp_limit
     return unless persisted? && student_rsvp_limit
 

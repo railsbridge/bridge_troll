@@ -7,7 +7,7 @@
   <div class="col-md-6">
     <h2>Tools for before the event</h2>
     <section class='organizer-dashboard-section'>
-      <% if @event.announcement_email_sent_at.nil? and @event.published? %>
+      <% if @event.can_send_announcement_email? %>
         <%= render partial: 'shared/organizer_action', locals: {
           path: event_send_announcement_email_path(@event),
           icon: 'fa fa-envelope',

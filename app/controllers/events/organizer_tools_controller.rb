@@ -55,7 +55,7 @@ class Events::OrganizerToolsController < ApplicationController
 
   def send_announcement_email
     @event = Event.find(params[:event_id])
-    if @event.announcement_email_sent_at.nil? and @event.published?
+    if @event.can_send_announcement_email?
       EventMailer.new_event(@event).deliver_now
       @event.update_attribute(:announcement_email_sent_at, DateTime.now)
       redirect_to event_organizer_tools_path(@event), notice: "Your announcement email was sent!"

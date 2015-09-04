@@ -111,6 +111,10 @@ describe Events::OrganizerToolsController do
 
     it_behaves_like "an event action that requires an organizer"
 
+    before do
+      event.update_attribute(:email_on_approval, false)
+    end
+
     context "as an event organizer" do
       before do
         sign_in organizer
