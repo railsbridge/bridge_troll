@@ -29,7 +29,7 @@
 //= require_tree ./views
 //= require ./dialogs/base_dialog
 //= require_tree ./dialogs
-//= require dataTables/jquery.dataTables
-//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+//= require DataTables
+//= require DataTables/dataTables.bootstrap
 //= require_tree .
 //= require jquery_nested_form

@@ -34,7 +34,6 @@ group :production do
 end
 
 gem 'handlebars_assets'
-gem 'jquery-datatables-rails'
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
@@ -77,6 +76,8 @@ group :test do
 end
 
 source 'https://rails-assets.org' do
+  gem 'rails-assets-DataTables'
+
   group :test, :development do
     gem 'rails-assets-sinonjs'
   end
