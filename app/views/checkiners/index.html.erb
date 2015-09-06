@@ -24,7 +24,7 @@
   <tbody>
   <% @checkiner_rsvps.each do |rsvp|  %>
       <tr>
-        <td class="avatar-column"><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %></td>
+        <td class="avatar-column"><%= user_gravatar(rsvp.user) %></td>
         <td><%= rsvp.user.full_name %></td>
         <td><%= rsvp.user.email %></td>
         <td>

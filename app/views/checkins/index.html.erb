@@ -35,7 +35,7 @@
         <% rsvp = rsvp_session.rsvp %>
         <tr>
           <td>
-            <%= render 'shared/viewed_gravatars', :email => rsvp.user.email %>
+            <%= user_gravatar(rsvp.user) %>
             <%= link_to rsvp_session.user_full_name, user_profile_path(rsvp_session.rsvp.user), class: 'user-name' %>
           </td>
           <td><%= rsvp.role.title %>

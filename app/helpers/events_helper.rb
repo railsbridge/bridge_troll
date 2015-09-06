@@ -137,4 +137,8 @@ module EventsHelper
 
     URI::HTTP.build(host: "www.google.com", path: "/calendar/event", query: params.to_query).to_s
   end
+
+  def user_gravatar(user)
+    gravatar_image_tag(user.email, alt: '', gravatar: { size: 38 })
+  end
 end

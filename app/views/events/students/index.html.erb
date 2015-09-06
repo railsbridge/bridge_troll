@@ -14,7 +14,7 @@
 <% @students.each do |rsvp| %>
   <tr>
     <td>
-      <%= render 'shared/viewed_gravatars', :email => rsvp.user.email %>
+      <%= user_gravatar(rsvp.user) %>
       <%= rsvp.user.full_name %>
     </td>
     <td><%= rsvp.class_level %></td>

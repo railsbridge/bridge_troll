@@ -13,7 +13,7 @@
 <% @volunteer_rsvps.each do |rsvp| %>
   <tr>
     <td>
-      <%= render 'shared/viewed_gravatars', :email => rsvp.user.email %>
+      <%= user_gravatar(rsvp.user) %>
       <%= link_to rsvp.user.full_name, user_profile_path(rsvp.user) %>
     </td>
     <td><%= rsvp.subject_experience %></td>

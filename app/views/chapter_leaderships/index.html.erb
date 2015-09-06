@@ -20,7 +20,7 @@
   <tbody>
   <% @chapter.leaders.each do |leader|  %>
     <tr>
-      <td class="avatar-column"><%= render 'shared/viewed_gravatars', :email => leader.email %></td>
+      <td class="avatar-column"><%= user_gravatar(leader) %></td>
       <td><%= leader.full_name %></td>
       <td><%= leader.email %></td>
       <td>
