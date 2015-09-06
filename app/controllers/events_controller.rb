@@ -34,6 +34,14 @@ class EventsController < ApplicationController
       @organizer = false
       @checkiner = false
     end
+    @ordered_rsvps = {
+      Role::VOLUNTEER => @event.ordered_rsvps(Role::VOLUNTEER),
+      Role::STUDENT => @event.ordered_rsvps(Role::STUDENT)
+    }
+    @ordered_waitlist_rsvps = {
+      Role::VOLUNTEER => @event.ordered_rsvps(Role::VOLUNTEER, waitlisted: true).to_a,
+      Role::STUDENT => @event.ordered_rsvps(Role::STUDENT, waitlisted: true).to_a
+    }
   end
 
   def new

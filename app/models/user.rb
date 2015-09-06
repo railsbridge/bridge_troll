@@ -63,12 +63,21 @@ class User < ActiveRecord::Base
     @event_attendances ||= rsvps.each_with_object({}) do |rsvp, hsh|
       hsh[rsvp.event_id] = {
         role: rsvp.role,
-        waitlist_position: rsvp.waitlist_position
+        waitlist_position: rsvp.waitlist_position,
+        checkiner: rsvp.checkiner
       }
     end
   end
 
+  def event_attendance(event)
+    event_attendances.fetch(event.id, {})
+  end
+
   def event_role(event)
-    event_attendances.fetch(event.id, {})[:role]
+    event_attendance(event)[:role]
+  end
+
+  def event_checkiner?(event)
+    event_attendance(event)[:checkiner]
   end
 end

@@ -146,14 +146,14 @@ class Event < ActiveRecord::Base
 
   def checked_in_rsvps(role)
     if upcoming? || historical?
-      confirmed_association_for_role(role)
+      association_for_role(role)
     else
-      confirmed_association_for_role(role).where("checkins_count > 0")
+      association_for_role(role).where("checkins_count > 0")
     end
   end
 
-  def ordered_rsvps(role)
-    RsvpSorter.new(self, confirmed_association_for_role(role)).ordered
+  def ordered_rsvps(role, waitlisted: false)
+    RsvpSorter.new(self, association_for_role(role, waitlisted: waitlisted)).ordered
   end
 
   def checkin_counts
@@ -267,7 +267,7 @@ class Event < ActiveRecord::Base
 
   def checkiner?(user)
     return true if organizer?(user)
-    rsvps.where(user_id: user.id, checkiner: true).any?
+    user.event_checkiner?(self)
   end
 
   def dietary_restrictions_totals
@@ -350,12 +350,12 @@ class Event < ActiveRecord::Base
     self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
   end
 
-  def confirmed_association_for_role(role)
+  def association_for_role(role, waitlisted: waitlisted)
     case role
       when Role::VOLUNTEER
-        volunteer_rsvps
+        waitlisted ? volunteer_waitlist_rsvps : volunteer_rsvps
       when Role::STUDENT
-        student_rsvps
+        waitlisted ? student_waitlist_rsvps : student_rsvps
       else
         raise "Can't find appropriate association for Role::#{role.name}"
     end
