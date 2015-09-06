@@ -1,17 +1,19 @@
 class EventsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :feed, :past_events, :all_events, :show, :levels]
-  before_filter :find_event, except: [:index, :feed, :past_events, :all_events, :create, :new]
-  before_filter :validate_organizer!, except: [:index, :feed, :past_events, :all_events, :create, :show, :new, :levels]
+  before_filter :authenticate_user!, except: [:index, :feed, :show, :levels]
+  before_filter :find_event, except: [:index, :feed, :create, :new]
+  before_filter :validate_organizer!, except: [:index, :feed, :create, :show, :new, :levels]
   before_filter :set_time_zone, only: [:create, :update]
 
   def index
-    @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location, :chapter)
-    @event_chapters = @events.map { |e| e.chapter }.compact.uniq
     respond_to do |format|
       format.html do
-        @past_events = sort_by_starts_at(combined_past_events)
+        @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location, :chapter)
+        @event_chapters = @events.map { |e| e.chapter }.compact.uniq
+        @past_events = EventList.new('past').combined_events
       end
-      format.json { render json: @events }
+      format.json do
+        render json: EventList.new(params[:type])
+      end
     end
   end
 
@@ -21,18 +23,6 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.rss {render 'events/feed.rss.builder', layout: false}
       format.atom {render 'events/feed.atom.builder', layout: false}
-    end
-  end
-
-  def past_events
-    respond_to do |format|
-      format.json { render json: sort_by_starts_at(combined_past_events_for_json) }
-    end
-  end
-
-  def all_events
-    respond_to do |format|
-      format.json { render json: sort_by_starts_at(combined_all_events) }
     end
   end
 
@@ -126,22 +116,6 @@ class EventsController < ApplicationController
 
   def find_event
     @event = Event.find(params[:id])
-  end
-
-  def combined_past_events_for_json
-    Event.for_json.past.published + ExternalEvent.past
-  end
-
-  def combined_past_events
-    Event.includes(:location).past.published + ExternalEvent.past
-  end
-
-  def combined_all_events
-    Event.for_json.published + ExternalEvent.all
-  end
-
-  def sort_by_starts_at(events)
-    events.sort_by { |e| e.starts_at.to_time }
   end
 
   def allow_insecure?

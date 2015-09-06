@@ -185,10 +185,6 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def self.for_json
-    includes(:location, :event_sessions, :organizers, :legacy_organizers)
-  end
-
   def self.published
     where(published: true)
   end

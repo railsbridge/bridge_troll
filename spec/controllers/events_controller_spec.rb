@@ -46,6 +46,35 @@ describe EventsController do
     end
   end
 
+  describe "GET index (json)" do
+    before do
+      @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska')
+      @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 4.days.from_now)
+      @past_event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
+      @past_event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
+      @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
+      @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, published: false)
+    end
+
+    it 'can render published past events as json' do
+      get :index, format: 'json', type: 'past'
+      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles.should == [@past_event, @past_external_event].map(&:title)
+    end
+
+    it 'can render all published events as json' do
+      get :index, format: 'json', type: 'all'
+      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles.should == [@past_event, @past_external_event, @future_external_event, @future_event].map(&:title)
+    end
+
+    it 'can render only upcoming published events as json' do
+      get :index, format: 'json', type: 'upcoming'
+      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles.should == [@future_external_event, @future_event].map(&:title)
+    end
+  end
+
   describe "GET show" do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
@@ -426,42 +455,6 @@ describe EventsController do
         Event.find_by_id(event.id).should == nil
         response.should redirect_to events_path
       end
-    end
-  end
-
-  describe "GET past_events" do
-    before do
-      @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska')
-      @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 4.days.from_now)
-      @past_event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
-      @past_event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
-      @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
-      @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, published: false)
-    end
-
-    it 'renders published past events as json' do
-      get :past_events, format: 'json'
-      response.should be_success
-
-      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
-      result_titles.should == [@past_event, @past_external_event].map(&:title)
-    end
-  end
-
-  describe "GET all_events" do
-    before do
-      @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska')
-      @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 2.days.from_now)
-      @past_event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
-      @past_event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
-      @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
-      @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, published: false)
-    end
-
-    it 'renders all published events as json' do
-      get :all_events, format: 'json'
-      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
-      result_titles.should == [@past_event, @past_external_event, @future_external_event, @future_event].map(&:title)
     end
   end
 

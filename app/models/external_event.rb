@@ -9,6 +9,10 @@ class ExternalEvent < ActiveRecord::Base
     where('ends_at < ?', Time.now.utc)
   end
 
+  def self.upcoming
+    where('ends_at >= ?', Time.now.utc)
+  end
+
   def title
     name
   end
