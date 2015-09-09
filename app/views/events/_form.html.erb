@@ -26,7 +26,15 @@
     <div>
       <%= f.label :location_id %>
     </div>
-    <%= collection_select(:event, :location_id, Location.available, :id, :name_with_chapter, {prompt: true}, {class: 'select2-dropdown'}) %>
+    <%= collection_select(:event,
+                          :location_id,
+                          Location.available,
+                          :id,
+                          :name_with_chapter,
+                          {prompt: true}) %>
+    <script>
+      $('#event_location_id').select2({width: 'element'});
+    </script>
     <p>
       <em>If your location isn't in this list, head over to the <%= link_to 'locations page', locations_path %> and add
         it before you continue.</em>

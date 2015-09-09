@@ -50,8 +50,6 @@ jQuery ->
   $.datepicker.setDefaults
     dateFormat: 'yy-mm-dd'
 
-  $('.select2-dropdown').select2(width: 'element')
-
   setUpDatePicker($('.datepicker'))
   setUpExclusiveCheckboxes($('body'))
 
