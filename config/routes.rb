@@ -18,7 +18,9 @@ Bridgetroll::Application.routes.draw do
   end
 
   resources :events do
-    resources :organizers, only: [:index, :create, :destroy]
+    resources :organizers, only: [:index, :create, :destroy] do
+      get :potential, on: :collection
+    end
     resources :checkiners, only: [:index, :create, :destroy]
     resources :volunteers, only: [:index]
 

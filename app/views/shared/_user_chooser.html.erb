@@ -7,7 +7,24 @@
                  {include_blank: ''},
                  class: 'form-control') %>
       <script>
-        $('#<%= select_id %>_<%= foreign_key %>').select2({minimumInputLength: 3, delay: 250})
+        var options = {};
+        <% if defined?(url) %>
+          _.extend(options, {
+            minimumInputLength: 3,
+            ajax: {
+              url: '<%= url %>',
+              dataType: 'json',
+              delay: 250,
+              processResults: function (data, page) {
+                return {
+                  results: data
+                };
+              },
+              cache: true
+            }
+          });
+        <% end %>
+        $('#<%= select_id %>_<%= foreign_key %>').select2(options);
       </script>
       <%= submit_tag "Assign", class: "btn btn-primary", style: 'margin: 10px 0;' %>
     <% end %>

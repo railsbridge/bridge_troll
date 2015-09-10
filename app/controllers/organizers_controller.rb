@@ -5,7 +5,14 @@ class OrganizersController < ApplicationController
 
   def index
     @organizer_rsvps = @event.organizer_rsvps
-    @users = User.not_assigned_as_organizer(@event)
+  end
+
+  def potential
+    respond_to do |format|
+      format.json do
+        render json: UserSearcher.new(User.not_assigned_as_organizer(@event), params[:q])
+      end
+    end
   end
 
   def create

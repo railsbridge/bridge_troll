@@ -19,12 +19,14 @@ describe "Event Organizers page" do
     page.should have_content("Sam Spade")
   end
 
-  it "allows an organizer to assign another user as an organizer" do
+  it "allows an organizer to assign another user as an organizer", js: true do
     visit "/events/#{@event.id}/organizers"
 
-    page.should have_select('event_organizer[user_id]', options: ['', @user1.full_name])
+    page.should have_select('event_organizer[user_id]')
 
-    select(@user1.full_name, :from =>'event_organizer_user_id')
+    page.find('.select2-selection').click
+    page.find('.select2-search__field').set(@user1.full_name)
+    page.find('.select2-results__option').click
 
     click_button "Assign"
 
@@ -44,14 +46,10 @@ describe "Event Organizers page" do
       page.should have_content("user1@mail.com")
       page.should have_selector('input[value="Remove"]')
 
-      page.should have_select('event_organizer[user_id]', options: [''])
-
       click_button "Remove"
 
       page.should_not have_content("user1@mail.com")
       page.should_not have_selector('input[value="Remove"]')
-
-      page.should have_select('event_organizer[user_id]', options: ['', @user1.full_name])
     end
   end
 end

@@ -8,7 +8,8 @@
            action: event_organizers_path(@event),
            select_id: 'event_organizer',
            foreign_key: 'user_id',
-           choices: @users.collect {|u| [ u.full_name, u.id ] }
+           url: potential_event_organizers_path(@event),
+           choices: []
 %>
 
 <h3>Assigned Organizers</h3>
