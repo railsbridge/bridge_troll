@@ -11,14 +11,4 @@ class UserSearcher
       .where("#{search_field} like ?", "%#{@query.downcase}%")
       .map { |u| {id: u.id, text: u.full_name} }
   end
-
-  private
-
-  def db_concat(*fields)
-    if false
-      "CONCAT(#{fields.join(', ')})"
-    else
-      fields.join(' || ')
-    end
-  end
 end
