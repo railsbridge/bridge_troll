@@ -29,7 +29,7 @@
         <td><%= rsvp.user.email %></td>
         <td>
         <% if rsvp.user_id != current_user.id %>
-            <%= button_to 'Remove', event_checkiners_path(@event, rsvp), method: :delete,
+            <%= button_to 'Remove', event_checkiner_path(@event, rsvp), method: :delete,
                                :form => {:style => "margin-bottom : 0;"}, :class => "btn btn-mini" %>
         <% end %>
         </td>
