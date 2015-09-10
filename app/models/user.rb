@@ -43,8 +43,8 @@ class User < ActiveRecord::Base
   end
 
   def self.not_assigned_as_organizer(event)
-    users = order('last_name asc, first_name asc, email asc')
-    users - event.organizers
+    where('id NOT IN (?)', event.organizers.pluck(:id))
+      .order('last_name asc, first_name asc, email asc')
   end
 
   def full_name

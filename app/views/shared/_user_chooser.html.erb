@@ -5,10 +5,9 @@
                  foreign_key,
                  choices,
                  {include_blank: ''},
-                 class: 'form-control',
-                 data: {minimumInputLength: 3}) %>
+                 class: 'form-control') %>
       <script>
-        $('#<%= select_id %>_<%= foreign_key %>').select2({width: 'element', minimumInputLength: 3})
+        $('#<%= select_id %>_<%= foreign_key %>').select2({minimumInputLength: 3, delay: 250})
       </script>
       <%= submit_tag "Assign", class: "btn btn-primary", style: 'margin: 10px 0;' %>
     <% end %>

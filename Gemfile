@@ -9,7 +9,6 @@ gem 'devise', '~> 3.5.0'
 gem 'puma'
 gem 'jquery-rails'
 gem 'nested_form'
-gem 'select2-rails'
 gem 'active_hash'
 gem 'sanitize'
 gem 'gmaps4rails'
@@ -78,6 +77,7 @@ end
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-DataTables'
+  gem 'rails-assets-select2'
 
   group :test, :development do
     gem 'rails-assets-sinonjs'

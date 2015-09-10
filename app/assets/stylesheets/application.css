@@ -3,8 +3,6 @@
  *= require bootstrap_with_overrides
  *= require DataTables/dataTables.bootstrap
  *= require select2
- *= require select2-bootstrap
- *= require select2-bootstrap
  *= require font_awesome_with_extensions
  *= require _alerts
  *= require _fonts
