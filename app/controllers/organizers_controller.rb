@@ -4,7 +4,7 @@ class OrganizersController < ApplicationController
   before_filter :validate_published!
 
   def index
-    @organizer_rsvps = @event.organizer_rsvps
+    @organizer_rsvps = @event.organizer_rsvps.includes(:user)
   end
 
   def potential

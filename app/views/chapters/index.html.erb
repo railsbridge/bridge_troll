@@ -17,7 +17,7 @@
       <tr>
         <td><%= link_to chapter.name, chapter %></td>
         <td data-label="Locations:"><%= chapter.locations_count %></td>
-        <td data-label="Events:"><%= chapter.events.count + chapter.external_events_count %></td>
+        <td data-label="Events:"><%= chapter.locations.map(&:events_count).sum + chapter.external_events_count %></td>
         <% if user_signed_in? %>
           <td>
             <% if chapter.editable_by?(current_user) %>

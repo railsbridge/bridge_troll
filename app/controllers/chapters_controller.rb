@@ -4,11 +4,15 @@ class ChaptersController < ApplicationController
   before_filter :validate_chapter_leader!, only: [:edit, :update]
 
   def index
-    @chapters = Chapter.includes(:leaders).all
+    @chapters = Chapter.includes(:locations, :leaders).all
   end
 
   def show
-    @chapter_events = (@chapter.events + @chapter.external_events).sort_by(&:ends_at)
+    @chapter_events = (
+      @chapter.events.includes(:location) +
+      @chapter.external_events
+    ).sort_by(&:ends_at)
+
     if @chapter.has_leader?(current_user)
       @organizer_rsvps = Rsvp.
         group(:user_id).
