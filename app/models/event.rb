@@ -350,7 +350,7 @@ class Event < ActiveRecord::Base
     self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
   end
 
-  def association_for_role(role, waitlisted: waitlisted)
+  def association_for_role(role, waitlisted: false)
     case role
       when Role::VOLUNTEER
         waitlisted ? volunteer_waitlist_rsvps : volunteer_rsvps
