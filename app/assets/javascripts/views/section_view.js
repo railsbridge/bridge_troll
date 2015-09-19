@@ -135,6 +135,8 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
   },
 
   postRender: function () {
+    this.$el.off();
+
     this.$('.attendee').on('drag', _.bind(this.attendeeDragging, this));
     this.$('.attendee').on('dragend', _.bind(this.attendeeDropped, this));
 
