@@ -82,7 +82,7 @@
     </div>
   </div>
 
-  <div><%= f.submit button_text, class: 'btn btn-submit' %></div>
+  <div><%= f.submit button_text, class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %></div>
 
   <% if is_registered %>
     <hr>

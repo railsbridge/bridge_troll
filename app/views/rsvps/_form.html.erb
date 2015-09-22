@@ -168,7 +168,7 @@
       <%= f.hidden_field :event_id %>
       <%= f.hidden_field :role_id %>
       <% unless @rsvp_preview_mode %>
-        <%= f.submit "Submit", class: 'btn btn-submit coc-required' %>
+        <%= f.submit "Submit", class: 'btn btn-submit coc-required', data: {disable_with: 'Please wait...'} %>
       <% end %>
     </div>
   <% end %>

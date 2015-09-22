@@ -264,10 +264,10 @@
 
   <div class="actions">
     <% if @event.new_record? || @event.draft_saved %>
-      <%= f.submit class: 'btn btn-submit coc-required', name: 'create_event', value: 'Submit Event For Approval' %>
-      <%= f.submit class: 'btn btn-submit event-new-save-draft', name: 'save_draft', value: 'Save Draft' %>
+      <%= f.submit class: 'btn btn-submit coc-required', name: 'create_event', value: 'Submit Event For Approval', data: {disable_with: 'Please wait...'} %>
+      <%= f.submit class: 'btn btn-submit event-new-save-draft', name: 'save_draft', value: 'Save Draft', data: {disable_with: 'Please wait...'} %>
     <% else %>
-      <%= f.submit class: 'btn btn-submit coc-required' %>
+      <%= f.submit class: 'btn btn-submit coc-required', data: {disable_with: 'Please wait...'} %>
     <% end %>
   </div>
 <% end %>

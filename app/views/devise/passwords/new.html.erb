@@ -7,7 +7,7 @@
 
       <%= f.input :email %>
 
-      <div><%= f.submit "Send me reset password instructions", class: 'btn btn-submit' %></div>
+      <div><%= f.submit "Send me reset password instructions", class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %></div>
     <% end %>
   </div>
 </div>

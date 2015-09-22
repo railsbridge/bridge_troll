@@ -14,7 +14,7 @@
     <%= f.password_field :password_confirmation %>
   </div>
 
-  <div><%= f.submit "Change my password", class: 'btn btn-submit' %></div>
+  <div><%= f.submit "Change my password", class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %></div>
 <% end %>
 
 <%= render :partial => "devise/shared/links" %>
