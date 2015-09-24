@@ -2,7 +2,7 @@ require 'csv'
 
 module Events
   class StudentsController < ApplicationController
-    before_filter :authenticate_user!, :validate_organizer!
+    before_action :authenticate_user!, :validate_organizer!
 
     def index
       @event = Event.find(params[:event_id])

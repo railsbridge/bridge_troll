@@ -1,7 +1,7 @@
 class OrganizersController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :validate_organizer!
-  before_filter :validate_published!
+  before_action :authenticate_user!
+  before_action :validate_organizer!
+  before_action :validate_published!
 
   def index
     @organizer_rsvps = @event.organizer_rsvps.includes(:user)

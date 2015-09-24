@@ -1,7 +1,7 @@
 class ChapterLeadershipsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :load_chapter
-  before_filter :validate_chapter_leader!
+  before_action :authenticate_user!
+  before_action :load_chapter
+  before_action :validate_chapter_leader!
 
   def index
     @users = @chapter.users

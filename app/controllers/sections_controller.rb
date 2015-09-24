@@ -1,6 +1,6 @@
 class SectionsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :validate_organizer!
+  before_action :authenticate_user!
+  before_action :validate_organizer!
 
   def create
     section = @event.sections.create!(name: 'New Section')

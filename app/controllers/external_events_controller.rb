@@ -1,6 +1,6 @@
 class ExternalEventsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :validate_admin!
+  before_action :authenticate_user!
+  before_action :validate_admin!
 
   def index
     @external_events = ExternalEvent.includes(:chapter).order(:ends_at)

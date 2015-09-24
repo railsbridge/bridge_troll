@@ -1,7 +1,7 @@
 class Events::UnpublishedEventsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :validate_publisher!
-  before_filter :find_event, except: [:index]
+  before_action :authenticate_user!
+  before_action :validate_publisher!
+  before_action :find_event, except: [:index]
 
   def index
     chapters = Chapter.includes(:users)

@@ -1,8 +1,8 @@
 class EventSessionsController < ApplicationController
-  before_filter :authenticate_user!, only: [:index, :destroy]
-  before_filter :find_event
-  before_filter :validate_checkiner!, only: [:index]
-  before_filter :validate_organizer!, only: [:destroy]
+  before_action :authenticate_user!, only: [:index, :destroy]
+  before_action :find_event
+  before_action :validate_checkiner!, only: [:index]
+  before_action :validate_organizer!, only: [:destroy]
 
   def index
     @checkin_counts = @event.checkin_counts

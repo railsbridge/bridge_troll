@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_filter :configure_permitted_parameters, if: :devise_controller?
+  before_action :configure_permitted_parameters, if: :devise_controller?
   force_ssl if: -> { Rails.env.production? }, unless: :allow_insecure?
 
   protect_from_forgery

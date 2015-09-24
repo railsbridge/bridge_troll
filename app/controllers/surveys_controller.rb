@@ -1,9 +1,9 @@
 class SurveysController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :find_event
-  before_filter :find_rsvp, except: :index
-  before_filter :validate_user!, except: :index
-  before_filter :validate_organizer!, only: :index
+  before_action :authenticate_user!
+  before_action :find_event
+  before_action :find_rsvp, except: :index
+  before_action :validate_user!, except: :index
+  before_action :validate_organizer!, only: :index
 
   def new
     @survey = Survey.where(rsvp_id: @rsvp.id).first_or_initialize

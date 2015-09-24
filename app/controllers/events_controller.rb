@@ -1,8 +1,8 @@
 class EventsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :feed, :show, :levels]
-  before_filter :find_event, except: [:index, :feed, :create, :new]
-  before_filter :validate_organizer!, except: [:index, :feed, :create, :show, :new, :levels]
-  before_filter :set_time_zone, only: [:create, :update]
+  before_action :authenticate_user!, except: [:index, :feed, :show, :levels]
+  before_action :find_event, except: [:index, :feed, :create, :new]
+  before_action :validate_organizer!, except: [:index, :feed, :create, :show, :new, :levels]
+  before_action :set_time_zone, only: [:create, :update]
 
   def index
     respond_to do |format|

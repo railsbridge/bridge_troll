@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :index]
-  before_filter :assign_location, :only => [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :except => [:show, :index]
+  before_action :assign_location, :only => [:show, :edit, :update, :destroy]
 
   def index
     @locations = Location.all

@@ -1,5 +1,5 @@
 class Events::AttendeesController < ApplicationController
-  before_filter :authenticate_user!, :validate_organizer!, :find_event
+  before_action :authenticate_user!, :validate_organizer!, :find_event
 
   def index
     @rsvps = @event.rsvps.where(role_id: Role.attendee_role_ids).includes(:dietary_restrictions)

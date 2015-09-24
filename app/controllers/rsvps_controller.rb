@@ -1,10 +1,10 @@
 class RsvpsController < ApplicationController
-  before_filter :authenticate_user!, except: [:quick_destroy_confirm, :destroy]
-  before_filter :assign_event
-  before_filter :load_rsvp, only: [:edit, :update]
-  before_filter :redirect_if_rsvp_exists, only: [:volunteer, :learn]
-  before_filter :redirect_if_event_in_past
-  before_filter :redirect_if_event_closed, only: [:volunteer, :learn, :create]
+  before_action :authenticate_user!, except: [:quick_destroy_confirm, :destroy]
+  before_action :assign_event
+  before_action :load_rsvp, only: [:edit, :update]
+  before_action :redirect_if_rsvp_exists, only: [:volunteer, :learn]
+  before_action :redirect_if_event_in_past
+  before_action :redirect_if_event_closed, only: [:volunteer, :learn, :create]
 
   def volunteer
     @rsvp = @event.rsvps.build(user: current_user)

@@ -1,6 +1,6 @@
 class ProfilesController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :load_user_and_profile
+  before_action :authenticate_user!
+  before_action :load_user_and_profile
 
   def show
   end

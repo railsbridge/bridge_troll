@@ -1,5 +1,5 @@
 class Events::EmailsController < ApplicationController
-  before_filter :authenticate_user!, :validate_organizer!, :find_event
+  before_action :authenticate_user!, :validate_organizer!, :find_event
 
   def new
     @email = @event.event_emails.build(
