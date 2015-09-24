@@ -9,14 +9,14 @@ describe Users::EventsController do
   describe "#index" do
     it 'should respond successfully with json' do
       get :index, user_id: user.id
-      response.content_type.should == 'application/json'
-      response.should be_success
+      expect(response.content_type).to eq('application/json')
+      expect(response).to be_success
     end
 
     it 'should respond with the correct count' do
       get :index, user_id: user.id
       expected_response = {event_count: 1}.to_json
-      response.body.should == expected_response
+      expect(response.body).to eq(expected_response)
     end
   end
 end

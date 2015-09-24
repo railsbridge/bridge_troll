@@ -6,7 +6,7 @@ describe "Edit Event" do
     @drafted_event = create(:event, title: 'draft title', draft_saved: true, published: false)
     @drafted_event.organizers << @user_organizer
 
-    @drafted_event.current_state.should eq :draft_saved
+    expect(@drafted_event.current_state).to eq :draft_saved
     sign_in_as(@user_organizer)
     visit edit_event_path(@drafted_event)
   end
@@ -17,11 +17,11 @@ describe "Edit Event" do
       check("coc")
       click_on 'Submit Event For Approval'
 
-      page.should have_content('Event was successfully updated')
-      page.should have_content('real title')
+      expect(page).to have_content('Event was successfully updated')
+      expect(page).to have_content('real title')
 
-      page.current_path.should eq event_path(@drafted_event)
-      Event.find(@drafted_event.id).current_state.should eq :pending_approval
+      expect(page.current_path).to eq event_path(@drafted_event)
+      expect(Event.find(@drafted_event.id).current_state).to eq :pending_approval
     end
   end
 end

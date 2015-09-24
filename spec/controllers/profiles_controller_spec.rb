@@ -12,20 +12,20 @@ describe ProfilesController do
 
     it "lets users view their own profile" do
       get :show, user_id: @user.id
-      response.should be_success
-      response.body.should include(ERB::Util.html_escape(@user.full_name))
+      expect(response).to be_success
+      expect(response.body).to include(ERB::Util.html_escape(@user.full_name))
     end
 
     it "lets users view other user's profiles" do
       get :show, user_id: @other_user.id
-      response.should be_success
-      response.body.should include(ERB::Util.html_escape(@other_user.full_name))
+      expect(response).to be_success
+      expect(response.body).to include(ERB::Util.html_escape(@other_user.full_name))
     end
 
     it "returns 406 for requests outside of html format" do
       get :show, user_id: @user.id, format: :json
-      response.should_not be_success
-      response.status.should == 406
+      expect(response).not_to be_success
+      expect(response.status).to eq(406)
     end
   end
 end

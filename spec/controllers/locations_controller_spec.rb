@@ -9,17 +9,17 @@ describe LocationsController do
     context "a user that is not logged in" do
       it "should not be able to create a new location" do
         get :new
-        response.should redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_user_session_path)
       end
 
       it "should not be able to edit a location" do
         get :edit, {id: @location.id}
-        response.should redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_user_session_path)
       end
 
       it "should not be able to delete a location" do
         delete :destroy, {id: @location.id}
-        response.should redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -36,14 +36,14 @@ describe LocationsController do
           create(:location, name: 'Ultimate Location')
           get :index
 
-          response.should be_success
-          response.body.should include('Ultimate Location')
+          expect(response).to be_success
+          expect(response.body).to include('Ultimate Location')
         end
       end
 
       it "should be able to create a new location" do
         get :new
-        response.should be_success
+        expect(response).to be_success
 
         chapter = create(:chapter)
         location_params = {
@@ -54,12 +54,12 @@ describe LocationsController do
         }
 
         expect { post :create, location: location_params }.to change(Location, :count).by(1)
-        Location.last.chapter.should == chapter
+        expect(Location.last.chapter).to eq(chapter)
       end
 
       it "should be able to edit an location" do
         get :edit, {:id => @location.id}
-        response.should be_success
+        expect(response).to be_success
       end
 
       describe "updating a location" do

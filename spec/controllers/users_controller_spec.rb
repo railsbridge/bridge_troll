@@ -32,10 +32,10 @@ describe UsersController do
       it "shows a bunch of user names" do
         get :index
         users = assigns(:users)
-        users.map { |u| u.to_global_id.to_s }.should match_array([@user1, @user2, @user_no_rsvps, @bridgetroll_user].map { |u| u.to_global_id.to_s })
+        expect(users.map { |u| u.to_global_id.to_s }).to match_array([@user1, @user2, @user_no_rsvps, @bridgetroll_user].map { |u| u.to_global_id.to_s })
 
         users.each do |user|
-          response.body.should include(ERB::Util.html_escape user.full_name)
+          expect(response.body).to include(ERB::Util.html_escape user.full_name)
         end
       end
     end
@@ -43,9 +43,9 @@ describe UsersController do
     it "calculates attendances" do
       get :index
       users = assigns(:users).each_with_object({}) { |u, hsh| hsh[u.to_global_id.to_s] = u }
-      users[@user1.to_global_id.to_s].volunteer_rsvp_count.should == 2
-      users[@user2.to_global_id.to_s].volunteer_rsvp_count.should == 1
-      users[@bridgetroll_user.to_global_id.to_s].volunteer_rsvp_count.should == 1
+      expect(users[@user1.to_global_id.to_s].volunteer_rsvp_count).to eq(2)
+      expect(users[@user2.to_global_id.to_s].volunteer_rsvp_count).to eq(1)
+      expect(users[@bridgetroll_user.to_global_id.to_s].volunteer_rsvp_count).to eq(1)
     end
   end
 end

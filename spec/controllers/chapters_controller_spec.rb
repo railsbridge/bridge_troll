@@ -11,28 +11,28 @@ describe ChaptersController do
         render_views
         it "can see the index page" do
           get :index
-          response.should be_success
+          expect(response).to be_success
         end
 
         it "can see the show page" do
           get :show, id: @chapter.id
-          response.should be_success
+          expect(response).to be_success
         end
       end
 
       it "should not be able to create a new chapter" do
         get :new
-        response.should redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_user_session_path)
       end
 
       it "should not be able to edit a chapter" do
         get :edit, id: @chapter.id
-        response.should redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_user_session_path)
       end
 
       it "should not be able to delete a chapter" do
         delete :destroy, id: @chapter.id
-        response.should redirect_to(new_user_session_path)
+        expect(response).to redirect_to(new_user_session_path)
       end
     end
 
@@ -49,19 +49,19 @@ describe ChaptersController do
           create(:chapter, name: 'Ultimate Chapter')
           get :index
 
-          response.should be_success
-          response.body.should include('Ultimate Chapter')
+          expect(response).to be_success
+          expect(response.body).to include('Ultimate Chapter')
         end
       end
 
       it "should be able to create a new chapter" do
         get :new
-        response.should be_success
+        expect(response).to be_success
 
         expect {
           post :create, chapter: {name: "Fabulous Chapter"}
         }.to change(Chapter, :count).by(1)
-        Chapter.last.should have_leader(@user)
+        expect(Chapter.last).to have_leader(@user)
       end
 
       describe 'who is a chapter leader' do
@@ -72,26 +72,26 @@ describe ChaptersController do
 
         it "should be able to edit an chapter" do
           get :edit, id: @chapter.id
-          response.should be_success
+          expect(response).to be_success
 
           expect {
             put :update, id: @chapter.id, chapter: {name: 'Sandwich Chapter'}
           }.to change { @chapter.reload.name }
-          response.should redirect_to(chapter_path(@chapter))
+          expect(response).to redirect_to(chapter_path(@chapter))
         end
       end
 
       describe 'who is not a chapter leader' do
         it "should not be able to edit an chapter" do
           get :edit, id: @chapter.id
-          response.should be_redirect
-          flash[:error].should be_present
+          expect(response).to be_redirect
+          expect(flash[:error]).to be_present
 
           expect {
             put :update, id: @chapter.id, chapter: {name: 'Sandwich Chapter'}
           }.not_to change { @chapter.reload.name }
-          response.should be_redirect
-          flash[:error].should be_present
+          expect(response).to be_redirect
+          expect(flash[:error]).to be_present
         end
       end
 
@@ -136,12 +136,12 @@ describe ChaptersController do
         it "can see a list of unique organizers" do
           get :show, id: @chapter.id
           @organizer_rsvps = assigns(:organizer_rsvps)
-          @organizer_rsvps.map do |rsvp|
+          expect(@organizer_rsvps.map do |rsvp|
             [rsvp.user.full_name, rsvp.events_count]
-          end.should =~ [
+          end).to match_array([
             [@org1.full_name, 2],
             [@org2.full_name, 1]
-          ]
+          ])
         end
       end
     end

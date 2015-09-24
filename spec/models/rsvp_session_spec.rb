@@ -7,7 +7,7 @@ describe RsvpSession do
     let!(:session2) { create(:rsvp_session, rsvp: rsvp) }
 
     it "counts the number of checkins" do
-      rsvp.checkins_count.should == 0
+      expect(rsvp.checkins_count).to eq(0)
 
       expect {
         session1.checked_in = true

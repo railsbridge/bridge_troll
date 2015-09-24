@@ -14,12 +14,12 @@ describe EventSessionsController do
     context 'format is ics' do
       it 'responds with success' do
         get :show, format: 'ics', event_id: @event.id, id: @event_session.id
-        response.should be_success
+        expect(response).to be_success
       end
 
       it 'delegates to IcsGenerator' do
         generator = double(event_session_ics: 'CALENDAR STUFF')
-        IcsGenerator.should_receive(:new).and_return(generator)
+        expect(IcsGenerator).to receive(:new).and_return(generator)
 
         get :show, format: 'ics', event_id: @event.id, id: @event_session.id
       end
@@ -28,7 +28,7 @@ describe EventSessionsController do
     context 'format is not ics' do
       it 'responds with not_found' do
         get :show, event_id: @event.id, id: @event_session.id
-        response.should be_not_found
+        expect(response).to be_not_found
       end
     end
   end

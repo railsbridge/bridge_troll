@@ -15,29 +15,29 @@ describe 'creating or editing an rsvp' do
       end
 
       it "should not show checkboxes for events with only one session" do
-        @event.event_sessions.length.should == 1
-        page.should_not have_content(@event.event_sessions.first.name)
+        expect(@event.event_sessions.length).to eq(1)
+        expect(page).not_to have_content(@event.event_sessions.first.name)
       end
 
       it "allows user to toggle childcare info with the needs_childcare button", js: true do
-        page.find("#rsvp_needs_childcare").should_not be_checked
-        page.should have_field('rsvp_childcare_info', visible: false)
+        expect(page.find("#rsvp_needs_childcare")).not_to be_checked
+        expect(page).to have_field('rsvp_childcare_info', visible: false)
 
         page.check "rsvp_needs_childcare"
 
-        page.should have_field('rsvp_childcare_info', visible: true)
+        expect(page).to have_field('rsvp_childcare_info', visible: true)
 
         page.uncheck "rsvp_needs_childcare"
 
-        page.should have_field('rsvp_childcare_info', visible: false)
+        expect(page).to have_field('rsvp_childcare_info', visible: false)
       end
 
       it "should show option for any class level" do
-        page.should have_content no_preference_text
+        expect(page).to have_content no_preference_text
       end
 
       it "should have a code of conduct checkbox" do
-        page.should have_unchecked_field('coc')
+        expect(page).to have_unchecked_field('coc')
       end
 
       context "with a valid RSVP" do
@@ -70,17 +70,17 @@ describe 'creating or editing an rsvp' do
 
         context 'for new records', js: true do
           it "requires code of conduct to be checked, and preserves checked-ness on error" do
-            page.should have_content(coc_text)
+            expect(page).to have_content(coc_text)
 
-            page.should have_button 'Submit', disabled: true
-            page.should have_unchecked_field('coc')
+            expect(page).to have_button 'Submit', disabled: true
+            expect(page).to have_unchecked_field('coc')
             check('coc')
-            page.should have_button 'Submit', disabled: false
+            expect(page).to have_button 'Submit', disabled: false
 
             click_on 'Submit'
 
-            page.should have_css('#error_explanation')
-            page.should have_checked_field('coc')
+            expect(page).to have_css('#error_explanation')
+            expect(page).to have_checked_field('coc')
           end
         end
 
@@ -89,7 +89,7 @@ describe 'creating or editing an rsvp' do
 
           it 'is not shown' do
             visit edit_event_rsvp_path rsvp.event, rsvp
-            page.should have_no_content(coc_text)
+            expect(page).to have_no_content(coc_text)
           end
         end
       end
@@ -112,15 +112,15 @@ describe 'creating or editing an rsvp' do
       end
 
       it "allows user to toggle childcare info with the needs_childcare button", js: true do
-        page.find("#rsvp_needs_childcare").should be_checked
-        page.find("#rsvp_childcare_info").should have_text(@rsvp.childcare_info)
+        expect(page.find("#rsvp_needs_childcare")).to be_checked
+        expect(page.find("#rsvp_childcare_info")).to have_text(@rsvp.childcare_info)
 
         page.uncheck "rsvp_needs_childcare"
-        page.should have_field('rsvp_childcare_info', visible: false)
+        expect(page).to have_field('rsvp_childcare_info', visible: false)
 
         page.check "rsvp_needs_childcare"
 
-        page.find("#rsvp_childcare_info").should have_text(@rsvp.childcare_info)
+        expect(page.find("#rsvp_childcare_info")).to have_text(@rsvp.childcare_info)
       end
     end
 
@@ -148,7 +148,7 @@ describe 'creating or editing an rsvp' do
     describe "a new learn rsvp" do
       it "should show rails levels for rails events" do
         visit learn_new_event_rsvp_path(@event)
-        page.should have_content Course.find_by_name('RAILS').levels[0][:title]
+        expect(page).to have_content Course.find_by_name('RAILS').levels[0][:title]
       end
 
       it "should show frontend levels for frontend events" do
@@ -156,12 +156,12 @@ describe 'creating or editing an rsvp' do
         @event.save!
 
         visit learn_new_event_rsvp_path(@event)
-        page.should have_content Course.find_by_name('FRONTEND').levels[0][:title]
+        expect(page).to have_content Course.find_by_name('FRONTEND').levels[0][:title]
       end
 
       it "should not allow students to have 'No preference'" do
         visit learn_new_event_rsvp_path(@event)
-        page.should_not have_content no_preference_text
+        expect(page).not_to have_content no_preference_text
       end
 
       describe "plus-one host toggle" do
@@ -170,7 +170,7 @@ describe 'creating or editing an rsvp' do
         context "when enabled" do
           it "should ask for the name of the person's host (if they are a plus-one)" do
             visit learn_new_event_rsvp_path(@event)
-            page.should have_content plus_one_host_text
+            expect(page).to have_content plus_one_host_text
           end
         end
 
@@ -181,7 +181,7 @@ describe 'creating or editing an rsvp' do
 
           it "should not show the plus-one host form" do
             visit learn_new_event_rsvp_path(@event)
-            page.should_not have_content plus_one_host_text
+            expect(page).not_to have_content plus_one_host_text
           end
         end
       end
@@ -197,16 +197,16 @@ describe 'creating or editing an rsvp' do
     end
 
     it "should not show teaching UI" do
-      page.should_not have_content "What's your experience with teaching?"
-      page.should_not have_content "Teaching"
-      page.should_not have_content "TAing"
-      page.should_not have_content "Do you have a class level preference?"
+      expect(page).not_to have_content "What's your experience with teaching?"
+      expect(page).not_to have_content "Teaching"
+      expect(page).not_to have_content "TAing"
+      expect(page).not_to have_content "Do you have a class level preference?"
     end
 
     it "should require subject experience" do
       fill_in "rsvp_subject_experience", with: "I organized the February workshop after attending one in January"
       click_on "Submit"
-      page.should have_content "Thanks for signing up!"
+      expect(page).to have_content "Thanks for signing up!"
     end
   end
 end

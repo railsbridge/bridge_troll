@@ -8,14 +8,14 @@ describe ExternalEventsController do
   describe "GET index" do
     it "succeeds" do
       get :index
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
   describe "GET new" do
     it "succeeds" do
       get :new
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
@@ -23,7 +23,7 @@ describe ExternalEventsController do
     it "succeeds" do
       external_event = create(:external_event)
       get :edit, id: external_event.to_param
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
@@ -41,7 +41,7 @@ describe ExternalEventsController do
         expect {
           post :create, external_event: valid_attributes
         }.to change(ExternalEvent, :count).by(1)
-        response.should redirect_to external_events_path
+        expect(response).to redirect_to external_events_path
       end
     end
   end
@@ -53,7 +53,7 @@ describe ExternalEventsController do
         expect {
           put :update, id: external_event.to_param, external_event: {"name" => "NewString"}
         }.to change { external_event.reload.name }.to("NewString")
-        response.should redirect_to external_events_path
+        expect(response).to redirect_to external_events_path
       end
     end
   end
@@ -64,7 +64,7 @@ describe ExternalEventsController do
       expect {
         delete :destroy, {:id => external_event.to_param}
       }.to change(ExternalEvent, :count).by(-1)
-      response.should redirect_to external_events_path
+      expect(response).to redirect_to external_events_path
     end
   end
 end

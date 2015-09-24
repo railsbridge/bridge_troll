@@ -31,7 +31,7 @@ describe Events::OrganizerToolsController do
           checkin_counts: {1 => {foo: 'bar'}}
         }
         stub_data.each do |method, value|
-          Event.any_instance.stub(method).and_return(value)
+          allow_any_instance_of(Event).to receive(method).and_return(value)
         end
 
         make_request

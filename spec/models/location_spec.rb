@@ -1,18 +1,18 @@
 require 'rails_helper'
 
 describe Location do
-  it { should have_many(:events) }
+  it { is_expected.to have_many(:events) }
 
-  it { should validate_presence_of(:name) }
-  it { should validate_presence_of(:address_1) }
-  it { should validate_presence_of(:city) }
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:address_1) }
+  it { is_expected.to validate_presence_of(:city) }
 
   describe '#editable_by?' do
     let!(:user) { create(:user) }
     let(:location) { create(:location) }
     context "when the location has not yet used for an event" do
       it "is true" do
-        location.should be_editable_by(user)
+        expect(location).to be_editable_by(user)
       end
     end
 
@@ -27,7 +27,7 @@ describe Location do
         end
 
         it "is true if that event was published" do
-          location.should be_editable_by(user)
+          expect(location).to be_editable_by(user)
         end
 
         context "when the event has not been published" do
@@ -36,23 +36,23 @@ describe Location do
           end
 
           it "is true if the location has only been used for unpublished events" do
-            location.should be_editable_by(user)
+            expect(location).to be_editable_by(user)
           end
 
           it "is false if the location has ever been used in a published event" do
             create(:event, location: location)
-            location.reload.should_not be_editable_by(user)
+            expect(location.reload).not_to be_editable_by(user)
           end
         end
       end
 
       it "is true if the logged in user is an admin" do
         user.update_attribute(:admin, true)
-        location.should be_editable_by(user)
+        expect(location).to be_editable_by(user)
       end
 
       it "is false for a normal user" do
-        location.should_not be_editable_by(user)
+        expect(location).not_to be_editable_by(user)
       end
     end
   end
@@ -67,7 +67,7 @@ describe Location do
 
     context "with an admin" do
       it "should be archivable" do
-        location.archivable_by?(admin).should be true
+        expect(location.archivable_by?(admin)).to be true
       end
     end
 
@@ -78,19 +78,19 @@ describe Location do
       end
 
       it "should be archivable" do
-        location.archivable_by?(user).should be true
+        expect(location.archivable_by?(user)).to be true
       end
     end
 
     context "by someone who has organized an event at the given location" do
       it "should be archivable" do
-          location.archivable_by?(organizer).should be true
+          expect(location.archivable_by?(organizer)).to be true
       end
     end
 
     context "by a normal user" do
       it "should not be archivable" do
-          location.archivable_by?(user).should be false
+          expect(location.archivable_by?(user)).to be false
       end
     end
   end
@@ -99,19 +99,19 @@ describe Location do
     let!(:location) { create(:location) }
     it "can be archived" do
       location.archive!
-      location.archived_at.should be_present
+      expect(location.archived_at).to be_present
     end
   end
 
   describe "#archived?" do
     let!(:location) { create(:location) }
     it "returns returns false on unarchived location" do
-      location.should_not be_archived
+      expect(location).not_to be_archived
     end
 
     it "returns returns true on unarchived location" do
       location.archive!
-      location.should be_archived
+      expect(location).to be_archived
     end
   end
 
@@ -123,11 +123,11 @@ describe Location do
     let(:user) { create(:user) }
 
     it "returns true for a user that organized an event at this location" do
-      location.organized_event?(organizer).should be true
+      expect(location.organized_event?(organizer)).to be true
     end
 
     it "returns false for a user that has not organized an event at this location" do
-      location.organized_event?(user).should be false
+      expect(location.organized_event?(user)).to be false
     end
   end
 end

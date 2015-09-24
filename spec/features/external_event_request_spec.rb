@@ -22,12 +22,12 @@ describe 'External Event' do
 
     click_button "Create External event"
 
-    ExternalEvent.last.chapter.should == chapter
+    expect(ExternalEvent.last.chapter).to eq(chapter)
 
-    page.should have_content("Interesting External Event")
+    expect(page).to have_content("Interesting External Event")
 
     visit chapter_path(chapter)
 
-    page.should have_content("Interesting External Event")
+    expect(page).to have_content("Interesting External Event")
   end
 end

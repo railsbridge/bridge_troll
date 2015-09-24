@@ -21,7 +21,7 @@ describe "visiting the home page" do
         fill_in 'user_password_confirmation', with: new_user_form_values[:password]
         click_button 'Sign up'
       end
-      page.should have_content('A message with a confirmation link has been sent to your email address. Please open the link to activate your account.')
+      expect(page).to have_content('A message with a confirmation link has been sent to your email address. Please open the link to activate your account.')
     end
   end
 
@@ -29,7 +29,7 @@ describe "visiting the home page" do
     describe "as an unauthenticated user" do
       it "has only sign in / sign up links" do
         visit '/'
-        page.all('.navbar li a').map(&:text).should == ['Sign In', 'Sign Up']
+        expect(page.all('.navbar li a').map(&:text)).to eq(['Sign In', 'Sign Up'])
       end
     end
 
@@ -41,7 +41,7 @@ describe "visiting the home page" do
 
       it 'allows the user to log out or view/edit their account details' do
         visit '/'
-        page.all('.navbar li a').map(&:text).should == ['Sign Out', 'Settings']
+        expect(page.all('.navbar li a').map(&:text)).to eq(['Sign Out', 'Settings'])
       end
     end
   end

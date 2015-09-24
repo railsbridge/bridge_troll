@@ -21,14 +21,14 @@ describe "signing in with omniauth" do
       end
 
       user = User.last
-      user.should be_valid
-      user.first_name.should == facebook_response[:info][:first_name]
-      user.last_name.should == facebook_response[:info][:last_name]
-      user.email.should == facebook_response[:info][:email]
+      expect(user).to be_valid
+      expect(user.first_name).to eq(facebook_response[:info][:first_name])
+      expect(user.last_name).to eq(facebook_response[:info][:last_name])
+      expect(user.email).to eq(facebook_response[:info][:email])
 
       authentication = user.authentications.first
-      authentication.provider.should == 'facebook'
-      authentication.uid.should == facebook_response[:uid]
+      expect(authentication.provider).to eq('facebook')
+      expect(authentication.uid).to eq(facebook_response[:uid])
     end
 
     it 'creates a new authentication if the user already exists' do
@@ -38,8 +38,8 @@ describe "signing in with omniauth" do
       visit user_omniauth_authorize_path(:facebook)
 
       authentication = user.authentications.first
-      authentication.provider.should == 'facebook'
-      authentication.uid.should == facebook_response[:uid]
+      expect(authentication.provider).to eq('facebook')
+      expect(authentication.uid).to eq(facebook_response[:uid])
     end
   end
 
@@ -59,14 +59,14 @@ describe "signing in with omniauth" do
       end
 
       user = User.last
-      user.should be_valid
-      user.first_name.should == "John"
-      user.last_name.should == "Q Public"
-      user.email.should == "cool_tweeter@example.com"
+      expect(user).to be_valid
+      expect(user.first_name).to eq("John")
+      expect(user.last_name).to eq("Q Public")
+      expect(user.email).to eq("cool_tweeter@example.com")
 
       authentication = user.authentications.first
-      authentication.provider.should == 'twitter'
-      authentication.uid.should == twitter_response[:uid]
+      expect(authentication.provider).to eq('twitter')
+      expect(authentication.uid).to eq(twitter_response[:uid])
     end
   end
 
@@ -86,14 +86,14 @@ describe "signing in with omniauth" do
       end
 
       user = User.last
-      user.should be_valid
-      user.first_name.should == "Franz"
-      user.last_name.should == "Meetuper"
-      user.email.should == "meetup_user@example.com"
+      expect(user).to be_valid
+      expect(user.first_name).to eq("Franz")
+      expect(user.last_name).to eq("Meetuper")
+      expect(user.email).to eq("meetup_user@example.com")
 
       authentication = user.authentications.first
-      authentication.provider.should == 'meetup'
-      authentication.uid.should == meetup_response['uid'].to_s
+      expect(authentication.provider).to eq('meetup')
+      expect(authentication.uid).to eq(meetup_response['uid'].to_s)
     end
   end
 
@@ -112,14 +112,14 @@ describe "signing in with omniauth" do
       end
 
       user = User.last
-      user.should be_valid
-      user.first_name.should == "Fancy"
-      user.last_name.should == "Fjords"
-      user.email.should == "ffjords@example.com"
+      expect(user).to be_valid
+      expect(user.first_name).to eq("Fancy")
+      expect(user.last_name).to eq("Fjords")
+      expect(user.email).to eq("ffjords@example.com")
 
       authentication = user.authentications.first
-      authentication.provider.should == 'github'
-      authentication.uid.should == github_response[:uid]
+      expect(authentication.provider).to eq('github')
+      expect(authentication.uid).to eq(github_response[:uid])
     end
   end
 
@@ -139,7 +139,7 @@ describe "signing in with omniauth" do
         visit user_omniauth_authorize_path(:facebook)
       }.not_to change(Authentication, :count)
 
-      page.should have_content 'already in use'
+      expect(page).to have_content 'already in use'
     end
   end
 
@@ -151,8 +151,8 @@ describe "signing in with omniauth" do
 
       visit user_omniauth_authorize_path(:github)
 
-      find_field('user[first_name]').value.should be_blank
-      find_field('user[last_name]').value.should be_blank
+      expect(find_field('user[first_name]').value).to be_blank
+      expect(find_field('user[last_name]').value).to be_blank
     end
 
     it "assigns blank first name and last name if name is an empty string" do
@@ -162,8 +162,8 @@ describe "signing in with omniauth" do
 
       visit user_omniauth_authorize_path(:github)
 
-      find_field('user[first_name]').value.should be_blank
-      find_field('user[last_name]').value.should be_blank
+      expect(find_field('user[first_name]').value).to be_blank
+      expect(find_field('user[last_name]').value).to be_blank
     end
 
     it "assigns just the first name if the 'name' attribute has no spaces" do
@@ -173,8 +173,8 @@ describe "signing in with omniauth" do
 
       visit user_omniauth_authorize_path(:github)
 
-      find_field('user[first_name]').value.should == 'Enigma'
-      find_field('user[last_name]').value.should be_blank
+      expect(find_field('user[first_name]').value).to eq('Enigma')
+      expect(find_field('user[last_name]').value).to be_blank
     end
   end
 
@@ -191,6 +191,6 @@ describe "signing in with omniauth" do
       click_on 'Facebook'
     end
 
-    page.should have_content('Admin Dashboard')
+    expect(page).to have_content('Admin Dashboard')
   end
 end

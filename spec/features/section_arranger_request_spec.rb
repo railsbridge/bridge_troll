@@ -4,7 +4,7 @@ describe "arranging sections for an event", js: true do
   before do
     @event = create(:event)
     create(:event_session, event: @event)
-    @event.reload.event_sessions.count.should == 2
+    expect(@event.reload.event_sessions.count).to eq(2)
 
     @session1, @session2 = @event.event_sessions.to_a
 
@@ -24,7 +24,7 @@ describe "arranging sections for an event", js: true do
   it "groups the attendees by their chosen level" do
     visit event_organize_sections_path(@event)
 
-    page.should have_css('.auto-assign-reminder')
+    expect(page).to have_css('.auto-assign-reminder')
 
     within '#section-organizer' do
       click_on "Auto-Arrange"
@@ -35,19 +35,19 @@ describe "arranging sections for an event", js: true do
       click_on "Auto-Arrange"
     end
 
-    page.should_not have_css('.auto-assign-reminder')
+    expect(page).not_to have_css('.auto-assign-reminder')
 
     within '.bridgetroll-section-level.level1' do
-      page.should have_content(@session1_rsvp.user.full_name)
+      expect(page).to have_content(@session1_rsvp.user.full_name)
     end
 
     within '.bridgetroll-section-level.level3' do
-      page.should have_content(@both_rsvp.user.full_name)
+      expect(page).to have_content(@both_rsvp.user.full_name)
     end
 
     counts = (1..5).map do |level|
       page.all(".bridgetroll-section-level.level#{level} .bridgetroll-section").length
     end
-    counts.should == [1, 0, 1, 0, 0]
+    expect(counts).to eq([1, 0, 1, 0, 0])
   end
 end

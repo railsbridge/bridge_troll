@@ -8,7 +8,7 @@ describe "the admin dashboard" do
 
     it "redirects to the homepage" do
       visit '/admin_dashboard'
-      current_path.should == events_path
+      expect(current_path).to eq(events_path)
     end
   end
 
@@ -20,7 +20,7 @@ describe "the admin dashboard" do
 
     it "shows a list of admins" do
       visit '/admin_dashboard'
-      page.should have_content('Gavin Grapejuice')
+      expect(page).to have_content('Gavin Grapejuice')
     end
   end
 end

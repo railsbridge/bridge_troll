@@ -13,14 +13,14 @@ describe "the individual event page" do
       create(:rsvp, :user => user1, :event => @event)
       visit event_path(@event)
 
-      page.should have_content(user1.full_name)
-      page.should_not have_content(user2.full_name)
+      expect(page).to have_content(user1.full_name)
+      expect(page).not_to have_content(user2.full_name)
     end
 
     it "shows who is organizing the event" do
       visit event_path(@event)
       within(".organizers") do
-        page.should have_content("No Organizer Assigned")
+        expect(page).to have_content("No Organizer Assigned")
       end
 
       user1 = create(:user)
@@ -30,17 +30,17 @@ describe "the individual event page" do
 
       visit event_path(@event)
       within(".organizers") do
-        page.should have_content(user1.full_name)
-        page.should have_content(user2.full_name)
+        expect(page).to have_content(user1.full_name)
+        expect(page).to have_content(user2.full_name)
       end
     end
 
     it "does not display the Edit link, public email, volunteer or student details" do
       visit event_path(@event)
-      page.should_not have_content("Edit")
-      page.should_not have_content(@event.public_email)
-      page.should_not have_content(@event.volunteer_details)
-      page.should_not have_content(@event.student_details)
+      expect(page).not_to have_content("Edit")
+      expect(page).not_to have_content(@event.public_email)
+      expect(page).not_to have_content(@event.volunteer_details)
+      expect(page).not_to have_content(@event.student_details)
     end
 
     describe "course section" do
@@ -49,10 +49,10 @@ describe "the individual event page" do
       context "when a course is chosen" do
         it "displays a course and has a link to get the course level descriptions" do
           visit event_path(@event)
-          page.should have_content(chosen_course_text)
+          expect(page).to have_content(chosen_course_text)
 
           click_link "Click here for more information about class levels in this course!"
-          page.should have_content("Class Levels for")
+          expect(page).to have_content("Class Levels for")
         end
       end
 
@@ -63,7 +63,7 @@ describe "the individual event page" do
 
         it "does not display a course" do
           visit event_path(@event)
-          page.should_not have_content(chosen_course_text)
+          expect(page).not_to have_content(chosen_course_text)
         end
       end
     end
@@ -74,20 +74,20 @@ describe "the individual event page" do
 
         visit event_path(@event)
 
-        page.should have_selector(rsvp_actions_selector)
+        expect(page).to have_selector(rsvp_actions_selector)
         click_link 'Volunteer'
 
         sign_in_with_modal(@user)
 
-        page.should have_content('RSVP')
-        current_path.should == volunteer_new_event_rsvp_path(@event)
+        expect(page).to have_content('RSVP')
+        expect(current_path).to eq(volunteer_new_event_rsvp_path(@event))
       end
 
       it 'redirects the user back to the event show page if they sign up using the modal' do
         visit event_path(@event)
         click_link 'Attend as a student'
 
-        page.should have_selector('#sign_in_dialog', visible: true)
+        expect(page).to have_selector('#sign_in_dialog', visible: true)
         within "#sign_in_dialog" do
           page.find(".sign_up_link").click
         end
@@ -101,8 +101,8 @@ describe "the individual event page" do
           click_button 'Sign up'
         end
 
-        page.should have_content('A message with a confirmation link has been sent to your email address. Please open the link to activate your account.')
-        current_path.should == event_path(@event)
+        expect(page).to have_content('A message with a confirmation link has been sent to your email address. Please open the link to activate your account.')
+        expect(current_path).to eq(event_path(@event))
       end
     end
   end
@@ -119,34 +119,34 @@ describe "the individual event page" do
 
     it "displays the event public email but not the Edit link" do
       visit event_path(@event)
-      page.should have_content("public_email@example.org")
-      page.should_not have_content("Edit")
+      expect(page).to have_content("public_email@example.org")
+      expect(page).not_to have_content("Edit")
     end
 
     context "when user has not rsvp'd to event" do
       it "should allow user to rsvp as a volunteer or student" do
         visit event_path(@event)
-        page.should have_link("Volunteer")
-        page.should have_link(attend_as_student_text)
-        page.should_not have_link(join_student_waitlist_text)
+        expect(page).to have_link("Volunteer")
+        expect(page).to have_link(attend_as_student_text)
+        expect(page).not_to have_link(join_student_waitlist_text)
       end
 
       context "when the event is full" do
         before(:each) do
-          Event.any_instance.stub(:students_at_limit?).and_return(true)
-          Event.any_instance.stub(:volunteers_at_limit?).and_return(true)
+          allow_any_instance_of(Event).to receive(:students_at_limit?).and_return(true)
+          allow_any_instance_of(Event).to receive(:volunteers_at_limit?).and_return(true)
         end
 
         it "should allow the user to join the student waitlist" do
           visit event_path(@event)
-          page.should_not have_link(attend_as_student_text)
-          page.should have_link(join_student_waitlist_text)
+          expect(page).not_to have_link(attend_as_student_text)
+          expect(page).to have_link(join_student_waitlist_text)
         end
 
         it "should allow the user to join the volunteer waitlist" do
           visit event_path(@event)
-          page.should_not have_link(attend_as_volunteer_text)
-          page.should have_link(join_volunteer_waitlist_text)
+          expect(page).not_to have_link(attend_as_volunteer_text)
+          expect(page).to have_link(join_volunteer_waitlist_text)
         end
       end
     end
@@ -160,7 +160,7 @@ describe "the individual event page" do
       it "allows user to see volunteer details and lets them cancel their RSVP" do
         expect(page).to have_content(@event.volunteer_details)
 
-        page.should have_link("Cancel RSVP")
+        expect(page).to have_link("Cancel RSVP")
       end
     end
 
@@ -173,7 +173,7 @@ describe "the individual event page" do
       it "allows user to see student details and lets them cancel their RSVP" do
         expect(page).to have_content(@event.student_details)
 
-        page.should have_link("Cancel RSVP")
+        expect(page).to have_link("Cancel RSVP")
       end
     end
   end
@@ -192,7 +192,7 @@ describe "the individual event page" do
       click_button "Update Event"
 
       visit event_path(@event)
-      page.should have_content "New totally awesome event"
+      expect(page).to have_content "New totally awesome event"
     end
 
     context 'when an event has some sessions with no RSVPs' do
@@ -206,7 +206,7 @@ describe "the individual event page" do
         visit edit_event_path(@event)
         page.all('.remove-session')[-1].click
 
-        page.should have_css('.event-sessions .fields', count: 1)
+        expect(page).to have_css('.event-sessions .fields', count: 1)
 
         expect(@event.event_sessions.count).to eq(1)
       end
@@ -220,7 +220,7 @@ describe "the individual event page" do
 
     it 'does not render rsvp actions' do
       visit event_path(@event)
-      page.should_not have_selector(rsvp_actions_selector)
+      expect(page).not_to have_selector(rsvp_actions_selector)
     end
   end
 
@@ -231,7 +231,7 @@ describe "the individual event page" do
 
     it 'does not render rsvp actions' do
       visit event_path(@event)
-      page.should_not have_selector(rsvp_actions_selector)
+      expect(page).not_to have_selector(rsvp_actions_selector)
     end
   end
 end

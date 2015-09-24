@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe Chapter do
-  it { should have_many(:locations) }
-  it { should have_and_belong_to_many(:users) }
+  it { is_expected.to have_many(:locations) }
+  it { is_expected.to have_and_belong_to_many(:users) }
 
-  it { should validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:name) }
 
   describe "#has_leader?" do
     let(:chapter) { create :chapter }

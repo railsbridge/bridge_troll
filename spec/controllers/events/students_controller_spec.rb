@@ -13,9 +13,9 @@ describe Events::StudentsController do
   describe '#index' do
     it 'responds successfully, with the right headers' do
       get :index, event_id: event.to_param, format: :csv
-      assigns(:students).should == event.student_rsvps
-      response.content_type.should == 'text/csv'
-      response.should be_success
+      expect(assigns(:students)).to eq(event.student_rsvps)
+      expect(response.content_type).to eq('text/csv')
+      expect(response).to be_success
 
       csv_rows = CSV.parse(response.body)
       expect(csv_rows[0][0]).to eq('Student Name')

@@ -15,8 +15,8 @@ describe "Profile" do
     click_button "Update"
 
     user.reload
-    user.first_name.should eq("Stewie")
-    user.gender.should eq("Wizard")
+    expect(user.first_name).to eq("Stewie")
+    expect(user.gender).to eq("Wizard")
   end
 
   it "shows errors when changes cannot be saved" do
@@ -27,7 +27,7 @@ describe "Profile" do
     expect {
       click_button "Update"
 
-      page.should have_content("Email can't be blank")
+      expect(page).to have_content("Email can't be blank")
     }.not_to change { user.reload.profile.id }
   end
 
@@ -45,7 +45,7 @@ describe "Profile" do
       fill_in("Password confirmation", with: new_password)
       click_button "Update"
 
-      user.reload.valid_password?(new_password).should be true
+      expect(user.reload.valid_password?(new_password)).to be true
     end
   end
 
@@ -63,7 +63,7 @@ describe "Profile" do
       fill_in("Current password", with: "MyPassword")
       click_button "Update"
 
-      user.reload.valid_password?(new_password).should be true
+      expect(user.reload.valid_password?(new_password)).to be true
     end
   end
 
@@ -74,7 +74,7 @@ describe "Profile" do
       fill_in("Current password", with: "MyPassword")
       click_button "Update"
 
-      user.reload.valid_password?(new_password).should be true
+      expect(user.reload.valid_password?(new_password)).to be true
     end
 
     it "is unsuccessful when password and confirmation don't match" do
@@ -83,7 +83,7 @@ describe "Profile" do
       fill_in("Current password", with: "MyPassword")
       click_button "Update"
 
-      user.reload.valid_password?(new_password).should be false
+      expect(user.reload.valid_password?(new_password)).to be false
     end
 
     it "is unsuccessful when current password not provided" do
@@ -91,7 +91,7 @@ describe "Profile" do
       fill_in("Password confirmation", with: new_password)
       click_button "Update"
 
-      user.reload.valid_password?("Blueberry23").should be false
+      expect(user.reload.valid_password?("Blueberry23")).to be false
     end
 
     it "is unsuccessful when current password is incorrect" do
@@ -100,7 +100,7 @@ describe "Profile" do
       fill_in("Current password", with: "SomeOtherPassword")
       click_button "Update"
 
-      user.reload.valid_password?(new_password).should be false
+      expect(user.reload.valid_password?(new_password)).to be false
     end
   end
 
@@ -113,14 +113,14 @@ describe "Profile" do
       fill_in("Current password", with: "MyPassword")
       click_button "Update"
 
-      user.reload.email.should eq(new_email)
+      expect(user.reload.email).to eq(new_email)
     end
 
     it "is unsuccessful when correct current password is missing" do
       fill_in("Email", with: new_email, match: :first)
       click_button "Update"
 
-      user.reload.email.should eq(old_email)
+      expect(user.reload.email).to eq(old_email)
     end
 
     it "is unsuccessful when correct current password is incorrect" do
@@ -128,7 +128,7 @@ describe "Profile" do
       fill_in("Current password", with: "SomeOtherPassword")
       click_button "Update"
 
-      user.reload.email.should eq(old_email)
+      expect(user.reload.email).to eq(old_email)
     end
   end
 end

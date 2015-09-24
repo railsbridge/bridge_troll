@@ -30,14 +30,14 @@ describe Events::EmailsController do
       expect {
         post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      recipients.should =~ [@student.email, @organizer.email]
+      expect(recipients).to match_array([@student.email, @organizer.email])
     end
 
     it "allows emails to be sent to waitlisted students" do
       expect {
         post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::STUDENT.id, include_waitlisted: "true")
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      recipients.should =~ [@student.email, @waitlisted.email, @organizer.email]
+      expect(recipients).to match_array([@student.email, @waitlisted.email, @organizer.email])
     end
 
     context 'when including organizers' do
@@ -78,7 +78,7 @@ describe Events::EmailsController do
         expect {
           post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All', only_checked_in: "true")
         }.to change(ActionMailer::Base.deliveries, :count).by(1)
-        recipients.should =~ [@volunteer.email, @organizer.email]
+        expect(recipients).to match_array([@volunteer.email, @organizer.email])
       end
     end
 
@@ -86,14 +86,14 @@ describe Events::EmailsController do
       expect {
         post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: Role::VOLUNTEER.id)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      recipients.should =~ [@volunteer.email, @organizer.email]
+      expect(recipients).to match_array([@volunteer.email, @organizer.email])
     end
 
     it "allows emails to be sent to students + volunteers" do
       expect {
         post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All')
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
-      recipients.should =~ [@volunteer.email, @student.email, @organizer.email]
+      expect(recipients).to match_array([@volunteer.email, @student.email, @organizer.email])
     end
 
     it "keeps a record of the email recipients and content" do
@@ -102,10 +102,10 @@ describe Events::EmailsController do
       }.to change(@event.event_emails, :count).by(1)
 
       email = @event.event_emails.last
-      email.sender.should == @organizer
-      email.subject.should == mail_params[:subject]
-      email.body.should == mail_params[:body]
-      email.recipients.map(&:email).should =~ [@volunteer.email, @student.email]
+      expect(email.sender).to eq(@organizer)
+      expect(email.subject).to eq(mail_params[:subject])
+      expect(email.body).to eq(mail_params[:body])
+      expect(email.recipients.map(&:email)).to match_array([@volunteer.email, @student.email])
     end
 
     describe "time text" do
@@ -117,7 +117,7 @@ describe Events::EmailsController do
         it "describes the event as 'upcoming'" do
           post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All')
           email = ActionMailer::Base.deliveries.last
-          email.body.should include('upcoming event')
+          expect(email.body).to include('upcoming event')
         end
       end
 
@@ -129,7 +129,7 @@ describe Events::EmailsController do
         it "describes the event as 'past'" do
           post :create, event_id: @event.id, event_email: mail_params.merge(attendee_group: 'All')
           email = ActionMailer::Base.deliveries.last
-          email.body.should include('past event')
+          expect(email.body).to include('past event')
         end
       end
     end

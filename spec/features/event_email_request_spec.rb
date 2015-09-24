@@ -30,19 +30,19 @@ describe "the email page" do
 
   it "should show an accurate count of the # of people to be emailed when selecting radio buttons", js: true do
     choose 'Only Volunteers'
-    page.should have_content("2 people")
+    expect(page).to have_content("2 people")
 
     choose 'Only Students'
-    page.should have_content("1 person")
+    expect(page).to have_content("1 person")
 
     choose 'All Attendees'
-    page.should have_content("3 people")
+    expect(page).to have_content("3 people")
 
     check 'Include waitlisted students'
-    page.should have_content("4 people")
+    expect(page).to have_content("4 people")
 
     check 'Only attendees who checked in'
-    page.should have_content("1 person")
+    expect(page).to have_content("1 person")
   end
 
   it "sends an email to the selected people" do
@@ -51,7 +51,7 @@ describe "the email page" do
     fill_in 'Body', with: 'This is a cool email body!'
     click_button 'Send Mail'
 
-    recipients.length.should == 4
+    expect(recipients.length).to eq(4)
   end
 
   it "should have a 'CC all organizers' checkbox" do
@@ -59,9 +59,9 @@ describe "the email page" do
   end
 
   it "should show an accurate count of the # of cc'd recipients when selecting cc checkboxes", js: true do
-    page.should_not have_content ("1 event organizer")
+    expect(page).not_to have_content ("1 event organizer")
     
     check 'CC all organizers'
-    page.should have_content ("1 event organizer")
+    expect(page).to have_content ("1 event organizer")
   end
 end

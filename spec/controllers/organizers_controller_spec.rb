@@ -76,14 +76,14 @@ describe OrganizersController do
 
     it "can see list of organizers" do
       get :index, event_id: @event.id
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "can create an organizer and redirect to the event organizer assignment page" do
       expect {
         post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @other_user.id}
       }.to change(Rsvp, :count).by(1)
-      response.should redirect_to(event_organizers_path(@event))
+      expect(response).to redirect_to(event_organizers_path(@event))
     end
 
     it "can promote an existing volunteer to organizer" do
@@ -91,7 +91,7 @@ describe OrganizersController do
       expect {
         post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: volunteer_rsvp.user.id}
       }.not_to change(Rsvp, :count)
-      volunteer_rsvp.reload.role.should == Role::ORGANIZER
+      expect(volunteer_rsvp.reload.role).to eq(Role::ORGANIZER)
     end
 
     it "can delete an event organizer" do

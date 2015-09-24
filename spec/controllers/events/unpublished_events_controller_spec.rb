@@ -17,7 +17,7 @@ describe Events::UnpublishedEventsController do
 
       get :index
 
-      assigns(:events).should match_array([pending_approval_event])
+      expect(assigns(:events)).to match_array([pending_approval_event])
     end
 
     describe 'chapter user counts' do
@@ -45,10 +45,10 @@ describe Events::UnpublishedEventsController do
       it "assigns a hash of chapter/user counts" do
         get :index
 
-        assigns(:chapter_user_counts).should == {
+        expect(assigns(:chapter_user_counts)).to eq({
           @chapter1.id => 2,
           @chapter2.id => 2
-        }
+        })
       end
     end
   end
@@ -91,11 +91,11 @@ describe Events::UnpublishedEventsController do
     it 'mails every user that is associated with this chapter' do
       expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-      recipients.should =~ [@user_this_chapter.email, @user_both_chapters.email]
+      expect(recipients).to match_array([@user_this_chapter.email, @user_both_chapters.email])
 
       mail = ActionMailer::Base.deliveries.last
-      mail.subject.should include(@event.chapter.name)
-      mail.body.should include(@event.title)
+      expect(mail.subject).to include(@event.chapter.name)
+      expect(mail.body).to include(@event.title)
     end
 
     context 'if the announcement emails should be sent manually' do

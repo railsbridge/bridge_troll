@@ -16,13 +16,13 @@ describe 'Locations' do
     fill_in "State", :with=>"CA"
     click_button "Create Location"
 
-    Location.last.chapter.should == chapter
+    expect(Location.last.chapter).to eq(chapter)
 
-    page.should have_content("February Event Location")
+    expect(page).to have_content("February Event Location")
 
     visit locations_path
 
-    page.should have_content("February Event Location")
+    expect(page).to have_content("February Event Location")
   end
 
   context "as a chapter leader" do
@@ -44,26 +44,26 @@ describe 'Locations' do
       click_button "Update Location"
       location.reload
 
-      location.contact_info.should == 'someone'
-      location.notes.should == 'cool notes'
+      expect(location.contact_info).to eq('someone')
+      expect(location.notes).to eq('cool notes')
     end
 
     it "can archive a location that is no longer available" do
       visit edit_location_path(location)
       click_button "Archive Location"
 
-      page.should have_content "Location was successfully archived."
+      expect(page).to have_content "Location was successfully archived."
     end
   end
 
   it "should not create a new location if user is not signed in" do
     visit new_location_path
-    page.should have_content("You need to sign in or sign up before continuing")
+    expect(page).to have_content("You need to sign in or sign up before continuing")
   end
 
   it "should not allow location editing if user is not signed in" do
     @location = create(:location)
     visit edit_location_path(@location.id)
-    page.should have_content("You need to sign in or sign up before continuing")
+    expect(page).to have_content("You need to sign in or sign up before continuing")
   end
 end

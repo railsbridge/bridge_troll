@@ -20,8 +20,8 @@ describe WaitlistManager do
         WaitlistManager.new(@event).reorder_waitlist!
         @event.reload
 
-        @event.student_rsvps.count.should == 4
-        @event.student_waitlist_rsvps.count.should == 1
+        expect(@event.student_rsvps.count).to eq(4)
+        expect(@event.student_waitlist_rsvps.count).to eq(1)
       end
     end
 
@@ -32,9 +32,9 @@ describe WaitlistManager do
       end
 
       it 'promotes a waitlisted user to confirmed when the rsvp is destroyed' do
-        @waitlist1.reload.waitlist_position.should be_nil
-        @waitlist2.reload.waitlist_position.should == 1
-        @waitlist3.reload.waitlist_position.should == 2
+        expect(@waitlist1.reload.waitlist_position).to be_nil
+        expect(@waitlist2.reload.waitlist_position).to eq(1)
+        expect(@waitlist3.reload.waitlist_position).to eq(2)
       end
     end
 
@@ -45,8 +45,8 @@ describe WaitlistManager do
       end
 
       it 'reorders the waitlist when the rsvp is destroyed' do
-        @waitlist2.reload.waitlist_position.should == 1
-        @waitlist3.reload.waitlist_position.should == 2
+        expect(@waitlist2.reload.waitlist_position).to eq(1)
+        expect(@waitlist3.reload.waitlist_position).to eq(2)
       end
     end
     
@@ -86,8 +86,8 @@ describe WaitlistManager do
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
       confirmation_mail = ActionMailer::Base.deliveries.last
-      @waitlisted.token.should be_truthy
-      confirmation_mail.body.should include(@waitlisted.token)
+      expect(@waitlisted.token).to be_truthy
+      expect(confirmation_mail.body).to include(@waitlisted.token)
     end
 
     it 'does nothing if there is no room' do

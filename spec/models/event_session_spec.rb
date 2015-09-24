@@ -1,36 +1,36 @@
 require 'rails_helper'
 
 describe EventSession do  
-  it { should belong_to(:event) }
+  it { is_expected.to belong_to(:event) }
 
-  it { should validate_presence_of(:starts_at) }
-  it { should validate_presence_of(:ends_at) }
+  it { is_expected.to validate_presence_of(:starts_at) }
+  it { is_expected.to validate_presence_of(:ends_at) }
 
-  it { should validate_uniqueness_of(:name).scoped_to(:event_id) }
+  it { is_expected.to validate_uniqueness_of(:name).scoped_to(:event_id) }
 
   it 'requires ends_at to be after starts_at' do
     session = EventSession.create(starts_at: 2.days.from_now, ends_at: 1.day.from_now)
-    session.should have(1).error_on(:ends_at)
+    expect(session).to have(1).error_on(:ends_at)
   end
 
   it 'requires starts_at to be in the future' do
     session = EventSession.create(starts_at: 10.days.ago, ends_at: 1.day.from_now)
-    session.should have(1).error_on(:starts_at)
+    expect(session).to have(1).error_on(:starts_at)
   end
 
   it 'allows starts_at to be in the past when updating events' do
     session = create(:event_session)
-    session.should be_persisted
+    expect(session).to be_persisted
 
     session.starts_at = 22.days.ago
-    session.should have(0).errors_on(:starts_at)
+    expect(session).to have(0).errors_on(:starts_at)
   end
 
   it 'does not allow required_for_students and volunteers_only simultaneously' do
     session = create(:event_session)
     session.volunteers_only = true
     session.required_for_students = true
-    session.should have(1).error_on(:base)
+    expect(session).to have(1).error_on(:base)
   end
 
   describe "#update_event_times" do
@@ -39,18 +39,18 @@ describe EventSession do
       session1 = event.event_sessions.first
 
       event.reload
-      event.starts_at.to_i.should == session1.starts_at.to_i
-      event.ends_at.to_i.should == session1.ends_at.to_i
+      expect(event.starts_at.to_i).to eq(session1.starts_at.to_i)
+      expect(event.ends_at.to_i).to eq(session1.ends_at.to_i)
 
       session2 = create(:event_session, event: event, starts_at: 2.days.since(session1.starts_at), ends_at: 3.days.since(session1.ends_at))
 
       event.reload
-      event.starts_at.to_i.should == session1.starts_at.to_i
-      event.ends_at.to_i.should == session2.ends_at.to_i
+      expect(event.starts_at.to_i).to eq(session1.starts_at.to_i)
+      expect(event.ends_at.to_i).to eq(session2.ends_at.to_i)
 
       session1.destroy
-      event.starts_at.to_i.should == session2.starts_at.to_i
-      event.ends_at.to_i.should == session2.ends_at.to_i
+      expect(event.starts_at.to_i).to eq(session2.starts_at.to_i)
+      expect(event.ends_at.to_i).to eq(session2.ends_at.to_i)
     end
   end
 
@@ -62,8 +62,8 @@ describe EventSession do
         starts_at: '2012-02-03 11:41',
         ends_at: '2012-02-04 02:44'
       )
-      session.starts_at.time_zone.name.should == 'Alaska'
-      session.ends_at.time_zone.name.should == 'Alaska'
+      expect(session.starts_at.time_zone.name).to eq('Alaska')
+      expect(session.ends_at.time_zone.name).to eq('Alaska')
     end
   end
 
@@ -78,12 +78,12 @@ describe EventSession do
 
     it "returns the date of the event, respecting the event's time zone" do
       @event.time_zone = "Pacific Time (US & Canada)"
-      @session.date_in_time_zone(:starts_at).zone.should == 'PST'
-      @session.date_in_time_zone(:starts_at).should == DateTime.parse('1/12/2053 1:38 pm PST')
+      expect(@session.date_in_time_zone(:starts_at).zone).to eq('PST')
+      expect(@session.date_in_time_zone(:starts_at)).to eq(DateTime.parse('1/12/2053 1:38 pm PST'))
 
       @event.time_zone = "Eastern Time (US & Canada)"
-      @session.date_in_time_zone(:starts_at).zone.should == 'EST'
-      @session.date_in_time_zone(:starts_at).should == DateTime.parse('1/12/2053 4:38 pm EST')
+      expect(@session.date_in_time_zone(:starts_at).zone).to eq('EST')
+      expect(@session.date_in_time_zone(:starts_at)).to eq(DateTime.parse('1/12/2053 4:38 pm EST'))
     end
   end
 end

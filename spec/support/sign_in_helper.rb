@@ -6,14 +6,14 @@ def sign_in_as(user, options={})
       fill_in "Password", :with => user.password
       click_button "Sign in"
     end
-    page.should have_content("Signed in successfully")
+    expect(page).to have_content("Signed in successfully")
   else
     login_as user, scope: :user
   end
 end
 
 def sign_in_with_modal(user)
-  page.should have_selector('#sign_in_dialog', visible: true)
+  expect(page).to have_selector('#sign_in_dialog', visible: true)
   within "#sign_in_dialog" do
     fill_in "Email", with: @user.email
     fill_in "Password", with: @user.password
@@ -23,11 +23,11 @@ end
 
 def sign_in_stub(fake_user)
   if fake_user.nil?
-    request.env['warden'].stub(:authenticate!).
+    allow(request.env['warden']).to receive(:authenticate!).
       and_throw(:warden, {:scope => :user})
-    controller.stub :current_user => nil
+    allow(controller).to receive_messages :current_user => nil
   else
-    request.env['warden'].stub :authenticate! => fake_user
-    controller.stub :current_user => fake_user
+    allow(request.env['warden']).to receive_messages :authenticate! => fake_user
+    allow(controller).to receive_messages :current_user => fake_user
   end
 end

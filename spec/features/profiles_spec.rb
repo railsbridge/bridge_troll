@@ -24,18 +24,18 @@ describe "Profile" do
   it "when user visits the profile show page should see" do
     visit user_profile_path(@user)
 
-    page.should have_content(@user.full_name)
-    page.should have_content(@user.profile.other)
-    page.should have_content(@user.profile.bio)
-    page.should have_content(@user.profile.github_username)
-    page.should have_content("Childcare")
-    page.should have_content("Writer")
-    page.should have_content("Designer")
-    page.should have_content("Mentor")
-    page.should have_content("Outreach")
-    page.should have_content("Windows")
-    page.should have_content("Mac OS X")
-    page.should have_content("Linux")
+    expect(page).to have_content(@user.full_name)
+    expect(page).to have_content(@user.profile.other)
+    expect(page).to have_content(@user.profile.bio)
+    expect(page).to have_content(@user.profile.github_username)
+    expect(page).to have_content("Childcare")
+    expect(page).to have_content("Writer")
+    expect(page).to have_content("Designer")
+    expect(page).to have_content("Mentor")
+    expect(page).to have_content("Outreach")
+    expect(page).to have_content("Windows")
+    expect(page).to have_content("Mac OS X")
+    expect(page).to have_content("Linux")
   end
 
   it "user should be able to add his/her skills" do
@@ -52,7 +52,7 @@ describe "Profile" do
 
     visit "/"
     click_link "Settings"
-    page.should have_content("Edit User")
+    expect(page).to have_content("Edit User")
 
     within '.checkbox-columns-small' do
       skill_settings.each do |label, value|
@@ -66,17 +66,21 @@ describe "Profile" do
 
     click_button "Update"
 
-    page.should have_content("You updated your account successfully")
+    expect(page).to have_content("You updated your account successfully")
 
     visit user_profile_path(@user)
 
     skill_settings.each do |label, value|
-      page.send(value ? :should : :should_not, have_content(label))
+      if value
+        expect(page).to have_content(label)
+      else
+        expect(page).to have_no_content(label)
+      end
     end
 
-    page.should have_content("Speaking Spanish")
-    page.should have_content("This is my bio...")
-    page.should have_content("sally33")
+    expect(page).to have_content("Speaking Spanish")
+    expect(page).to have_content("This is my bio...")
+    expect(page).to have_content("sally33")
   end
 
   context "when the user has attended some workshops" do
@@ -87,8 +91,8 @@ describe "Profile" do
 
     it "should be able to see workshop history" do
       visit user_profile_path(@user)
-      page.should have_content("Workshop History")
-      page.should have_content("BridgeBridge")
+      expect(page).to have_content("Workshop History")
+      expect(page).to have_content("BridgeBridge")
     end
   end
 end

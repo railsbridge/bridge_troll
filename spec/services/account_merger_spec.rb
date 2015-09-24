@@ -22,7 +22,7 @@ describe AccountMerger do
         merger.merge!
       }.to change(User, :count).by(-1)
 
-      @user_to_keep.reload.rsvps.length.should == 3
+      expect(@user_to_keep.reload.rsvps.length).to eq(3)
       expect {
         User.find(@user_to_merge.id)
       }.to raise_error(ActiveRecord::RecordNotFound)

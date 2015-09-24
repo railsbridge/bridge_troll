@@ -14,7 +14,7 @@ describe "checking in attendees" do
 
     it 'is not allowed' do
       visit event_event_sessions_path(@event)
-      current_path.should == events_path
+      expect(current_path).to eq(events_path)
     end
   end
 
@@ -34,9 +34,9 @@ describe "checking in attendees" do
 
       click_button "Assign"
 
-      page.should have_content(attendee_rsvp.user.email)
-      page.should have_content(attendee_rsvp.user.full_name)
-      page.should have_select('event_checkiner[rsvp_id]', options: [''])
+      expect(page).to have_content(attendee_rsvp.user.email)
+      expect(page).to have_content(attendee_rsvp.user.full_name)
+      expect(page).to have_select('event_checkiner[rsvp_id]', options: [''])
     end
 
     describe "when a user is assigned as a checkiner" do
@@ -47,13 +47,13 @@ describe "checking in attendees" do
       it "can remove checkiner status from the user" do
         visit event_checkiners_path(@event)
 
-        page.should have_content(attendee_rsvp.user.email)
-        page.should have_selector('input[value="Remove"]')
+        expect(page).to have_content(attendee_rsvp.user.email)
+        expect(page).to have_selector('input[value="Remove"]')
 
         click_button "Remove"
 
-        page.should_not have_content(attendee_rsvp.user.email)
-        page.should_not have_selector('input[value="Remove"]')
+        expect(page).not_to have_content(attendee_rsvp.user.email)
+        expect(page).not_to have_selector('input[value="Remove"]')
       end
     end
   end
@@ -73,17 +73,17 @@ describe "checking in attendees" do
 
       click_link "Check in for Unique Session Name"
 
-      page.should have_content("Check-ins for Unique Session Name")
+      expect(page).to have_content("Check-ins for Unique Session Name")
 
       within "#rsvp_session_#{@student_rsvp_session.id}" do
         within '.create' do
           click_on 'Check In'
         end
-        page.should have_content('Checked In!')
+        expect(page).to have_content('Checked In!')
       end
 
       within '.checkin-counts' do
-        page.should have_content("1")
+        expect(page).to have_content("1")
       end
     end
   end

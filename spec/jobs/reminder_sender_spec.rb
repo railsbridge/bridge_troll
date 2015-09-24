@@ -7,7 +7,7 @@ describe ReminderSender do
       past_event = create(:event)
       past_event.event_sessions.first.update_attributes(starts_at: 2.days.ago, ends_at: 1.day.ago)
 
-      ReminderSender.should_receive(:remind_attendees_for_event).once.with(upcoming_event)
+      expect(ReminderSender).to receive(:remind_attendees_for_event).once.with(upcoming_event)
 
       ReminderSender.send_all_reminders
     end
@@ -22,7 +22,7 @@ describe ReminderSender do
 
     it 'sends emails to all the students' do
       pending_reminder_count = event.rsvps.confirmed.where('reminded_at IS NULL').count
-      pending_reminder_count.should >= 0
+      expect(pending_reminder_count).to be >= 0
 
       expect {
         ReminderSender.remind_attendees_for_event(event)
@@ -45,7 +45,7 @@ describe ReminderSender do
       end
 
       it 'sends volunteers a session reminder' do
-        RsvpMailer.should_receive(:reminder_for_session).once.and_call_original
+        expect(RsvpMailer).to receive(:reminder_for_session).once.and_call_original
 
         expect {
           ReminderSender.remind_attendees_for_event(event)
@@ -75,7 +75,7 @@ describe "querying for events and sessions" do
     end
 
     it 'includes only events in the next three days' do
-      events.should == [@event_tomorrow]
+      expect(events).to eq([@event_tomorrow])
     end
   end
 end

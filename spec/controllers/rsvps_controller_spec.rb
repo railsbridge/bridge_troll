@@ -22,7 +22,7 @@ describe RsvpsController do
 
     it "assigns the rsvp" do
       make_request
-      assigns(:rsvp).should == rsvp
+      expect(assigns(:rsvp)).to eq(rsvp)
     end
   end
 
@@ -39,14 +39,14 @@ describe RsvpsController do
 
       it 'does not allow RSVPing' do
         get :volunteer, event_id: @event.id
-        response.should redirect_to(events_path)
+        expect(response).to redirect_to(events_path)
 
         get :learn, event_id: @event.id
-        response.should redirect_to(events_path)
+        expect(response).to redirect_to(events_path)
 
         rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event)
         post :create, event_id: @event.id, rsvp: rsvp_params
-        response.should redirect_to(events_path)
+        expect(response).to redirect_to(events_path)
       end
     end
 
@@ -57,17 +57,17 @@ describe RsvpsController do
 
       it 'does not allow RSVPing' do
         get :volunteer, event_id: @event.id
-        response.should redirect_to(event_path(@event))
-        flash[:error].should be_present
+        expect(response).to redirect_to(event_path(@event))
+        expect(flash[:error]).to be_present
 
         get :learn, event_id: @event.id
-        response.should redirect_to(event_path(@event))
-        flash[:error].should be_present
+        expect(response).to redirect_to(event_path(@event))
+        expect(flash[:error]).to be_present
 
         rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event)
         post :create, event_id: @event.id, rsvp: rsvp_params
-        response.should redirect_to(event_path(@event))
-        flash[:error].should be_present
+        expect(response).to redirect_to(event_path(@event))
+        expect(flash[:error]).to be_present
 
       end
     end
@@ -76,7 +76,7 @@ describe RsvpsController do
 
       it "creates an RSVP for the volunteer role" do
         get :volunteer, event_id: @event.id
-        assigns(:rsvp).role.should == Role::VOLUNTEER
+        expect(assigns(:rsvp).role).to eq(Role::VOLUNTEER)
       end
 
       describe "when the user has previously volunteered" do
@@ -103,9 +103,9 @@ describe RsvpsController do
         it "creates a new RSVP with details from their last RSVP for the same course" do
           get :volunteer, event_id: @event.id
           rsvp = assigns(:rsvp)
-          rsvp.subject_experience.should == @rails_rsvp.subject_experience
-          rsvp.teaching_experience.should == @rails_rsvp.teaching_experience
-          rsvp.job_details.should == @rails_rsvp.job_details
+          expect(rsvp.subject_experience).to eq(@rails_rsvp.subject_experience)
+          expect(rsvp.teaching_experience).to eq(@rails_rsvp.teaching_experience)
+          expect(rsvp.job_details).to eq(@rails_rsvp.job_details)
         end
 
         context 'when the RSVP is for a course they have never attended' do
@@ -116,9 +116,9 @@ describe RsvpsController do
           it "carries over only limited details" do
             get :volunteer, event_id: @event.id
             rsvp = assigns(:rsvp)
-            rsvp.subject_experience.should be_blank
-            rsvp.teaching_experience.should be_blank
-            rsvp.job_details.should == @rails_rsvp.job_details
+            expect(rsvp.subject_experience).to be_blank
+            expect(rsvp.teaching_experience).to be_blank
+            expect(rsvp.job_details).to eq(@rails_rsvp.job_details)
           end
         end
       end
@@ -127,7 +127,7 @@ describe RsvpsController do
     describe "#learn" do
       it "creates an RSVP for the student role" do
         get :learn, event_id: @event.id
-        assigns(:rsvp).role.should == Role::STUDENT
+        expect(assigns(:rsvp).role).to eq(Role::STUDENT)
       end
 
       describe "when the user has previously attended" do
@@ -138,7 +138,7 @@ describe RsvpsController do
         it "creates a new RSVP with some details from their last RSVP" do
           get :learn, event_id: @event.id
           rsvp = assigns(:rsvp)
-          rsvp.job_details.should == existing_rsvp.job_details
+          expect(rsvp.job_details).to eq(existing_rsvp.job_details)
         end
       end
     end
@@ -150,10 +150,10 @@ describe RsvpsController do
 
       it 'redirects to the event page when trying to create a new RSVP' do
         get :volunteer, event_id: @event.id
-        response.should redirect_to(@event)
+        expect(response).to redirect_to(@event)
 
         get :learn, event_id: @event.id
-        response.should redirect_to(@event)
+        expect(response).to redirect_to(@event)
       end
     end
   end
@@ -170,7 +170,7 @@ describe RsvpsController do
 
       it "redirects to the event page" do
         get :edit, event_id: @event.id, id: organizer_rsvp.id
-        response.should redirect_to(@event)
+        expect(response).to redirect_to(@event)
       end
     end
   end
@@ -182,9 +182,9 @@ describe RsvpsController do
 
     context "when not logged in" do
       it "redirects to the sign in page" do
-        assigns[:current_user].should be_nil
+        expect(assigns[:current_user]).to be_nil
         post :create, event_id: @event.id, rsvp: @rsvp_params
-        response.should redirect_to("/users/sign_in")
+        expect(response).to redirect_to("/users/sign_in")
       end
 
       it "does not create any new rsvps" do
@@ -217,20 +217,20 @@ describe RsvpsController do
 
       it "redirects to the event page related to the rsvp with flash confirmation" do
         do_request
-        response.should redirect_to(event_path(@event))
-        flash[:notice].should match(/thanks/i)
+        expect(response).to redirect_to(event_path(@event))
+        expect(flash[:notice]).to match(/thanks/i)
       end
 
       it "should create a rsvp that persists and is valid" do
         do_request
-        assigns[:rsvp].should be_persisted
-        assigns[:rsvp].should be_valid
+        expect(assigns[:rsvp]).to be_persisted
+        expect(assigns[:rsvp]).to be_valid
       end
 
       it "should set the new rsvp with the selected event, and current user" do
         do_request
-        assigns[:rsvp].user_id.should == assigns[:current_user].id
-        assigns[:rsvp].event_id.should == @event.id
+        expect(assigns[:rsvp].user_id).to eq(assigns[:current_user].id)
+        expect(assigns[:rsvp].event_id).to eq(@event.id)
       end
 
       it "should update the user's gender" do
@@ -255,12 +255,12 @@ describe RsvpsController do
           end
 
           it "adds the a newly rsvp'd student as a confirmed user" do
-            Rsvp.last.waitlist_position.should be_nil
+            expect(Rsvp.last.waitlist_position).to be_nil
           end
 
           it "gives a notice that does not mention the waitlist" do
-            flash[:notice].should be_present
-            flash[:notice].should_not match(/waitlist/i)
+            expect(flash[:notice]).to be_present
+            expect(flash[:notice]).not_to match(/waitlist/i)
           end
         end
       end
@@ -270,8 +270,8 @@ describe RsvpsController do
           it 'assigns the user to the session' do
             expect { do_request }.to change(Rsvp, :count).by(1)
             Rsvp.last.event_sessions.tap do |sessions|
-              sessions.count.should == 1
-              sessions.map(&:id).should == @event.event_sessions.map(&:id)
+              expect(sessions.count).to eq(1)
+              expect(sessions.map(&:id)).to eq(@event.event_sessions.map(&:id))
             end
           end
         end
@@ -291,8 +291,8 @@ describe RsvpsController do
             it 'is assigned as attending all required sessions' do
               expect { do_request }.to change(Rsvp, :count).by(1)
               Rsvp.last.event_sessions.tap do |sessions|
-                sessions.count.should == 2
-                sessions.map(&:id).should == @event.event_sessions.where(required_for_students: true).pluck(:id)
+                expect(sessions.count).to eq(2)
+                expect(sessions.map(&:id)).to eq(@event.event_sessions.where(required_for_students: true).pluck(:id))
               end
             end
           end
@@ -305,8 +305,8 @@ describe RsvpsController do
             it 'is assigned as attending only the desired sessions' do
               expect { do_request }.to change(Rsvp, :count).by(1)
               Rsvp.last.event_sessions do |sessions|
-                sessions.count.should == 1
-                sessions.map(&:id).should == @event.event_sessions.map(&:id)
+                expect(sessions.count).to eq(1)
+                expect(sessions.map(&:id)).to eq(@event.event_sessions.map(&:id))
               end
             end
           end
@@ -329,11 +329,11 @@ describe RsvpsController do
           end
 
           it "adds the student to the waitlist" do
-            Rsvp.last.waitlist_position.should == 1
+            expect(Rsvp.last.waitlist_position).to eq(1)
           end
 
           it "gives a notice that mentions the waitlist" do
-            flash[:notice].should match(/waitlist/i)
+            expect(flash[:notice]).to match(/waitlist/i)
           end
 
           describe "then another student rsvps" do
@@ -347,7 +347,7 @@ describe RsvpsController do
             end
 
             it "adds the student the waitlist after the original student" do
-              Rsvp.last.waitlist_position.should == 2
+              expect(Rsvp.last.waitlist_position).to eq(2)
             end
           end
         end
@@ -361,14 +361,14 @@ describe RsvpsController do
             expect {
               post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
             }.to change(Rsvp, :count).by(1)
-            Rsvp.last.waitlist_position.should be_nil
+            expect(Rsvp.last.waitlist_position).to be_nil
           end
         end
       end
 
       context "when the event is full of volunteers" do
         before do
-          Event.any_instance.stub(:volunteers_at_limit?).and_return(true)
+          allow_any_instance_of(Event).to receive(:volunteers_at_limit?).and_return(true)
         end
 
         describe "and a volunteer rsvps" do
@@ -380,11 +380,11 @@ describe RsvpsController do
           end
 
           it "adds the volunteer to the waitlist" do
-            Rsvp.last.waitlist_position.should == 1
+            expect(Rsvp.last.waitlist_position).to eq(1)
           end
 
           it "gives a notice that mentions the waitlist" do
-            flash[:notice].should match(/waitlist/i)
+            expect(flash[:notice]).to match(/waitlist/i)
           end
 
           describe "then another volunteer rsvps" do
@@ -398,7 +398,7 @@ describe RsvpsController do
             end
 
             it "adds the volunteer the waitlist after the original student" do
-              Rsvp.last.waitlist_position.should == 2
+              expect(Rsvp.last.waitlist_position).to eq(2)
             end
           end
         end
@@ -412,7 +412,7 @@ describe RsvpsController do
             expect {
               post :create, event_id: @event.id, rsvp: @rsvp_params, user: { gender: "human" }
             }.to change(Rsvp, :count).by(1)
-            Rsvp.last.waitlist_position.should be_nil
+            expect(Rsvp.last.waitlist_position).to be_nil
           end
         end
       end
@@ -425,7 +425,7 @@ describe RsvpsController do
           end
 
           it "should clear childcare_info" do
-            assigns[:rsvp].childcare_info.should be_blank
+            expect(assigns[:rsvp].childcare_info).to be_blank
           end
         end
 
@@ -435,7 +435,7 @@ describe RsvpsController do
           it "should has validation errors for blank childcare_info" do
             post :create, event_id: @event.id, rsvp: @rsvp_params.merge(
               needs_childcare: '1', childcare_info: '')
-            assigns[:rsvp].should have(1).errors_on(:childcare_info)
+            expect(assigns[:rsvp]).to have(1).errors_on(:childcare_info)
           end
 
           it "updates sets childcare_info when not blank" do
@@ -444,7 +444,7 @@ describe RsvpsController do
               childcare_info: child_info
             ), user: { gender: "human" }
 
-            assigns[:rsvp].childcare_info.should == child_info
+            expect(assigns[:rsvp].childcare_info).to eq(child_info)
           end
 
           context "the email" do
@@ -471,7 +471,7 @@ describe RsvpsController do
               ), user: { gender: "human" }
 
               recipients = JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to']
-              recipients.should =~ @event.organizers.map(&:email)
+              expect(recipients).to match_array(@event.organizers.map(&:email))
             end
           end
         end
@@ -485,7 +485,7 @@ describe RsvpsController do
                    dietary_restrictions: { vegan: "1" }, user: { gender: "human" }
             }.to change { DietaryRestriction.count }.by(1)
 
-            Rsvp.last.dietary_restrictions.map(&:restriction).should == ["vegan"]
+            expect(Rsvp.last.dietary_restrictions.map(&:restriction)).to eq(["vegan"])
           end
         end
       end
@@ -526,7 +526,7 @@ describe RsvpsController do
         put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: { gender: "human" }
       }.to change { @my_rsvp.reload.subject_experience }.to(rsvp_params[:subject_experience])
 
-      response.should redirect_to(@event)
+      expect(response).to redirect_to(@event)
     end
 
     it 'can update chapter affiliation' do
@@ -544,7 +544,7 @@ describe RsvpsController do
         put :update, event_id: @event.id, id: @other_rsvp.id, rsvp: rsvp_params, user: { gender: "human" }
       }.not_to change { @other_rsvp.reload.subject_experience }
 
-      response.should_not be_success
+      expect(response).not_to be_success
     end
   end
 
@@ -561,7 +561,7 @@ describe RsvpsController do
         waitlist_manager = double(:waitlist_manager, reorder_waitlist!: true)
         allow(WaitlistManager).to receive(:new).and_return(waitlist_manager)
 
-        waitlist_manager.should_receive(:reorder_waitlist!)
+        expect(waitlist_manager).to receive(:reorder_waitlist!)
 
         expect {
           delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
@@ -570,7 +570,7 @@ describe RsvpsController do
         expect {
           @rsvp.reload
         }.to raise_error(ActiveRecord::RecordNotFound)
-        flash[:notice].should match(/no longer signed up/i)
+        expect(flash[:notice]).to match(/no longer signed up/i)
       end
     end
 
@@ -597,8 +597,8 @@ describe RsvpsController do
           delete :destroy, event_id: @event.id, id: 123, token: 'abcdefg'
         }.not_to change { Rsvp.count }
 
-        flash[:notice].should match(/You are not signed up/i)
-        response.should be_redirect
+        expect(flash[:notice]).to match(/You are not signed up/i)
+        expect(response).to be_redirect
       end
     end
 
@@ -619,7 +619,7 @@ describe RsvpsController do
           @rsvp.reload
         }.to raise_error(ActiveRecord::RecordNotFound)
 
-        flash[:notice].should match(/no longer signed up/i)
+        expect(flash[:notice]).to match(/no longer signed up/i)
       end
 
       describe 'as a student' do
@@ -630,13 +630,13 @@ describe RsvpsController do
           create(:student_rsvp, event: @event)
           @waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
 
-          @event.reload.should be_students_at_limit
+          expect(@event.reload).to be_students_at_limit
         end
 
         it "should reorder the student waitlist" do
           delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
 
-          @waitlisted.reload.waitlist_position.should be_nil
+          expect(@waitlisted.reload.waitlist_position).to be_nil
         end
       end
 
@@ -648,13 +648,13 @@ describe RsvpsController do
           create(:volunteer_rsvp, event: @event)
           @waitlisted = create(:volunteer_rsvp, event: @event, waitlist_position: 1)
 
-          @event.reload.should be_volunteers_at_limit
+          expect(@event.reload).to be_volunteers_at_limit
         end
 
         it "should reorder the volunteer waitlist" do
           delete :destroy, event_id: @rsvp.event.id, id: @rsvp.id
 
-          @waitlisted.reload.waitlist_position.should be_nil
+          expect(@waitlisted.reload.waitlist_position).to be_nil
         end
       end
     end
@@ -669,7 +669,7 @@ describe RsvpsController do
         expect {
           delete :destroy, event_id: 3298423, id: 29101
         }.to change { Rsvp.count }.by(0)
-        flash[:notice].should match(/You are not signed up/i)
+        expect(flash[:notice]).to match(/You are not signed up/i)
       end
     end
   end

@@ -6,8 +6,8 @@ describe EventsController do
 
     it "successfully assigns upcoming events" do
       get :index
-      response.should be_success
-      assigns(:events).should == [event]
+      expect(response).to be_success
+      expect(assigns(:events)).to eq([event])
     end
 
     describe "when rendering views" do
@@ -22,9 +22,9 @@ describe EventsController do
 
         it 'renders a combination of internal and external events' do
           get :index
-          response.body.should include('PastBridge')
-          response.body.should include('DonutBridge')
-          response.body.should include('SalsaBridge')
+          expect(response.body).to include('PastBridge')
+          expect(response.body).to include('DonutBridge')
+          expect(response.body).to include('SalsaBridge')
         end
       end
 
@@ -34,13 +34,13 @@ describe EventsController do
         it "shows an 'Attend' button when allowing student RSVP" do
           event.update_attribute(:allow_student_rsvp, true)
           get :index
-          response.body.should include(attend_text)
+          expect(response.body).to include(attend_text)
         end
 
         it "hides the 'Attend' button when not allowing student RSVP" do
           event.update_attribute(:allow_student_rsvp, false)
           get :index
-          response.body.should_not include(attend_text)
+          expect(response.body).not_to include(attend_text)
         end
       end
     end
@@ -59,19 +59,19 @@ describe EventsController do
     it 'can render published past events as json' do
       get :index, format: 'json', type: 'past'
       result_titles = JSON.parse(response.body).map{ |e| e['title'] }
-      result_titles.should == [@past_event, @past_external_event].map(&:title)
+      expect(result_titles).to eq([@past_event, @past_external_event].map(&:title))
     end
 
     it 'can render all published events as json' do
       get :index, format: 'json', type: 'all'
       result_titles = JSON.parse(response.body).map{ |e| e['title'] }
-      result_titles.should == [@past_event, @past_external_event, @future_external_event, @future_event].map(&:title)
+      expect(result_titles).to eq([@past_event, @past_external_event, @future_external_event, @future_event].map(&:title))
     end
 
     it 'can render only upcoming published events as json' do
       get :index, format: 'json', type: 'upcoming'
       result_titles = JSON.parse(response.body).map{ |e| e['title'] }
-      result_titles.should == [@future_external_event, @future_event].map(&:title)
+      expect(result_titles).to eq([@future_external_event, @future_event].map(&:title))
     end
   end
 
@@ -80,8 +80,8 @@ describe EventsController do
 
     it "successfully assigns the event" do
       get :show, id: event.id
-      assigns(:event).should == event
-      response.should be_success
+      expect(assigns(:event)).to eq(event)
+      expect(response).to be_success
     end
 
     describe "when rendering views" do
@@ -93,7 +93,7 @@ describe EventsController do
 
       it "includes the location" do
         get :show, id: event.id
-        response.body.should include('Carbon Nine')
+        expect(response.body).to include('Carbon Nine')
       end
 
       describe "#allow_student_rsvp?" do
@@ -105,21 +105,21 @@ describe EventsController do
         it "shows an 'Attend' button when allowing student RSVP" do
           event.update_attribute(:allow_student_rsvp, true)
           get :show, id: event.id
-          response.body.should include(attend_text)
+          expect(response.body).to include(attend_text)
         end
 
         it "hides the 'Attend' button when not allowing student RSVP" do
           event.update_attribute(:allow_student_rsvp, false)
           get :show, id: event.id
-          response.body.should_not include(attend_text)
+          expect(response.body).not_to include(attend_text)
         end
       end
 
       context "when no volunteers or students are attending" do
         it "shows messages about the lack of volunteers and students" do
           get :show, id: event.id
-          response.body.should include('No volunteers')
-          response.body.should include('No students')
+          expect(response.body).to include('No volunteers')
+          expect(response.body).to include('No students')
         end
       end
 
@@ -131,7 +131,7 @@ describe EventsController do
 
         it "shows the volunteer somewhere on the page" do
           get :show, id: event.id
-          response.body.should include('Ron Swanson')
+          expect(response.body).to include('Ron Swanson')
         end
       end
 
@@ -143,7 +143,7 @@ describe EventsController do
 
         it "shows the student somewhere on the page" do
           get :show, id: event.id
-          response.body.should include('Jane Fontaine')
+          expect(response.body).to include('Jane Fontaine')
         end
 
         describe 'waitlists' do
@@ -152,7 +152,7 @@ describe EventsController do
           context "when there is no waitlist" do
             it "doesn't have the waitlist header" do
               get :show, id: event.id
-              response.body.should_not include(waitlist_label)
+              expect(response.body).not_to include(waitlist_label)
             end
           end
 
@@ -165,8 +165,8 @@ describe EventsController do
 
             it "shows waitlisted students in a waitlist section" do
               get :show, id: event.id
-              response.body.should include(waitlist_label)
-              response.body.should include('Sandy Sontaine')
+              expect(response.body).to include(waitlist_label)
+              expect(response.body).to include('Sandy Sontaine')
             end
           end
         end
@@ -189,13 +189,13 @@ describe EventsController do
 
       it "successfully assigns an event" do
         get :new
-        assigns(:event).should be_new_record
-        response.should be_success
+        expect(assigns(:event)).to be_new_record
+        expect(response).to be_success
       end
 
       it "uses the logged in user's time zone as the event's time zone" do
         get :new
-        assigns(:event).time_zone.should == 'Alaska'
+        expect(assigns(:event).time_zone).to eq('Alaska')
       end
     end
   end
@@ -218,8 +218,8 @@ describe EventsController do
 
       it "successfully assigns the event" do
         make_request
-        assigns(:event).should == event
-        response.should be_success
+        expect(assigns(:event)).to eq(event)
+        expect(response).to be_success
       end
     end
   end
@@ -229,7 +229,7 @@ describe EventsController do
 
     it "succeeds without requiring any permissions" do
       get :levels, :id => event.id
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
@@ -281,14 +281,14 @@ describe EventsController do
             make_request(create_params)
           }.to change(Event, :count).by(1)
 
-          Event.last.organizers.should include(@user)
-          response.should redirect_to event_path(Event.last)
-          flash[:notice].should be_present
+          expect(Event.last.organizers).to include(@user)
+          expect(response).to redirect_to event_path(Event.last)
+          expect(flash[:notice]).to be_present
         end
 
         it "sets the event's session times in the event's time zone" do
           make_request(create_params)
-          Event.last.event_sessions.last.starts_at.zone.should == 'AKST'
+          expect(Event.last.event_sessions.last.starts_at.zone).to eq('AKST')
         end
 
         context "but the user is flagged as a spammer" do
@@ -300,7 +300,7 @@ describe EventsController do
             expect {
               make_request(create_params)
             }.not_to change(ActionMailer::Base.deliveries, :count)
-            Event.last.should be_spam
+            expect(Event.last).to be_spam
           end
         end
 
@@ -321,12 +321,12 @@ describe EventsController do
               make_request(create_params)
             }.to change(ActionMailer::Base.deliveries, :count).by(2)
 
-            mail.subject.should include('Nitro Boost')
-            mail.subject.should include('Party Zone')
-            mail.body.should include('Party Zone')
-            mail.body.should include('Nitro Boost')
+            expect(mail.subject).to include('Nitro Boost')
+            expect(mail.subject).to include('Party Zone')
+            expect(mail.body).to include('Party Zone')
+            expect(mail.body).to include('Nitro Boost')
 
-            recipients.should =~ [@admin.email, @publisher.email]
+            expect(recipients).to match_array([@admin.email, @publisher.email])
           end
         end
 
@@ -345,12 +345,12 @@ describe EventsController do
               make_request(create_params)
             }.to change(ActionMailer::Base.deliveries, :count).by(2)
 
-            mail.subject.should include('Party Zone')
-            mail.subject.should include('pending approval')
-            mail.body.should include('Evel')
-            mail.body.should include('event needs to be approved')
+            expect(mail.subject).to include('Party Zone')
+            expect(mail.subject).to include('pending approval')
+            expect(mail.body).to include('Evel')
+            expect(mail.body).to include('event needs to be approved')
 
-            recipients.should =~ [@user.email]
+            expect(recipients).to match_array([@user.email])
           end
         end
 
@@ -368,9 +368,9 @@ describe EventsController do
         it "renders :new without creating an event" do
           expect { make_request(invalid_params) }.to_not change { Event.count }
 
-          assigns(:event).should be_new_record
-          response.should be_success
-          response.should render_template('events/new')
+          expect(assigns(:event)).to be_new_record
+          expect(response).to be_success
+          expect(response).to render_template('events/new')
         end
       end
     end
@@ -404,16 +404,16 @@ describe EventsController do
         it "updates the event and redirects to the event page" do
           make_request(update_params)
           event.reload
-          event.title.should == "Updated event title"
-          event.details.should == "Updated event details"
-          response.should redirect_to event_path(event)
-          flash[:notice].should be_present
+          expect(event.title).to eq("Updated event title")
+          expect(event.details).to eq("Updated event details")
+          expect(response).to redirect_to event_path(event)
+          expect(flash[:notice]).to be_present
         end
 
         it "sets the event's session times in the event's time zone" do
           make_request(update_params)
           event_session = event.reload.event_sessions.last
-          event_session.starts_at.zone.should == 'VET'
+          expect(event_session.starts_at.zone).to eq('VET')
         end
       end
 
@@ -426,9 +426,9 @@ describe EventsController do
 
         it "re-renders the edit form" do
           make_request(invalid_params)
-          assigns(:event).should == event
-          response.should be_unprocessable
-          response.should render_template('events/edit')
+          expect(assigns(:event)).to eq(event)
+          expect(response).to be_unprocessable
+          expect(response).to render_template('events/edit')
         end
       end
     end
@@ -452,8 +452,8 @@ describe EventsController do
 
       it "destroys the event and redirects to the events page" do
         make_request
-        Event.find_by_id(event.id).should == nil
-        response.should redirect_to events_path
+        expect(Event.find_by_id(event.id)).to eq(nil)
+        expect(response).to redirect_to events_path
       end
     end
   end
@@ -469,23 +469,23 @@ describe EventsController do
       end
 
       it "successfully directs to xml rss feed" do
-        response.should be_success
+        expect(response).to be_success
 
-        event.should be_in(assigns(:events))
-        other_event.should be_in(assigns(:events))
+        expect(event).to be_in(assigns(:events))
+        expect(other_event).to be_in(assigns(:events))
       end
 
       it "has rss formatting" do
-        response.body.should include 'rss'
+        expect(response.body).to include 'rss'
       end
 
       it "includes the website title" do
-        response.body.should include ('RailsBridge')
+        expect(response.body).to include ('RailsBridge')
       end
 
       it "includes all events" do
-        response.body.should include ('DonutBridge')
-        response.body.should include ('C5 Event!')
+        expect(response.body).to include ('DonutBridge')
+        expect(response.body).to include ('C5 Event!')
       end
     end
 
@@ -495,23 +495,23 @@ describe EventsController do
       end
 
       it "successfully directs to xml rss feed" do
-        response.should be_success
+        expect(response).to be_success
 
-        event.should be_in(assigns(:events))
-        other_event.should be_in(assigns(:events))
+        expect(event).to be_in(assigns(:events))
+        expect(other_event).to be_in(assigns(:events))
       end
 
       it "has rss formatting" do
-        response.body.should include 'feed'
+        expect(response.body).to include 'feed'
       end
 
       it "includes the website title" do
-        response.body.should include ('RailsBridge')
+        expect(response.body).to include ('RailsBridge')
       end
 
       it "includes all events" do
-        response.body.should include ('DonutBridge')
-        response.body.should include ('C5 Event!')
+        expect(response.body).to include ('DonutBridge')
+        expect(response.body).to include ('C5 Event!')
       end
     end
   end
