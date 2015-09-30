@@ -1,65 +1,68 @@
-<% rsvp_button = 
-  if @event.open     
-    [event_close_rsvps_path(@event),
+<% buttons = [
+  [event_organizers_path(@event),
+   'fa fa-key',
+   'Manage Organizers',
+   "If you have co-organizers who you're working with, add them here!
+      They will have access to the same actions as you (including this page
+      and the event edit page)."
+  ],
+  [event_rsvp_preview_path(@event, role_id: Role::STUDENT.id),
+   'fa fa-pencil',
+   'Preview Student RSVP Form',
+   "This is what the form the students are filling out looks like."
+  ],
+  [event_rsvp_preview_path(@event, role_id: Role::VOLUNTEER.id),
+   'fa fa-pencil',
+   'Preview Volunteer RSVP Form',
+   "This is what the form the volunteers are filling out looks like."
+  ],
+  [new_event_email_path(@event),
+   'fa fa-envelope',
+   'Email Attendees',
+   'For any additional emails you need to send students or volunteers.
+       (We send a reminder email three days
+      before the workshop.)'],
+  [event_attendees_path(@event),
+   'fa fa-info-circle',
+   'Show all Attendee RSVP Details',
+   "A detailed look at volunteer and student dietary and childcare needs and
+      student's waitlist status."],
+  [event_diets_path(@event),
+   'fa fa-cutlery',
+   'Dietary Needs',
+   "All your attendees' food needs are aggregated here for your food-ordering convenience."
+  ],
+  ["https://github.com/railsbridge/docs/wiki/Workshop-Planning-Timeline",
+   'fa fa-book',
+   'Workshop Cookbook',
+   "Organizing events is a lot of work! RailsBridge has put together a detailed
+        guide to running a workshop (easily used for other events, too)."
+  ]
+] %>
+
+<% if @event.upcoming? %>
+  <% if @event.open %>
+    <% buttons << [
+      event_close_rsvps_path(@event),
       'fa fa-lock',
       'Close RSVPs',
       "Prevent RSVPs from volunteers and students. This will also close the waitlist. To close RSVPs just for students, change the number of attendees by editing the event."
-     ]
-   else
-    [event_reopen_rsvps_path(@event),
+    ] %>
+  <% else %>
+    <% buttons << [
+      event_reopen_rsvps_path(@event),
       'fa fa-unlock',
       'Open RSVPs',
       "Reopen RSVPs for volunteers and students."
-     ]
-   end
-  %>
+    ] %>
+  <% end %>
+<% end %>
 
-<% [
-     [event_organizers_path(@event),
-      'fa fa-key',
-      'Manage Organizers',
-      "If you have co-organizers who you're working with, add them here!
-      They will have access to the same actions as you (including this page
-      and the event edit page)."
-     ],
-     [event_rsvp_preview_path(@event, role_id: Role::STUDENT.id),
-      'fa fa-pencil',
-      'Preview Student RSVP Form',
-      "This is what the form the students are filling out looks like."
-     ],
-     [event_rsvp_preview_path(@event, role_id: Role::VOLUNTEER.id),
-      'fa fa-pencil',
-      'Preview Volunteer RSVP Form',
-      "This is what the form the volunteers are filling out looks like."
-     ],
-     [new_event_email_path(@event),
-      'fa fa-envelope',
-      'Email Attendees',
-      'For any additional emails you need to send students or volunteers.
-       (We send a reminder email three days
-      before the workshop.)'],
-     [event_attendees_path(@event),
-      'fa fa-info-circle',
-      'Show all Attendee RSVP Details',
-      "A detailed look at volunteer and student dietary and childcare needs and
-      student's waitlist status."],
-     [event_diets_path(@event),
-      'fa fa-cutlery',
-      'Dietary Needs',
-      "All your attendees' food needs are aggregated here for your food-ordering convenience."
-     ],
-     ["https://github.com/railsbridge/docs/wiki/Workshop-Planning-Timeline",
-      'fa fa-book',
-      'Workshop Cookbook',
-      "Organizing events is a lot of work! RailsBridge has put together a detailed
-        guide to running a workshop (easily used for other events, too)."
-     ],
-     rsvp_button
-   ].each do |button| %>
+<% buttons.each do |button| %>
   <%= render 'shared/organizer_action',
-    path: button[0],
-    icon: button[1],
-    text: button[2],
-    tip:  button[3]
+             path: button[0],
+             icon: button[1],
+             text: button[2],
+             tip: button[3]
   %>
 <% end %>
