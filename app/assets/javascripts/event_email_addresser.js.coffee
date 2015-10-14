@@ -17,7 +17,7 @@ Bridgetroll.EventEmailAddresser = {
       width: '100%'
     })
 
-    $('#recipients-set-to-all').on 'click', (e) ->
+    $('#recipients-add-all').on 'click', (e) ->
       e.preventDefault()
       recipientIds = _.map attendees, (attendee) ->
         attendee.user_id
@@ -28,8 +28,9 @@ Bridgetroll.EventEmailAddresser = {
       roleId = $(e.target).data('role-id')
       this.addRecipientGroup(roleId)
 
-    $('#recipients-open-students-dropdown').on 'click', (e) ->
+    $('#recipients-add-dropdown').on 'click', (e) ->
       e.preventDefault()
+      $('#recipients-remove-dropdown').removeClass('open')
       $(this).toggleClass('open')
 
     $('#recipients-add-accepted-students').on 'click', (e) =>
@@ -49,6 +50,7 @@ Bridgetroll.EventEmailAddresser = {
 
     $('#recipients-remove-dropdown').on 'click', (e) ->
       e.preventDefault()
+      $('#recipients-add-dropdown').removeClass('open')
       $(this).toggleClass('open')
 
     $('#recipients-remove-no-shows').on 'click', (e) =>

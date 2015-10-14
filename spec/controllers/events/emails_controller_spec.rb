@@ -20,6 +20,12 @@ describe Events::EmailsController do
 
     let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
 
+    it "sends no emails if a subject or body is omitted" do
+      expect {
+        post :create, event_id: @event.id, event_email: {cc_organizers: false}
+      }.not_to change(ActionMailer::Base.deliveries, :count)
+    end
+
     describe 'including organizers' do
       let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
       let(:another_organizer) { create :user }

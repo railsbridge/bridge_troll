@@ -38,32 +38,32 @@
   <div class="row recipients-selection">
     <div class="col-md-8">
       <label>Recipients</label>
-      <div class="btn-group">
-        <button type="button" id="recipients-set-to-all" class="btn btn-default">All</button>
-        <button type="button" data-role-id=<%= Role::VOLUNTEER.id %> id="recipients-add-volunteers" class="btn btn-default">Volunteers</button>
-
-        <div id="recipients-open-students-dropdown" class="btn-group">
-          <button class="btn btn-default dropdown-toggle">
-            Students
+      <div class="recipient-dropdowns">
+        <div id="recipients-add-dropdown" class="btn-group">
+          <button class="btn-small btn-default dropdown-toggle">
+            Add
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="#" id="recipients-add-accepted-students" data-role-id=<%= Role::STUDENT.id %>>Accepted</a></li>
-            <li><a href="#" id="recipients-add-waitlisted-students" data-role-id=<%= Role::STUDENT.id %>>Waitlisted</a></li>
-            <li><a href="#" id="recipients-add-all-students" data-role-id=<%= Role::STUDENT.id %>>All</a></li>
+            <li><a href="#" id="recipients-add-all">All</a></li>
+            <li class="divider"></li>
+            <li><a href="#" id="recipients-add-volunteers" data-role-id=<%= Role::VOLUNTEER.id %>>Volunteers</a></li>
+            <li class="divider"></li>
+            <li><a href="#" id="recipients-add-all-students" data-role-id=<%= Role::STUDENT.id %>>All Students</a></li>
+            <li><a href="#" id="recipients-add-accepted-students" data-role-id=<%= Role::STUDENT.id %>>Accepted Students</a></li>
+            <li><a href="#" id="recipients-add-waitlisted-students" data-role-id=<%= Role::STUDENT.id %>>Waitlisted Students</a></li>
           </ul>
         </div>
-
-      </div>
-      <div id="recipients-remove-dropdown" class="btn-group">
-        <button class="btn btn-warning dropdown-toggle">
-          Remove
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><a href="#" id="recipients-remove-no-shows" alt="blah">No-shows</a></li>
-          <li><a href="#" id="recipients-remove-all">All</a></li>
-        </ul>
+        <div id="recipients-remove-dropdown" class="btn-group">
+          <button class="btn-small btn-default dropdown-toggle">
+            Remove
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" id="recipients-remove-no-shows" alt="blah">No-shows</a></li>
+            <li><a href="#" id="recipients-remove-all">All</a></li>
+          </ul>
+        </div>
       </div>
 
       <select name="event_email[recipients][]" class="form-control select2-hidden-accessible" id="recipients" multiple="multiple" tabindex="-1" aria-hidden="true">
@@ -94,7 +94,7 @@
   <div class="row">
     <div class="col-md-8">
       <%= f.input :subject, label: "Subject", placeholder: 'A message from your RailsBridge organizer' %>
-      <%= f.input :body, label: "Message Body", placeholder: "Here's some important information about the upcoming workshop..." %>
+      <%= f.input :body, as: :text, label: "Body", placeholder: "Here's some important information about the upcoming workshop..." %>
     </div>
   </div>
 

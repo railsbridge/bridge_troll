@@ -31,32 +31,36 @@ RSpec.describe 'Sending an event email', js: true do
   end
 
   it 'should show an accurate count of the # of people to be emailed when clicking buttons' do
-    click_button 'Volunteers'
+    click_button 'Add'
+    find('#recipients-add-volunteers').click
     expect(page).to have_content('2 people')
 
-    click_button 'Students'
+    click_button 'Add'
     find('#recipients-add-accepted-students').click
     expect(page).to have_content('3 people')
 
-    click_button 'All'
+    click_button 'Add'
+    find('#recipients-add-all').click
     expect(page).to have_content('4 people')
 
     click_button 'Remove'
     find('#recipients-remove-all').click
     expect(page).to have_content('0 people')
 
-    click_button 'Students'
+    click_button 'Add'
     find('#recipients-add-waitlisted-students').click
     expect(page).to have_content('1 person')
 
-    click_button 'All'
+    click_button 'Add'
+    find('#recipients-add-all').click
     click_button 'Remove'
     find('#recipients-remove-no-shows').click
     expect(page).to have_content('1 person')
   end
 
   it 'sends an email to the selected people' do
-    click_button 'All'
+    click_button 'Add'
+    find('#recipients-add-all').click
     fill_in 'Subject', with: 'Hello, Railsbridgers'
     fill_in 'Body', with: 'This is a cool email body!'
     click_button 'Send Email'
