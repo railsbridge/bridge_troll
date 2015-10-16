@@ -31,30 +31,30 @@ RSpec.describe 'Sending an event email', js: true do
   end
 
   it 'should show an accurate count of the # of people to be emailed when clicking buttons' do
-    click_button 'Add'
-    find('#recipients-add-volunteers').click
+    def choose_dropdown_option(dropdown_name, dropdown_option)
+      click_button dropdown_name
+      within "#recipients-#{dropdown_name.downcase}-dropdown" do
+        click_on(dropdown_option)
+      end
+    end
+
+    choose_dropdown_option('Add', 'Volunteers')
     expect(page).to have_content('2 people')
 
-    click_button 'Add'
-    find('#recipients-add-accepted-students').click
+    choose_dropdown_option('Add', 'Accepted Students')
     expect(page).to have_content('3 people')
 
-    click_button 'Add'
-    find('#recipients-add-all').click
+    choose_dropdown_option('Add', 'All')
     expect(page).to have_content('4 people')
 
-    click_button 'Remove'
-    find('#recipients-remove-all').click
+    choose_dropdown_option('Remove', 'All')
     expect(page).to have_content('0 people')
 
-    click_button 'Add'
-    find('#recipients-add-waitlisted-students').click
+    choose_dropdown_option('Add', 'Waitlisted Students')
     expect(page).to have_content('1 person')
 
-    click_button 'Add'
-    find('#recipients-add-all').click
-    click_button 'Remove'
-    find('#recipients-remove-no-shows').click
+    choose_dropdown_option('Add', 'All')
+    choose_dropdown_option('Remove', 'No-shows')
     expect(page).to have_content('1 person')
   end
 

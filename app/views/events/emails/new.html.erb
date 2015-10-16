@@ -39,7 +39,7 @@
     <div class="col-md-8">
       <label>Recipients</label>
       <div class="recipient-dropdowns">
-        <div id="recipients-add-dropdown" class="btn-group">
+        <div id="recipients-add-dropdown" class="dropdown-container btn-group">
           <button class="btn-small btn-default dropdown-toggle">
             Add
             <span class="caret"></span>
@@ -47,21 +47,21 @@
           <ul class="dropdown-menu">
             <li><a href="#" id="recipients-add-all">All</a></li>
             <li class="divider"></li>
-            <li><a href="#" id="recipients-add-volunteers" data-role-id=<%= Role::VOLUNTEER.id %>>Volunteers</a></li>
+            <li><a href="#" data-role-id=<%= Role::VOLUNTEER.id %>>Volunteers</a></li>
             <li class="divider"></li>
-            <li><a href="#" id="recipients-add-all-students" data-role-id=<%= Role::STUDENT.id %>>All Students</a></li>
-            <li><a href="#" id="recipients-add-accepted-students" data-role-id=<%= Role::STUDENT.id %>>Accepted Students</a></li>
-            <li><a href="#" id="recipients-add-waitlisted-students" data-role-id=<%= Role::STUDENT.id %>>Waitlisted Students</a></li>
+            <li><a href="#" data-role-id=<%= Role::STUDENT.id %>>All Students</a></li>
+            <li><a href="#" data-role-id=<%= Role::STUDENT.id %> data-role-state='accepted'>Accepted Students</a></li>
+            <li><a href="#" data-role-id=<%= Role::STUDENT.id %> data-role-state='waitlisted'>Waitlisted Students</a></li>
           </ul>
         </div>
-        <div id="recipients-remove-dropdown" class="btn-group">
+        <div id="recipients-remove-dropdown" class="dropdown-container btn-group">
           <button class="btn-small btn-default dropdown-toggle">
             Remove
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="#" id="recipients-remove-no-shows" alt="blah">No-shows</a></li>
-            <li><a href="#" id="recipients-remove-all">All</a></li>
+            <li><a href="#" data-checkin-state='no-shows'>No-shows</a></li>
+            <li><a href="#">All</a></li>
           </ul>
         </div>
       </div>
