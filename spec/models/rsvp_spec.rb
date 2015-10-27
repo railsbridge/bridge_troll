@@ -3,9 +3,15 @@ require 'rails_helper'
 describe Rsvp do
   it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:event) }
-  it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:event_id, :user_type) }
   it { is_expected.to validate_presence_of(:user) }
   it { is_expected.to validate_presence_of(:event) }
+
+  describe 'uniqueness' do
+    # validate_uniqueness_of.scoped_to requires an existing valid object to be present
+    let!(:rsvp) { create(:rsvp) }
+
+    it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:event_id, :user_type) }
+  end
 
   describe 'confirmed scope' do
     before do
