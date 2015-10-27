@@ -1,24 +1,5 @@
 module Shoulda
   module Matchers
-    module ActiveModel
-      class ValidateNumericalityOfMatcher
-        def add_disallow_value_matcher
-          disallow_value_matcher = DisallowValueMatcher.new(NON_NUMERIC_VALUE).
-            for(@attribute).
-            with_message(:not_a_number)
-          disallow_value_matcher
-            .instance_variable_get(:@allow_matcher)
-            .ignoring_interference_by_writer
-
-          add_submatcher(disallow_value_matcher)
-        end
-      end
-    end
-  end
-end
-
-module Shoulda
-  module Matchers
     module ActiveRecord
       class ValidateUniquenessOfMatcher < ActiveModel::ValidationMatcher
         def dummy_scalar_value_for(column)

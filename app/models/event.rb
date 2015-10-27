@@ -51,12 +51,12 @@ class Event < ActiveRecord::Base
 
   with_options(unless: :historical?) do |normal_event|
     normal_event.with_options(if: :allow_student_rsvp?) do |workshop_event|
-      workshop_event.validates_numericality_of :student_rsvp_limit, only_integer: true, greater_than: 0
+      workshop_event.validates_numericality_of :student_rsvp_limit, greater_than: 0
       workshop_event.validate :validate_student_rsvp_limit
     end
   
     with_options(if: :has_volunteer_limit?) do |workshop_event|
-      workshop_event.validates_numericality_of :volunteer_rsvp_limit, only_integer: true, greater_than: 0
+      workshop_event.validates_numericality_of :volunteer_rsvp_limit, greater_than: 0
       workshop_event.validate :validate_volunteer_rsvp_limit
     end
   end

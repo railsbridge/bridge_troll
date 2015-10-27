@@ -8,8 +8,8 @@ describe Event do
   it { is_expected.to belong_to(:location) }
   it { is_expected.to have_many(:rsvps) }
   it { is_expected.to have_many(:event_sessions) }
-  it { is_expected.to validate_numericality_of(:student_rsvp_limit) }
-  it { is_expected.to validate_numericality_of(:volunteer_rsvp_limit) }
+  it { is_expected.to validate_numericality_of(:student_rsvp_limit).is_greater_than(0) }
+  it { is_expected.to validate_numericality_of(:volunteer_rsvp_limit).is_greater_than(0) }
   it { is_expected.to validate_presence_of(:title) }
 
   describe "validation of target_audience" do
