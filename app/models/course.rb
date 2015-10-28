@@ -336,6 +336,43 @@ class Course < ActiveHash::Base
           ]
         }
       ]
+    }, {
+      id: 8,
+      name: 'DOCKER',
+      title: 'Docker and Containers',
+      description: 'This is a Docker event. The focus will be on using Docker and containers to build, ship, and run applications in containers.',
+      levels: [
+        {
+          level: 2,
+          color: 'green',
+          title: "New to Docker and Containers",
+          level_description: [
+            'You are moderately proficient in some programming language',
+            'You know how to write code and run it on your machine',
+            'You are comfortable with the terminal',
+            'You\'re unfamiliar with terms like container, image, build, scaling'
+          ]
+        }, {
+          level: 3,
+          color: 'gold',
+          title: "Some Docker Experience",
+          level_description: [
+            'You\'re comfortable using the Docker CLI, but not necessarily a Power User',
+            'You might have written (and built) a Dockerfile or two',
+            'You understand the difference between a container and an image',
+            'You\'re not entirely familiar with Docker concepts like volumes, links, registries'
+          ]
+        }, {
+          level: 5,
+          color: 'purple',
+          title: "Ready for the Next Challenge",
+          level_description: [
+            'You are comfortable with the Docker CLI and Docker Compose',
+            'You have one or even a few applications already running in containers in your development machine',
+            'You want to learn about deploying and scaling applications using Docker and tools like Swarm'
+          ]
+        }
+      ]
     }
   ]
   enum_accessor :name
