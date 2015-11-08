@@ -18,13 +18,16 @@ New? Keep reading this, and then head to the wiki to read the [contributor guide
 * The continuous integration server is at [travis-ci.org/railsbridge/bridge_troll](http://travis-ci.org/railsbridge/bridge_troll)
 
 ### Features & Bugs
-* New features are in our [Pivotal Tracker project](https://www.pivotaltracker.com/s/projects/608983).
-* Bugs are in [GitHub Issues](https://github.com/railsbridge/bridge_troll/issues?state=open).
+* We use [GitHub Issues](https://github.com/railsbridge/bridge_troll/issues?state=open) for tracking bugs and features.
+ * Issues marked as [Ready for Action](https://github.com/railsbridge/bridge_troll/labels/Ready%20for%20Action) are ready to go, so pick one up!
+ * Bugs are, naturally, [marked as bugs](https://github.com/railsbridge/bridge_troll/labels/bug).
+ * Issues marked with the [Discussion label](https://github.com/railsbridge/bridge_troll/labels/Discussion) are currently being refined. If you're interested in working on one, comment and ask what needs to be finalized before it's ready to be worked on.
+ * We also mark issues as [beginner friendly](https://github.com/railsbridge/bridge_troll/labels/Beginner%20Friendly), so if you're new to Rails, check those out.
 
 ### Want to help out?
 Join the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) and send a quick note introducing yourself.
 
-Then, have a look at our [feature backlog](https://www.pivotaltracker.com/s/projects/608983). Pick a feature to work on, fork the project, code some code, and send a [really good pull request](http://railsbridge.github.com/bridge_troll/). Not sure what to do? Ask the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) for advice!
+Then, have a look at our [GitHub Issues](https://github.com/railsbridge/bridge_troll/issues?state=open). Pick a feature to work on, fork the project, code some code, and send a [really good pull request](http://railsbridge.github.com/bridge_troll/). Not sure what to do? Ask the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) for advice!
 
 
 ## Setting up for your local development environment
