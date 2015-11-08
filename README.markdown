@@ -1,6 +1,6 @@
 # Bridge Troll
  
-[![Build Status](https://secure.travis-ci.org/railsbridge/bridge_troll.png)](http://travis-ci.org/railsbridge/bridge_troll)
+[![Build Status](https://travis-ci.org/railsbridge/bridge_troll.svg?branch=master)](http://travis-ci.org/railsbridge/bridge_troll)
 
 Bridge Troll is a Rails app that helps RailsBridge workshop organizers plan their events.
 
