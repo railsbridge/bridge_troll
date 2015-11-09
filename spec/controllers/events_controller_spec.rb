@@ -380,7 +380,7 @@ describe EventsController do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     def make_request(params = {})
-      put :update, id: event.id, event: params
+      put :update, id: event.id, event: params, create_event: true
     end
 
     it_behaves_like "an event action that requires an organizer"
@@ -414,6 +414,21 @@ describe EventsController do
           make_request(update_params)
           event_session = event.reload.event_sessions.last
           expect(event_session.starts_at.zone).to eq('VET')
+        end
+
+        context 'when the event was previously in a draft state' do
+          before do
+            event.update_attributes(draft_saved: true, published: false)
+          end
+
+          it "sends an approval email to all admins/publishers on event creation" do
+            expect {
+              make_request(update_params)
+            }.to change(ActionMailer::Base.deliveries, :count).by(2)
+
+            approval_mail = ActionMailer::Base.deliveries.select {|d| d.subject.include? 'awaits approval' }.last
+            expect(approval_mail).to be
+          end
         end
       end
 

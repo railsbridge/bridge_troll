@@ -67,8 +67,7 @@ class EventsController < ApplicationController
         if current_user.spammer?
           @event.update_attribute(:spam, true)
         else
-          EventMailer.unpublished_event(@event).deliver_now
-          EventMailer.event_pending_approval(@event).deliver_now
+          @event.send_approval_mails
         end
         
         redirect_to @event, notice: 'Your event is awaiting approval and will appear to other users once it has been reviewed by an admin.'
@@ -89,6 +88,7 @@ class EventsController < ApplicationController
       if params[:create_event]
         @event.draft_saved = false
         @event.save
+        @event.send_approval_mails if @event.current_state == :pending_approval
       end
       
       if @event.current_state == :draft_saved
