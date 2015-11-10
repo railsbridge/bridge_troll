@@ -315,11 +315,6 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def send_approval_mails
-    EventMailer.unpublished_event(self).deliver_now
-    EventMailer.event_pending_approval(self).deliver_now
-  end
-
   def as_json(options = {})
     options = {
       only: [:id, :title, :student_rsvp_limit],

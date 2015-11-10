@@ -53,52 +53,25 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = Event.new(event_params)
+    result = EventEditor.new(current_user, params).create
+    @event = result[:event]
 
-    if params[:save_draft]
-      @event.draft_saved = true
-    end
-
-    if @event.save
-      @event.organizers << current_user
-
-      case @event.current_state
-      when :pending_approval
-        if current_user.spammer?
-          @event.update_attribute(:spam, true)
-        else
-          @event.send_approval_mails
-        end
-        
-        redirect_to @event, notice: 'Your event is awaiting approval and will appear to other users once it has been reviewed by an admin.'
-      when :draft_saved
-        flash[:notice] = 'Draft saved. You can continue editing.'
-        render :edit
-      when :published
-        # Note that this code path is currently unused.
-        redirect_to @event, notice: 'Event was successfully created.'
-      end
+    flash[:notice] = result[:notice] if result[:notice]
+    if result[:render]
+      render result[:render]
     else
-      render :new
+      redirect_to result[:event]
     end
   end
 
   def update
-    if @event.update_attributes(event_params)
-      if params[:create_event]
-        @event.draft_saved = false
-        @event.save
-        @event.send_approval_mails if @event.current_state == :pending_approval
-      end
-      
-      if @event.current_state == :draft_saved
-        flash[:notice] = 'Draft updated. You can continue editing.'
-        render :edit
-      else
-        redirect_to @event, notice: 'Event was successfully updated.'
-      end
+    result = EventEditor.new(current_user, params).update(@event)
+
+    flash[:notice] = result[:notice] if result[:notice]
+    if result[:render]
+      render result[:render], status: result[:status]
     else
-      render status: :unprocessable_entity, action: "edit"
+      redirect_to @event
     end
   end
 
@@ -108,13 +81,6 @@ class EventsController < ApplicationController
   end
 
   protected
-
-  def event_params
-    permitted = Event::PERMITTED_ATTRIBUTES.dup
-    permitted << {event_sessions_attributes: EventSession::PERMITTED_ATTRIBUTES + [:id]}
-    permitted << {allowed_operating_system_ids: []}
-    params.require(:event).permit(permitted)
-  end
 
   def set_time_zone
     if params[:event] && params[:event][:time_zone].present?
