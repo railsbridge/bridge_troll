@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150902211626) do
+ActiveRecord::Schema.define(version: 20151111035613) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -98,7 +98,6 @@ ActiveRecord::Schema.define(version: 20150902211626) do
     t.integer  "student_rsvp_limit"
     t.integer  "course_id"
     t.boolean  "allow_student_rsvp",             default: true
-    t.boolean  "published",                      default: false
     t.text     "student_details"
     t.boolean  "spam",                           default: false
     t.boolean  "plus_one_host_toggle",           default: true
@@ -110,13 +109,13 @@ ActiveRecord::Schema.define(version: 20150902211626) do
     t.boolean  "has_childcare",                  default: true
     t.boolean  "restrict_operating_systems",     default: false
     t.string   "allowed_operating_system_ids"
-    t.boolean  "draft_saved",                    default: false
     t.integer  "volunteer_rsvp_limit"
     t.integer  "volunteer_waitlist_rsvps_count", default: 0
     t.string   "target_audience"
     t.boolean  "open",                           default: true
     t.text     "survey_greeting"
     t.datetime "announcement_email_sent_at"
+    t.integer  "current_state",                  default: 0
   end
 
   create_table "external_events", force: :cascade do |t|

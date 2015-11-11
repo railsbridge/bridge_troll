@@ -11,9 +11,9 @@ describe Events::UnpublishedEventsController do
     end
 
     it 'displays events that are publishable' do
-      published_event = create(:event, published: true, draft_saved: false)
-      draft_event = create(:event, published: false, draft_saved: true)
-      pending_approval_event = create(:event, published: false, draft_saved: false)
+      published_event = create(:event, current_state: :published)
+      draft_event = create(:event, current_state: :draft)
+      pending_approval_event = create(:event, current_state: :pending_approval)
 
       get :index
 

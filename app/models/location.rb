@@ -2,7 +2,7 @@ class Location < ActiveRecord::Base
   PERMITTED_ATTRIBUTES = [:name, :address_1, :address_2, :city, :state, :zip, :chapter_id]
 
   scope :available, -> { where(archived_at: nil) }
-  has_many :events, -> { where published: true }
+  has_many :events, -> { published }
   belongs_to :chapter, counter_cache: true
 
   validates_presence_of :name, :address_1, :city, :chapter
@@ -43,7 +43,7 @@ class Location < ActiveRecord::Base
     if events.present?
       events
     else
-      Event.where(location_id: id, published: false)
+      Event.where(location_id: id).where(current_state: Event.current_states.values_at(:draft, :pending_approval))
     end
   end
 

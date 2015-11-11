@@ -116,13 +116,12 @@ module EventsHelper
   end
 
   def state_display(event)
-    case event.current_state
-    when :draft_saved
+    if event.draft?
       "DRAFT"
-    when nil
-      "PENDING APPR"
-    when :published
+    elsif event.published?
       "PUBLISHED"
+    else
+      "PENDING APPR"
     end
   end
 

@@ -13,7 +13,9 @@ class EventEditor
     }
 
     if params[:save_draft]
-      event.draft_saved = true
+      event.current_state = :draft
+    else
+      event.current_state = :pending_approval
     end
 
     unless event.save
@@ -24,22 +26,21 @@ class EventEditor
 
     event.organizers << current_user
 
-    case event.current_state
-      when :pending_approval
-        mark_for_approval(event)
+    if event.draft?
+      result.merge(
+        notice: 'Draft saved. You can continue editing.',
+        render: :edit
+      )
+    elsif event.published?
+      result.merge(
+        notice: 'Event was successfully created.'
+      )
+    else
+      mark_for_approval(event)
 
-        return result.merge(
-          notice: 'Your event is awaiting approval and will appear to other users once it has been reviewed by an admin.'
-        )
-      when :draft_saved
-        return result.merge(
-          notice: 'Draft saved. You can continue editing.',
-          render: :edit
-        )
-      when :published
-        return result.merge(
-          notice: 'Event was successfully created.'
-        )
+      result.merge(
+        notice: 'Your event is awaiting approval and will appear to other users once it has been reviewed by an admin.'
+      )
     end
   end
 
@@ -52,18 +53,18 @@ class EventEditor
     end
 
     if params[:create_event]
-      event.draft_saved = false
+      event.current_state = :pending_approval
       event.save
-      mark_for_approval(event) if event.current_state == :pending_approval
+      mark_for_approval(event)
     end
 
-    if event.current_state == :draft_saved
-      return {
+    if event.draft?
+      {
         notice: 'Draft updated. You can continue editing.',
         render: :edit
       }
     else
-      return {
+      {
         notice: 'Event was successfully updated.'
       }
     end

@@ -81,7 +81,7 @@ module Seeder
       time_zone: 'Pacific Time (US & Canada)',
       course_id: Course::RAILS.id,
       location: location,
-      published: true,
+      current_state: :published,
       target_audience: 'women',
       details: <<-DETAILS.strip_heredoc
         <h2>Workshop Description</h2>

@@ -254,8 +254,8 @@ describe Event do
 
   describe ".drafted_by" do
     before do
-      @drafted_event = create(:event, title: 'draft saved event', draft_saved: true, published: false)
-      @not_drafted_event = create(:event, title: 'draft saved event', draft_saved: true, published: true)
+      @drafted_event = create(:event, title: 'draft saved event', current_state: :draft)
+      @not_drafted_event = create(:event, title: 'draft saved event', current_state: :published)
       @user = create(:user)
       @drafted_event.organizers << @user
       @not_drafted_event.organizers << @user
@@ -266,26 +266,11 @@ describe Event do
     end
   end
 
-  describe ".current_state" do
-    before do
-      @drafted_event = create(:event, title: 'draft saved event', draft_saved: true, published: false)
-      @not_drafted_event = create(:event, title: 'draft saved event', draft_saved: true, published: true)
-      @user = create(:user)
-      @drafted_event.organizers << @user
-      @not_drafted_event.organizers << @user
-    end
-
-    it 'identifies state correctly' do
-      expect(@drafted_event.current_state).to eq :draft_saved
-      expect(@not_drafted_event.current_state).to eq :published
-    end
-  end
-
   describe ".published_or_organized_by" do
     before do
-      @published_event = create(:event, title: 'published event', published: true)
-      @unpublished_event = create(:event, title: 'unpublished event', published: false)
-      @organized_event = create(:event, title: 'organized event', published: false)
+      @published_event = create(:event, title: 'published event', current_state: :published)
+      @unpublished_event = create(:event, title: 'unpublished event', current_state: :pending_approval)
+      @organized_event = create(:event, title: 'organized event', current_state: :pending_approval)
     end
 
     context "when a user is not provided" do

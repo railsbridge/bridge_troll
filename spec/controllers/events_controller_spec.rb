@@ -53,7 +53,7 @@ describe EventsController do
       @past_event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
       @past_event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
       @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
-      @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, published: false)
+      @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, current_state: :pending_approval)
     end
 
     it 'can render published past events as json' do
@@ -418,7 +418,7 @@ describe EventsController do
 
         context 'when the event was previously in a draft state' do
           before do
-            event.update_attributes(draft_saved: true, published: false)
+            event.update_attributes(current_state: :draft)
           end
 
           it "sends an approval email to all admins/publishers on event creation" do

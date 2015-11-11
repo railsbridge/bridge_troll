@@ -133,7 +133,7 @@ describe Events::OrganizerToolsController do
 
       context "when the event has not be published" do
         before do
-          event.update_attribute(:published, false)
+          event.update_attributes(current_state: :pending_approval)
         end
 
         it "doesn't send the email" do
@@ -143,8 +143,10 @@ describe Events::OrganizerToolsController do
       
       context "when the event has been published and announcement email has not been sent" do
         before do
-          event.update_attribute(:published, true)
-          event.update_attribute(:announcement_email_sent_at, nil)
+          event.update_attributes(
+            current_state: :published,
+            announcement_email_sent_at: nil
+          )
         end
 
         it "sends the email" do

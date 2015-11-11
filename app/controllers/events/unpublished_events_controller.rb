@@ -10,11 +10,11 @@ class Events::UnpublishedEventsController < ApplicationController
     @chapter_user_counts = chapters.each_with_object({}) do |chapter, hsh|
       hsh[chapter.id] = chapter.users.length
     end
-    @events = Event.upcoming.where(published: false, draft_saved: false, spam: false)
+    @events = Event.upcoming.pending_approval.where(spam: false)
   end
 
   def publish
-    @event.update_attribute(:published, true)
+    @event.update_attributes(current_state: :published)
     if @event.email_on_approval
       EventMailer.new_event(@event).deliver_now 
       @event.update_attribute(:announcement_email_sent_at, DateTime.now)

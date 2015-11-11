@@ -1,10 +1,12 @@
 require 'meetups'
 
 class Event < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:title, :target_audience, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems, :draft_saved,
+  PERMITTED_ATTRIBUTES = [:title, :target_audience, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems,
   :survey_greeting]
 
   serialize :allowed_operating_system_ids, JSON
+  enum current_state: [ :draft, :pending_approval, :published ]
+  validates :current_state, inclusion: { in: Event.current_states.keys }
 
   after_initialize :set_defaults
   before_validation :normalize_allowed_operating_system_ids
@@ -185,14 +187,10 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def self.published
-    where(published: true)
-  end
-
   def self.drafted_by(user)
     # Technically, only one user is the drafter, but we'll mean by this any user who has been
     # associated as an organizer.
-    joins(:organizers).where('users.id = ? and published = ? and draft_saved = ?', user.id, false, true)
+    joins(:organizers).where('users.id = ? and current_state = ?', user.id, Event.current_states[:draft])
   end
 
   def self.published_or_organized_by(user = nil)
@@ -201,7 +199,7 @@ class Event < ActiveRecord::Base
     if user.admin?
       where(spam: false)
     else
-      includes(:rsvps).where('(rsvps.role_id = ? AND rsvps.user_id = ?) OR (published = ?)', Role::ORGANIZER, user.id, true).references('rsvps')
+      includes(:rsvps).where('(rsvps.role_id = ? AND rsvps.user_id = ?) OR (current_state = ?)', Role::ORGANIZER, user.id, Event.current_states[:published]).references('rsvps')
     end
   end
 
@@ -303,16 +301,6 @@ class Event < ActiveRecord::Base
       student_rsvps_count: student_rsvps.count,
       student_waitlist_rsvps_count: student_waitlist_rsvps.count
     )
-  end
-
-  def current_state
-    if self.published
-      :published
-    elsif self.draft_saved
-      :draft_saved
-    else
-      :pending_approval
-    end
   end
 
   def as_json(options = {})

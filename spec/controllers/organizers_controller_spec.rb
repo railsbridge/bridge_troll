@@ -44,7 +44,7 @@ describe OrganizersController do
 
   context "a user that is logged in and is an organizer for an unpublished event" do
     before do
-      @event = create(:event, published: false)
+      @event = create(:event, current_state: :pending_approval)
       @event.organizers << @user
 
       sign_in @user

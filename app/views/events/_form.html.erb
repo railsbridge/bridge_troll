@@ -241,7 +241,7 @@
     </div>
   <% end %>
 
-  <% if @event.new_record? || @event.current_state == :draft_saved %>
+  <% if @event.new_record? || @event.draft? %>
     <h2>Ready to create your Event? Hold on a second...</h2>
 
     <p>If you're organizing a workshop, make sure you've read over the
@@ -263,7 +263,7 @@
   <% end %>
 
   <div class="actions">
-    <% if @event.new_record? || @event.draft_saved %>
+    <% if @event.new_record? || @event.draft? %>
       <%= f.submit class: 'btn btn-submit coc-required', name: 'create_event', value: 'Submit Event For Approval', data: {disable_with: 'Please wait...'} %>
       <%= f.submit class: 'btn btn-submit event-new-save-draft', name: 'save_draft', value: 'Save Draft', data: {disable_with: 'Please wait...'} %>
     <% else %>

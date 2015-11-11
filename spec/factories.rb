@@ -29,8 +29,7 @@ FactoryGirl.define do
     time_zone "Hawaii"
     starts_at 1.hour.from_now
     ends_at { starts_at + 1.day }
-    published true
-    draft_saved false
+    current_state :published
     student_rsvp_limit 100
     volunteer_rsvp_limit 75
     location
