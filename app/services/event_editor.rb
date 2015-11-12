@@ -12,12 +12,6 @@ class EventEditor
       event: event
     }
 
-    if params[:save_draft]
-      event.current_state = :draft
-    else
-      event.current_state = :pending_approval
-    end
-
     unless event.save
       return result.merge(
         render: :new
@@ -45,17 +39,13 @@ class EventEditor
   end
 
   def update(event)
+    was_draft = event.draft?
+
     unless event.update_attributes(event_params)
       return {
         render: :edit,
         status: :unprocessable_entity
       }
-    end
-
-    if params[:create_event]
-      event.current_state = :pending_approval
-      event.save
-      mark_for_approval(event)
     end
 
     if event.draft?
@@ -64,6 +54,8 @@ class EventEditor
         render: :edit
       }
     else
+      mark_for_approval(event) if was_draft
+
       {
         notice: 'Event was successfully updated.'
       }
@@ -76,7 +68,9 @@ class EventEditor
     permitted = Event::PERMITTED_ATTRIBUTES.dup
     permitted << {event_sessions_attributes: EventSession::PERMITTED_ATTRIBUTES + [:id]}
     permitted << {allowed_operating_system_ids: []}
-    params.require(:event).permit(permitted)
+
+    desired_state = params[:save_draft] ? :draft : :pending_approval
+    params.require(:event).permit(permitted).merge(current_state: desired_state)
   end
 
   def mark_for_approval(event)
