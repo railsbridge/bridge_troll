@@ -410,6 +410,17 @@ describe EventsController do
           expect(flash[:notice]).to be_present
         end
 
+        describe "when the event has been published" do
+          before do
+            event.update_attribute(:current_state, :published)
+          end
+
+          it "updates attributes while keeping the event in published state" do
+            make_request(update_params)
+            expect(event.reload.current_state).to eq('published')
+          end
+        end
+
         it "sets the event's session times in the event's time zone" do
           make_request(update_params)
           event_session = event.reload.event_sessions.last

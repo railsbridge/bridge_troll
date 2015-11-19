@@ -41,7 +41,7 @@ class EventEditor
   def update(event)
     was_draft = event.draft?
 
-    unless event.update_attributes(event_params)
+    unless event.update_attributes(event_params(event))
       return {
         render: :edit,
         status: :unprocessable_entity
@@ -64,13 +64,18 @@ class EventEditor
 
   private
 
-  def event_params
+  def event_params(event = nil)
     permitted = Event::PERMITTED_ATTRIBUTES.dup
     permitted << {event_sessions_attributes: EventSession::PERMITTED_ATTRIBUTES + [:id]}
     permitted << {allowed_operating_system_ids: []}
 
-    desired_state = params[:save_draft] ? :draft : :pending_approval
-    params.require(:event).permit(permitted).merge(current_state: desired_state)
+    derived_params = {}
+    if params[:save_draft]
+      derived_params[:current_state] = :draft
+    elsif !event || event.draft?
+      derived_params[:current_state] = :pending_approval
+    end
+    params.require(:event).permit(permitted).merge(derived_params)
   end
 
   def mark_for_approval(event)
