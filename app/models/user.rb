@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
   end
 
   def profile_path
-    Rails.application.routes.url_helpers.user_profile_path(self)
+    "/users/#{id}/profile"
   end
 
   def meetup_id

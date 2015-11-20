@@ -50,4 +50,10 @@ describe User do
       expect(@user.full_name).to eq("#{@user.first_name} #{@user.last_name}")
     end
   end
+
+  describe '#profile_path' do
+    it 'returns the same value as the appropriate rails helper' do
+      expect(@user.profile_path).to eq(Rails.application.routes.url_helpers.user_profile_path(@user))
+    end
+  end
 end
