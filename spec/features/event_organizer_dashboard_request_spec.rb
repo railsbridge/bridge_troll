@@ -138,4 +138,12 @@ describe "the organizer dashboard" do
 
     expect(rsvp_session1.reload).not_to be_checked_in
   end
+
+  it "lets the organizer update the survey greeting" do
+    visit event_organizer_tools_path(@event)
+    click_link "Edit Survey Header"
+    fill_in 'Greeting', with: 'Here is a fun survey'
+    click_on 'Update'
+    expect(@event.reload.survey_greeting).to eq('Here is a fun survey')
+  end
 end

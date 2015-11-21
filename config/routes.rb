@@ -56,6 +56,7 @@ Bridgetroll::Application.routes.draw do
     resources :organizer_tools, only: [:index], controller: "events/organizer_tools"
     controller "events/organizer_tools" do
       get "send_survey_email"
+      resource :survey, only: [:edit], controller: "events/surveys"
       get "organize_sections"
       get "diets"
       get "rsvp_preview"

@@ -216,15 +216,6 @@
     <%= f.input :student_details, label: 'Student Details', input_html: {rows: 4} %>
   </div>
 
-  <h3>Survey Details</h3>
-
-  <div class="field">
-    <p>
-      Email body - Link to survey will be included at bottom
-    </p>
-    <%= f.input :survey_greeting, label: 'Greeting', input_html: {rows: 4} %>
-  </div>
-
   <% unless @event.published? %>
     <h2>Announcement Email</h2>
 

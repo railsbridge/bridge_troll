@@ -87,15 +87,15 @@
           tip: 'Click here to send a link to the follow up survey to all students and volunteers.',
           confirm: 'Are you sure?'
         } %>
+        <%= render partial: 'shared/organizer_action', locals: {
+          path: edit_event_survey_path(@event),
+          icon: 'fa fa-edit',
+          text: 'Edit Survey Header',
+          tip: 'Change the text that attendees will see when they edit the survey.'
+        } %>
       </section>
     <% end %>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-12">
-    <h2>Survey Greeting</h2>
-    <%= simple_format_with_html(@event.survey_greeting) %>
-  </div>
-</div>
 

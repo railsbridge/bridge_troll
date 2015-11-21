@@ -1,0 +1,16 @@
+<%= simple_form_for @event do |f| %>
+  <%= render 'shared/model_error_messages', model: @event %>
+
+  <h3>Survey Details</h3>
+
+  <div class="field">
+    <p>
+      Email body - Link to survey will be included at bottom
+    </p>
+    <%= f.input :survey_greeting, label: 'Greeting', input_html: {rows: 4} %>
+  </div>
+
+  <div class="actions">
+      <%= f.submit %>
+  </div>
+<% end %>
