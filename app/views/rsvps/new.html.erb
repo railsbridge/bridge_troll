@@ -3,6 +3,12 @@
 <div class="col-md-9">
   <h2>RSVP</h2>
 
+  <% if @show_new_chapter_warning %>
+      <div class="alert alert-warning">
+        <p>Reminder: this event is in <strong><%=@event.location_city_and_state%></strong>. Since you've never attended an event in that location, please double check you can make it.</p>
+      </div>
+  <% end %>
+
   <h3>AWESOME - you're almost signed up!</h3>
 
   <%= render 'rsvps/form' %>
