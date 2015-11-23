@@ -1,16 +1,11 @@
 <div style="font-family: sans-serif;">
   <h2>Welcome to Bridge Troll, <%= @resource.first_name %>!</h2>
 
-  <p>Click the link below to begin a magical journey to a RailsBridge workshop.</p>
+  <p>Click the link below to begin a magical journey to an amazing, welcoming technology workshop.</p>
 
   <p>
     <%= link_to confirmation_url(@resource, confirmation_token: @token) do %>
       <img alt='Confirm your account!' src="http://<%= Rails.configuration.action_mailer.default_url_options[:host] %>/email_images/confirm_account.gif">
     <% end %>
-  </p>
-
-  <p>
-    P.S. Once you're confirmed, go to the Account page to link to your Meetup account (if you have one).
-    This will import your RailsBridge attendance history.
   </p>
 </div>

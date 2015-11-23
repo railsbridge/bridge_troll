@@ -143,7 +143,7 @@
         <div class="form-group boolean optional affiliate_with_chapter">
           <div class="checkbox">
             <%= label_tag :affiliate_with_chapter do %>
-              <%= check_box_tag :affiliate_with_chapter, 1, current_user.chapters.include?(@event.chapter) %> I want to be notified of future RailsBridge events in the "<%= @event.chapter.name %>" chapter.
+              <%= check_box_tag :affiliate_with_chapter, 1, current_user.chapters.include?(@event.chapter) %> I want to be notified of future events in the "<%= @event.chapter.name %>" chapter.
             <% end %>
             <div>
               <small>(Full email preferences are available <%= link_to 'on your User Account', edit_user_registration_path %>)</small>

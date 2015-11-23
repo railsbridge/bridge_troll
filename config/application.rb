@@ -26,7 +26,7 @@ module Bridgetroll
     config.active_record.raise_in_transactional_callbacks = true
 
     # set default from address across
-    ActionMailer::Base.default :from => 'RailsBridge <troll@bridgetroll.org>'
+    ActionMailer::Base.default :from => 'Bridge Troll <troll@railsbridge.org>'
 
     # Devise emails use our layout
     config.to_prepare do

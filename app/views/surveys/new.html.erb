@@ -14,7 +14,7 @@
 
       <%= f.input :other_comments, label: "Any other comments?" %>
 
-      <%= f.label :recommendation_likelihood, "How likely are you to recommend a Railsbridge workshop to a friend or colleague? (10 is very likely, 1 is unlikely)" %>
+      <%= f.label :recommendation_likelihood, "How likely are you to recommend this workshop to a friend or colleague? (10 is very likely, 1 is unlikely)" %>
       <%= f.select :recommendation_likelihood, (1..10).to_a.reverse, {}, {class: 'form-control'} %>
 
       <% unless @survey.persisted? %>

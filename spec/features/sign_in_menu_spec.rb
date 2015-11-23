@@ -27,7 +27,7 @@ describe "sign in lightbox" do
         expect(page).to have_content('sign in')
       end
       visit "/about"
-      expect(page).to have_content('About RailsBridge')
+      expect(page).to have_content("Bridge Troll's Features for Organizers")
     end
 
     context "with password auth" do
@@ -39,7 +39,7 @@ describe "sign in lightbox" do
         sign_in_with_modal(@user)
 
         expect(page).to have_content('Signed in successfully')
-        expect(page).to have_content('About RailsBridge')
+        expect(page).to have_content("Bridge Troll's Features for Organizers")
       end
     end
 
@@ -62,7 +62,7 @@ describe "sign in lightbox" do
         end
 
         expect(page).to have_content('Facebook login successful')
-        expect(page).to have_content('About RailsBridge')
+        expect(page).to have_content("Bridge Troll's Features for Organizers")
       end
     end
   end

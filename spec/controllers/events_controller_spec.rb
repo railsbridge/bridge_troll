@@ -506,7 +506,7 @@ describe EventsController do
       end
 
       it "includes the website title" do
-        expect(response.body).to include ('RailsBridge')
+        expect(response.body).to include ('Bridge Troll Events')
       end
 
       it "includes all events" do
@@ -532,7 +532,7 @@ describe EventsController do
       end
 
       it "includes the website title" do
-        expect(response.body).to include ('RailsBridge')
+        expect(response.body).to include ('Bridge Troll Events')
       end
 
       it "includes all events" do

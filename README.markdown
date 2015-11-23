@@ -2,13 +2,13 @@
  
 [![Build Status](https://travis-ci.org/railsbridge/bridge_troll.svg?branch=master)](http://travis-ci.org/railsbridge/bridge_troll)
 
-Bridge Troll is a Rails app that helps RailsBridge workshop organizers plan their events.
+Bridge Troll is a Rails app that helps workshop organizers plan their events.
 
-Bridge Troll aims to provide a single site for Students and Volunteers to register for workshops, so that Organizers have as much information as possible in one place to help them plan their workshop. Organizers will be able to easily contact attendees before a workshop, sort students and volunteers into classes on the workshop day, and provide follow-up surveys afterward.
+Bridge Troll aims to provide a single site for students and volunteers to RSVP for workshops, so that organizers have as much information as possible in one place to help them plan their workshop. Organizers can easily contact attendees before a workshop, sort students and volunteers into classes on the workshop day, and provide follow-up surveys afterward.
 
 Prospective organizers and attendees can sign up right now at [www.bridgetroll.org](http://www.bridgetroll.org). If you would really like roll your own, Bridge Troll is open source and you are free to fork, hack to your heart's content and deploy it to your favorite server or PaaS.
 
-We have something of a roadmap [here](https://github.com/railsbridge/bridge_troll/wiki/Roadmap).
+# Contributing
 
 New? Keep reading this, and then head to the wiki to read the [contributor guidelines](https://github.com/railsbridge/bridge_troll/wiki/Contributor-Guidelines).
 
@@ -29,6 +29,7 @@ Join the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridg
 
 Then, have a look at our [GitHub Issues](https://github.com/railsbridge/bridge_troll/issues?state=open). Pick a feature to work on, fork the project, code some code, and send a [really good pull request](http://railsbridge.github.com/bridge_troll/). Not sure what to do? Ask the [google group](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll) for advice!
 
+Curious about the longer-term? We have something of a roadmap [here](https://github.com/railsbridge/bridge_troll/wiki/Roadmap).
 
 ## Setting up for your local development environment
 

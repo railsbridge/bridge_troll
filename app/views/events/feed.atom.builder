@@ -1,5 +1,5 @@
 atom_feed do |feed|
-  feed.title("RailsBridge")
+  feed.title("Bridge Troll Events")
   feed.link root_url
   feed.updated @events.last.updated_at
   feed.id root_url
