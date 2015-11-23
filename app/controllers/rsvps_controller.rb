@@ -7,12 +7,14 @@ class RsvpsController < ApplicationController
   before_action :redirect_if_event_closed, only: [:volunteer, :learn, :create]
 
   def volunteer
+    @show_new_chapter_warning = signup_for_new_chapter?
     @rsvp = @event.rsvps.build(user: current_user)
     @rsvp.setup_for_role(Role::VOLUNTEER)
     render :new
   end
 
   def learn
+    @show_new_chapter_warning = signup_for_new_chapter?
     @rsvp = @event.rsvps.build(user: current_user)
     @rsvp.setup_for_role(Role::STUDENT)
     render :new
@@ -160,6 +162,15 @@ class RsvpsController < ApplicationController
     @event = Event.find_by_id(params[:event_id])
     if @event.nil?
       redirect_to events_path, notice: 'You are not signed up for this event'
+    end
+  end
+
+  def signup_for_new_chapter?
+    chapters = Chapter.joins(:locations => :events).where('events.id IN (?)', current_user.events.map(&:id)).distinct
+    if chapters.length > 0
+      !chapters.include?(@event.chapter)
+    else
+      false
     end
   end
 end

@@ -156,6 +156,38 @@ describe RsvpsController do
         expect(response).to redirect_to(@event)
       end
     end
+
+    describe "when user is signing up for a chapter they have signed up for before" do
+      before do
+        create(:rsvp, user: @user, event: @event)
+      end
+
+      it 'does not show a warning' do
+        get :learn, event_id: @event.id
+        expect(assigns(:show_new_chapter_warning)).to be_falsey
+      end
+    end
+
+    describe "when user is signing up for a chapter they haven't signed up for before" do
+      context "when they have never signed up for an event" do
+        it 'does not show a warning' do
+          get :learn, event_id: @event.id
+          expect(assigns(:show_new_chapter_warning)).to be_falsey
+        end
+      end
+
+      context "when they have already signed up for some other chapter" do
+        before do
+          @other_event = create(:event, title: 'The other RailsBridge event')
+          create(:rsvp, user: @user, event: @event)
+        end
+
+        it 'shows them a warning to double check their location' do
+          get :learn, event_id: @other_event.id
+          expect(assigns(:show_new_chapter_warning)).to be_truthy
+        end
+      end
+    end
   end
 
   describe "#edit" do
