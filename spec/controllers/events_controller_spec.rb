@@ -485,11 +485,27 @@ describe EventsController do
   end
 
   describe "GET feed" do
-    let!(:event) { create(:event, title: 'DonutBridge') }
-    let!(:other_event) { create(:event, title: 'C5 Event!') }
     render_views
+    let(:rss_item_tag) { 'item' }
+    let(:atom_item_tag) { 'entry' }
+
+    context 'when there are no events' do
+      it 'returns an empty feed' do
+        get :feed, format: :rss
+        expect(response.body).to include 'rss'
+        expect(Nokogiri::XML.parse(response.body).css(rss_item_tag).length).to eq(0)
+
+        get :feed, format: :atom
+        expect(response.body).to include 'atom'
+        expect(Nokogiri::XML.parse(response.body).css(atom_item_tag).to_a.length).to eq(0)
+      end
+    end
 
     context "when format is RSS" do
+      let!(:event) { create(:event, title: 'DonutBridge') }
+      let!(:other_event) { create(:event, title: 'C5 Event!') }
+      let(:item_tag) { rss_item_tag }
+
       before do
         get :feed, format: :rss
       end
@@ -510,12 +526,17 @@ describe EventsController do
       end
 
       it "includes all events" do
+        expect(Nokogiri::XML.parse(response.body).css(item_tag).length).to eq(2)
         expect(response.body).to include ('DonutBridge')
         expect(response.body).to include ('C5 Event!')
       end
     end
 
     context "when format is Atom" do
+      let!(:event) { create(:event, title: 'DonutBridge') }
+      let!(:other_event) { create(:event, title: 'C5 Event!') }
+      let(:item_tag) { atom_item_tag }
+
       before do
         get :feed, format: :atom
       end
@@ -527,7 +548,7 @@ describe EventsController do
         expect(other_event).to be_in(assigns(:events))
       end
 
-      it "has rss formatting" do
+      it "has atom formatting" do
         expect(response.body).to include 'feed'
       end
 
@@ -536,6 +557,7 @@ describe EventsController do
       end
 
       it "includes all events" do
+        expect(Nokogiri::XML.parse(response.body).css(item_tag).length).to eq(2)
         expect(response.body).to include ('DonutBridge')
         expect(response.body).to include ('C5 Event!')
       end
