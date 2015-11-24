@@ -96,7 +96,7 @@ rake db:restore
 ### Styling Guidelines
 We have created a living style guide to keep track of HTML components and their styling across the site. See it at http://localhost:3000/style_guide.
 
-We're still working on adding every element to the page, so if you see missing components, add it to the erb template ([static_pages/style_guide.html.erb](style_guide.html.erb))
+We're still working on adding every element to the page, so if you see missing components, add it to the erb template ([style_guide.html.erb](app/views/static_pages/style_guide.html.erb))
 
 ##Additional Services
 
