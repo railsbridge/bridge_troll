@@ -18,10 +18,12 @@ class EventMailer < BaseMailer
   def unpublished_event(event)
     @event = event
 
-    set_recipients(User.where('admin = ? OR publisher = ?', true, true).map(&:email))
+    approver_addresses = User.where('admin = ? OR publisher = ?', true, true).map(&:email)
+    approver_addresses << 'info@bridgetroll.org' unless approver_addresses.present?
 
     mail(
-      subject: "Bridge Troll event #{@event.published? ? 'created' : 'awaits approval'}: '#{@event.title}' by #{@event.organizers.first.full_name}"
+      subject: "Bridge Troll event #{@event.published? ? 'created' : 'awaits approval'}: '#{@event.title}' by #{@event.organizers.first.full_name}",
+      to: approver_addresses
     )
   end
 

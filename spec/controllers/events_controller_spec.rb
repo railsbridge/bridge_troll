@@ -314,7 +314,6 @@ describe EventsController do
           let(:mail) do
             ActionMailer::Base.deliveries.select {|d| d.subject.include? 'awaits approval' }.last
           end
-          let(:recipients) { JSON.parse(mail.header['X-SMTPAPI'].to_s)['to'] }
 
           it "sends an email to all admins/publishers on event creation" do
             expect {
@@ -326,7 +325,7 @@ describe EventsController do
             expect(mail.body).to include('Party Zone')
             expect(mail.body).to include('Nitro Boost')
 
-            expect(recipients).to match_array([@admin.email, @publisher.email])
+            expect(mail.to).to match_array([@admin.email, @publisher.email])
           end
         end
 
