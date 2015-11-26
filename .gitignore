@@ -35,3 +35,6 @@ custom_plan.rb
 
 # Vim swap files
 **/*.swp
+
+# RSpec rerun files
+spec/examples.txt
