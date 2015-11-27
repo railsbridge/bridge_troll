@@ -23,15 +23,15 @@
       <%= f.input :gender %>
 
       <div class='form-group'>
-        <%= f.label :chapter_ids, 'Chapters' %>
+        <%= f.label :region_ids, 'Regions' %>
         <div class='checkbox-columns'>
-          <%= f.collection_check_boxes(:chapter_ids, Chapter.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
+          <%= f.collection_check_boxes(:region_ids, Region.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
         </div>
       </div>
 
       <div class='form-group'>
         <%= f.label :allow_event_email do %>
-          <%= f.check_box :allow_event_email %> Allow Bridge Troll to send you an email when a new event is posted in one of those chapters
+          <%= f.check_box :allow_event_email %> Allow Bridge Troll to send you an email when a new event is posted in one of those regions
         <% end %>
       </div>
 

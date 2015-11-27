@@ -3,7 +3,7 @@
     <%= simple_form_for(@external_event) do |f| %>
       <%= render 'shared/model_error_messages', model: @external_event %>
 
-      <%= render 'shared/chapter_select', f: f %>
+      <%= render 'shared/region_select', f: f %>
 
       <%= f.input :name %>
 

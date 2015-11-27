@@ -1,0 +1,9 @@
+<%= content_for(:header_text, "Editing region") %>
+
+<%= render 'form' %>
+
+<%= render 'shared/actions', links: [
+  ['Show', @region],
+  ['Back', regions_path]
+] %>
+

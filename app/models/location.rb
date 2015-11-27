@@ -1,11 +1,11 @@
 class Location < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:name, :address_1, :address_2, :city, :state, :zip, :chapter_id]
+  PERMITTED_ATTRIBUTES = [:name, :address_1, :address_2, :city, :state, :zip, :region_id]
 
   scope :available, -> { where(archived_at: nil) }
   has_many :events, -> { published }
-  belongs_to :chapter, counter_cache: true
+  belongs_to :region, counter_cache: true
 
-  validates_presence_of :name, :address_1, :city, :chapter
+  validates_presence_of :name, :address_1, :city, :region
   unless Rails.env.test?
     geocoded_by :full_address
     after_validation :geocode
@@ -15,8 +15,8 @@ class Location < ActiveRecord::Base
     "#{self.address_1}, #{self.city}, #{self.state}, #{self.zip}"
   end
 
-  def name_with_chapter
-    "#{name} (#{chapter.name})"
+  def name_with_region
+    "#{name} (#{region.name})"
   end
 
   def editable_by?(user)
@@ -26,7 +26,7 @@ class Location < ActiveRecord::Base
   end
 
   def additional_details_editable_by?(user)
-    chapter && chapter.has_leader?(user)
+    region && region.has_leader?(user)
   end
 
   def archivable_by?(user)

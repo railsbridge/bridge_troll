@@ -3,20 +3,20 @@ require 'rails_helper'
 describe 'Locations' do
   it "should create a new location" do
     @user = create(:user)
-    chapter = create(:chapter, name: "Green Hill Zone")
+    region = create(:region, name: "Green Hill Zone")
 
     sign_in_as(@user)
     visit locations_path
     click_link "New Location"
 
-    select "Green Hill Zone", :from => "location_chapter_id"
+    select "Green Hill Zone", :from => "location_region_id"
     fill_in "Name", :with=>"February Event Location"
     fill_in "Address 1", :with=>"123 Main Street"
     fill_in "City", :with=>"San Francisco"
     fill_in "State", :with=>"CA"
     click_button "Create Location"
 
-    expect(Location.last.chapter).to eq(chapter)
+    expect(Location.last.region).to eq(region)
 
     expect(page).to have_content("February Event Location")
 
@@ -25,14 +25,14 @@ describe 'Locations' do
     expect(page).to have_content("February Event Location")
   end
 
-  context "as a chapter leader" do
+  context "as a region leader" do
     let(:location) { create(:location) }
-    let(:chapter_leader) { create(:user) }
+    let(:region_leader) { create(:user) }
 
     before do
-      location.chapter.chapter_leaderships.create(user: chapter_leader)
+      location.region.region_leaderships.create(user: region_leader)
 
-      sign_in_as(chapter_leader)
+      sign_in_as(region_leader)
     end
 
     it "can edit additional fields" do

@@ -72,9 +72,9 @@ describe Location do
     end
 
 
-    context "by a chapter leader" do
+    context "by a region leader" do
       before do
-        location.chapter.chapter_leaderships.create(user: user)
+        location.region.region_leaderships.create(user: user)
       end
 
       it "should be archivable" do

@@ -7,8 +7,8 @@ class EventsController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location, :chapter)
-        @event_chapters = @events.map { |e| e.chapter }.compact.uniq
+        @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location, :region)
+        @event_regions = @events.map { |e| e.region }.compact.uniq
         @past_events = EventList.new('past').combined_events
       end
       format.json do
@@ -18,7 +18,7 @@ class EventsController < ApplicationController
   end
 
   def feed
-    @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location, :chapter)
+    @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location, :region)
 
     respond_to do |format|
       format.rss {render 'events/feed.rss.builder', layout: false}

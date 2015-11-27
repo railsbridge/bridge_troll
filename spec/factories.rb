@@ -50,11 +50,11 @@ FactoryGirl.define do
     sequence(:name) { |n| "Location #{n}" }
     sequence(:address_1) { |n| "#{n} Street" }
     city "San Francisco"
-    chapter
+    region
   end
 
-  factory :chapter do
-    sequence(:name) { |n| "Chapter #{n}" }
+  factory :region do
+    sequence(:name) { |n| "Region #{n}" }
   end
 
   factory :event_session do

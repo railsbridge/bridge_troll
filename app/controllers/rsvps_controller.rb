@@ -7,14 +7,14 @@ class RsvpsController < ApplicationController
   before_action :redirect_if_event_closed, only: [:volunteer, :learn, :create]
 
   def volunteer
-    @show_new_chapter_warning = signup_for_new_chapter?
+    @show_new_region_warning = signup_for_new_region?
     @rsvp = @event.rsvps.build(user: current_user)
     @rsvp.setup_for_role(Role::VOLUNTEER)
     render :new
   end
 
   def learn
-    @show_new_chapter_warning = signup_for_new_chapter?
+    @show_new_region_warning = signup_for_new_region?
     @rsvp = @event.rsvps.build(user: current_user)
     @rsvp.setup_for_role(Role::STUDENT)
     render :new
@@ -113,10 +113,10 @@ class RsvpsController < ApplicationController
     @rsvp.user.update_attributes(gender: params[:user][:gender])
 
     if @event.location
-      if params[:affiliate_with_chapter]
-        @rsvp.user.chapter_ids += [@event.chapter.id]
+      if params[:affiliate_with_region]
+        @rsvp.user.region_ids += [@event.region.id]
       else
-        @rsvp.user.chapter_ids -= [@event.chapter.id]
+        @rsvp.user.region_ids -= [@event.region.id]
       end
     end
   end
@@ -165,10 +165,10 @@ class RsvpsController < ApplicationController
     end
   end
 
-  def signup_for_new_chapter?
-    chapters = Chapter.joins(:locations => :events).where('events.id IN (?)', current_user.events.map(&:id)).distinct
-    if chapters.length > 0
-      !chapters.include?(@event.chapter)
+  def signup_for_new_region?
+    regions = Region.joins(:locations => :events).where('events.id IN (?)', current_user.events.map(&:id)).distinct
+    if regions.length > 0
+      !regions.include?(@event.region)
     else
       false
     end

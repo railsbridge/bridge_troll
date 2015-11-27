@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151111035613) do
+ActiveRecord::Schema.define(version: 20151127025203) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -20,26 +20,6 @@ ActiveRecord::Schema.define(version: 20151111035613) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "chapter_leaderships", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "chapter_id"
-  end
-
-  create_table "chapters", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "locations_count",       default: 0
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.integer  "external_events_count", default: 0
-  end
-
-  create_table "chapters_users", id: false, force: :cascade do |t|
-    t.integer "chapter_id"
-    t.integer "user_id"
-  end
-
-  add_index "chapters_users", ["chapter_id", "user_id"], name: "index_chapters_users_on_chapter_id_and_user_id", unique: true
 
   create_table "dietary_restrictions", force: :cascade do |t|
     t.string   "restriction"
@@ -128,10 +108,10 @@ ActiveRecord::Schema.define(version: 20151111035613) do
     t.string   "organizers"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "chapter_id"
+    t.integer  "region_id"
   end
 
-  add_index "external_events", ["chapter_id"], name: "index_external_events_on_chapter_id"
+  add_index "external_events", ["region_id"], name: "index_external_events_on_region_id"
 
   create_table "locations", force: :cascade do |t|
     t.string   "name"
@@ -146,7 +126,7 @@ ActiveRecord::Schema.define(version: 20151111035613) do
     t.float    "longitude"
     t.boolean  "gmaps"
     t.integer  "events_count", default: 0
-    t.integer  "chapter_id"
+    t.integer  "region_id"
     t.text     "contact_info"
     t.text     "notes"
     t.datetime "archived_at"
@@ -175,6 +155,26 @@ ActiveRecord::Schema.define(version: 20151111035613) do
     t.boolean  "outreach"
     t.string   "github_username"
   end
+
+  create_table "region_leaderships", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "region_id"
+  end
+
+  create_table "regions", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "locations_count",       default: 0
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "external_events_count", default: 0
+  end
+
+  create_table "regions_users", id: false, force: :cascade do |t|
+    t.integer "region_id"
+    t.integer "user_id"
+  end
+
+  add_index "regions_users", ["region_id", "user_id"], name: "index_regions_users_on_region_id_and_user_id", unique: true
 
   create_table "rsvp_sessions", force: :cascade do |t|
     t.integer  "rsvp_id"
@@ -266,10 +266,6 @@ ActiveRecord::Schema.define(version: 20151111035613) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   add_foreign_key "authentications", "users"
-  add_foreign_key "chapter_leaderships", "chapters"
-  add_foreign_key "chapter_leaderships", "users"
-  add_foreign_key "chapters_users", "chapters"
-  add_foreign_key "chapters_users", "users"
   add_foreign_key "dietary_restrictions", "rsvps"
   add_foreign_key "event_email_recipients", "event_emails"
   add_foreign_key "event_email_recipients", "rsvps", column: "recipient_rsvp_id"
@@ -277,9 +273,13 @@ ActiveRecord::Schema.define(version: 20151111035613) do
   add_foreign_key "event_emails", "users", column: "sender_id"
   add_foreign_key "event_sessions", "events"
   add_foreign_key "events", "locations"
-  add_foreign_key "external_events", "chapters"
-  add_foreign_key "locations", "chapters"
+  add_foreign_key "external_events", "regions"
+  add_foreign_key "locations", "regions"
   add_foreign_key "profiles", "users"
+  add_foreign_key "region_leaderships", "regions"
+  add_foreign_key "region_leaderships", "users"
+  add_foreign_key "regions_users", "regions"
+  add_foreign_key "regions_users", "users"
   add_foreign_key "rsvp_sessions", "event_sessions"
   add_foreign_key "rsvp_sessions", "rsvps"
   add_foreign_key "rsvps", "events"

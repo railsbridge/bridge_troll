@@ -20,34 +20,34 @@ describe Events::UnpublishedEventsController do
       expect(assigns(:events)).to match_array([pending_approval_event])
     end
 
-    describe 'chapter user counts' do
+    describe 'region user counts' do
       before do
-        @chapter1 = @event.chapter
-        @chapter1.update_attributes(name: 'RailsBridge Shellmound')
-        @chapter2 = create(:chapter, name: 'RailsBridge Meriloft')
+        @region1 = @event.region
+        @region1.update_attributes(name: 'RailsBridge Shellmound')
+        @region2 = create(:region, name: 'RailsBridge Meriloft')
 
         user_none = create(:user)
 
-        user_chapter1 = create(:user)
-        user_chapter1.chapters << @chapter1
+        user_region1 = create(:user)
+        user_region1.regions << @region1
 
-        user_chapter2 = create(:user)
-        user_chapter2.chapters << @chapter2
+        user_region2 = create(:user)
+        user_region2.regions << @region2
 
-        user_both_chapters = create(:user)
-        user_both_chapters.chapters << @chapter1
-        user_both_chapters.chapters << @chapter2
+        user_both_regions = create(:user)
+        user_both_regions.regions << @region1
+        user_both_regions.regions << @region2
 
         user_no_email = create(:user, allow_event_email: false)
-        user_no_email.chapters << @chapter1
+        user_no_email.regions << @region1
       end
 
-      it "assigns a hash of chapter/user counts" do
+      it "assigns a hash of region/user counts" do
         get :index
 
-        expect(assigns(:chapter_user_counts)).to eq({
-          @chapter1.id => 2,
-          @chapter2.id => 2
+        expect(assigns(:region_user_counts)).to eq({
+          @region1.id => 2,
+          @region2.id => 2
         })
       end
     end
@@ -59,24 +59,24 @@ describe Events::UnpublishedEventsController do
     end
 
     before do
-      this_chapter = @event.chapter
-      this_chapter.update_attributes(name: 'RailsBridge Shellmound')
-      other_chapter = create(:chapter, name: 'RailsBridge Meriloft')
+      this_region = @event.region
+      this_region.update_attributes(name: 'RailsBridge Shellmound')
+      other_region = create(:region, name: 'RailsBridge Meriloft')
 
       @user_none = create(:user)
 
-      @user_this_chapter = create(:user)
-      @user_this_chapter.chapters << this_chapter
+      @user_this_region = create(:user)
+      @user_this_region.regions << this_region
 
       @user_no_email = create(:user, allow_event_email: false)
-      @user_no_email.chapters << this_chapter
+      @user_no_email.regions << this_region
 
-      @user_other_chapter = create(:user)
-      @user_other_chapter.chapters << other_chapter
+      @user_other_region = create(:user)
+      @user_other_region.regions << other_region
 
-      @user_both_chapters = create(:user)
-      @user_both_chapters.chapters << this_chapter
-      @user_both_chapters.chapters << other_chapter
+      @user_both_regions = create(:user)
+      @user_both_regions.regions << this_region
+      @user_both_regions.regions << other_region
 
       sign_in create(:user, publisher: true)
     end
@@ -88,13 +88,13 @@ describe Events::UnpublishedEventsController do
       expect(@event.reload).to be_published
     end
 
-    it 'mails every user that is associated with this chapter' do
+    it 'mails every user that is associated with this region' do
       expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-      expect(recipients).to match_array([@user_this_chapter.email, @user_both_chapters.email])
+      expect(recipients).to match_array([@user_this_region.email, @user_both_regions.email])
 
       mail = ActionMailer::Base.deliveries.last
-      expect(mail.subject).to include(@event.chapter.name)
+      expect(mail.subject).to include(@event.region.name)
       expect(mail.body).to include(@event.title)
     end
 

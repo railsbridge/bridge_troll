@@ -157,26 +157,26 @@ describe RsvpsController do
       end
     end
 
-    describe "when user is signing up for a chapter they have signed up for before" do
+    describe "when user is signing up for a region they have signed up for before" do
       before do
         create(:rsvp, user: @user, event: @event)
       end
 
       it 'does not show a warning' do
         get :learn, event_id: @event.id
-        expect(assigns(:show_new_chapter_warning)).to be_falsey
+        expect(assigns(:show_new_region_warning)).to be_falsey
       end
     end
 
-    describe "when user is signing up for a chapter they haven't signed up for before" do
+    describe "when user is signing up for a region they haven't signed up for before" do
       context "when they have never signed up for an event" do
         it 'does not show a warning' do
           get :learn, event_id: @event.id
-          expect(assigns(:show_new_chapter_warning)).to be_falsey
+          expect(assigns(:show_new_region_warning)).to be_falsey
         end
       end
 
-      context "when they have already signed up for some other chapter" do
+      context "when they have already signed up for some other region" do
         before do
           @other_event = create(:event, title: 'The other RailsBridge event')
           create(:rsvp, user: @user, event: @event)
@@ -184,7 +184,7 @@ describe RsvpsController do
 
         it 'shows them a warning to double check their location' do
           get :learn, event_id: @other_event.id
-          expect(assigns(:show_new_chapter_warning)).to be_truthy
+          expect(assigns(:show_new_region_warning)).to be_truthy
         end
       end
     end
@@ -561,14 +561,14 @@ describe RsvpsController do
       expect(response).to redirect_to(@event)
     end
 
-    it 'can update chapter affiliation' do
-      expect(@user.chapters).to match_array([])
+    it 'can update region affiliation' do
+      expect(@user.regions).to match_array([])
 
-      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: {gender: 'human'}, affiliate_with_chapter: true
-      expect(@user.reload.chapters).to match_array([@event.chapter])
+      put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: {gender: 'human'}, affiliate_with_region: true
+      expect(@user.reload.regions).to match_array([@event.region])
 
       put :update, event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: {gender: 'human'}
-      expect(@user.reload.chapters).to match_array([])
+      expect(@user.reload.regions).to match_array([])
     end
 
     it 'cannot update rsvps owned by other users' do

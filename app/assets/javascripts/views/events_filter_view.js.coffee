@@ -10,17 +10,17 @@ class window.EventsFilterView extends Backbone.View
 
   initialize: ->
     validValues = _.map @$('option'), (o) -> o.value
-    @model = new EventsFilterModel('eventFilterChapterId', validValues)
+    @model = new EventsFilterModel('eventFilterRegionId', validValues)
     @restore()
 
   handleChange: (e) =>
-    chapterId = e.currentTarget.value
-    @filter(@model.set(chapterId))
+    regionId = e.currentTarget.value
+    @filter(@model.set(regionId))
 
-  filter: (chapterId) =>
-    if chapterId != @model.defaultValue
+  filter: (regionId) =>
+    if regionId != @model.defaultValue
       $('.event-card').hide()
-      $(".event-card[data-chapter-id=#{chapterId}]").show()
+      $(".event-card[data-region-id=#{regionId}]").show()
     else
       $('.event-card').show()
 
@@ -51,3 +51,11 @@ class EventsFilterModel
   restore: ->
     if supportsLocalStorage()
       @set(localStorage[@key])
+
+renameLocalStorageKey = (oldKey, newKey) ->
+  if supportsLocalStorage()
+    if localStorage[oldKey] && !localStorage[newKey]
+      localStorage[newKey] = localStorage[oldKey]
+      delete localStorage[oldKey]
+
+renameLocalStorageKey('eventFilterChapterId', 'eventFilterRegionId')

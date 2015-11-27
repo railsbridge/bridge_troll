@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'External Event' do
   let(:admin_user) { create(:user, admin: true) }
-  let!(:chapter) { create(:chapter) }
+  let!(:region) { create(:region) }
 
   before do
     sign_in_as(admin_user)
@@ -12,7 +12,7 @@ describe 'External Event' do
     visit external_events_path
     click_link "New External Event"
 
-    select chapter.name, from: "external_event_chapter_id"
+    select region.name, from: "external_event_region_id"
 
     fill_in "Name", with: "Interesting External Event"
     fill_in "URL", with: "http://example.com/event"
@@ -22,11 +22,11 @@ describe 'External Event' do
 
     click_button "Create External event"
 
-    expect(ExternalEvent.last.chapter).to eq(chapter)
+    expect(ExternalEvent.last.region).to eq(region)
 
     expect(page).to have_content("Interesting External Event")
 
-    visit chapter_path(chapter)
+    visit region_path(region)
 
     expect(page).to have_content("Interesting External Event")
   end

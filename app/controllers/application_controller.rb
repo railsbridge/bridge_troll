@@ -46,11 +46,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def validate_chapter_leader!
-    @chapter ||= Chapter.find(params[:chapter_id])
+  def validate_region_leader!
+    @region ||= Region.find(params[:region_id])
 
-    unless @chapter.has_leader?(current_user)
-      flash[:error] = "You must be a chapter leader or admin to view this page."
+    unless @region.has_leader?(current_user)
+      flash[:error] = "You must be a region leader or admin to view this page."
       redirect_to events_path
     end
   end
@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) do |u|
-      u.permit(User::PERMITTED_ATTRIBUTES + [chapter_ids: []])
+      u.permit(User::PERMITTED_ATTRIBUTES + [region_ids: []])
     end
   end
 

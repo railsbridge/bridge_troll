@@ -45,16 +45,16 @@ describe LocationsController do
         get :new
         expect(response).to be_success
 
-        chapter = create(:chapter)
+        region = create(:region)
         location_params = {
           name: "Fabulous Location",
           address_1: "123 Awesome Lane",
           city: "Awesome Town",
-          chapter_id: chapter.id
+          region_id: region.id
         }
 
         expect { post :create, location: location_params }.to change(Location, :count).by(1)
-        expect(Location.last.chapter).to eq(chapter)
+        expect(Location.last.region).to eq(region)
       end
 
       it "should be able to edit an location" do

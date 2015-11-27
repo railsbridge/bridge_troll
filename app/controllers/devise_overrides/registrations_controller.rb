@@ -34,7 +34,7 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
 
   def user_params
     params.require(:user).permit(User::PERMITTED_ATTRIBUTES + [:current_password, {
-      chapter_ids: [],
+      region_ids: [],
       profile_attributes: Profile::PERMITTED_ATTRIBUTES
     }])
   end

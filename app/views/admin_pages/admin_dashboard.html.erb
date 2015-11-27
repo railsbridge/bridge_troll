@@ -67,21 +67,21 @@
   </div>
 </div>
 
-<h2>Chapter Membership</h2>
+<h2>Region Membership</h2>
 <div class="row">
   <div class="col-md-8 col-lg-7">
     <table class='table table-bordered table-condensed table-striped datatable-sorted'>
       <thead>
       <tr>
-        <th>Chapter</th>
+        <th>Region</th>
         <th>Followers</th>
       </tr>
       </thead>
       <tbody>
-      <% Chapter.all.each do |chapter| %>
+      <% Region.all.each do |region| %>
         <tr>
-          <td><%= chapter.name %></td>
-          <td><%= chapter.users.count %></td>
+          <td><%= region.name %></td>
+          <td><%= region.users.count %></td>
         </tr>
       <% end %>
       </tbody>

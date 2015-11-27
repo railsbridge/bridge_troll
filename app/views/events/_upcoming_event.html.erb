@@ -1,4 +1,4 @@
-<div class='event-card js-match-height-item <% unless event.published? %>unpublished<% end %>' data-chapter-id="<%= event.chapter.try(:id) %>">
+<div class='event-card js-match-height-item <% unless event.published? %>unpublished<% end %>' data-region-id="<%= event.region.try(:id) %>">
   <% unless event.published? %>
     <div class='pull-right unpublished-indicator'><%= state_display(event) %></div>
   <% end %>

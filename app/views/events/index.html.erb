@@ -5,11 +5,11 @@
 <div class="row">
   <div class="col-md-12">
     <div class='upcoming-events'>
-      <label class="chapter-select-container form-inline">
-        Filter: <%= select_tag :chapter,
-                               options_from_collection_for_select(@event_chapters, "id", "name"),
-                               prompt: "All Chapters",
-                               class: 'chapter-select form-control' %>
+      <label class="region-select-container form-inline">
+        Filter: <%= select_tag :region,
+                               options_from_collection_for_select(@event_regions, "id", "name"),
+                               prompt: "All Regions",
+                               class: 'region-select form-control' %>
       </label>
       <h1>Upcoming events</h1>
 
@@ -32,7 +32,7 @@
       <% links = [
         ['Organize Event', new_event_path],
         ['Manage Locations', locations_path],
-        ['Manage Chapters', chapters_path]
+        ['Manage Regions', regions_path]
       ] %>
       <% if current_user.admin? %>
         <% links << ['Manage External Events', external_events_path] %>

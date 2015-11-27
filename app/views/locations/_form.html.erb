@@ -3,7 +3,7 @@
     <%= simple_form_for(@location) do |f| %>
       <%= render 'shared/model_error_messages', model: @location %>
 
-      <%= render 'shared/chapter_select', f: f %>
+      <%= render 'shared/region_select', f: f %>
 
       <%= f.input :name %>
 

@@ -7,7 +7,7 @@
 <table class="table table-striped table-bordered table-condensed external-events">
   <tr>
     <th>Name</th>
-    <th>Chapter</th>
+    <th>Region</th>
     <th>Start/End</th>
     <th>City</th>
     <th>Location</th>
@@ -25,8 +25,8 @@
         <% end %>
       </td>
       <td>
-        <% if external_event.chapter %>
-          <%= link_to external_event.chapter.name, external_event.chapter %>
+        <% if external_event.region %>
+          <%= link_to external_event.region.name, external_event.region %>
         <% end %>
       </td>
       <td>

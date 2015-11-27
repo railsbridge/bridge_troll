@@ -40,12 +40,12 @@ class EventMailer < BaseMailer
   def new_event(event)
     @event = event
     return unless @event.location
-    @chapter = @event.chapter
+    @region = @event.region
 
-    set_recipients(User.joins(:chapters).where('users.allow_event_email = ?', true).where('chapters.id' => [@chapter.id]).map(&:email))
+    set_recipients(User.joins(:regions).where('users.allow_event_email = ?', true).where('regions.id' => [@region.id]).map(&:email))
 
     mail(
-      subject: "[#{@chapter.name}] New event posted: '#{@event.title}'"
+      subject: "[#{@region.name}] New event posted: '#{@event.title}'"
     )
   end
 end

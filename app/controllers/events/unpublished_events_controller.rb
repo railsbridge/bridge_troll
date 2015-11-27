@@ -4,11 +4,11 @@ class Events::UnpublishedEventsController < ApplicationController
   before_action :find_event, except: [:index]
 
   def index
-    chapters = Chapter.includes(:users)
+    regions = Region.includes(:users)
                  .where('users.allow_event_email = ?', true)
                  .references(:users)
-    @chapter_user_counts = chapters.each_with_object({}) do |chapter, hsh|
-      hsh[chapter.id] = chapter.users.length
+    @region_user_counts = regions.each_with_object({}) do |region, hsh|
+      hsh[region.id] = region.users.length
     end
     @events = Event.upcoming.pending_approval.where(spam: false)
   end

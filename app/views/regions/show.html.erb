@@ -1,16 +1,16 @@
-<%= content_for(:header_text, @chapter.name) %>
+<%= content_for(:header_text, @region.name) %>
 
-<% if @chapter.leaders.present? %>
-  <h2>Chapter Leaders</h2>
+<% if @region.leaders.present? %>
+  <h2>Region Leaders</h2>
     <ul>
-    <% @chapter.leaders.each do |leader| %>
+    <% @region.leaders.each do |leader| %>
       <li><%= link_to leader.full_name, user_profile_path(leader) %></li>
     <% end %>
     </ul>
 <% end %>
 
-<% if @chapter.has_leader?(current_user) %>
-  <%= link_to 'Edit Chapter Leaders', chapter_chapter_leaderships_path(@chapter), class: "btn mb20" %>
+<% if @region.has_leader?(current_user) %>
+  <%= link_to 'Edit Region Leaders', region_region_leaderships_path(@region), class: "btn mb20" %>
 
   <h2>Organizers</h2>
   <table class="datatable-sorted table table-striped table-bordered table-condensed responsive-table">
@@ -34,12 +34,12 @@
 <% end %>
 
 <h2>Events</h2>
-<%= render 'shared/events_table', events: @chapter_events %>
+<%= render 'shared/events_table', events: @region_events %>
 
 <h2>Locations</h2>
-<%= render 'shared/locations_table', locations: @chapter.locations %>
+<%= render 'shared/locations_table', locations: @region.locations %>
 
 <%= render 'shared/actions', links: [
-  ['Edit', edit_chapter_path(@chapter)],
-  ['Back', chapters_path]
+  ['Edit', edit_region_path(@region)],
+  ['Back', regions_path]
 ] %>

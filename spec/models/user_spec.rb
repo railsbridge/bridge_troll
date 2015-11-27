@@ -6,7 +6,7 @@ describe User do
   it { is_expected.to have_many(:rsvps) }
   it { is_expected.to have_many(:events).through(:rsvps) }
   it { is_expected.to have_one(:profile) }
-  it { is_expected.to have_and_belong_to_many(:chapters) }
+  it { is_expected.to have_and_belong_to_many(:regions) }
 
   it { is_expected.to validate_presence_of(:first_name) }
   it { is_expected.to validate_presence_of(:last_name) }

@@ -17,7 +17,7 @@
     <% if event.location %>
       <% if event.email_on_approval %>
         <%= button_to 'Publish', unpublished_event_publish_path(event, send_mail: true), class: 'btn', method: :post,
-                      data: {confirm: "Are you sure? This will email #{pluralize(@chapter_user_counts[event.location.chapter.id], 'member')} of #{event.location.chapter.name}"} %>
+                      data: {confirm: "Are you sure? This will email #{pluralize(@region_user_counts[event.location.region.id], 'member')} of #{event.location.region.name}"} %>
       <% else %>
         <%= button_to 'Publish', unpublished_event_publish_path(event), class: 'btn', method: :post,
                       data: {confirm: "Are you sure? The event will start showing for all users, and no one will be emailed since the event organizers have chosen to manually send the announcement email."} %>

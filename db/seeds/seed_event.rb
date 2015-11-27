@@ -50,8 +50,8 @@ module Seeder
       end
     end
     if event.location.present?
-      chapter = event.location.chapter
-      chapter.destroy if chapter.events.count == 1
+      region = event.location.region
+      region.destroy if region.events.count == 1
       event.location.destroy
     end
     event.destroy
@@ -62,10 +62,10 @@ module Seeder
     old_event = Event.where(title: 'Seeded Test Event').first
     destroy_event(old_event) if old_event.present?
 
-    chapter = Chapter.where(name: 'RailsBridge San Francisco').first_or_create!
+    region = Region.where(name: 'RailsBridge San Francisco').first_or_create!
 
     location = Location.create!(
-      chapter_id: chapter.id,
+      region_id: region.id,
       name: "Sutro Tower",
       address_1: "Sutro Tower",
       city: "San Francisco",

@@ -40,7 +40,7 @@ describe "New Event" do
   end
 
   it "should have appropriate locations available" do
-    available_locations = Location.available.map(&:name_with_chapter)
+    available_locations = Location.available.map(&:name_with_region)
     available_locations.unshift "Please select"
 
     expect(page).to have_select('event_location_id', :options => available_locations)
