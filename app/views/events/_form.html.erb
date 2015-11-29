@@ -166,22 +166,18 @@
         <% end %>
       </div>
     </div>
-
-    <h3>Capacity</h3>
-
-    <p>
-      This sets be the maximum number of <strong>students</strong> and <strong>volunteers</strong> you think could fit in your event.
-    </p>
-    <p>
-      Student rsvp limit is <strong>required</strong>, volunteer limit is optional.
-    </p>
-    <p>
-      Most workshops have less than one volunteer for every student.
-    </p>
   </div>
 
-  <div class="field workshop-only">
-    <%= f.input :student_rsvp_limit, label: 'Student RSVP limit' %>
+  <h2>Capacity</h2>
+  <div class="field">
+    <p>
+      These are the limits for the maximum number of attendees you think could fit in your event.
+    </p>
+    <p class="workshop-only">
+      As a guideline, most workshops have less than one volunteer for every student.
+    </p>
+
+    <%= f.input :student_rsvp_limit, label: 'Student RSVP limit (required)', wrapper_html: {class: 'workshop-only'} %>
     <%= f.input :volunteer_rsvp_limit, label: 'Volunteer RSVP limit' %>
     <p>
       After this event is published, you can <strong>increase</strong> these numbers, but you cannot decrease them below the number of RSVP'd attendees.
