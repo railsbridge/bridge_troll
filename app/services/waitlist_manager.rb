@@ -5,10 +5,9 @@ class WaitlistManager
 
   def reorder_waitlist!
     return if event.historical?
-    return unless event.student_rsvp_limit
 
     Rsvp.transaction do
-      unless event.students_at_limit?
+      if event.student_rsvp_limit && !event.students_at_limit?
         to_be_confirmed = event.student_waitlist_rsvps.limit(open_student_spots)
         to_be_confirmed.each do |rsvp|
           promote_from_waitlist!(rsvp)
@@ -39,18 +38,14 @@ class WaitlistManager
   private
 
   def restripe_student_waitlist!
-    index = 1
-    event.student_waitlist_rsvps.reload.each do |rsvp|
-      rsvp.update_attribute(:waitlist_position, index)
-      index += 1
+    event.student_waitlist_rsvps.reload.each_with_index do |rsvp, index|
+      rsvp.update_attribute(:waitlist_position, index + 1)
     end
   end
 
   def restripe_volunteer_waitlist!
-    index = 1
-    event.volunteer_waitlist_rsvps.reload.each do |rsvp|
-      rsvp.update_attribute(:waitlist_position, index)
-      index += 1
+    event.volunteer_waitlist_rsvps.reload.each_with_index do |rsvp, index|
+      rsvp.update_attribute(:waitlist_position, index + 1)
     end
   end
   
