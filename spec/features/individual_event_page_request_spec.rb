@@ -215,7 +215,17 @@ describe "the individual event page" do
 
   context "historical (meetup) events" do
     before do
-      @event.update_attributes(student_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902)
+      external_event_data = {
+        type: 'meetup',
+        student_event: {
+          id: 901,
+          url: 'http://example.com/901'
+        }, volunteer_event: {
+          id: 902,
+          url: 'http://example.com/901'
+        }
+      }
+      @event.update_attributes(student_rsvp_limit: nil, external_event_data: external_event_data)
     end
 
     it 'does not render rsvp actions' do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151128071249) do
+ActiveRecord::Schema.define(version: 20151201070911) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -69,8 +69,6 @@ ActiveRecord::Schema.define(version: 20151128071249) do
     t.integer  "location_id"
     t.text     "details"
     t.string   "time_zone"
-    t.integer  "meetup_volunteer_event_id"
-    t.integer  "meetup_student_event_id"
     t.text     "volunteer_details"
     t.string   "public_email"
     t.datetime "starts_at"
@@ -96,6 +94,7 @@ ActiveRecord::Schema.define(version: 20151128071249) do
     t.text     "survey_greeting"
     t.datetime "announcement_email_sent_at"
     t.integer  "current_state",                  default: 0
+    t.string   "external_event_data"
   end
 
   create_table "external_events", force: :cascade do |t|

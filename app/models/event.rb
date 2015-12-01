@@ -1,10 +1,9 @@
-require 'meetups'
-
 class Event < ActiveRecord::Base
   PERMITTED_ATTRIBUTES = [:title, :target_audience, :location_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems,
   :survey_greeting]
 
   serialize :allowed_operating_system_ids, JSON
+  serialize :external_event_data, JSON
   enum current_state: [ :draft, :pending_approval, :published ]
   validates :current_state, inclusion: { in: Event.current_states.keys }
 
@@ -84,14 +83,7 @@ class Event < ActiveRecord::Base
   end
 
   def historical?
-    !!(meetup_volunteer_event_id || meetup_student_event_id)
-  end
-
-  def meetup_url meetup_event_id
-    return nil unless historical?
-
-    meetup_group_url = MeetupEventInfo.url_for_event(meetup_event_id)
-    "http://#{meetup_group_url}/events/#{meetup_event_id}/"
+    !!external_event_data
   end
 
   def close_rsvps

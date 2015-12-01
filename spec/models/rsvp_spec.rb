@@ -74,7 +74,18 @@ describe Rsvp do
 
   describe '#no_show?' do
     it 'is always false for a historical rsvp' do
-      historical_event = create(:event, meetup_volunteer_event_id: 1234, meetup_student_event_id: 4321)
+      external_event_data = {
+        type: 'meetup',
+        student_event: {
+          id: 901,
+          url: 'http://example.com/901'
+        }, volunteer_event: {
+          id: 902,
+          url: 'http://example.com/901'
+        }
+      }
+
+      historical_event = create(:event, external_event_data: external_event_data)
 
       rsvp = create(:rsvp, user: create(:meetup_user), event: historical_event)
       expect(rsvp).not_to be_no_show

@@ -46,8 +46,17 @@ describe Events::OrganizerToolsController do
 
       context "historical event" do
         it "redirects you to the events page" do
-          event.meetup_volunteer_event_id = 1337
-          event.save!
+          external_event_data = {
+            type: 'meetup',
+            student_event: {
+              id: 901,
+              url: 'http://example.com/901'
+            }, volunteer_event: {
+              id: 902,
+              url: 'http://example.com/901'
+            }
+          }
+          event.update_attributes(external_event_data: external_event_data)
 
           make_request
           expect(response).to redirect_to(events_path)

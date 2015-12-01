@@ -335,7 +335,19 @@ describe Event do
     end
 
     context "when the event has no limit (historical events)" do
-      let(:event) { create(:event, student_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902) }
+      let(:event) do
+        external_event_data = {
+          type: 'meetup',
+          student_event: {
+            id: 901,
+            url: 'http://example.com/901'
+          }, volunteer_event: {
+            id: 902,
+            url: 'http://example.com/901'
+          }
+        }
+        create(:event, student_rsvp_limit: nil, external_event_data: external_event_data)
+      end
 
       it 'is false' do
         expect(event).not_to be_students_at_limit
@@ -355,7 +367,19 @@ describe Event do
     end
 
     context "when the event has no limit (historical events)" do
-      let(:event) { create(:event, volunteer_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902) }
+      let(:event) do
+        external_event_data = {
+          type: 'meetup',
+          student_event: {
+            id: 901,
+            url: 'http://example.com/901'
+          }, volunteer_event: {
+            id: 902,
+            url: 'http://example.com/901'
+          }
+        }
+        create(:event, volunteer_rsvp_limit: nil, external_event_data: external_event_data)
+      end
 
       it 'is false' do
         expect(event).not_to be_volunteers_at_limit
@@ -375,7 +399,19 @@ describe Event do
     end
 
     context "when the event has no limit (historical events)" do
-      let(:event) { create(:event, volunteer_rsvp_limit: nil, meetup_student_event_id: 901, meetup_volunteer_event_id: 902) }
+      let(:event) do
+        external_event_data = {
+          type: 'meetup',
+          student_event: {
+            id: 901,
+            url: 'http://example.com/901'
+          }, volunteer_event: {
+            id: 902,
+            url: 'http://example.com/901'
+          }
+        }
+        create(:event, volunteer_rsvp_limit: nil, external_event_data: external_event_data)
+      end
 
       it 'is false' do
         expect(event).not_to be_volunteers_at_limit
@@ -567,14 +603,6 @@ describe Event do
       it "should returns an array of dietary restrictions" do
         expect(@event.other_dietary_restrictions).to eq(["Paleo", "No sea urchins"])
       end
-    end
-  end
-
-  describe '#meetup_url' do
-    let(:event) { create(:event, meetup_student_event_id: 71323202) }
-
-    it 'creates the URL for a known meetup event' do
-      expect(event.meetup_url(event.meetup_student_event_id)).to eq('http://www.meetup.com/Los-Angeles-Womens-Ruby-on-Rails-Group/events/71323202/')
     end
   end
 end

@@ -4,7 +4,7 @@
   <% end %>
   <div class='event-title'>
     <%= link_to event.title, event %>
-    <%= meetup_links(event) %>
+    <%= external_links(event) %>
   </div>
   <div class='event-times'>
     <% event.event_sessions.each_with_index do |session, index| %>

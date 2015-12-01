@@ -58,7 +58,18 @@ describe RsvpSorter do
 
   context 'for an event imported from meetup' do
     before do
-      event.update_attributes(meetup_student_event_id: 90210, meetup_volunteer_event_id: 90211)
+      external_event_data = {
+        type: 'meetup',
+        student_event: {
+          id: 90210,
+          url: 'http://example.com/90210'
+        }, volunteer_event: {
+          id: 90211,
+          url: 'http://example.com/90211'
+        }
+      }
+
+      event.update_attributes(external_event_data: external_event_data)
 
       @meetup_rsvps = []
       @bridgetroll_rsvps = []

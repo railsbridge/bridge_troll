@@ -17,12 +17,8 @@ class ExternalEvent < ActiveRecord::Base
     name
   end
 
-  def meetup_student_event_id
-    nil
-  end
-
-  def meetup_volunteer_event_id
-    nil
+  def external_event_data
+    false
   end
 
   def location_name

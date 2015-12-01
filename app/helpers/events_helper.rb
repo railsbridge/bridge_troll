@@ -64,13 +64,11 @@ module EventsHelper
     ).gsub(%r{(</h\d>|</li>|<ul>|<li>)\s*<br\s*/>}, '\1').html_safe # remove unsightly </h2>\n<br/> combos
   end
 
-  def meetup_links(event)
+  def external_links(event)
     links = []
-    if event.meetup_student_event_id
-      links << link_to("[S]", event.meetup_url(event.meetup_student_event_id), class: 'meetup-link').html_safe
-    end
-    if event.meetup_volunteer_event_id
-      links << link_to("[V]", event.meetup_url(event.meetup_volunteer_event_id), class: 'meetup-link').html_safe
+    if event.external_event_data
+      links << link_to("[S]", event.external_event_data['student_event']['url'], class: 'external-link').html_safe
+      links << link_to("[V]", event.external_event_data['volunteer_event']['url'], class: 'external-link').html_safe
     end
     links.join("\n").html_safe
   end
