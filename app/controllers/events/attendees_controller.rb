@@ -2,7 +2,7 @@ class Events::AttendeesController < ApplicationController
   before_action :authenticate_user!, :validate_organizer!, :find_event
 
   def index
-    @rsvps = @event.rsvps.where(role_id: Role.attendee_role_ids).includes(:dietary_restrictions)
+    @rsvps = @event.rsvps.where(role_id: Role.attendee_role_ids_with_organizers).includes(:dietary_restrictions)
     respond_to do |format|
       format.csv { send_data attendee_csv_data(@rsvps), type: :csv }
       format.html {}

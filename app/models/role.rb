@@ -11,6 +11,10 @@ class Role < ActiveHash::Base
     [Role::VOLUNTEER.id, Role::STUDENT.id]
   end
 
+  def self.attendee_role_ids_with_organizers
+    [Role::VOLUNTEER.id, Role::STUDENT.id, Role::ORGANIZER.id]
+  end
+
   def self.empty_attendance
     Role.all.each_with_object({}) do |role, hsh|
       hsh[role.id] = 0

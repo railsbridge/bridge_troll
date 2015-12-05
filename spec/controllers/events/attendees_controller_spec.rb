@@ -20,13 +20,20 @@ describe Events::AttendeesController do
 
       csv_rows = CSV.parse(response.body)
       expect(csv_rows[0][0]).to eq('Name')
-      expect(csv_rows[1][0]).to eq(@rsvp.user.full_name)
+      expect(csv_rows[1][0]).to eq(@organizer.full_name)
+      expect(csv_rows[2][0]).to eq(@rsvp.user.full_name)
+    end
+
+    it 'includes organizers in csv' do
+      get :index, event_id: @event.id, format: :csv
+      csv_rows = CSV.parse(response.body, headers: true)
+      expect(csv_rows[0]["Attending As"]).to eq('Organizer')
     end
 
     it 'includes all dietary info in the dietary info field' do
       get :index, event_id: @event.id, format: :csv
       csv_rows = CSV.parse(response.body, headers: true)
-      expect(csv_rows[0]['Dietary Info']).to eq('Vegan, paleo')
+      expect(csv_rows[1]['Dietary Info']).to eq('Vegan, paleo')
     end
   end
 

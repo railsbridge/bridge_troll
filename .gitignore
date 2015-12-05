@@ -38,3 +38,6 @@ custom_plan.rb
 
 # RSpec rerun files
 spec/examples.txt
+
+# Byebug
+.byebug_history
