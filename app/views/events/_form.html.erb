@@ -237,13 +237,19 @@
     <p>Pay particular attention to the
       <a href="https://github.com/bridgefoundry/WorkshopCookbook/wiki/Workshop-Planning-Tasks">Workshop Planning Tasks</a> page. You're already posting an event on Bridge Troll, which is a thing on that page!</p>
 
-    <div class="field">
+    <p>Please select the CoC appropriate for your event:
+    <div class="field non-bolded">
+      <input id="railsbridge" name="railsbridge_coc" type="radio" value="railsbridge_coc", checked="true">
+      <label><a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">RailsBridge Code of Conduct</a></label><br>
+      <input id="gobridge" name="gobridge_coc" type="radio" value="gobridge_coc">
+      <label><a href="http://coc.golangbridge.org/" target="_blank">GoBridge Code of Conduct</a></label>
+
       <%= label_tag :coc, class: 'question' do %>
         <strong><%= check_box_tag :coc, '1', params[:coc], data: {
           'toggle-target' => 'coc-required',
           'toggle-enable-when-checked' => true
         } %>
-          I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a> and will communicate it at the beginning of the event.
+          I accept the selected CoC above and will communicate it at the beginning of the event.
         </strong>
       <% end %>
     </div>
