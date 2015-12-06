@@ -283,7 +283,7 @@ class Course < ActiveHash::Base
       id: 7,
       name: 'Go',
       title: 'Go Programming Language',
-      description: 'This is a Golang event. The focus will be on developing a variety of systems and applications in Go. You can find all the curriculum materials at <a href="https://github.com/gobridge/hardcore-go">https://github.com/gobridge/hardcore-go</a>.',
+      description: 'This is a Go event. The focus will be on working towards gaining greater understanding of idiomatic Go. You can find all the curriculum materials at <a href="https://github.com/gobridge/workshops/blob/master/available_courses.md">https://github.com/gobridge/workshops/blob/master/available_courses.md</a>.',
       levels: [
         {
           level: 1,
@@ -299,29 +299,28 @@ class Course < ActiveHash::Base
           color: 'green',
           title: "Somewhat New to Programming",
           level_description: [
-            'You may have used the terminal a little — to change directories, for instance',
-            'You might have done an online programming tutorial or two',
-            'You don\'t have a lot of experience with Rails',
             'You know what a function is',
-            'You aren\'t totally clear on how a request gets from the browser to your app'
+            'You might have done an online programming tutorial or two',
+            'You may have used the terminal a little — to change directories, for instance'
           ]
         }, {
           level: 3,
           color: 'gold',
           title: "Some Go Experience",
           level_description: [
-            'You\'re comfortable using the terminal, but not necessarily a Power User',
-            'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
             'You know how to define a function in Go',
             'You have a decent handle on Go slices and maps',
+            'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
+            'You\'re comfortable using the terminal, but not necessarily a Power User'
           ]
         }, {
           level: 4,
           color: 'orange',
           title: "Other Programming Experience",
           level_description: [
-            'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
             'You\'re new to Go',
+            'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
+            'You are an intermediate-level developer',
             'You might be familiar with version control and basic web architecture'
           ]
         }, {
