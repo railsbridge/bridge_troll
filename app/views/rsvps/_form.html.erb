@@ -159,7 +159,7 @@
           <%= check_box_tag :coc, '1', params[:coc], data: {
             'toggle-target' => 'coc-required',
             'toggle-enable-when-checked' => true
-          } %> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a>
+          } %> I accept the <%= link_to 'Code of Conduct', @event.code_of_conduct_url, target: :blank %>
         <% end %>
       </div>
     <%end%>

@@ -4,8 +4,6 @@ describe "New Event" do
   before do
     @user_organizer = create(:user, email: "organizer@mail.com", first_name: "Sam", last_name: "Spade")
     @chapter = create(:chapter)
-    3.times { create(:location) }
-    @archived = Location.last.tap { |l| l.archive! }
 
     sign_in_as(@user_organizer)
 
@@ -40,11 +38,29 @@ describe "New Event" do
     expect(page).to have_unchecked_field("coc")
   end
 
-  it "should have appropriate locations available" do
-    available_locations = Location.available.map(&:name_with_region)
-    available_locations.unshift "Please select"
+  it 'changes the code of conduct URL if the chapter-org has a custom one', js: true do
+    custom_coc_org = create(:organization, name: 'CustomCoc', code_of_conduct_url: 'http://example.com/coc')
+    create(:chapter, name: 'CustomCocChapter', organization: custom_coc_org)
 
-    expect(page).to have_select('event_location_id', :options => available_locations)
+    visit "/events/new"
+    expect(page.find('label[for=coc] a')['href']).to eq(Event::DEFAULT_CODE_OF_CONDUCT_URL)
+    check("coc")
+
+    select 'CustomCocChapter', from: 'event_chapter_id'
+    expect(page.find('label[for=coc] a')['href']).to eq('http://example.com/coc')
+    expect(page).to have_unchecked_field('coc')
+  end
+
+  it "should have appropriate locations available" do
+    live_location = create(:location)
+    archived_location = create(:location)
+    archived_location.archive!
+
+    visit "/events/new"
+    expect(page).to have_select('event_location_id', options: [
+                                                     "Please select",
+                                                     live_location.name_with_region
+                                                   ])
   end
 
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do

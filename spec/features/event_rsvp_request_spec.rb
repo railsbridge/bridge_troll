@@ -3,8 +3,9 @@ require 'rails_helper'
 describe 'creating or editing an rsvp' do
   context "for a teaching event" do
     let(:no_preference_text) { 'No preference' }
+    let(:chapter) { create(:chapter) }
     before do
-      @event = create(:event)
+      @event = create(:event, chapter: chapter)
       @user = create(:user)
       sign_in_as @user
     end
@@ -90,6 +91,17 @@ describe 'creating or editing an rsvp' do
           it 'is not shown' do
             visit edit_event_rsvp_path rsvp.event, rsvp
             expect(page).to have_no_content(coc_text)
+          end
+        end
+
+        context 'when the organization has a different code of conduct' do
+          let(:organization) do
+            create(:organization, name: 'CoolBridge', code_of_conduct_url: 'http://example.com/coc')
+          end
+          let(:chapter) { create(:chapter, organization: organization) }
+
+          it 'shows a custom code of conduct URL' do
+            expect(page.find('label[for=coc] a')['href']).to eq('http://example.com/coc')
           end
         end
       end

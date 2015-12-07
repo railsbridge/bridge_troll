@@ -1,6 +1,7 @@
 class Event < ActiveRecord::Base
   PERMITTED_ATTRIBUTES = [:title, :target_audience, :location_id, :chapter_id, :details, :time_zone, :volunteer_details, :public_email, :starts_at, :ends_at, :student_rsvp_limit, :volunteer_rsvp_limit, :course_id, :allow_student_rsvp, :student_details, :plus_one_host_toggle, :email_on_approval, :has_childcare, :restrict_operating_systems,
   :survey_greeting]
+  DEFAULT_CODE_OF_CONDUCT_URL = 'http://bridgefoundry.org/code-of-conduct/'
 
   serialize :allowed_operating_system_ids, JSON
   serialize :external_event_data, JSON
@@ -286,6 +287,10 @@ class Event < ActiveRecord::Base
   def allowed_operating_systems
     return OperatingSystem.all unless restrict_operating_systems
     OperatingSystem.all.select { |os| allowed_operating_system_ids.include?(os.id) }
+  end
+
+  def code_of_conduct_url
+    chapter.organization.code_of_conduct_url || DEFAULT_CODE_OF_CONDUCT_URL
   end
 
   def update_rsvp_counts
