@@ -54,6 +54,11 @@ module Seeder
       region.destroy if region.events.count == 1
       event.location.destroy
     end
+    if event.chapter.present?
+      organization = event.chapter.organization
+      organization.destroy if organization.chapters.count == 1
+      event.chapter.destroy
+    end
     event.destroy
   end
 
@@ -62,7 +67,9 @@ module Seeder
     old_event = Event.where(title: 'Seeded Test Event').first
     destroy_event(old_event) if old_event.present?
 
-    region = Region.where(name: 'RailsBridge San Francisco').first_or_create!
+    organization = Organization.find_or_create_by(name: 'RailsBridge')
+    region = Region.find_or_create_by(name: 'San Francisco')
+    chapter = Chapter.find_or_create_by(name: 'RailsBridge San Francisco', organization: organization)
 
     location = Location.create!(
       region_id: region.id,
@@ -81,6 +88,7 @@ module Seeder
       time_zone: 'Pacific Time (US & Canada)',
       course_id: Course::RAILS.id,
       location: location,
+      chapter: chapter,
       current_state: :published,
       target_audience: 'women',
       details: <<-DETAILS.strip_heredoc

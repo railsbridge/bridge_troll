@@ -1,11 +1,7 @@
 module Seeder
   def self.seed_region
-    # seeds the database with an admin user
-    region = Region.where(name: 'RailsBridge Seattle').first_or_initialize
-    region.save!
-    region = Region.where(name: 'RailsBridge San Francisco').first_or_initialize
-    region.save!
-    region = Region.where(name: 'RailsBridge Tulsa').first_or_initialize
-    region.save!
+    Region.find_or_create_by(name: 'Seattle')
+    Region.find_or_create_by(name: 'San Francisco')
+    Region.find_or_create_by(name: 'Tulsa')
   end
 end

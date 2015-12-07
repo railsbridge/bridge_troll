@@ -247,6 +247,7 @@ describe EventsController do
       end
 
       describe "with valid params" do
+        let!(:chapter) { create(:chapter) }
         let(:create_params) {
           next_year = Date.current.year + 1
           {
@@ -271,6 +272,7 @@ describe EventsController do
                 }
               },
               "location_id" => "1",
+              "chapter_id" => chapter.id,
               "details" => "sdfasdfasdf"
             }
           }

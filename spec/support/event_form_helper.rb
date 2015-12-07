@@ -2,6 +2,7 @@ def fill_in_good_event_details
   fill_in 'Title', with: good_event_title
   select "Ruby on Rails", from: "event_course_id"
   fill_in "Student RSVP limit", with: 100
+  select Chapter.first.name, from: "event_chapter_id"
 
   within ".event-sessions" do
     fill_in "Session Name", with: good_event_session_name

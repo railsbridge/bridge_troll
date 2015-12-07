@@ -36,8 +36,25 @@
       $('#event_location_id').select2();
     </script>
     <p>
-      <em>If your location isn't in this list, head over to the <%= link_to 'locations page', locations_path %> and add
-        it before you continue.</em>
+      <em>If your location isn't in this list, head over to the <%= link_to 'locations page', locations_path %> and add it before you continue.</em>
+    </p>
+  </div>
+
+  <div class="field">
+    <div>
+      <%= f.label :chapter_id %>
+    </div>
+    <%= collection_select(:event,
+                          :chapter_id,
+                          Chapter.all,
+                          :id,
+                          :name,
+                          {prompt: true}) %>
+    <script>
+      $('#event_chapter_id').select2();
+    </script>
+    <p>
+      <em>If your chapter isn't in this list, contact an admin to get it added before you continue.</em>
     </p>
   </div>
 

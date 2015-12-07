@@ -33,6 +33,7 @@ FactoryGirl.define do
     student_rsvp_limit 100
     volunteer_rsvp_limit 75
     location
+    chapter
     course_id Course::RAILS.id
     volunteer_details "I am some details for volunteers."
     student_details "I am some details for students."
@@ -55,6 +56,15 @@ FactoryGirl.define do
 
   factory :region do
     sequence(:name) { |n| "Region #{n}" }
+  end
+
+  factory :chapter do
+    sequence(:name) { |n| "Region #{n}" }
+    organization
+  end
+
+  factory :organization do
+    sequence(:name) { |n| "Organization #{n}" }
   end
 
   factory :event_session do

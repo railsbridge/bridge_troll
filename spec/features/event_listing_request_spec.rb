@@ -60,6 +60,8 @@ describe "the event listing page" do
     end
 
     context 'when organizing an event', js: true do
+      let!(:chapter) { create(:chapter) }
+
       before do
         visit events_path
         click_link "Organize Event"
@@ -94,6 +96,7 @@ describe "the event listing page" do
         fill_in "Title", with: "Volunteer Work Day"
         fill_in "event_target_audience", :with => "women"
         choose "Just Volunteers"
+        select Chapter.first.name, from: "event_chapter_id"
 
         within ".event-sessions" do
           fill_in "Session Name", with: 'Do Awesome Stuff'
@@ -122,6 +125,7 @@ describe "the event listing page" do
         fill_in "event_target_audience", :with => "women"
         select "Front End", :from => "event_course_id"
         fill_in "Student RSVP limit", with: 100
+        select Chapter.first.name, from: "event_chapter_id"
 
         within ".event-sessions" do
           fill_in "Session Name", with: good_event_session_name

@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "New Event" do
   before do
     @user_organizer = create(:user, email: "organizer@mail.com", first_name: "Sam", last_name: "Spade")
+    @chapter = create(:chapter)
     3.times { create(:location) }
     @archived = Location.last.tap { |l| l.archive! }
 

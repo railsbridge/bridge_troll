@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151201070911) do
+ActiveRecord::Schema.define(version: 20151207004629) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -19,6 +19,15 @@ ActiveRecord::Schema.define(version: 20151201070911) do
     t.string   "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "chapters", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "events_count"
+    t.integer  "external_events_count"
+    t.integer  "organization_id",       null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "dietary_restrictions", force: :cascade do |t|
@@ -95,7 +104,10 @@ ActiveRecord::Schema.define(version: 20151201070911) do
     t.datetime "announcement_email_sent_at"
     t.integer  "current_state",                  default: 0
     t.string   "external_event_data"
+    t.integer  "chapter_id",                                     null: false
   end
+
+  add_index "events", ["chapter_id"], name: "index_events_on_chapter_id"
 
   create_table "external_events", force: :cascade do |t|
     t.string   "name"
@@ -108,8 +120,10 @@ ActiveRecord::Schema.define(version: 20151201070911) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "region_id"
+    t.integer  "chapter_id"
   end
 
+  add_index "external_events", ["chapter_id"], name: "index_external_events_on_chapter_id"
   add_index "external_events", ["region_id"], name: "index_external_events_on_region_id"
 
   create_table "locations", force: :cascade do |t|
@@ -134,6 +148,12 @@ ActiveRecord::Schema.define(version: 20151201070911) do
   create_table "meetup_users", force: :cascade do |t|
     t.string   "full_name"
     t.integer  "meetup_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -265,13 +285,16 @@ ActiveRecord::Schema.define(version: 20151201070911) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   add_foreign_key "authentications", "users"
+  add_foreign_key "chapters", "organizations"
   add_foreign_key "dietary_restrictions", "rsvps"
   add_foreign_key "event_email_recipients", "event_emails"
   add_foreign_key "event_email_recipients", "rsvps", column: "recipient_rsvp_id"
   add_foreign_key "event_emails", "events"
   add_foreign_key "event_emails", "users", column: "sender_id"
   add_foreign_key "event_sessions", "events"
+  add_foreign_key "events", "chapters"
   add_foreign_key "events", "locations"
+  add_foreign_key "external_events", "chapters"
   add_foreign_key "external_events", "regions"
   add_foreign_key "locations", "regions"
   add_foreign_key "profiles", "users"

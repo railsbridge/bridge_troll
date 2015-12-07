@@ -175,7 +175,7 @@ describe Event do
           "ends_at(5i)" => "45"
         }
       })
-      event = Event.create(attrs)
+      event = Event.create(attrs.merge(chapter_id: create(:chapter).id))
       expect(event.starts_at).to eq(event.event_sessions.first.starts_at)
       expect(event.ends_at).to eq(event.event_sessions.first.ends_at)
     end
