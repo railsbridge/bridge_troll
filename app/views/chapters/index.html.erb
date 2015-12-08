@@ -1,0 +1,25 @@
+<%= content_for(:header_text, 'Listing chapters') %>
+
+<table class="table table-striped table-bordered table-condensed responsive-table datatable-sorted">
+  <thead>
+    <tr>
+      <th data-default-sort="asc">Name</th>
+      <th>Events</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @chapters.each do |chapter| %>
+      <tr>
+        <td><%= link_to chapter.name, chapter %></td>
+        <td data-label="Events:"><%= chapter.events_count + chapter.external_events_count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= render 'shared/actions', links: [
+  ['Regions', regions_path],
+  ['Locations', locations_path],
+  ['Events', events_path]
+] %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151207055515) do
+ActiveRecord::Schema.define(version: 20151208074636) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"

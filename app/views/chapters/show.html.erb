@@ -1,0 +1,8 @@
+<%= content_for(:header_text, @chapter.name) %>
+
+<h2>Events</h2>
+<%= render 'shared/events_table', events: @chapter_events %>
+
+<%= render 'shared/actions', links: [
+  ['Back', chapters_path]
+] %>
