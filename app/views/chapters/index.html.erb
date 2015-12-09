@@ -18,8 +18,4 @@
   </tbody>
 </table>
 
-<%= render 'shared/actions', links: [
-  ['Regions', regions_path],
-  ['Locations', locations_path],
-  ['Events', events_path]
-] %>
+<%= render 'shared/actions', links: crud_object_nav_links(:chapter) %>

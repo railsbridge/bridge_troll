@@ -31,12 +31,12 @@
       <h1>Get Involved</h1>
       <% links = [
         ['Organize Event', new_event_path],
-        ['Manage Locations', locations_path],
-        ['Manage Chapters', chapters_path],
-        ['Manage Regions', regions_path]
+        ['Locations', locations_path],
+        ['Chapters', chapters_path],
+        ['Regions', regions_path]
       ] %>
       <% if current_user.admin? %>
-        <% links << ['Manage External Events', external_events_path] %>
+        <% links << ['External Events', external_events_path] %>
         <% links << ['Publish Unpublished Events', unpublished_events_path] %>
       <% end %>
       <%= render 'shared/actions', links: links, additional_class: 'no-margin' %>

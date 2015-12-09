@@ -13,7 +13,7 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 
-  config.example_status_persistence_file_path = "./spec/examples.txt"
+  config.example_status_persistence_file_path = "./tmp/rspec_examples.txt"
 
   config.mock_with :rspec do |mocks|
     # Prevents you from mocking or stubbing a method that does not exist on

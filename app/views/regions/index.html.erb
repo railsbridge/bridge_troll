@@ -33,8 +33,5 @@
   </tbody>
 </table>
 
-<%= render 'shared/actions', links: [
-  user_signed_in? ? ['New Region', new_region_path] : nil,
-  ['Locations', locations_path],
-  ['Events', events_path]
-] %>
+<%= render 'shared/actions', links: crud_object_nav_links(:region, user_signed_in? ? ['New Region', new_region_path] : nil)
+%>
