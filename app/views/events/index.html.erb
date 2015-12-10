@@ -5,12 +5,14 @@
 <div class="row">
   <div class="col-md-12">
     <div class='upcoming-events'>
-      <label class="region-select-container form-inline">
-        Filter: <%= select_tag :region,
-                               options_from_collection_for_select(@event_regions, "id", "name"),
-                               prompt: "All Regions",
-                               class: 'region-select form-control' %>
-      </label>
+      <% if @events.present? %>
+        <label class="region-select-container form-inline">
+          Filter: <%= select_tag :region,
+                                 options_from_collection_for_select(@event_regions, "id", "name"),
+                                 prompt: "All Regions",
+                                 class: 'region-select form-control' %>
+        </label>
+      <% end %>
       <h1>Upcoming events</h1>
 
       <% if @events.empty? %>
