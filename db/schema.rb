@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151208074636) do
+ActiveRecord::Schema.define(version: 20151210035820) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -23,11 +23,11 @@ ActiveRecord::Schema.define(version: 20151208074636) do
 
   create_table "chapters", force: :cascade do |t|
     t.string   "name"
-    t.integer  "events_count"
-    t.integer  "external_events_count"
-    t.integer  "organization_id",       null: false
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.integer  "events_count",          default: 0
+    t.integer  "external_events_count", default: 0
+    t.integer  "organization_id",                   null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
   end
 
   create_table "dietary_restrictions", force: :cascade do |t|
