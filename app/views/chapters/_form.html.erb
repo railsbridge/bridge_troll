@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-6">
+    <%= simple_form_for(@chapter) do |f| %>
+      <%= render 'shared/model_error_messages', model: @chapter %>
+
+      <div class="form-group">
+        <%= f.label :organization_id %>
+        <%= f.collection_select(:organization_id, Organization.order(:name), :id, :name, {prompt: true}, {class: 'form-control'}) %>
+      </div>
+
+      <%= f.input :name %>
+
+      <div class="actions">
+        <%= f.submit class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %>
+      </div>
+    <% end %>
+  </div>
+</div>

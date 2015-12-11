@@ -1,0 +1,9 @@
+<%= content_for(:header_text, "Editing chapter") %>
+
+<%= render 'form' %>
+
+<%= render 'shared/actions', links: [
+  ['Show', @chapter],
+  ['Back', chapters_path]
+] %>
+

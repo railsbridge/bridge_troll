@@ -4,5 +4,6 @@
 <%= render 'shared/events_table', events: @chapter_events %>
 
 <%= render 'shared/actions', links: [
+  current_user.try(:admin?) ? ['Edit', edit_chapter_path(@chapter)] : nil,
   ['Back', chapters_path]
 ] %>
