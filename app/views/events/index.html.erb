@@ -25,8 +25,8 @@
 
     <p>
       Subscribe to our calendar via: 
-      <%= link_to "RSS", feed_events_path(format: :rss) %>
-      <%= link_to "Atom", feed_events_path(format: :atom) %>
+      <%= link_to " RSS", feed_events_path(format: :rss), class: 'fa-before fa-rss' %>
+      <%= link_to " Atom", feed_events_path(format: :atom), class: 'fa-before fa-rss' %>
     </p>
 
     <% if user_signed_in? %>
