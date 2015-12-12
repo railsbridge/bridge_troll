@@ -106,6 +106,14 @@ class Rsvp < ActiveRecord::Base
     end
   end
 
+  def level_title
+    level[:title] if role == Role::STUDENT
+  end
+
+  def level
+    event.levels.find {|level| level[:level] == class_level}
+  end
+
   def operating_system_title
     operating_system.try(:title)
   end
@@ -224,7 +232,7 @@ class Rsvp < ActiveRecord::Base
 
   def as_json(options={})
     options[:methods] ||= []
-    options[:methods] |= [:full_name, :operating_system_title, :operating_system_type]
+    options[:methods] |= [:full_name, :operating_system_title, :operating_system_type, :level_title]
     super(options)
   end
 end

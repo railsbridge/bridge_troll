@@ -182,4 +182,38 @@ describe Rsvp do
       expect(@rsvp.as_json["full_name"]).to eq('Bill Blank')
     end
   end
+
+  describe "#level_title" do
+    let(:event) do
+      build(:event_with_no_sessions).tap do |event|
+        @session_no_options = build(:event_session, event: event, required_for_students: false, volunteers_only: false)
+        event.event_sessions << @session_no_options
+        event.save!
+      end
+    end
+
+    describe "for students" do
+      let(:rsvp) { create(:student_rsvp, event: event) }
+
+      it "returns the level title for a particular student and event" do
+        expect(rsvp.level_title).to eq("Somewhat New to Programming")
+      end
+    end
+
+    describe "for volunteers" do
+      let(:rsvp) { create(:volunteer_rsvp, event: event) }
+
+      it "returns nil" do
+        expect(rsvp.level_title).to be_nil
+      end
+    end
+
+    describe "for organizers" do
+      let(:rsvp) { create(:organizer_rsvp, event: event) }
+
+      it "returns nil" do
+        expect(rsvp.level_title).to be_nil
+      end
+    end
+  end
 end
