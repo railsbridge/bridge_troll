@@ -24,7 +24,7 @@ class DeviseOverrides::OmniauthCallbacksController < Devise::OmniauthCallbacksCo
       redirect_to new_user_registration_path
     end
   end
-  [:facebook, :twitter, :github, :meetup].each do |provider|
+  [:facebook, :twitter, :github, :meetup, :google_oauth2].each do |provider|
     alias_method provider, :all
   end
 end

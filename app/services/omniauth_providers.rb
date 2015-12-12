@@ -20,7 +20,12 @@ module OmniauthProviders
         key: :meetup,
         name: 'Meetup',
         icon: 'fa-calendar'
-      }
+      },
+      {
+        key: :google_oauth2,
+        name: 'Google',
+        icon: 'fa-google'
+      },
     ]
   end
 
@@ -48,6 +53,8 @@ module OmniauthProviders
         self.github_omniauth_attributes(omniauth)
       when 'meetup'
         self.meetup_omniauth_attributes(omniauth)
+      when 'google_oauth2'
+        self.google_oauth2_omniauth_attributes(omniauth)
       else
         raise 'Unknown Provider'
     end
@@ -85,5 +92,13 @@ module OmniauthProviders
 
   def self.meetup_omniauth_attributes(omniauth)
     self.split_name(omniauth['info']['name'])
+  end
+
+  def self.google_oauth2_omniauth_attributes(omniauth)
+    {
+      email: omniauth['info']['email'],
+      first_name: omniauth['info']['first_name'],
+      last_name: omniauth['info']['last_name']
+    }
   end
 end
