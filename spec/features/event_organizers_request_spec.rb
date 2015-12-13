@@ -26,6 +26,7 @@ describe "Event Organizers page" do
 
     page.find('.select2-selection').click
     page.find('.select2-search__field').set(@user1.full_name)
+    expect(page.find('.select2-results__option')).to have_content(@user1.full_name)
     page.find('.select2-results__option').click
 
     click_button "Assign"

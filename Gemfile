@@ -5,7 +5,7 @@ ruby '2.2.2'
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'rails', '4.2.5'
-gem 'devise', '3.5.2'
+gem 'devise', '~> 3.5.0'
 gem 'puma'
 gem 'jquery-rails'
 gem 'nested_form'
@@ -77,7 +77,7 @@ end
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-DataTables'
-  gem 'rails-assets-select2', '4.0.0'
+  gem 'rails-assets-select2'
 
   group :test, :development do
     gem 'rails-assets-sinonjs'
