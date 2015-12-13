@@ -23,10 +23,15 @@
       <% end %>
     </div>
 
-    <p>
-      Subscribe to our calendar via: 
+    <p class="event-notifications">
+      Subscribe to our calendar via:
       <%= link_to " RSS", feed_events_path(format: :rss), class: 'fa-before fa-rss' %>
-      <%= link_to " Atom", feed_events_path(format: :atom), class: 'fa-before fa-rss' %>
+      <%= link_to " Atom", feed_events_path(format: :atom), class: 'fa-before fa-rss' %> or
+      <% if user_signed_in? %>
+        manage your <%= link_to 'event notification email preferences', edit_user_registration_path %>.
+      <% else %>
+        <%= link_to "sign up", new_user_registration_path %> to receive email notifications.
+      <% end %>
     </p>
 
     <% if user_signed_in? %>

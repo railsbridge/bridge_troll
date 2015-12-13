@@ -23,6 +23,28 @@ describe "visiting the home page" do
       end
       expect(page).to have_content('A message with a confirmation link has been sent to your email address. Please open the link to activate your account.')
     end
+
+    it "has a sign up link in the upcoming events section" do
+      visit '/'
+      within '.event-notifications' do
+        expect(page).to have_link('sign up', new_user_registration_path)
+        expect(page).to have_text('to receive email notifications')
+      end
+    end
+  end
+
+  describe "as an authenticated user" do
+    before do
+      @user = create(:user)
+      sign_in_as(@user)
+    end
+
+    it "has a link to email notification preferences" do
+      visit '/'
+      within '.event-notifications' do
+        expect(page).to have_link('event notification email preferences', edit_user_registration_path)
+      end
+    end
   end
 
   describe "navbar" do
