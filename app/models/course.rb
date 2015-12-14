@@ -281,20 +281,11 @@ class Course < ActiveHash::Base
       ]
     }, {
       id: 7,
-      name: 'Go',
-      title: 'Go Programming Language',
-      description: 'This is a Go event. The focus will be on working towards gaining greater understanding of idiomatic Go. You can find all the curriculum materials at <a href="https://github.com/gobridge/workshops/blob/master/available_courses.md">https://github.com/gobridge/workshops/blob/master/available_courses.md</a>.',
+      name: 'BWAG Go',
+      title: 'Building Web Apps With Go',
+      description: "If you are reading this then you have just started your journey from newcomer to pro. No seriously, web programming in Go is so fun and easy that you won't even notice how much information you are learning along the way! You can find all the course content at: <a href='https://gobridge.gitbooks.io/building-web-apps-with-go/content/en/index.html'>https://gobridge.gitbooks.io/building-web-apps-with-go/content/en/index.html</a>.",
       levels: [
         {
-          level: 1,
-          color: 'blue',
-          title: "Totally New to Programming",
-          level_description: [
-            'You have little to no experience with the terminal or a graphical IDE',
-            'You might have done a little bit with HTML or CSS, but not necessarily',
-            'You\'re unfamiliar with terms like functions, arrays, lists, hashes/maps, or dictionaries.'
-          ]
-        }, {
           level: 2,
           color: 'green',
           title: "Somewhat New to Programming",
@@ -323,15 +314,69 @@ class Course < ActiveHash::Base
             'You are an intermediate-level developer',
             'You might be familiar with version control and basic web architecture'
           ]
-        }, {
-          level: 5,
-          color: 'purple',
-          title: "Ready for the Next Challenge",
+        }
+      ]
+    }, {
+      id: 8,
+      name: 'BWAG Go Portugues',
+      title: 'Building Web Apps With Go - Em Portugues',
+      description: "Se você está lendo isto então você está prestes a embarcar em uma jornada de iniciante a pro. Sério! Programação web em Go é tão divertido e fácil que você nem vai perceber quanta informação você está aprendendo ao longo do curso. Todo o material do curso está aqui: <a href='https://gobridge.gitbooks.io/building-web-apps-with-go/content/pt-br/index.html'>https://gobridge.gitbooks.io/building-web-apps-with-go/content/pt-br/index.html</a>.",      levels: [
+        {
+          level: 2,
+          color: 'green',
+          title: "Mais ou Menos Novato(a) em Programação",
           level_description: [
-            'You\'ve gone through the <a href="http://tour.golang.org/welcome/1">Go Tour</a>.',
-            'You\'re comfortable with the terminal',
-            'You want to problem-solve instead of copying other\'s code',
-            'You want to build an app with minimum guidance'
+            'Você sabe o que é uma função',
+            'Talvez você já tenha feito um tutorial ou dois online',
+            'Você sabe usar o básico do terminal - mudar de diretórios, por exemplo'
+          ]
+        }, {
+          level: 3,
+          color: 'gold',
+          title: "Alguma Experiência em Go",
+          level_description: [
+            'Você sabe como definir uma função em Go',
+            'Você entende bem como funciona slices e maps em Go',
+            'Você tem um entendimento básico sobre a estrutura de um aplicativo Go, talvez de outro workshop ou tutorial',
+            'Você se sente a vontade no terminal, mas não é necessariamente um Super Usuário(a)'
+          ]
+        }, {
+          level: 4,
+          color: 'orange',
+          title: "Outras Experiências em Programação",
+          level_description: [
+            'Você não sabe Go',
+            'Você é proficiente em outra linguagem e entende conceitos gerais de programação, como por exemplo coleções e escopo',
+            'Você é desenvolvedor(a) de nível intermediário',
+            'Talvez você saiba o básico sobre controle de versão e arquitetura web básica'
+          ]
+        }
+      ]
+    }, {
+      id: 9,
+      name: 'Ultimate Go',
+      title: 'Ultimate Go',
+      description: "This class provides an intensive, comprehensive and idiomatic view of the language. We focus on both the specification and implementation of the language, including topics ranging from language syntax, Go’s type system, concurrency, channels, testing and more. We believe this class is perfect for anyone who wants a jump start in learning Go or who wants a more thorough understanding of the language and its internals. You can find all the course content at: <a href='https://github.com/gobridge/ultimate_go'>https://github.com/gobridge/ultimate_go</a>.",
+      levels: [
+        {
+          level: 3,
+          color: 'gold',
+          title: "Some Go Experience",
+          level_description: [
+            'You know how to define a function in Go',
+            'You have a decent handle on Go slices and maps',
+            'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
+            'You\'re comfortable using the terminal, but not necessarily a Power User'
+          ]
+        }, {
+          level: 4,
+          color: 'orange',
+          title: "Other Programming Experience",
+          level_description: [
+            'You\'re new to Go',
+            'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
+            'You are an intermediate-level developer',
+            'You might be familiar with version control and basic web architecture'
           ]
         }
       ]
