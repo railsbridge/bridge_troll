@@ -24,9 +24,13 @@
             }
           });
         <% end %>
-        $('#<%= select_id %>_<%= foreign_key %>').select2(options);
+        var $select = $('#<%= select_id %>_<%= foreign_key %>');
+        $select.select2(options);
+        $select.change(function () {
+          $select.closest('form').find('input[type=submit]').attr({disabled: !this.value});
+        });
       </script>
-      <%= submit_tag "Assign", class: "btn btn-primary", style: 'margin: 10px 0;' %>
+      <%= submit_tag "Assign", class: "btn btn-primary", style: 'margin: 10px 0;', disabled: true %>
     <% end %>
   </div>
 </div>

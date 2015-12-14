@@ -68,7 +68,6 @@ describe OrganizersController do
   context "a user that is logged in and is an organizer for a published event" do
     before do
       @other_user = create(:user)
-      @event = create(:event)
       @event.organizers << @user
 
       sign_in @user
@@ -79,11 +78,20 @@ describe OrganizersController do
       expect(response).to be_success
     end
 
-    it "can create an organizer and redirect to the event organizer assignment page" do
-      expect {
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @other_user.id}
-      }.to change(Rsvp, :count).by(1)
-      expect(response).to redirect_to(event_organizers_path(@event))
+    describe "assigning organizers" do
+      it "can create an organizer and redirect to the event organizer assignment page" do
+        expect {
+          post :create, event_id: @event.id, event_organizer: {user_id: @other_user.id}
+        }.to change(Rsvp, :count).by(1)
+        expect(response).to redirect_to(event_organizers_path(@event))
+      end
+
+      it "shows an error if no user is provided" do
+        expect {
+          post :create, event_id: @event.id
+        }.not_to change(Rsvp, :count)
+        expect(assigns(:event).errors[:base].length).to be >= 1
+      end
     end
 
     it "can promote an existing volunteer to organizer" do

@@ -3,6 +3,8 @@
 
 <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Checkiner Assignments'} %>
 
+<%= render 'shared/model_error_messages', model: @event %>
+
 <h3>Potential Checkiners</h3>
 <%= render 'shared/user_chooser',
            action: event_checkiners_path(@event),

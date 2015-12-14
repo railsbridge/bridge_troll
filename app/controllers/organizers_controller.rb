@@ -4,7 +4,7 @@ class OrganizersController < ApplicationController
   before_action :validate_published!
 
   def index
-    @organizer_rsvps = @event.organizer_rsvps.includes(:user)
+    render_index
   end
 
   def potential
@@ -16,7 +16,12 @@ class OrganizersController < ApplicationController
   end
 
   def create
-    @user = User.find(params[:event_organizer][:user_id])
+    @user = User.find_by(id: params.fetch(:event_organizer, {})[:user_id])
+    unless @user
+      @event.errors.add(:base, 'Please select a user!')
+      return render_index
+    end
+
     rsvp = @event.rsvps.where(user_id: @user.id).first_or_initialize
     rsvp.user = @user
     rsvp.role = Role::ORGANIZER
@@ -32,6 +37,11 @@ class OrganizersController < ApplicationController
   end
 
   private
+
+  def render_index
+    @organizer_rsvps = @event.organizer_rsvps.includes(:user)
+    render :index
+  end
 
   def validate_published!
     @event ||= Event.find(params[:event_id])

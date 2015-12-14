@@ -3,6 +3,8 @@
 
 <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Organizer Assignments'} %>
 
+<%= render 'shared/model_error_messages', model: @event %>
+
 <h3>Potential Organizers</h3>
 <%= render 'shared/user_chooser',
            action: event_organizers_path(@event),
