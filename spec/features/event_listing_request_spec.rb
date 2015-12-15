@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "the event listing page" do
   it "listing should show blank Location if no location_id exists" do
-    event = create(:event, :location_id => nil, :title => 'mytitle')
+    event = create(:event, location_id: nil, title: 'mytitle')
     create(:event_session, event: event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 
     visit events_path
@@ -67,24 +67,17 @@ describe "the event listing page" do
         click_link "Organize Event"
       end
 
-      it "can create a new course" do
+      it "can create a new event" do
         fill_in_good_event_details
         
-        fill_in "event_target_audience", :with => "women"
-        fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
         check("coc")
         click_button submit_for_approval_button
 
         expect(page).to have_content good_event_title
         expect(page).to have_content("My Amazing Session")
         expect(page).to have_content("This event currently has no location!")
-        #note the closed <h1> and missing script tags
-        expect(page.body).to include("This is a note in the detail text box\n<br> With a new line!alert('hi') and a (missing) javascript injection, as well as an unclosed </p><h1> tag</h1>")
-        expect(page).to have_css '.details br'
-        expect(page).not_to have_css '.details script'
         expect(page).to have_content("1/12/2055")
-        expect(page).to have_css(".details p", text: 'With a new line!')
-        expect(page).to have_content("This is a Ruby on Rails event. The focus will be on developing functional web apps and programming in Ruby.")
+        expect(page).to have_content(Course.find_by_name('RAILS').description.split('.')[0])
 
         visit events_path
 
@@ -92,9 +85,25 @@ describe "the event listing page" do
         expect(page).to have_content("Organizer Console")
       end
 
+      it "sanitizes user input" do
+        fill_in_good_event_details
+
+        fill_in "event_details", with: "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
+        check("coc")
+        click_button submit_for_approval_button
+
+        #note the closed <h1> and missing script tags
+        expect(page.body).to include("This is a note in the detail text box\n<br> With a new line!alert('hi') and a (missing) javascript injection, as well as an unclosed </p><h1> tag</h1>")
+        expect(page).to have_css(".details p", text: 'With a new line!')
+        expect(page).to have_css '.details br'
+        expect(page).not_to have_css '.details script'
+      end
+
       it "can create a non-teaching event" do
+        fill_in_good_event_details
+
         fill_in "Title", with: "Volunteer Work Day"
-        fill_in "event_target_audience", :with => "women"
+        fill_in "event_target_audience", with: "women"
         choose "Just Volunteers"
         select Chapter.first.name, from: "event_chapter_id"
 
@@ -105,7 +114,7 @@ describe "the event listing page" do
         end
 
         select "(GMT-09:00) Alaska", from: 'event_time_zone'
-        fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
+        fill_in "event_details", with: "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
         check("coc")
         click_button submit_for_approval_button
 
@@ -122,8 +131,8 @@ describe "the event listing page" do
         click_link "Organize Event"
 
         fill_in "Title", with: "March Event"
-        fill_in "event_target_audience", :with => "women"
-        select "Front End", :from => "event_course_id"
+        fill_in "event_target_audience", with: "women"
+        select "Front End", from: "event_course_id"
         fill_in "Student RSVP limit", with: 100
         select Chapter.first.name, from: "event_chapter_id"
 
@@ -133,7 +142,7 @@ describe "the event listing page" do
         end
 
         select "(GMT-09:00) Alaska", from: 'event_time_zone'
-        fill_in "event_details", :with => "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
+        fill_in "event_details", with: "This is an excellent frontend event!"
         check("coc")
         click_button submit_for_approval_button
 
@@ -154,12 +163,12 @@ describe "the event listing page" do
         before do
           visit events_path
           click_link("Volunteer")
-          fill_in "rsvp_subject_experience", :with => "I am cool and I use a Mac (but those two things are not related)"
+          fill_in "rsvp_subject_experience", with: "I am cool and I use a Mac (but those two things are not related)"
         end
 
         it "allows registration as a teacher" do
           expect(page).to have_content("almost signed up")
-          fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
+          fill_in "rsvp_teaching_experience", with: "I have taught all kinds of things."
           check 'Teaching'
           choose('rsvp_class_level_0')
 
@@ -182,7 +191,7 @@ describe "the event listing page" do
         end
 
         it "allows registration without course level for non-teaching roles" do
-          fill_in "rsvp_teaching_experience", :with => "I have taught all kinds of things."
+          fill_in "rsvp_teaching_experience", with: "I have taught all kinds of things."
 
           click_button "Submit"
           expect(page).to have_content("Thanks for signing up")
@@ -201,7 +210,7 @@ describe "the event listing page" do
         expect(page).to have_content("almost signed up")
 
         choose "Windows 8"
-        fill_in "rsvp_job_details", :with => "I am an underwater basket weaver."
+        fill_in "rsvp_job_details", with: "I am an underwater basket weaver."
         choose "rsvp_class_level_1"
 
         click_button "Submit"
