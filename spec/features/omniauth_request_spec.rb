@@ -43,6 +43,43 @@ describe "signing in with omniauth" do
     end
   end
 
+  context "with a valid google_oauth2 auth" do
+    let(:google_oauth2_response) { OmniauthResponses.google_oauth2_response }
+
+    before do
+      OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(google_oauth2_response)
+    end
+
+    it 'creates a user and authentication if the user does not exist' do
+      visit user_omniauth_authorize_path(:google_oauth2)
+
+      within '#sign-up' do
+        click_on 'Sign up'
+      end
+
+      user = User.last
+      expect(user).to be_valid
+      expect(user.first_name).to eq(google_oauth2_response[:info][:first_name])
+      expect(user.last_name).to eq(google_oauth2_response[:info][:last_name])
+      expect(user.email).to eq(google_oauth2_response[:info][:email])
+
+      authentication = user.authentications.first
+      expect(authentication.provider).to eq('google_oauth2')
+      expect(authentication.uid).to eq(google_oauth2_response[:uid])
+    end
+
+    it 'creates a new authentication if the user already exists' do
+      user = create(:user)
+      sign_in_as user
+
+      visit user_omniauth_authorize_path(:google_oauth2)
+
+      authentication = user.authentications.first
+      expect(authentication.provider).to eq('google_oauth2')
+      expect(authentication.uid).to eq(google_oauth2_response[:uid])
+    end
+  end
+
   context "with a valid twitter auth" do
     let(:twitter_response) { OmniauthResponses.twitter_response }
 
