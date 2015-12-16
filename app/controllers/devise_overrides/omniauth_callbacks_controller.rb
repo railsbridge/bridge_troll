@@ -1,7 +1,7 @@
 class DeviseOverrides::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def all
     omniauth = request.env["omniauth.auth"]
-    provider_name = omniauth['provider'].capitalize
+    provider_name = OmniauthProviders.provider_data_for(omniauth['provider'])[:name]
     if current_user
       auth_args = {provider: omniauth['provider'], uid: omniauth['uid'].to_s}
       auth = current_user.authentications.create(auth_args)
