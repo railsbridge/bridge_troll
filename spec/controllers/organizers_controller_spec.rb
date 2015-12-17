@@ -6,19 +6,21 @@ describe OrganizersController do
     @user = create(:user)
   end
 
-  context "a user that is not logged in" do
-    it "can not edit, create, or delete an event organizer" do
-      expect(
-        get :index, event_id: @event.id
-      ).to redirect_to(new_user_session_path)
+  describe "permissions" do
+    context "a user that is not logged in" do
+      it "can not edit, create, or delete an event organizer" do
+        expect(
+          get :index, event_id: @event.id
+        ).to redirect_to(new_user_session_path)
 
-      expect(
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @user.id}
-      ).to redirect_to(new_user_session_path)
+        expect(
+          post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @user.id}
+        ).to redirect_to(new_user_session_path)
 
-      expect(
-        delete :destroy, event_id: @event.id, id: 12345
-      ).to redirect_to(new_user_session_path)
+        expect(
+          delete :destroy, event_id: @event.id, id: 12345
+        ).to redirect_to(new_user_session_path)
+      end
     end
   end
 

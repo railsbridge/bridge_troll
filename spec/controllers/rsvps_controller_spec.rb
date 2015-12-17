@@ -212,16 +212,16 @@ describe RsvpsController do
       @rsvp_params = extract_rsvp_params build(:rsvp, event: @event)
     end
 
+    def make_request
+      post :create, event_id: @event.id, rsvp: @rsvp_params
+    end
+
     context "when not logged in" do
-      it "redirects to the sign in page" do
-        expect(assigns[:current_user]).to be_nil
-        post :create, event_id: @event.id, rsvp: @rsvp_params
-        expect(response).to redirect_to("/users/sign_in")
-      end
+      it_behaves_like "an action that requires user log-in"
 
       it "does not create any new rsvps" do
         expect {
-          post :create, event_id: @event.id, rsvp: @rsvp_params
+          make_request
         }.to_not change { Rsvp.count }
       end
     end

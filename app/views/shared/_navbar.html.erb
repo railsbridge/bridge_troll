@@ -15,7 +15,7 @@
       </li>
     <% else %>
       <li id="sign_in">
-        <a href="#sign_in_dialog" role="button" class="btn sign-in-button" data-return-to="<%= request.fullpath %>">Sign In</a>
+        <%= link_to "Sign In", '#sign_in_dialog', class: "btn sign-in-button", data: sign_in_modal_return_to_params %>
       </li>
       <li>
         <%= link_to "Sign Up", new_user_registration_path, class: 'btn btn-primary' %>
