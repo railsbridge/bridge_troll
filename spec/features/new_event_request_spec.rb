@@ -65,7 +65,7 @@ describe "New Event" do
 
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do
     fill_in_good_event_details
-    fill_in 'event_target_audience', :with => "women"
+    fill_in 'event_target_audience', with: "women"
     
     check('Do you want to restrict the operating systems students should use?')
     uncheck('Linux - Other')
@@ -114,7 +114,7 @@ describe "New Event" do
 
     it 'allows a draft to be saved' do
       fill_in_good_event_details
-      fill_in 'event_target_audience', :with => "women"
+      fill_in 'event_target_audience', with: "women"
       choose('event_email_on_approval_false')
       expect(page).to have_button 'Save Draft'
       click_on 'Save Draft'

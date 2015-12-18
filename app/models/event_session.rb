@@ -21,7 +21,7 @@ class EventSession < ActiveRecord::Base
 
   belongs_to :event, inverse_of: :event_sessions
   has_many :rsvp_sessions, dependent: :destroy
-  has_many :rsvps, :through => :rsvp_sessions
+  has_many :rsvps, through: :rsvp_sessions
 
   after_save :update_event_times
   after_destroy :update_event_times

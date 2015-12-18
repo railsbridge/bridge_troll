@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "the organizer dashboard" do
   before do
     @organizer = create(:user)
-    @event = create(:event, :title => 'RailsBridge for Dik Diks')
+    @event = create(:event, title: 'RailsBridge for Dik Diks')
     @event.organizers << @organizer
     sign_in_as(@organizer)
   end

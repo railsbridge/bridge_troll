@@ -68,15 +68,15 @@ describe Event do
   end
 
   it "must have a time zone" do
-    event = build(:event, :time_zone => nil)
+    event = build(:event, time_zone: nil)
     expect(event).to have(1).error_on(:time_zone)
   end
 
   it "must have a valid time zone" do
-    event = build(:event, :time_zone => "xxx")
+    event = build(:event, time_zone: "xxx")
     expect(event).to have(1).error_on(:time_zone)
 
-    event = build(:event, :time_zone => 'Hawaii')
+    event = build(:event, time_zone: 'Hawaii')
     expect(event).to have(0).errors
   end
 
@@ -185,7 +185,7 @@ describe Event do
     let(:event) { create(:event) }
 
     it "is true when a user is volunteering at an event" do
-      create(:rsvp, :user => @user, :event => event)
+      create(:rsvp, user: @user, event: event)
       expect(event.volunteer?(@user)).to eq(true)
     end
 
@@ -198,12 +198,12 @@ describe Event do
     let(:event) { create(:event) }
 
     it "returns true when a user is a waitlisted student" do
-      create(:student_rsvp, :user => @user, :event => event, waitlist_position: 1)
+      create(:student_rsvp, user: @user, event: event, waitlist_position: 1)
       expect(event.waitlisted_student?(@user)).to eq(true)
     end
 
     it "returns false when a user is not waitlisted" do
-      create(:student_rsvp, :user => @user, :event => event)
+      create(:student_rsvp, user: @user, event: event)
       expect(event.waitlisted_student?(@user)).to eq(false)
     end
   end
@@ -212,12 +212,12 @@ describe Event do
     let(:event) { create(:event) }
 
     it "returns true when a user is a waitlisted volunteer" do
-      create(:volunteer_rsvp, :user => @user, :event => event, waitlist_position: 1)
+      create(:volunteer_rsvp, user: @user, event: event, waitlist_position: 1)
       expect(event.waitlisted_volunteer?(@user)).to eq(true)
     end
 
     it "returns false when a user is not waitlisted" do
-      create(:volunteer_rsvp, :user => @user, :event => event)
+      create(:volunteer_rsvp, user: @user, event: event)
       expect(event.waitlisted_volunteer?(@user)).to eq(false)
     end
   end

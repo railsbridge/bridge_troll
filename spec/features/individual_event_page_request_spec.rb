@@ -3,14 +3,14 @@ require 'rails_helper'
 describe "the individual event page" do
   let(:rsvp_actions_selector) { '.rsvp-actions' }
   before do
-    @event = create(:event, :public_email => "public_email@example.org")
+    @event = create(:event, public_email: "public_email@example.org")
   end
 
   context "user is not logged in" do
     it "shows a list of volunteers for the event" do
       user1 = create(:user)
       user2 = create(:user)
-      create(:rsvp, :user => user1, :event => @event)
+      create(:rsvp, user: user1, event: @event)
       visit event_path(@event)
 
       expect(page).to have_content(user1.full_name)
@@ -58,7 +58,7 @@ describe "the individual event page" do
 
       context "when a course is not chosen" do
         before do
-          @event.update_attributes(:course_id => nil)
+          @event.update_attributes(course_id: nil)
         end
 
         it "does not display a course" do
@@ -93,9 +93,9 @@ describe "the individual event page" do
         end
 
         within("#sign-up") do
-          fill_in "user_first_name", :with => 'Sven'
-          fill_in "user_last_name", :with => 'Userson'
-          fill_in "Email", :with => 'sven@example.com'
+          fill_in "user_first_name", with: 'Sven'
+          fill_in "user_last_name", with: 'Userson'
+          fill_in "Email", with: 'sven@example.com'
           fill_in 'user_password', with: 'password'
           fill_in 'user_password_confirmation', with: 'password'
           click_button 'Sign up'

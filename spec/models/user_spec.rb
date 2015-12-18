@@ -34,10 +34,10 @@ describe User do
   end
 
   it "must have a valid time zone" do
-    user = build(:user, :time_zone => "xxx")
+    user = build(:user, time_zone: "xxx")
     expect(user).to have(1).error_on(:time_zone)
 
-    user = build(:user, :time_zone => 'Hawaii')
+    user = build(:user, time_zone: 'Hawaii')
     expect(user).to have(0).errors_on(:time_zone)
   end
 

@@ -35,7 +35,7 @@ describe OrganizersController do
       ).to redirect_to(events_path)
 
       expect(
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, :user_id => @user.id}
+        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @user.id}
       ).to redirect_to(events_path)
 
       expect(
@@ -58,7 +58,7 @@ describe OrganizersController do
       ).to redirect_to(@event)
 
       expect(
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, :user_id => @user.id}
+        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @user.id}
       ).to redirect_to(@event)
 
       expect(

@@ -6,7 +6,7 @@ Rake::Task["db:schema:dump"].clear
 db_namespace = namespace :db do
   namespace :schema do
     desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
-    task :dump => [:environment, :load_config] do
+    task dump: [:environment, :load_config] do
       require 'active_record/schema_dumper'
       filename = ENV['SCHEMA'] || File.join(ActiveRecord::Tasks::DatabaseTasks.db_dir, 'schema.rb')
       foreign_keys_supported = ActiveRecord::Base.connection.supports_foreign_keys?
@@ -37,7 +37,7 @@ db_namespace = namespace :db do
   end
 
   desc "anonymizes local database"
-  task :anonymize => :environment do
+  task anonymize: :environment do
     if Rails.env.production?
       puts "You can't run this on production!"
       exit(-1)

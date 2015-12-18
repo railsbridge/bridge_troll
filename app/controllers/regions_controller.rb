@@ -1,6 +1,6 @@
 class RegionsController < ApplicationController
-  before_action :authenticate_user!, :except => [:show, :index]
-  before_action :assign_region, :only => [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:show, :index]
+  before_action :assign_region, only: [:show, :edit, :update, :destroy]
   before_action :validate_region_leader!, only: [:edit, :update]
 
   def index

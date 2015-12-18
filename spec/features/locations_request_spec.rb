@@ -9,11 +9,11 @@ describe 'Locations' do
     visit locations_path
     click_link "New Location"
 
-    select "Green Hill Zone", :from => "location_region_id"
-    fill_in "Name", :with=>"February Event Location"
-    fill_in "Address 1", :with=>"123 Main Street"
-    fill_in "City", :with=>"San Francisco"
-    fill_in "State", :with=>"CA"
+    select "Green Hill Zone", from: "location_region_id"
+    fill_in "Name", with: "February Event Location"
+    fill_in "Address 1", with: "123 Main Street"
+    fill_in "City", with: "San Francisco"
+    fill_in "State", with: "CA"
     click_button "Create Location"
 
     expect(Location.last.region).to eq(region)

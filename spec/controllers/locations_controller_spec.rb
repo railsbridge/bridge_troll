@@ -58,7 +58,7 @@ describe LocationsController do
     end
 
     it "should be able to edit an location" do
-      get :edit, {:id => @location.id}
+      get :edit, {id: @location.id}
       expect(response).to be_success
     end
 

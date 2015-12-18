@@ -164,7 +164,7 @@ describe 'creating or editing an rsvp' do
       end
 
       it "should show frontend levels for frontend events" do
-        @event.update_attributes(:course_id => Course::FRONTEND.id)
+        @event.update_attributes(course_id: Course::FRONTEND.id)
         @event.save!
 
         visit learn_new_event_rsvp_path(@event)

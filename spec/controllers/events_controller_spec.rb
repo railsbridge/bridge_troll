@@ -204,7 +204,7 @@ describe EventsController do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     def make_request
-      get :edit, :id => event.id
+      get :edit, id: event.id
     end
 
     it_behaves_like "an event action that requires an organizer"
@@ -228,7 +228,7 @@ describe EventsController do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     it "succeeds without requiring any permissions" do
-      get :levels, :id => event.id
+      get :levels, id: event.id
       expect(response).to be_success
     end
   end
@@ -465,7 +465,7 @@ describe EventsController do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     def make_request
-      delete :destroy, :id => event.id
+      delete :destroy, id: event.id
     end
 
     it_behaves_like "an event action that requires an organizer"

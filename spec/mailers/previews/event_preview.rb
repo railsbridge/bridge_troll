@@ -2,10 +2,10 @@ class EventPreview < ActionMailer::Preview
   def from_organizer
     event = Event.first
     options = {
-      :event => event,
-      :sender => event.organizers.first,
-      :recipients => event.students,
-      :body => "Howdy folks, what's the haps?"
+      event: event,
+      sender: event.organizers.first,
+      recipients: event.students,
+      body: "Howdy folks, what's the haps?"
     }
 
     EventMailer.from_organizer(options)

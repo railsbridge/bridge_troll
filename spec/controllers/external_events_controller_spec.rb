@@ -62,7 +62,7 @@ describe ExternalEventsController do
     it "destroys the requested external_event and redirects to the index" do
       external_event = create(:external_event)
       expect {
-        delete :destroy, {:id => external_event.to_param}
+        delete :destroy, {id: external_event.to_param}
       }.to change(ExternalEvent, :count).by(-1)
       expect(response).to redirect_to external_events_path
     end

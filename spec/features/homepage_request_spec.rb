@@ -3,10 +3,10 @@ require 'rails_helper'
 describe "visiting the home page" do
   describe "as an unauthenticated user" do
     let(:new_user_form_values) { {
-      :first_name => "Jane",
-      :last_name => "Doe",
-      :email => "jane@doe.com",
-      :password => "password"
+      first_name: "Jane",
+      last_name: "Doe",
+      email: "jane@doe.com",
+      password: "password"
     } }
 
     it "can sign up" do
@@ -14,9 +14,9 @@ describe "visiting the home page" do
 
       click_link 'Sign Up'
       within("#sign-up") do
-        fill_in "user_first_name", :with => new_user_form_values[:first_name]
-        fill_in "user_last_name", :with => new_user_form_values[:last_name]
-        fill_in "Email", :with => new_user_form_values[:email]
+        fill_in "user_first_name", with: new_user_form_values[:first_name]
+        fill_in "user_last_name", with: new_user_form_values[:last_name]
+        fill_in "Email", with: new_user_form_values[:email]
         fill_in 'user_password', with: new_user_form_values[:password]
         fill_in 'user_password_confirmation', with: new_user_form_values[:password]
         click_button 'Sign up'

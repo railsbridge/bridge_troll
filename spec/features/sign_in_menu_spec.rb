@@ -8,9 +8,9 @@ describe "sign in lightbox" do
 
   it "should show on home page on click" do
     visit "/"
-    page.find('#sign_in_dialog', :visible => false)
+    page.find('#sign_in_dialog', visible: false)
     click_link('Sign In')
-    page.find('#sign_in_dialog', :visible => true)
+    page.find('#sign_in_dialog', visible: true)
   end
 
   it "should not show if signed in" do
@@ -76,8 +76,8 @@ describe "user" do
   it "should be able to sign in from the home page" do
     visit "/"
     within("#sign_in_dialog") do
-      fill_in "Email", :with => @user.email
-      fill_in "Password", :with => @user.password
+      fill_in "Email", with: @user.email
+      fill_in "Password", with: @user.password
       click_button "Sign in"
     end
     expect(page).to have_content("Signed in successfully")

@@ -18,9 +18,9 @@ class CacheEventRsvpCounts < ActiveRecord::Migration
     Event.reset_column_information
 
     Event.all.each do |e|
-      Event.update_counters e.id, :student_rsvps_count => e.student_rsvps.count
-      Event.update_counters e.id, :student_waitlist_rsvps_count => e.student_waitlist_rsvps.count
-      Event.update_counters e.id, :volunteer_rsvps_count => e.volunteer_rsvps.count
+      Event.update_counters e.id, student_rsvps_count: e.student_rsvps.count
+      Event.update_counters e.id, student_waitlist_rsvps_count: e.student_waitlist_rsvps.count
+      Event.update_counters e.id, volunteer_rsvps_count: e.volunteer_rsvps.count
     end
   end
 
