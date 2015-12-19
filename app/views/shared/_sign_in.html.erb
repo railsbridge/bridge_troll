@@ -6,9 +6,7 @@
 
       <%= f.input :password %>
 
-      <% if devise_mapping.rememberable? -%>
-        <%= f.input :remember_me, as: :boolean %>
-      <% end -%>
+      <%= f.input :remember_me, as: :boolean %>
 
       <div>
         <%= f.submit "Sign in", class: 'btn btn-submit' %>

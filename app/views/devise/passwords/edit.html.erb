@@ -17,4 +17,4 @@
   <div><%= f.submit "Change my password", class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %></div>
 <% end %>
 
-<%= render :partial => "devise/shared/links" %>
+<%= devise_links(:sign_up, :confirmation_instructions) %>

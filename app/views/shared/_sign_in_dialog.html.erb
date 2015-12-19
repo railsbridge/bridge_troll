@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <%= render partial: "shared/sign_in" %>
-        <%= render partial: "devise/shared/links", locals: {no_sign_up: true} %>
+        <%= devise_links(:forgot_password, :confirmation_instructions) %>
       </div>
       <div class="modal-footer"></div>
     </div>
