@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe UsersController do
   before do
-    sign_in_stub double('user', id: 1234, meetup_id: 1)
+    @logged_in_user = create(:user)
+    sign_in @logged_in_user
   end
 
   describe "index" do
@@ -32,7 +33,8 @@ describe UsersController do
       it "shows a bunch of user names" do
         get :index
         users = assigns(:users)
-        expect(users.map { |u| u.to_global_id.to_s }).to match_array([@user1, @user2, @user_no_rsvps, @bridgetroll_user].map { |u| u.to_global_id.to_s })
+        all_users = [@user1, @user2, @user_no_rsvps, @bridgetroll_user, @logged_in_user]
+        expect(users.map(&:to_global_id)).to match_array(all_users.map(&:to_global_id))
 
         users.each do |user|
           expect(response.body).to include(ERB::Util.html_escape user.full_name)
