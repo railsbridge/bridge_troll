@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   before_action :find_event, except: [:index, :feed, :create, :new]
   before_action :validate_organizer!, except: [:index, :feed, :create, :show, :new, :levels]
   before_action :set_time_zone, only: [:create, :update]
+  before_action :set_empty_location, only: [:new, :create]
 
   def index
     respond_to do |format|
@@ -86,6 +87,10 @@ class EventsController < ApplicationController
     if params[:event] && params[:event][:time_zone].present?
       Time.zone = params[:event][:time_zone]
     end
+  end
+
+  def set_empty_location
+    @location = Location.new
   end
 
   def find_event

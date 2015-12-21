@@ -1,6 +1,14 @@
+<% modal ||= false %>
+<% remote = modal ? true : false %>
+
 <div class="row">
-  <div class="col-md-6">
-    <%= simple_form_for(@location) do |f| %>
+  <% if remote %>
+    <div class="col-md-12">
+  <% else %>
+    <div class="col-md-6">
+  <% end %>
+
+    <%= simple_form_for(@location, remote: remote, html: {role: :form, 'data-model' => 'location'}) do |f| %>
       <%= render 'shared/model_error_messages', model: @location %>
 
       <%= render 'shared/region_select', f: f %>

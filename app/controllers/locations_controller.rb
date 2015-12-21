@@ -19,10 +19,14 @@ class LocationsController < ApplicationController
   def create
     @location = Location.new(location_params)
 
-    if @location.save
-      redirect_to @location, notice: 'Location was successfully created.'
-    else
-      render :new
+    respond_to do |format|
+      if @location.save
+        format.html { redirect_to @location, notice: 'Location was successfully created.'}
+        format.js   {}
+      else
+        format.html { render :new }
+        format.js   { render action: 'create_failed' }
+      end
     end
   end
 

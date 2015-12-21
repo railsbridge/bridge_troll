@@ -36,7 +36,7 @@
       $('#event_location_id').select2();
     </script>
     <p>
-      <em>If your location isn't in this list, head over to the <%= link_to 'locations page', locations_path %> and add it before you continue.</em>
+    <em>If your location isn't in this list, <%= link_to 'add it', '#new-location-modal', 'data-toggle' => 'modal' %> before you continue.</em>
     </p>
   </div>
 
@@ -284,4 +284,8 @@
       <%= f.submit class: 'btn btn-submit coc-required', data: {disable_with: 'Please wait...'} %>
     <% end %>
   </div>
+<% end %>
+
+<% if @event.new_record? %>
+  <%= render "location_modal", modal: true %>
 <% end %>

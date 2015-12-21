@@ -197,6 +197,12 @@ describe EventsController do
         get :new
         expect(assigns(:event).time_zone).to eq('Alaska')
       end
+
+      it "assigns an empty location" do
+        get :new
+        expect(assigns(:location)).to be_new_record
+        expect(response).to be_success
+      end
     end
   end
 

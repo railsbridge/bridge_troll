@@ -1,6 +1,20 @@
 require 'rails_helper'
 
 describe "New Event" do
+  let(:create_region_and_revisit_page) do
+    create(:region)
+    visit "/events/new"
+  end
+
+  let(:fill_in_good_location_details) do
+    find('#location_region_id').find(:xpath, 'option[2]').select_option
+    fill_in "Name", with: "UChicago"
+    fill_in "Address 1", with: "5801 South Ellis Avenue"
+    fill_in "City", with: "Chicago"
+    fill_in "State", with: "Illinois"
+    fill_in "Zip", with: "60637"
+  end
+
   before do
     @user_organizer = create(:user, email: "organizer@mail.com", first_name: "Sam", last_name: "Spade")
     @chapter = create(:chapter)
@@ -66,7 +80,7 @@ describe "New Event" do
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do
     fill_in_good_event_details
     fill_in 'event_target_audience', with: "women"
-    
+
     check('Do you want to restrict the operating systems students should use?')
     uncheck('Linux - Other')
     uncheck('Linux - Ubuntu')
@@ -84,6 +98,40 @@ describe "New Event" do
     choose('event_email_on_approval_true')
     choose('event_email_on_approval_false')
   end
+
+  describe "the location form modal" do
+    it "should be contained within the new even page" do
+      expect(page).to have_css('#new-location-modal')
+    end
+
+    context "after clicking add location link", js: true do
+      before(:each) do 
+        click_link "add it"
+      end
+
+      it "should have a form for a new location" do
+        within '.modal-content' do
+          expect(page).to have_content("New Location")
+        end
+      end
+
+      it "should show errors if a location form is invalid" do
+        click_button "Create Location"
+
+        expect(page).to have_css('#error_explanation')
+      end
+
+      it "should accept and add a valid location" do
+        create_region_and_revisit_page
+        click_link "add it"
+        fill_in_good_location_details
+        click_button "Create Location"
+
+        expect(page.find('select#event_location_id.select2-hidden-accessible')).to have_content('UChicago')
+      end
+    end
+  end
+
 
   context 'after clicking "Add another session"', js: true do
     before do

@@ -4,7 +4,7 @@ describe LocationsController do
   before do
     @location = create(:location)
   end
-  
+
   describe "permissions" do
     context "a user that is not logged in" do
       it "can not edit or destroy a location" do
@@ -79,6 +79,21 @@ describe LocationsController do
         expect {
           perform_update_request
         }.not_to change { @location.reload.name }
+      end
+    end
+
+    describe '#create (remote)' do
+      let(:post_req) { post :create, format: 'js', location: location_attrs }
+      let(:location_attrs) { attributes_for(:location) }
+
+      it "should return javascript" do
+        post_req
+        expect(response.content_type).to eq('text/javascript')
+      end
+
+      it "respond successfully with an HTTP 200 status code" do
+        post_req
+        expect(response).to have_http_status(200)
       end
     end
 

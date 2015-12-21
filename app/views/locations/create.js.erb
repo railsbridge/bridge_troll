@@ -1,0 +1,8 @@
+$('#new-location-modal').modal('hide');
+
+// New location details
+var value = '<%= @location.id %>'
+var name = '<%= @location.name %>'
+var region = '<%= @location.region.name %>'
+
+$('#event_location_id').append('<option value="' + value + '">' + name + ' (' + region + ')</option>');
