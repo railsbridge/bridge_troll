@@ -44,7 +44,7 @@ git clone https://github.com/username/bridge_troll.git
 cd bridge_troll
 ```
 
-Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run: `rvm install 2.2.2`. For rbenv, run: `rbenv install 2.2.2`.
+Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run: `rvm install 2.2.4`. For rbenv, run: `rbenv install 2.2.4`.
 
 Finish setting up your environment
 ```
@@ -64,6 +64,11 @@ This project has many tests that you should run before submitting a pull request
 ```
 brew update
 brew install phantomjs
+```
+
+If you are on a Ubuntu-based linux distribution, you can try
+```
+sudo apt-get install phantomjs
 ```
 
 Then you can run tests by doing
