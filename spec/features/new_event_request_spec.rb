@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "New Event" do
   let(:create_region_and_revisit_page) do
-    create(:region)
+    @region = create(:region)
     visit "/events/new"
   end
 
@@ -125,9 +125,13 @@ describe "New Event" do
         create_region_and_revisit_page
         click_link "add it"
         fill_in_good_location_details
-        click_button "Create Location"
 
-        expect(page.find('select#event_location_id.select2-hidden-accessible')).to have_content('UChicago')
+        expect {
+          click_button "Create Location"
+          expect(page).to have_css('#new-location-modal', visible: :hidden)
+        }.to change(Location, :count).by(1)
+
+        expect(page.all('select#event_location_id option').map(&:text)).to include("UChicago (#{@region.name})")
       end
     end
   end
