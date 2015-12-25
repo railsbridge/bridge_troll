@@ -1,4 +1,5 @@
 $('#new-location-modal').modal('hide');
+$('#new-location-modal form')[0].reset();
 
 id = '<%= @location.id %>'
 
