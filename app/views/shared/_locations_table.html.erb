@@ -7,6 +7,7 @@
       <th>State</th>
       <th>Zip</th>
       <th>Events</th>
+      <th>Recent Event</th>
       <% if user_signed_in? %>
         <th></th>
         <th></th>
@@ -23,6 +24,7 @@
         <td><%= location.state %></td>
         <td><%= location.zip %></td>
         <td data-label="Events:"><%= location.events_count %></td>
+        <td><%= location.most_recent_event_date %></td>
         <% if user_signed_in? %>
           <td>
             <% unless location.archived? %>

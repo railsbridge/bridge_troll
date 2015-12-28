@@ -1,6 +1,33 @@
 require 'rails_helper'
 
 describe 'Locations' do
+    describe "should display a sortable list of locations" do #without user sign-in
+      before do
+        @my_location = create(:location)
+      end
+
+      it "with a location name, address, city, state and zip" do
+        visit locations_path
+
+        expect(page).to have_content(@my_location.name)
+        expect(page).to have_content(@my_location.address_1)
+        expect(page).to have_content(@my_location.city)
+        expect(page).to have_content(@my_location.state)
+        expect(page).to have_content(@my_location.zip)
+      end
+
+      it "with the most recent event date" do
+        expected_date = DateTime.new(2020, 1, 5, 12)
+        date_str = expected_date.strftime("%b %d, %Y")
+        @my_location.events << create(:event, starts_at: DateTime.new(2018, 1, 5))
+        @my_location.events << create(:event, starts_at: expected_date)
+
+        visit locations_path
+
+        expect(page).to have_content(date_str)
+      end
+    end
+
   it "should create a new location" do
     @user = create(:user)
     region = create(:region, name: "Green Hill Zone")
