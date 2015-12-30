@@ -17,6 +17,33 @@ describe ChaptersController do
     end
   end
 
+  describe '#show' do
+    let!(:chapter) { create(:chapter) }
+    before do
+      @draft_event = create(:event, current_state: :draft, chapter: chapter)
+      @pending_event = create(:event, current_state: :pending_approval, chapter: chapter)
+      @published_event = create(:event, chapter: chapter)
+
+      expect(chapter.events).to match_array([@draft_event, @pending_event, @published_event])
+    end
+
+    describe 'as an admin' do
+      it 'shows all events' do
+        get :show, id: chapter.id
+        expect(assigns(:chapter_events)).to match_array([@draft_event, @pending_event, @published_event])
+      end
+    end
+
+    describe 'as a regular user' do
+      let(:user) { create(:user) }
+
+      it 'shows a list of published events' do
+        get :show, id: chapter.id
+        expect(assigns(:chapter_events)).to match_array([@published_event])
+      end
+    end
+  end
+
   describe '#new' do
     it 'shows an empty chapter' do
       get :new
