@@ -283,7 +283,11 @@ class Course < ActiveHash::Base
       id: 7,
       name: 'BWAG Go',
       title: 'Building Web Apps With Go',
-      description: "If you are reading this then you have just started your journey from newcomer to pro. No seriously, web programming in Go is so fun and easy that you won't even notice how much information you are learning along the way! You can find all the course content at: <a href='https://gobridge.gitbooks.io/building-web-apps-with-go/content/en/index.html'>https://gobridge.gitbooks.io/building-web-apps-with-go/content/en/index.html</a>.",
+      description: "If you are reading this then you have just started your journey from newcomer to pro. No seriously, web programming in Go is so fun and easy that you won't even notice how much information you are learning along the way!
+      </p>
+      This course is courtesy of <a href='https://bit.ly/codegansta-bwag'>Jeremy Saenz</a>.
+      </p>
+      You can find all the course content at: <a href='https://bit.ly/gobridge-bwag'>https://gobridge.gitbooks.io/building-web-apps-with-go/content/en/index.html</a>.",
       levels: [
         {
           level: 2,
@@ -320,7 +324,11 @@ class Course < ActiveHash::Base
       id: 8,
       name: 'BWAG Go Portugues',
       title: 'Building Web Apps With Go - Em Portugues',
-      description: "Se você está lendo isto então você está prestes a embarcar em uma jornada de iniciante a pro. Sério! Programação web em Go é tão divertido e fácil que você nem vai perceber quanta informação você está aprendendo ao longo do curso. Todo o material do curso está aqui: <a href='https://gobridge.gitbooks.io/building-web-apps-with-go/content/pt-br/index.html'>https://gobridge.gitbooks.io/building-web-apps-with-go/content/pt-br/index.html</a>.",
+      description: "Se você está lendo isto então você está prestes a embarcar em uma jornada de iniciante a pro. Sério! Programação web em Go é tão divertido e fácil que você nem vai perceber quanta informação você está aprendendo ao longo do curso.
+      </p>
+      Este curso é uma courtesia de <a href='https://bit.ly/codegansta-bwag'>Jeremy Saenz</a>.
+      </p>
+      Todo o material do curso está aqui: <a href='https://bit.ly/gobridge-bwag'>https://gobridge.gitbooks.io/building-web-apps-with-go/content/pt-br/index.html</a>.",
       levels: [
         {
           level: 2,
@@ -357,7 +365,11 @@ class Course < ActiveHash::Base
       id: 9,
       name: 'Ultimate Go',
       title: 'Ultimate Go',
-      description: "This class provides an intensive, comprehensive and idiomatic view of the language. We focus on both the specification and implementation of the language, including topics ranging from language syntax, Go’s type system, concurrency, channels, testing and more. We believe this class is perfect for anyone who wants a jump start in learning Go or who wants a more thorough understanding of the language and its internals. You can find all the course content at: <a href='https://github.com/gobridge/ultimate_go'>https://github.com/gobridge/ultimate_go</a>.",
+      description: "This class provides an intensive, comprehensive and idiomatic view of the language. We focus on both the specification and implementation of the language, including topics ranging from language syntax, Go’s type system, concurrency, channels, testing and more. We believe this class is perfect for anyone who wants a jump start in learning Go or who wants a more thorough understanding of the language and its internals.
+      </p>
+      This course is courtesy of <a href='https://bit.ly/ardanlabs'>ArdanLabs</a>.
+      </p>
+      You can find all the course content at: <a href='https://github.com/gobridge/ultimate_go'>https://github.com/gobridge/ultimate_go</a>.",
       levels: [
         {
           level: 3,
@@ -368,6 +380,59 @@ class Course < ActiveHash::Base
             'You have a decent handle on Go slices and maps',
             'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
             'You\'re comfortable using the terminal, but not necessarily a Power User'
+          ]
+        }, {
+          level: 4,
+          color: 'orange',
+          title: "Other Programming Experience",
+          level_description: [
+            'You\'re new to Go',
+            'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
+            'You are an intermediate-level developer',
+            'You might be familiar with version control and basic web architecture'
+          ]
+        }
+      ]
+    }, {
+      id: 10,
+      name: "Todd McLeod's Go Course",
+      title: "Learn How To Code Google's Go (golang) Programming Language",
+      description: "This course consists of a series of video lectures by the University Professor in Computer Science Todd McLeod. It is a first semester university level programming course and it contains over 20 hours of content that will help you understand why the Go programming language is the best language you can learn today. It will also help you acquire additional valuable programming skills including understanding environment variables, using a command line interface (CLI) terminal, understanding SHA-1 checksums, working with GitHub, and increasing your productivity with an integrated development environment (IDE) such as Webstorm or Atom.io. This course provides options for multiple workshop sessions, each focusing on a separate set of topics.
+      </p>
+      Once a workshop for this course is scheduled, the teachers will be given a code to access the course for free, courtesy of
+      <a href='https://bit.ly/Todd_McLeod_LHTCG'>https://twitter.com/Todd_McLeod</a>.
+      </p>
+      You can find all the course content at: <a href='https://bit.ly/gobridge-lhtc'>https://www.udemy.com/learn-how-to-code/</a> and at <a href='https://github.com/GoesToEleven/GolangTraining/'>https://github.com/GoesToEleven/GolangTraining/</a>.
+      </p>
+      Note: Please also leave Todd a review as a thank you for creating this course for everyone. This will help other students find this course.",
+      levels: [
+        {
+          level: 1,
+          color: 'blue',
+          title: "Totally New to Programming",
+          level_description: [
+            'You have little to no experience with the terminal or a graphical IDE',
+            'You might have done a little bit with HTML or CSS, but not necessarily',
+            'You\'re unfamiliar with terms like functions, arrays, lists, hashes/maps, or dictionaries.',
+          ]
+        }, {
+          level: 2,
+          color: 'green',
+          title: "Somewhat New to Programming",
+          level_description: [
+            'You know what a function is',
+            'You might have done an online programming tutorial or two',
+            'You may have used the terminal a little — to change directories, for instance',
+          ]
+        }, {
+          level: 3,
+          color: 'gold',
+          title: "Some Go Experience",
+          level_description: [
+            'You know how to define a function in Go',
+            'You have a decent handle on Go slices and maps',
+            'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
+            'You\'re comfortable using the terminal, but not necessarily a Power User',
           ]
         }, {
           level: 4,
