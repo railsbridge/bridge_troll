@@ -116,6 +116,12 @@ table.sent-emails {
   }
 }
 
+table.locations {
+  td.date {
+    white-space: nowrap;
+  }
+}
+
 table.responsive-table {
   @media (max-width: $screen-xs-max) {
     border: none;
