@@ -1,25 +1,37 @@
-<%= content_for(:header_text, "Follow-up Survey") %>
+<%= content_for(:header_text, @event.title) %>
 
 <%= render 'shared/model_error_messages', model: @survey %>
 
+<% if @preview %>
+  <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Survey Preview'} %>
+<% end %>
+
 <h2>How was <%= @event.title %>?</h2>
+
 <p>We love feedback, so let us know how things went for you and anything you think we could make better in the future!</p>
 
 <div class="row">
   <div class="col-md-6 survey-form">
     <%= simple_form_for @survey, url: event_rsvp_surveys_path(@event.id, @rsvp.id) do |f| %>
-      <%= f.input :good_things, label: "What was great?" %>
+      <%= f.input :good_things, label: "What was great?", readonly: @preview %>
 
-      <%= f.input :bad_things, label: "What could have been better?" %>
+      <%= f.input :bad_things, label: "What could have been better?", readonly: @preview  %>
 
-      <%= f.input :other_comments, label: "Any other comments?" %>
+      <%= f.input :other_comments, label: "Any other comments?", readonly: @preview  %>
 
       <%= f.label :recommendation_likelihood, "How likely are you to recommend this workshop to a friend or colleague? (10 is very likely, 1 is unlikely)" %>
-      <%= f.select :recommendation_likelihood, (1..10).to_a.reverse, {}, {class: 'form-control'} %>
-
-      <% unless @survey.persisted? %>
+      <%= f.select :recommendation_likelihood, (1..10).to_a.reverse, {}, {class: 'form-control', disabled: @preview}  %>
+      <% if !@survey.persisted? && !@preview%>
         <%= f.submit "Submit", class: "btn", data: {disable_with: 'Please wait...'} %>
       <% end %>
+      <p></p>
+      <% if @preview && @event.survey_sent?%>
+        <p>Survey has been sent.</p>
+        <% elsif @preview %>
+        <p><%= link_to 'Send Survey', event_send_survey_email_path(@event), class: "btn", :data => {:confirm => 'Are you sure?'} %></p>
+        <p><%= link_to 'Back', event_organizer_tools_path(@event), class: "btn" %></p>
+      <% end %>
+
     <% end %>
   </div>
 </div>

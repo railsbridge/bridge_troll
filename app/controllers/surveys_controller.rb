@@ -2,7 +2,7 @@ class SurveysController < ApplicationController
   before_action :authenticate_user!
   before_action :find_event
   before_action :find_rsvp, except: :index
-  before_action :validate_user!, except: :index
+  before_action :validate_user!, except: [:index, :preview]
   before_action :validate_organizer!, only: :index
 
   def new
@@ -28,6 +28,12 @@ class SurveysController < ApplicationController
   def index
     @student_surveys = Survey.where(rsvp_id: @event.rsvps.where(role_id: Role::STUDENT.id).pluck(:id))
     @volunteer_surveys = Survey.where(rsvp_id: @event.volunteer_rsvps.pluck(:id))
+  end
+
+  def preview
+    @survey = Survey.new
+    @preview = true
+    render :new
   end
 
   private

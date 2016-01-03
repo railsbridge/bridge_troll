@@ -7,6 +7,21 @@ describe 'the post-workshop survey' do
     @rsvp = create(:rsvp, user: @user, event: @event)
   end
 
+  describe 'previewing survey' do
+    before do
+      sign_in_as @user
+      visit preview_event_surveys_path(@event)
+    end
+
+    it 'should not allow organizer to submit survey' do
+      expect(page).not_to have_content("Submit")
+    end
+
+    it 'should allow organizer to email RSVPs the survey' do
+      expect(page).to have_content("Send Survey")
+    end
+  end
+
   describe 'taking a survey' do
     before do
       sign_in_as @user
