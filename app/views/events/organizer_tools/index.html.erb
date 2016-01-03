@@ -69,6 +69,7 @@
 
 
     <h2>Tools for after the event</h2>
+    <p>We encourage you to send this quick survey to everyone who participated.</p>
     <% if @event.survey_sent? %>
       <section class="organizer-dashboard-section">
         <%= render partial: 'shared/organizer_action', locals: {
@@ -81,11 +82,10 @@
     <% else %>
       <section class="organizer-dashboard-section">
         <%= render partial: 'shared/organizer_action', locals: {
-          path: event_send_survey_email_path(@event),
+          path: preview_event_surveys_path(@event),
           icon: 'fa fa-envelope',
-          text: 'Send Survey',
-          tip: 'Click here to send a link to the follow up survey to all students and volunteers.',
-          confirm: 'Are you sure?'
+          text: 'Preview & Send Survey',
+          tip: 'Email all students and volunteers with a short follow-up survey.',
         } %>
         <%= render partial: 'shared/organizer_action', locals: {
           path: edit_event_survey_path(@event),
@@ -97,5 +97,3 @@
     <% end %>
   </div>
 </div>
-
-

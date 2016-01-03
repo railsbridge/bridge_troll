@@ -18,6 +18,8 @@ Bridgetroll::Application.routes.draw do
     resources :region_leaderships, only: [:index, :create, :destroy]
   end
 
+  get "/events/:event_id/surveys/preview" => "surveys#preview", as: :survey_preview
+
   resources :events do
     resources :organizers, only: [:index, :create, :destroy] do
       get :potential, on: :collection
@@ -48,7 +50,9 @@ Bridgetroll::Application.routes.draw do
       resources :surveys, only: [:new, :create]
     end
 
-    resources :surveys, only: [:new, :index]
+    resources :surveys, only: [:new, :index] do
+      get :preview, on: :collection
+    end
 
     resources :event_sessions, only: [:index, :show, :destroy] do
       resources :checkins, only: [:index, :create, :destroy]
