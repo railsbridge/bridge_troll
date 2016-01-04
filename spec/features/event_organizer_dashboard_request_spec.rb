@@ -141,8 +141,8 @@ describe "the organizer dashboard" do
 
   it "lets the organizer update the survey greeting" do
     visit event_organizer_tools_path(@event)
-    click_link "Edit Survey Header"
-    fill_in 'Greeting', with: 'Here is a fun survey'
+    click_link "Edit Email Body"
+    fill_in 'Email Body:', with: 'Here is a fun survey'
     click_on 'Update'
     expect(@event.reload.survey_greeting).to eq('Here is a fun survey')
   end
