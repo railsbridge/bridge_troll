@@ -133,10 +133,11 @@ describe Location do
 
   describe "#most_recent_event_date" do
     it "finds the event with the most recent start date and returns that date" do
+      this_year = Date.current.year
       my_location = create(:location)
-      expected_date = DateTime.new(2018, 1, 5, 12)
+      expected_date = DateTime.new(this_year + 3, 1, 5, 12)
       my_location.events << create(:event, starts_at: expected_date)
-      my_location.events << create(:event, starts_at: DateTime.new(2016, 1, 5, 12))
+      my_location.events << create(:event, starts_at: DateTime.new(this_year + 1, 1, 5, 12))
 
       most_recent_date = my_location.most_recent_event_date
       date = expected_date.strftime("%b %d, %Y")

@@ -17,9 +17,10 @@ describe 'Locations' do
       end
 
       it "with the most recent event date" do
-        expected_date = DateTime.new(2020, 1, 5, 12)
+        this_year = Date.current.year
+        expected_date = DateTime.new(this_year + 4, 1, 5, 12)
         date_str = expected_date.strftime("%b %d, %Y")
-        @my_location.events << create(:event, starts_at: DateTime.new(2018, 1, 5))
+        @my_location.events << create(:event, starts_at: DateTime.new(this_year + 2, 1, 5))
         @my_location.events << create(:event, starts_at: expected_date)
 
         visit locations_path
