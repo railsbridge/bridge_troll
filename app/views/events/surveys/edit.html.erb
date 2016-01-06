@@ -1,16 +1,18 @@
+<%= content_for(:header_text, @event.title) %>
+
 <%= simple_form_for @event do |f| %>
   <%= render 'shared/model_error_messages', model: @event %>
 
-  <h3>Survey Details</h3>
+  <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Edit Email Body'} %>
 
   <div class="field">
     <p>
-      Email body - Link to survey will be included at bottom
+      Use the field below to edit the email body that will be sent to RSVP'd participants. A link to the survey will be included at the bottom of your message.
     </p>
-    <%= f.input :survey_greeting, label: 'Greeting', input_html: {rows: 4} %>
+    <%= f.input :survey_greeting, label: "Email Body:", input_html: {rows: 4} %>
   </div>
 
   <div class="actions">
-      <%= f.submit %>
+      <%= f.submit "Update", class: "btn" %>
   </div>
 <% end %>
