@@ -4,7 +4,7 @@ describe RsvpSorter do
   let(:event) { create(:event) }
 
   let(:rsvp_name) do
-    Proc.new { |r| r.user.full_name }
+    proc { |r| r.user.full_name }
   end
 
   context 'for a modern event' do

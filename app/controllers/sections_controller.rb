@@ -23,7 +23,7 @@ class SectionsController < ApplicationController
   end
 
   def arrange
-    SectionArranger.arrange(@event, params[:checked_in_to])
+    SectionArranger.new(@event).arrange(params[:checked_in_to])
     redirect_to event_organize_sections_path(@event)
   end
 

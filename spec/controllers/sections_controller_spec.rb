@@ -54,7 +54,9 @@ describe SectionsController do
 
   describe "#arrange" do
     it 'tells the section arranger to arrange sections for this event' do
-      expect(SectionArranger).to receive(:arrange).with(@event, 'any')
+      fake_section_arranger = instance_double(SectionArranger)
+      expect(fake_section_arranger).to receive(:arrange).with('any')
+      expect(SectionArranger).to receive(:new).with(@event).and_return(fake_section_arranger)
       post :arrange, event_id: @event.id, checked_in_to: 'any'
     end
   end

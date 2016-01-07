@@ -50,7 +50,7 @@ describe SectionArranger do
       end
 
       it 'arranges students into classes based on their level' do
-        SectionArranger.arrange(@event)
+        SectionArranger.new(@event).arrange
         expected_arrangement = {
           1 => [{students: 1, volunteers: 2}],
           2 => [{students: 5, volunteers: 2}, {students: 5, volunteers: 2}],
@@ -77,7 +77,7 @@ describe SectionArranger do
       end
 
       it "assigns the students to sections without incident" do
-        SectionArranger.arrange(@event)
+        SectionArranger.new(@event).arrange
         expected_arrangement = {
           1 => [{students: 1, volunteers: 0}],
           2 => [{students: 1, volunteers: 0}]
@@ -94,7 +94,7 @@ describe SectionArranger do
       end
 
       it "doesn't do anything, successfully" do
-        SectionArranger.arrange(@event)
+        SectionArranger.new(@event).arrange
         expect(@event.rsvps.map(&:section_id).uniq).to eq([nil])
       end
     end
@@ -127,7 +127,7 @@ describe SectionArranger do
 
       context "when asked to arrange for only the first session" do
         before do
-          SectionArranger.arrange(@event, @session1.id)
+          SectionArranger.new(@event).arrange(@session1.id)
         end
 
         it 'arranges only those people' do
@@ -137,7 +137,7 @@ describe SectionArranger do
 
       context "when asked to arrange for only the second session" do
         before do
-          SectionArranger.arrange(@event, @session2.id)
+          SectionArranger.new(@event).arrange(@session2.id)
         end
 
         it 'arranges only those people' do
@@ -147,7 +147,7 @@ describe SectionArranger do
 
       context "when asked to arrange for people who have checked in to any session" do
         before do
-          SectionArranger.arrange(@event, 'any')
+          SectionArranger.new(@event).arrange('any')
         end
 
         it 'arranges only those people' do

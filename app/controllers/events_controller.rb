@@ -9,7 +9,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html do
         @events = Event.upcoming.published_or_organized_by(current_user).includes(:event_sessions, :location, :region)
-        @event_regions = @events.map { |e| e.region }.compact.uniq
+        @event_regions = @events.map(&:region).compact.uniq
         @past_events = EventList.new('past').combined_events
       end
       format.json do

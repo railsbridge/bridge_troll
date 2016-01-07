@@ -22,7 +22,7 @@ class Location < ActiveRecord::Base
   def editable_by?(user)
     return true if events_count == 0
     return true if user.admin?
-    notable_events.map { |e| e.organizers }.flatten.map(&:id).include?(user.id)
+    notable_events.map(&:organizers).flatten.map(&:id).include?(user.id)
   end
 
   def additional_details_editable_by?(user)
