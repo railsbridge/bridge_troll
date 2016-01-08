@@ -9,7 +9,7 @@ class BaseMailer < ActionMailer::Base
     # away from Sendgrid.
     # http://sendgrid.com/docs/API_Reference/SMTP_API/
 
-    recipients += cc unless cc == nil
+    recipients += cc unless cc.nil?
 
     headers['X-SMTPAPI'] = {
       to: recipients

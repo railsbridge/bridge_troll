@@ -7,12 +7,12 @@ class ReminderSender
 
   def self.remind_attendees_for_event(event)
     event.event_sessions.where(volunteers_only: true).each do |event_session|
-      self.remind_attendees_for_session(event_session)
+      remind_attendees_for_session(event_session)
     end
 
     first_everybody_session = event.event_sessions.find_by(volunteers_only: false)
     return unless first_everybody_session
-    return unless first_everybody_session.starts_at <  Time.zone.now + 3.days
+    return unless first_everybody_session.starts_at < Time.zone.now + 3.days
 
     due_reminders = event.rsvps.confirmed.where(reminded_at: nil)
     puts "Sending #{due_reminders.count} reminders for #{event.title}..." unless Rails.env.test?

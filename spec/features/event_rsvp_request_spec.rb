@@ -202,7 +202,7 @@ describe 'creating or editing an rsvp' do
 
   context "for a non-teaching event" do
     before do
-      @event = create(:event, course_id:nil)
+      @event = create(:event, course_id: nil)
       @user = create(:user)
       sign_in_as @user
       visit volunteer_new_event_rsvp_path(@event)

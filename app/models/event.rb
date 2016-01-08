@@ -26,7 +26,7 @@ class Event < ActiveRecord::Base
   has_many :sections, dependent: :destroy
   has_many :event_emails, dependent: :destroy
 
-  has_many :attendee_rsvps,  -> { where(role_id: Role.attendee_role_ids, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
+  has_many :attendee_rsvps, -> { where(role_id: Role.attendee_role_ids, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
 
   has_many :student_rsvps, -> { where(role_id: Role::STUDENT.id, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
   has_many :student_waitlist_rsvps, -> { where("role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL").order(:waitlist_position) }, class_name: 'Rsvp', inverse_of: :event
@@ -91,12 +91,12 @@ class Event < ActiveRecord::Base
 
   def close_rsvps
     self.open = false
-    self.save
+    save
   end
 
   def reopen_rsvps
     self.open = true
-    self.save
+    save
   end
 
   def closed?
@@ -189,7 +189,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.published_or_organized_by(user = nil)
-    return self.published unless user
+    return published unless user
 
     if user.admin?
       where(spam: false)
@@ -227,7 +227,7 @@ class Event < ActiveRecord::Base
   end
 
   def rsvp_for_user(user)
-    self.rsvps.find_by_user_id(user.id)
+    rsvps.find_by_user_id(user.id)
   end
 
   def no_rsvp?(user)

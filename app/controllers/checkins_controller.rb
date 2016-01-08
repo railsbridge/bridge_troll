@@ -6,7 +6,7 @@ class CheckinsController < ApplicationController
 
   def index
     @rsvp_sessions = @session.rsvp_sessions.joins(
-        rsvp: :bridgetroll_user
+      rsvp: :bridgetroll_user
     ).includes([rsvp: :user]).order('users.first_name asc, users.last_name asc, users.email asc')
     respond_to do |format|
       format.html { @checkin_counts = @event.checkin_counts }

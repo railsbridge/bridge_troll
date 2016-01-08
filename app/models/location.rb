@@ -12,7 +12,7 @@ class Location < ActiveRecord::Base
   end
 
   def full_address
-    "#{self.address_1}, #{self.city}, #{self.state}, #{self.zip}"
+    "#{address_1}, #{city}, #{state}, #{zip}"
   end
 
   def name_with_region

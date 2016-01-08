@@ -59,14 +59,14 @@ db_namespace = namespace :db do
   end
 
   desc "Restores the database from a dump file"
-  task :restore, [:filename] => [:environment, 'db:drop', 'db:create' ] do |t, args|
+  task :restore, [:filename] => [:environment, 'db:drop', 'db:create'] do |t, args|
     filename = Rails.root.join(args[:filename] || 'db/PRODUCTION.dump')
     cmd = nil
     with_config do |app, host, db|
       cmd = "pg_restore --verbose --host #{host} --clean --no-owner --no-acl --dbname #{db} #{filename}"
     end
     exec(cmd)
-   end
+  end
 
   private
 

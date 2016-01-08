@@ -63,7 +63,7 @@ class RsvpsController < ApplicationController
   end
 
   def update
-    set_dietary_restrictions(@rsvp,  params[:dietary_restrictions])
+    set_dietary_restrictions(@rsvp, params[:dietary_restrictions])
     if @rsvp.update_attributes(rsvp_params)
       apply_other_changes_from_params
 
@@ -103,7 +103,7 @@ class RsvpsController < ApplicationController
   protected
 
   def redirect_if_event_closed
-    if !@event.open?
+    unless @event.open?
       flash[:error] = "Sorry. This event is closed!"
       redirect_to @event
     end

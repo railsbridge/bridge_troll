@@ -49,7 +49,6 @@ class SeedChaptersFromRegions < ActiveRecord::Migration
         chapter_name = "RailsBridge #{chapter_name}" unless chapter_name.match('RailsBridge')
         chapter = Chapter.find_or_create_by(name: chapter_name, organization: rb_org)
         external_event.update_attributes(chapter_id: chapter.id)
-      else
       end
     end
 

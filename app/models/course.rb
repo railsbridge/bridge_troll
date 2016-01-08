@@ -320,7 +320,8 @@ class Course < ActiveHash::Base
       id: 8,
       name: 'BWAG Go Portugues',
       title: 'Building Web Apps With Go - Em Portugues',
-      description: "Se você está lendo isto então você está prestes a embarcar em uma jornada de iniciante a pro. Sério! Programação web em Go é tão divertido e fácil que você nem vai perceber quanta informação você está aprendendo ao longo do curso. Todo o material do curso está aqui: <a href='https://gobridge.gitbooks.io/building-web-apps-with-go/content/pt-br/index.html'>https://gobridge.gitbooks.io/building-web-apps-with-go/content/pt-br/index.html</a>.",      levels: [
+      description: "Se você está lendo isto então você está prestes a embarcar em uma jornada de iniciante a pro. Sério! Programação web em Go é tão divertido e fácil que você nem vai perceber quanta informação você está aprendendo ao longo do curso. Todo o material do curso está aqui: <a href='https://gobridge.gitbooks.io/building-web-apps-with-go/content/pt-br/index.html'>https://gobridge.gitbooks.io/building-web-apps-with-go/content/pt-br/index.html</a>.",
+      levels: [
         {
           level: 2,
           color: 'green',

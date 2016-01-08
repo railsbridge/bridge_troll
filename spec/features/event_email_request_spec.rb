@@ -87,10 +87,10 @@ RSpec.describe 'Sending an event email', js: true do
   end
 
   it "should show an accurate count of the # of cc'd recipients when selecting cc checkboxes" do
-    expect(page).to_not have_content ('1 event organizer')
+    expect(page).to_not have_content('1 event organizer')
 
     check 'CC Organizers'
-    expect(page).to have_content ('1 event organizer')
+    expect(page).to have_content('1 event organizer')
   end
 
   it 'lets the user review sent emails' do

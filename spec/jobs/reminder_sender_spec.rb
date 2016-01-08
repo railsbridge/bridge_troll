@@ -38,7 +38,7 @@ describe ReminderSender do
         event.event_sessions.first.update_attributes(starts_at: 4.days.from_now, ends_at: 5.days.from_now)
         @volunteer_session = create(:event_session, event: event, starts_at: 2.days.from_now, ends_at: 3.days.from_now, required_for_students: false, volunteers_only: true)
 
-        @volunteer_rsvp  = build(:volunteer_rsvp, event: event).tap do |rsvp|
+        @volunteer_rsvp = build(:volunteer_rsvp, event: event).tap do |rsvp|
           rsvp.rsvp_sessions.build(event_session: @volunteer_session)
           rsvp.save!
         end

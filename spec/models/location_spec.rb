@@ -84,13 +84,13 @@ describe Location do
 
     context "by someone who has organized an event at the given location" do
       it "should be archivable" do
-          expect(location.archivable_by?(organizer)).to be true
+        expect(location.archivable_by?(organizer)).to be true
       end
     end
 
     context "by a normal user" do
       it "should not be archivable" do
-          expect(location.archivable_by?(user)).to be false
+        expect(location.archivable_by?(user)).to be false
       end
     end
   end

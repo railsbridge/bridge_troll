@@ -72,9 +72,9 @@ describe "New Event" do
 
     visit "/events/new"
     expect(page).to have_select('event_location_id', options: [
-                                                     "Please select",
-                                                     live_location.name_with_region
-                                                   ])
+      "Please select",
+      live_location.name_with_region
+    ])
   end
 
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do

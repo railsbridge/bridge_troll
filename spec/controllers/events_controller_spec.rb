@@ -529,13 +529,13 @@ describe EventsController do
       end
 
       it "includes the website title" do
-        expect(response.body).to include ('Bridge Troll Events')
+        expect(response.body).to include('Bridge Troll Events')
       end
 
       it "includes all events" do
         expect(Nokogiri::XML.parse(response.body).css(item_tag).length).to eq(2)
-        expect(response.body).to include ('DonutBridge')
-        expect(response.body).to include ('C5 Event!')
+        expect(response.body).to include('DonutBridge')
+        expect(response.body).to include('C5 Event!')
       end
     end
 
@@ -560,13 +560,13 @@ describe EventsController do
       end
 
       it "includes the website title" do
-        expect(response.body).to include ('Bridge Troll Events')
+        expect(response.body).to include('Bridge Troll Events')
       end
 
       it "includes all events" do
         expect(Nokogiri::XML.parse(response.body).css(item_tag).length).to eq(2)
-        expect(response.body).to include ('DonutBridge')
-        expect(response.body).to include ('C5 Event!')
+        expect(response.body).to include('DonutBridge')
+        expect(response.body).to include('C5 Event!')
       end
     end
   end

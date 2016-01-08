@@ -18,7 +18,7 @@ RSpec.describe 'mailer previews' do
   end
 
   before do
-    Seeder::seed_event(students_per_level_range: (1..1))
+    Seeder.seed_event(students_per_level_range: (1..1))
   end
 
   it 'has a preview for every devise mail' do

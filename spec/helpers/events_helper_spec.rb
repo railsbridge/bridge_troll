@@ -40,9 +40,9 @@ describe EventsHelper do
     end
 
     context "when called with an event occuring across two years" do
-       before(:each) do
-        @event = event_for_dates( DateTime.parse('2013-12-30'), 
-                                  DateTime.parse('2014-01-02'))
+      before(:each) do
+        @event = event_for_dates(DateTime.parse('2013-12-30'),
+                                 DateTime.parse('2014-01-02'))
       end
 
 

@@ -1,0 +1,199 @@
+Lint/BlockAlignment:
+  Exclude:
+    - 'lib/tasks/db.rake'
+
+Lint/EndAlignment:
+  Enabled: false
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+Lint/UnusedBlockArgument:
+  Enabled: false
+
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Lint/UselessAssignment:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 160
+
+Metrics/ClassLength:
+  Max: 500
+
+Metrics/CyclomaticComplexity:
+  Max: 11
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Max: 12
+
+Performance/Count:
+  Enabled: false
+
+Performance/Detect:
+  Enabled: false
+
+Performance/StringReplacement:
+  Enabled: false
+
+Style/AccessorMethodName:
+  Enabled: false
+
+Style/AlignArray:
+  Enabled: false
+
+Style/AlignHash:
+  Enabled: false
+
+Style/AlignParameters:
+  Enabled: false
+
+Style/BlockDelimiters:
+  Enabled: false
+
+Style/BlockEndNewline:
+  Enabled: false
+
+Style/BracesAroundHashParameters:
+  Enabled: false
+
+Style/CaseIndentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/ClosingParenthesisIndentation:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/DotPosition:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/ElseAlignment:
+  Enabled: false
+
+Style/EmptyLines:
+  Enabled: false
+
+Style/EmptyLinesAroundBlockBody:
+  Enabled: false
+
+Style/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/EmptyLinesAroundMethodBody:
+  Enabled: false
+
+Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Style/ExtraSpacing:
+  Exclude:
+    - 'bin/setup'
+    - 'config.ru'
+    - 'db/migrate/20131210054655_init_schema.rb'
+    - 'db/schema.rb'
+
+Style/GuardClause:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/IndentationWidth:
+  Enabled: false
+
+Style/IndentHash:
+  EnforcedStyle: consistent
+
+Style/Lambda:
+  Enabled: false
+
+Style/LeadingCommentSpace:
+  Enabled: false
+
+Style/MethodDefParentheses:
+  Enabled: false
+
+Style/MultilineBlockLayout:
+  Enabled: false
+
+Style/MultilineOperationIndentation:
+  Enabled: false
+
+Style/NumericLiterals:
+  MinDigits: 15
+
+Style/ParallelAssignment:
+  Enabled: false
+
+Style/PredicateName:
+  Enabled: false
+
+Style/RedundantReturn:
+  Enabled: false
+
+Style/SelfAssignment:
+  Enabled: false
+
+Style/SignalException:
+  Enabled: false
+
+Style/SpaceAroundEqualsInParameterDefault:
+  Enabled: false
+
+Style/SpaceAroundOperators:
+  Enabled: false
+
+Style/SpaceBeforeBlockBraces:
+  Enabled: false
+
+Style/SpaceInsideBlockBraces:
+  Enabled: false
+
+Style/SpaceInsideBrackets:
+  Enabled: false
+
+Style/SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+Style/SpaceInsideParens:
+  Enabled: false
+
+Style/SingleSpaceBeforeFirstArg:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/TrailingBlankLines:
+  Enabled: false
+
+Style/TrailingComma:
+  Enabled: false
+
+Style/TrailingWhitespace:
+  Enabled: false
+
+Style/WordArray:
+  MinSize: 3
