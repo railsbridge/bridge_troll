@@ -128,6 +128,16 @@ class Rsvp < ActiveRecord::Base
     restrictions.join(', ')
   end
 
+  def dietary_restriction_diets
+    self.dietary_restrictions.map(&:restriction)
+  end
+
+  def dietary_restriction_diets=(diets)
+    self.dietary_restrictions = diets.map do |diet|
+      DietaryRestriction.new(restriction: diet)
+    end
+  end
+
   def no_show?
     return false if event.historical?
     return false if event.upcoming?

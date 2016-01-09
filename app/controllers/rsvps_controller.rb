@@ -37,8 +37,6 @@ class RsvpsController < ApplicationController
         @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0 ) + 1
       end
 
-      set_dietary_restrictions(@rsvp, params[:dietary_restrictions])
-
       if @rsvp.save
         apply_other_changes_from_params
 
@@ -63,7 +61,6 @@ class RsvpsController < ApplicationController
   end
 
   def update
-    set_dietary_restrictions(@rsvp, params[:dietary_restrictions])
     if @rsvp.update_attributes(rsvp_params)
       apply_other_changes_from_params
 
@@ -123,7 +120,9 @@ class RsvpsController < ApplicationController
 
   def rsvp_params
     role_id = params[:rsvp][:role_id].to_i
-    params.require(:rsvp).permit(Rsvp::PERMITTED_ATTRIBUTES + [event_session_ids: []]).tap do |params|
+    params.require(:rsvp).permit(Rsvp::PERMITTED_ATTRIBUTES + [
+      event_session_ids: [], dietary_restriction_diets: []
+    ]).tap do |params|
       if role_id == Role::STUDENT.id
         user_choices = Array(params[:event_session_ids]).select(&:present?).map(&:to_i)
         required_sessions = @event.event_sessions.where(required_for_students: true).pluck(:id)
@@ -132,14 +131,6 @@ class RsvpsController < ApplicationController
       if @event.event_sessions.length == 1
         params[:event_session_ids] = [@event.event_sessions.first.id]
       end
-    end
-  end
-
-  def set_dietary_restrictions(rsvp, restrictions_params)
-    restrictions_params ||= {}
-
-    rsvp.dietary_restrictions = restrictions_params.keys.map do |diet|
-      DietaryRestriction.new(restriction: diet)
     end
   end
 

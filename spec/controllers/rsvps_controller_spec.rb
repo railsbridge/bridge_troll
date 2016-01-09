@@ -512,9 +512,9 @@ describe RsvpsController do
       describe "dietary restriction information" do
         context "when a dietary restriction is checked" do
           it "adds a dietary restriction" do
+            all_rsvp_params = @rsvp_params.merge(dietary_restriction_diets: ['vegan'])
             expect {
-              post :create, event_id: @event.id, rsvp: @rsvp_params,
-                   dietary_restrictions: { vegan: "1" }, user: { gender: "human" }
+              post :create, event_id: @event.id, rsvp: all_rsvp_params, user: { gender: "human" }
             }.to change { DietaryRestriction.count }.by(1)
 
             expect(Rsvp.last.dietary_restrictions.map(&:restriction)).to eq(["vegan"])
