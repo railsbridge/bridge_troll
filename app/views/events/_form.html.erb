@@ -26,12 +26,11 @@
     <div>
       <%= f.label :location_id %>
     </div>
-    <%= collection_select(:event,
-                          :location_id,
-                          Location.available,
-                          :id,
-                          :name_with_region,
-                          {prompt: true}) %>
+    <%= f.collection_select(:location_id,
+                            Location.available,
+                            :id,
+                            :name_with_region,
+                            {prompt: true}) %>
     <script>
       $('#event_location_id').select2();
     </script>
@@ -44,12 +43,11 @@
     <div>
       <%= f.label :chapter_id %>
     </div>
-    <%= collection_select(:event,
-                          :chapter_id,
-                          Chapter.all,
-                          :id,
-                          :name,
-                          {prompt: true}) %>
+    <%= f.collection_select(:chapter_id,
+                            Chapter.all,
+                            :id,
+                            :name,
+                            {prompt: true}) %>
     <script>
       $('#event_chapter_id').select2();
     </script>
@@ -62,7 +60,7 @@
     <div>
       <%= f.label :course_id %>
     </div>
-    <%= collection_select :event, :course_id, Course.all, :id, :title, {}, {class: 'form-control'} %>
+    <%= f.collection_select(:course_id, Course.all, :id, :title, {}, {class: 'form-control'}) %>
   </div>
 
   <div class="field workshop-only">
