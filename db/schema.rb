@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151210035820) do
+ActiveRecord::Schema.define(version: 20160110000811) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -67,9 +67,11 @@ ActiveRecord::Schema.define(version: 20151210035820) do
     t.string   "name",                                  null: false
     t.boolean  "required_for_students", default: true
     t.boolean  "volunteers_only",       default: false
+    t.integer  "location_id"
   end
 
   add_index "event_sessions", ["event_id", "name"], name: "index_event_sessions_on_event_id_and_name", unique: true
+  add_index "event_sessions", ["location_id"], name: "index_event_sessions_on_location_id"
 
   create_table "events", force: :cascade do |t|
     t.string   "title"
@@ -293,6 +295,7 @@ ActiveRecord::Schema.define(version: 20151210035820) do
   add_foreign_key "event_emails", "events"
   add_foreign_key "event_emails", "users", column: "sender_id"
   add_foreign_key "event_sessions", "events"
+  add_foreign_key "event_sessions", "locations"
   add_foreign_key "events", "chapters"
   add_foreign_key "events", "locations"
   add_foreign_key "external_events", "chapters"

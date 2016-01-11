@@ -76,7 +76,6 @@ describe "the event listing page" do
         expect(page).to have_content good_event_title
         expect(page).to have_content("My Amazing Session")
         expect(page).to have_content("This event currently has no location!")
-        expect(page).to have_content("1/12/2055")
         expect(page).to have_content(Course.find_by_name('RAILS').description.split('.')[0])
 
         visit events_path

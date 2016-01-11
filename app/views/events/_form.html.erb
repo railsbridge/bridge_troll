@@ -7,12 +7,12 @@
   <div class="field non-bolded">
     <div>
       <%= label_tag do %>
-        <%= f.radio_button :allow_student_rsvp, true, data: {'toggle-target' => 'workshop-only', 'toggle-show-when' => true} %> Students and Volunteers (normal workshop)
+        <%= f.radio_button :allow_student_rsvp, true, data: {'toggle-target' => '.workshop-only', 'toggle-show-when' => true} %> Students and Volunteers (normal workshop)
       <% end %>
     </div>
     <div>
       <%= label_tag do %>
-        <%= f.radio_button :allow_student_rsvp, false, data: {'toggle-target' => 'workshop-only', 'toggle-show-when' => true} %> Just Volunteers (work party, teacher
+        <%= f.radio_button :allow_student_rsvp, false, data: {'toggle-target' => '.workshop-only', 'toggle-show-when' => true} %> Just Volunteers (work party, teacher
         training)
       <% end %>
     </div>
@@ -27,7 +27,7 @@
       <%= f.label :location_id %>
     </div>
     <%= f.collection_select(:location_id,
-                            Location.available,
+                            Location.includes(:region).available,
                             :id,
                             :name_with_region,
                             {prompt: true}) %>
@@ -86,7 +86,7 @@
     <div class="question">
       <%= f.label :restrict_operating_systems do %>
         <%= f.check_box :restrict_operating_systems,
-                        'data-toggle-target' => 'allowed-operating-systems-wrapper',
+                        'data-toggle-target' => '.allowed-operating-systems-wrapper',
                         'data-toggle-show-when' => '1' %>
         Do you want to restrict the operating systems students should use?
       <% end %>
@@ -152,6 +152,18 @@
         <%= event_sessions_form.label :volunteers_only do %>
           <%= event_sessions_form.check_box :volunteers_only, class: 'exclusive-checkbox' %> Volunteers Only!
         <% end %>
+      </div>
+      <%= event_sessions_form.label :location_overridden do %>
+        <%= event_sessions_form.check_box :location_overridden, class: 'session-location-toggle' %>
+        This session takes place at a different location
+      <% end %>
+      <div>
+        <%= event_sessions_form.collection_select(:location_id,
+                                                  Location.includes(:region).available,
+                                                  :id,
+                                                  :name_with_region,
+                                                  {prompt: true},
+                                                  {class: 'session-location-select'}) %>
       </div>
     <% end %>
     <%= f.link_to_add :event_sessions, class: 'btn btn-info' do %>
@@ -265,7 +277,7 @@
 
       <%= label_tag :coc, class: 'question' do %>
         <strong><%= check_box_tag :coc, '1', params[:coc], data: {
-          'toggle-target' => 'coc-required',
+          'toggle-target' => '.coc-required',
           'toggle-enable-when-checked' => true
         } %>
           I accept the <%= link_to 'Code of Conduct', Event::DEFAULT_CODE_OF_CONDUCT_URL, target: :blank, id: 'coc_url' %> and will communicate it at the beginning of the event.

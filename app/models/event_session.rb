@@ -1,5 +1,9 @@
 class EventSession < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:starts_at, :ends_at, :name, :required_for_students, :volunteers_only]
+  include PresenceTrackingBoolean
+
+  PERMITTED_ATTRIBUTES = [:starts_at, :ends_at, :name, :required_for_students, :volunteers_only, :location_overridden, :location_id]
+
+  belongs_to :location, required: false
 
   validates_presence_of :starts_at, :ends_at, :name
   validates_uniqueness_of :name, scope: [:event_id]
@@ -25,6 +29,8 @@ class EventSession < ActiveRecord::Base
 
   after_save :update_event_times
   after_destroy :update_event_times
+
+  add_presence_tracking_boolean(:location_overridden, :location_id)
 
   def update_event_times
     return unless event

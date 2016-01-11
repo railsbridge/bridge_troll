@@ -8,7 +8,7 @@ setUpToggles = ->
   inputChanged = ->
     $input = $(this)
     selector = $input.data('toggle-target')
-    $togglables = $(".#{selector}")
+    $togglables = $(selector)
 
     if $input.data('toggle-show-when')
       visibleValue = $input.data('toggle-show-when').toString()

@@ -128,7 +128,7 @@
                     as: :boolean,
                     label: 'Do you need childcare?',
                     input_html: {
-                      'data-toggle-target' => 'childcare-info-wrapper',
+                      'data-toggle-target' => '.childcare-info-wrapper',
                       'data-toggle-show-when' => '1'
                     } %>
       </div>
@@ -157,7 +157,7 @@
       <div class="checkbox">
         <%= label_tag :coc, class: 'question' do %>
           <%= check_box_tag :coc, '1', params[:coc], data: {
-            'toggle-target' => 'coc-required',
+            'toggle-target' => '.coc-required',
             'toggle-enable-when-checked' => true
           } %> I accept the <%= link_to 'Code of Conduct', @event.code_of_conduct_url, target: :blank %>
         <% end %>

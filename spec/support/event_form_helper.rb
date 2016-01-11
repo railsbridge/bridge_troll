@@ -14,8 +14,9 @@ module EventFormHelper
     select "(GMT-09:00) Alaska", from: 'event_time_zone'
   end
 
-  def fill_in_event_time
-    fill_in "event_event_sessions_attributes_0_session_date", with: '2055-01-12'
+  def fill_in_event_time(date = 1.month.from_now)
+    datepicker_id = find('.datepicker')['id']
+    fill_in datepicker_id, with: date.strftime('%Y-%m-%d')
 
     start_time_selects = all('.start_time')
     start_time_selects[0].select "03 PM"

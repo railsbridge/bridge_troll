@@ -1,4 +1,6 @@
 class Rsvp < ActiveRecord::Base
+  include PresenceTrackingBoolean
+
   PERMITTED_ATTRIBUTES = [:subject_experience, :teaching, :taing, :teaching_experience, :teaching_experience, :childcare_info, :operating_system_id, :job_details, :class_level, :dietary_info, :needs_childcare, :plus_one_host]
 
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
@@ -58,6 +60,8 @@ class Rsvp < ActiveRecord::Base
   belongs_to_active_hash :volunteer_assignment
   belongs_to_active_hash :operating_system
   belongs_to_active_hash :volunteer_preference
+
+  add_presence_tracking_boolean(:needs_childcare, :childcare_info)
 
   def set_defaults
     if has_attribute?(:token)
@@ -197,27 +201,6 @@ class Rsvp < ActiveRecord::Base
 
   def waitlisted?
     !!waitlist_position
-  end
-
-  def needs_childcare?
-    @needs_childcare = childcare_info.present? if @needs_childcare.nil?
-    @needs_childcare
-  end
-
-  alias_method :needs_childcare, :needs_childcare?
-
-  def needs_childcare= needs_childcare
-    needs_childcare = needs_childcare == '1' if needs_childcare.is_a? String
-
-    @needs_childcare = needs_childcare
-    self.childcare_info = nil unless needs_childcare
-    needs_childcare
-  end
-
-  before_save do
-    unless needs_childcare?
-      self.childcare_info = nil
-    end
   end
 
   def self.attendances_for(user_type)

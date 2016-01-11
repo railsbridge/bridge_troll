@@ -79,7 +79,6 @@ describe "New Event" do
 
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do
     fill_in_good_event_details
-    fill_in 'event_target_audience', with: "women"
 
     check('Do you want to restrict the operating systems students should use?')
     uncheck('Linux - Other')
@@ -136,7 +135,6 @@ describe "New Event" do
     end
   end
 
-
   context 'after clicking "Add another session"', js: true do
     before do
       click_on 'Add another session'
@@ -149,6 +147,36 @@ describe "New Event" do
       expect(page).to have_selector('.event-sessions > .fields', count: 1)
 
       expect(page).to have_selector(:link, 'Remove Session', visible: false)
+    end
+  end
+
+  describe 'session location assignment', js: true do
+    let!(:event_location) { create(:location) }
+    let!(:session_location) { create(:location) }
+
+    it 'can set a different location for certain sessions' do
+      visit "/events/new"
+
+      fill_in_good_event_details
+      select event_location.name_with_region, from: "event_location_id"
+      click_on 'Add another session'
+
+      within all('.event-sessions > .fields').last do
+        fill_in "Session Name", with: 'The Second Session'
+        fill_in_event_time(2.months.from_now)
+
+        check "This session takes place at a different location"
+        session_location_select_id = page.find('.session-location-select')['id']
+        select session_location.name_with_region, from: session_location_select_id
+      end
+
+      check("coc")
+      click_on 'Submit Event For Approval'
+
+      expect(page).to have_css('.alert-success')
+      expect(Event.last.location).to eq(event_location)
+      expect(Event.last.event_sessions.first.location).to be_nil
+      expect(Event.last.event_sessions.last.location).to eq(session_location)
     end
   end
 
@@ -166,7 +194,6 @@ describe "New Event" do
 
     it 'allows a draft to be saved' do
       fill_in_good_event_details
-      fill_in 'event_target_audience', with: "women"
       choose('event_email_on_approval_false')
       expect(page).to have_button 'Save Draft'
       click_on 'Save Draft'

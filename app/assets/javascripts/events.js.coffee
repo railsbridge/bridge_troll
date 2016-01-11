@@ -29,6 +29,14 @@ setUpExclusiveCheckboxes = ($el) ->
         if (checkbox.id != e.target.id)
           $(checkbox).prop('checked', false)
 
+setupSessionLocation = (sessionElement) ->
+  setSessionLocationVisibility = () ->
+    $(this).closest('.fields').find('.select2').toggleClass('hidden', !this.checked)
+
+  sessionElement.find('.session-location-select').select2()
+  sessionElement.find('.session-location-toggle').each(setSessionLocationVisibility)
+  sessionElement.find('.session-location-toggle').on('change', setSessionLocationVisibility)
+
 setupRemoveSessions = ->
   if $('.remove-session').length
     $(document).on 'click', '.remove-session > a', (e)->
@@ -43,9 +51,12 @@ setupRemoveSessions = ->
         .attr('href', '#')
         .removeAttr('data-method')
         .removeAttr('data-confirm')
+      setupSessionLocation(e.field)
 
 jQuery ->
   setupRemoveSessions()
+  $('.event-sessions .fields').each (ix, element) ->
+    setupSessionLocation($(element))
 
   $.datepicker.setDefaults
     dateFormat: 'yy-mm-dd'
