@@ -2,12 +2,29 @@ require 'rails_helper'
 
 describe IcsGenerator do
   describe '#event_session_ics' do
-    let(:event) { build(:event, title: 'Test Event', location: build(:location, name: 'Office Labs')) }
-    let(:event_session) { double(event: event, starts_at: Date.tomorrow, ends_at: Date.tomorrow, name: 'Best Session!') }
+    let(:event_location) { create(:location, name: 'Office Labs') }
+    let(:event) { create(:event, title: 'Test Event', location: event_location) }
+    let(:event_session) { event.event_sessions.first }
 
-    it 'delegates to Icalendar' do
-      expect(IcsGenerator::Calendar).to receive(:new).and_call_original
-      IcsGenerator.new.event_session_ics(event_session)
+    context 'when the session has no location set' do
+      it 'generates a calendar event for the event location' do
+        expect(IcsGenerator::Calendar).to receive(:new).and_call_original
+        ics_text = IcsGenerator.new.event_session_ics(event_session)
+        expect(ics_text).to include(event_location.name)
+      end
+    end
+
+    context 'when the session has a location set' do
+      let(:session_location) { create(:location) }
+      before do
+        event_session.update_attribute(:location, session_location)
+      end
+
+      it 'generates a calendar event for the session location' do
+        expect(IcsGenerator::Calendar).to receive(:new).and_call_original
+        ics_text = IcsGenerator.new.event_session_ics(event_session)
+        expect(ics_text).to include(session_location.name)
+      end
     end
   end
 end

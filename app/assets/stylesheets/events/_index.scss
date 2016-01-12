@@ -77,4 +77,8 @@
       margin-top: 3px;
     }
   }
+
+  .event-session-location:not(:last-child) {
+    padding-bottom: 10px;
+  }
 }

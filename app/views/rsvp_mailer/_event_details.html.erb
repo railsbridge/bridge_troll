@@ -1,4 +1,4 @@
-<% if @rsvp.event.location %>
+<% if @rsvp.event.location && !@rsvp.event.has_multiple_locations? %>
   <p><%= @rsvp.event.title %> will be held at:
     <%= pretty_print_address(@rsvp.event.location) %>
   </p>
@@ -7,7 +7,12 @@
 You'll be <%= verb(@rsvp.role) %> <%= pluralize(@rsvp.rsvp_sessions.count, 'session') %>:
 <ul>
   <% @rsvp.rsvp_sessions.each do |s| %>
-    <li><%= pretty_print_session(s.event_session) %></li>
+    <li>
+      <%= pretty_print_session(s.event_session) %>
+      <% if @rsvp.event.has_multiple_locations? %>
+        <%= render 'event_mailer/session_location_detail', location: s.event_session.true_location %>
+      <% end %>
+    </li>
   <% end %>
 </ul>
 

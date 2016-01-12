@@ -9,14 +9,20 @@
   <div class='event-times'>
     <% event.event_sessions.each_with_index do |session, index| %>
       <i class='fa fa-calendar'></i><%= formatted_session_fancy_date(session) %><% if index < event.event_sessions.length - 1 %><br /><% end %>
+      <% if event.has_multiple_locations? %>
+        <div class='event-session-location'>
+          <i class='fa fa-map-marker'></i><%= session.true_location.name %>,
+          <%= [session.true_location.city, session.true_location.state].select(&:present?).join(', ') %>
+        </div>
+      <% end %>
     <% end %>
   </div>
-  <div class='event-location'>
-    <% if event.location %>
+  <% if event.location && !event.has_multiple_locations? %>
+    <div class='event-location'>
       <i class='fa fa-map-marker'></i><%= event.location.name %>,
       <%= [event.location.city, event.location.state].select(&:present?).join(', ') %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
   <div class='event-counts'>
     <div>
       <i class='fa fa-user'></i>Volunteers: <%= event.volunteer_rsvps_count %> 

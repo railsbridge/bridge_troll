@@ -1,6 +1,6 @@
 <div class="gmaps4rails_map" id="gmaps4rails_map"></div>
 <%
-  markers = Gmaps4rails.build_markers([location]) do |location, marker|
+  markers = Gmaps4rails.build_markers(locations) do |location, marker|
     marker.lat location.latitude
     marker.lng location.longitude
   end
@@ -13,6 +13,8 @@
     var markers = handler.addMarkers(<%=raw markers.to_json %>);
     handler.bounds.extendWith(markers);
     handler.fitMapToBounds();
-    handler.getMap().setZoom(15);
+    <% if locations.length == 1 %>
+      handler.getMap().setZoom(15);
+    <% end %>
   });
 </script>

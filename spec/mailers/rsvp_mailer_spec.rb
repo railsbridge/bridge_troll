@@ -21,6 +21,15 @@ describe RsvpMailer do
         expect(mail.body).to include(event.location.name)
       end
 
+      it "includes both locations for a multi-location event" do
+        event_session = create(:event_session, event: event, location: create(:location))
+        create(:rsvp_session, rsvp: rsvp, event_session: event_session)
+        rsvp.reload
+
+        expect(mail.body).to include(event_session.location.name)
+        expect(mail.body).to include(event.location.name)
+      end
+
       it_behaves_like 'a mailer view'
     end
 

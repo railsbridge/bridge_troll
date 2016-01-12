@@ -32,6 +32,10 @@ class EventSession < ActiveRecord::Base
 
   add_presence_tracking_boolean(:location_overridden, :location_id)
 
+  def true_location
+    location || event.location
+  end
+
   def update_event_times
     return unless event
 

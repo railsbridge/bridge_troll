@@ -1,12 +1,21 @@
 require 'rails_helper'
 
 describe "the event listing page" do
-  it "listing should show blank Location if no location_id exists" do
+  it "show blanks Location if no location_id exists" do
     event = create(:event, location_id: nil, title: 'mytitle')
     create(:event_session, event: event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
 
     visit events_path
     expect(page).to have_content('Upcoming events')
+  end
+
+  it "shows both locations for multiple-location events" do
+    event = create(:event, location: create(:location, name: 'Primary Location'))
+    create(:event_session, event: event, location: create(:location, name: 'Secondary Location'))
+
+    visit events_path
+    expect(page).to have_content('Primary Location')
+    expect(page).to have_content('Secondary Location')
   end
 
   it "listing should show formatted dates" do

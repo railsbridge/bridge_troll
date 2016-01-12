@@ -77,6 +77,14 @@ class Event < ActiveRecord::Base
     "#{location.city}, #{location.state}"
   end
 
+  def all_locations
+    ([location] + event_sessions.includes(:location).map(&:location)).compact
+  end
+
+  def has_multiple_locations?
+    all_locations.length > 1
+  end
+
   def rsvps_with_childcare
     rsvps.confirmed.needs_childcare
   end

@@ -19,6 +19,7 @@ RSpec.describe 'mailer previews' do
 
   before do
     Seeder.seed_event(students_per_level_range: (1..1))
+    Seeder.seed_multiple_location_event
   end
 
   it 'has a preview for every devise mail' do
@@ -48,7 +49,7 @@ RSpec.describe 'mailer previews' do
         preview_class = find_preview_class(mailer_class)
 
         mailer_class.instance_methods(false).each do |mailer_method|
-          expect(mailer_class).to receive(mailer_method)
+          expect(mailer_class).to receive(mailer_method).at_least(:once)
         end
 
         preview_class.instance_methods(false).each do |preview_method|

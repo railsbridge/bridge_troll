@@ -17,13 +17,15 @@
 
 <div class="row">
   <div class="col-md-8">
-    <div class="critical-details">
-      <% if @event.location %>
-        <%= link_to pretty_print_address(@event.location), location_map_link(@event.location) %>
-      <% else %>
-        This event currently has no location!
-      <% end %>
-    </div>
+    <% unless @event.has_multiple_locations? %>
+      <div class="location-text">
+        <% if @event.location %>
+          <%= link_to pretty_print_address(@event.location), location_map_link(@event.location) %>
+        <% else %>
+          This event currently has no location!
+        <% end %>
+      </div>
+    <% end %>
 
     <div class='session-display'>
       <% @event.event_sessions.each do |event_session| %>
@@ -43,6 +45,11 @@
               <i class="fa fa-calendar-plus-o"></i> Export to Google Calendar
             <% end %>
           </div>
+          <% if @event.has_multiple_locations? %>
+            <div class='location-text' style="margin-top: 10px;">
+              <%= link_to pretty_print_address(event_session.true_location), location_map_link(event_session.true_location) %>
+            </div>
+          <% end %>
         </div>
       <% end %>
     </div>
@@ -76,7 +83,7 @@
 
     <div class='location-display'>
       <% if @event.location.present? && !Rails.env.test? %>
-        <%= render "shared/map", location: @event.location %>
+        <%= render "shared/map", locations: @event.all_locations %>
       <% end %>
     </div>
 

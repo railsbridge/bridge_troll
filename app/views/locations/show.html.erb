@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col-md-4">
-    <%= render "shared/map", location: @location %>
+    <%= render "shared/map", locations: [@location] %>
   </div>
   <div class="col-md-8">
     <% if @location.archived_at.present? %>

@@ -43,6 +43,15 @@ describe "the individual event page" do
       expect(page).not_to have_content(@event.student_details)
     end
 
+    it "shows both locations for multiple-location events" do
+      session_location = create(:location)
+      create(:event_session, event: @event, location: session_location)
+
+      visit event_path(@event)
+      expect(page).to have_content(@event.location.name)
+      expect(page).to have_content(session_location.name)
+    end
+
     describe "course section" do
       let(:chosen_course_text) { "The focus will be on " }
 
