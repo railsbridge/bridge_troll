@@ -94,4 +94,16 @@ describe 'Locations' do
     visit edit_location_path(@location.id)
     expect(page).to have_content("You need to sign in or sign up before continuing")
   end
+
+  describe 'the location show page' do
+    let(:event) { create(:event) }
+    let(:session_location) { create(:location) }
+    let!(:event_session) { create(:event_session, event: event, location: session_location) }
+
+    it 'shows events for which the location was used as a session location' do
+      visit location_path(session_location)
+
+      expect(page).to have_content(event.title)
+    end
+  end
 end

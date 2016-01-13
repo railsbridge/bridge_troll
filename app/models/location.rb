@@ -55,6 +55,11 @@ class Location < ActiveRecord::Base
     archived_at.present?
   end
 
+  def all_events
+    session_location_event_ids = EventSession.where(location_id: id).pluck(:event_id)
+    Event.where(id: events.pluck(:id) + session_location_event_ids)
+  end
+
   def as_json(options = {})
     {
       name: name,
