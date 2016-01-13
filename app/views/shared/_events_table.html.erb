@@ -5,6 +5,7 @@
     <th class='date'>Date</th>
     <th>Venue</th>
     <th>City</th>
+    <th>Organizers</th>
   </tr>
   </thead>
 
@@ -34,6 +35,17 @@
         <td></td>
         <td></td>
       <% end %>
+      <td>
+        <% if event.organizers.is_a? (ActiveRecord::Relation) %>
+          <% event.organizers.each do |organizer| %>
+            <%= link_to user_profile_path(organizer.id) do  %>
+              <%= organizer.first_name  %>
+              <%= organizer.last_name  %>
+            <% end %>
+            <br>
+          <% end %>
+        <% end %>
+      </td>
     </tr>
   <% end %>
   </tbody>
