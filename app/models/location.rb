@@ -4,6 +4,7 @@ class Location < ActiveRecord::Base
   scope :available, -> { where(archived_at: nil) }
   has_many :events
   belongs_to :region, counter_cache: true
+  has_many :event_sessions
 
   validates_presence_of :name, :address_1, :city, :region
   unless Rails.env.test?
@@ -56,8 +57,7 @@ class Location < ActiveRecord::Base
   end
 
   def all_events
-    session_location_event_ids = EventSession.where(location_id: id).pluck(:event_id)
-    Event.where(id: events.pluck(:id) + session_location_event_ids)
+    Event.where(id: events.pluck(:id) + event_sessions.pluck(:event_id))
   end
 
   def as_json(options = {})
@@ -74,10 +74,11 @@ class Location < ActiveRecord::Base
   end
 
   def most_recent_event_date
-    if events.present?
-      events.order(starts_at: :desc).first.starts_at.strftime("%b %d, %Y")
+    relevant_events = (events + event_sessions.map(&:event)).compact
+    if relevant_events.present?
+      relevant_events.sort_by { |e| e.starts_at }.last.starts_at.strftime("%b %d, %Y")
     else
-      events = "No events found."
+      "No events found."
     end
   end
 end

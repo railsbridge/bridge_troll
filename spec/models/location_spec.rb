@@ -144,5 +144,15 @@ describe Location do
 
       expect(most_recent_date).to eq(date)
     end
+
+    describe 'when a location was used only as a session location' do
+      it "returns the date of that session's event" do
+        session_location = create(:location)
+        event = create(:event)
+        create(:event_session, event: event, location: session_location)
+
+        expect(session_location.most_recent_event_date).to eq(event.starts_at.strftime("%b %d, %Y"))
+      end
+    end
   end
 end

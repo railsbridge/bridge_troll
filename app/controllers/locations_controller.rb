@@ -3,7 +3,7 @@ class LocationsController < ApplicationController
   before_action :assign_location, only: [:show, :edit, :update, :destroy]
 
   def index
-    @locations = Location.all.includes(:events)
+    @locations = Location.all.includes(:events, :event_sessions)
   end
 
   def show
