@@ -14,7 +14,10 @@ class Event < ActiveRecord::Base
     WaitlistManager.new(event).reorder_waitlist!
   end
 
-  belongs_to :location, counter_cache: true
+  after_save :update_location_counts
+  after_destroy :update_location_counts
+
+  belongs_to :location
   belongs_to :chapter, counter_cache: true
 
   extend ActiveHash::Associations::ActiveRecordExtensions
@@ -336,7 +339,6 @@ class Event < ActiveRecord::Base
 
   private
 
-
   DEFAULT_DETAIL_FILES = Dir[Rails.root.join('app', 'models', 'event_details', '*.html')]
   DEFAULT_DETAILS = DEFAULT_DETAIL_FILES.each_with_object({}) do |f, hsh|
     hsh[File.basename(f)] = File.read(f)
@@ -367,6 +369,13 @@ class Event < ActiveRecord::Base
       self.allowed_operating_system_ids.map! do |id|
         id.try(:match, /\A\d+\z/) ? Integer(id) : id
       end
+    end
+  end
+
+  def update_location_counts
+    location.try(:reset_events_count)
+    if location_id_changed? && location_id_was
+      Location.find(location_id_was).reset_events_count
     end
   end
 end

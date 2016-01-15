@@ -81,4 +81,8 @@ class Location < ActiveRecord::Base
       "No events found."
     end
   end
+
+  def reset_events_count
+    update_column(:events_count, all_events.count)
+  end
 end

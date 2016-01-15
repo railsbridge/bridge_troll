@@ -30,6 +30,9 @@ class EventSession < ActiveRecord::Base
   after_save :update_event_times
   after_destroy :update_event_times
 
+  after_save :update_counter_cache
+  after_destroy :update_counter_cache
+
   add_presence_tracking_boolean(:location_overridden, :location_id)
 
   def true_location
@@ -67,5 +70,12 @@ class EventSession < ActiveRecord::Base
 
   def has_rsvps?
     persisted? && rsvps.count > 0
+  end
+
+  def update_counter_cache
+    location.try(:reset_events_count)
+    if location_id_changed? && location_id_was
+      Location.find(location_id_was).reset_events_count
+    end
   end
 end
