@@ -39,13 +39,13 @@ class WaitlistManager
 
   def restripe_student_waitlist!
     event.student_waitlist_rsvps.reload.each_with_index do |rsvp, index|
-      rsvp.update_attribute(:waitlist_position, index + 1)
+      rsvp.update_column(:waitlist_position, index + 1)
     end
   end
 
   def restripe_volunteer_waitlist!
     event.volunteer_waitlist_rsvps.reload.each_with_index do |rsvp, index|
-      rsvp.update_attribute(:waitlist_position, index + 1)
+      rsvp.update_column(:waitlist_position, index + 1)
     end
   end
   
