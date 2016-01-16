@@ -70,7 +70,7 @@ group :test do
   gem 'capybara', '>= 2.0.1'
   gem "poltergeist"
   gem "launchy"
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', '~> 3.0.1'
   gem "faker"
   gem 'capybara-screenshot'
   # Remove after Rails 5: https://github.com/rails/rails/pull/18458
