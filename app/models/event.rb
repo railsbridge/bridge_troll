@@ -11,10 +11,15 @@ class Event < ActiveRecord::Base
   after_initialize :set_defaults
   before_validation :normalize_allowed_operating_system_ids
   after_save do |event|
-    WaitlistManager.new(event).reorder_waitlist!
+    if student_rsvp_limit_changed? || volunteer_rsvp_limit_changed?
+      WaitlistManager.new(event).reorder_waitlist!
+    end
   end
 
-  after_save :update_location_counts
+  after_create :update_location_counts
+  after_save do
+    update_location_counts if location_id_changed?
+  end
   after_destroy :update_location_counts
 
   belongs_to :location

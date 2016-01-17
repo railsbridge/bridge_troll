@@ -30,7 +30,10 @@ class EventSession < ActiveRecord::Base
   after_save :update_event_times
   after_destroy :update_event_times
 
-  after_save :update_counter_cache
+  after_create :update_counter_cache
+  after_save do
+    update_counter_cache if location_id_changed?
+  end
   after_destroy :update_counter_cache
 
   add_presence_tracking_boolean(:location_overridden, :location_id)
@@ -46,7 +49,7 @@ class EventSession < ActiveRecord::Base
     # following minimum/maximum statements return 'nil' when
     # initially creating an event and its session. Booo!
     event.reload
-    event.update_attributes(
+    event.update_columns(
       starts_at: event.event_sessions.minimum("event_sessions.starts_at"),
       ends_at: event.event_sessions.maximum("event_sessions.ends_at")
     )
