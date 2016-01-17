@@ -2,6 +2,12 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   force_ssl if: -> { Rails.env.production? }, unless: :allow_insecure?
 
+  before_action do
+    if current_user.try(:admin?)
+      Rack::MiniProfiler.authorize_request
+    end
+  end
+
   protect_from_forgery
 
   rescue_from(ActionView::MissingTemplate) do |e|

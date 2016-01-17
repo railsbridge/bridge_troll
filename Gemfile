@@ -24,6 +24,7 @@ gem 'rack-canonical-host'
 gem 'icalendar'
 gem 'pg' if ENV['FORCE_POSTGRES']
 gem 'sprockets-rails', '< 3.0' # https://github.com/leshill/handlebars_assets/issues/145
+gem 'rack-mini-profiler'
 
 group :production do
   gem 'pg'
@@ -52,7 +53,6 @@ group :development do
   gem "better_errors"
   gem "binding_of_caller"
   gem "byebug"
-  gem 'rack-mini-profiler'
 end
 
 group :test, :development do
