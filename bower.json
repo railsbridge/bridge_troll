@@ -1,0 +1,10 @@
+{
+  "name" : "bridge troll",
+  "dependencies": {
+    "DataTables": "1.10.10",
+    "select2": "4.0.1"
+  },
+  "devDependencies": {
+    "sinonjs": "1.17.1"
+  }
+}

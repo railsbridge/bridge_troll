@@ -7,8 +7,12 @@ before_install:
   - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
   - "rvm @global do gem uninstall bundler -x && gem install bundler"
 before_script:
+  - 'npm install -g bower'
+  - 'bundle exec rake bower:install:development'
   - "./config/before-travis.sh"
-script: "bundle exec rake && bundle exec rake jasmine:ci"
+script:
+  - "bundle exec rake"
+  - "bundle exec rake jasmine:ci"
 
 notifications:
   email: false

@@ -22,6 +22,17 @@ Dir.chdir APP_ROOT do
 
   system "gem install bundler --conservative"
   system "bundle check || bundle install --without production"
+
+  if `which npm`.empty?
+    puts <<-EOT
+      You don't have npm installed, which is needed to install bower.
+      Install npm by installing node.js from https://nodejs.org
+    EOT
+    exit 1
+  end
+  system "npm install -g bower"
+  system "rake bower:install"
+
   if `which phantomjs`.empty?
     puts <<-EOT.strip_heredoc
       You don't have phantomjs installed, which means you won't be able to run
