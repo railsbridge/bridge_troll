@@ -38,3 +38,7 @@ custom_plan.rb
 
 # Byebug
 .byebug_history
+
+# bower-rails
+vendor/assets/bower_components
+node_modules

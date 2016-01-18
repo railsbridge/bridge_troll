@@ -1,0 +1,8 @@
+{
+  "//": "This package.json currently only exists so Bower will be installed on Heroku",
+  "name": "bridge_troll",
+  "version": "0.0.0",
+  "dependencies": {
+    "bower": "^1.7.2"
+  }
+}

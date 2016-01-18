@@ -25,6 +25,7 @@ gem 'icalendar'
 gem 'pg' if ENV['FORCE_POSTGRES']
 gem 'sprockets-rails', '< 3.0' # https://github.com/leshill/handlebars_assets/issues/145
 gem 'rack-mini-profiler'
+gem 'bower-rails'
 
 group :production do
   gem 'pg'
@@ -75,13 +76,4 @@ group :test do
   gem 'capybara-screenshot'
   # Remove after Rails 5: https://github.com/rails/rails/pull/18458
   gem 'test_after_commit'
-end
-
-source 'https://rails-assets.org' do
-  gem 'rails-assets-DataTables'
-  gem 'rails-assets-select2'
-
-  group :test, :development do
-    gem 'rails-assets-sinonjs'
-  end
 end
