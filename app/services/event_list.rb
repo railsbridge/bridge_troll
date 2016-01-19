@@ -3,8 +3,9 @@ class EventList
   PAST = 'past'.freeze,
   ALL = 'all'.freeze,
 
-  def initialize(type = UPCOMING)
+  def initialize(type = UPCOMING, options = {})
     @type = type
+    @options = options
   end
 
   def as_json(options = {})
@@ -12,7 +13,15 @@ class EventList
   end
 
   def combined_events
-    bridgetroll_events.includes(:location, :event_sessions, :organizers, :legacy_organizers) + external_events
+    apply_options(bridgetroll_events).includes(:location, :event_sessions, :organizers, :legacy_organizers) + apply_options(external_events)
+  end
+
+  def apply_options(scope)
+    if @options[:organization_id]
+      scope.joins(chapter: :organization).where('organizations.id = ?', @options[:organization_id])
+    else
+      scope
+    end
   end
 
   private

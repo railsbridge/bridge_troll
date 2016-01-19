@@ -13,7 +13,7 @@ class EventsController < ApplicationController
         @past_events = EventList.new('past').combined_events
       end
       format.json do
-        render json: EventList.new(params[:type])
+        render json: EventList.new(params[:type], params.slice(:organization_id))
       end
     end
   end
