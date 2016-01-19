@@ -1,11 +1,14 @@
 <table class="<%= events.any? ? 'datatable-sorted' : '' %> table table-striped table-bordered table-condensed responsive-table">
   <thead>
+
   <tr>
     <th>Title</th>
     <th class='date'>Date</th>
     <th>Venue</th>
     <th>City</th>
-    <th>Organizers</th>
+    <% if @show_organizers %>
+      <th>Organizers</th>
+    <% end %>
   </tr>
   </thead>
 
@@ -35,17 +38,19 @@
         <td></td>
         <td></td>
       <% end %>
-      <td>
-        <% if event.organizers.is_a? (ActiveRecord::Relation) %>
-          <% event.organizers.each do |organizer| %>
-            <%= link_to user_profile_path(organizer.id) do  %>
-              <%= organizer.first_name  %>
-              <%= organizer.last_name  %>
+      <% if @show_organizers %>
+        <td>
+          <% if event.organizers.is_a? (ActiveRecord::Relation) %>
+            <% event.organizers.each do |organizer| %>
+              <%= link_to user_profile_path(organizer.id) do  %>
+                <%= organizer.first_name  %>
+                <%= organizer.last_name  %>
+              <% end %>
+              <br>
             <% end %>
-            <br>
           <% end %>
-        <% end %>
-      </td>
+        </td>
+      <% end %>
     </tr>
   <% end %>
   </tbody>

@@ -36,6 +36,32 @@ describe "the event listing page" do
     expect(page).to have_content("January 31, #{next_year}")
   end
 
+  it "should not show event organizers column" do
+    user_organizer = create(:user, email: "orgainzer@mail.com", first_name: "Sam", last_name: "Spade")
+    event = create(:event)
+    event.organizers << user_organizer
+
+    visit events_path
+
+    expect(page).to_not have_content('Organizers')
+  end
+
+  context "chapter show page" do
+    it 'should show organizers for each event' do
+      chapter = create(:chapter)
+      user_organizer = create(:user, email: "orgainzer@mail.com", first_name: "Sam", last_name: "Spade")
+      event = create(:event)
+      event.organizers << user_organizer
+      event.save!
+      chapter.events << event
+      chapter.save!
+
+      visit chapter_path(chapter.id)
+
+      expect(page).to have_content('Organizers')
+    end 
+  end 
+
   context 'as a non-logged in user', js: true do
     before do
       @user = create(:user)
