@@ -40,17 +40,7 @@
   </div>
 
   <div class="field">
-    <div>
-      <%= f.label :chapter_id %>
-    </div>
-    <%= f.collection_select(:chapter_id,
-                            Chapter.all,
-                            :id,
-                            :name,
-                            {prompt: true}) %>
-    <script>
-      $('#event_chapter_id').select2();
-    </script>
+    <%= render 'shared/chapter_select', f: f %>
     <p>
       <em>If your chapter isn't in this list, contact an admin to get it added before you continue.</em>
     </p>

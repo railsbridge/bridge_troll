@@ -4,7 +4,7 @@ class ExternalEvent < ActiveRecord::Base
   belongs_to :region, counter_cache: true
   belongs_to :chapter, counter_cache: true
 
-  validates_presence_of :name, :starts_at, :location
+  validates_presence_of :name, :starts_at
 
   def self.past
     where('ends_at < ?', Time.now.utc)

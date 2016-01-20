@@ -5,6 +5,10 @@
 
       <%= render 'shared/region_select', f: f %>
 
+      <div class="form-group">
+        <%= render 'shared/chapter_select', f: f %>
+      </div>
+
       <%= f.input :name %>
 
       <%= f.input :url, label: 'URL' %>

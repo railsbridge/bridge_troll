@@ -8,6 +8,7 @@
   <tr>
     <th>Name</th>
     <th>Region</th>
+    <th>Chapter</th>
     <th>Start/End</th>
     <th>City</th>
     <th>Location</th>
@@ -30,10 +31,15 @@
         <% end %>
       </td>
       <td>
+        <% if external_event.chapter %>
+          <%= link_to external_event.chapter.name, external_event.chapter %>
+        <% end %>
+      </td>
+      <td>
         <%= external_event.starts_at %><br><%= external_event.ends_at %>
       </td>
       <td><%= external_event.city %></td>
-      <td><%= external_event.location %></td>
+      <td><%= external_event.location.presence || 'N/A' %></td>
       <td><%= external_event.organizers %></td>
       <td>
         <%= link_to 'Edit', edit_external_event_path(external_event) %>
