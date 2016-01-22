@@ -11,6 +11,7 @@ class ChaptersController < ApplicationController
     @chapter_events = (
       @chapter.events.published_or_organized_by(current_user) + @chapter.external_events
     ).sort_by(&:ends_at)
+    @show_organizers = true
   end
 
   def new
