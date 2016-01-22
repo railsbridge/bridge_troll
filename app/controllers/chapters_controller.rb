@@ -9,7 +9,7 @@ class ChaptersController < ApplicationController
 
   def show
     @chapter_events = (
-      @chapter.events.published_or_organized_by(current_user) + @chapter.external_events
+      @chapter.events.includes(:organizers, :location).published_or_organized_by(current_user) + @chapter.external_events
     ).sort_by(&:ends_at)
     @show_organizers = true
   end
