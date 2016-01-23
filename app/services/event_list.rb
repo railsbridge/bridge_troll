@@ -9,11 +9,12 @@ class EventList
   end
 
   def as_json(options = {})
-    combined_events.sort_by { |e| e.starts_at.to_time }.as_json
+    all_events = bridgetroll_events.includes(*default_bridgetroll_event_includes).includes(:organization) + external_events.includes(:organization)
+    all_events.sort_by { |e| e.starts_at.to_time }.as_json
   end
 
   def combined_events
-    apply_options(bridgetroll_events).includes(:location, :event_sessions, :organizers, :legacy_organizers) + apply_options(external_events)
+    bridgetroll_events.includes(*default_bridgetroll_event_includes) + external_events
   end
 
   def apply_options(scope)
@@ -26,23 +27,31 @@ class EventList
 
   private
 
+  def default_bridgetroll_event_includes
+    [:location, :event_sessions, :organizers, :legacy_organizers]
+  end
+
   def bridgetroll_events
-    if @type == PAST
+    relation = if @type == PAST
       Event.past.published
     elsif @type == ALL
       Event.published
     else
       Event.upcoming.published
     end
+
+    apply_options(relation)
   end
 
   def external_events
-    if @type == PAST
+    relation = if @type == PAST
       ExternalEvent.past
     elsif @type == ALL
       ExternalEvent.all
     else
       ExternalEvent.upcoming
     end
+
+    apply_options(relation)
   end
 end
