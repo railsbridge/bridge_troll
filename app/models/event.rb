@@ -24,6 +24,7 @@ class Event < ActiveRecord::Base
 
   belongs_to :location
   belongs_to :chapter, counter_cache: true
+  has_one :organization, through: :chapter
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :course
@@ -331,6 +332,7 @@ class Event < ActiveRecord::Base
       volunteer_waitlist_rsvp_count: volunteer_waitlist_rsvps_count,
       student_rsvp_count: student_rsvps_count,
       student_waitlist_rsvp_count: student_waitlist_rsvps_count,
+      organization: organization.name
     )
   end
 
