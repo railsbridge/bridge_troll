@@ -31,6 +31,44 @@ class Events::OrganizerToolsController < ApplicationController
   end
 
   def diets
+    @count = 0
+    @rsvp_ids = []
+    @rsvp_dietary_infos = []
+    @vegetarian = 0
+    @vegan = 0
+    @gluten_free = 0
+    @dairy_free = 0
+    @event.rsvps.each do |rsvp|
+      if rsvp.rsvp_sessions.first != nil
+        if rsvp.rsvp_sessions.first.checked_in == true
+          @count += 1
+          @rsvp_ids << rsvp.id
+        else
+        end
+      else
+      end
+    end
+    @rsvp_ids.each do |id|
+      a = DietaryRestriction.find_by_rsvp_id(id)
+      b = Rsvp.find_by_id(id)
+      if a != nil
+        if a.restriction == "vegetarian"
+          @vegetarian += 1
+        elsif a.restriction == "vegan"
+          @vegan += 1
+        elsif a.restriction == "dairy-free"
+          @dairy_free += 1
+        elsif a.restriction == "gluten-free"
+          @gluten_free += 1
+        else
+        end
+      else
+      end
+      if b.dietary_info != nil
+        @rsvp_dietary_infos << b.dietary_info
+      else
+      end
+    end
   end
 
   def rsvp_preview

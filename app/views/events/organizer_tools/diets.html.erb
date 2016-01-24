@@ -3,6 +3,7 @@
 
 <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Food Preferences'} %>
 <div class='food-preferences'>
+  <span style="float: left">
   <h2>Total Attendees: <%= @event.rsvps.confirmed.count %></h2>
 
   <h2>Dietary Restrictions Totals</h2>
@@ -11,10 +12,31 @@
     <h3><%= "#{diet.capitalize}: #{totals[diet] || 0}" %></h3>
   <% end %>
 
-  <h2>Other dietary restrictions:</h2>
+  <h2>Other dietary restrictions and allergies:</h2>
   <ul>
   <% @event.other_dietary_restrictions.each do |other| %>
     <li><%= other %></li>
-  <% end %> 
+  <% end %>
   </ul>
+  </span>
+  <span style="float: right">
+  <h2>Total Checked-in Attendees: <%= @count %></h2>
+
+  <h2>Dietary Restrictions Totals</h2>
+  <% totals = @event.dietary_restrictions_totals %>
+  <h3>Vegetarian: <%= @vegetarian %></h3>
+  <h3>Vegan: <%= @vegan %></h3>
+  <h3>Dairy-free: <%= @dairy_free %></h3>
+  <h3>Gluten-free: <%= @gluten_free %></h3>
+
+  <h2>Other dietary restrictions and allergies:</h2>
+  <ul>
+  <% @rsvp_dietary_infos.each do |other| %>
+    <% if other != "" %>
+    <li><%= other %></li>
+    <% end %>
+  <% end %>
+  </ul>
+</span>
 </div>
+
