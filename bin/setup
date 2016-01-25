@@ -1,18 +1,11 @@
 #!/usr/bin/env ruby
 require 'pathname'
 
-class String
-  def strip_heredoc
-    indent = scan(/^[ \t]*(?=\S)/).min.length
-    gsub(/^[ \t]{#{indent}}/, '')
-  end
-end
-
 # path to your application root.
 APP_ROOT = Pathname.new File.expand_path('../../',  __FILE__)
 
 Dir.chdir APP_ROOT do
-  is_osx = `uname`.strip == "Darwin"
+  is_osx = Gem::Platform.local.os == 'darwin'
 
   puts "== Installing dependencies =="
   expected_ruby_version = File.read(APP_ROOT.join('.ruby-version')).strip
@@ -24,7 +17,7 @@ Dir.chdir APP_ROOT do
   system "bundle check || bundle install --without production"
 
   if `which npm`.empty?
-    puts <<-EOT
+    puts <<~EOT
       You don't have npm installed, which is needed to install bower.
       Install npm by installing node.js from https://nodejs.org
     EOT
@@ -34,28 +27,25 @@ Dir.chdir APP_ROOT do
   system "rake bower:install"
 
   if `which phantomjs`.empty?
-    puts <<-EOT.strip_heredoc
+    puts <<~EOT
       You don't have phantomjs installed, which means you won't be able to run
       our full test suite.
     EOT
 
     if is_osx
-      puts <<-EOT.strip_heredoc
+      puts <<~EOT
         Since you're on Mac OS X. You can install it with Homebrew using
           brew install phantomjs
 
         If you don't have homebrew, check out http://mxcl.github.com/homebrew/
       EOT
     else
-      puts <<-EOT.strip_heredoc
+      puts <<~EOT
         Use your system's package manager to install phantomjs.
           http://phantomjs.org
       EOT
     end
   end
-
-  puts "\n== Preparing database =="
-  system "bin/rake db:setup"
 
   puts "\n== Removing old logs and tempfiles =="
   system "rm -f log/*"
@@ -63,4 +53,19 @@ Dir.chdir APP_ROOT do
 
   puts "\n== Restarting application server =="
   system "touch tmp/restart.txt"
+
+  puts "\n== Preparing database =="
+
+  require 'yaml'
+  require 'erb'
+  db_config = YAML.load(ERB.new(File.read("config/database.yml")).result)
+  if File.exists?(db_config['development']['database'])
+    puts "Database already exists, running migrations..."
+    system "bin/rake db:migrate"
+  else
+    puts "Database not found, initializing..."
+    system "bin/rake db:setup"
+  end
+
+  puts "Initialization complete, run `rake db:seed` to add sample events, if desired."
 end
