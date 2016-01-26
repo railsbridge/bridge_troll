@@ -1,6 +1,9 @@
 supportsLocalStorage = ->
   try
     localStorage? && window['localStorage'] != null
+    localStorage.setItem('testLocalStorage', 1);
+    localStorage.removeItem('testLocalStorage');
+    true
   catch e
     false
 
