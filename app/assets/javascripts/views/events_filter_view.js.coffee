@@ -54,6 +54,8 @@ class EventsFilterModel
   restore: ->
     if supportsLocalStorage()
       @set(localStorage[@key])
+    else
+      @set(@defaultValue)
 
 renameLocalStorageKey = (oldKey, newKey) ->
   if supportsLocalStorage()
