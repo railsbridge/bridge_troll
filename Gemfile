@@ -23,7 +23,6 @@ gem 'simple_form'
 gem 'rack-canonical-host'
 gem 'icalendar'
 gem 'pg' if ENV['FORCE_POSTGRES']
-gem 'sprockets-rails', '< 3.0' # https://github.com/leshill/handlebars_assets/issues/145
 gem 'rack-mini-profiler'
 gem 'bower-rails'
 
