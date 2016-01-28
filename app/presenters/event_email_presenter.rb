@@ -3,7 +3,7 @@ class EventEmailPresenter
 
   delegate :model_name, :to_key, :to_model, :persisted?,
     :errors, :attendee_group, :include_waitlisted, :only_checked_in,
-    :cc_organizers, :subject, :body, to: :event_email
+    :cc_organizers, :subject, :body, :recipient_rsvp_ids, to: :event_email
 
   def initialize(event_email)
     @event_email = event_email

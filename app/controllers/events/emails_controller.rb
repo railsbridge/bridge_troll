@@ -3,9 +3,8 @@ module Events
     before_action :authenticate_user!, :validate_organizer!, :find_event
 
     def new
-      new_email = @event.event_emails.build(attendee_group: 'All')
-      @email = EventEmailPresenter.new(new_email)
-      @past_emails = PastEventEmailsPresenter.new(@event)
+      @email = @event.event_emails.build(attendee_group: 'All')
+      present_form_data
     end
 
     def create
@@ -23,8 +22,7 @@ module Events
       )
 
       unless @email.valid?
-        @email = EventEmailPresenter.new(@email)
-        @past_emails = PastEventEmailsPresenter.new(@event)
+        present_form_data
         flash[:alert] = "We were unable to send your email."
         return render :new
       end
@@ -57,6 +55,16 @@ module Events
 
     def find_event
       @event = Event.find_by_id(params[:event_id])
+    end
+
+    def present_form_data
+      @email = EventEmailPresenter.new(@email)
+      @past_emails = PastEventEmailsPresenter.new(@event)
+      @recipient_options = [
+        ['Volunteers', @email.volunteers_rsvps.map { |r| [r.user.full_name, r.user.id] }],
+        ['Accepted Students', @email.students_accepted_rsvps.map { |r| [r.user.full_name, r.user.id, ] }],
+        ['Waitlisted Students', @email.students_waitlisted_rsvps.map { |r| [r.user.full_name, r.user.id] }]
+      ]
     end
   end
 end
