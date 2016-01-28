@@ -67,21 +67,11 @@
       </div>
 
       <select name="event_email[recipients][]" class="form-control select2-hidden-accessible" id="recipients" multiple="multiple" tabindex="-1" aria-hidden="true">
-        <optgroup label="Volunteers">
-          <% @email.volunteers_rsvps.each do |rsvp| %>
-            <option value=<%= rsvp.user.id %>><%= rsvp.user.full_name %></option>
-          <% end %>
-        </optgroup>
-        <optgroup label="Accepted Students">
-          <% @email.students_accepted_rsvps.each do |rsvp| %>
-            <option value=<%= rsvp.user.id %>><%= rsvp.user.full_name %></option>
-          <% end %>
-        </optgroup>
-        <optgroup label="Waitlisted Students">
-          <% @email.students_waitlisted_rsvps.each do |rsvp| %>
-            <option value=<%= rsvp.user.id %>><%= rsvp.user.full_name %></option>
-          <% end %>
-        </optgroup>
+        <%= grouped_options_for_select(
+                @recipient_options,
+                @email.recipient_rsvp_ids
+            )
+        %>
       </select>
       <div>
         <%= label_tag do %>

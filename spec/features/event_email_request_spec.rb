@@ -7,6 +7,13 @@ RSpec.describe 'Sending an event email', js: true do
   let!(:event) { FactoryGirl.create(:event, student_rsvp_limit: 1) }
   let(:organizer) { FactoryGirl.create(:user) }
 
+  def choose_dropdown_option(dropdown_name, dropdown_option)
+    click_button dropdown_name
+    within "#recipients-#{dropdown_name.downcase}-dropdown" do
+      click_on(dropdown_option)
+    end
+  end
+
   before do
     FactoryGirl.create(:rsvp, user: organizer, event: event, role: Role::ORGANIZER)
 
@@ -31,13 +38,6 @@ RSpec.describe 'Sending an event email', js: true do
   end
 
   it 'should show an accurate count of the # of people to be emailed when clicking buttons' do
-    def choose_dropdown_option(dropdown_name, dropdown_option)
-      click_button dropdown_name
-      within "#recipients-#{dropdown_name.downcase}-dropdown" do
-        click_on(dropdown_option)
-      end
-    end
-
     choose_dropdown_option('Add', 'Volunteers')
     expect(page).to have_content('2 people')
 
@@ -56,6 +56,23 @@ RSpec.describe 'Sending an event email', js: true do
     choose_dropdown_option('Add', 'All')
     choose_dropdown_option('Remove', 'No-shows')
     expect(page).to have_content('1 person')
+  end
+
+  it 'preserves form fields on error' do
+    choose_dropdown_option('Add', 'Volunteers')
+    expect(page).to have_content('2 people')
+
+    body_text = 'Hello, attendees'
+    fill_in 'Body', with: body_text
+    expect(page).to have_content 'This email will be sent to you and 2 people.'
+
+    click_button 'Send Email'
+    expect(page).to have_content('We were unable to send your email')
+    expect(find_field('Body').value).to eq(body_text)
+    expect(page).to have_content('2 people')
+
+    selected_user_ids = page.all('select[name="event_email[recipients][]"] option[selected]').map(&:value).map(&:to_i)
+    expect(selected_user_ids).to match_array(event.volunteer_rsvps.map { |r| r.user.id })
   end
 
   it 'sends an email to the selected people' do
