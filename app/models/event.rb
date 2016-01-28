@@ -67,7 +67,7 @@ class Event < ActiveRecord::Base
       workshop_event.validates_numericality_of :student_rsvp_limit, greater_than: 0
       workshop_event.validate :validate_student_rsvp_limit
     end
-  
+
     with_options(if: :has_volunteer_limit?) do |workshop_event|
       workshop_event.validates_numericality_of :volunteer_rsvp_limit, greater_than: 0
       workshop_event.validate :validate_volunteer_rsvp_limit
@@ -289,6 +289,45 @@ class Event < ActiveRecord::Base
 
   def other_dietary_restrictions
     rsvps.confirmed.map { |rsvp| rsvp.dietary_info.presence }.compact
+  end
+
+  def dietary_restrictions_totals_checked_in
+    check_ins = []
+    dietary_restrictions = {
+      "count" => 0,
+      "vegetarian" => 0,
+      "vegan" => 0,
+      "gluten_free" => 0,
+      "dairy_free" => 0,
+      "other" => []
+    }
+    rsvps.each do |rsvp|
+      if rsvp.rsvp_sessions.first != nil
+        if rsvp.rsvp_sessions.first.checked_in == true
+          check_ins << rsvp.id
+          dietary_restrictions["count"] += 1
+        end
+      end
+    end
+    check_ins.each do |id|
+      a = DietaryRestriction.find_by_rsvp_id(id)
+      b = Rsvp.find_by_id(id)
+      if a != nil
+        if a.restriction == "vegetarian"
+          dietary_restrictions["vegetarian"] += 1
+        elsif a.restriction == "vegan"
+          dietary_restrictions["vegan"] += 1
+        elsif a.restriction == "dairy-free"
+          dietary_restrictions["dairy_free"] += 1
+        elsif a.restriction == "gluten-free"
+          dietary_restrictions["gluten_free"] += 1
+        end
+      end
+      if b != nil
+        dietary_restrictions["other"] << b.dietary_info
+      end
+    end
+    dietary_restrictions
   end
 
   def organizer_names
