@@ -23,7 +23,7 @@ module Events
 
       unless @email.valid?
         present_form_data
-        flash[:alert] = "We were unable to send your email."
+        flash.now[:alert] = "We were unable to send your email."
         return render :new
       end
 

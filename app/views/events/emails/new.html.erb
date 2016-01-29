@@ -66,13 +66,17 @@
         </div>
       </div>
 
-      <select name="event_email[recipients][]" class="form-control select2-hidden-accessible" id="recipients" multiple="multiple" tabindex="-1" aria-hidden="true">
-        <%= grouped_options_for_select(
-                @recipient_options,
-                @email.recipient_rsvp_ids
-            )
-        %>
-      </select>
+      <%= select_tag "event_email[recipients]",
+                     grouped_options_for_select(
+                         @recipient_options,
+                         params[:event_email].try(:[], :recipients)
+                     ),
+                     multiple: true,
+                     tabindex: -1,
+                     class: 'form-control select2-hidden-accessible',
+                     id: 'recipients',
+                     :'aria-hidden' => true
+      %>
       <div>
         <%= label_tag do %>
         <%= f.check_box(:cc_organizers, {class: 'cc-organizers'}, true, false) %> CC Organizers
