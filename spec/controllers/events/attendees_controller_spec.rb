@@ -3,10 +3,11 @@ require 'rails_helper'
 describe Events::AttendeesController do
   before do
     @event = create(:event)
-    @organizer = create(:user)
+    @organizer = create(:user, first_name: 'Apple', last_name: 'Pearson')
     @event.organizers << @organizer
 
-    @rsvp = create(:rsvp, event: @event, dietary_info: 'paleo')
+    rsvp_user = create(:user, first_name: 'Snake', last_name: 'Snakeson')
+    @rsvp = create(:rsvp, event: @event, user: rsvp_user, dietary_info: 'paleo')
     create(:dietary_restriction, rsvp: @rsvp, restriction: 'vegan')
 
     sign_in @organizer
@@ -34,6 +35,20 @@ describe Events::AttendeesController do
       get :index, event_id: @event.id, format: :csv
       csv_rows = CSV.parse(response.body, headers: true)
       expect(csv_rows[1]['Dietary Info']).to eq('Vegan, paleo')
+    end
+
+    it 'orders RSVPs by user name' do
+      another_user = create(:user, first_name: 'Xylophone', last_name: 'Xyson')
+      create(:rsvp, event: @event, user: another_user)
+
+      get :index, event_id: @event.id, format: :csv
+      csv_rows = CSV.parse(response.body, headers: true)
+      expected = [
+        'Apple Pearson',
+        'Snake Snakeson',
+        'Xylophone Xyson'
+      ]
+      expect(csv_rows.map { |c| c['Name'] }).to eq(expected)
     end
   end
 

@@ -33,7 +33,7 @@ class Events::AttendeesController < ApplicationController
         'Waitlist Position'
       ]
 
-      rsvps.each do |rsvp|
+      rsvps.includes(:user).joins(:bridgetroll_user).order('users.first_name ASC, users.last_name ASC').each do |rsvp|
         waitlisted = rsvp.waitlisted? ? 'yes' : 'no'
         csv << [
           rsvp.user.full_name, rsvp.role.title, rsvp.full_dietary_info,
