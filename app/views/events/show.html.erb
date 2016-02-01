@@ -2,7 +2,7 @@
 
 <% if @organizer || @checkiner %>
   <div class="organizer-breadcrumb">
-    You are <%= @organizer ? 'an organizer of' : 'a checkiner for' %> this event!
+    <%= event_special_permissions_text(@organizer ? :organizer : :checkiner) %>
 
     <div class="header-actions">
       <% if @organizer %>
