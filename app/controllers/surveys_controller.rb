@@ -1,7 +1,7 @@
 class SurveysController < ApplicationController
   before_action :authenticate_user!
   before_action :find_event
-  before_action :find_rsvp, except: :index
+  before_action :find_rsvp, except: [:index, :preview]
   before_action :validate_user!, except: [:index, :preview]
   before_action :validate_organizer!, only: :index
 
@@ -32,6 +32,7 @@ class SurveysController < ApplicationController
 
   def preview
     @survey = Survey.new
+    @rsvp = Rsvp.new(id: 0)
     @preview = true
     render :new
   end
