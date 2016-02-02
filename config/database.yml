@@ -25,6 +25,13 @@ test:
   pool: 5
   timeout: 5000
 
+<% if ENV['FORCE_POSTGRES'] %>
+test:
+  adapter: postgresql
+  database: bridgetroll_test
+  host: localhost
+<% end %>
+
 production:
   url:  <%= ENV["DATABASE_URL"] %>
   pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>

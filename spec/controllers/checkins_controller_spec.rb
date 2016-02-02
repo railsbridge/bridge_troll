@@ -29,6 +29,7 @@ describe CheckinsController do
       @vol = create(:user)
       @rsvp = create(:rsvp, user: @vol, event: @event)
       @rsvp_session = @rsvp.rsvp_sessions.last
+      @event_session = @rsvp_session.event_session
     end
 
     it "checks in the volunteer and returns the number of checked-in persons" do
@@ -38,12 +39,12 @@ describe CheckinsController do
 
       expect(JSON.parse(response.body).as_json).to eq(JSON.parse({
         Role::VOLUNTEER.id => {
-          checkin: {@rsvp_session.id => 1},
-          rsvp: {@rsvp_session.id => 1}
+          checkin: {@event_session.id => 1},
+          rsvp: {@event_session.id => 1}
         },
         Role::STUDENT.id => {
-          checkin: {@rsvp_session.id => 0},
-          rsvp: {@rsvp_session.id => 0}
+          checkin: {@event_session.id => 0},
+          rsvp: {@event_session.id => 0}
         }
       }.to_json).as_json)
     end
@@ -54,6 +55,7 @@ describe CheckinsController do
       @vol = create(:user)
       @rsvp = create(:rsvp, user: @vol, event: @event)
       @rsvp_session = @rsvp.rsvp_sessions.last
+      @event_session = @rsvp_session.event_session
       @rsvp_session.update_attribute(:checked_in, true)
     end
 
@@ -64,12 +66,12 @@ describe CheckinsController do
 
       expect(JSON.parse(response.body).as_json).to eq(JSON.parse({
         Role::VOLUNTEER.id => {
-          checkin: {@rsvp_session.id => 0},
-          rsvp: {@rsvp_session.id => 1}
+          checkin: {@event_session.id => 0},
+          rsvp: {@event_session.id => 1}
         },
         Role::STUDENT.id => {
-          checkin: {@rsvp_session.id => 0},
-          rsvp: {@rsvp_session.id => 0}
+          checkin: {@event_session.id => 0},
+          rsvp: {@event_session.id => 0}
         }
       }.to_json).as_json)
     end

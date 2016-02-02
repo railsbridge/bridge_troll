@@ -3,7 +3,12 @@ require 'rails_helper'
 describe Profile do
   it { is_expected.to belong_to(:user) }
   it { is_expected.to validate_presence_of(:user) }
-  it { is_expected.to validate_uniqueness_of(:user_id) }
+
+  describe "uniqueness" do
+    let!(:profile) { create(:user).profile }
+
+    it { is_expected.to validate_uniqueness_of(:user_id) }
+  end
 
   it 'validates the format of github_username' do
     def prof(github_username)

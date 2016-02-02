@@ -143,4 +143,10 @@ FactoryGirl.define do
     subject 'hello world'
     body 'this is an exciting email'
   end
+
+  factory :section do
+    event
+    class_level 1
+    sequence(:name) { |n| "sec_#{n}" }
+  end
 end

@@ -53,10 +53,11 @@ describe Events::AttendeesController do
   end
 
   describe "#update" do
+    let!(:section) { create(:section, event: @event) }
 
     let(:do_request) do
       put :update, event_id: @event.id, id: @rsvp.id, attendee: {
-        section_id: 401,
+        section_id: section.id,
         subject_experience: 'Some awesome string'
       }
     end
@@ -64,7 +65,7 @@ describe Events::AttendeesController do
     it 'allows organizers to update an attendee\'s section_id' do
       expect {
         do_request
-      }.to change { @rsvp.reload.section_id }.to(401)
+      }.to change { @rsvp.reload.section_id }.to(section.id)
     end
 
     it 'does not allow updates to columns other than section_id' do

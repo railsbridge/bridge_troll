@@ -56,17 +56,20 @@ module Seeder
         rsvp.user.destroy
       end
     end
+
+    event.destroy
+
     if event.location.present?
+      event.location.destroy if event.location.events.count == 0
       region = event.location.region
-      region.destroy if region.events.count == 1
-      event.location.destroy
+      region.destroy if region.events.count == 0
     end
+
     if event.chapter.present?
       organization = event.chapter.organization
       organization.destroy if organization.chapters.count == 1
       event.chapter.destroy
     end
-    event.destroy
   end
 
   def self.seed_event(options={})
