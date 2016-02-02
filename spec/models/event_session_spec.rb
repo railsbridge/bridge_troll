@@ -6,7 +6,11 @@ describe EventSession do
   it { is_expected.to validate_presence_of(:starts_at) }
   it { is_expected.to validate_presence_of(:ends_at) }
 
-  it { is_expected.to validate_uniqueness_of(:name).scoped_to(:event_id) }
+  describe "uniqueness" do
+    let!(:event_session) { create(:event_session) }
+
+    it { is_expected.to validate_uniqueness_of(:name).scoped_to(:event_id) }
+  end
 
   it 'requires ends_at to be after starts_at' do
     session = EventSession.create(starts_at: 2.days.from_now, ends_at: 1.day.from_now)
