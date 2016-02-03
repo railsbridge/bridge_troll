@@ -76,7 +76,8 @@ class Location < ActiveRecord::Base
   def most_recent_event_date
     relevant_events = (events + event_sessions.map(&:event)).compact
     if relevant_events.present?
-      relevant_events.sort_by { |e| e.starts_at }.last.starts_at.strftime("%b %d, %Y")
+      event = relevant_events.sort_by { |e| e.starts_at }.last
+      event.starts_at.in_time_zone(event.time_zone).strftime("%b %d, %Y")
     else
       "No events found."
     end
