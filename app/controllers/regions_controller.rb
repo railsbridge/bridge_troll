@@ -15,14 +15,11 @@ class RegionsController < ApplicationController
 
     if @region.has_leader?(current_user)
       @organizer_rsvps = Rsvp.
-        group(:user_id).
+        group(:user_id, :user_type).
         joins([event: [location: :region]]).
         includes(:user).
-        select("user_id, 'User' as user_type, count(*) as events_count").
-        where('regions.id = ? AND role_id = ? AND user_type = ?',
-              @region.id,
-              Role::ORGANIZER.id,
-              'User')
+        select("user_id, user_type, count(*) as events_count").
+        where('regions.id' => @region.id, role_id: Role::ORGANIZER.id, user_type: 'User')
     end
   end
 
