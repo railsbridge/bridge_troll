@@ -151,7 +151,8 @@ describe Location do
         event = create(:event)
         create(:event_session, event: event, location: session_location)
 
-        expect(session_location.most_recent_event_date).to eq(event.starts_at.strftime("%b %d, %Y"))
+        expected_time = event.starts_at.in_time_zone(event.time_zone).strftime("%b %d, %Y")
+        expect(session_location.most_recent_event_date).to eq(expected_time)
       end
     end
   end
