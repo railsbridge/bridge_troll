@@ -25,11 +25,10 @@
         <%= f.submit "Submit", class: "btn", data: {disable_with: 'Please wait...'} %>
       <% end %>
       <p></p>
-      <% if @preview && @event.survey_sent?%>
+      <% if @preview && @event.survey_sent? %>
         <p>Survey has been sent.</p>
-        <% elsif @preview %>
+      <% elsif @preview %>
         <p><%= link_to 'Send Survey', event_send_survey_email_path(@event), class: "btn", :data => {:confirm => 'Are you sure?'} %></p>
-        <p><%= link_to 'Back', event_organizer_tools_path(@event), class: "btn" %></p>
       <% end %>
 
     <% end %>
