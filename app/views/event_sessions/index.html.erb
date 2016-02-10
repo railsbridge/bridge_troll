@@ -2,7 +2,3 @@
 <%= content_for(:header_link, event_path(@event)) %>
 
 <%= render :partial => 'shared/checkin_event_sessions' %>
-
-<%= render 'shared/actions', links: [
-  ['Back', event_path(@event)]
-] %>

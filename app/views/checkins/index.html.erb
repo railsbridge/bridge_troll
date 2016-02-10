@@ -77,13 +77,3 @@
     popoverData: <%= @event.course ? @event.course.levels.to_json.html_safe : [] %>
   });
 </script>
-
-<% if @event.organizer?(current_user) %>
-  <%= render 'shared/actions', links: [
-    ['Back', event_organizer_tools_path(@event)],
-  ] %>
-<% elsif @event.checkiner?(current_user) %>
-  <%= render 'shared/actions', links: [
-    ['Back', event_path(@event)],
-  ] %>
-<% end %>
