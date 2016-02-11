@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160110000811) do
+ActiveRecord::Schema.define(version: 20160211061631) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -19,6 +19,11 @@ ActiveRecord::Schema.define(version: 20160110000811) do
     t.string   "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "chapter_leaderships", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "chapter_id"
   end
 
   create_table "chapters", force: :cascade do |t|

@@ -1,0 +1,35 @@
+<%= content_for(:header_text, "Chapter Leaders for #{@chapter.name}") %>
+
+<h3>Potential Leaders</h3>
+<%= render 'shared/user_chooser',
+           action: chapter_chapter_leaderships_path(@chapter),
+           select_id: '',
+           foreign_key: 'id',
+           choices: @users.collect {|u| [ u.full_name, u.id ] }
+%>
+
+<table class="table">
+  <thead>
+  <tr>
+    <td></td>
+    <td>Name</td>
+    <td>Email</td>
+    <td></td>
+  </tr>
+  </thead>
+  <tbody>
+  <% @chapter.leaders.each do |leader|  %>
+    <tr>
+      <td class="avatar-column"><%= user_gravatar(leader) %></td>
+      <td><%= leader.full_name %></td>
+      <td><%= leader.email %></td>
+      <td>
+        <% if leader.id != current_user.id %>
+          <%= button_to 'Remove', chapter_chapter_leadership_path(@chapter, leader), method: :delete,
+                        :form => {:style => "margin-bottom : 0;"}, :class => "btn btn-mini" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
