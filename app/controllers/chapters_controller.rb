@@ -1,7 +1,8 @@
 class ChaptersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :assign_chapter, except: [:index, :new, :create]
-  before_action :validate_admin!, except: [:show, :index]
+  before_action :validate_chapter_leader!, only: [:edit]
+  before_action :validate_admin!, only: [:new, :create, :destroy]
 
   def index
     @chapters = Chapter.all
@@ -12,6 +13,15 @@ class ChaptersController < ApplicationController
       @chapter.events.includes(:organizers, :location).published_or_organized_by(current_user) + @chapter.external_events
     ).sort_by(&:ends_at)
     @show_organizers = true
+
+    if @chapter.has_leader?(current_user)
+      @organizer_rsvps = Rsvp.
+        group(:user_id, :user_type).
+        joins([event: :chapter]).
+        includes(:user).
+        select("user_id, user_type, count(*) as events_count").
+        where('chapters.id' => @chapter.id, role_id: Role::ORGANIZER.id, user_type: 'User')
+    end
   end
 
   def new

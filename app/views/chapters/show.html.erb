@@ -1,5 +1,38 @@
 <%= content_for(:header_text, @chapter.name) %>
 
+<% if @chapter.leaders.present? %>
+  <h2>Chapter Leaders</h2>
+  <ul>
+    <% @chapter.leaders.each do |leader| %>
+      <li><%= link_to leader.full_name, user_profile_path(leader) %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if @chapter.has_leader?(current_user) %>
+  <%= link_to 'Edit Chapter Leaders', chapter_chapter_leaderships_path(@chapter), class: "btn mb20" %>
+
+  <h2>Organizers</h2>
+  <table class="datatable-sorted table table-striped table-bordered table-condensed responsive-table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th># Events</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @organizer_rsvps.each do |rsvp| %>
+      <tr>
+        <td>
+          <%= link_to rsvp.user.full_name, user_profile_path(rsvp.user) %>
+        </td>
+        <td><%= rsvp.events_count %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+
 <h2>Events</h2>
 <%= render 'shared/events_table', events: @chapter_events %>
 
