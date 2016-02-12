@@ -6,22 +6,44 @@ describe Events::UnpublishedEventsController do
   end
 
   describe "GET #index" do
-    before do
-      sign_in create(:user, publisher: true)
-    end
+    describe "visibility" do
+      let!(:chapter) { create(:chapter) }
+      let!(:pending_chapter_event) { create(:event, chapter: chapter, current_state: :pending_approval) }
+      let!(:pending_other_event) { create(:event, current_state: :pending_approval) }
+      let!(:draft_event) { create(:event, current_state: :draft) }
+      let!(:published_event) { create(:event, current_state: :published) }
 
-    it 'displays events that are publishable' do
-      published_event = create(:event, current_state: :published)
-      draft_event = create(:event, current_state: :draft)
-      pending_approval_event = create(:event, current_state: :pending_approval)
+      context "as an admin/publisher" do
+        before do
+          sign_in create(:user, publisher: true)
+        end
 
-      get :index
+        it 'displays all events that are publishable' do
+          get :index
 
-      expect(assigns(:events)).to match_array([pending_approval_event])
+          expect(assigns(:events)).to match_array([pending_chapter_event, pending_other_event])
+        end
+      end
+
+      context "as a chapter leader" do
+        before do
+          leader = create(:user)
+          chapter.leaders << leader
+          sign_in leader
+        end
+
+        it 'displays events that are publishable for that chapter' do
+          get :index
+
+          expect(assigns(:events)).to match_array([pending_chapter_event])
+        end
+      end
     end
 
     describe 'region user counts' do
       before do
+        sign_in create(:user, publisher: true)
+
         @region1 = @event.region
         @region1.update_attributes(name: 'RailsBridge Shellmound')
         @region2 = create(:region, name: 'RailsBridge Meriloft')
@@ -113,6 +135,29 @@ describe Events::UnpublishedEventsController do
       expect {
         make_request
       }.to change{ @event.reload.announcement_email_sent_at.present? }.from(false).to(true)
+    end
+
+    context 'as a chapter leader' do
+      before do
+        chapter = create(:chapter)
+        leader = create(:user)
+        chapter.leaders << leader
+        @chapter_event = create(:event, chapter: chapter, current_state: :pending_approval)
+        sign_in leader
+      end
+
+      it 'allows publishing of chapter events' do
+        expect {
+          post :publish, unpublished_event_id: @chapter_event.id
+        }.to change { @chapter_event.reload.current_state }.to('published')
+      end
+
+      it 'disallows publishing of non-chapter events' do
+        expect {
+          post :publish, unpublished_event_id: @event.id
+        }.not_to change { @chapter_event.reload.current_state }
+        expect(response).to be_redirect
+      end
     end
   end
 end

@@ -1,7 +1,9 @@
 class Events::UnpublishedEventsController < ApplicationController
   before_action :authenticate_user!
-  before_action :validate_publisher!
+  before_action :validate_publisher!, only: [:flag]
+  before_action :validate_can_see_unpublished_events!, only: [:index]
   before_action :find_event, except: [:index]
+  before_action :validate_can_publish_event!, only: [:publish]
 
   def index
     regions = Region.includes(:users)
@@ -10,7 +12,11 @@ class Events::UnpublishedEventsController < ApplicationController
     @region_user_counts = regions.each_with_object({}) do |region, hsh|
       hsh[region.id] = region.users.length
     end
+
     @events = Event.upcoming.pending_approval.where(spam: false)
+    unless current_user.admin? || current_user.publisher?
+      @events = @events.where(chapter_id: current_user.chapter_leaderships.map(&:chapter_id))
+    end
   end
 
   def publish
@@ -29,6 +35,14 @@ class Events::UnpublishedEventsController < ApplicationController
   end
 
   private
+
+  def validate_can_see_unpublished_events!
+    validate_publisher! unless current_user.chapter_leaderships.present?
+  end
+
+  def validate_can_publish_event!
+    validate_publisher! unless @event.chapter.has_leader?(current_user)
+  end
 
   def find_event
     @event = Event.find(params[:unpublished_event_id])

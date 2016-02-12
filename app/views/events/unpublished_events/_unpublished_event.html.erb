@@ -25,7 +25,9 @@
     <% else %>
       <button class="btn" disabled>No Location - Can't Publish!</button>
     <% end %>
-    <%= button_to 'Flag as Spam', unpublished_event_flag_path(event), class: 'btn btn-danger', method: :post,
-                  data: {confirm: "Are you sure? This will remove this event from the approval page, and flag #{event.organizers.first.full_name} as a spammer so that all subsequent events they create will immediately be flagged as spam."} %>
+    <% if current_user.admin? || current_user.publisher? %>
+      <%= button_to 'Flag as Spam', unpublished_event_flag_path(event), class: 'btn btn-danger', method: :post,
+                    data: {confirm: "Are you sure? This will remove this event from the approval page, and flag #{event.organizers.first.full_name} as a spammer so that all subsequent events they create will immediately be flagged as spam."} %>
+    <% end %>
   </div>
 </div>
