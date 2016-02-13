@@ -26,7 +26,7 @@
 </div>
 
 <h2 style="margin-top: 40px;">Events</h2>
-<%= render 'shared/events_table', events: @location.all_events.published_or_organized_by(current_user) %>
+<%= render 'shared/events_table', events: @location.all_events.published_or_visible_to(current_user) %>
 
 <%= render 'shared/actions', links: [
   ['Edit', edit_location_path(@location)]

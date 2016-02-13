@@ -205,13 +205,19 @@ class Event < ActiveRecord::Base
     joins(:organizers).where('users.id = ? and current_state = ?', user.id, Event.current_states[:draft])
   end
 
-  def self.published_or_organized_by(user = nil)
+  def self.published_or_visible_to(user = nil)
     return published unless user
 
     if user.admin?
       where(spam: false)
     else
-      includes(:rsvps).where('(rsvps.role_id = ? AND rsvps.user_id = ?) OR (current_state = ?)', Role::ORGANIZER, user.id, Event.current_states[:published]).references('rsvps')
+      includes(:rsvps).where(
+        '(rsvps.role_id = ? AND rsvps.user_id = ?) OR (current_state = ?) OR (chapter_id IN (?))',
+        Role::ORGANIZER,
+        user.id,
+        Event.current_states[:published],
+        user.chapter_leaderships.pluck(:chapter_id)
+      ).references('rsvps')
     end
   end
 

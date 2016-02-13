@@ -9,7 +9,7 @@ class RegionsController < ApplicationController
 
   def show
     @region_events = (
-      @region.events.published_or_organized_by(current_user).includes(:location) +
+      @region.events.published_or_visible_to(current_user).includes(:location) +
       @region.external_events
     ).sort_by(&:ends_at)
 

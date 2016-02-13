@@ -266,7 +266,7 @@ describe Event do
     end
   end
 
-  describe ".published_or_organized_by" do
+  describe ".published_or_visible_to" do
     before do
       @published_event = create(:event, title: 'published event', current_state: :published)
       @unpublished_event = create(:event, title: 'unpublished event', current_state: :pending_approval)
@@ -275,7 +275,7 @@ describe Event do
 
     context "when a user is not provided" do
       it 'returns only published events' do
-        expect(Event.published_or_organized_by).to match_array([@published_event])
+        expect(Event.published_or_visible_to).to match_array([@published_event])
       end
     end
 
@@ -286,7 +286,20 @@ describe Event do
       end
 
       it "returns published events and the organizer's event" do
-        expect(Event.published_or_organized_by(@organizer)).to match_array([@published_event, @organized_event])
+        expect(Event.published_or_visible_to(@organizer)).to match_array([@published_event, @organized_event])
+      end
+    end
+
+    context "when a chapter leader is provided" do
+      before do
+        chapter = create(:chapter)
+        @leader = create(:user)
+        @chapter_event = create(:event, chapter: chapter, current_state: :pending_approval)
+        chapter.leaders << @leader
+      end
+
+      it "returns published events and unpublished events for that chapter" do
+        expect(Event.published_or_visible_to(@leader)).to match_array([@published_event, @chapter_event])
       end
     end
 
@@ -296,7 +309,7 @@ describe Event do
       end
 
       it "returns all events" do
-        expect(Event.published_or_organized_by(@admin)).to match_array([@published_event, @unpublished_event, @organized_event])
+        expect(Event.published_or_visible_to(@admin)).to match_array([@published_event, @unpublished_event, @organized_event])
       end
     end
   end
