@@ -32,8 +32,8 @@ class ApplicationController < ActionController::Base
       return redirect_to events_path
     end
 
-    unless @event.organizer?(current_user) || current_user.admin?
-      flash[:error] = "You must be an organizer for the event or an Admin to see this page"
+    unless @event.editable_by?(current_user)
+      flash[:error] = "You must be an organizer for the event or an admin/chapter leader to see this page"
       redirect_to events_path
     end
   end
