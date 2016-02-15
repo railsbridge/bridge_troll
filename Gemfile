@@ -6,6 +6,7 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'rails', '4.2.5.1'
 gem 'devise', '~> 3.5.0'
+gem 'pundit'
 gem 'puma'
 gem 'jquery-rails'
 gem 'nested_form'

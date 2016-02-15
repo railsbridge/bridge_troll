@@ -1,8 +1,6 @@
 class ChaptersController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :assign_chapter, except: [:index, :new, :create]
-  before_action :validate_chapter_leader!, only: [:edit]
-  before_action :validate_admin!, only: [:new, :create, :destroy]
 
   def index
     @chapters = Chapter.all
@@ -25,13 +23,16 @@ class ChaptersController < ApplicationController
   end
 
   def new
+    authorize Chapter
     @chapter = Chapter.new
   end
 
   def edit
+    authorize @chapter
   end
 
   def create
+    authorize Chapter
     @chapter = Chapter.new(chapter_params)
 
     if @chapter.save
@@ -42,6 +43,7 @@ class ChaptersController < ApplicationController
   end
 
   def update
+    authorize @chapter
     if @chapter.update_attributes(chapter_params)
       redirect_to @chapter, notice: 'Chapter was successfully updated.'
     else
@@ -50,6 +52,7 @@ class ChaptersController < ApplicationController
   end
 
   def destroy
+    authorize @chapter
     unless @chapter.destroyable?
       return redirect_to root_url, alert: "Can't delete a chapter that's still assigned to an event or external event."
     end

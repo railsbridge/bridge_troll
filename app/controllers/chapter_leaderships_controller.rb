@@ -1,7 +1,7 @@
 class ChapterLeadershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_chapter
-  before_action :validate_chapter_leader!
+  before_action :validate_authorized!
 
   def index
     @users = User.all
@@ -35,5 +35,9 @@ class ChapterLeadershipsController < ApplicationController
 
   def leader_params
     params.permit(:id, :chapter_id)
+  end
+
+  def validate_authorized!
+    authorize @chapter, :modify_leadership?
   end
 end

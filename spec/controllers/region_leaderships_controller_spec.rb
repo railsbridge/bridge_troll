@@ -27,15 +27,15 @@ describe RegionLeadershipsController do
     it "can not edit, create, or delete an event organizer" do
       expect(
         get :index, region_id: region.id
-      ).to redirect_to(events_path)
+      ).to be_redirect
 
       expect(
         post :create, region_id: region.id, event_organizer: {region_id: region.id, user_id: leader.id}
-      ).to redirect_to(events_path)
+      ).to be_redirect
 
       expect(
         delete :destroy, region_id: region.id, id: 12345
-      ).to redirect_to(events_path)
+      ).to be_redirect
     end
   end
 
