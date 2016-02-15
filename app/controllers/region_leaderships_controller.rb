@@ -1,7 +1,7 @@
 class RegionLeadershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_region
-  before_action :validate_region_leader!
+  before_action :validate_authorized!
 
   def index
     @users = @region.users
@@ -35,5 +35,9 @@ class RegionLeadershipsController < ApplicationController
 
   def leader_params
     params.permit(:id, :region_id)
+  end
+
+  def validate_authorized!
+    authorize @region, :modify_leadership?
   end
 end

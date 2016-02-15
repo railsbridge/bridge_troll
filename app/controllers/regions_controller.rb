@@ -1,7 +1,6 @@
 class RegionsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :assign_region, only: [:show, :edit, :update, :destroy]
-  before_action :validate_region_leader!, only: [:edit, :update]
 
   def index
     @regions = Region.includes(:locations, :leaders).all
@@ -28,6 +27,7 @@ class RegionsController < ApplicationController
   end
 
   def edit
+    authorize @region
   end
 
   def create
@@ -42,6 +42,7 @@ class RegionsController < ApplicationController
   end
 
   def update
+    authorize @region
     if @region.update_attributes(region_params)
       redirect_to @region, notice: 'Region was successfully updated.'
     else

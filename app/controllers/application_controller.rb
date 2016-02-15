@@ -1,4 +1,8 @@
 class ApplicationController < ActionController::Base
+  include ControllerAuthorization
+  include Pundit
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   before_action :configure_permitted_parameters, if: :devise_controller?
   force_ssl if: -> { Rails.env.production? }, unless: :allow_insecure?
 
@@ -18,58 +22,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def validate_admin!
-    unless current_user.admin?
-      flash[:error] = "You must be an Admin to see this page"
-      redirect_to events_path
-    end
-  end
-
-  def validate_organizer!
-    @event ||= Event.find(params[:event_id])
-    if @event.historical?
-      flash[:error] = "This feature is not available for historical events"
-      return redirect_to events_path
-    end
-
-    unless @event.editable_by?(current_user)
-      flash[:error] = "You must be an organizer for the event or an admin/chapter leader to see this page"
-      redirect_to events_path
-    end
-  end
-
-  def validate_checkiner!
-    unless @event.checkiner?(current_user) || current_user.admin?
-      flash[:error] = "You must be a checkiner, organizer, or admin to see this page."
-      redirect_to events_path
-    end
-  end
-
-  def validate_publisher!
-    unless current_user.publisher? || current_user.admin?
-      flash[:error] = "You must be authorized to publish events to see this page."
-      redirect_to events_path
-    end
-  end
-
-  def validate_region_leader!
-    @region ||= Region.find(params[:region_id])
-
-    unless @region.has_leader?(current_user)
-      flash[:error] = "You must be a region leader or admin to view this page."
-      redirect_to events_path
-    end
-  end
-
-  def validate_chapter_leader!
-    @chapter ||= Chapter.find(params[:chapter_id])
-
-    unless @chapter.has_leader?(current_user)
-      flash[:error] = "You must be a chapter leader or admin to view this page."
-      redirect_to events_path
-    end
-  end
-
   def after_sign_in_path_for(resource)
     params[:return_to] || super
   end
@@ -84,5 +36,10 @@ class ApplicationController < ActionController::Base
 
   def allow_insecure?
     false
+  end
+
+  def user_not_authorized
+    flash[:error] = "You are not authorized to perform this action."
+    redirect_to(request.referrer || root_path)
   end
 end
