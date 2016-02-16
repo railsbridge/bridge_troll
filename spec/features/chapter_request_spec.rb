@@ -13,7 +13,7 @@ describe "chapter pages" do
 
     click_on "Edit Chapter Leaders"
 
-    find('select.select2-hidden-accessible').select(potential_leader.full_name)
+    fill_in_select2(potential_leader.full_name)
 
     click_on "Assign"
 

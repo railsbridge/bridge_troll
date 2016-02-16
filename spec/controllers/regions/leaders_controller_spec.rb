@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RegionLeadershipsController do
+describe Regions::LeadersController do
   let(:region) { create :region }
   let(:leader) { create :user }
   let(:user) { create :user }
@@ -75,6 +75,27 @@ describe RegionLeadershipsController do
       it "deletes the region leadership" do
         expect {delete :destroy, params }.to change { RegionLeadership.count }.from(2).to(1)
       end
+    end
+  end
+
+  describe "potential leaders" do
+    before do
+      sign_in create(:user, admin: true)
+    end
+
+    it "includes all users in the region not currently assigned as leaders" do
+      leader = create(:user, first_name: 'Steve')
+      leader.regions << region
+      region.leaders << leader
+
+      non_leader = create(:user, first_name: 'Steve')
+      non_leader.regions << region
+
+      non_region = create(:user, first_name: 'Steve')
+
+      get :potential, format: :json, region_id: region.id, q: 'Steve'
+
+      expect(JSON.parse(response.body).map { |u| u['id'] }).to eq([non_leader.id])
     end
   end
 end
