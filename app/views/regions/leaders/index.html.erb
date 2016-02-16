@@ -2,10 +2,11 @@
 
 <h3>Potential Leaders</h3>
 <%= render 'shared/user_chooser',
-           action: region_region_leaderships_path(@region),
+           action: region_leaders_path(@region),
            select_id: '',
            foreign_key: 'id',
-           choices: @users.collect {|u| [ u.full_name, u.id ] }
+           url: potential_region_leaders_path(@region),
+           choices: []
 %>
 
 <table class="table">
@@ -25,7 +26,7 @@
       <td><%= leader.email %></td>
       <td>
         <% if leader.id != current_user.id %>
-          <%= button_to 'Remove', region_region_leadership_path(@region, leader), method: :delete,
+          <%= button_to 'Remove', region_leaders_path(@region, leader), method: :delete,
                         :form => {:style => "margin-bottom : 0;"}, :class => "btn btn-mini" %>
         <% end %>
       </td>

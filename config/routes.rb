@@ -14,10 +14,14 @@ Bridgetroll::Application.routes.draw do
 
   resources :locations
   resources :chapters do
-    resources :chapter_leaderships, only: [:index, :create, :destroy]
+    resources :leaders, only: [:index, :create, :destroy], controller: 'chapters/leaders' do
+      get :potential, on: :collection
+    end
   end
   resources :regions do
-    resources :region_leaderships, only: [:index, :create, :destroy]
+    resources :leaders, only: [:index, :create, :destroy], controller: 'regions/leaders' do
+      get :potential, on: :collection
+    end
   end
 
   resources :events do

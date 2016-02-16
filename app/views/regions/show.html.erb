@@ -10,7 +10,7 @@
 <% end %>
 
 <% if @region.has_leader?(current_user) %>
-  <%= link_to 'Edit Region Leaders', region_region_leaderships_path(@region), class: "btn mb20" %>
+  <%= link_to 'Edit Region Leaders', region_leaders_path(@region), class: "btn mb20" %>
 
   <h2>Organizers</h2>
   <table class="datatable-sorted table table-striped table-bordered table-condensed responsive-table">
