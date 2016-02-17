@@ -104,12 +104,31 @@ describe OrganizersController do
       expect(volunteer_rsvp.reload.role).to eq(Role::ORGANIZER)
     end
 
-    it "can delete an event organizer" do
-      @event.organizers << @other_user
-      organizer_rsvp = Rsvp.last
-      expect {
-        delete :destroy, event_id: @event.id, id: organizer_rsvp.id, _method: "delete"
-      }.to change(Rsvp, :count).by(-1)
+    describe "#destroy" do
+      it "can delete an event organizer" do
+        @event.organizers << @other_user
+        organizer_rsvp = Rsvp.last
+        expect {
+          delete :destroy, event_id: @event.id, id: organizer_rsvp.id
+        }.to change(Rsvp, :count).by(-1)
+
+        expect(response).to redirect_to event_organizers_path(@event)
+      end
+
+      it "redirects to the event instead of the tools if you delete yourself" do
+        @event.organizers << @other_user
+        expect {
+          delete :destroy, event_id: @event.id, id: @user.rsvps.where(event_id: @event.id).first
+        }.to change(Rsvp, :count).by(-1)
+
+        expect(response).to redirect_to event_path(@event)
+      end
+
+      it "does not allow removing the last organizer" do
+        expect {
+          delete :destroy, event_id: @event.id, id: @user.rsvps.where(event_id: @event.id).first
+        }.not_to change(Rsvp, :count)
+      end
     end
   end
 end
