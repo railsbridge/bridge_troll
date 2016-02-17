@@ -31,9 +31,14 @@
         <td><%= rsvp.user.full_name %></td>
         <td><%= rsvp.user.email %></td>
         <td>
-          <% if rsvp.user_id != current_user.id %>
-              <%= button_to 'Remove', event_organizer_path(@event, rsvp), method: :delete,
-                                 :form => {:style => "margin-bottom : 0;"}, :class => "btn btn-mini" %>
+          <% if @organizer_rsvps.length > 1 %>
+            <%= button_to 'Remove', event_organizer_path(@event, rsvp),
+                          method: :delete,
+                          form: {style: "margin-bottom : 0;"},
+                          class: "btn btn-mini",
+                          data: {
+                              confirm: (rsvp.user_id == current_user.id) ? "Are you sure? This is you!" : nil
+                          }%>
           <% end %>
         </td>
       </tr>

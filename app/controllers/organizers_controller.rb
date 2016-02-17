@@ -30,10 +30,18 @@ class OrganizersController < ApplicationController
   end
 
   def destroy
-    @event_organizer = @event.rsvps.find(params[:id])
+    if @event.organizers.count == 1
+      return redirect_to event_organizers_path(@event), alert: "Can't remove the sole organizer!"
+    end
 
-    @event_organizer.destroy
-    redirect_to event_organizers_path(@event)
+    rsvp = @event.rsvps.find(params[:id])
+
+    rsvp.destroy
+    if rsvp.user == current_user
+      redirect_to event_path(@event), notice: "#{rsvp.user.full_name} is no longer an organizer of #{@event.title}!"
+    else
+      redirect_to event_organizers_path(@event), notice: "You're no longer an organizer of #{@event.title}!"
+    end
   end
 
   private

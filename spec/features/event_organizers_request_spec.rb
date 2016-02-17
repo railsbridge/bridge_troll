@@ -44,7 +44,9 @@ describe "Event Organizers page" do
       expect(page).to have_content("user1@mail.com")
       expect(page).to have_selector('input[value="Remove"]')
 
-      click_button "Remove"
+      within page.find("tr:contains('#{@user1.full_name}')") do
+        click_button "Remove"
+      end
 
       expect(page).not_to have_content("user1@mail.com")
       expect(page).not_to have_selector('input[value="Remove"]')
