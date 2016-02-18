@@ -2,13 +2,14 @@ module Chapters
   class LeadersController < ApplicationController
     before_action :authenticate_user!
     before_action :load_chapter
-    before_action :validate_authorized!
 
     def index
+      authorize @chapter, :modify_leadership?
       @leaders = @chapter.leaders
     end
 
     def create
+      authorize @chapter, :modify_leadership?
       leader = ChapterLeadership.new(chapter: @chapter, user_id: leader_params[:id])
       if leader.save
         redirect_to chapter_leaders_path(@chapter), notice: "Booyah!"
@@ -18,6 +19,7 @@ module Chapters
     end
 
     def destroy
+      authorize @chapter, :modify_leadership?
       leadership = ChapterLeadership.where(
         chapter: @chapter,
         user_id: leader_params[:id]
@@ -28,6 +30,7 @@ module Chapters
     end
 
     def potential
+      authorize @chapter, :modify_leadership?
       respond_to do |format|
         format.json do
           users_not_assigned = User.where(<<-SQL, @chapter.id)
@@ -49,10 +52,6 @@ module Chapters
 
     def leader_params
       params.permit(:id, :chapter_id)
-    end
-
-    def validate_authorized!
-      authorize @chapter, :modify_leadership?
     end
   end
 end

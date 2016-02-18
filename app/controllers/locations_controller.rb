@@ -1,6 +1,7 @@
 class LocationsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
   before_action :assign_location, only: [:show, :edit, :update, :destroy]
+  before_action :skip_authorization
 
   def index
     @locations = Location.all.includes(:events, :event_sessions)

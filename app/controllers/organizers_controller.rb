@@ -1,13 +1,14 @@
 class OrganizersController < ApplicationController
   before_action :authenticate_user!
-  before_action :validate_organizer!
   before_action :validate_published!
 
   def index
+    authorize @event, :edit?
     render_index
   end
 
   def potential
+    authorize @event, :edit?
     respond_to do |format|
       format.json do
         render json: UserSearcher.new(User.not_assigned_as_organizer(@event), params[:q])
@@ -16,6 +17,7 @@ class OrganizersController < ApplicationController
   end
 
   def create
+    authorize @event, :edit?
     @user = User.find_by(id: params.fetch(:event_organizer, {})[:user_id])
     unless @user
       @event.errors.add(:base, 'Please select a user!')
@@ -30,6 +32,7 @@ class OrganizersController < ApplicationController
   end
 
   def destroy
+    authorize @event, :edit?
     if @event.organizers.count == 1
       return redirect_to event_organizers_path(@event), alert: "Can't remove the sole organizer!"
     end

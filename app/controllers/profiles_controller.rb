@@ -3,6 +3,7 @@ class ProfilesController < ApplicationController
   before_action :load_user_and_profile
 
   def show
+    skip_authorization
   end
 
   protected

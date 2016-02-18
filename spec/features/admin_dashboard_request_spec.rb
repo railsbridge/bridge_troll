@@ -8,7 +8,7 @@ describe "the admin dashboard" do
 
     it "redirects to the homepage" do
       visit '/admin_dashboard'
-      expect(current_path).to eq(events_path)
+      expect(current_path).to eq('/')
     end
   end
 

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
-  include ControllerAuthorization
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  after_action :verify_authorized, unless: :devise_controller?
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   force_ssl if: -> { Rails.env.production? }, unless: :allow_insecure?

@@ -2,9 +2,11 @@ require 'csv'
 
 module Events
   class StudentsController < ApplicationController
-    before_action :authenticate_user!, :validate_organizer!
+    before_action :authenticate_user!
+    before_action :find_event
 
     def index
+      authorize @event, :edit?
       @event = Event.find(params[:event_id])
       @students = @event.student_rsvps
       respond_to do |format|
@@ -14,6 +16,10 @@ module Events
     end
 
     private
+
+    def find_event
+      @event = Event.find_by_id(params[:event_id])
+    end
 
     def student_csv_data(rsvps)
       CSV.generate do |csv|

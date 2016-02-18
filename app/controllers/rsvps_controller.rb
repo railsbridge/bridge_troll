@@ -5,6 +5,7 @@ class RsvpsController < ApplicationController
   before_action :redirect_if_rsvp_exists, only: [:volunteer, :learn]
   before_action :redirect_if_event_in_past
   before_action :redirect_if_event_closed, only: [:volunteer, :learn, :create]
+  before_action :skip_authorization
 
   def volunteer
     @show_new_region_warning = signup_for_new_region?
