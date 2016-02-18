@@ -1,11 +1,11 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :feed, :show, :levels]
   before_action :find_event, except: [:index, :feed, :create, :new]
-  before_action :validate_organizer!, except: [:index, :feed, :create, :show, :new, :levels]
   before_action :set_time_zone, only: [:create, :update]
   before_action :set_empty_location, only: [:new, :create]
 
   def index
+    skip_authorization
     respond_to do |format|
       format.html do
         @events = Event.upcoming.published_or_visible_to(current_user).includes(:event_sessions, :location, :region)
@@ -19,6 +19,7 @@ class EventsController < ApplicationController
   end
 
   def feed
+    skip_authorization
     @events = Event.upcoming.published_or_visible_to(current_user).includes(:event_sessions, :location, :region)
 
     respond_to do |format|
@@ -27,7 +28,12 @@ class EventsController < ApplicationController
     end
   end
 
+  def levels
+    skip_authorization
+  end
+
   def show
+    skip_authorization
     if user_signed_in? && !@event.historical?
       @organizer = @event.organizer?(current_user) || current_user.admin?
       @checkiner = @event.checkiner?(current_user)
@@ -46,14 +52,17 @@ class EventsController < ApplicationController
   end
 
   def new
+    skip_authorization
     @event = Event.new(public_email: current_user.email, time_zone: current_user.time_zone)
     @event.event_sessions << EventSession.new
   end
 
   def edit
+    authorize @event
   end
 
   def create
+    skip_authorization
     result = EventEditor.new(current_user, params).create
     @event = result[:event]
 
@@ -66,6 +75,7 @@ class EventsController < ApplicationController
   end
 
   def update
+    authorize @event
     result = EventEditor.new(current_user, params).update(@event)
 
     flash[:notice] = result[:notice] if result[:notice]
@@ -77,6 +87,7 @@ class EventsController < ApplicationController
   end
 
   def destroy
+    authorize @event
     @event.destroy
     redirect_to events_url
   end

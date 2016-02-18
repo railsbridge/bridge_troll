@@ -1,5 +1,4 @@
 class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
-
   # cf. https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
   def update
     @user = User.find(current_user.id)

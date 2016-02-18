@@ -45,7 +45,7 @@ describe Events::OrganizerToolsController do
       end
 
       context "historical event" do
-        it "redirects you to the events page" do
+        it "redirects" do
           external_event_data = {
             type: 'meetup',
             student_event: {
@@ -59,7 +59,7 @@ describe Events::OrganizerToolsController do
           event.update_attributes(external_event_data: external_event_data)
 
           make_request
-          expect(response).to redirect_to(events_path)
+          expect(response).to be_redirect
         end
       end
     end

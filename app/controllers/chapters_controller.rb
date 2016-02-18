@@ -3,10 +3,12 @@ class ChaptersController < ApplicationController
   before_action :assign_chapter, except: [:index, :new, :create]
 
   def index
+    skip_authorization
     @chapters = Chapter.all
   end
 
   def show
+    skip_authorization
     @chapter_events = (
       @chapter.events.includes(:organizers, :location).published_or_visible_to(current_user) + @chapter.external_events
     ).sort_by(&:ends_at)

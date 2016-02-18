@@ -288,7 +288,7 @@ class Event < ActiveRecord::Base
 
   def checkiner?(user)
     return true if organizer?(user)
-    user.event_checkiner?(self)
+    user.admin? || user.event_checkiner?(self)
   end
 
   def dietary_restrictions_totals

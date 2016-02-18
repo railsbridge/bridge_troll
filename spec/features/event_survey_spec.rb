@@ -9,7 +9,9 @@ describe 'the post-workshop survey' do
 
   describe 'previewing survey' do
     before do
-      sign_in_as @user
+      @organizer = create(:user)
+      @event.organizers << @organizer
+      sign_in_as @organizer
       visit preview_event_surveys_path(@event)
     end
 

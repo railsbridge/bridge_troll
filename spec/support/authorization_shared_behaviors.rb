@@ -14,6 +14,6 @@ shared_examples_for "an event action that requires an organizer" do
   it "does not allow access to users who aren't organizers of the event" do
     sign_in(create(:user))
     make_request
-    expect(response).to redirect_to(events_path)
+    expect(response).to be_redirect
   end
 end

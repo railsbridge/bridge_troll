@@ -1,13 +1,16 @@
 module Events
   class EmailsController < ApplicationController
-    before_action :authenticate_user!, :validate_organizer!, :find_event
+    before_action :authenticate_user!
+    before_action :find_event
 
     def new
+      authorize @event, :edit?
       @email = @event.event_emails.build(attendee_group: 'All')
       present_form_data
     end
 
     def create
+      authorize @event, :edit?
       recipient_ids = email_params[:recipients] ? email_params[:recipients].map(&:to_i) : []
       recipient_rsvps = @event.rsvps.where(user_id: recipient_ids).includes(:user)
 
@@ -44,6 +47,7 @@ module Events
     end
 
     def show
+      authorize @event, :edit?
       @email = @event.event_emails.find(params[:id])
     end
 

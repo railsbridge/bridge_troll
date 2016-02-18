@@ -3,10 +3,12 @@ class RegionsController < ApplicationController
   before_action :assign_region, only: [:show, :edit, :update, :destroy]
 
   def index
+    skip_authorization
     @regions = Region.includes(:locations, :leaders).all
   end
 
   def show
+    skip_authorization
     @region_events = (
       @region.events.published_or_visible_to(current_user).includes(:location) +
       @region.external_events
@@ -23,6 +25,7 @@ class RegionsController < ApplicationController
   end
 
   def new
+    skip_authorization
     @region = Region.new
   end
 
@@ -31,6 +34,7 @@ class RegionsController < ApplicationController
   end
 
   def create
+    skip_authorization
     @region = Region.new(region_params)
     @region.region_leaderships.build(user: current_user)
 
@@ -51,6 +55,7 @@ class RegionsController < ApplicationController
   end
 
   def destroy
+    skip_authorization
     unless @region.destroyable?
       return redirect_to root_url, alert: "Can't delete a region that's still assigned to a location or external event."
     end

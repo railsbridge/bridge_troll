@@ -2,13 +2,14 @@ module Regions
   class LeadersController < ApplicationController
     before_action :authenticate_user!
     before_action :load_region
-    before_action :validate_authorized!
 
     def index
+      authorize @region, :modify_leadership?
       @leaders = @region.leaders
     end
 
     def create
+      authorize @region, :modify_leadership?
       leader = RegionLeadership.new(region: @region, user_id: leader_params[:id])
       if leader.save
         redirect_to region_leaders_path(@region), notice: "Booyah!"
@@ -18,6 +19,7 @@ module Regions
     end
 
     def destroy
+      authorize @region, :modify_leadership?
       leadership = RegionLeadership.where(
         region: @region,
         user_id: leader_params[:id]
@@ -28,6 +30,7 @@ module Regions
     end
 
     def potential
+      authorize @region, :modify_leadership?
       respond_to do |format|
         format.json do
           users_not_assigned = @region.users.where(<<-SQL, @region.id)
@@ -49,10 +52,6 @@ module Regions
 
     def leader_params
       params.permit(:id, :region_id)
-    end
-
-    def validate_authorized!
-      authorize @region, :modify_leadership?
     end
   end
 end

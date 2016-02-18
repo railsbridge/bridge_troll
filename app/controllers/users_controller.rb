@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    skip_authorization
     user_attendances = Rsvp.attendances_for('User')
     meetup_user_attendances = Rsvp.attendances_for('MeetupUser')
 

@@ -32,15 +32,15 @@ describe OrganizersController do
     it "can not edit, create, or delete an event organizer" do
       expect(
         get :index, event_id: @event.id
-      ).to redirect_to(events_path)
+      ).to be_redirect
 
       expect(
         post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @user.id}
-      ).to redirect_to(events_path)
+      ).to be_redirect
 
       expect(
         delete :destroy, event_id: @event.id, id: 12345
-      ).to redirect_to(events_path)
+      ).to be_redirect
     end
   end
 

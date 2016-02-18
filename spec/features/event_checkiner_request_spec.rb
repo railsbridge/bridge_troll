@@ -6,18 +6,6 @@ describe "checking in attendees" do
     @event.event_sessions.first.update_attributes(name: 'Unique Session Name')
   end
 
-  describe "as a normal user" do
-    before do
-      rsvp = create(:volunteer_rsvp, event: @event)
-      sign_in_as(rsvp.user)
-    end
-
-    it 'is not allowed' do
-      visit event_event_sessions_path(@event)
-      expect(current_path).to eq(events_path)
-    end
-  end
-
   describe "as an organizer" do
     let!(:attendee_rsvp) { create(:volunteer_rsvp, event: @event) }
 

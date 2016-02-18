@@ -1,7 +1,9 @@
 class Events::AttendeesController < ApplicationController
-  before_action :authenticate_user!, :validate_organizer!, :find_event
+  before_action :authenticate_user!
+  before_action :find_event
 
   def index
+    authorize @event, :edit?
     @rsvps = @event.rsvps.where(role_id: Role.attendee_role_ids_with_organizers).includes(:dietary_restrictions)
     respond_to do |format|
       format.csv { send_data attendee_csv_data(@rsvps), type: :csv }
@@ -10,6 +12,7 @@ class Events::AttendeesController < ApplicationController
   end
 
   def update
+    authorize @event, :edit?
     @rsvp = @event.rsvps.find(params[:id])
     @rsvp.section_id = params[:attendee][:section_id]
     if @rsvp.save
@@ -19,11 +22,11 @@ class Events::AttendeesController < ApplicationController
     end
   end
 
+  private
+
   def find_event
     @event = Event.find_by_id(params[:event_id])
   end
-
-  private
 
   def attendee_csv_data(rsvps)
     CSV.generate do |csv|
