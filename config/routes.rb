@@ -12,7 +12,9 @@ Bridgetroll::Application.routes.draw do
   end
   resources :meetup_users, only: [:show]
 
-  resources :locations
+  resources :locations do
+    patch :archive, on: :member
+  end
   resources :chapters do
     resources :leaders, only: [:index, :create, :destroy], controller: 'chapters/leaders' do
       get :potential, on: :collection
