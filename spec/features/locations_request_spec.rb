@@ -76,7 +76,7 @@ describe 'Locations' do
       expect(location.notes).to eq('cool notes')
     end
 
-    it "can archive a location that is no longer available" do
+    it "can archive a location that is no longer available", js: true do
       visit edit_location_path(location)
       click_button "Archive Location"
 

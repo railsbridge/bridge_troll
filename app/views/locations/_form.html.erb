@@ -2,11 +2,7 @@
 <% remote = modal ? true : false %>
 
 <div class="row">
-  <% if remote %>
-    <div class="col-md-12">
-  <% else %>
-    <div class="col-md-6">
-  <% end %>
+  <div class="<%= remote ? 'col-md-12' : 'col-md-6' %>">
 
     <%= simple_form_for(@location, remote: remote, html: {role: :form, 'data-model' => 'location'}) do |f| %>
       <%= render 'shared/model_error_messages', model: @location %>
@@ -33,7 +29,10 @@
       <div class="actions">
         <%= f.submit class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %>
         <% if @location.archivable_by?(current_user) %>
-          <%= f.submit 'Archive Location', class: 'btn btn-warning', data: {disable_with: 'Please wait...'} %>
+          <%= f.submit 'Archive Location', class: 'btn btn-warning', data: {
+              disable_with: 'Please wait...',
+              custom_action: archive_location_path(@location)
+          } %>
         <% end %>
       </div>
     <% end %>
