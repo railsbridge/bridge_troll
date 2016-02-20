@@ -1,4 +1,4 @@
-<div class="gmaps4rails_map" id="gmaps4rails_map"></div>
+<div class="<%= local_assigns[:map_class] || 'gmaps4rails_map' %>" id="gmaps4rails_map"></div>
 <%
   markers = Gmaps4rails.build_markers(locations) do |location, marker|
     marker.lat location.latitude

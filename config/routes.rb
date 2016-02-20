@@ -15,16 +15,20 @@ Bridgetroll::Application.routes.draw do
   resources :locations do
     patch :archive, on: :member
   end
+
   resources :chapters do
     resources :leaders, only: [:index, :create, :destroy], controller: 'chapters/leaders' do
       get :potential, on: :collection
     end
   end
+
   resources :regions do
     resources :leaders, only: [:index, :create, :destroy], controller: 'regions/leaders' do
       get :potential, on: :collection
     end
   end
+
+  resources :organizations, only: [:index]
 
   resources :events do
     resources :organizers, only: [:index, :create, :destroy] do

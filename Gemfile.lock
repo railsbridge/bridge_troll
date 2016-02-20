@@ -40,7 +40,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.4.0)
     arel (6.0.3)
-    autoprefixer-rails (6.3.2)
+    autoprefixer-rails (6.3.3)
       execjs
       json
     awesome_print (1.6.1)
@@ -176,7 +176,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     nested_form (0.3.2)
-    newrelic_rpm (3.14.3.313)
+    newrelic_rpm (3.15.0.314)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     nokogumbo (1.4.7)
@@ -270,7 +270,7 @@ GEM
       railties (>= 4.2.0, < 5.1)
     rspec-collection_matchers (1.1.2)
       rspec-expectations (>= 2.99.0.beta1)
-    rspec-core (3.4.2)
+    rspec-core (3.4.3)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -327,7 +327,7 @@ GEM
     uniform_notifier (1.9.0)
     warden (1.2.6)
       rack (>= 1.0)
-    webmock (1.22.6)
+    webmock (1.24.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff

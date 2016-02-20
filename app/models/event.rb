@@ -363,11 +363,13 @@ class Event < ActiveRecord::Base
   end
 
   def set_defaults
-    self.details ||= Event::DEFAULT_DETAILS['default_details.html']
-    self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
-    self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
-    self.survey_greeting ||= Event::DEFAULT_DETAILS['default_survey_greeting.html']
-    self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
+    if self.has_attribute?(:details)
+      self.details ||= Event::DEFAULT_DETAILS['default_details.html']
+      self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
+      self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
+      self.survey_greeting ||= Event::DEFAULT_DETAILS['default_survey_greeting.html']
+      self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
+    end
   end
 
   def association_for_role(role, waitlisted: false)
