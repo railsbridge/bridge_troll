@@ -1,0 +1,7 @@
+<div>
+  <%= link_to location.chapter.name, location.chapter %> (<%= pluralize(location.chapter.events_count, 'event') %>)
+</div>
+
+<div style='margin-top: 4px;'><strong>Last Event:</strong></div>
+<div><%= link_to location.event.title, location.event %> @ </div>
+<div><%= link_to location.name, location %></div>
