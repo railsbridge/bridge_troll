@@ -8,8 +8,35 @@ class OrganizationsController < ApplicationController
                                .group(:chapter_id)
                                .map(&:event_id)
     @chapter_locations = Event
-                           .includes(:location)
+                           .includes(:location, :chapter)
                            .where(id: chapter_last_event_ids)
-                           .map(&:location)
+                           .map { |e| ChapterEventLocation.new(e) }
+  end
+
+  private
+
+  class ChapterEventLocation
+    attr_reader :event, :location, :chapter
+    def initialize(event)
+      @event = event
+      @location = event.location
+      @chapter = event.chapter
+    end
+
+    def to_model
+      event.location
+    end
+
+    def name
+      event.location.name
+    end
+
+    def latitude
+      event.location.latitude
+    end
+
+    def longitude
+      event.location.longitude
+    end
   end
 end
