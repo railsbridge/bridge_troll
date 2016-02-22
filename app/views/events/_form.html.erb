@@ -32,7 +32,7 @@
                             :name_with_region,
                             {prompt: true}) %>
     <script>
-      $('#event_location_id').select2();
+      $('#event_location_id').select2({width: '100%'});
     </script>
     <p>
     <em>If your location isn't in this list, <%= link_to 'add it', '#new-location-modal', 'data-toggle' => 'modal' %> before you continue.</em>
