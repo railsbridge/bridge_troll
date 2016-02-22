@@ -194,8 +194,13 @@
       As a guideline, most workshops have less than one volunteer for every student.
     </p>
 
-    <%= f.input :student_rsvp_limit, label: 'Student RSVP limit (required)', wrapper_html: {class: 'workshop-only'} %>
-    <%= f.input :volunteer_rsvp_limit, label: 'Volunteer RSVP limit' %>
+    <%= f.input :student_rsvp_limit,
+                as: :string,
+                label: 'Student RSVP limit (required)',
+                wrapper_html: {class: 'workshop-only'} %>
+    <%= f.input :volunteer_rsvp_limit,
+                as: :string,
+                label: 'Volunteer RSVP limit' %>
     <p>
       After this event is published, you can <strong>increase</strong> these numbers, but you cannot decrease them below the number of RSVP'd attendees.
     </p>
