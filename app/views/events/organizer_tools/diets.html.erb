@@ -3,6 +3,22 @@
 
 <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Food Preferences'} %>
 <div class='food-preferences'>
+  <h2>Total Checked-in Attendees: <%= @event.dietary_restrictions_totals_checked_in["count"] %></h2>
+
+  <h2>Dietary Restrictions Totals</h2>
+  <h3>Vegetarian: <%= @event.dietary_restrictions_totals_checked_in["vegetarian"] %></h3>
+  <h3>Vegan: <%= @event.dietary_restrictions_totals_checked_in["vegan"] %></h3>
+  <h3>Dairy-free: <%= @event.dietary_restrictions_totals_checked_in["dairy_free"] %></h3>
+  <h3>Gluten-free: <%= @event.dietary_restrictions_totals_checked_in["gluten_free"] %></h3>
+
+  <h2>Other dietary restrictions and allergies:</h2>
+  <ul>
+  <% @event.dietary_restrictions_totals_checked_in["other"].each do |other| %>
+    <% if other != "" %>
+    <li><%= other %></li>
+    <% end %>
+  <% end %>
+  </ul>
   <h2>Total Attendees: <%= @event.rsvps.confirmed.count %></h2>
 
   <h2>Dietary Restrictions Totals</h2>
@@ -11,10 +27,11 @@
     <h3><%= "#{diet.capitalize}: #{totals[diet] || 0}" %></h3>
   <% end %>
 
-  <h2>Other dietary restrictions:</h2>
+  <h2>Other dietary restrictions and allergies:</h2>
   <ul>
   <% @event.other_dietary_restrictions.each do |other| %>
     <li><%= other %></li>
-  <% end %> 
+  <% end %>
   </ul>
 </div>
+
