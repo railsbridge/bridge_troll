@@ -58,6 +58,14 @@ db_namespace = namespace :db do
     raise 'Error dumping database' if $?.exitstatus == 1
   end
 
+  desc "Dump the database from a Heroku deployment of the app to 'latest.dump'"
+  task :dump_heroku, [:app_name] => [:environment] do |t, args|
+    app_name = args[:app_name] || 'bridgetroll'
+    backup_url = print_and_run("heroku pg:backups public-url --app #{app_name}")
+    puts backup_url.inspect
+    print_and_run("curl -o latest.dump \"#{backup_url}\"")
+  end
+
   desc "Restores the database from a dump file"
   task :restore, [:filename] => [:environment, 'db:drop', 'db:create'] do |t, args|
     filename = Rails.root.join(args[:filename] || 'db/PRODUCTION.dump')
@@ -69,6 +77,13 @@ db_namespace = namespace :db do
   end
 
   private
+
+  def print_and_run(cmd)
+    puts "Running '#{cmd}'"
+    Bundler.with_clean_env do
+      `#{cmd}`
+    end
+  end
 
   def with_config
     yield Rails.application.class.parent_name.underscore,

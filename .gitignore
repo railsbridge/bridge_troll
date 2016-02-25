@@ -15,7 +15,7 @@ custom_plan.rb
 /db/*.sqlite3
 
 # Ignore database dumps
-/db/*.dump
+*.dump
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
