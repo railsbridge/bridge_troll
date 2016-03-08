@@ -125,9 +125,21 @@ describe Events::UnpublishedEventsController do
         @event.update_attribute(:email_on_approval, false)
       end
 
-      it 'sends no emails' do
+      it 'sends no announcement emails' do
         expect { make_request }.not_to change(ActionMailer::Base.deliveries, :count)
       end
+
+  #     it 'lets the organizer know their event has been approved' do
+  #       expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
+  #
+  #       expect(recipients).to match_array([@user_this_region.email, @user_both_regions.email])
+  #
+  #       mail = ActionMailer::Base.deliveries.last
+  #       expect(mail.subject).to include("Your Bridge Troll event has been approved")
+  #       expect(mail.body).to include(@event.title)
+  #
+  #     end
+
     end
 
     it 'updates the time the announcement email was sent' do
@@ -136,6 +148,7 @@ describe Events::UnpublishedEventsController do
         make_request
       }.to change{ @event.reload.announcement_email_sent_at.present? }.from(false).to(true)
     end
+
 
     context 'as a chapter leader' do
       before do

@@ -38,7 +38,7 @@ class EventMailer < BaseMailer
   end
 
   def event_has_been_approved(event)
-    @event = event_has_been_approved
+    @event = event
 
     set_recipients(event.organizers.map(&:email))
 
