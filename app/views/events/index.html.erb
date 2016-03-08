@@ -23,7 +23,7 @@
     </div>
 
     <p class="event-notifications">
-      Subscribe to our calendar via: 
+      To stay up to date about the latest events, subscribe via 
       <%= link_to " RSS", feed_events_path(format: :rss), class: 'fa-before fa-rss' %>
       <%= link_to " Atom", feed_events_path(format: :atom), class: 'fa-before fa-rss' %> or
       <% if user_signed_in? %>
@@ -32,7 +32,6 @@
         <%= link_to "sign up", new_user_registration_path %> to receive email notifications.
       <% end %>
     </p>
-    <a href="http://www.digitaltrends.com/computing/how-to-use-rss/">Click here to learn about RSS/Atom feeds</a>
 
     <% if user_signed_in? %>
       <h1>Get Involved</h1>
