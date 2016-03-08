@@ -1,10 +1,10 @@
 require "csv"
 
-class Events::SecurityListController < ApplicationController
+class Events::StudentNamesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_event
 
-  def show
+  def index
     authorize @event, :edit?
 
     rsvps = @event.rsvps.where(role_id: Role.attendee_role_ids_with_organizers)
