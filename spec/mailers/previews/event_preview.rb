@@ -19,6 +19,10 @@ class EventPreview < ActionMailer::Preview
     EventMailer.event_pending_approval(Event.first)
   end
 
+  def event_has_been_approved
+    EventMailer.event_has_been_approved(Event.first)
+  end
+
   def new_event
     EventMailer.new_event(Event.first)
   end
