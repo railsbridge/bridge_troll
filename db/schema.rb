@@ -15,10 +15,10 @@ ActiveRecord::Schema.define(version: 20160211061631) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "provider"
-    t.string   "uid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "provider",   limit: 255
+    t.string   "uid",        limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "chapter_leaderships", force: :cascade do |t|
@@ -36,10 +36,10 @@ ActiveRecord::Schema.define(version: 20160211061631) do
   end
 
   create_table "dietary_restrictions", force: :cascade do |t|
-    t.string   "restriction"
+    t.string   "restriction", limit: 255
     t.integer  "rsvp_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "event_email_recipients", force: :cascade do |t|
@@ -55,10 +55,10 @@ ActiveRecord::Schema.define(version: 20160211061631) do
   create_table "event_emails", force: :cascade do |t|
     t.integer  "event_id"
     t.integer  "sender_id"
-    t.string   "subject"
+    t.string   "subject",    limit: 255
     t.text     "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "event_emails", ["event_id"], name: "index_event_emails_on_event_id"
@@ -67,11 +67,11 @@ ActiveRecord::Schema.define(version: 20160211061631) do
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.integer  "event_id"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.string   "name",                                  null: false
-    t.boolean  "required_for_students", default: true
-    t.boolean  "volunteers_only",       default: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.string   "name",                  limit: 255,                 null: false
+    t.boolean  "required_for_students",             default: true
+    t.boolean  "volunteers_only",                   default: false
     t.integer  "location_id"
   end
 
@@ -79,53 +79,53 @@ ActiveRecord::Schema.define(version: 20160211061631) do
   add_index "event_sessions", ["location_id"], name: "index_event_sessions_on_location_id"
 
   create_table "events", force: :cascade do |t|
-    t.string   "title"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.string   "title",                          limit: 255
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
     t.integer  "location_id"
     t.text     "details"
-    t.string   "time_zone"
+    t.string   "time_zone",                      limit: 255
     t.text     "volunteer_details"
-    t.string   "public_email"
+    t.string   "public_email",                   limit: 255
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.integer  "student_rsvp_limit"
     t.integer  "course_id"
-    t.boolean  "allow_student_rsvp",             default: true
+    t.boolean  "allow_student_rsvp",                         default: true
     t.text     "student_details"
-    t.boolean  "spam",                           default: false
-    t.boolean  "plus_one_host_toggle",           default: true
-    t.boolean  "email_on_approval",              default: true
-    t.integer  "student_rsvps_count",            default: 0
-    t.integer  "student_waitlist_rsvps_count",   default: 0
-    t.integer  "volunteer_rsvps_count",          default: 0
+    t.boolean  "spam",                                       default: false
+    t.boolean  "plus_one_host_toggle",                       default: true
+    t.boolean  "email_on_approval",                          default: true
+    t.integer  "student_rsvps_count",                        default: 0
+    t.integer  "student_waitlist_rsvps_count",               default: 0
+    t.integer  "volunteer_rsvps_count",                      default: 0
     t.datetime "survey_sent_at"
-    t.boolean  "has_childcare",                  default: true
-    t.boolean  "restrict_operating_systems",     default: false
+    t.boolean  "has_childcare",                              default: true
+    t.boolean  "restrict_operating_systems",                 default: false
     t.string   "allowed_operating_system_ids"
     t.integer  "volunteer_rsvp_limit"
-    t.integer  "volunteer_waitlist_rsvps_count", default: 0
+    t.integer  "volunteer_waitlist_rsvps_count",             default: 0
     t.string   "target_audience"
-    t.boolean  "open",                           default: true
+    t.boolean  "open",                                       default: true
     t.text     "survey_greeting"
     t.datetime "announcement_email_sent_at"
-    t.integer  "current_state",                  default: 0
+    t.integer  "current_state",                              default: 0
     t.string   "external_event_data"
-    t.integer  "chapter_id",                                     null: false
+    t.integer  "chapter_id",                                                 null: false
   end
 
   add_index "events", ["chapter_id"], name: "index_events_on_chapter_id"
 
   create_table "external_events", force: :cascade do |t|
-    t.string   "name"
-    t.string   "url"
+    t.string   "name",       limit: 255
+    t.string   "url",        limit: 255
     t.date     "starts_at"
     t.date     "ends_at"
-    t.string   "city"
-    t.string   "location"
-    t.string   "organizers"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "city",       limit: 255
+    t.string   "location",   limit: 255
+    t.string   "organizers", limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.integer  "region_id"
     t.integer  "chapter_id"
   end
@@ -134,18 +134,18 @@ ActiveRecord::Schema.define(version: 20160211061631) do
   add_index "external_events", ["region_id"], name: "index_external_events_on_region_id"
 
   create_table "locations", force: :cascade do |t|
-    t.string   "name"
-    t.string   "address_1"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "address_2"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
+    t.string   "name",         limit: 255
+    t.string   "address_1",    limit: 255
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.string   "address_2",    limit: 255
+    t.string   "city",         limit: 255
+    t.string   "state",        limit: 255
+    t.string   "zip",          limit: 255
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
-    t.integer  "events_count", default: 0
+    t.integer  "events_count",             default: 0
     t.integer  "region_id"
     t.text     "contact_info"
     t.text     "notes"
@@ -153,10 +153,10 @@ ActiveRecord::Schema.define(version: 20160211061631) do
   end
 
   create_table "meetup_users", force: :cascade do |t|
-    t.string   "full_name"
+    t.string   "full_name",  limit: 255
     t.integer  "meetup_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -176,11 +176,11 @@ ActiveRecord::Schema.define(version: 20160211061631) do
     t.boolean  "windows"
     t.boolean  "linux"
     t.text     "other"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.text     "bio"
     t.boolean  "outreach"
-    t.string   "github_username"
+    t.string   "github_username", limit: 255
   end
 
   create_table "region_leaderships", force: :cascade do |t|
@@ -189,11 +189,11 @@ ActiveRecord::Schema.define(version: 20160211061631) do
   end
 
   create_table "regions", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "locations_count",       default: 0
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.integer  "external_events_count", default: 0
+    t.string   "name",                  limit: 255
+    t.integer  "locations_count",                   default: 0
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "external_events_count",             default: 0
   end
 
   create_table "regions_users", id: false, force: :cascade do |t|
@@ -222,7 +222,7 @@ ActiveRecord::Schema.define(version: 20160211061631) do
     t.boolean  "teaching",                            default: false, null: false
     t.boolean  "taing",                               default: false, null: false
     t.integer  "volunteer_assignment_id",             default: 1,     null: false
-    t.string   "user_type"
+    t.string   "user_type",               limit: 255
     t.string   "teaching_experience",     limit: 250
     t.text     "childcare_info"
     t.integer  "operating_system_id"
@@ -231,7 +231,7 @@ ActiveRecord::Schema.define(version: 20160211061631) do
     t.integer  "checkins_count",                      default: 0
     t.datetime "reminded_at"
     t.integer  "waitlist_position"
-    t.string   "dietary_info"
+    t.string   "dietary_info",            limit: 255
     t.integer  "section_id"
     t.boolean  "checkiner",                           default: false
     t.text     "plus_one_host"
@@ -243,9 +243,9 @@ ActiveRecord::Schema.define(version: 20160211061631) do
 
   create_table "sections", force: :cascade do |t|
     t.integer  "event_id"
-    t.string   "name"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name",        limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.integer  "class_level"
   end
 
@@ -262,30 +262,30 @@ ActiveRecord::Schema.define(version: 20160211061631) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "",    null: false
+    t.string   "encrypted_password",     limit: 255, default: "",    null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.string   "confirmation_token",     limit: 255
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.boolean  "admin",                  default: false
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "time_zone"
-    t.string   "gender"
-    t.boolean  "allow_event_email",      default: true
-    t.boolean  "publisher",              default: false
-    t.boolean  "spammer",                default: false
-    t.integer  "authentications_count",  default: 0
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+    t.boolean  "admin",                              default: false
+    t.string   "first_name",             limit: 255
+    t.string   "last_name",              limit: 255
+    t.string   "time_zone",              limit: 255
+    t.string   "gender",                 limit: 255
+    t.boolean  "allow_event_email",                  default: true
+    t.boolean  "publisher",                          default: false
+    t.boolean  "spammer",                            default: false
+    t.integer  "authentications_count",              default: 0
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
