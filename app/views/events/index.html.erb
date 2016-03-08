@@ -14,7 +14,6 @@
         </label>
       <% end %>
       <h1>Upcoming events</h1>
-
       <% if @events.empty? %>
         <h2>There are currently no upcoming events.</h2>
       <% end %>
@@ -33,7 +32,7 @@
         <%= link_to "sign up", new_user_registration_path %> to receive email notifications.
       <% end %>
     </p>
-    <p>Right click on RSS or Atom, copy link, and paste it to your favorite feed reader!</p>
+    <a href="http://www.digitaltrends.com/computing/how-to-use-rss/">Click here to learn about RSS/Atom feeds</a>
 
     <% if user_signed_in? %>
       <h1>Get Involved</h1>
