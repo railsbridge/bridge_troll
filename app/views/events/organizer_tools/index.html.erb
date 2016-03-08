@@ -46,13 +46,6 @@
       and volunteers as they arrive so that you can take care of other things.'
     } %>
 
-    <%= render partial: 'shared/organizer_action', locals: {
-      path: event_attendees_path(@event, format: :csv),
-      icon: 'fa fa-download',
-      text: 'Download Attendee Names CSV',
-      tip: 'You can use this to download a list of attendees which can be printed out for the security desk.'
-    } %>
-
     <%= render partial: 'shared/checkin_event_sessions' %>
 
     <section class='organizer-dashboard-section'>
