@@ -37,6 +37,17 @@ class EventMailer < BaseMailer
     )
   end
 
+  def event_has_been_approved(event)
+    @event = event
+
+    set_recipients(event.organizers.map(&:email))
+
+    mail(
+      subject: "Your Bridge Troll event has been approved: '#{@event.title}'"
+    )
+
+  end
+
   def new_event(event)
     @event = event
     return unless @event.location
