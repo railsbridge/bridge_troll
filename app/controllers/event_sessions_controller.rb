@@ -13,8 +13,8 @@ class EventSessionsController < ApplicationController
     ics = IcsGenerator.new.event_session_ics(event_session)
 
     respond_to do |format|
-      format.ics { render text: ics, layout: false }
-      format.all { head status: 404 }
+      format.ics { render body: ics, layout: false }
+      format.all { head 404 }
     end
   end
 

@@ -8,4 +8,4 @@ Rails.application.config.assets.version = '1.2'
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w( section_organizer.js markerclustererplus/dist/markerclusterer.min.js )
+Rails.application.config.assets.precompile += %w( section_organizer.js markerclustererplus/dist/markerclusterer.min.js application.js application.css logo.svg troll.svg troll_plus_logo.svg )

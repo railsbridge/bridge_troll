@@ -66,7 +66,7 @@ class ChaptersController < ApplicationController
 
   def code_of_conduct_url
     skip_authorization
-    render text: @chapter.code_of_conduct_url
+    render plain: @chapter.code_of_conduct_url
   end
 
   private

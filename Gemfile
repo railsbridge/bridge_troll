@@ -4,7 +4,8 @@ ruby '2.3.1'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem 'rails', '~> 4.2.7'
+gem 'rails', '~> 5.0.0'
+gem 'sprockets-rails', '2.3.3'
 gem 'devise', '~> 4.2.0'
 gem 'pundit'
 gem 'puma'
@@ -30,8 +31,6 @@ gem 'rack-cors'
 
 group :production do
   gem 'pg'
-  gem 'rails_12factor'
-  gem 'heroku_rails_deflate'
   gem 'newrelic_rpm'
   gem 'sentry-raven'
   gem 'rack-timeout'
@@ -53,13 +52,13 @@ gem 'jquery-ui-rails'
 gem 'backbone-on-rails'
 
 group :development do
-  gem 'quiet_assets'
   gem 'rb-fsevent'
   gem 'bullet'
   gem 'heroku_san'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'byebug'
+  gem 'listen'
 end
 
 group :test, :development do
@@ -69,6 +68,7 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
   gem 'awesome_print'
+  gem 'rails-controller-testing', require: false
 end
 
 group :test do
@@ -81,6 +81,5 @@ group :test do
   gem 'shoulda-matchers'
   gem 'faker'
   gem 'capybara-screenshot'
-  # Remove after Rails 5: https://github.com/rails/rails/pull/18458
-  gem 'test_after_commit'
+  gem 'database_cleaner'
 end

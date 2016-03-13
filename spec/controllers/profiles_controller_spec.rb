@@ -21,11 +21,5 @@ describe ProfilesController do
       expect(response).to be_success
       expect(response.body).to include(ERB::Util.html_escape(@other_user.full_name))
     end
-
-    it "returns 406 for requests outside of html format" do
-      get :show, user_id: @user.id, format: :json
-      expect(response).not_to be_success
-      expect(response.status).to eq(406)
-    end
   end
 end

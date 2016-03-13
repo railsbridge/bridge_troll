@@ -18,3 +18,6 @@ unless worker_count == 1
     ActiveRecord::Base.establish_connection
   end
 end
+
+# Allow puma to be restarted by `rails restart` command.
+plugin :tmp_restart

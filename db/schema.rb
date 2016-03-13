@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -58,10 +57,9 @@ ActiveRecord::Schema.define(version: 20170202035358) do
     t.integer  "recipient_rsvp_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.index ["event_email_id"], name: "index_event_email_recipients_on_event_email_id"
+    t.index ["recipient_rsvp_id"], name: "index_event_email_recipients_on_recipient_rsvp_id"
   end
-
-  add_index "event_email_recipients", ["event_email_id"], name: "index_event_email_recipients_on_event_email_id"
-  add_index "event_email_recipients", ["recipient_rsvp_id"], name: "index_event_email_recipients_on_recipient_rsvp_id"
 
   create_table "event_emails", force: :cascade do |t|
     t.integer  "event_id"
@@ -70,9 +68,8 @@ ActiveRecord::Schema.define(version: 20170202035358) do
     t.text     "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_event_emails_on_event_id"
   end
-
-  add_index "event_emails", ["event_id"], name: "index_event_emails_on_event_id"
 
   create_table "event_sessions", force: :cascade do |t|
     t.datetime "starts_at"
@@ -84,10 +81,9 @@ ActiveRecord::Schema.define(version: 20170202035358) do
     t.boolean  "required_for_students", default: true
     t.boolean  "volunteers_only",       default: false
     t.integer  "location_id"
+    t.index ["event_id", "name"], name: "index_event_sessions_on_event_id_and_name", unique: true
+    t.index ["location_id"], name: "index_event_sessions_on_location_id"
   end
-
-  add_index "event_sessions", ["event_id", "name"], name: "index_event_sessions_on_event_id_and_name", unique: true
-  add_index "event_sessions", ["location_id"], name: "index_event_sessions_on_location_id"
 
   create_table "events", force: :cascade do |t|
     t.string   "title"
@@ -124,9 +120,8 @@ ActiveRecord::Schema.define(version: 20170202035358) do
     t.string   "imported_event_data"
     t.integer  "chapter_id",                                     null: false
     t.boolean  "food_provided",                  default: true,  null: false
+    t.index ["chapter_id"], name: "index_events_on_chapter_id"
   end
-
-  add_index "events", ["chapter_id"], name: "index_events_on_chapter_id"
 
   create_table "external_events", force: :cascade do |t|
     t.string   "name"
@@ -140,10 +135,9 @@ ActiveRecord::Schema.define(version: 20170202035358) do
     t.datetime "updated_at", null: false
     t.integer  "region_id"
     t.integer  "chapter_id"
+    t.index ["chapter_id"], name: "index_external_events_on_chapter_id"
+    t.index ["region_id"], name: "index_external_events_on_region_id"
   end
-
-  add_index "external_events", ["chapter_id"], name: "index_external_events_on_chapter_id"
-  add_index "external_events", ["region_id"], name: "index_external_events_on_region_id"
 
   create_table "levels", force: :cascade do |t|
     t.integer  "course_id"
@@ -184,10 +178,9 @@ ActiveRecord::Schema.define(version: 20170202035358) do
   create_table "organization_leaderships", force: :cascade do |t|
     t.integer "user_id"
     t.integer "organization_id"
+    t.index ["organization_id"], name: "index_organization_leaderships_on_organization_id"
+    t.index ["user_id"], name: "index_organization_leaderships_on_user_id"
   end
-
-  add_index "organization_leaderships", ["organization_id"], name: "index_organization_leaderships_on_organization_id"
-  add_index "organization_leaderships", ["user_id"], name: "index_organization_leaderships_on_user_id"
 
   create_table "organization_subscriptions", force: :cascade do |t|
     t.integer  "user_id"
@@ -237,9 +230,8 @@ ActiveRecord::Schema.define(version: 20170202035358) do
   create_table "regions_users", id: false, force: :cascade do |t|
     t.integer "region_id"
     t.integer "user_id"
+    t.index ["region_id", "user_id"], name: "index_regions_users_on_region_id_and_user_id", unique: true
   end
-
-  add_index "regions_users", ["region_id", "user_id"], name: "index_regions_users_on_region_id_and_user_id", unique: true
 
   create_table "rsvp_sessions", force: :cascade do |t|
     t.integer  "rsvp_id"
@@ -274,10 +266,9 @@ ActiveRecord::Schema.define(version: 20170202035358) do
     t.boolean  "checkiner",                           default: false
     t.text     "plus_one_host"
     t.string   "token"
+    t.index ["token"], name: "index_rsvps_on_token", unique: true
+    t.index ["user_id", "event_id", "user_type"], name: "index_rsvps_on_user_id_and_event_id_and_event_type", unique: true
   end
-
-  add_index "rsvps", ["token"], name: "index_rsvps_on_token", unique: true
-  add_index "rsvps", ["user_id", "event_id", "user_type"], name: "index_rsvps_on_user_id_and_event_id_and_event_type", unique: true
 
   create_table "sections", force: :cascade do |t|
     t.integer  "event_id"
@@ -285,9 +276,8 @@ ActiveRecord::Schema.define(version: 20170202035358) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "class_level"
+    t.index ["event_id"], name: "index_sections_on_event_id"
   end
-
-  add_index "sections", ["event_id"], name: "index_sections_on_event_id"
 
   create_table "surveys", force: :cascade do |t|
     t.integer  "rsvp_id"
@@ -325,11 +315,10 @@ ActiveRecord::Schema.define(version: 20170202035358) do
     t.boolean  "spammer",                default: false
     t.integer  "authentications_count",  default: 0
     t.boolean  "external_event_editor",  default: false
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   add_foreign_key "authentications", "users"
   add_foreign_key "chapter_leaderships", "chapters"
