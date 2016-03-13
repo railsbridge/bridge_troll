@@ -28,4 +28,4 @@
   </tbody>
 </table>
 
-<%= render 'shared/actions', links: crud_object_nav_links(:chapter, current_user.try(:admin?) ? ['New Chapter', new_chapter_path] : nil) %>
+<%= render 'shared/actions', links: crud_object_nav_links(:chapter, policy(Chapter).new? ? ['New Chapter', new_chapter_path] : nil) %>

@@ -5,7 +5,7 @@
 
       <div class="form-group">
         <%= f.label :organization_id %>
-        <%= f.collection_select(:organization_id, Organization.order(:name), :id, :name, {prompt: true}, {class: 'form-control'}) %>
+        <%= f.collection_select(:organization_id, policy_scope(Organization).order(:name), :id, :name, {prompt: true}, {class: 'form-control'}) %>
       </div>
 
       <%= f.input :name %>

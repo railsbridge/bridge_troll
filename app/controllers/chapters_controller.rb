@@ -34,8 +34,8 @@ class ChaptersController < ApplicationController
   end
 
   def create
-    authorize Chapter
     @chapter = Chapter.new(chapter_params)
+    authorize @chapter
 
     if @chapter.save
       redirect_to @chapter, notice: 'Chapter was successfully created.'

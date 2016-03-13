@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :events, -> { published }, through: :rsvps
   has_many :region_leaderships, dependent: :destroy
   has_many :chapter_leaderships, dependent: :destroy
+  has_many :organization_leaderships, dependent: :destroy
   has_many :event_emails, foreign_key: :sender_id, dependent: :nullify
 
   has_one :profile, dependent: :destroy, inverse_of: :user, validate: true

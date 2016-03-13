@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160211061631) do
+ActiveRecord::Schema.define(version: 20160312224628) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -159,6 +159,14 @@ ActiveRecord::Schema.define(version: 20160211061631) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "organization_leaderships", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "organization_id"
+  end
+
+  add_index "organization_leaderships", ["organization_id"], name: "index_organization_leaderships_on_organization_id"
+  add_index "organization_leaderships", ["user_id"], name: "index_organization_leaderships_on_user_id"
+
   create_table "organizations", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",          null: false
@@ -293,6 +301,8 @@ ActiveRecord::Schema.define(version: 20160211061631) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   add_foreign_key "authentications", "users"
+  add_foreign_key "chapter_leaderships", "chapters"
+  add_foreign_key "chapter_leaderships", "users"
   add_foreign_key "chapters", "organizations"
   add_foreign_key "dietary_restrictions", "rsvps"
   add_foreign_key "event_email_recipients", "event_emails"
@@ -306,6 +316,8 @@ ActiveRecord::Schema.define(version: 20160211061631) do
   add_foreign_key "external_events", "chapters"
   add_foreign_key "external_events", "regions"
   add_foreign_key "locations", "regions"
+  add_foreign_key "organization_leaderships", "organizations"
+  add_foreign_key "organization_leaderships", "users"
   add_foreign_key "profiles", "users"
   add_foreign_key "region_leaderships", "regions"
   add_foreign_key "region_leaderships", "users"
