@@ -8,7 +8,8 @@
         <%= f.collection_select(:organization_id, policy_scope(Organization).order(:name), :id, :name, {prompt: true}, {class: 'form-control'}) %>
       </div>
 
-      <%= f.input :name %>
+
+      <%= f.input :name, placeholder: "ex: BridgeName CityName", hint: "We suggest naming your chapter after the organization and city or region." %>
 
       <div class="actions">
         <%= f.submit class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %>
