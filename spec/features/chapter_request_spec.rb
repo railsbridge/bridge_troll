@@ -4,6 +4,14 @@ describe "chapter pages" do
   let(:admin) { create(:user, admin: true) }
   let!(:chapter) { create(:chapter) }
 
+  describe 'the index page' do
+    it "shows a list of chapters" do
+      visit chapters_path
+
+      expect(page).to have_content(chapter.name)
+    end
+  end
+
   it "allows authorized users to create chapter leaders", js: true do
     potential_leader = create(:user)
 
