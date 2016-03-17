@@ -92,6 +92,7 @@ describe Events::UnpublishedEventsController do
 
       @user_no_email = create(:user, allow_event_email: false)
       @user_no_email.regions << this_region
+      @event.organizers << @user_no_email
 
       @user_other_region = create(:user)
       @user_other_region.regions << other_region
@@ -126,19 +127,18 @@ describe Events::UnpublishedEventsController do
       end
 
       it 'sends no announcement emails' do
-        expect { make_request }.not_to change(ActionMailer::Base.deliveries, :count)
+        mail = ActionMailer::Base.deliveries.last
+        expect(mail.subject).not_to include("New event posted:")
       end
 
-  #     it 'lets the organizer know their event has been approved' do
-  #       expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
-  #
-  #       expect(recipients).to match_array([@user_this_region.email, @user_both_regions.email])
-  #
-  #       mail = ActionMailer::Base.deliveries.last
-  #       expect(mail.subject).to include("Your Bridge Troll event has been approved")
-  #       expect(mail.body).to include(@event.title)
-  #
-  #     end
+      it 'lets the organizer know their event has been approved' do
+        expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect(recipients).to match_array([@user_no_email.email])
+        mail = ActionMailer::Base.deliveries.last
+        expect(mail.subject).to include("Your Bridge Troll event has been approved")
+        expect(mail.body).to include(@event.title)
+
+      end
 
     end
 
