@@ -139,12 +139,16 @@ module EventsHelper
     gravatar_image_tag(user.email, alt: '', gravatar: { size: 38 })
   end
 
-  def event_special_permissions_text(user_event_role)
+  def event_special_permissions_text(event, user_event_role)
     if current_user.admin?
       return "As an admin, you can view organizer tools for this event."
+    elsif event.chapter.has_leader?(current_user)
+      return "As a chapter leader for #{event.chapter.name}, you can view organizer tools for this event."
+    elsif event.organization.has_leader?(current_user)
+      return "As an organization leader for #{event.organization.name}, you can view organizer tools for this event."
     end
 
-    role_text = user_event_role == :organizer ? 'an organizer of' : 'a checkiner for'
+    role_text = user_event_role == :editor ? 'an organizer of' : 'a checkiner for'
     "You are #{role_text} this event!"
   end
 end

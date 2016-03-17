@@ -96,6 +96,28 @@ describe EventsController do
         expect(response.body).to include('Carbon Nine')
       end
 
+      describe "authorization message" do
+        it "can tell the user they are a chapter leader" do
+          chapter_leader = create(:user)
+          chapter_leader.chapter_leaderships.create(chapter: event.chapter)
+
+          sign_in chapter_leader
+
+          get :show, id: event.id
+          expect(response.body).to include('As a chapter leader')
+        end
+
+        it "can tell the user they are an organization leader" do
+          organization_leader = create(:user)
+          organization_leader.organization_leaderships.create(organization: event.organization)
+
+          sign_in organization_leader
+
+          get :show, id: event.id
+          expect(response.body).to include('As an organization leader')
+        end
+      end
+
       describe "#allow_student_rsvp?" do
         let(:attend_text) { 'Attend' }
         before do

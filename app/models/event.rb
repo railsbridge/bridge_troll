@@ -235,7 +235,7 @@ class Event < ActiveRecord::Base
 
   def editable_by?(user)
     return false if historical?
-    user.admin? || organizer?(user) || chapter.has_leader?(user)
+    user.admin? || organizer?(user) || chapter.has_leader?(user) || organization.has_leader?(user)
   end
 
   def upcoming?

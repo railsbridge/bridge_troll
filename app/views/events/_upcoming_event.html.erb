@@ -45,7 +45,7 @@
   <div class='event-actions'>
     <% if user_signed_in? %>
       <%= render 'shared/rsvp_actions', event: event %>
-      <% if event.organizer?(current_user) || current_user.admin? %>
+      <% if event.editable_by?(current_user) %>
         <%= link_to 'Organizer Console', event_organizer_tools_path(event), :class => 'btn fa-before fa-bullhorn' %>
       <% elsif event.checkiner?(current_user) %>
         <%= link_to 'Checkin Console', event_event_sessions_path(event), :class => 'btn' %>

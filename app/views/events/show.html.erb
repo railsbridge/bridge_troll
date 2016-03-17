@@ -1,11 +1,11 @@
 <%= content_for(:header_text, @event.title) %>
 
-<% if @organizer || @checkiner %>
+<% if @can_edit || @checkiner %>
   <div class="organizer-breadcrumb">
-    <%= event_special_permissions_text(@organizer ? :organizer : :checkiner) %>
+    <%= event_special_permissions_text(@event, @can_edit ? :editor : :checkiner) %>
 
     <div class="header-actions">
-      <% if @organizer %>
+      <% if @can_edit %>
         <%= link_to 'Edit', edit_event_path(@event), class: "btn fa-before fa-edit" %>
         <%= link_to 'Organizer Console', event_organizer_tools_path(@event), class: "btn fa-before fa-bullhorn" %>
       <% elsif @checkiner %>
@@ -67,12 +67,12 @@
     <div class="details">
       <%= simple_format_with_html(@event.details) %>
       <% if current_user %>
-        <% if @event.volunteer?(current_user) || @organizer %>
+        <% if @event.volunteer?(current_user) || @can_edit %>
           <h2>Volunteer Details</h2>
           <%= simple_format_with_html(@event.volunteer_details) %>
         <% end %>
 
-        <% if @event.allow_student_rsvp? && (@event.student?(current_user) || @organizer) %>
+        <% if @event.allow_student_rsvp? && (@event.student?(current_user) || @can_edit) %>
           <h2>Student Details</h2>
           <%= simple_format_with_html(@event.student_details) %>
         <% end %>

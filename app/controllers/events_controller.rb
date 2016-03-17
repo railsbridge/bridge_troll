@@ -35,7 +35,7 @@ class EventsController < ApplicationController
   def show
     skip_authorization
     if user_signed_in? && !@event.historical?
-      @organizer = @event.organizer?(current_user) || current_user.admin?
+      @can_edit = @event.editable_by?(current_user)
       @checkiner = @event.checkiner?(current_user)
     else
       @organizer = false
