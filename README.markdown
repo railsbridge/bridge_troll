@@ -10,7 +10,7 @@ Prospective organizers and attendees can sign up right now at [www.bridgetroll.o
 
 # Contributing
 
-New? Keep reading this, and then head to the wiki to read the [contributor guidelines](https://github.com/railsbridge/bridge_troll/wiki/Contributor-Guidelines).
+New? Keep reading this, and then read the [contributor guidelines](CONTRIBUTING.md).
 
 ### Where is it?
 * The real live production application lives at [bridgetroll.herokuapp.com](http://bridgetroll.herokuapp.com/) or [www.bridgetroll.org](http://www.bridgetroll.org/)
