@@ -16,13 +16,14 @@
       <tr>
         <td><%= link_to chapter.name, chapter %></td>
         <td data-label="Events:"><%= chapter.events_count + chapter.external_events_count %></td>
-        <% if current_user.try(:admin?) %>
-          <td>
-            <% if current_user.try(:admin?) && chapter.destroyable? %>
-              <%= link_to 'Destroy', chapter, data: {confirm: 'Are you sure?'}, method: :delete, class: 'btn btn-danger' %>
-            <% end %>
-          </td>
-        <% end %>
+        <td>
+          <% if chapter.editable_by?(current_user) %>
+            <%= link_to 'Edit', edit_chapter_path(chapter), class: 'btn fa-before fa-edit'  %>
+          <% end %>
+          <% if current_user.try(:admin?) && chapter.destroyable? %>
+            <%= link_to 'Destroy', chapter, data: {confirm: 'Are you sure?'}, method: :delete, class: 'btn btn-danger' %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

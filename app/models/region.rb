@@ -16,7 +16,7 @@ class Region < ActiveRecord::Base
 
     return true if user.admin?
 
-    leaders.include?(user)
+    user.region_leaderships.map(&:region_id).include?(id)
   end
 
   def editable_by?(user)

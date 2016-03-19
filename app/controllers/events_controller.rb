@@ -8,7 +8,7 @@ class EventsController < ApplicationController
     skip_authorization
     respond_to do |format|
       format.html do
-        @events = Event.upcoming.published_or_visible_to(current_user).includes(:event_sessions, :location, :region)
+        @events = Event.upcoming.published_or_visible_to(current_user).includes(:location, :region, :chapter, :organization, event_sessions: :location)
         @event_regions = @events.map(&:region).compact.uniq
         @past_events = EventList.new('past').combined_events
       end

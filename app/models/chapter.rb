@@ -1,7 +1,7 @@
 class Chapter < ActiveRecord::Base
   PERMITTED_ATTRIBUTES = [:name, :organization_id]
 
-  belongs_to :organization
+  belongs_to :organization, inverse_of: :chapters
   has_many :events
   has_many :external_events
   has_many :leaders, through: :chapter_leaderships, source: :user
@@ -16,7 +16,7 @@ class Chapter < ActiveRecord::Base
 
     return true if user.admin?
 
-    leaders.include?(user)
+    user.chapter_leaderships.map(&:chapter_id).include?(id)
   end
 
   def editable_by?(user)

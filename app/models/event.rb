@@ -87,7 +87,7 @@ class Event < ActiveRecord::Base
   end
 
   def all_locations
-    ([location] + event_sessions.includes(:location).map(&:location)).compact
+    ([location] + event_sessions.map(&:location)).compact
   end
 
   def has_multiple_locations?

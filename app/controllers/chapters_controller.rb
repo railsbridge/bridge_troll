@@ -4,7 +4,7 @@ class ChaptersController < ApplicationController
 
   def index
     skip_authorization
-    @chapters = Chapter.all
+    @chapters = Chapter.all.includes(:organization)
   end
 
   def show
