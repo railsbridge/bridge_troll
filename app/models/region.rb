@@ -19,10 +19,6 @@ class Region < ActiveRecord::Base
     user.region_leaderships.map(&:region_id).include?(id)
   end
 
-  def editable_by?(user)
-    user.admin? || has_leader?(user)
-  end
-
   def destroyable?
     (locations_count + external_events_count) == 0
   end

@@ -17,7 +17,7 @@
         <td><%= link_to chapter.name, chapter %></td>
         <td data-label="Events:"><%= chapter.events_count + chapter.external_events_count %></td>
         <td>
-          <% if chapter.editable_by?(current_user) %>
+          <% if policy(chapter).update? %>
             <%= link_to 'Edit', edit_chapter_path(chapter), class: 'btn fa-before fa-edit'  %>
           <% end %>
           <% if current_user.try(:admin?) && chapter.destroyable? %>

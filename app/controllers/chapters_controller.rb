@@ -30,7 +30,7 @@ class ChaptersController < ApplicationController
   end
 
   def edit
-    authorize @chapter
+    authorize @chapter, :update?
   end
 
   def create

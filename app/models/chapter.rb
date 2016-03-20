@@ -19,10 +19,6 @@ class Chapter < ActiveRecord::Base
     user.chapter_leaderships.map(&:chapter_id).include?(id)
   end
 
-  def editable_by?(user)
-    has_leader?(user) || organization.has_leader?(user)
-  end
-
   def destroyable?
     (events_count + external_events_count) == 0
   end

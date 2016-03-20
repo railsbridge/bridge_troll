@@ -20,22 +20,6 @@ class Location < ActiveRecord::Base
     "#{name} (#{region.name})"
   end
 
-  def editable_by?(user)
-    return true if events_count == 0
-    return true if user.admin?
-    notable_events.map(&:organizers).flatten.map(&:id).include?(user.id)
-  end
-
-  def additional_details_editable_by?(user)
-    region && region.has_leader?(user)
-  end
-
-  def archivable_by?(user)
-    return false unless persisted?
-    return false if archived?
-    editable_by?(user) || additional_details_editable_by?(user)
-  end
-
   def organized_event?(user)
     notable_events.map { |e| e.organizer?(user) }.include?(true)
   end

@@ -17,7 +17,7 @@ class LocationsController < ApplicationController
   end
 
   def edit
-    skip_authorization
+    authorize @location, :update?
   end
 
   def create
@@ -44,7 +44,7 @@ class LocationsController < ApplicationController
   end
 
   def update
-    authorize @location, :edit?
+    authorize @location
 
     @location.gmaps = false
 
@@ -67,7 +67,7 @@ class LocationsController < ApplicationController
 
   def location_params
     attributes = Location::PERMITTED_ATTRIBUTES
-    attributes = attributes + [:contact_info, :notes] if @location.try(:additional_details_editable_by?, current_user)
+    attributes = attributes + [:contact_info, :notes] if @location && policy(@location).edit_additional_details?
     params.require(:location).permit(attributes)
   end
 

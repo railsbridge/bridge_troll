@@ -233,11 +233,6 @@ class Event < ActiveRecord::Base
     read_attribute(start_or_end).in_time_zone(ActiveSupport::TimeZone.new(time_zone))
   end
 
-  def editable_by?(user)
-    return false if historical?
-    user.admin? || organizer?(user) || chapter.has_leader?(user) || organization.has_leader?(user)
-  end
-
   def upcoming?
     ends_at > Time.now
   end

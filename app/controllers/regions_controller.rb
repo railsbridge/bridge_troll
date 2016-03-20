@@ -30,7 +30,7 @@ class RegionsController < ApplicationController
   end
 
   def edit
-    authorize @region
+    authorize @region, :update?
   end
 
   def create
