@@ -432,34 +432,6 @@ describe Event do
     end
   end
 
-  describe "#editable_by?" do
-    before do
-      @event = create(:event)
-    end
-
-    it "allows admins to edit an event" do
-      expect(@event.editable_by?(create(:user, admin: true))).to be_truthy
-    end
-
-    it "allows organizers to edit an event" do
-      organizer = create(:user)
-      @event.organizers << organizer
-
-      expect(@event.editable_by?(organizer)).to be_truthy
-    end
-
-    it "allows chapter leaders to edit an event" do
-      leader = create(:user)
-      @event.chapter.leaders << leader
-
-      expect(@event.editable_by?(leader)).to be_truthy
-    end
-
-    it "does not allow strangers to edit an event" do
-      expect(@event.editable_by?(create(:user))).to be_falsey
-    end
-  end
-
   describe "#students" do
     before do
       @event = create(:event)

@@ -71,4 +71,27 @@ describe "chapter pages" do
       expect(Chapter.last.name).to eq('Cantaloupe Chapter')
     end
   end
+
+  describe "editing a chapter" do
+    let!(:org) { create(:organization) }
+    let!(:existing_chapter) { create(:chapter, organization: org) }
+
+    let(:org_leader) { create(:user) }
+
+    before do
+      org_leader.organization_leaderships.create(organization: org)
+    end
+
+    it "allows organization leaders to change chapter names" do
+      sign_in_as(org_leader)
+
+      visit chapters_path
+      click_on 'Edit'
+      fill_in 'Name', with: 'Edited Name'
+
+      click_on 'Update Chapter'
+
+      expect(existing_chapter.reload.name).to eq('Edited Name')
+    end
+  end
 end

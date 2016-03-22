@@ -68,7 +68,7 @@ describe LocationsController do
         put :update, id: @location.id, location: {name: new_name}
       end
 
-      it "is allowed when editable_by? returns true" do
+      it "is allowed when the location has no been used" do
         expect {
           perform_update_request
         }.to change { @location.reload.name }.to(new_name)

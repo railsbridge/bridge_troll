@@ -87,7 +87,7 @@ class Event < ActiveRecord::Base
   end
 
   def all_locations
-    ([location] + event_sessions.includes(:location).map(&:location)).compact
+    ([location] + event_sessions.map(&:location)).compact
   end
 
   def has_multiple_locations?
@@ -231,11 +231,6 @@ class Event < ActiveRecord::Base
 
   def date_in_time_zone start_or_end
     read_attribute(start_or_end).in_time_zone(ActiveSupport::TimeZone.new(time_zone))
-  end
-
-  def editable_by?(user)
-    return false if historical?
-    user.admin? || organizer?(user) || chapter.has_leader?(user) || organization.has_leader?(user)
   end
 
   def upcoming?

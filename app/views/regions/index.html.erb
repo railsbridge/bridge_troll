@@ -20,7 +20,7 @@
         <td data-label="Events:"><%= region.locations.map(&:events_count).sum + region.external_events_count %></td>
         <% if user_signed_in? %>
           <td>
-            <% if region.editable_by?(current_user) %>
+            <% if policy(region).update? %>
               <%= link_to 'Edit', edit_region_path(region), class: 'btn fa-before fa-edit'  %>
             <% end %>
             <% if region.destroyable? %>

@@ -1,14 +1,15 @@
 class EventPolicy < ApplicationPolicy
-  def edit?
-    record.editable_by?(user)
+  def update?
+    return false if record.historical?
+    user.admin? || record.organizer?(user) || record.chapter.has_leader?(user) || record.organization.has_leader?(user)
   end
 
-  def update?
-    record.editable_by?(user)
+  def edit?
+    update?
   end
 
   def destroy?
-    record.editable_by?(user)
+    update?
   end
 
   def checkin?

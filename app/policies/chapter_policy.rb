@@ -3,16 +3,12 @@ class ChapterPolicy < ApplicationPolicy
     user && (user.admin?|| user.organization_leaderships.present?)
   end
 
-  def edit?
-    record.editable_by?(user)
-  end
-
   def update?
-    record.editable_by?(user)
+    record.has_leader?(user) || record.organization.has_leader?(user)
   end
 
   def create?
-    user && (user.admin? || record.editable_by?(user))
+    update?
   end
 
   def destroy?
@@ -20,6 +16,6 @@ class ChapterPolicy < ApplicationPolicy
   end
 
   def modify_leadership?
-    record.editable_by?(user)
+    update?
   end
 end

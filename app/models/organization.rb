@@ -1,5 +1,5 @@
 class Organization < ActiveRecord::Base
-  has_many :chapters, dependent: :destroy
+  has_many :chapters, dependent: :destroy, inverse_of: :organization
   has_many :leaders, through: :organization_leaderships, source: :user
   has_many :organization_leaderships, dependent: :destroy
 
@@ -8,6 +8,6 @@ class Organization < ActiveRecord::Base
 
     return true if user.admin?
 
-    leaders.include?(user)
+    user.organization_leaderships.map(&:organization_id).include?(id)
   end
 end
