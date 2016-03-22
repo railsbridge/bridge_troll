@@ -27,6 +27,10 @@ class EventPreview < ActionMailer::Preview
     EventMailer.new_event(Event.first)
   end
 
+  def new_organizer_alert
+    EventMailer.new_organizer_alert(Event.first, User.first)
+  end
+
   def multiple_location_event
     EventMailer.new_event(EventSession.where('location_id IS NOT NULL').first.event)
   end

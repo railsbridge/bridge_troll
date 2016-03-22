@@ -28,6 +28,7 @@ class OrganizersController < ApplicationController
     rsvp.user = @user
     rsvp.role = Role::ORGANIZER
     rsvp.save!
+    EventMailer.new_organizer_alert(@event, @user).deliver_now
     redirect_to event_organizers_path(@event)
   end
 
