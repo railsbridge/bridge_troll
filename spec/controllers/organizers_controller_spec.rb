@@ -71,7 +71,7 @@ describe OrganizersController do
     before do
       @other_user = create(:user)
       @event.organizers << @user
-
+      @volunteer_rsvp = create(:rsvp, event: @event, role: Role::VOLUNTEER)
       sign_in @user
     end
 
@@ -97,11 +97,18 @@ describe OrganizersController do
     end
 
     it "can promote an existing volunteer to organizer" do
-      volunteer_rsvp = create(:rsvp, event: @event, role: Role::VOLUNTEER)
       expect {
-        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: volunteer_rsvp.user.id}
+        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @volunteer_rsvp.user.id}
       }.not_to change(Rsvp, :count)
-      expect(volunteer_rsvp.reload.role).to eq(Role::ORGANIZER)
+      expect(@volunteer_rsvp.reload.role).to eq(Role::ORGANIZER)
+    end
+
+    it "emails the new organizer to let them know they've been added" do
+      expect {
+        post :create, event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @volunteer_rsvp.user.id}
+      }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      recipient = JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to']
+      expect(recipient).to eq(@volunteer_rsvp.user.email)
     end
 
     describe "#destroy" do
