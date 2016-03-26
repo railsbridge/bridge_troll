@@ -15,6 +15,22 @@
   <ul>
   <% @event.other_dietary_restrictions.each do |other| %>
     <li><%= other %></li>
-  <% end %> 
+  <% end %>
+  </ul>
+</div>
+<div class='food-preferences'>
+  <h2>Checked-In Attendees: <%= @event.rsvps_with_checkins.count %></h2>
+
+  <h2>Checked-In Attendees Dietary Restrictions Totals</h2>
+  <% totals = @event.checked_in_attendees_dietary_restrictions_totals %>
+  <% DietaryRestriction::DIETS.each do |diet| %>
+    <h3><%= "#{diet.capitalize}: #{totals[diet] || 0}" %></h3>
+  <% end %>
+
+  <h2>Other dietary restrictions:</h2>
+  <ul>
+  <% @event.checked_in_attendees_other_dietary_restrictions.each do |other| %>
+    <li><%= other %></li>
+  <% end %>
   </ul>
 </div>

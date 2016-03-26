@@ -24,6 +24,7 @@ class Rsvp < ActiveRecord::Base
   validates_presence_of :childcare_info, if: :needs_childcare?
 
   scope :confirmed, -> { where("waitlist_position IS NULL") }
+  scope :checked_in, -> { where.not(checkins_count: 0) }
   scope :needs_childcare, -> { where("childcare_info <> ''") }
 
   after_initialize :set_defaults
