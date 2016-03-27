@@ -67,7 +67,7 @@ class Event < ActiveRecord::Base
       workshop_event.validates_numericality_of :student_rsvp_limit, greater_than: 0
       workshop_event.validate :validate_student_rsvp_limit
     end
-  
+
     with_options(if: :has_volunteer_limit?) do |workshop_event|
       workshop_event.validates_numericality_of :volunteer_rsvp_limit, greater_than: 0
       workshop_event.validate :validate_volunteer_rsvp_limit
@@ -287,14 +287,30 @@ class Event < ActiveRecord::Base
   end
 
   def dietary_restrictions_totals
-    diets = rsvps.confirmed.includes(:dietary_restrictions).map(&:dietary_restrictions).flatten
+    total_dietary_restrictions_for(rsvps.confirmed)
+  end
+
+  def checked_in_attendees_dietary_restrictions_totals
+    total_dietary_restrictions_for(rsvps.checked_in)
+  end
+
+  def total_dietary_restrictions_for(rsvps)
+    diets = rsvps.includes(:dietary_restrictions).map(&:dietary_restrictions).flatten
     restrictions = diets.group_by(&:restriction)
     restrictions.each { |name, diet| restrictions[name] = diet.length }
     restrictions
   end
 
   def other_dietary_restrictions
-    rsvps.confirmed.map { |rsvp| rsvp.dietary_info.presence }.compact
+    other_dietary_restrictions_for(rsvps.confirmed)
+  end
+
+  def checked_in_attendees_other_dietary_restrictions
+    other_dietary_restrictions_for(rsvps.checked_in)
+  end
+
+  def other_dietary_restrictions_for(rsvps)
+    rsvps.map { |rsvp| rsvp.dietary_info.presence }.compact
   end
 
   def organizer_names

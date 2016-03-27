@@ -598,7 +598,7 @@ describe Event do
     before do
       @event = create(:event, student_rsvp_limit: 2)
       @rsvp = create(:rsvp,  event: @event, dietary_info: "Paleo")
-      @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins")
+      @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins", checkins_count: 1)
       @waitlisted = create(:rsvp, event: @event, dietary_info: "Pizza only", waitlist_position: 1)
       create(:dietary_restriction, restriction: "gluten-free", rsvp: @rsvp)
       create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp)
@@ -613,8 +613,20 @@ describe Event do
     end
 
     describe "#other_dietary_restrictions" do
-      it "should returns an array of dietary restrictions" do
+      it "should return an array of dietary restrictions" do
         expect(@event.other_dietary_restrictions).to eq(["Paleo", "No sea urchins"])
+      end
+    end
+
+    describe "#checked_in_attendees_dietary_restrictions_totals" do
+      it "should return the total for each dietary restriction for checked-in attendees" do
+        expect(@event.checked_in_attendees_dietary_restrictions_totals).to eq({ "vegan" => 1 })
+      end
+    end
+
+    describe "#checked_in_attendees_other_dietary_restrictions" do
+      it "should return an array of checked in attendees' dietary restrictions" do
+        expect(@event.checked_in_attendees_other_dietary_restrictions).to eq(["No sea urchins"])
       end
     end
   end
