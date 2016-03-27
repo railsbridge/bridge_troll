@@ -11,10 +11,11 @@ class Events::UnpublishedEventsController < ApplicationController
       hsh[region.id] = region.users.length
     end
 
-    @events = Event.upcoming.pending_approval.where(spam: false)
-    unless current_user.admin? || current_user.publisher?
-      @events = @events.where(chapter_id: current_user.chapter_leaderships.map(&:chapter_id))
-    end
+    @events = EventPolicy::Scope.new(current_user, Event)
+                .publishable
+                .upcoming
+                .pending_approval
+                .where(spam: false)
   end
 
   def publish
