@@ -1,0 +1,74 @@
+#!/usr/bin/env ruby
+
+APP_ROOT = File.expand_path('../..', __FILE__)
+
+Dir.chdir APP_ROOT
+
+system("git checkout head^")
+
+old_list = `bundle list`
+
+system("git checkout master")
+
+new_list = `bundle list`
+
+def gem_versions(list_output)
+  list_output.split("\n").each_with_object({}) do |line, hsh|
+    if line.match(/^\s*\*\s*(.*?) \((.*?)\)/)
+      hsh[$1] = $2
+    end
+  end
+end
+
+old_gems = gem_versions(old_list)
+new_gems = gem_versions(new_list)
+
+updated = {}
+removed = {}
+
+old_gems.each do |gem, version|
+  if new_gems[gem]
+    if version != new_gems[gem]
+      updated[gem] = {
+        old: version,
+        new: new_gems[gem]
+      }
+    end
+    new_gems.delete(gem)
+  else
+    removed[gem] = version
+  end
+end
+
+$longest_name_length = (updated.keys.map(&:length) + removed.keys.map(&:length) + new_gems.keys.map(&:length)).max
+$longest_version_length = (
+  new_gems.values.map(&:length) +
+  removed.values.map(&:length) +
+  updated.values.map { |g| [g[:old].length, g[:new].length].max }
+).max
+
+def format_for_length(length, lhs, rhs)
+  "%-#{length}s  %s" % [lhs, rhs]
+end
+
+if updated.length > 0
+  puts "UPDATED:"
+  updated.each do |gem, info|
+    formatted_version = format_for_length($longest_version_length, info[:old], info[:new])
+    puts format_for_length($longest_name_length, gem, formatted_version)
+  end
+end
+
+if new_gems.length > 0
+  puts "\nADDED:"
+  new_gems.each do |gem, version|
+    puts format_for_length($longest_name_length, gem, version)
+  end
+end
+
+if removed.length > 0
+  puts "\nREMOVED:"
+  removed.each do |gem, version|
+    puts format_for_length($longest_name_length, gem, version)
+  end
+end
