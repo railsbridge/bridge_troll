@@ -57,7 +57,8 @@ describe "the organizer dashboard" do
     visit event_organizer_tools_path(@event)
     click_link 'Show all Attendee RSVP Details'
 
-    click_link 'Download Student Details CSV'
+    click_link 'Download basic student info'
+
 
     csv_contents = page.source
     expect(csv_contents).to include("Student Name")
