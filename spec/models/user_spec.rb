@@ -56,4 +56,19 @@ describe User do
       expect(@user.profile_path).to eq(Rails.application.routes.url_helpers.user_profile_path(@user))
     end
   end
+
+  describe '#display_name' do
+    context 'with a user that doesn\'t have a display name' do
+      it 'returns the user\'s display name' do
+        expect(@user.display_name).to eq("#{@user.first_name} #{@user.last_name}")
+      end
+    end
+
+    context 'with a user that has a username' do
+      it 'returns the user\'s display name' do
+        user = build(:user, username: 'cool_username')
+        expect(user.display_name).to eq('cool_username')
+      end
+    end
+  end
 end

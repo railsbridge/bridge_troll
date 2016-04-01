@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :time_zone, :gender, :allow_event_email]
+  PERMITTED_ATTRIBUTES = [:first_name, :last_name, :username, :email, :password, :password_confirmation, :remember_me, :time_zone, :gender, :allow_event_email]
 
   before_validation :build_profile, on: :create
 
@@ -82,5 +82,9 @@ class User < ActiveRecord::Base
 
   def event_checkiner?(event)
     event_attendance(event)[:checkiner]
+  end
+
+  def display_name
+    username || full_name
   end
 end
