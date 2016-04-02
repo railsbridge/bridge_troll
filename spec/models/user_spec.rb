@@ -45,6 +45,14 @@ describe User do
     expect(@user.profile).to be_present
   end
 
+  it 'validates the username attribute format' do
+    user = build(:user, username: 'cool_username-12')
+    expect(user.username).to match /\A[a-z0-9_-]{3,16}\Z/
+
+    user = build(:user, username: '12cool username')
+    expect(user).to have(1).errors_on(:username)
+  end
+
   describe "#full_name" do
     it "returns the user's full name" do
       expect(@user.full_name).to eq("#{@user.first_name} #{@user.last_name}")

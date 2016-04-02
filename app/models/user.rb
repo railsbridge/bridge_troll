@@ -22,6 +22,8 @@ class User < ActiveRecord::Base
 
   validates_presence_of :first_name, :last_name, :profile
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
+  validates :username, uniqueness: true, allow_nil: true
+  validates_format_of :username, with: /\A\Z|\A[a-z0-9_-]{3,16}\Z/
 
   def self.from_omniauth(omniauth)
     authentication = Authentication.where(provider: omniauth['provider'], uid: omniauth['uid'].to_s).first
