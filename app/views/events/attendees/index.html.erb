@@ -7,14 +7,24 @@
 <%= render partial: 'shared/organizer_action', locals: {
   path: event_attendees_path(@event, format: :csv),
   icon: 'fa fa-download',
-  text: 'Download Attendee Names CSV',
-  style: :inline
+  text: 'Download all attendee info',
+  style: :inline,
+  tip: "Includes name, role, dietary info, childcare info, job details, gender, plus-one host, if they are waitlisted, and waitlist position for all RSVP'd attendees."
 } %>
 <%= render partial: 'shared/organizer_action', locals: {
   path: event_students_path(@event, format: :csv),
   icon: 'fa fa-download',
-  text: 'Download Student Details CSV',
-  style: :inline
+  text: 'Download basic student info',
+  style: :inline,
+  tip: 'Includes name, class level, operating system, occupation, and gender for all students.'
+} %>
+
+<%= render partial: 'shared/organizer_action', locals: {
+  path: event_attendee_names_path(@event, format: :csv),
+  icon: 'fa fa-download',
+  text: 'Download all names for building security',
+  style: :inline,
+  tip: 'You can use this to download a list of attendees which can be printed out for the security desk.'
 } %>
 </section>
 
