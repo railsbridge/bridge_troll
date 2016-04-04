@@ -27,6 +27,7 @@
       li {
         float: none;
         display: inline-block;
+        vertical-align: top;
 
         a {
           display: inline-block;
@@ -36,14 +37,19 @@
     }
   }
 
+  @media (min-width: $screen-sm-min) {
+    .navbar-nav {
+      padding-right: 7.5px;
+    }
+  }
+
   .navbar-nav li a {
     color: white;
     text-shadow: none;
-    margin-right: 15px;
-    margin-top: 7px;
-    margin-bottom: 7px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    margin: 7px 7.5px;
+    height: 41px;
+    display: flex;
+    align-items: center;
 
     &:hover, &:focus {
       color: black;

@@ -63,7 +63,7 @@ describe "visiting the home page" do
 
       it 'allows the user to log out or view/edit their account details' do
         visit '/'
-        expect(page.all('.navbar li a').map(&:text)).to eq(['Sign Out', 'Settings'])
+        expect(page.all('.navbar li a').map(&:text)).to eq([@user.full_name, 'Sign Out'])
       end
     end
   end
