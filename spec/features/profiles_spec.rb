@@ -51,7 +51,9 @@ describe "Profile" do
     }
 
     visit "/"
-    click_link "Settings"
+    within '.navbar' do
+      click_link @user.full_name
+    end
     expect(page).to have_content("Edit User")
 
     within '.checkbox-columns-small' do

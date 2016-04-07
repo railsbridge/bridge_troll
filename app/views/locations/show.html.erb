@@ -1,5 +1,11 @@
 <%= content_for(:header_text, @location.name) %>
 
+<% if @location.latitude.nil? || @location.latitude.nil? %>
+  <div class="alert alert-danger">
+    Location was unable to be geocoded, so the map will not be accurate!
+  </div>
+<% end %>
+
 <div class="row">
   <div class="col-md-4">
     <%= render "shared/map", locations: [@location] %>

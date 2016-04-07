@@ -39,6 +39,7 @@ Bridgetroll::Application.routes.draw do
 
     resources :students, only: [:index], controller: 'events/students'
     resources :attendees, only: [:index, :update], controller: 'events/attendees'
+    resources :attendee_names, only: [:index], controller: 'events/attendee_names'
     resources :emails, only: [:new, :create, :show], controller: 'events/emails'
 
     resources :sections, only: [:create, :update, :destroy] do

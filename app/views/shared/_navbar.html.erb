@@ -8,11 +8,14 @@
   <ul class="nav navbar-nav header-user-controls">
     <% if user_signed_in? %>
       <li>
-        <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'btn' %>
+        <%= link_to edit_user_registration_path do %>
+          <%= gravatar_image_tag(current_user.email, gravatar: {size: 30}, style: 'margin-right: 8px;') %>
+          <%= current_user.full_name %>
+        <% end %>
       </li>
       <li>
-        <%= link_to 'Settings',edit_user_registration_path, class: 'btn fa-before fa-gear' %>
-      </li>
+        <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: 'btn' %>
+        </li>
     <% else %>
       <li id="sign_in">
         <%= link_to "Sign In", '#sign_in_dialog', class: "btn sign-in-button", data: sign_in_modal_return_to_params %>
