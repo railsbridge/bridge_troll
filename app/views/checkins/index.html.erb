@@ -36,7 +36,7 @@
         <tr>
           <td>
             <%= user_gravatar(rsvp.user) %>
-            <%= link_to rsvp_session.user_full_name, user_profile_path(rsvp_session.rsvp.user), class: 'user-name' %>
+            <%= link_to rsvp_session.user_display_name, user_profile_path(rsvp_session.rsvp.user), class: 'user-name' %>
           </td>
           <td><%= rsvp.role.title %>
             <% if rsvp.role_student? %>
@@ -55,7 +55,7 @@
           <td class="checkins-action <% if rsvp_session.checked_in? %>checked-in<% end %>"
               id="rsvp_session_<%= rsvp_session.id %>"
               data-rsvp-session-id="<%= rsvp_session.id %>"
-              data-user-name="<%= rsvp_session.user_full_name %>">
+              data-user-name="<%= rsvp_session.user_display_name %>">
             <div class="toggle_rsvp_session destroy">
               <i class='fa fa-check-square-o'></i>Checked In! <%= button_tag "Un-Check In", class: 'btn' %>
             </div>

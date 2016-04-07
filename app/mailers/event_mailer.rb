@@ -10,7 +10,7 @@ class EventMailer < BaseMailer
     set_recipients(options[:recipients], options[:cc])
 
     mail(
-      from: "#{@sender.full_name} <#{@sender.email}>",
+      from: "#{@sender.display_name} <#{@sender.email}>",
       subject: options[:subject]
     )
   end
@@ -22,7 +22,7 @@ class EventMailer < BaseMailer
     approver_addresses << 'info@bridgetroll.org' unless approver_addresses.present?
 
     mail(
-      subject: "Bridge Troll event #{@event.published? ? 'created' : 'awaits approval'}: '#{@event.title}' by #{@event.organizers.first.full_name}",
+      subject: "Bridge Troll event #{@event.published? ? 'created' : 'awaits approval'}: '#{@event.title}' by #{@event.organizers.first.display_name}",
       to: approver_addresses
     )
   end

@@ -22,7 +22,7 @@
   <% @chapter.leaders.each do |leader|  %>
     <tr>
       <td class="avatar-column"><%= user_gravatar(leader) %></td>
-      <td><%= leader.full_name %></td>
+      <td><%= leader.display_name %></td>
       <td><%= leader.email %></td>
       <td>
         <% if leader.id != current_user.id %>

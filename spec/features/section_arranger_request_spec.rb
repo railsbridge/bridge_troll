@@ -38,11 +38,11 @@ describe "arranging sections for an event", js: true do
     expect(page).not_to have_css('.auto-assign-reminder')
 
     within '.bridgetroll-section-level.level1' do
-      expect(page).to have_content(@session1_rsvp.user.full_name)
+      expect(page).to have_content(@session1_rsvp.user.display_name)
     end
 
     within '.bridgetroll-section-level.level3' do
-      expect(page).to have_content(@both_rsvp.user.full_name)
+      expect(page).to have_content(@both_rsvp.user.display_name)
     end
 
     counts = (1..5).map do |level|

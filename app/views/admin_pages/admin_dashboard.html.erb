@@ -5,7 +5,7 @@
   Your Bridge Troll admins are the following <%= pluralize(@admins.count, "people") %>:
   <ul>
     <% @admins.each do |admin| %>
-      <li><%= link_to admin.full_name, user_profile_path(admin) %></li>
+      <li><%= link_to admin.display_name, user_profile_path(admin) %></li>
     <% end %>
   </ul>
 </div>
@@ -15,7 +15,7 @@
   Your Bridge Troll event approvers are all the above admins plus these <%= pluralize(@publishers.count, "people") %>:
   <ul>
     <% @publishers.each do |publisher| %>
-      <li><%= link_to publisher.full_name, user_profile_path(publisher) %></li>
+      <li><%= link_to publisher.display_name, user_profile_path(publisher) %></li>
     <% end %>
   </ul>
 </div>
@@ -94,7 +94,7 @@
   <%= pluralize(@spammers.count, "user has", "users have") %> been flagged as a spammer.
   <ul>
     <% @spammers.each do |spammer| %>
-      <li><%= link_to spammer.full_name, user_profile_path(spammer) %></li>
+      <li><%= link_to spammer.display_name, user_profile_path(spammer) %></li>
     <% end %>
   </ul>
 </div>

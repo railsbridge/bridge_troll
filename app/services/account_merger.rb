@@ -38,6 +38,6 @@ class AccountMerger
   end
 
   def user_desc(user)
-    "#{user.full_name} (#{user.id})"
+    "#{user.display_name} (#{user.id})"
   end
 end

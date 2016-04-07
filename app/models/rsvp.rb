@@ -9,7 +9,7 @@ class Rsvp < ActiveRecord::Base
   belongs_to :event, inverse_of: :rsvps
   belongs_to :section
 
-  delegate :full_name, to: :user
+  delegate :full_name, :display_name, to: :user
   delegate :historical?, to: :event, allow_nil: true
 
   has_many :rsvp_sessions, dependent: :destroy
@@ -226,7 +226,7 @@ class Rsvp < ActiveRecord::Base
 
   def as_json(options={})
     options[:methods] ||= []
-    options[:methods] |= [:full_name, :operating_system_title, :operating_system_type, :level_title]
+    options[:methods] |= [:full_name, :display_name, :operating_system_title, :operating_system_type, :level_title]
     super(options)
   end
 end

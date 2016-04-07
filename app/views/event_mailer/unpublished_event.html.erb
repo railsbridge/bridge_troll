@@ -1,6 +1,6 @@
 <p>Howdy, Bridge Troll administrator!</p>
 
-<p>A new event, "<%= link_to @event.title, event_url(@event) %>", has been posted to Bridge Troll by <strong><%= link_to @event.organizers.first.full_name, user_profile_url(@event.organizers.first) %></strong>!</p>
+<p>A new event, "<%= link_to @event.title, event_url(@event) %>", has been posted to Bridge Troll by <strong><%= link_to @event.organizers.first.display_name, user_profile_url(@event.organizers.first) %></strong>!</p>
 
 <%= render 'new_event_detail' %>
 

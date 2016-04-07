@@ -9,8 +9,8 @@ class RsvpSession < ActiveRecord::Base
   after_save :update_counter_cache
   after_destroy :update_counter_cache
 
-  def user_full_name
-    rsvp.user.full_name
+  def user_display_name
+    rsvp.user.display_name
   end
 
   def update_counter_cache

@@ -26,7 +26,7 @@ module Regions
       ).first
 
       leadership.destroy
-      redirect_to region_leaders_path(@region), notice: "Removed #{leadership.user.full_name} as region leader."
+      redirect_to region_leaders_path(@region), notice: "Removed #{leadership.user.display_name} as region leader."
     end
 
     def potential

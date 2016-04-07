@@ -37,7 +37,7 @@ describe UsersController do
         expect(users.map(&:to_global_id)).to match_array(all_users.map(&:to_global_id))
 
         users.each do |user|
-          expect(response.body).to include(ERB::Util.html_escape user.full_name)
+          expect(response.body).to include(ERB::Util.html_escape user.display_name)
         end
       end
     end

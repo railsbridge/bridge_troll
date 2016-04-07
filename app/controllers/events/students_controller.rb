@@ -29,7 +29,7 @@ module Events
 
         rsvps.each do |rsvp|
           csv << [
-            rsvp.user.full_name, rsvp.class_level, rsvp.operating_system.name,
+            rsvp.user.display_name, rsvp.class_level, rsvp.operating_system.name,
             rsvp.job_details, rsvp.user.gender
           ]
         end

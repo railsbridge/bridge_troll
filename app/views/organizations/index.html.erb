@@ -8,7 +8,7 @@
       <div>Leaders:</div>
       <ul>
         <% org.leaders.each do |leader| %>
-          <li><%= link_to leader.full_name, user_profile_path(leader) %></li>
+          <li><%= link_to leader.display_name, user_profile_path(leader) %></li>
         <% end %>
       </ul>
     <% end %>

@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   end
 
   def users
-    User.select('id, first_name, last_name').map do |user|
+    User.select('id, first_name, last_name, username').map do |user|
       IndexPageUser.new(user, meetup_ids_for_users[user.id], @attendances[:User][user.id])
     end
   end
@@ -58,6 +58,6 @@ class UsersController < ApplicationController
     end
 
     attr_reader :user, :meetup_id
-    delegate :id, :full_name, :profile_path, :to_global_id, to: :user
+    delegate :id, :display_name, :profile_path, :to_global_id, to: :user
   end
 end

@@ -314,7 +314,7 @@ class Event < ActiveRecord::Base
   end
 
   def organizer_names
-    organizers_with_legacy.map(&:full_name)
+    organizers_with_legacy.map(&:display_name)
   end
 
   def session_details

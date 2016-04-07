@@ -1,4 +1,4 @@
-<%= @sender.full_name %> has something to say about <%= @event.upcoming? ? 'an upcoming event' : 'a past event' %>:
+<%= @sender.display_name %> has something to say about <%= @event.upcoming? ? 'an upcoming event' : 'a past event' %>:
 
 <p><%= sanitize(@body).gsub(/(\r)?\n/, "<br/>").html_safe %></p>
 

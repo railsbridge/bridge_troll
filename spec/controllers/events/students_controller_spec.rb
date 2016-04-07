@@ -19,7 +19,7 @@ describe Events::StudentsController do
 
       csv_rows = CSV.parse(response.body)
       expect(csv_rows[0][0]).to eq('Student Name')
-      expect(csv_rows[1][0]).to eq(student_rsvp.user.full_name)
+      expect(csv_rows[1][0]).to eq(student_rsvp.user.display_name)
     end
   end
 end

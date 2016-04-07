@@ -16,14 +16,14 @@ class CheckinersController < ApplicationController
     end
 
     @rsvp.update_attribute(:checkiner, true)
-    redirect_to event_checkiners_path(@event), notice: "#{@rsvp.user.full_name} is now a checkiner for #{@event.title}!"
+    redirect_to event_checkiners_path(@event), notice: "#{@rsvp.user.display_name} is now a checkiner for #{@event.title}!"
   end
 
   def destroy
     authorize @event, :edit?
     @rsvp = @event.rsvps.find(params[:id])
     @rsvp.update_attribute(:checkiner, false)
-    redirect_to event_checkiners_path(@event), notice: "#{@rsvp.user.full_name} is no longer a checkiner for #{@event.title}!"
+    redirect_to event_checkiners_path(@event), notice: "#{@rsvp.user.display_name} is no longer a checkiner for #{@event.title}!"
   end
 
   private

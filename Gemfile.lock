@@ -178,6 +178,9 @@ GEM
     multipart-post (2.0.0)
     nested_form (0.3.2)
     newrelic_rpm (3.15.1.316)
+    nilify_blanks (1.2.1)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     nokogumbo (1.4.7)
@@ -373,6 +376,7 @@ DEPENDENCIES
   masonry-rails
   nested_form
   newrelic_rpm
+  nilify_blanks
   omniauth-facebook
   omniauth-github
   omniauth-google-oauth2

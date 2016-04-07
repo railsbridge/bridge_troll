@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
   validates :username, uniqueness: true, allow_nil: true
   validates_format_of :username, with: /\A\Z|\A[a-z0-9_-]{3,16}\Z/
 
+  nilify_blanks only: :username
+
   def self.from_omniauth(omniauth)
     authentication = Authentication.where(provider: omniauth['provider'], uid: omniauth['uid'].to_s).first
     if authentication

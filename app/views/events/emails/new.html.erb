@@ -9,7 +9,7 @@
     waitlisted: rsvp.waitlist_position != nil,
     checkins_count: rsvp.checkins_count,
     user_id: rsvp.user.id.to_s,
-    full_name: rsvp.user.full_name,
+    display_name: rsvp.user.display_name,
     email: rsvp.user.email
   }
   end.to_json.html_safe %>;
@@ -117,7 +117,7 @@
     <% @past_emails.emails.each do |email| %>
     <tr>
       <td><%= email.created_at %></td>
-      <td><%= link_to email.sender.full_name, user_profile_path(email.sender) %></td>
+      <td><%= link_to email.sender.display_name, user_profile_path(email.sender) %></td>
       <% recipientship = @past_emails.recipient_counts[email.id] %>
       <td><%= recipientship[:total] %> (<%= recipientship[:students] %> Students, <%= recipientship[:volunteers] %> Volunteers)</td>
       <td><%= email.subject %></td>

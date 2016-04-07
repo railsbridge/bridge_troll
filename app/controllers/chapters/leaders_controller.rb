@@ -26,7 +26,7 @@ module Chapters
       ).first
 
       leadership.destroy
-      redirect_to chapter_leaders_path(@chapter), notice: "Removed #{leadership.user.full_name} as chapter leader."
+      redirect_to chapter_leaders_path(@chapter), notice: "Removed #{leadership.user.display_name} as chapter leader."
     end
 
     def potential

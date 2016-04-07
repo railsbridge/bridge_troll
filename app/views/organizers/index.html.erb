@@ -28,7 +28,7 @@
   <% @organizer_rsvps.each do |rsvp|  %>
       <tr>
         <td class="avatar-column"><%= user_gravatar(rsvp.user) %></td>
-        <td><%= rsvp.user.full_name %></td>
+        <td><%= rsvp.user.display_name %></td>
         <td><%= rsvp.user.email %></td>
         <td>
           <% if @organizer_rsvps.length > 1 %>

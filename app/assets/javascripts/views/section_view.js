@@ -84,7 +84,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
         return classComparison;
       }
 
-      return cmp(a.get('full_name'), b.get('full_name'));
+      return cmp(a.get('display_name'), b.get('display_name'));
     });
   },
 
@@ -98,7 +98,7 @@ Bridgetroll.Views.Section = Bridgetroll.Views.Base.extend({
       section_id: this.section.get('id')
     });
     return _.sortBy(_.union(volunteers, organizers), function (volunteer) {
-      return volunteer.get('full_name');
+      return volunteer.get('display_name');
     });
   },
 

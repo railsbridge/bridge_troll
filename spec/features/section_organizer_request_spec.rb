@@ -19,9 +19,9 @@ describe "the section organizer tool", js: true do
   it "allows the organizer to view attendees and assign them to sections" do
     visit event_organize_sections_path(@event)
     within '#section-organizer' do
-      expect(page).to have_content(@student.full_name)
-      expect(page).to have_content(@volunteer.full_name)
-      expect(page).not_to have_content(@waitlisted.full_name)
+      expect(page).to have_content(@student.display_name)
+      expect(page).to have_content(@volunteer.display_name)
+      expect(page).not_to have_content(@waitlisted.display_name)
     end
 
     visit event_organize_sections_path(@event)

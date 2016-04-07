@@ -41,7 +41,7 @@ class OrganizersController < ApplicationController
 
     rsvp.destroy
     if rsvp.user == current_user
-      redirect_to event_path(@event), notice: "#{rsvp.user.full_name} is no longer an organizer of #{@event.title}!"
+      redirect_to event_path(@event), notice: "#{rsvp.user.display_name} is no longer an organizer of #{@event.title}!"
     else
       redirect_to event_organizers_path(@event), notice: "You're no longer an organizer of #{@event.title}!"
     end

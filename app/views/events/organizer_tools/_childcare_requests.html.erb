@@ -12,7 +12,7 @@
     <% @childcare_requests.each do |request| %>
       <tr>
         <td data-label="Attendee:">
-          <%= request.user.full_name %>
+          <%= request.user.display_name %>
         </td>
         <td data-label="Attendee Email:">
           <%= request.user.email %>
