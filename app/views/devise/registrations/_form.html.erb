@@ -14,6 +14,15 @@
         </div>
       <% end %>
 
+      <%= f.input :username, label: 'Display Name' %>
+      <span class='help-block'>
+        (This is the name that will be used for checking in to the event, the RSVP listing on
+        the event, and organizers views like dietary restrictions and small group assignments.
+        We recommend using whatever name you usually use in-person.)
+      </span>
+
+      <%= f.input :gender %>
+
       <span class='help-block'>
         Your first and last name will only be used on the security spreadsheet,
         so please use whatever is on your ID for those fields.
@@ -23,14 +32,6 @@
       <%= f.input :last_name, label: "Last/Family Name" %>
 
       <%= f.input :email %>
-
-      <%= f.input :username, label: 'Display Name' %>
-      <span class='help-block'>
-        (This is the name that will be used throughout the app,
-        including on the public event RSVP listing and most organizer views)
-      </span>
-
-      <%= f.input :gender %>
 
       <div class='form-group'>
         <%= f.label :region_ids, 'Regions' %>

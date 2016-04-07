@@ -2,11 +2,11 @@ describe("Bridgetroll.Views.SectionOrganizer", function () {
   var sectionOrganizer, attendees, sections;
   beforeEach(function () {
     attendees = new Bridgetroll.Collections.Attendee([
-      Factories.student({section_id: null, class_level: 0, full_name: 'Lana Lang'}),
-      Factories.student({section_id: null, class_level: 0, full_name: 'Sue Storm'}),
-      Factories.student({section_id: null, class_level: 0, full_name: 'Ted Moesby'}),
-      Factories.student({section_id: null, class_level: 0, full_name: 'Apricot Jam'}),
-      Factories.student({section_id: null, class_level: 0, full_name: 'Grace Hopper'})
+      Factories.student({section_id: null, class_level: 0, display_name: 'Lana Lang'}),
+      Factories.student({section_id: null, class_level: 0, display_name: 'Sue Storm'}),
+      Factories.student({section_id: null, class_level: 0, display_name: 'Ted Moesby'}),
+      Factories.student({section_id: null, class_level: 0, display_name: 'Apricot Jam'}),
+      Factories.student({section_id: null, class_level: 0, display_name: 'Grace Hopper'})
     ]);
   });
 
