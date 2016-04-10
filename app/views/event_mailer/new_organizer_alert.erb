@@ -1,0 +1,10 @@
+Subject: "You've been added as an organizer to #{@event.title}"
+
+Howdy <%= @user.full_name %>!
+
+You've been added as an organizer to "<%= @event.title %>".
+
+If you think you shouldn't be an organizer, <% link_to 'you can remove yourself on the Organizers page', event_organizers_url(@event) %>
+
+Congratulations!
+The Troll

@@ -59,4 +59,17 @@ class EventMailer < BaseMailer
       subject: "[#{@region.name}] New event posted: '#{@event.title}'"
     )
   end
+
+  def new_organizer_alert(event, new_organizer)
+    @event = event
+    @user = new_organizer
+
+    set_recipients(@user.email)
+
+    mail(
+      subject: "You have been added as an organizer to '#{@event.title}'"
+    )
+
+  end
+
 end
