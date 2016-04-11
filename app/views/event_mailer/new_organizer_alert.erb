@@ -1,0 +1,7 @@
+<p>Howdy <%= @user.full_name %>!</p>
+
+<p>You've been added as an organizer to "<%= @event.title %>".</p>
+
+<p>If you think you shouldn't be an organizer, <%= link_to 'you can remove yourself on the Organizers page', event_organizers_url(@event) %></p>
+
+<p>The Troll</p>

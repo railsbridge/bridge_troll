@@ -3,6 +3,8 @@ require 'rails_helper'
 describe Events::UnpublishedEventsController do
   before do
     @event = create(:event, title: 'DonutBridge')
+    @organizer = create(:user)
+    @event.organizers << @organizer
   end
 
   describe "GET #index" do
@@ -92,6 +94,7 @@ describe Events::UnpublishedEventsController do
 
       @user_no_email = create(:user, allow_event_email: false)
       @user_no_email.regions << this_region
+      @event.organizers << @user_no_email
 
       @user_other_region = create(:user)
       @user_other_region.regions << other_region
@@ -103,7 +106,9 @@ describe Events::UnpublishedEventsController do
       sign_in create(:user, publisher: true)
     end
 
-    let(:recipients) { JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to'] }
+    def recipients(mail)
+      JSON.parse(mail.header['X-SMTPAPI'].to_s)['to']
+    end
 
     it 'publishes the event' do
       make_request
@@ -111,11 +116,12 @@ describe Events::UnpublishedEventsController do
     end
 
     it 'mails every user that is associated with this region' do
-      expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by_at_least(1)
 
-      expect(recipients).to match_array([@user_this_region.email, @user_both_regions.email])
+      mail = ActionMailer::Base.deliveries.find { |m| m.subject.match('New event posted') }
 
-      mail = ActionMailer::Base.deliveries.last
+      expect(recipients(mail)).to match_array([@user_this_region.email, @user_both_regions.email])
+
       expect(mail.subject).to include(@event.region.name)
       expect(mail.body).to include(@event.title)
     end
@@ -125,8 +131,16 @@ describe Events::UnpublishedEventsController do
         @event.update_attribute(:email_on_approval, false)
       end
 
-      it 'sends no emails' do
-        expect { make_request }.not_to change(ActionMailer::Base.deliveries, :count)
+      it 'lets the organizer know their event has been approved and does not send announcement emails' do
+        expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by_at_least(1)
+
+        mail = ActionMailer::Base.deliveries.find { |m| m.subject.match('has been approved') }
+
+        expect(recipients(mail)).to match_array([@organizer.email, @user_no_email.email])
+
+        expect(mail.subject).to include("Your Bridge Troll event has been approved")
+        expect(mail.body).to include(@event.title)
+        expect(mail.subject).not_to include("New event posted:")
       end
     end
 
@@ -143,6 +157,7 @@ describe Events::UnpublishedEventsController do
         leader = create(:user)
         chapter.leaders << leader
         @chapter_event = create(:event, chapter: chapter, current_state: :pending_approval)
+        @chapter_event.organizers << @organizer
         sign_in leader
       end
 

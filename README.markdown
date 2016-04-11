@@ -111,15 +111,19 @@ The following setup is only required if you are developing for these specific fe
 
 You don't have to set up email locally in order to develop. Note that the text of the email will appear in the log (which appears in your terminal, after you type `rails s`).
 
-To receive/develop emails locally, install the MailCatcher gem at http://mailcatcher.me. The process is as follows:
+You can see rendered versions of all emails the application can send at http://localhost:3000/rails/mailers.
 
-1. `gem install mailcatcher` -- installs MailCatcher in your current gemset
-1. `mailcatcher` -- start the MailCatcher server if it isn't running already
-1. Visit http://localhost:1080/ in your web browser. This is your MailCatcher mailbox, where mails will appear.
-1. Do something in your local Bridge Troll app that would send a mail, like signing up for a new account.
-1. You should see the mail that Rails sent in the MailCatcher window. Woo!
+#### Mailcatcher
 
-Note that MailCatcher just makes it easy to see the HTML output of your mails: it doesn't guarantee that the way the mail looks like in MailCatcher is how it will look in Gmail or Outlook. Beware!
+  To receive/develop emails locally, install the MailCatcher gem at http://mailcatcher.me. The process is as follows:
+
+  1. `gem install mailcatcher` -- installs MailCatcher in your current gemset
+  1. `mailcatcher` -- start the MailCatcher server if it isn't running already
+  1. Visit http://localhost:1080/ in your web browser. This is your MailCatcher mailbox, where mails will appear.
+  1. Do something in your local Bridge Troll app that would send a mail, like signing up for a new account.
+  1. You should see the mail that Rails sent in the MailCatcher window. Woo!
+
+  Note that MailCatcher just makes it easy to see the HTML output of your mails: it doesn't guarantee that the way the mail looks like in MailCatcher is how it will look in Gmail or Outlook. Beware!
 
 ### Working with external services
 
