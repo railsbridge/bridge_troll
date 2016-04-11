@@ -37,6 +37,17 @@ class EventMailer < BaseMailer
     )
   end
 
+  def event_has_been_approved(event)
+    @event = event
+
+    set_recipients(event.organizers.map(&:email))
+
+    mail(
+      subject: "Your Bridge Troll event has been approved: '#{@event.title}'"
+    )
+
+  end
+
   def new_event(event)
     @event = event
     return unless @event.location
@@ -48,4 +59,17 @@ class EventMailer < BaseMailer
       subject: "[#{@region.name}] New event posted: '#{@event.title}'"
     )
   end
+
+  def new_organizer_alert(event, new_organizer)
+    @event = event
+    @user = new_organizer
+
+    set_recipients(@user.email)
+
+    mail(
+      subject: "You have been added as an organizer to '#{@event.title}'"
+    )
+
+  end
+
 end

@@ -49,11 +49,13 @@ RSpec.describe 'mailer previews' do
         preview_class = find_preview_class(mailer_class)
 
         mailer_class.instance_methods(false).each do |mailer_method|
-          expect(mailer_class).to receive(mailer_method).at_least(:once)
+          expect(mailer_class).to receive(mailer_method).at_least(:once).and_call_original
         end
 
         preview_class.instance_methods(false).each do |preview_method|
-          preview_class.new.send(preview_method)
+          mail = preview_class.new.send(preview_method)
+          # render the message to ensure the arity and template content works
+          expect(mail.message.subject.length).to be > 1
         end
       end
       expect(missing_previews).to match_array([])

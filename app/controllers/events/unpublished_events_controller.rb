@@ -22,9 +22,11 @@ class Events::UnpublishedEventsController < ApplicationController
     authorize @event, :publish?
     @event.update_attributes(current_state: :published)
     if @event.email_on_approval
-      EventMailer.new_event(@event).deliver_now 
+      EventMailer.new_event(@event).deliver_now
       @event.update_attribute(:announcement_email_sent_at, DateTime.now)
     end
+    EventMailer.event_has_been_approved(@event).deliver_now
+
     redirect_to @event, notice: "This event has been published. Now everyone in the world can see it!"
   end
 
