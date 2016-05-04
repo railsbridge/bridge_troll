@@ -1,8 +1,9 @@
 {
-  "//": "This package.json currently only exists so Bower will be installed on Heroku",
+  "//": "This package.json is mostly for Heroku and TravisCI, use bin/setup for local development.",
   "name": "bridge_troll",
   "version": "0.0.0",
   "dependencies": {
-    "bower": "^1.7.2"
+    "bower": "^1.7.2",
+    "phantomjs-prebuilt": "2.1.7"
   }
 }

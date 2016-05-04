@@ -3,11 +3,13 @@ rvm:
   - 2.3.0
 bundler_args: "--without development --without production --deployment"
 cache: bundler
+env:
+  - "PATH=$PWD/node_modules/.bin:$PATH"
 before_install:
+  - 'npm install'
   - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
   - "rvm @global do gem uninstall bundler -x && gem install bundler"
 before_script:
-  - 'npm install -g bower'
   - 'bundle exec rake bower:install:development'
   - "./config/before-travis.sh"
 script:
