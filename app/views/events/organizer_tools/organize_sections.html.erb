@@ -6,7 +6,7 @@
 <div id="section-organizer" class="section-organizer"></div>
 
 <script>
-  $(document).ready(function () {
+  window.whenReady(function () {
     Bridgetroll.railsEnv = '<%= Rails.env %>';
 
     var attendees = new Bridgetroll.Collections.Attendee(

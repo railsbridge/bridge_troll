@@ -14,7 +14,7 @@
   }
   end.to_json.html_safe %>;
 
-  $(document).ready(function() {
+  window.whenReady(function() {
     Bridgetroll.EventEmailAddresser.init(attendees)
   });
 </script>

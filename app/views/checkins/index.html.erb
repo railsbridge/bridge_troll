@@ -70,10 +70,12 @@
 </div>
 
 <script>
-  window.setupCheckinsPage({
-    event_id: <%= @event.id %>,
-    session_id: <%= @session.id %>,
-    poll: <%= !Rails.env.test? %>,
-    popoverData: <%= @event.course ? @event.course.levels.to_json.html_safe : [] %>
+  window.whenReady(function(){
+    window.setupCheckinsPage({
+      event_id: <%= @event.id %>,
+      session_id: <%= @session.id %>,
+      poll: <%= !Rails.env.test? %>,
+      popoverData: <%= @event.course ? @event.course.levels.to_json.html_safe : [] %>
+    });
   });
 </script>

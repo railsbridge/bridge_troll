@@ -1,4 +1,4 @@
-$(document).ready ->
+window.whenReady ->
   domWithoutActions = "t<'row'<'col-md-6'i><'col-md-6'p>>"
   domWithActions = "<'row'<'col-md-6'l><'col-md-6'f>r>" + domWithoutActions
 

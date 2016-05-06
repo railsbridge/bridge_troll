@@ -7,8 +7,9 @@
                  {include_blank: ''},
                  class: 'form-control') %>
       <script>
-        var options = {};
-        <% if defined?(url) %>
+        window.whenReady(function () {
+          var options = {};
+          <% if defined?(url) %>
           _.extend(options, {
             minimumInputLength: 3,
             ajax: {
@@ -23,11 +24,12 @@
               cache: true
             }
           });
-        <% end %>
-        var $select = $('#<%= select_id %>_<%= foreign_key %>');
-        $select.select2(options);
-        $select.change(function () {
-          $select.closest('form').find('input[type=submit]').attr({disabled: !this.value});
+          <% end %>
+          var $select = $('#<%= select_id %>_<%= foreign_key %>');
+          $select.select2(options);
+          $select.change(function () {
+            $select.closest('form').find('input[type=submit]').attr({disabled: !this.value});
+          });
         });
       </script>
       <%= submit_tag "Assign", class: "btn btn-primary", style: 'margin: 10px 0;', disabled: true %>

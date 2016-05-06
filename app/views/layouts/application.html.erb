@@ -15,7 +15,16 @@
     <% if Rails.env.test? %>
       <%= test_only_stylesheet %>
     <% end %>
-    <%= javascript_include_tag "application" %>
+    <script>
+      window.whenReady = function (fn) {
+        if (document.readyState != 'loading'){
+          fn();
+        } else {
+          document.addEventListener('DOMContentLoaded', fn);
+        }
+      };
+    </script>
+    <%= javascript_include_tag "application", defer: true %>
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">

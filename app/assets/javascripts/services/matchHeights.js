@@ -1,4 +1,4 @@
-$(document).ready(function () {
+window.whenReady(function () {
   function matchHeights ($element) {
     var items = $element.find('.js-match-height-item');
     items.css('min-height', 0);
