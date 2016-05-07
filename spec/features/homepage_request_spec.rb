@@ -27,7 +27,7 @@ describe "visiting the home page" do
     it "has a sign up link in the upcoming events section" do
       visit '/'
       within '.event-notifications' do
-        expect(page).to have_link('sign up', new_user_registration_path)
+        expect(page).to have_link('sign up', href: new_user_registration_path)
         expect(page).to have_text('to receive email notifications')
       end
     end
@@ -42,7 +42,7 @@ describe "visiting the home page" do
     it "has a link to email notification preferences" do
       visit '/'
       within '.event-notifications' do
-        expect(page).to have_link('event notification email preferences', edit_user_registration_path)
+        expect(page).to have_link('event notification email preferences', href: edit_user_registration_path)
       end
     end
   end
