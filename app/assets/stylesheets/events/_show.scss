@@ -1,5 +1,6 @@
 @import "bootstrap/variables";
 @import "constants";
+@import 'font_mixins';
 
 .location-display {
   margin-bottom: 20px;
@@ -54,7 +55,7 @@
 
   h3 {
     margin: 20px 0 5px 0;
-    font-family: 'AmbleRegular', sans-serif;
+    @include font-amble-regular;
   }
 
   ul {

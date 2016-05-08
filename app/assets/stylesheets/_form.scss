@@ -1,9 +1,10 @@
 @import "bootstrap/variables";
 @import "mixins";
+@import "font_mixins";
 
 form {
   .question {
-    font-family: 'AmbleRegular', sans-serif;
+    @include font-amble-regular;
     font-size: 16px;
     margin-top: 10px;
   }
@@ -32,7 +33,7 @@ form {
   }
 
   label {
-    font-family: 'AmbleRegular', sans-serif;
+    @include font-amble-regular;
     font-size: 16px;
     margin-top: 10px;
   }

@@ -1,6 +1,7 @@
 @import "bootstrap/variables";
 @import "bootstrap/mixins/clearfix";
 @import "constants";
+@import 'font_mixins';
 
 .organizer-breadcrumb {
   @include clearfix();
@@ -31,10 +32,10 @@
 .organizer-dashboard {
   h3 {
     margin: 10px 0;
-    font-family: AmbleRegular;
+    @include font-amble-regular;
   }
   h2 {
-    font-family: AmbleBold;
+    @include font-amble-bold;
   }
 }
 

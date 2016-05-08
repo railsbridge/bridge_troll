@@ -1,7 +1,9 @@
+@import 'font_mixins';
+
 .event-form {
   h2 {
     margin: 30px 0 5px 0;
-    font-family: AmbleBold, sans-serif;
+    @include font-amble-bold;
   }
 
   .mb-10-only {
@@ -9,18 +11,18 @@
   }
 
   h3 {
-    font-family: AmbleBold, sans-serif;
+    @include font-amble-bold;
   }
 
   label {
-    font-family: AmbleBold, sans-serif;
+    @include font-amble-bold;
     font-size: 16px;
   }
 
   .non-bolded {
     label {
       font-size: 15px;
-      font-family: AmbleLight, sans-serif;
+      @include font-amble-light;
     }
   }
 
