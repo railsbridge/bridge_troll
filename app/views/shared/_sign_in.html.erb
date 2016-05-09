@@ -19,7 +19,7 @@
     <ul class='external-auth'>
       <% OmniauthProviders.provider_data.each do |provider| %>
         <li>
-          <%= link_to user_omniauth_authorize_path(provider[:key], origin: session["user_return_to"]) do %>
+          <%= link_to omniauth_authorize_path(:user, provider[:key], origin: session["user_return_to"]) do %>
             <i class='fa <%= provider[:icon] %>'></i>
             <%= provider[:name] %>
           <% end %>

@@ -2,6 +2,10 @@ require 'rails_helper'
 require Rails.root.join('spec', 'services', 'omniauth_responses')
 
 describe "signing in with omniauth" do
+  # TODO: why is this needed, they load in the app just fine
+  include Devise::Controllers::UrlHelpers
+  include Devise::OmniAuth::UrlHelpers
+
   before do
     OmniAuth.config.test_mode = true
   end
@@ -14,7 +18,7 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a user and authentication if the user does not exist' do
-      visit user_omniauth_authorize_path(:facebook)
+      visit omniauth_authorize_path(:user, :facebook)
 
       within '#sign-up' do
         click_on 'Sign up'
@@ -35,7 +39,7 @@ describe "signing in with omniauth" do
       user = create(:user)
       sign_in_as user
 
-      visit user_omniauth_authorize_path(:facebook)
+      visit omniauth_authorize_path(:user, :facebook)
 
       authentication = user.authentications.first
       expect(authentication.provider).to eq('facebook')
@@ -51,7 +55,7 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a user and authentication if the user does not exist' do
-      visit user_omniauth_authorize_path(:google_oauth2)
+      visit omniauth_authorize_path(:user, :google_oauth2)
 
       within '#sign-up' do
         click_on 'Sign up'
@@ -72,7 +76,7 @@ describe "signing in with omniauth" do
       user = create(:user)
       sign_in_as user
 
-      visit user_omniauth_authorize_path(:google_oauth2)
+      visit omniauth_authorize_path(:user, :google_oauth2)
 
       authentication = user.authentications.first
       expect(authentication.provider).to eq('google_oauth2')
@@ -88,7 +92,7 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a user and authentication after the user provides an email' do
-      visit user_omniauth_authorize_path(:twitter)
+      visit omniauth_authorize_path(:user, :twitter)
 
       within '#sign-up' do
         fill_in 'Email', with: 'cool_tweeter@example.com'
@@ -115,7 +119,7 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a user and authentication after the user provides an email' do
-      visit user_omniauth_authorize_path(:meetup)
+      visit omniauth_authorize_path(:user, :meetup)
 
       within '#sign-up' do
         fill_in 'Email', with: 'meetup_user@example.com'
@@ -142,7 +146,7 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a user and authentication after the user provides an email' do
-      visit user_omniauth_authorize_path(:github)
+      visit omniauth_authorize_path(:user, :github)
 
       within '#sign-up' do
         click_on 'Sign up'
@@ -173,7 +177,7 @@ describe "signing in with omniauth" do
       sign_in_as user
 
       expect {
-        visit user_omniauth_authorize_path(:facebook)
+        visit omniauth_authorize_path(:user, :facebook)
       }.not_to change(Authentication, :count)
 
       expect(page).to have_content 'already in use'
@@ -186,7 +190,7 @@ describe "signing in with omniauth" do
       auth_response[:info].delete(:name)
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(auth_response)
 
-      visit user_omniauth_authorize_path(:github)
+      visit omniauth_authorize_path(:user, :github)
 
       expect(find_field('user[first_name]').value).to be_blank
       expect(find_field('user[last_name]').value).to be_blank
@@ -197,7 +201,7 @@ describe "signing in with omniauth" do
       auth_response[:info][:name] = ''
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(auth_response)
 
-      visit user_omniauth_authorize_path(:github)
+      visit omniauth_authorize_path(:user, :github)
 
       expect(find_field('user[first_name]').value).to be_blank
       expect(find_field('user[last_name]').value).to be_blank
@@ -208,7 +212,7 @@ describe "signing in with omniauth" do
       auth_response[:info][:name] = 'Enigma'
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(auth_response)
 
-      visit user_omniauth_authorize_path(:github)
+      visit omniauth_authorize_path(:user, :github)
 
       expect(find_field('user[first_name]').value).to eq('Enigma')
       expect(find_field('user[last_name]').value).to be_blank
