@@ -91,7 +91,7 @@
 
 <h2>Spammers</h2>
 <div>
-  <%= pluralize(@spammers.count, "user has", "users have") %> been flagged as a spammer.
+  <%= pluralize(@spammers.count, "user has", plural: "users have") %> been flagged as a spammer.
   <ul>
     <% @spammers.each do |spammer| %>
       <li><%= link_to spammer.full_name, user_profile_path(spammer) %></li>
@@ -101,7 +101,7 @@
 
 <h2>Spam events</h2>
 <div>
-  <%= pluralize(@spam_events.count, "event has", "events have") %> been marked as spam.
+  <%= pluralize(@spam_events.count, "event has", plural: "events have") %> been marked as spam.
   <ul>
     <% @spam_events.each do |event| %>
       <li><%= link_to event.title, event %></li>
