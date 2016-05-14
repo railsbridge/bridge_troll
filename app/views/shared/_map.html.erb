@@ -9,7 +9,7 @@
   end
 %>
 <script src="//maps.google.com/maps/api/js?v=3.18&sensor=false&libraries=geometry"></script>
-<script src='//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.1.2/markerclustererplus/src/markerclusterer_packed.js'></script>
+<%= javascript_include_tag 'markerclustererplus/dist/markerclusterer.min.js' %>
 
 <script>
   window.whenReady(function () {
