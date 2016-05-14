@@ -35,7 +35,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def publish?
-    user.publisher? || user.admin? || record.chapter.has_leader?(user)
+    user.publisher? || user.admin? || record.chapter.has_leader?(user) || record.chapter.organization.has_leader?(user)
   end
 
   def flag?

@@ -54,6 +54,36 @@ describe EventPolicy do
     end
   end
 
+  describe "#publish?" do
+    let!(:event) { create(:event) }
+
+    it "allows admins to publish an event" do
+      policy = EventPolicy.new(create(:user, admin: true), event)
+      expect(policy.publish?).to be_truthy
+    end
+
+    it "allows chapter leaders to publish an event" do
+      leader = create(:user)
+      event.chapter.leaders << leader
+
+      policy = EventPolicy.new(leader, event)
+      expect(policy.publish?).to be_truthy
+    end
+
+    it "allows organization leaders to publish an event" do
+      leader = create(:user)
+      event.chapter.organization.leaders << leader
+
+      policy = EventPolicy.new(leader, event)
+      expect(policy.publish?).to be_truthy
+    end
+
+    it "does not allow strangers to edit an event" do
+      policy = EventPolicy.new(create(:user), event)
+      expect(policy.publish?).to be_falsey
+    end
+  end
+
   describe "#update?" do
     let!(:event) { create(:event) }
 
