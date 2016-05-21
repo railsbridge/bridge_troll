@@ -8,6 +8,7 @@
   <% elsif event.student?(current_user) %>
     You are signed up to attend this event!
   <% end %>
+  <%= event.rsvp_for_user(current_user).section.try(:name) %>
 </div>
 <% if event.attendee?(current_user) %>
   <%= link_to 'Edit RSVP', edit_event_rsvp_path(event, event.rsvp_for_user(current_user)), class: 'btn' %>
