@@ -168,4 +168,4 @@ The values for _key_ and _secret_ on the OAuth consumers page should be added to
 One billion thanks to our [super awesome contributors](https://github.com/railsbridge/bridge_troll/contributors).
 
 ## License
-The code is licensed under an [MIT license](https://github.com/railsbridge/bridge_troll/LICENSE.md). Copyright (c) 2016 by RailsBridge.
+The code is licensed under an [MIT license](https://github.com/railsbridge/bridge_troll/blob/master/LICENSE.md). Copyright (c) 2016 by RailsBridge.
