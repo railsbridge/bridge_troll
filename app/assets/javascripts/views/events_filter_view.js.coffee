@@ -19,6 +19,7 @@ class window.EventsFilterView extends Backbone.View
   handleChange: (e) =>
     regionId = e.currentTarget.value
     @filter(@model.set(regionId))
+    window.resizeHeightMatchingItems($('.upcoming-events'))
 
   filter: (regionId) =>
     if regionId != @model.defaultValue
