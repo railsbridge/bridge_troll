@@ -40,6 +40,14 @@ describe RegionsController do
       before do
         @user = create(:user)
         sign_in @user
+        @user.regions << @region
+      end
+
+      it "can retrieve a JSON representation of a region" do
+        get :show, id: @region.id, format: :json
+        json = JSON.parse(response.body)
+        expect(json['name']).to eq(@region.name)
+        expect(json['users_subscribed_to_email_count']).to eq(1)
       end
 
       context "when rendering views" do

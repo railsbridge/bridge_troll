@@ -41,40 +41,6 @@ describe Events::UnpublishedEventsController do
         end
       end
     end
-
-    describe 'region user counts' do
-      before do
-        sign_in create(:user, publisher: true)
-
-        @region1 = @event.region
-        @region1.update_attributes(name: 'RailsBridge Shellmound')
-        @region2 = create(:region, name: 'RailsBridge Meriloft')
-
-        user_none = create(:user)
-
-        user_region1 = create(:user)
-        user_region1.regions << @region1
-
-        user_region2 = create(:user)
-        user_region2.regions << @region2
-
-        user_both_regions = create(:user)
-        user_both_regions.regions << @region1
-        user_both_regions.regions << @region2
-
-        user_no_email = create(:user, allow_event_email: false)
-        user_no_email.regions << @region1
-      end
-
-      it "assigns a hash of region/user counts" do
-        get :index
-
-        expect(assigns(:region_user_counts)).to eq({
-          @region1.id => 2,
-          @region2.id => 2
-        })
-      end
-    end
   end
 
   describe "POST #publish" do

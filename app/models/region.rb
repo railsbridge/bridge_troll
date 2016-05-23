@@ -22,4 +22,11 @@ class Region < ActiveRecord::Base
   def destroyable?
     (locations_count + external_events_count) == 0
   end
+
+  def as_json(options = {})
+    {
+      name: name,
+      users_subscribed_to_email_count: users.where(allow_event_email: true).count
+    }
+  end
 end

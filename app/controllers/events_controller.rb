@@ -50,12 +50,6 @@ class EventsController < ApplicationController
       Role::VOLUNTEER => @event.ordered_rsvps(Role::VOLUNTEER, waitlisted: true).to_a,
       Role::STUDENT => @event.ordered_rsvps(Role::STUDENT, waitlisted: true).to_a
     }
-    regions = Region.includes(:users)
-                 .where('users.allow_event_email = ?', true)
-                 .references(:users)
-    @region_user_counts = regions.each_with_object({}) do |region, hsh|
-      hsh[region.id] = region.users.length
-    end
   end
 
   def new

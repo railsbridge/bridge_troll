@@ -9,18 +9,25 @@ class RegionsController < ApplicationController
 
   def show
     skip_authorization
-    @region_events = (
-      @region.events.published_or_visible_to(current_user).includes(:location) +
-      @region.external_events
-    ).sort_by(&:ends_at)
+    respond_to do |format|
+      format.html do
+        @region_events = (
+        @region.events.published_or_visible_to(current_user).includes(:location) +
+          @region.external_events
+        ).sort_by(&:ends_at)
 
-    if @region.has_leader?(current_user)
-      @organizer_rsvps = Rsvp.
-        group(:user_id, :user_type).
-        joins([event: [location: :region]]).
-        includes(:user).
-        select("user_id, user_type, count(*) as events_count").
-        where('regions.id' => @region.id, role_id: Role::ORGANIZER.id, user_type: 'User')
+        if @region.has_leader?(current_user)
+          @organizer_rsvps = Rsvp.
+            group(:user_id, :user_type).
+            joins([event: [location: :region]]).
+            includes(:user).
+            select("user_id, user_type, count(*) as events_count").
+            where('regions.id' => @region.id, role_id: Role::ORGANIZER.id, user_type: 'User')
+        end
+      end
+      format.json do
+        render json: @region
+      end
     end
   end
 

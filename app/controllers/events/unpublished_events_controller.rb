@@ -4,13 +4,6 @@ class Events::UnpublishedEventsController < ApplicationController
 
   def index
     authorize Event, :see_unpublished?
-    regions = Region.includes(:users)
-                 .where('users.allow_event_email = ?', true)
-                 .references(:users)
-    @region_user_counts = regions.each_with_object({}) do |region, hsh|
-      hsh[region.id] = region.users.length
-    end
-
     @events = EventPolicy::Scope.new(current_user, Event)
                 .publishable
                 .upcoming

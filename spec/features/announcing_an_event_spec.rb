@@ -67,7 +67,9 @@ describe "Announcing an event", js: true do
 
         sign_in_as admin
         visit unpublished_events_path
-        click_on "Publish"
+        accept_confirm do
+          click_on "Publish"
+        end
 
         sign_in_as(user_organizer)
       end
