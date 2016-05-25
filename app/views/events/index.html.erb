@@ -21,6 +21,15 @@
       <% @events.each do |event| %>
         <%= render 'upcoming_event', event: event %>
       <% end %>
+
+      <script>
+        window.whenReady(function () {
+          var $regionSelect = $('.region-select');
+          if ($regionSelect.length > 0) {
+            new EventsFilterView({el: $regionSelect});
+          }
+        });
+      </script>
     </div>
 
     <p class="event-notifications">

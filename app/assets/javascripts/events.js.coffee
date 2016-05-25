@@ -69,7 +69,3 @@ jQuery ->
     $dateField = $field.find('.datepicker')
     setUpDatePicker($dateField)
     setUpExclusiveCheckboxes($field)
-
-  $regionSelect = $('.region-select')
-  if $regionSelect.length > 0
-    new EventsFilterView(el: $regionSelect)

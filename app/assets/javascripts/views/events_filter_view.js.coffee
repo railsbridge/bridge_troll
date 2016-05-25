@@ -19,7 +19,6 @@ class window.EventsFilterView extends Backbone.View
   handleChange: (e) =>
     regionId = e.currentTarget.value
     @filter(@model.set(regionId))
-    window.resizeHeightMatchingItems($('.upcoming-events'))
 
   filter: (regionId) =>
     if regionId != @model.defaultValue
@@ -27,6 +26,7 @@ class window.EventsFilterView extends Backbone.View
       $(".event-card[data-region-id=#{regionId}]").show()
     else
       $('.event-card').show()
+    window.resizeHeightMatchingItems($('.upcoming-events'))
 
   restore: ->
     @$el.val(@model.get())
