@@ -37,17 +37,16 @@ Bridgetroll::Application.routes.draw do
     resources :checkiners, only: [:index, :create, :destroy]
     resources :volunteers, only: [:index]
 
-    resources :students, only: [:index], controller: 'events/students'
-    resources :attendees, only: [:index, :update], controller: 'events/attendees'
-    resources :attendee_names, only: [:index], controller: 'events/attendee_names'
-    resources :emails, only: [:new, :create, :show], controller: 'events/emails'
+    scope module: :events do
+      resources :students, only: [:index]
+      resources :attendees, only: [:index, :update]
+      resources :attendee_names, only: [:index]
+      resources :emails, only: [:new, :create, :show]
+      resource :survey, only: [:edit]
+    end
 
     resources :sections, only: [:create, :update, :destroy] do
       post :arrange, on: :collection
-    end
-
-    collection do
-      get :feed
     end
 
     resources :rsvps, except: [:show, :index, :new] do
@@ -70,26 +69,28 @@ Bridgetroll::Application.routes.draw do
     end
 
     resources :organizer_tools, only: [:index], controller: "events/organizer_tools"
+
     controller "events/organizer_tools" do
-      get "send_survey_email"
-      resource :survey, only: [:edit], controller: "events/surveys"
-      get "organize_sections"
-      get "diets"
-      get "rsvp_preview"
-      get "close_rsvps"
-      get "reopen_rsvps"
-      post "send_announcement_email"
+      get :send_survey_email
+      get :organize_sections
+      get :diets
+      get :rsvp_preview
+      get :close_rsvps
+      get :reopen_rsvps
+      post :send_announcement_email
     end
 
     collection do
       resources :unpublished_events, only: [:index], controller: "events/unpublished_events" do
-        post "publish"
-        post "flag"
+        post :publish
+        post :flag
       end
+
+      get :feed
     end
 
     member do
-      get "levels"
+      get :levels
     end
   end
 
@@ -97,9 +98,9 @@ Bridgetroll::Application.routes.draw do
 
   get "/about" => "static_pages#about"
   get "/admin_dashboard" => "admin_pages#admin_dashboard"
-  scope '/admin_dashboard', controller: :admin_pages do
-    get "send_test_email"
-    get "raise_exception"
+  scope :admin_dashboard, controller: :admin_pages do
+    get :send_test_email
+    get :raise_exception
   end
 
   if Rails.env.development?
