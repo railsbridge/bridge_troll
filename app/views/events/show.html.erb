@@ -120,17 +120,14 @@
         <% end %>
       </ul>
     </div>
+
     <h3><%= pluralize(@event.checked_in_rsvps(Role::VOLUNTEER).count, "volunteer") %>!</h3>
     <% if @ordered_rsvps[Role::VOLUNTEER].none? %>
       <div class="mb20">
         No volunteers are currently signed up for this event.
       </div>
     <% else %>
-      <ul class="attendees">
-        <% @ordered_rsvps[Role::VOLUNTEER].each do |rsvp| %>
-          <li class='attendee'><%= user_gravatar(rsvp.loaded_user) %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path, class: rsvp_class(rsvp) %></li>
-        <% end %>
-      </ul>
+      <%= render 'attendee_list', attendees: @ordered_rsvps[Role::VOLUNTEER] %>
     <% end %>
 
     <% if @event.allow_student_rsvp? %>
@@ -140,30 +137,18 @@
           No students are currently signed up for this event.
         </div>
       <% else %>
-        <ul class="attendees">
-          <% @ordered_rsvps[Role::STUDENT].each do |rsvp| %>
-            <li class='attendee'><%= user_gravatar(rsvp.loaded_user) %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path, class: rsvp_class(rsvp) %></li>
-          <% end %>
-        </ul>
+        <%= render 'attendee_list', attendees: @ordered_rsvps[Role::STUDENT] %>
       <% end %>
     <% end %>
 
     <% if @ordered_waitlist_rsvps[Role::VOLUNTEER].any? %>
-        <h3><%= @ordered_waitlist_rsvps[Role::VOLUNTEER].length %> waitlisted <%= "volunteer".pluralize(@ordered_waitlist_rsvps[Role::VOLUNTEER]) %>!</h3>
-        <ul class="attendees">
-          <% @ordered_waitlist_rsvps[Role::VOLUNTEER].each do |rsvp| %>
-              <li class='attendee'><%= user_gravatar(rsvp.loaded_user) %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path %><span class='waitlist-number pull-right'>#<%= rsvp.waitlist_position %></span></li>
-          <% end %>
-        </ul>
+      <h3><%= pluralize(@ordered_waitlist_rsvps[Role::VOLUNTEER].length, "waitlisted volunteer") %>!</h3>
+      <%= render 'attendee_list', attendees: @ordered_waitlist_rsvps[Role::VOLUNTEER] %>
     <% end %>
 
     <% if @ordered_waitlist_rsvps[Role::STUDENT].any? %>
-      <h3><%= @ordered_waitlist_rsvps[Role::STUDENT].length %> waitlisted <%= "student".pluralize(@ordered_waitlist_rsvps[Role::STUDENT]) %>!</h3>
-      <ul class="attendees">
-        <% @ordered_waitlist_rsvps[Role::STUDENT].each do |rsvp| %>
-          <li class='attendee'><%= user_gravatar(rsvp.loaded_user) %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path %><span class='waitlist-number pull-right'>#<%= rsvp.waitlist_position %></span></li>
-        <% end %>
-      </ul>
+      <h3><%= pluralize(@ordered_waitlist_rsvps[Role::VOLUNTEER].length, "waitlisted student") %>!</h3>
+      <%= render 'attendee_list', attendees: @ordered_waitlist_rsvps[Role::STUDENT] %>
     <% end %>
   </div>
 </div>

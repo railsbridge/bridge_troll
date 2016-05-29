@@ -1,0 +1,10 @@
+<ul class="attendees">
+  <% attendees.each do |rsvp| %>
+    <li class='attendee'>
+      <%= user_gravatar(rsvp.loaded_user) %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path, class: rsvp_class(rsvp) %>
+      <% if rsvp.waitlist_position.present? %>
+        <span class='waitlist-number pull-right'>#<%= rsvp.waitlist_position %></span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
