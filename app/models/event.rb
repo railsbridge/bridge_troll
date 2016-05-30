@@ -366,6 +366,10 @@ class Event < ActiveRecord::Base
     course[:levels]
   end
 
+  def code_of_conduct_url
+    chapter.try(:code_of_conduct_url) || DEFAULT_CODE_OF_CONDUCT_URL
+  end
+
   private
 
   DEFAULT_DETAIL_FILES = Dir[Rails.root.join('app', 'models', 'event_details', '*.html')]

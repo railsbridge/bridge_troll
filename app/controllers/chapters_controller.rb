@@ -64,6 +64,11 @@ class ChaptersController < ApplicationController
     redirect_to chapters_url
   end
 
+  def code_of_conduct_url
+    skip_authorization
+    render text: @chapter.code_of_conduct_url
+  end
+
   private
 
   def chapter_params

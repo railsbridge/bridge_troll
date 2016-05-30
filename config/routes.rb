@@ -20,6 +20,10 @@ Bridgetroll::Application.routes.draw do
     resources :leaders, only: [:index, :create, :destroy], controller: 'chapters/leaders' do
       get :potential, on: :collection
     end
+
+    member do
+      get :code_of_conduct_url
+    end
   end
 
   resources :regions do

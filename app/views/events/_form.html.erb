@@ -264,12 +264,12 @@
     <div class="field">
       <script>
         window.whenReady(function () {
-          var chapterOrganization = <%= Chapter.all.each_with_object({}) { |c, hsh| hsh[c.id] = c.organization_id }.to_json.html_safe %>;
-          var organizationCoc = <%= Organization.where.not(code_of_conduct_url: nil).each_with_object({}) { |o, hsh| hsh[o.id] = o.code_of_conduct_url }.to_json.html_safe %>;
           $('#event_chapter_id').on('change', function () {
             var chapterId = parseInt(this.value, 10);
-            $('#coc_url').attr('href', organizationCoc[chapterOrganization[chapterId]] || '<%= Event::DEFAULT_CODE_OF_CONDUCT_URL %>');
             $('#coc').attr('checked', false);
+            $.get("/chapters/" + chapterId + "/code_of_conduct_url").then(function (codeOfConductUrl) {
+              $('#coc_url').attr('href', codeOfConductUrl);
+            });
           });
         });
       </script>
@@ -279,7 +279,7 @@
           'toggle-target' => '.coc-required',
           'toggle-enable-when-checked' => true
         } %>
-          I accept the <%= link_to 'Code of Conduct', Event::DEFAULT_CODE_OF_CONDUCT_URL, target: :blank, id: 'coc_url' %> and will communicate it at the beginning of the event.
+          I accept the <%= link_to 'Code of Conduct', @event.code_of_conduct_url, target: :blank, id: 'coc_url' %> and will communicate it at the beginning of the event.
         </strong>
       <% end %>
     </div>

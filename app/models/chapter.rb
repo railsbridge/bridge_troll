@@ -22,4 +22,8 @@ class Chapter < ActiveRecord::Base
   def destroyable?
     (events_count + external_events_count) == 0
   end
+
+  def code_of_conduct_url
+    organization.code_of_conduct_url || Event::DEFAULT_CODE_OF_CONDUCT_URL
+  end
 end
