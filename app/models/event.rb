@@ -329,7 +329,7 @@ class Event < ActiveRecord::Base
   end
 
   def code_of_conduct_url
-    chapter.organization.code_of_conduct_url || DEFAULT_CODE_OF_CONDUCT_URL
+    chapter.try(:code_of_conduct_url) || DEFAULT_CODE_OF_CONDUCT_URL
   end
 
   def update_rsvp_counts
@@ -364,10 +364,6 @@ class Event < ActiveRecord::Base
 
   def levels
     course[:levels]
-  end
-
-  def code_of_conduct_url
-    chapter.try(:code_of_conduct_url) || DEFAULT_CODE_OF_CONDUCT_URL
   end
 
   private
