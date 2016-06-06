@@ -13,10 +13,12 @@
       <% end %>
 
       <% if @can_publish && !@event.published? %>
-        <%= render 'events/unpublished_events/publish_event_button', event: @event %>
-        <% if current_user.admin? || current_user.publisher? %>
+        <div style="margin-top: 5px;">
+          <%= render 'events/unpublished_events/publish_event_button', event: @event %>
+          <% if current_user.admin? || current_user.publisher? %>
             <%= render 'events/unpublished_events/mark_as_spam_button', event: @event %>
-        <% end %>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>

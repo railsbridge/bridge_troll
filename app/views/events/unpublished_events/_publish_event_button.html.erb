@@ -1,5 +1,5 @@
 <% if event.location %>
-  <%= button_to 'Publish', unpublished_event_publish_path(event), class: 'btn', id: "publish-event-#{event.id}", method: :post %>
+  <%= button_to 'Publish', unpublished_event_publish_path(event), class: 'btn', id: "publish-event-#{event.id}", method: :post, form_class: 'button_to inline-block' %>
   <script>
     window.whenReady(function () {
       $("#publish-event-<%= event.id %>").on('click', function (e) {
