@@ -3,7 +3,7 @@
 
   <tr>
     <th>Title</th>
-    <th class='date'>Date</th>
+    <th>Date</th>
     <th>Venue</th>
     <th>City</th>
     <% if @show_organizers %>
@@ -28,7 +28,7 @@
         <% end %>
         <%= external_links(event) %>
       </td>
-      <td>
+      <td class='whitespace-nowrap'>
         <%= formatted_event_date(event) %>
       </td>
       <% if event.location %>

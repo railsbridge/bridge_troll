@@ -6,7 +6,7 @@
       <th>City</th>
       <th>State</th>
       <th>Events</th>
-      <th class='date'>Recent Event</th>
+      <th>Recent Event</th>
       <% if user_signed_in? %>
         <th></th>
       <% end %>
@@ -21,7 +21,7 @@
         <td data-label="City:"><%= location.city %></td>
         <td data-label="State:"><%= location.state %></td>
         <td data-label="Events:"><%= location.events_count %></td>
-        <td data-label="Recent event date:" class="date"><%= location.most_recent_event_date %></td>
+        <td data-label="Recent event date:" class="whitespace-nowrap"><%= location.most_recent_event_date %></td>
         <% if user_signed_in? %>
           <td>
             <% unless location.archived? %>
