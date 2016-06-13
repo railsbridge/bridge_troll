@@ -4,7 +4,7 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require jquery
+//= require jquery2
 //= require jquery_ujs
 //= require jquery-ui/datepicker
 //= require bootstrap/transition
@@ -17,19 +17,11 @@
 //= require gmaps/google
 //= require backbone
 //= require backbone-super
-//= require masonry/jquery.masonry
-//= require jquery.event.drag
-//= require jquery.event.drop
 //= require bridgetroll
 //= require_tree ../templates
 //= require_tree ./enums
-//= require_tree ./models
-//= require_tree ./collections
-//= require ./views/base_view
-//= require_tree ./views
-//= require ./dialogs/base_dialog
-//= require_tree ./dialogs
 //= require DataTables
 //= require DataTables/media/js/dataTables.bootstrap
+//= stub section_organizer
 //= require_tree .
 //= require jquery_nested_form

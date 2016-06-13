@@ -1,0 +1,9 @@
+//= require masonry/dist/masonry.pkgd.js
+//= require jquery.event.drag
+//= require jquery.event.drop
+//= require ./section_organizer/views/base_view
+//= require ./section_organizer/dialogs/base_dialog
+//= require_tree ./section_organizer/dialogs
+//= require_tree ./section_organizer/models
+//= require_tree ./section_organizer/collections
+//= require_tree ./section_organizer/views

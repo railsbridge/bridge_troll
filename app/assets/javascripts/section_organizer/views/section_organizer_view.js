@@ -142,7 +142,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       if (this.displayProperties.get('masonry')) {
         this.$el.find('.masonry-container').masonry({
           itemSelector: '.bridgetroll-section',
-          gutterWidth: 10
+          gutter: 10
         });
       }
     },

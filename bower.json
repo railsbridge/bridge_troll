@@ -1,9 +1,10 @@
 {
   "name": "bridge troll",
   "dependencies": {
-    "DataTables": "1.10.10",
-    "select2": "4.0.1",
-    "markerclustererplus": "^2.1.4"
+    "DataTables": "1.10.12",
+    "select2": "4.0.3",
+    "markerclustererplus": "2.1.4",
+    "masonry": "4.1.0"
   },
   "devDependencies": {
     "sinonjs": "1.17.1"

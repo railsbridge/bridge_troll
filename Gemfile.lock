@@ -165,8 +165,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
-    masonry-rails (0.2.4)
-      railties
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
@@ -371,7 +369,6 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   launchy
-  masonry-rails
   nested_form
   newrelic_rpm
   omniauth-facebook
