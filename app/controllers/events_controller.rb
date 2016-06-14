@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :feed, :show, :levels]
-  before_action :find_event, except: [:index, :feed, :create, :new]
+  before_action :find_event, except: [:index, :show, :feed, :create, :new]
   before_action :set_time_zone, only: [:create, :update]
   before_action :set_empty_location, only: [:new, :create]
 
@@ -34,6 +34,7 @@ class EventsController < ApplicationController
 
   def show
     skip_authorization
+    @event = Event.includes(event_sessions: :location).find(params[:id])
     if user_signed_in? && !@event.historical?
       @can_edit = policy(@event).update?
       @can_publish = policy(@event).publish?
