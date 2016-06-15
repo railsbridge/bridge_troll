@@ -22,10 +22,10 @@ class window.EventsFilterView extends Backbone.View
 
   filter: (regionId) =>
     if regionId != @model.defaultValue
-      $('.event-card').hide()
-      $(".event-card[data-region-id=#{regionId}]").show()
+      $('.event-card').addClass('hide')
+      $(".event-card[data-region-id=#{regionId}]").removeClass('hide')
     else
-      $('.event-card').show()
+      $('.event-card').removeClass('hide')
     window.resizeHeightMatchingItems($('.upcoming-events'))
 
   restore: ->
