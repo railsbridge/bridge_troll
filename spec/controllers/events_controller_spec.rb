@@ -13,21 +13,6 @@ describe EventsController do
     describe "when rendering views" do
       render_views
 
-      describe "when external events are present" do
-        before do
-          event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
-          event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
-          create(:external_event, name: 'SalsaBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
-        end
-
-        it 'renders a combination of internal and external events' do
-          get :index
-          expect(response.body).to include('PastBridge')
-          expect(response.body).to include('DonutBridge')
-          expect(response.body).to include('SalsaBridge')
-        end
-      end
-
       describe "#allow_student_rsvp?" do
         let(:attend_text) { 'Attend' }
 

@@ -36,6 +36,23 @@ describe "the event listing page" do
     expect(page).to have_content("January 31, #{next_year}")
   end
 
+  describe "the past events table", js: true do
+    before do
+      event = create(:event, title: 'InternalPastBridge', time_zone: 'Alaska')
+      event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
+      create(:external_event, name: 'ExternalPastBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
+    end
+
+    it 'renders a combination of internal and external events' do
+      visit events_path
+
+      within '#past-events-table' do
+        expect(page).to have_content('InternalPastBridge')
+        expect(page).to have_content('ExternalPastBridge')
+      end
+    end
+  end
+
   it "should not show event organizers column" do
     user_organizer = create(:user, email: "orgainzer@mail.com", first_name: "Sam", last_name: "Spade")
     event = create(:event)
