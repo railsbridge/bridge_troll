@@ -28,26 +28,27 @@ describe UsersController do
     end
 
     context "when rendering" do
-      render_views
-
       it "shows a bunch of user names" do
-        get :index
-        users = assigns(:users)
+        get :index, format: :json
+        users = JSON.parse(response.body)['data']
         all_users = [@user1, @user2, @user_no_rsvps, @bridgetroll_user, @logged_in_user]
-        expect(users.map(&:to_global_id)).to match_array(all_users.map(&:to_global_id))
+        expect(users.map { |u| u['global_id']}).to match_array(all_users.map(&:to_global_id).map(&:to_s))
 
-        users.each do |user|
-          expect(response.body).to include(ERB::Util.html_escape user.full_name)
+        all_users.each do |user|
+          expect(response.body).to include(user.full_name)
         end
       end
     end
 
     it "calculates attendances" do
-      get :index
-      users = assigns(:users).each_with_object({}) { |u, hsh| hsh[u.to_global_id.to_s] = u }
-      expect(users[@user1.to_global_id.to_s].volunteer_rsvp_count).to eq(2)
-      expect(users[@user2.to_global_id.to_s].volunteer_rsvp_count).to eq(1)
-      expect(users[@bridgetroll_user.to_global_id.to_s].volunteer_rsvp_count).to eq(1)
+      get :index, format: :json
+      users = JSON.parse(response.body)['data'].each_with_object({}) do |u, hsh|
+        hsh[u['global_id']] = u
+      end
+
+      expect(users[@user1.to_global_id.to_s]['volunteer_rsvp_count']).to eq(2)
+      expect(users[@user2.to_global_id.to_s]['volunteer_rsvp_count']).to eq(1)
+      expect(users[@bridgetroll_user.to_global_id.to_s]['volunteer_rsvp_count']).to eq(1)
     end
   end
 end

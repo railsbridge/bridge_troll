@@ -3,11 +3,37 @@ class UsersController < ApplicationController
 
   def index
     skip_authorization
-    user_attendances = Rsvp.attendances_for('User')
-    meetup_user_attendances = Rsvp.attendances_for('MeetupUser')
+    respond_to do |format|
+      format.html {}
+      format.json do
+        user_attendances = Rsvp.attendances_for('User')
+        meetup_user_attendances = Rsvp.attendances_for('MeetupUser')
 
-    @attendances = { User: user_attendances, MeetupUser: meetup_user_attendances }
-    @users = meetup_users + users
+        @attendances = { User: user_attendances, MeetupUser: meetup_user_attendances }
+        @users = meetup_users + users
+
+        offset = (params[:start] || 0).to_i
+        limit = (params[:length] || 10).to_i
+
+        user_data = @users.slice(offset, limit).map do |user|
+          {
+            global_id: user.to_global_id.to_s,
+            link: user.profile_link,
+            meetup_id: user.meetup_link,
+            student_rsvp_count: user.student_rsvp_count,
+            volunteer_rsvp_count: user.volunteer_rsvp_count,
+            organizer_rsvp_count: user.organizer_rsvp_count
+          }
+        end
+
+        render json: {
+          draw: params[:draw],
+          recordsTotal: @users.length,
+          recordsFiltered: @users.length,
+          data: user_data
+        }
+      end
+    end
   end
 
   private
@@ -43,6 +69,16 @@ class UsersController < ApplicationController
       @user = user
       @meetup_id = meetup_id
       @attendance = attendance || {}
+    end
+
+    def profile_link
+      "<a href='#{user.profile_path}'>#{user.full_name}</a>"
+    end
+
+    def meetup_link
+      if user.meetup_id
+        "<a href='http://www.meetup.com/members/#{user.meetup_id}'>#{user.meetup_id}</a>"
+      end
     end
 
     def student_rsvp_count
