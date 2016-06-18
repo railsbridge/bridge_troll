@@ -104,8 +104,8 @@ class UsersController < ApplicationController
     end
 
     def meetup_link
-      if user.meetup_id
-        "<a href='http://www.meetup.com/members/#{user.meetup_id}'>#{user.meetup_id}</a>"
+      if @meetup_id
+        "<a href='http://www.meetup.com/members/#{@meetup_id}'>#{user.meetup_id}</a>"
       end
     end
 
