@@ -19,7 +19,6 @@
       pageLength: 10,
       serverSide: true,
       searching: false,
-      sort: false,
       ajax: '/users.json',
       columns: [
         { data: 'link' },
@@ -27,7 +26,11 @@
         { data: 'student_rsvp_count' },
         { data: 'volunteer_rsvp_count' },
         { data: 'organizer_rsvp_count' }
-      ]
+      ],
+      columnDefs: [{
+        targets: 1,
+        sortable: false
+      }]
     });
   });
 </script>

@@ -27,16 +27,14 @@ describe UsersController do
       @event1.rsvps << create(:rsvp, user: @user2, event: @event1)
     end
 
-    context "when rendering" do
-      it "shows a bunch of user names" do
-        get :index, format: :json
-        users = JSON.parse(response.body)['data']
-        all_users = [@user1, @user2, @user_no_rsvps, @bridgetroll_user, @logged_in_user]
-        expect(users.map { |u| u['global_id']}).to match_array(all_users.map(&:to_global_id).map(&:to_s))
+    it "shows a bunch of user names" do
+      get :index, format: :json
+      users = JSON.parse(response.body)['data']
+      all_users = [@user1, @user2, @user_no_rsvps, @bridgetroll_user, @logged_in_user]
+      expect(users.map { |u| u['global_id']}).to match_array(all_users.map(&:to_global_id).map(&:to_s))
 
-        all_users.each do |user|
-          expect(response.body).to include(user.full_name)
-        end
+      all_users.each do |user|
+        expect(response.body).to include(user.full_name)
       end
     end
 

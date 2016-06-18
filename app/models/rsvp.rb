@@ -204,22 +204,6 @@ class Rsvp < ActiveRecord::Base
     !!waitlist_position
   end
 
-  def self.attendances_for(user_type)
-    # TODO: This fetches one row for each user+role combo that exists in the system.
-    # This may someday be too much to fit in memory, but find_each doesn't work
-    # because it wants to order by rsvps.id, which defeats the purpose of a 'group_by'
-    # Consider reworking to either just iterate over all RSVPs (without group_by)
-    # or somehow construct one mecha-query that fetches user information as well
-    # as their student/volunteer/organizer attendance count.
-    attendances = {}
-    Rsvp.where(user_type: user_type).select('user_id, role_id, count(*) count').group('role_id, user_id').each do |rsvp_group|
-      attendances[rsvp_group.user_id] ||= Role.empty_attendance.clone
-      attendances[rsvp_group.user_id][rsvp_group.role_id] = rsvp_group.count.to_i
-    end
-
-    attendances
-  end
-
   def update_counter_cache
     event.update_rsvp_counts if event
   end
