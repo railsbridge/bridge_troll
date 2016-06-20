@@ -8,12 +8,12 @@ describe UsersController do
 
   describe "index" do
     before do
-      @user1 = create(:meetup_user)
+      @user1 = create(:meetup_user, full_name: 'Major MeetupUser')
       @user2 = create(:meetup_user)
       @user_no_rsvps = create(:meetup_user)
 
       @user_associated = create(:meetup_user)
-      @bridgetroll_user = create(:user)
+      @bridgetroll_user = create(:user, first_name: 'Baroque', last_name: 'BridgetrollUser')
 
       @event1 = create(:event)
       @event2 = create(:event)
@@ -47,6 +47,24 @@ describe UsersController do
       expect(users[@user1.to_global_id.to_s]['volunteer_rsvp_count']).to eq(2)
       expect(users[@user2.to_global_id.to_s]['volunteer_rsvp_count']).to eq(1)
       expect(users[@bridgetroll_user.to_global_id.to_s]['volunteer_rsvp_count']).to eq(1)
+    end
+
+    describe "searching" do
+      let(:ids_from_json) do
+        Proc.new do |response|
+          JSON.parse(response.body)['data'].map { |u| u['global_id'] }
+        end
+      end
+
+      if ActiveRecord::Base.connection.adapter_name == "PostgreSQL"
+        it "filters by search query" do
+          get :index, format: :json, search: {value: 'major meetup'}
+          expect(ids_from_json.call(response)).to match_array([@user1.to_global_id.to_s])
+
+          get :index, format: :json, search: {value: 'baroque bridgetroll'}
+          expect(ids_from_json.call(response)).to match_array([@bridgetroll_user.to_global_id.to_s])
+        end
+      end
     end
   end
 end

@@ -54,6 +54,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def search_query
+    params['search'].try(:[], 'value').presence
+  end
+
   def meetup_ids_for_users
     @meetup_ids_for_users ||= Authentication
       .where(provider: :meetup)
@@ -69,11 +73,31 @@ class UsersController < ApplicationController
         SELECT DISTINCT CAST(uid AS INT) FROM authentications WHERE provider = 'meetup'
       )
     SQL
-    MeetupUser.where(query).order(:full_name)
+    users = MeetupUser.where(query).order(:full_name)
+    if search_query && using_postgres
+      users.where(
+        "LOWER(UNACCENT(full_name)) LIKE CONCAT('%', LOWER(UNACCENT(?)), '%')",
+        search_query
+      )
+    else
+      users
+    end
   end
 
   def bridgetroll_users
-    User.select('id, first_name, last_name').order(:first_name, :last_name)
+    users = User.select('id, first_name, last_name').order(:first_name, :last_name)
+    if search_query && using_postgres
+      users.where(
+        "LOWER(UNACCENT(CONCAT(first_name, ' ', last_name))) LIKE CONCAT('%', LOWER(UNACCENT(?)), '%')",
+        search_query
+      )
+    else
+      users
+    end
+  end
+
+  def using_postgres
+    @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == "PostgreSQL")
   end
 
   def attendances_for(user_type)
