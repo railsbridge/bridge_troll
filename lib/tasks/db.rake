@@ -1,12 +1,23 @@
 # Reimplementation of task from activerecord-4.2.1/lib/active_record/railties/databases.rake
-# Goal: preserve existing `add_foreign_key` statements even when in SQLite mode.
+# Goal: preserve postgres-only statements even when in SQLite mode.
 # Remove this if we ever drop SQLite support.
 
 Rake::Task["db:schema:dump"].clear
+
 db_namespace = namespace :db do
   namespace :schema do
     desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
     task dump: [:environment, :load_config] do
+      raise_weird_schema_error = Proc.new do |specific_message|
+        raise StandardError.new(<<-EOT.strip_heredoc)
+          #{specific_message}
+          Try checking out an older version of the schema and running a full
+            rake db:drop
+            rake db:create
+            rake db:migrate
+        EOT
+      end
+
       require 'active_record/schema_dumper'
       filename = ENV['SCHEMA'] || File.join(ActiveRecord::Tasks::DatabaseTasks.db_dir, 'schema.rb')
       foreign_keys_supported = ActiveRecord::Base.connection.supports_foreign_keys?
@@ -17,18 +28,31 @@ db_namespace = namespace :db do
       end
 
       unless foreign_keys_supported
-        new_schema_content = File.read(filename)
-        fk_rows = existing_schema_content.match(/.*?([ ]+add_foreign.+\nend\n$)/m).try(:[], 1)
-        if fk_rows
-          File.write(filename, new_schema_content.sub(/end\n\Z/m, fk_rows))
-        else
-          puts <<-EOT.strip_heredoc
-            No 'add_foreign_key' statements were found in schema.rb.
-            Try checking out an older version of the schema and running a full
-              rake db:drop
-              rake db:create
-              rake db:migrate
-          EOT
+        begin
+          new_schema_content = File.read(filename)
+          enable_extension_match = existing_schema_content.match(
+            /.*?(ActiveRecord::Schema\.define\(version: \d+\) do\n)(.*enable_extension "\w+"\n)/m
+          )
+          if enable_extension_match
+            schema_def_line = enable_extension_match[1]
+            enable_extension_rows = enable_extension_match[2]
+            insert_index = new_schema_content.index(schema_def_line) + schema_def_line.length
+            new_schema_content.insert(insert_index, enable_extension_rows)
+          else
+            raise_weird_schema_error.call("No 'enable_extension' statements were found in schema.rb.")
+          end
+
+          fk_rows = existing_schema_content.match(/.*?([ ]+add_foreign.+\nend\n$)/m).try(:[], 1)
+          if fk_rows
+            new_schema_content.sub!(/end\n\Z/m, fk_rows)
+          else
+            raise_weird_schema_error.call("No 'add_foreign_key' statements were found in schema.rb.")
+          end
+
+          File.write(filename, new_schema_content)
+        rescue Exception => e
+          File.write(filename, existing_schema_content)
+          raise
         end
       end
 
