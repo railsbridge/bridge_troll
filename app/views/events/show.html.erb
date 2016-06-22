@@ -149,7 +149,7 @@
     <% end %>
 
     <% if @ordered_waitlist_rsvps[Role::STUDENT].any? %>
-      <h3><%= pluralize(@ordered_waitlist_rsvps[Role::VOLUNTEER].length, "waitlisted student") %>!</h3>
+      <h3><%= pluralize(@ordered_waitlist_rsvps[Role::STUDENT].length, "waitlisted student") %>!</h3>
       <%= render 'attendee_list', attendees: @ordered_waitlist_rsvps[Role::STUDENT] %>
     <% end %>
   </div>
