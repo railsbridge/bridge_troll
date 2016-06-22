@@ -56,14 +56,12 @@ describe UsersController do
         end
       end
 
-      if ActiveRecord::Base.connection.adapter_name == "PostgreSQL"
-        it "filters by search query" do
-          get :index, format: :json, search: {value: 'major meetup'}
-          expect(ids_from_json.call(response)).to match_array([@user1.to_global_id.to_s])
+      it "filters by search query" do
+        get :index, format: :json, search: {value: 'major meetup'}
+        expect(ids_from_json.call(response)).to match_array([@user1.to_global_id.to_s])
 
-          get :index, format: :json, search: {value: 'baroque bridgetroll'}
-          expect(ids_from_json.call(response)).to match_array([@bridgetroll_user.to_global_id.to_s])
-        end
+        get :index, format: :json, search: {value: 'baroque bridgetroll'}
+        expect(ids_from_json.call(response)).to match_array([@bridgetroll_user.to_global_id.to_s])
       end
     end
   end
