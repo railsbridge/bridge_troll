@@ -16,7 +16,4 @@ script:
   - "bundle exec rake"
   - "bundle exec rake jasmine:ci"
 
-notifications:
-  email: false
-
 sudo: false
