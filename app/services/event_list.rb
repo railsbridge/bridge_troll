@@ -33,9 +33,10 @@ class EventList
   private
 
   def datatables_json
+    query = @options[:search].try(:[], 'value')
     event_ids_and_dates =
-      bridgetroll_events.select(:id, :starts_at) +
-        external_events.select(:id, :starts_at)
+      bt_search(bridgetroll_events.select(:id, :starts_at), query) +
+        external_search(external_events.select(:id, :starts_at), query)
     event_ids_by_type = event_ids_and_dates
                           .sort_by { |e| e.starts_at.to_time }
                           .reverse
@@ -92,5 +93,29 @@ class EventList
     end
 
     apply_options(relation)
+  end
+
+  def bt_search(relation, query)
+    return relation unless query
+
+    if using_postgres
+      relation.where("LOWER(title) LIKE CONCAT('%', LOWER(?), '%')", query)
+    else
+      relation.where("LOWER(title) LIKE '%' || LOWER(?) || '%'", query)
+    end
+  end
+
+  def external_search(relation, query)
+    return relation unless query
+
+    if using_postgres
+      relation.where("LOWER(name) LIKE CONCAT('%', LOWER(?), '%')", query)
+    else
+      relation.where("LOWER(name) LIKE '%' || LOWER(?) || '%'", query)
+    end
+  end
+
+  def using_postgres
+    @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == "PostgreSQL")
   end
 end

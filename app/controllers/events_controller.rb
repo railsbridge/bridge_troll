@@ -13,7 +13,7 @@ class EventsController < ApplicationController
         @event_regions = @events.map(&:region).compact.uniq
       end
       format.json do
-        render json: EventList.new(params[:type], params.slice(:organization_id, :serialization_format, :start, :length, :draw))
+        render json: EventList.new(params[:type], params.slice(:organization_id, :serialization_format, :start, :length, :draw, :search))
       end
     end
   end
