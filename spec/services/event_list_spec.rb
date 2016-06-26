@@ -18,4 +18,32 @@ describe EventList do
       expect(events).to match_array([org1_event, org1_external_event])
     end
   end
+
+  describe 'when returning datatables json' do
+    describe 'searching' do
+      search_result_ids = Proc.new do |query|
+        json = EventList.new('past', serialization_format: 'dataTables', start: 0, length: 10, search: {'value' => query}).as_json
+        json[:data].map { |e| e[:global_id] }
+      end
+
+      before do
+        @past_bt_event_location = create(:location, name: 'PBPlace', city: 'PBCity')
+        @past_bt_event = create(:event, title: 'PastBridge', location: @past_bt_event_location)
+        @past_bt_event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
+
+        @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago, location: 'PEBPlace')
+      end
+
+      it 'can search by event name' do
+        expect(search_result_ids.call('PastBridge')).to match_array([@past_bt_event.to_global_id.to_s])
+        expect(search_result_ids.call('PastExternalBridge')).to match_array([@past_external_event.to_global_id.to_s])
+      end
+
+      it 'can search by event location' do
+        expect(search_result_ids.call('PBPlace')).to match_array([@past_bt_event.to_global_id.to_s])
+        expect(search_result_ids.call('PBCity')).to match_array([@past_bt_event.to_global_id.to_s])
+        expect(search_result_ids.call('PEBPlace')).to match_array([@past_external_event.to_global_id.to_s])
+      end
+    end
+  end
 end

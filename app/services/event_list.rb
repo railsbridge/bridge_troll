@@ -35,7 +35,7 @@ class EventList
   def datatables_json
     query = @options[:search].try(:[], 'value')
     event_ids_and_dates =
-      bt_search(bridgetroll_events.select(:id, :starts_at), query) +
+      bt_search(bridgetroll_events.select(:id, :starts_at).joins(:location), query) +
         external_search(external_events.select(:id, :starts_at), query)
     event_ids_by_type = event_ids_and_dates
                           .sort_by { |e| e.starts_at.to_time }
@@ -52,6 +52,7 @@ class EventList
     data = all_events.sort_by { |e| e.starts_at.to_time }.reverse.map do |event|
       {
         title: event.title,
+        global_id: event.to_global_id.to_s,
         url: event.is_a?(Event) ? "/events/#{event.id}" : event.to_linkable,
         location_name: event.location_name,
         location_city_and_state: event.location_city_and_state,
@@ -98,20 +99,26 @@ class EventList
   def bt_search(relation, query)
     return relation unless query
 
-    if using_postgres
-      relation.where("LOWER(title) LIKE CONCAT('%', LOWER(?), '%')", query)
-    else
-      relation.where("LOWER(title) LIKE '%' || LOWER(?) || '%'", query)
-    end
+    clauses = ["title", "locations.name", "locations.city"].map do |f|
+      "(#{like_clause(f)})"
+    end.join(' OR ')
+    relation.where(clauses, query, query, query)
   end
 
   def external_search(relation, query)
     return relation unless query
 
+    clauses = ["name", "location"].map do |f|
+      "(#{like_clause(f)})"
+    end.join(' OR ')
+    relation.where(clauses, query, query)
+  end
+
+  def like_clause(field)
     if using_postgres
-      relation.where("LOWER(name) LIKE CONCAT('%', LOWER(?), '%')", query)
+      "LOWER(#{field}) LIKE CONCAT('%', LOWER(?), '%')"
     else
-      relation.where("LOWER(name) LIKE '%' || LOWER(?) || '%'", query)
+      "LOWER(#{field}) LIKE '%' || LOWER(?) || '%'"
     end
   end
 
