@@ -41,12 +41,12 @@
     </p>
   </div>
 
-  <div class="field">
+  <%= content_tag :div, class: field_classes(@event, :chapter) do %>
     <%= render 'shared/chapter_select', f: f %>
     <p>
       <em>If your chapter isn't in this list, contact an admin to get it added before you continue.</em>
     </p>
-  </div>
+  <% end %>
 
   <div class="field workshop-only">
     <div>

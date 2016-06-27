@@ -1,5 +1,5 @@
 <div class="form-group">
-  <%= f.label :region_id %>
+  <%= f.label :region_id, class: 'control-label' %>
   <%= f.collection_select(:region_id, Region.order(:name), :id, :name, {prompt: true}, {class: 'form-control'}) %>
   <p>
     <em>If your region isn't in this list, head over to the <%= link_to 'regions page', regions_path %> and add it before you continue.</em>

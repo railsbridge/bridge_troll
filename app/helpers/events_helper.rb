@@ -15,6 +15,14 @@ module EventsHelper
     @skills.join(', ')
   end
 
+  def field_classes(event, field)
+    ['field'].tap do |classes|
+      if event.errors[field].present?
+        classes << 'has-error'
+      end
+    end
+  end
+
   def rsvp_class(rsvp)
     if rsvp.waitlisted?
       'waitlisted'

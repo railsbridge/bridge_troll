@@ -7,7 +7,9 @@
     <%= simple_form_for(@location, remote: remote, html: {role: :form, 'data-model' => 'location'}) do |f| %>
       <%= render 'shared/model_error_messages', model: @location %>
 
-      <%= render 'shared/region_select', f: f %>
+      <%= content_tag :div, class: field_classes(@location, :region) do %>
+        <%= render 'shared/region_select', f: f %>
+      <% end %>
 
       <%= f.input :name %>
 

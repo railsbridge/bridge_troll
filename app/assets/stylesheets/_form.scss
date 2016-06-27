@@ -44,6 +44,10 @@ form {
   }
 }
 
+.has-error .select2-selection {
+  border-color: $state-danger-text;
+}
+
 .actions {
   .btn-warning {
     background-color: #f0ad4e;

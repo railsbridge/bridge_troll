@@ -3,11 +3,15 @@
     <%= simple_form_for(@external_event) do |f| %>
       <%= render 'shared/model_error_messages', model: @external_event %>
 
-      <%= render 'shared/region_select', f: f %>
+      <%= content_tag :div, class: field_classes(@external_event, :region) do %>
+        <%= render 'shared/region_select', f: f %>
+      <% end %>
 
-      <div class="form-group">
-        <%= render 'shared/chapter_select', f: f %>
-      </div>
+      <%= content_tag :div, class: field_classes(@external_event, :chapter) do %>
+        <div class="form-group">
+          <%= render 'shared/chapter_select', f: f %>
+        </div>
+      <% end %>
 
       <%= f.input :name %>
 
