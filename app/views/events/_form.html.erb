@@ -44,7 +44,7 @@
   <%= content_tag :div, class: field_classes(@event, :chapter) do %>
     <%= render 'shared/chapter_select', f: f %>
     <p>
-      <em>If your chapter isn't in this list, contact an admin to get it added before you continue.</em>
+      <em>If your chapter isn't in this list, please <%= link_to "open an issue on GitHub", "https://github.com/railsbridge/bridge_troll/issues/new", target: "_blank" %> with the name of the chapter to get it added before you continue.</em>
     </p>
   <% end %>
 
