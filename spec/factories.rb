@@ -20,6 +20,7 @@ FactoryGirl.define do
   factory :external_event do
     sequence(:name) { |n| "External Event #{n}" }
     sequence(:location) { |n| "External Event Location #{n}" }
+    sequence(:city) { |n| "External Event City #{n}" }
     starts_at DateTime.now
   end
 

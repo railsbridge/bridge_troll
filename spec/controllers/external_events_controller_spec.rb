@@ -32,6 +32,7 @@ describe ExternalEventsController do
       {
         name: "MyString",
         location: "MyHouse",
+        city: "MyCity",
         starts_at: 2.days.from_now
       }
     end

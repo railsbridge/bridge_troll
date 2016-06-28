@@ -5,7 +5,7 @@ class ExternalEvent < ActiveRecord::Base
   belongs_to :chapter, counter_cache: true
   has_one :organization, through: :chapter
 
-  validates_presence_of :name, :starts_at
+  validates_presence_of :name, :starts_at, :city
 
   def self.past
     where('ends_at < ?', Time.now.utc)
