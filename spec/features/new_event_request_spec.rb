@@ -61,7 +61,9 @@ describe "New Event" do
     check("coc")
 
     select 'CustomCocChapter', from: 'event_chapter_id'
-    expect(page.find('label[for=coc] a')['href']).to eq('http://example.com/coc')
+    wait_for_condition do
+      page.find('label[for=coc] a')['href'] == 'http://example.com/coc'
+    end
     expect(page).to have_unchecked_field('coc')
   end
 
