@@ -26,6 +26,22 @@ form {
   }
 }
 
+$input-height: 34px;
+.select2-container {
+  .select2-selection {
+    height: $input-height;
+    &.select2-container--default {
+      border: 1px solid #ccc;
+    }
+    .select2-selection__rendered {
+      line-height: $input-height;
+    }
+    .select2-selection__arrow {
+      height: $input-height;
+    }
+  }
+}
+
 .survey-form {
   textarea {
     width: 100%;

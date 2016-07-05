@@ -69,6 +69,7 @@ describe "Announcing an event", js: true do
         visit unpublished_events_path
         accept_confirm do
           click_on "Publish"
+          expect(page).to have_content('This event has been published')
         end
 
         sign_in_as(user_organizer)
