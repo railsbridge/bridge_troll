@@ -446,6 +446,24 @@ class Course < ActiveHash::Base
           ]
         }
       ]
+    }, {
+      id: 11,
+      name: "CLOJURE",
+      title: 'Clojure',
+      description: 'This is a Clojure event. The focus will be on programming in Clojure.',
+      levels: [
+        {
+          level: 4,
+          color: 'orange',
+          title: 'Other Programming Experience',
+          level_description: [
+            'You\'re proficient in another language and understand general programming
+concepts, like collections and scope.',
+            'You\'re new to Clojure or functional programming',
+            'You are familiar with version control and basic web architecture'
+          ]
+        }
+      ]
     }
   ]
   enum_accessor :name
