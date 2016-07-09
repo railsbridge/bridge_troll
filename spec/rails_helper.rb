@@ -32,7 +32,7 @@ RSpec.configure do |config|
     ActionMailer::Base.deliveries.clear
   end
 
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
   config.include SignInHelper, type: :feature
   config.include EventFormHelper, type: :feature
   config.include FormHelper, type: :feature
