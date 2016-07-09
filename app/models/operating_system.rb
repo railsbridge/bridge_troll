@@ -44,6 +44,12 @@ class OperatingSystem < ActiveHash::Base
       title: 'Mac OS X - Leopard (10.5)'
     },
     {
+      id: 13,
+      name: 'WINDOWS_10',
+      type: :windows,
+      title: 'Windows 10'
+    },
+    {
       id: 5,
       name: 'WINDOWS_8',
       type: :windows,
