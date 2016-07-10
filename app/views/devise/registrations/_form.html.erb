@@ -36,6 +36,13 @@
       </div>
 
       <div class='form-group'>
+        <%= f.label :subscribed_organization_ids, 'Allow these Bridge organizations to (potentially) send you email newsletters:' %>
+        <div class='checkbox-columns'>
+          <%= f.collection_check_boxes(:subscribed_organization_ids, Organization.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
+        </div>
+      </div>
+
+      <div class='form-group'>
         <%= f.label :time_zone %>
         <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones, {include_blank: 'Select Time Zone  '}, {class: 'form-control'} %>
       </div>

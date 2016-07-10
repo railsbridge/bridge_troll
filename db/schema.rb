@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160620044512) do
+ActiveRecord::Schema.define(version: 20160710221707) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -169,6 +169,13 @@ ActiveRecord::Schema.define(version: 20160620044512) do
 
   add_index "organization_leaderships", ["organization_id"], name: "index_organization_leaderships_on_organization_id"
   add_index "organization_leaderships", ["user_id"], name: "index_organization_leaderships_on_user_id"
+
+  create_table "organization_subscriptions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "organization_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "organizations", force: :cascade do |t|
     t.string   "name"

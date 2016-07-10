@@ -3,6 +3,7 @@ require 'rails_helper'
 describe "Profile" do
   let(:user) { create(:user, password: "MyPassword") }
   let(:new_password) { "Blueberry23" }
+  let!(:railsbridge) { create :organization, name: "RailsBridge" }
 
   before do
     sign_in_as(user)
@@ -17,6 +18,13 @@ describe "Profile" do
     user.reload
     expect(user.first_name).to eq("Stewie")
     expect(user.gender).to eq("Wizard")
+  end
+
+  it "allows use to update their mailing list preferences" do
+    check "RailsBridge"
+    click_button "Update"
+
+    expect(user.subscribed_organization_ids).to eq [railsbridge.id]
   end
 
   it "shows errors when changes cannot be saved" do

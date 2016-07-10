@@ -18,6 +18,9 @@ class User < ActiveRecord::Base
   has_one :profile, dependent: :destroy, inverse_of: :user, validate: true
   has_and_belongs_to_many :regions
 
+  has_many :organization_subscriptions
+  has_many :subscribed_organizations, through: :organization_subscriptions, class_name: Organization
+
   accepts_nested_attributes_for :profile, update_only: true
 
   validates_presence_of :first_name, :last_name, :profile
