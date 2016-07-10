@@ -31,12 +31,15 @@ db_namespace = namespace :db do
         begin
           new_schema_content = File.read(filename)
           enable_extension_match = existing_schema_content.match(
-            /.*?(ActiveRecord::Schema\.define\(version: \d+\) do\n)(.*enable_extension "\w+"\n)/m
+            /.*?ActiveRecord::Schema\.define\(version: \d+\) do\n(.*enable_extension "\w+"\n)/m
           )
-          if enable_extension_match
-            schema_def_line = enable_extension_match[1]
-            enable_extension_rows = enable_extension_match[2]
-            insert_index = new_schema_content.index(schema_def_line) + schema_def_line.length
+          new_schema_define_match = new_schema_content.match(
+            /.*?(ActiveRecord::Schema\.define\(version: \d+\) do\n)/m
+          )
+          if enable_extension_match && new_schema_define_match
+            new_schema_def_line = new_schema_define_match[1]
+            enable_extension_rows = enable_extension_match[1]
+            insert_index = new_schema_content.index(new_schema_def_line) + new_schema_def_line.length
             new_schema_content.insert(insert_index, enable_extension_rows)
           else
             raise_weird_schema_error.call("No 'enable_extension' statements were found in schema.rb.")
