@@ -24,28 +24,14 @@ describe "New Event" do
     visit "/events/new"
   end
 
-  it "should have 'Target Audience'" do
-    label = 'What population is this workshop reaching out to?'
-    expect(page).to have_field(label)
-  end
-
   it "should pre-fill the event details textarea" do
-    expect(page).to have_field('Details')
-    expect(page.field_labeled('Details')[:value]).to match(/Workshop Description/)
+    expect(page.find_field('event_details')[:value]).to match(/Workshop Description/)
   end
 
   it "should have a public organizer email field" do
     label = "What email address should users contact you at with questions?"
     expect(page).to have_field(label)
     expect(page.field_labeled(label)[:value]).to eq("organizer@mail.com")
-  end
-
-  it "should have 'Volunteer Details'" do
-    expect(page).to have_field("Volunteer Details")
-  end
-
-  it "should have 'Student Details'" do
-    expect(page).to have_field("Student Details")
   end
 
   it "should have the code of conduct checkbox checked" do
@@ -82,7 +68,7 @@ describe "New Event" do
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do
     fill_in_good_event_details
 
-    check('Do you want to restrict the operating systems students should use?')
+    check('event_restrict_operating_systems')
     uncheck('Linux - Other')
     uncheck('Linux - Ubuntu')
 

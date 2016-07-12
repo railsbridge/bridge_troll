@@ -1,8 +1,8 @@
 module EventFormHelper
   def fill_in_good_event_details
-    fill_in 'Title', with: good_event_title
+    fill_in 'event_title', with: good_event_title
     select "Ruby on Rails", from: "event_course_id"
-    fill_in "Student RSVP limit", with: 100
+    fill_in "event_student_rsvp_limit", with: 100
     select Chapter.first.name, from: "event_chapter_id"
     fill_in "event_details", with: "This will be a fun event!"
     fill_in "event_target_audience", with: "women"
@@ -31,7 +31,7 @@ module EventFormHelper
   end
 
   def good_event_title
-    'Linuxless Event'
+    'PerlBridge'
   end
 
   def submit_for_approval_button

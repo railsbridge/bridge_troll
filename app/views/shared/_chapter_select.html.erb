@@ -1,5 +1,5 @@
 <div>
-  <%= f.label :chapter_id, class: 'control-label' %>
+  <%= f.label :chapter_id, local_assigns[:label] || 'Chapter', class: 'control-label', label: 'org' %>
 </div>
 <%= f.collection_select(:chapter_id,
                         Chapter.all,
