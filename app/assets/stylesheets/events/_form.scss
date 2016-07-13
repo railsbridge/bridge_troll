@@ -45,5 +45,43 @@
       background-color: #FF9900;
     }
   }
+
+  section {
+    // Add padding with generated content to reduce accordion jankiness
+    &:after {
+      display: block;
+      content: '';
+      padding-bottom: 20px;
+    }
+  }
 }
 
+.form-section-header {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 18px 0;
+  position: relative;
+  cursor: pointer;
+
+  background: #eeeeee;
+  background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%);
+
+  &:after {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+    top: 0;
+    bottom: 0;
+    content: '▲';
+  }
+
+  &.collapsed {
+    &:after {
+      content: '▼';
+    }
+  }
+}
