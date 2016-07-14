@@ -159,4 +159,20 @@ module EventsHelper
     role_text = user_event_role == :editor ? 'an organizer of' : 'a checkiner for'
     "You are #{role_text} this event!"
   end
+
+  def event_form_section(label:, form:)
+    id = "section-#{label}".parameterize
+
+    results = []
+    results << content_tag('div', class: 'form-section-header', data: {toggle: 'collapse', target: "##{id}"}) do
+      label
+    end
+
+    section_classes = ['collapse', 'in']
+    results << content_tag('section', id: id, class: section_classes.join(' ')) do
+      yield
+    end
+
+    results.join("\n").html_safe
+  end
 end

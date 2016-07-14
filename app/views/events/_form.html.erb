@@ -11,17 +11,13 @@
 
   <%= render 'shared/model_error_messages', model: @event %>
 
-  <div class="form-section-header" data-toggle="collapse" data-target="#section-organizer-information">Organizer Information</div>
-
-  <section id="section-organizer-information" class="collapse in">
+  <%= event_form_section form: f, label: 'Organizer Information' do %>
     <div class="field">
       <%= f.input :public_email, label: 'What email address should users contact you at with questions?' %>
     </div>
-  </section>
+  <% end %>
 
-  <div class="form-section-header" data-toggle="collapse" data-target="#section-basic-event-information">Basic Event Information</div>
-
-  <section id="section-basic-event-information" class="collapse in">
+  <%= event_form_section form: f, label: 'Basic Event Information' do %>
     <%= content_tag :div, class: field_classes(@event, :chapter) do %>
       <%= render 'shared/chapter_select', label: 'What Chapter is hosting?', f: f %>
       <p>
@@ -113,11 +109,9 @@
 
       <p>If you are offering childcare at this event, volunteers and students requesting childcare will be prompted to enter their children's names and ages when they RSVP.</p>
     </div>
-  </section>
+  <% end %>
 
-  <div class="form-section-header" data-toggle="collapse" data-target="#section-event-description">Event Description & Page Info</div>
-
-  <section id="section-event-description" class="collapse in">
+  <%= event_form_section form: f, label: 'Event Description & Page Info' do %>
     <div class="field">
       <%= f.input :title, label: 'Event Title' %>
     </div>
@@ -212,11 +206,9 @@
       <p>But you don't have to put paragraph tags around everything; blank lines will do just fine.</p>
       <%= f.input :details, as: :text, label: false, input_html: {rows: 14} %>
     </div>
-  </section>
+  <% end %>
 
-  <div class="form-section-header" data-toggle="collapse" data-target="#section-rsvp-info">RSVP Info</div>
-
-  <section id="section-rsvp-info" class="collapse in">
+  <%= event_form_section form: f, label: 'RSVP Info' do %>
     <p>
       These are the limits for the maximum number of attendees you think could fit in your event.
     </p>
@@ -253,12 +245,10 @@
       <%= f.input :volunteer_details, label: 'RSVP confirmation details sent to Volunteers after sign up', input_html: {rows: 4} %>
 
     </div>
-  </section>
+  <% end %>
 
   <% unless @event.published? %>
-    <div class="form-section-header" data-toggle="collapse" data-target="#section-finalize">Finalize</div>
-
-    <section id="section-finalize" class="collapse in">
+    <%= event_form_section form: f, label: 'Finalize' do %>
       <ul class="bulleted margined">
         <li>Your event will be reviewed before it becomes live on the front page</li>
         <li>When it's live you will get an email notification</li>
@@ -276,7 +266,7 @@
           <% end %>
         <% end %>
       </div>
-    </section>
+    <% end %>
   <% end %>
 
   <% if @event.new_record? || @event.draft? %>
