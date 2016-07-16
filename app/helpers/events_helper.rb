@@ -164,11 +164,19 @@ module EventsHelper
     id = "section-#{label}".parameterize
 
     results = []
-    results << content_tag('div', class: 'form-section-header', data: {toggle: 'collapse', target: "##{id}"}) do
+
+    toggler_classes = ['form-section-header']
+    section_classes = ['collapse']
+    if form.object.published?
+      toggler_classes << 'collapsed'
+    else
+      section_classes << 'in'
+    end
+
+    results << content_tag('a', class: toggler_classes, data: {toggle: 'collapse', target: "##{id}"}) do
       label
     end
 
-    section_classes = ['collapse', 'in']
     results << content_tag('section', id: id, class: section_classes.join(' ')) do
       yield
     end

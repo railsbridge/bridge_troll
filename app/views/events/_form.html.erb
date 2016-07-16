@@ -11,6 +11,19 @@
 
   <%= render 'shared/model_error_messages', model: @event %>
 
+  <div class="form-section-header-expander">
+    <a href=""><i class='fa fa-arrows-alt'></i> Expand All</a>
+  </div>
+  <script>
+    window.whenReady(function () {
+      $('.form-section-header-expander').on('click', function (event) {
+        event.stopPropagation();
+        $('section.collapse').collapse('show');
+        return false;
+      });
+    });
+  </script>
+
   <%= event_form_section form: f, label: 'Organizer Information' do %>
     <div class="field">
       <%= f.input :public_email, label: 'What email address should users contact you at with questions?' %>

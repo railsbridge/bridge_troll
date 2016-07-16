@@ -56,7 +56,12 @@
   }
 }
 
+.form-section-header-expander {
+  text-align: right;
+}
+
 .form-section-header {
+  display: block;
   font-size: 18px;
   font-weight: bold;
   padding: 10px 20px;
@@ -68,6 +73,11 @@
 
   background: #eeeeee;
   background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%);
+
+  &, &:link, &:hover {
+    color: black;
+    text-decoration: none;
+  }
 
   &:after {
     display: flex;
