@@ -32,10 +32,15 @@
 
   <%= event_form_section form: f, label: 'Basic Event Information' do %>
     <%= content_tag :div, class: field_classes(@event, :chapter) do %>
+      <div class='hint-toggler' data-toggle-hint="hint-chapter"></div>
+
       <%= render 'shared/chapter_select', label: 'What Chapter is hosting?', f: f %>
-      <p>
-        <em>If your chapter isn't in this list, please <%= link_to "open an issue on GitHub", "https://github.com/railsbridge/bridge_troll/issues/new", target: "_blank" %> with the name of the chapter to get it added before you continue.</em>
-      </p>
+
+      <div class='hint-content' id="hint-chapter">
+        <p>
+          <em>If your chapter isn't in this list, please <%= link_to "open an issue on GitHub", "https://github.com/railsbridge/bridge_troll/issues/new", target: "_blank" %> with the name of the chapter to get it added before you continue.</em>
+        </p>
+      </div>
     <% end %>
 
     <h3>This event is for:</h3>
@@ -87,25 +92,30 @@
     </div>
 
     <div class="field workshop-only">
+      <div class='hint-toggler' data-toggle-hint="hint-population"></div>
+
       <%= f.input :target_audience, label: 'What population is this workshop reaching out to?' %>
-      <p>
-        <em>
-          All workshops must reach out to one or more underrepresented population in tech, such as women, people of color, or transgender people.
-        </em>
-      </p>
+
+      <div class="hint-content" id="hint-population">
+        <p>
+          <em>
+            All workshops must reach out to one or more underrepresented population in tech, such as women, people of color, or transgender people.
+          </em>
+        </p>
+      </div>
     </div>
 
     <div class='workshop-only'>
       <div class="question">
         <%= f.label :plus_one_host_toggle do %>
-          <%= f.check_box :plus_one_host_toggle,
-                          'data-toggle-target' => '.plus-one-explanation-wrapper',
-                          'data-toggle-show-when' => '1' %>
+          <%= f.check_box :plus_one_host_toggle %>
           Allow students to bring a +1 who's not from the target demographic?
         <% end %>
+
+        <div class='hint-toggler' data-toggle-hint="hint-plus-one-host"></div>
       </div>
 
-      <div class="field plus-one-explanation-wrapper">
+      <div class="hint-content" id="hint-plus-one-host">
         <p>Historically, *Bridge workshops for women have allowed men to attend as the guest of a woman. If you want to do a similar +1 thing, you can ask attendees to list who they are the guest of.</p>
         <p>The plus-one host form says this:</p>
         <blockquote>
@@ -116,11 +126,15 @@
     </div>
 
     <div class="field">
+      <div class='hint-toggler' data-toggle-hint="hint-childcare"></div>
+
       <%= f.label :has_childcare do %>
         <%= f.check_box :has_childcare %> Offer childcare at this event
       <% end %>
 
-      <p>If you are offering childcare at this event, volunteers and students requesting childcare will be prompted to enter their children's names and ages when they RSVP.</p>
+      <div class='hint-content' id="hint-childcare">
+        <p>If you are offering childcare at this event, volunteers and students requesting childcare will be prompted to enter their children's names and ages when they RSVP.</p>
+      </div>
     </div>
   <% end %>
 
@@ -222,26 +236,23 @@
   <% end %>
 
   <%= event_form_section form: f, label: 'RSVP Info' do %>
-    <p>
-      These are the limits for the maximum number of attendees you think could fit in your event.
-    </p>
-    <p class="workshop-only">
-      As a guideline, most workshops have less than one volunteer for every student.
-    </p>
-
-    <p>
-      After this event is published, you can <strong>increase</strong> these numbers, but you cannot decrease them below the number of RSVP'd attendees.
-    </p>
-    <p>
-      You may <strong>remove</strong> the volunteer limit, but it will promote everyone from the waitlist.
-    </p>
-
     <div class="workshop-only">
       <div class="field">
+        <div class='hint-toggler' data-toggle-hint="hint-student-limit"></div>
+
         <%= f.input :student_rsvp_limit,
                     as: :string,
                     label: 'Student RSVP limit (required)',
                     wrapper_html: {class: 'workshop-only'} %>
+
+        <div class="hint-content" id="hint-student-limit">
+          <p>
+            These are the limits for the maximum number of attendees you think could fit in your event.
+          </p>
+          <p>
+            After this event is published, you can <strong>increase</strong> these numbers, but you cannot decrease them below the number of RSVP'd attendees.
+          </p>
+        </div>
       </div>
       <div class="field workshop-only">
         <%= f.input :student_details, label: 'RSVP confirmation details sent to Students after sign up', input_html: {rows: 4} %>
@@ -249,9 +260,20 @@
     </div>
 
     <div class="field">
+      <div class='hint-toggler' data-toggle-hint="hint-volunteer-limit"></div>
+
       <%= f.input :volunteer_rsvp_limit,
                   as: :string,
                   label: 'Volunteer RSVP limit' %>
+
+      <div class="hint-content" id="hint-volunteer-limit">
+        <p class="workshop-only">
+          As a guideline, most workshops have less than one volunteer for every student.
+        </p>
+        <p>
+          You may <strong>remove</strong> the volunteer limit, but it will promote everyone from the waitlist.
+        </p>
+      </div>
     </div>
 
     <div>

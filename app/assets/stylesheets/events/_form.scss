@@ -95,3 +95,27 @@
     }
   }
 }
+
+.hint-toggler {
+  float: right;
+  &:before {
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    content: '?';
+  }
+
+  &:hover:before {
+    background-color: black;
+    color: white;
+  }
+}
+
+.hint-content {
+  display: none;
+}

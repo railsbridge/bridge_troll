@@ -24,5 +24,10 @@ setUpToggles = ->
   $('[data-toggle-target]').each (ix, el) ->
     inputChanged.call(el)
 
+  $('[data-toggle-hint]').on 'click', ->
+    $input = $(this)
+    selector = $input.data('toggle-hint')
+    $('#' + selector).toggle()
+
 jQuery ->
   setUpToggles()
