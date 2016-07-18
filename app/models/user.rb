@@ -86,8 +86,4 @@ class User < ActiveRecord::Base
   def event_checkiner?(event)
     event_attendance(event)[:checkiner]
   end
-
-  def organization_leader?(organization)
-    organization.leaders.include?(self)
-  end
 end

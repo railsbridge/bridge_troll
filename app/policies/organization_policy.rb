@@ -1,7 +1,7 @@
 class OrganizationPolicy < ApplicationPolicy
 
   def manage_organization?
-    user.organization_leader?(record) || user.admin?
+    record.has_leader?(user) || user.admin?
   end
 
   class Scope < Scope
