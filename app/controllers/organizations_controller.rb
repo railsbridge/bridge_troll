@@ -1,4 +1,6 @@
 class OrganizationsController < ApplicationController
+  before_action :authenticate_user!, only: [:download_subscriptions]
+
   def index
     skip_authorization
     @organizations = Organization.all
@@ -11,6 +13,22 @@ class OrganizationsController < ApplicationController
                            .includes(:location, :chapter)
                            .where(id: chapter_last_event_ids)
                            .map { |e| ChapterEventLocation.new(e) }
+  end
+
+  def show
+    skip_authorization
+    @organization = Organization.find(params[:id])
+  end
+
+  def download_subscriptions
+    @organization = Organization.find(params[:organization_id])
+    authorize @organization, :manage_organization?
+
+    filename = "#{@organization.name.downcase.sub(' ', '_')}_subscribed_users_#{Date.today.strftime("%Y_%m_%d")}"
+
+    respond_to do |format|
+      format.csv { send_data @organization.subscription_csv, filename: filename }
+    end
   end
 
   private

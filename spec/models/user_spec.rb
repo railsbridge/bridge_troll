@@ -56,4 +56,22 @@ describe User do
       expect(@user.profile_path).to eq(Rails.application.routes.url_helpers.user_profile_path(@user))
     end
   end
+``
+  describe "#organization_leader?" do
+    let(:org) { create :organization }
+
+    subject { @user.organization_leader?(org) }
+
+    context "when they're an org leader" do
+      before do
+        org.leaders << @user
+      end
+
+      it { is_expected.to be true }
+    end
+
+    context "when they're not an org leader" do
+      it { is_expected.to be false }
+    end
+  end
 end

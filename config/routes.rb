@@ -32,7 +32,9 @@ Bridgetroll::Application.routes.draw do
     end
   end
 
-  resources :organizations, only: [:index]
+  resources :organizations, only: [:index, :show] do
+    get :download_subscriptions
+  end
 
   resources :events do
     resources :organizers, only: [:index, :create, :destroy] do

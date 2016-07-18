@@ -2,7 +2,7 @@
 
 <% @organizations.sort_by(&:name).each do |org| %>
   <% if org.chapters.count > 0 %>
-    <h2><%= org.name %></h2>
+    <h2><%= link_to org.name, organization_path(org) %></h2>
     <div><% org.chapters.count %><%= pluralize(org.chapters.count, 'chapter') %></div>
     <% if org.leaders.length > 0 %>
       <div>Leaders:</div>

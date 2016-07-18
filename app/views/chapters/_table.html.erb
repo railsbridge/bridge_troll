@@ -1,0 +1,28 @@
+<table class="table table-striped table-bordered table-condensed responsive-table datatable-sorted">
+  <thead>
+  <tr>
+    <th data-default-sort="asc">Name</th>
+    <th>Events</th>
+    <% if current_user.try(:admin?) %>
+      <th></th>
+    <% end %>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% chapters.each do |chapter| %>
+    <tr>
+      <td><%= link_to chapter.name, chapter %></td>
+      <td data-label="Events:"><%= chapter.events_count + chapter.external_events_count %></td>
+      <td>
+        <% if policy(chapter).update? %>
+          <%= link_to 'Edit', edit_chapter_path(chapter), class: 'btn fa-before fa-edit'  %>
+        <% end %>
+        <% if current_user.try(:admin?) && chapter.destroyable? %>
+          <%= link_to 'Destroy', chapter, data: {confirm: 'Are you sure?'}, method: :delete, class: 'btn btn-danger' %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
