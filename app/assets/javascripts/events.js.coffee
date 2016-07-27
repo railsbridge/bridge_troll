@@ -53,6 +53,27 @@ setupRemoveSessions = ->
         .removeAttr('data-confirm')
       setupSessionLocation(e.field)
 
+setUpHints = ->
+  $('.form-section-header, .form-section-header-expander').on 'click', ->
+    $('.hint-element').remove()
+
+  $('[data-toggle-hint]').on 'mouseenter', ->
+    $toggler = $(this)
+    $sidebar = $('.event-form-sidebar')
+    $sidebar.empty()
+
+    selector = $toggler.data('toggle-hint')
+
+    $hintElement = $('<div class="hint-element"></div>')
+    $hintElement.html($('#' + selector).html());
+    $hintElement.css(
+      position: 'absolute'
+      top: $toggler.offset().top - $sidebar.offset().top - 13
+      left: 0
+      right: 0
+    )
+    $sidebar.append($hintElement)
+
 jQuery ->
   setupRemoveSessions()
   $('.event-sessions .fields').each (ix, element) ->
@@ -61,6 +82,7 @@ jQuery ->
   $.datepicker.setDefaults
     dateFormat: 'yy-mm-dd'
 
+  setUpHints()
   setUpDatePicker($('.datepicker'))
   setUpExclusiveCheckboxes($('body'))
 

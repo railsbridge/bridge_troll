@@ -101,7 +101,7 @@
   &:before {
     cursor: pointer;
     display: inline-block;
-    border: 1px solid black;
+    border: 1px solid #333;
     border-radius: 50%;
     width: 25px;
     height: 25px;
@@ -118,4 +118,31 @@
 
 .hint-content {
   display: none;
+}
+
+.hint-element {
+  margin: 0 20px;
+  padding: 15px;
+  background-color: #f0f0f0;
+  position: relative;
+
+  &:before, &:after {
+    content: ' ';
+    position: absolute;
+    background-color: #ccc;
+  }
+
+  &:before {
+    top: 10px;
+    left: -3px;
+    height: 30px;
+    width: 3px;
+  }
+
+  &:after {
+    top: 24px;
+    left: -30px;
+    height: 1px;
+    width: 30px;
+  }
 }

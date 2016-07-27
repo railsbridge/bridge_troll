@@ -24,22 +24,5 @@ setUpToggles = ->
   $('[data-toggle-target]').each (ix, el) ->
     inputChanged.call(el)
 
-  $('[data-toggle-hint]').on 'mouseenter', ->
-    $toggler = $(this)
-    $sidebar = $('.event-form-sidebar')
-    $sidebar.empty()
-
-    selector = $toggler.data('toggle-hint')
-
-    $hintElement = $('<div class="hint-element"></div>')
-    $hintElement.html($('#' + selector).html());
-    $hintElement.css(
-      position: absolute
-      top: $toggler.offset().top - $sidebar.offset().top
-      left: 0
-      right: 0
-    )
-    $sidebar.append($hintElement)
-
 jQuery ->
   setUpToggles()
