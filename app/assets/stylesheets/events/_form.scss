@@ -1,4 +1,5 @@
 @import 'font_mixins';
+@import "bootstrap/variables";
 
 .event-form {
   h2 {
@@ -144,5 +145,11 @@
     left: -30px;
     height: 1px;
     width: 30px;
+  }
+}
+
+@media (max-width: $screen-sm-max) {
+  .hint-element, .hint-toggler {
+    display: none;
   }
 }
