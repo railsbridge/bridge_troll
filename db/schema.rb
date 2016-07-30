@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160710221707) do
+ActiveRecord::Schema.define(version: 20160730222752) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -254,6 +254,7 @@ ActiveRecord::Schema.define(version: 20160710221707) do
     t.boolean  "checkiner",                           default: false
     t.text     "plus_one_host"
     t.string   "token"
+    t.boolean  "volunteer_interest",                  default: false
   end
 
   add_index "rsvps", ["token"], name: "index_rsvps_on_token", unique: true
