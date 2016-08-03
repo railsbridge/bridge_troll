@@ -34,7 +34,7 @@
     <%= content_tag :div, class: field_classes(@event, :chapter) do %>
       <div class='hint-toggler' data-toggle-hint="hint-chapter"></div>
 
-      <%= render 'shared/chapter_select', label: 'What Chapter is hosting?', f: f %>
+      <%= render 'shared/chapter_select', label: 'What Chapter is hosting?', f: f, on_open: 'window.activateHint($(\'[data-toggle-hint="hint-chapter"]\'))' %>
 
       <div class='hint-content' id="hint-chapter">
         <p>
@@ -94,7 +94,7 @@
     <div class="field workshop-only">
       <div class='hint-toggler' data-toggle-hint="hint-population"></div>
 
-      <%= f.input :target_audience, label: 'What population is this workshop reaching out to?' %>
+      <%= f.input :target_audience, label: 'What population is this workshop reaching out to?', input_html: {data: {'focus-hint' => "hint-population"}} %>
 
       <div class="hint-content" id="hint-population">
         <p>
@@ -108,7 +108,7 @@
     <div class='workshop-only'>
       <div class="question">
         <%= f.label :plus_one_host_toggle do %>
-          <%= f.check_box :plus_one_host_toggle %>
+          <%= f.check_box :plus_one_host_toggle, {data: {'focus-hint' => 'hint-plus-one-host'}} %>
           Allow students to bring a +1 who's not from the target demographic?
         <% end %>
 
@@ -129,7 +129,7 @@
       <div class='hint-toggler' data-toggle-hint="hint-childcare"></div>
 
       <%= f.label :has_childcare do %>
-        <%= f.check_box :has_childcare %> Offer childcare at this event
+        <%= f.check_box :has_childcare, {data: {'focus-hint' => 'hint-childcare'}} %> Offer childcare at this event
       <% end %>
 
       <div class='hint-content' id="hint-childcare">
@@ -243,6 +243,7 @@
         <%= f.input :student_rsvp_limit,
                     as: :string,
                     label: 'Student RSVP limit (required)',
+                    input_html: {data: {'focus-hint' => "hint-student-limit"}},
                     wrapper_html: {class: 'workshop-only'} %>
 
         <div class="hint-content" id="hint-student-limit">
@@ -264,6 +265,7 @@
 
       <%= f.input :volunteer_rsvp_limit,
                   as: :string,
+                  input_html: {data: {'focus-hint' => "hint-volunteer-limit"}},
                   label: 'Volunteer RSVP limit' %>
 
       <div class="hint-content" id="hint-volunteer-limit">

@@ -9,5 +9,10 @@
 <script>
   window.whenReady(function () {
     $('#<%= f.object.class.name.underscore %>_chapter_id').select2({width: '100%'});
+    <% if local_assigns[:on_open] %>
+      $('#<%= f.object.class.name.underscore %>_chapter_id').on('select2:open', function () {
+        <%= local_assigns[:on_open].html_safe %>
+      });
+    <% end %>
   });
 </script>

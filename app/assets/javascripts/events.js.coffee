@@ -57,12 +57,10 @@ setUpHints = ->
   $('.form-section-header, .form-section-header-expander').on 'click', ->
     $('.hint-element').remove()
 
-  $('[data-toggle-hint]').on 'mouseenter', ->
-    $toggler = $(this)
+  window.activateHint = ($toggler) =>
+    selector = $toggler.data('toggle-hint')
     $sidebar = $('.event-form-sidebar')
     $sidebar.empty()
-
-    selector = $toggler.data('toggle-hint')
 
     $hintElement = $('<div class="hint-element"></div>')
     $hintElement.html($('#' + selector).html());
@@ -73,6 +71,14 @@ setUpHints = ->
       right: 0
     )
     $sidebar.append($hintElement)
+
+  $('[data-focus-hint]').on 'focus', ->
+    togglerSelector = $(this).data('focus-hint')
+    $toggler = $("[data-toggle-hint='#{togglerSelector}']")
+    window.activateHint($toggler)
+
+  $('[data-toggle-hint]').on 'mouseenter', ->
+    window.activateHint($(this))
 
 jQuery ->
   setupRemoveSessions()
