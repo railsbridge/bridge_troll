@@ -222,16 +222,24 @@
     <h3>Additional Event Info</h3>
 
     <div class="field">
+      <div class='hint-toggler' data-toggle-hint="hint-additional-details"></div>
+
+      <p>Using basic HTML include any additional info you want to share with prospective event attendees.</p>
+
       <p>We will automatically include the name of the course and a link to the corresponding class levels, so that should not be duplicated here.</p>
-      <p>You can use basic html, like:</p>
-      <ul class="margined">
-        <li><pre><%= "<img src='http://example.com/sponsor/logo'>" %></pre></li>
-        <li><pre><%= "<a href='http://bridgetroll.org'>Link Text</a>" %></pre></li>
-        <li><pre><%= "<h3>Littler Header</h3>\nMore text below, no blank line needed after headers" %></pre></li>
-        <li><pre><%= "<ul>\n  <li>List Item One</li>\n  <li>List Item Two</li>\n</ul>" %></pre></li>
-      </ul>
-      <p>But you don't have to put paragraph tags around everything; blank lines will do just fine.</p>
-      <%= f.input :details, as: :text, label: false, input_html: {rows: 14} %>
+
+      <%= f.input :details, as: :text, label: false, input_html: {rows: 14, data: {'focus-hint' => "hint-additional-details"}} %>
+
+      <div class='hint-content' id="hint-additional-details">
+        <p>You can use basic html, like:</p>
+        <ul class="margined">
+          <li><pre><%= "<img src='http://example.com/sponsor/logo'>" %></pre></li>
+          <li><pre><%= "<a href='http://bridgetroll.org'>Link Text</a>" %></pre></li>
+          <li><pre><%= "<h3>Littler Header</h3>\nMore text below, no blank line needed after headers" %></pre></li>
+          <li><pre><%= "<ul>\n  <li>List Item One</li>\n  <li>List Item Two</li>\n</ul>" %></pre></li>
+        </ul>
+        <p>But you don't have to put paragraph tags around everything; blank lines will do just fine.</p>
+      </div>
     </div>
   <% end %>
 
