@@ -116,6 +116,7 @@ class RsvpsController < ApplicationController
       else
         @rsvp.user.region_ids -= [@event.region.id]
       end
+
     end
   end
 

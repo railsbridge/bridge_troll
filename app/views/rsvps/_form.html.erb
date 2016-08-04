@@ -143,10 +143,22 @@
         <div class="form-group boolean optional affiliate_with_region">
           <div class="checkbox">
             <%= label_tag :affiliate_with_region do %>
-              <%= check_box_tag :affiliate_with_region, 1, current_user.regions.include?(@event.region) %> I want to be notified of future events in the "<%= @event.region.name %>" region.
+              <%= check_box_tag :affiliate_with_region, 1, current_user.regions.include?(@event.region) %> I want to be notified of future events in the <%= @event.region.name %> region.
             <% end %>
             <div>
               <small>(Full email preferences are available <%= link_to 'on your User Account', edit_user_registration_path %>)</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field question">
+        <div class="form-group boolean optional affiliate_with_region">
+          <div class="checkbox">
+            <%= f.label :volunteer_interest, class: 'checkbox' do %>
+              <%= f.check_box :volunteer_interest, class: 'volunteer_interest' %> I can help with future events in <%= @event.region.name %>. 
+            <% end %>
+            <div>
+              <small>(This could involve organizing, scouting venues and sponsors, helping with workshop outreach, or other things!)</small>
             </div>
           </div>
         </div>
