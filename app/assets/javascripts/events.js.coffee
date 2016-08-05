@@ -33,7 +33,7 @@ setupSessionLocation = (sessionElement) ->
   setSessionLocationVisibility = () ->
     $(this).closest('.fields').find('.select2').toggleClass('hidden', !this.checked)
 
-  sessionElement.find('.session-location-select').select2()
+  sessionElement.find('.session-location-select').select2({width: '100%'})
   sessionElement.find('.session-location-toggle').each(setSessionLocationVisibility)
   sessionElement.find('.session-location-toggle').on('change', setSessionLocationVisibility)
 
