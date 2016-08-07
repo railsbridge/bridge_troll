@@ -23,5 +23,20 @@ describe Profile do
     expect(prof('foo-BAR-91')).to have(0).errors_on(:github_username)
     expect(prof(nil)).to have(0).errors_on(:github_username)
   end
+
+  it 'validates the format of twitter_username' do
+    def prof(twitter_username)
+      Profile.new(twitter_username: twitter_username)
+    end
+
+    expect(prof('hello world')).to have(1).errors_on(:twitter_username)
+    expect(prof('helloworld')).to have(0).errors_on(:twitter_username)
+    expect(prof('@helloworld')).to have(0).errors_on(:twitter_username)
+  end
+
+  it 'removes leading @ signs from twitter username' do
+    profile = Profile.new(twitter_username: '@banana')
+    expect(profile.twitter_username).to eq('banana')
+  end
 end
 

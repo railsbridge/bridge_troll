@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160710221707) do
+ActiveRecord::Schema.define(version: 20160807055624) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -194,11 +194,12 @@ ActiveRecord::Schema.define(version: 20160710221707) do
     t.boolean  "windows"
     t.boolean  "linux"
     t.text     "other"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.text     "bio"
     t.boolean  "outreach"
     t.string   "github_username"
+    t.string   "twitter_username"
   end
 
   create_table "region_leaderships", force: :cascade do |t|
