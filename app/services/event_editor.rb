@@ -8,57 +8,59 @@ class EventEditor
 
   def create
     event = Event.new(event_params)
-    result = {
-      event: event
-    }
+    result = EventEditorResult.new(event: event)
 
     unless event.save
-      return result.merge(
-        render: :new
-      )
+      result.render = :new
+      return result
     end
 
     event.organizers << current_user
 
     if event.draft?
-      result.merge(
-        notice: 'Draft saved. You can continue editing.',
-        render: :edit
-      )
+      result.notice = 'Draft saved. You can continue editing.'
+      result.render = :edit
     elsif event.published?
-      result.merge(
-        notice: 'Event was successfully created.'
-      )
+      result.notice = 'Event was successfully created.'
     else
       mark_for_approval(event)
 
-      result.merge(
-        notice: 'Your event is awaiting approval and will appear to other users once it has been reviewed by an admin.'
-      )
+      result.notice = 'Your event is awaiting approval and will appear to other users once it has been reviewed by an admin.'
     end
+
+    result
   end
 
   def update(event)
     was_draft = event.draft?
+    result = EventEditorResult.new(event: event)
 
     unless event.update_attributes(event_params(event))
-      return {
-        render: :edit,
-        status: :unprocessable_entity
-      }
+      result.render = :edit
+      result.status = :unprocessable_entity
+      return result
     end
 
     if event.draft?
-      {
-        notice: 'Draft updated. You can continue editing.',
-        render: :edit
-      }
+      result.notice = 'Draft updated. You can continue editing.'
+      result.render = :edit
     else
       mark_for_approval(event) if was_draft
 
-      {
-        notice: 'Event was successfully updated.'
-      }
+      result.notice = 'Event was successfully updated.'
+    end
+
+    result
+  end
+
+  class EventEditorResult
+    attr_accessor :event, :notice, :render, :status
+
+    def initialize(event:, notice: nil, render: nil, status: nil)
+      @event = event
+      @notice = notice
+      @render = render
+      @status = status
     end
   end
 

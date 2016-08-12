@@ -66,13 +66,13 @@ class EventsController < ApplicationController
   def create
     skip_authorization
     result = EventEditor.new(current_user, params).create
-    @event = result[:event]
+    @event = result.event
 
-    flash[:notice] = result[:notice] if result[:notice]
-    if result[:render]
-      render result[:render]
+    flash[:notice] = result.notice if result.notice
+    if result.render
+      render result.render
     else
-      redirect_to result[:event]
+      redirect_to result.event
     end
   end
 
@@ -80,9 +80,9 @@ class EventsController < ApplicationController
     authorize @event
     result = EventEditor.new(current_user, params).update(@event)
 
-    flash[:notice] = result[:notice] if result[:notice]
-    if result[:render]
-      render result[:render], status: result[:status]
+    flash[:notice] = result.notice if result.notice
+    if result.render
+      render result.render, status: result.status
     else
       redirect_to @event
     end
