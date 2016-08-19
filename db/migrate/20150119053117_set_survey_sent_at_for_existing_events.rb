@@ -16,7 +16,7 @@ class SetSurveySentAtForExistingEvents < ActiveRecord::Migration
     Event.find_each do |e|
       rsvp_ids = e.rsvps.pluck(:id)
       surveys = Survey.where(rsvp_id: rsvp_ids)
-      if surveys.length > 0
+      unless surveys.empty?
         e.update_attribute(:survey_sent_at, e.ends_at)
       end
     end

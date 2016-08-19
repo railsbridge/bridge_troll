@@ -64,12 +64,7 @@ class UserList
     SQL
     users = MeetupUser.where(query).order(:full_name)
     if @search_query
-      if using_postgres
-        sql = "LOWER(UNACCENT(full_name)) LIKE CONCAT('%', LOWER(UNACCENT(?)), '%')"
-      else
-        sql = "LOWER(full_name) LIKE '%' || LOWER(?) || '%'"
-      end
-      users.where(sql, @search_query)
+      users.where(meetup_user_search_sql, @search_query)
     else
       users
     end
@@ -78,12 +73,7 @@ class UserList
   def bridgetroll_users
     users = User.select('id, first_name, last_name').order(:first_name, :last_name)
     if @search_query
-      if using_postgres
-        sql = "LOWER(UNACCENT(CONCAT(first_name, ' ', last_name))) LIKE CONCAT('%', LOWER(UNACCENT(?)), '%')"
-      else
-        sql = "LOWER(first_name || ' ' || last_name) LIKE '%' || LOWER(?) || '%'"
-      end
-      users.where(sql, @search_query)
+      users.where(bridgetroll_user_search_sql, @search_query)
     else
       users
     end
@@ -91,6 +81,22 @@ class UserList
 
   def using_postgres
     @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == "PostgreSQL")
+  end
+
+  def meetup_user_search_sql
+    if using_postgres
+      "LOWER(UNACCENT(full_name)) LIKE CONCAT('%', LOWER(UNACCENT(?)), '%')"
+    else
+      "LOWER(full_name) LIKE '%' || LOWER(?) || '%'"
+    end
+  end
+
+  def bridgetroll_user_search_sql
+    if using_postgres
+      "LOWER(UNACCENT(CONCAT(first_name, ' ', last_name))) LIKE CONCAT('%', LOWER(UNACCENT(?)), '%')"
+    else
+      "LOWER(first_name || ' ' || last_name) LIKE '%' || LOWER(?) || '%'"
+    end
   end
 
   def attendances_for(user_type)

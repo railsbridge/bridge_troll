@@ -33,7 +33,7 @@ class SeedChaptersFromRegions < ActiveRecord::Migration
 
     Region.find_each do |region|
       chapter_name = region.name
-      chapter_name = "RailsBridge #{chapter_name}" unless chapter_name.match('RailsBridge')
+      chapter_name = "RailsBridge #{chapter_name}" unless chapter_name =~ 'RailsBridge'
       chapter = Chapter.create(name: chapter_name, organization: rb_org)
       region.events.update_all(chapter_id: chapter.id)
     end
@@ -46,7 +46,7 @@ class SeedChaptersFromRegions < ActiveRecord::Migration
     ExternalEvent.find_each do |external_event|
       if external_event.region
         chapter_name = external_event.region.name
-        chapter_name = "RailsBridge #{chapter_name}" unless chapter_name.match('RailsBridge')
+        chapter_name = "RailsBridge #{chapter_name}" unless chapter_name =~ 'RailsBridge'
         chapter = Chapter.find_or_create_by(name: chapter_name, organization: rb_org)
         external_event.update_attributes(chapter_id: chapter.id)
       end

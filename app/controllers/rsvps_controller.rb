@@ -137,7 +137,7 @@ class RsvpsController < ApplicationController
 
   def load_rsvp
     @rsvp = Rsvp.find_by_id(params[:id])
-    unless @rsvp && ((@rsvp.user == current_user) || (@rsvp.event.organizer?(current_user)))
+    unless @rsvp && ((@rsvp.user == current_user) || @rsvp.event.organizer?(current_user))
       redirect_to events_path, notice: 'You are not signed up for this event'
     end
   end
@@ -159,10 +159,10 @@ class RsvpsController < ApplicationController
 
   def signup_for_new_region?
     regions = Region.joins(locations: :events).where('events.id IN (?)', current_user.events.pluck(:id)).distinct
-    if regions.length > 0
-      !regions.include?(@event.region)
-    else
+    if regions.empty?
       false
+    else
+      !regions.include?(@event.region)
     end
   end
 end

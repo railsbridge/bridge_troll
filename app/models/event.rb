@@ -374,7 +374,7 @@ class Event < ActiveRecord::Base
   end
 
   def set_defaults
-    if self.has_attribute?(:details)
+    if has_attribute?(:details)
       self.details ||= Event::DEFAULT_DETAILS['default_details.html']
       self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
       self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']

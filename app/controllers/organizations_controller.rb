@@ -31,8 +31,6 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  private
-
   class ChapterEventLocation
     attr_reader :event, :location, :chapter
     def initialize(event)

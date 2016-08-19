@@ -61,8 +61,6 @@ module OmniauthProviders
     end
   end
 
-  private
-
   class OmniauthAttributeGenerator
     attr_reader :omniauth
 

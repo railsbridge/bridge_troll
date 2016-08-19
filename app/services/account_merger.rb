@@ -21,7 +21,7 @@ class AccountMerger
       Is this cool? (y/n)
     EOT
 
-    return unless get_answer.downcase == 'y'
+    return unless get_answer.casecmp('y')
 
     to_destroy.destroy_all
 

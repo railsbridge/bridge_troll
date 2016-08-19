@@ -13,7 +13,7 @@ else
 end
 
 related_file = if in_spec
-  filename.gsub(/^#{spec_prefix}/, impl_prefix).gsub(/_spec#{extension}$/, "#{extension}")
+  filename.gsub(/^#{spec_prefix}/, impl_prefix).gsub(/_spec#{extension}$/, extension.to_s)
 else
   filename.gsub(/^#{impl_prefix}/, spec_prefix).gsub(/#{extension}$/, "_spec#{extension}")
 end

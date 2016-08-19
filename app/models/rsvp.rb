@@ -134,7 +134,7 @@ class Rsvp < ActiveRecord::Base
   end
 
   def dietary_restriction_diets
-    self.dietary_restrictions.map(&:restriction)
+    dietary_restrictions.map(&:restriction)
   end
 
   def dietary_restriction_diets=(diets)

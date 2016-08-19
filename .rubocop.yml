@@ -17,6 +17,9 @@ Lint/UnusedMethodArgument:
 Lint/UselessAssignment:
   Enabled: false
 
+Lint/Void:
+  Enabled: false
+
 Metrics/AbcSize:
   Max: 160
 
@@ -111,10 +114,16 @@ Style/ExtraSpacing:
     - 'db/migrate/20131210054655_init_schema.rb'
     - 'db/schema.rb'
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Style/GuardClause:
   Enabled: false
 
 Style/IfUnlessModifier:
+  Enabled: false
+
+Style/IndentArray:
   Enabled: false
 
 Style/IndentationWidth:
@@ -132,19 +141,47 @@ Style/LeadingCommentSpace:
 Style/MethodDefParentheses:
   Enabled: false
 
+Style/MethodMissing:
+  Exclude:
+    - 'app/models/meetup_user.rb'
+
+Style/MultilineBlockChain:
+  Enabled: false
+
 Style/MultilineBlockLayout:
+  Enabled: false
+
+Style/MultilineMethodCallBraceLayout:
+  Enabled: false
+
+Style/MultilineMethodCallIndentation:
   Enabled: false
 
 Style/MultilineOperationIndentation:
   Enabled: false
 
+Style/MutableConstant:
+  Enabled: false
+
+Style/NestedParenthesizedCalls:
+  Enabled: false
+
 Style/NumericLiterals:
   MinDigits: 15
+
+Style/NumericPredicate:
+  Enabled: false
 
 Style/ParallelAssignment:
   Enabled: false
 
 Style/PredicateName:
+  Enabled: false
+
+Style/Proc:
+  Enabled: false
+
+Style/RaiseArgs:
   Enabled: false
 
 Style/RedundantReturn:
@@ -165,6 +202,9 @@ Style/SpaceAroundOperators:
 Style/SpaceBeforeBlockBraces:
   Enabled: false
 
+Style/SpaceBeforeFirstArg:
+  Enabled: false
+
 Style/SpaceInsideBlockBraces:
   Enabled: false
 
@@ -177,7 +217,7 @@ Style/SpaceInsideHashLiteralBraces:
 Style/SpaceInsideParens:
   Enabled: false
 
-Style/SingleSpaceBeforeFirstArg:
+Style/SpaceInsidePercentLiteralDelimiters:
   Enabled: false
 
 Style/SpecialGlobalVars:
@@ -186,10 +226,19 @@ Style/SpecialGlobalVars:
 Style/StringLiterals:
   Enabled: false
 
+Style/StringLiteralsInInterpolation:
+  Enabled: false
+
+Style/TernaryParentheses:
+  Enabled: false
+
 Style/TrailingBlankLines:
   Enabled: false
 
-Style/TrailingComma:
+Style/TrailingCommaInArguments:
+  Enabled: false
+
+Style/TrailingCommaInLiteral:
   Enabled: false
 
 Style/TrailingWhitespace:
@@ -197,3 +246,6 @@ Style/TrailingWhitespace:
 
 Style/WordArray:
   MinSize: 3
+  Exclude:
+    - 'db/schema.rb'
+    - 'db/migrate/20131210054655_init_schema.rb'

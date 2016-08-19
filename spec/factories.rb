@@ -113,10 +113,8 @@ FactoryGirl.define do
           rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session_id: event_session_id, checked_in: checked_in)
         end
         rsvp.checkins_count = evaluator.session_checkins.values.select { |v| v }.length
-      else
-        unless rsvp.rsvp_sessions.length > 0
-          rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session: rsvp.event.event_sessions.first)
-        end
+      elsif rsvp.rsvp_sessions.empty?
+        rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session: rsvp.event.event_sessions.first)
       end
     end
   end

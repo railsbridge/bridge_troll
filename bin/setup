@@ -59,7 +59,7 @@ Dir.chdir APP_ROOT do
   require 'yaml'
   require 'erb'
   db_config = YAML.load(ERB.new(File.read("config/database.yml")).result)
-  if File.exists?(db_config['development']['database'])
+  if File.exist?(db_config['development']['database'])
     puts "Database already exists, running migrations..."
     system "bin/rake db:migrate"
   else

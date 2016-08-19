@@ -25,8 +25,8 @@ describe "the event listing page" do
                    title: 'mytitle2',
                    time_zone: 'Pacific Time (US & Canada)')
     event.event_sessions.first.update_attributes(
-      starts_at: Time.utc(next_year, 01, 31, 11, 20),
-      ends_at: Time.utc(next_year, 01, 31, 11, 55)
+      starts_at: Time.utc(next_year, 1, 31, 11, 20),
+      ends_at: Time.utc(next_year, 1, 31, 11, 55)
     )
 
     event.save!
@@ -100,7 +100,7 @@ describe "the event listing page" do
 
       sign_in_with_modal(@user)
 
-      expect(page.find('div.header-container > h1')).to have_content("#{event.title}")
+      expect(page.find('div.header-container > h1')).to have_content(event.title)
       expect(current_path).to eq(event_path(event))
     end
   end
