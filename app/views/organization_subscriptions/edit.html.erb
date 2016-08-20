@@ -1,0 +1,12 @@
+<%= simple_form_for(@user, :url => "/organization_subscriptions/#{@email_token}", :html => {:method => 'put'}) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class='form-group'>
+    <%= f.label :subscribed_organization_ids, 'Allow these Bridge organizations to (potentially) send you email newsletters:' %>
+    <div class='checkbox-columns'>
+      <%= f.collection_check_boxes(:subscribed_organization_ids, Organization.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
+    </div>
+  </div>
+
+  <div><%= f.submit 'Update Email Preferences', class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %></div>
+<% end %>

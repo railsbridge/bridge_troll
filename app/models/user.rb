@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of :first_name, :last_name, :profile
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
+  validates :email_authentication_token, length: { is: 32 }, allow_nil: true
 
   def self.from_omniauth(omniauth)
     authentication = Authentication.where(provider: omniauth['provider'], uid: omniauth['uid'].to_s).first

@@ -109,6 +109,9 @@ Bridgetroll::Application.routes.draw do
     get :raise_exception
   end
 
+  get "/organization_subscriptions/:token" => "organization_subscriptions#edit"
+  put "/organization_subscriptions/:token" => "organization_subscriptions#update"
+
   if Rails.env.development?
     get "/style_guide" => "static_pages#style_guide"
   end
