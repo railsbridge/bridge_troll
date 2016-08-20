@@ -86,4 +86,12 @@ class User < ActiveRecord::Base
   def event_checkiner?(event)
     event_attendance(event)[:checkiner]
   end
+
+  def generate_email_authentication_token!
+    new_token = SecureRandom.base64[0..15] + SecureRandom.base64[0..15]
+    self.email_authentication_token = new_token
+    self.email_authentication_created_at = Time.now
+    return generate_email_authentication_token! unless self.save
+    new_token
+  end
 end
