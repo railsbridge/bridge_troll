@@ -4,7 +4,7 @@
     <th data-default-sort="asc">Name</th>
     <th>Events</th>
     <% if current_user.try(:admin?) %>
-      <th></th>
+      <th class="no-sort"></th>
     <% end %>
   </tr>
   </thead>
