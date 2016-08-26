@@ -20,7 +20,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 gem 'gravatar_image_tag'
-gem 'simple_form', '3.2.1' # https://github.com/plataformatec/simple_form/issues/1421
+gem 'simple_form'
 gem 'rack-canonical-host'
 gem 'icalendar'
 gem 'pg' if ENV['FORCE_POSTGRES']

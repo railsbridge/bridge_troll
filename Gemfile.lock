@@ -302,7 +302,7 @@ GEM
       faraday (>= 0.7.6, < 0.10.x)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
-    simple_form (3.2.1)
+    simple_form (3.3.1)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
     sprockets (3.7.0)
@@ -392,7 +392,7 @@ DEPENDENCIES
   sass-rails
   sentry-raven
   shoulda-matchers
-  simple_form (= 3.2.1)
+  simple_form
   sqlite3
   test_after_commit
   uglifier
