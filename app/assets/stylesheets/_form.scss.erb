@@ -10,6 +10,16 @@ form {
   }
 }
 
+.cross-browser-select {
+  background-image: url(<%= asset_data_uri 'dropdown_arrows.svg' %>);
+  padding-right: 25px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 @media (max-width: $screen-xs-max) {
   select.form-control {
     font-size: 16px;

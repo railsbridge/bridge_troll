@@ -10,7 +10,7 @@
           Filter: <%= select_tag :region,
                                  options_from_collection_for_select(@event_regions, "id", "name"),
                                  prompt: "All Regions",
-                                 class: 'region-select form-control' %>
+                                 class: 'region-select form-control cross-browser-select' %>
         </label>
       <% end %>
       <h1>Upcoming events</h1>
