@@ -464,6 +464,35 @@ concepts, like collections and scope.',
           ]
         }
       ]
+    }, {
+      id: 12,
+      name: 'ELM',
+      title: 'Elm',
+      description: 'This is an Elm event. The focus will be on programming in Elm.',
+      levels: [
+        {
+          level: 3,
+          color: 'gold',
+          title: "Some programming experience",
+          level_description: [
+            'You know how to define a function in some common programming language (Javascript, or Ruby, or Python, or similar)',
+            'You have used lists or arrays in some common programming language',
+            'You have used the terminal, but are not necessarily a Power User'
+          ]
+        },
+        {
+          level: 4,
+          color: 'orange',
+          title: 'Other programming experience, and comfortable editing CSS & HTML',
+          level_description: [
+            'You\'re proficient in another language and understand general programming
+concepts, like collections and scope.',
+            'Knows about web development, but not a lot of front end experience',
+            'You\'re new to Elm or functional programming',
+            'You are familiar with version control and basic web architecture'
+          ]
+        }
+      ]
     }
   ]
   enum_accessor :name
