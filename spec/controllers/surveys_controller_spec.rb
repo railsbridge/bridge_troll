@@ -27,6 +27,19 @@ describe SurveysController do
         expect(assigns(:rsvp)).to eq @rsvp
       end
 
+      describe "for an invalid RSVP" do
+        before do
+          @destroyed_rsvp_id = @rsvp.id
+          @rsvp.destroy
+        end
+
+        it "shows a 404 error" do
+          expect {
+            get :new, event_id: @event.id, rsvp_id: @destroyed_rsvp_id
+          }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+      end
+
       context "if the survey has already been taken" do
         before do
           Survey.create(rsvp_id: @rsvp.id)

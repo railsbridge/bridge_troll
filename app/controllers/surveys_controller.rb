@@ -50,6 +50,6 @@ class SurveysController < ApplicationController
   end
 
   def find_rsvp
-    @rsvp = current_user.rsvps.find_by(event_id: @event.id)
+    @rsvp = current_user.rsvps.find_by!(event_id: @event.id)
   end
 end
