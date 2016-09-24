@@ -27,8 +27,6 @@ class SurveysController < ApplicationController
 
   def index
     authorize @event, :edit?
-    @student_surveys = Survey.where(rsvp_id: @event.rsvps.where(role_id: Role::STUDENT.id).pluck(:id))
-    @volunteer_surveys = Survey.where(rsvp_id: @event.volunteer_rsvps.pluck(:id))
   end
 
   def preview

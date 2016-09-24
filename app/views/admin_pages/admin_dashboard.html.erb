@@ -109,6 +109,28 @@
   </ul>
 </div>
 
+<h2>Recent survey responses</h2>
+<div class="row">
+  <div class="col-md-8 col-lg-7">
+    <table class='table table-bordered table-condensed table-striped datatable-sorted'>
+      <thead>
+      <tr>
+        <th>Event</th>
+        <th>Survey Responses</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% Event.past.order('ends_at DESC').first(10).each do |event| %>
+        <tr>
+          <td><%= link_to event.title, event %></td>
+          <td><%= link_to event.surveys.count, event_surveys_path(event) %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <h2>System Health</h2>
 <%= render partial: 'shared/organizer_action', locals: {
   path: send_test_email_path,

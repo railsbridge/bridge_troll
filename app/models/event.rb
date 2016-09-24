@@ -55,6 +55,10 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :event_sessions, allow_destroy: true
   validates :event_sessions, length: { minimum: 1 }
 
+  has_many :surveys, through: :rsvps, source: :survey
+  has_many :student_surveys, -> { where('rsvps.role_id = ?', Role::STUDENT.id) }, through: :rsvps, source: :survey
+  has_many :volunteer_surveys, -> { where('rsvps.role_id = ?', Role::VOLUNTEER.id) }, through: :rsvps, source: :survey
+
   validates_presence_of :title
   validates_presence_of :time_zone
   validates_presence_of :chapter

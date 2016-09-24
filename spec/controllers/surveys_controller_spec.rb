@@ -119,7 +119,7 @@ describe SurveysController do
         get :index, event_id: @event.id
         expect(response).to be_success
         expect(assigns(:event)).to eq @event
-        expect(assigns(:volunteer_surveys).to_a).to eq [@rsvp.survey]
+        expect(assigns(:event).volunteer_surveys.to_a).to eq [@rsvp.survey]
       end
     end
 
