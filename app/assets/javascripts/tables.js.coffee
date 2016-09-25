@@ -24,6 +24,7 @@ window.whenReady ->
     needsPagination = tableNeedsPagination($table)
     $table.DataTable
       paging: needsPagination,
+      pageLength: $table.data('page-length') || 50,
       searching: needsPagination,
       dom: if needsPagination then domWithActions else domWithoutActions
       order: discoverSortOrder($table) || [[ 1, "desc" ]],
