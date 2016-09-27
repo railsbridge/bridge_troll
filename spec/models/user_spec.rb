@@ -56,4 +56,24 @@ describe User do
       expect(@user.profile_path).to eq(Rails.application.routes.url_helpers.user_profile_path(@user))
     end
   end
+
+  describe '#generate_email_authentication_token' do
+    it 'generates a UID of length 32' do
+      @user.generate_email_authentication_token!
+      expect(@user.email_authentication_token.length).to eq 32
+    end
+
+    it 'sets the email_authentication_created_at' do
+      @user.generate_email_authentication_token!
+      expect(@user.email_authentication_created_at).to be > 1.minute.ago
+    end
+
+    it 'does not reuse the same token when generated again' do
+      @user.generate_email_authentication_token!
+      first_token = @user.email_authentication_token
+      @user.generate_email_authentication_token!
+      second_token = @user.email_authentication_token
+      expect(first_token).to_not eq second_token
+    end
+  end
 end
