@@ -496,8 +496,8 @@ concepts, like collections and scope.',
     }, {
       id: 13,
       name: "RUST",
-      title: 'Rust',
-      description: 'This is a Rust event. The focus will be on programming in Rust.',
+      title: 'Rust for programmers',
+      description: 'This is a Rust programming event. Some programming knowledge expected, but you don\'t yet know Rust.',
       levels: [
         {
           level: 4,
