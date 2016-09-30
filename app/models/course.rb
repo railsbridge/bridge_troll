@@ -493,6 +493,24 @@ concepts, like collections and scope.',
           ]
         }
       ]
+    }, {
+      id: 13,
+      name: "RUST",
+      title: 'Rust for programmers',
+      description: 'This is a Rust programming event. Some programming knowledge expected, but you don\'t yet know Rust.',
+      levels: [
+        {
+          level: 4,
+          color: 'orange',
+          title: 'Other Programming Experience',
+          level_description: [
+            'You\'re proficient in another language and understand general programming
+concepts, like collections and scope.',
+            'You\'re new to Rust or functional programming',
+            'You are familiar with version control and basic web architecture'
+          ]
+        }
+      ]
     }
   ]
   enum_accessor :name
