@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160807055624) do
+ActiveRecord::Schema.define(version: 20161002052810) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -305,6 +305,7 @@ ActiveRecord::Schema.define(version: 20160807055624) do
     t.boolean  "publisher",              default: false
     t.boolean  "spammer",                default: false
     t.integer  "authentications_count",  default: 0
+    t.boolean  "external_event_editor",  default: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

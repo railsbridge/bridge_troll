@@ -1,5 +1,5 @@
 class ExternalEventPolicy < ApplicationPolicy
   def edit?
-    user.admin?
+    user.admin? || user.external_event_editor?
   end
 end
