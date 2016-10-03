@@ -187,3 +187,7 @@ table.dataTable thead {
     content: "\f0dd"; /* fa-sort-desc */
   }
 }
+
+.dataTables_processing {
+  z-index: 1;
+}
