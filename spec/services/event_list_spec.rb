@@ -46,4 +46,23 @@ describe EventList do
       end
     end
   end
+
+  describe 'csv' do
+    let(:meetup_event_url) { 'https://example.com' }
+
+    let!(:event) { create(:event) }
+    let!(:meetup_event) do
+      external_event_data = {'student_event' => {'url' => meetup_event_url}}
+      create(:event, external_event_data: external_event_data)
+    end
+    let!(:external_event) { create(:external_event) }
+
+    it 'aggregates data for bridgetroll and external events' do
+      csv = EventList.new('all').to_csv
+      expect(csv).to include(event.title)
+      expect(csv).to include(external_event.title)
+      expect(csv).to include(meetup_event.title)
+      expect(csv).to include(meetup_event_url)
+    end
+  end
 end

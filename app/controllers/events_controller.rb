@@ -15,6 +15,9 @@ class EventsController < ApplicationController
       format.json do
         render json: EventList.new(params[:type], params.slice(:organization_id, :serialization_format, :start, :length, :draw, :search))
       end
+      format.csv do
+        send_data EventList.new(EventList::ALL).to_csv, type: :csv
+      end
     end
   end
 
@@ -111,6 +114,6 @@ class EventsController < ApplicationController
   end
 
   def allow_insecure?
-    request.get? && request.format.json?
+    request.get? && (request.format.json? || request.format.csv?)
   end
 end

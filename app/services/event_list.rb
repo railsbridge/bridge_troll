@@ -11,11 +11,17 @@ class EventList
     if @options[:serialization_format] == 'dataTables'
       datatables_json
     else
-      all_events = bridgetroll_events.includes(*default_bridgetroll_event_includes).includes(:organization) + external_events.includes(:organization)
-      sorted_events = all_events.sort_by { |e| e.starts_at.to_time }
-
-      sorted_events.as_json
+      all_sorted_events.as_json
     end
+  end
+
+  def to_csv
+    EventCsvReporter.new(all_sorted_events).to_csv
+  end
+
+  def all_sorted_events
+    all_events = bridgetroll_events.includes(*default_bridgetroll_event_includes).includes(:organization) + external_events.includes(:organization)
+    all_events.sort_by { |e| e.starts_at.to_time }
   end
 
   def combined_events
