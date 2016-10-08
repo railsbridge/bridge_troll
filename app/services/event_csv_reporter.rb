@@ -5,61 +5,119 @@ class EventCsvReporter
 
   def to_csv
     CSV.generate do |csv|
-      csv << [
-        'region',
-        'chapter',
-        'city',
-        'location',
-        'title',
-        'url',
-        'starts_at',
-        'ends_at',
-        'organizers',
-        'is_workshop',
-        'is_imported',
-        'is_external',
-        'time_zone',
-        'attended',
-        'waitlisted'
-      ]
+      csv << fields
       @events.each do |event|
-        event_json = event.as_json.symbolize_keys
-
-        column_data = [
-          event.region.try(:name),
-          event.chapter.try(:name),
-          event_json[:location][:city],
-          event_json[:location][:name],
-          event_json[:title],
-          event_url(event),
-          event.starts_at,
-          event.ends_at,
-          event_json[:organizers].try(:join, ', '),
-          event_json[:workshop],
-          event.is_a?(Event) && event.historical?,
-          event.is_a?(ExternalEvent)
-        ]
-        if event.is_a?(Event) && !event.historical?
-          column_data << event.time_zone
-          column_data << event.checked_in_rsvps(Role::VOLUNTEER).count + event.checked_in_rsvps(Role::STUDENT).count
-          column_data << event.volunteer_waitlist_rsvps_count + event.student_waitlist_rsvps_count
-        end
-        csv << column_data
+        row_builder = EventCsvRowBuilder.new(event)
+        csv << fields.map { |f| row_builder.send(f) }
       end
     end
   end
 
   private
 
-  def event_url(event)
-    if event.is_a?(Event)
-      if event.external_event_data
-        event.external_event_data['student_event']['url']
+  def fields
+    [
+      :region,
+      :chapter,
+      :city,
+      :location,
+      :title,
+      :url,
+      :starts_at,
+      :ends_at,
+      :organizers,
+      :is_workshop,
+      :is_imported,
+      :is_external,
+      :time_zone,
+      :attended,
+      :waitlisted
+    ]
+  end
+
+  class EventCsvRowBuilder
+    attr_reader :event_json, :event
+
+    def initialize(event)
+      @event = event
+      @event_json = event.as_json.symbolize_keys
+    end
+
+    def region
+      event.region.try(:name)
+    end
+
+    def chapter
+      event.chapter.try(:name)
+    end
+
+    def city
+      event_json[:location][:city]
+    end
+
+    def location
+      event_json[:location][:name]
+    end
+
+    def title
+      event_json[:title]
+    end
+
+    def url
+      if event.is_a?(Event)
+        if event.external_event_data
+          event.external_event_data['student_event']['url']
+        else
+          "https://#{ENV['CANONICAL_HOST']}/events/#{event.id}"
+        end
       else
-        "https://#{ENV['CANONICAL_HOST']}/events/#{event.id}"
+        event.url
       end
-    else
-      event.url
+    end
+
+    def starts_at
+      event.starts_at
+    end
+
+    def ends_at
+      event.ends_at
+    end
+
+    def organizers
+      event_json[:organizers].try(:join, ', ')
+    end
+
+    def is_workshop
+      event_json[:workshop]
+    end
+
+    def is_imported
+      event.is_a?(Event) && event.historical?
+    end
+
+    def is_external
+      event.is_a?(ExternalEvent)
+    end
+
+    def time_zone
+      return nil unless bridgetroll_event?
+      event.time_zone
+    end
+
+    def attended
+      return nil unless bridgetroll_event?
+      event.checked_in_rsvps(Role::VOLUNTEER).count + event.checked_in_rsvps(Role::STUDENT).count
+    end
+
+    def waitlisted
+      return nil unless bridgetroll_event?
+      event.volunteer_waitlist_rsvps_count + event.student_waitlist_rsvps_count
+    end
+
+    private
+
+    def bridgetroll_event?
+      event.is_a?(Event) && !event.historical?
     end
   end
 end
