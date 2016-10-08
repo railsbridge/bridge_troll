@@ -76,11 +76,13 @@ class EventCsvReporter
     end
 
     def starts_at
-      event.starts_at
+      return event.starts_at if event.is_a?(ExternalEvent)
+      event.starts_at.in_time_zone(event.time_zone).to_date
     end
 
     def ends_at
-      event.ends_at
+      return event.ends_at if event.is_a?(ExternalEvent)
+      event.ends_at.in_time_zone(event.time_zone).to_date
     end
 
     def organizers
