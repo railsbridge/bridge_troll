@@ -511,6 +511,65 @@ concepts, like collections and scope.',
           ]
         }
       ]
+    }, {
+        id: 14,
+        name: 'Golang GoBridge Workshop',
+        title: 'WTM Berlin GoBridge Workshop',
+        description: "This event is kick off event of the GoBridge workshop, that will last 3 months at the SoubndClound HQ!
+      </p>
+      Some Q&A:
+      <ul>
+        <li>No previous knowledge is required</li>
+        <li>It's completely free</li>
+        <li>It's both for beginners and not-so beginners.</li>
+        <li>It will take place 2nd and 4th WEDNESDAY of the month</li>
+        <li>During September-December</li>
+        <li>Meeting at SoundCloud HQ</li>
+        <li>All genders are welcome</li>
+      </ul>
+      </p>
+      This is how we'll work during the workshop:
+      <ul>
+        <li>At home: work on your project</li>
+        <li>Meetups: Learn something that is not part of the course and ask the instructors for help</li>
+      </ul>
+      </p>
+      Online:
+      <ul>
+        <li>>Slack: gophers.slack.com</li>
+      </ul>",
+        levels: [
+            {
+                level: 2,
+                color: 'green',
+                title: "Somewhat New to Programming",
+                level_description: [
+                    'You know what a function is',
+                    'You might have done an online programming tutorial or two',
+                    'You may have used the terminal a little — to change directories, for instance'
+                ]
+            }, {
+                level: 3,
+                color: 'gold',
+                title: "Some Go Experience",
+                level_description: [
+                    'You know how to define a function in Go',
+                    'You have a decent handle on Go slices and maps',
+                    'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
+                    'You\'re comfortable using the terminal, but not necessarily a Power User'
+                ]
+            }, {
+                level: 4,
+                color: 'orange',
+                title: "Other Programming Experience",
+                level_description: [
+                    'You\'re new to Go',
+                    'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
+                    'You are an intermediate-level developer',
+                    'You might be familiar with version control and basic web architecture'
+                ]
+            }
+        ]
     }
   ]
   enum_accessor :name
