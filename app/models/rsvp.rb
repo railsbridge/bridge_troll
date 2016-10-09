@@ -66,7 +66,7 @@ class Rsvp < ActiveRecord::Base
 
   def set_defaults
     if has_attribute?(:token)
-      self.token ||= SecureRandom.uuid.gsub(/\-/, '')
+      self.token ||= SecureRandom.uuid.delete('-')
     end
   end
 
@@ -205,7 +205,7 @@ class Rsvp < ActiveRecord::Base
   end
 
   def update_counter_cache
-    event.update_rsvp_counts if event
+    event&.update_rsvp_counts
   end
 
   def as_json(options={})

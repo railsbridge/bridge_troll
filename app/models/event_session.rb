@@ -9,7 +9,7 @@ class EventSession < ActiveRecord::Base
   validates_uniqueness_of :name, scope: [:event_id]
   validate on: :create do
     if starts_at && starts_at < Time.now
-      errors.add(:starts_at, 'must start in the future') unless event && event.historical?
+      errors.add(:starts_at, 'must start in the future') unless event&.historical?
     end
   end
   validate do
@@ -56,11 +56,11 @@ class EventSession < ActiveRecord::Base
   end
 
   def starts_at
-    (event && event.persisted?) ? date_in_time_zone(:starts_at) : read_attribute(:starts_at)
+    (event&.persisted?) ? date_in_time_zone(:starts_at) : read_attribute(:starts_at)
   end
 
   def ends_at
-    (event && event.persisted?) ? date_in_time_zone(:ends_at) : read_attribute(:ends_at)
+    (event&.persisted?) ? date_in_time_zone(:ends_at) : read_attribute(:ends_at)
   end
 
   def session_date

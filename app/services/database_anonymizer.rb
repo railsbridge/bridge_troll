@@ -75,8 +75,8 @@ class DatabaseAnonymizer
 
   def anonymize_profile(profile)
     profile.other = Faker::Company.catch_phrase
-    profile.github_username = "#{Faker::Hacker.noun.gsub(' ', '-').downcase}#{Random.rand(10_000_000)}"
-    profile.twitter_username = "#{Faker::Hacker.noun.gsub(' ', '_').downcase}#{Random.rand(100)}"
+    profile.github_username = "#{Faker::Hacker.noun.tr(' ', '-').downcase}#{Random.rand(10_000_000)}"
+    profile.twitter_username = "#{Faker::Hacker.noun.tr(' ', '_').downcase}#{Random.rand(100)}"
     profile.bio = Faker::Company.bs
     profile.save!
   end

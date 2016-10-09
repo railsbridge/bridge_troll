@@ -17,6 +17,6 @@ class LocationPolicy < ApplicationPolicy
   end
 
   def edit_additional_details?
-    record.region && record.region.has_leader?(user)
+    record.region&.has_leader?(user)
   end
 end

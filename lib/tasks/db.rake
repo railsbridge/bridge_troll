@@ -53,7 +53,7 @@ db_namespace = namespace :db do
           end
 
           File.write(filename, new_schema_content)
-        rescue StandardError => e
+        rescue StandardError => _e
           File.write(filename, existing_schema_content)
           raise
         end

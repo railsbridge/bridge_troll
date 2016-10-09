@@ -12,7 +12,7 @@ class ChapterPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user && user.admin?
+    user&.admin?
   end
 
   def modify_leadership?

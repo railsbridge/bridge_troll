@@ -15,7 +15,8 @@ Lint/UnusedMethodArgument:
   Enabled: false
 
 Lint/UselessAssignment:
-  Enabled: false
+  Exclude:
+    - '**/*_spec.rb'
 
 Lint/Void:
   Enabled: false
@@ -25,6 +26,8 @@ Metrics/AbcSize:
 
 Metrics/ClassLength:
   Max: 500
+  Exclude:
+    - 'app/models/course.rb'
 
 Metrics/CyclomaticComplexity:
   Max: 11
@@ -42,12 +45,6 @@ Metrics/PerceivedComplexity:
   Max: 12
 
 Performance/Count:
-  Enabled: false
-
-Performance/Detect:
-  Enabled: false
-
-Performance/StringReplacement:
   Enabled: false
 
 Style/AccessorMethodName:
@@ -187,6 +184,9 @@ Style/RaiseArgs:
 Style/RedundantReturn:
   Enabled: false
 
+Style/SafeNavigation:
+  Enabled: false
+
 Style/SelfAssignment:
   Enabled: false
 
@@ -242,6 +242,9 @@ Style/TrailingCommaInLiteral:
   Enabled: false
 
 Style/TrailingWhitespace:
+  Enabled: false
+
+Style/VariableNumber:
   Enabled: false
 
 Style/WordArray:
