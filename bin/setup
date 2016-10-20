@@ -64,7 +64,8 @@ Dir.chdir APP_ROOT do
     system "bin/rake db:migrate"
   else
     puts "Database not found, initializing..."
-    system "bin/rake db:setup"
+    system "bin/rake db:create"
+    system "bin/rake db:schema:load"
   end
 
   puts "Initialization complete, run `rake db:seed` to add sample events, if desired."
