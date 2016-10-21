@@ -37,6 +37,13 @@ module EventsHelper
     @event.organizers_with_legacy.empty? ? [] : @event.organizers_with_legacy
   end
 
+  def locations_for_select
+    Location.includes(:region).available.map do |loc|
+      time_zone = ActiveSupport::TimeZone::MAPPING.key(loc.inferred_time_zone)
+      [loc.name_with_region, loc.id, prompt: true, 'data-inferred-time-zone' => time_zone]
+    end
+  end
+
   def formatted_event_date(event)
     l event.date_in_time_zone(:starts_at), format: :date_as_day_mdy
   end

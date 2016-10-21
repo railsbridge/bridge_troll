@@ -68,4 +68,19 @@ describe Location do
       end
     end
   end
+
+  describe 'inferred time zone' do
+    let!(:location) { create(:location) }
+    it 'infers time zone from latitude and longtidue' do
+      location.latitude = 45
+      location.longitude = 45
+      expect(location.inferred_time_zone).to eq('Europe/Moscow')
+    end
+
+    it 'does not infer time zone when latitude and longitude are not present' do
+      location.latitude = nil
+      location.longitude = nil
+      expect(location.inferred_time_zone).to be_nil
+    end
+  end
 end

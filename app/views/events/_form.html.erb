@@ -147,11 +147,11 @@
       <div>
         <%= f.label :location_id, label: 'Event Location' %>
       </div>
-      <%= f.collection_select(:location_id,
-                              Location.includes(:region).available,
-                              :id,
-                              :name_with_region,
-                              {prompt: true}) %>
+      <%= f.select(:location_id,
+                   locations_for_select,
+                   {include_blank: 'Please select'},
+                   onchange: "$('#event_time_zone').val(this.selectedOptions[0].dataset.inferredTimeZone)"
+                  ) %>
       <script>
         window.whenReady(function () {
           $('#event_location_id').select2({width: '100%'});

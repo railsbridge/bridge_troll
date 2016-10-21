@@ -119,6 +119,43 @@ describe "New Event" do
     end
   end
 
+  describe "autodetecting time zone based on location", js: true do
+    let!(:pacific_location) do
+      create(
+        :location,
+        name: "Ferry Building",
+        address_1: "Ferry Building",
+        city: "San Francisco",
+        state: "CA",
+        zip: "94111",
+        latitude: 37.7955458,
+        longitude: -122.3934205
+      )
+    end
+    let!(:eastern_location) do
+      create(
+        :location,
+        name: "Statue of Liberty",
+        address_1: "Statue of Liberty",
+        city: "New York",
+        state: "NY",
+        zip: "10004",
+        latitude: 40.6892494,
+        longitude: -74.0445004
+      )
+    end
+
+    it 'changes the time zone dropdown when the location is changed' do
+      visit "/events/new"
+
+      select pacific_location.name_with_region, from: "event_location_id"
+      expect(find_field('event_time_zone').value).to match(/Pacific/)
+
+      select eastern_location.name_with_region, from: "event_location_id"
+      expect(find_field('event_time_zone').value).to match(/Eastern/)
+    end
+  end
+
   context 'after clicking "Add another session"', js: true do
     before do
       visit "/events/new"
