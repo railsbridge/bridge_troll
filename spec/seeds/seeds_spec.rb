@@ -29,10 +29,13 @@ describe "#seed_event" do
     assert_no_rows_present
   end
 
-  it "destroys itself when asked to create itself twice" do
+  it "can safely re-seed multiple times" do
     Seeder.seed_event(students_per_level_range: (1..1))
+    Seeder.seed_multiple_location_event
+
     Seeder.seed_event(students_per_level_range: (1..1))
-    expect(Event.count).to eq(1)
+    Seeder.seed_multiple_location_event
+    expect(Event.count).to eq(2)
   end
 
   it 'does not destroy users that get accidentally associated to the event' do

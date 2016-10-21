@@ -5,10 +5,6 @@ module Seeder
     existing_user = User.find_by(email: email)
     return existing_user if existing_user
 
-    create_user(email)
-  end
-
-  def self.create_user email
     user = User.create!(
       email: email,
       password: 'password',
@@ -133,22 +129,22 @@ module Seeder
 
     event.save!
 
-    organizer = create_user('organizer@example.com')
+    organizer = find_or_create_user('organizer@example.com')
     event.organizers << organizer
 
-    coorganizer = create_user('coorganizer@example.com')
+    coorganizer = find_or_create_user('coorganizer@example.com')
     event.organizers << coorganizer
 
-    teacher = create_user('teacher@example.com')
+    teacher = find_or_create_user('teacher@example.com')
     create_volunteer_rsvp(event: event, user: teacher, volunteer_assignment: VolunteerAssignment::TEACHER, class_level: 0)
 
-    ta = create_user('ta@example.com')
+    ta = find_or_create_user('ta@example.com')
     create_volunteer_rsvp(event: event, user: ta, volunteer_assignment: VolunteerAssignment::TA, class_level: 3)
 
     (1..5).each do |level|
       students_in_level = rand(students_per_level_range)
       (1..students_in_level).each do |index|
-        student = create_user("student#{level}-#{index}@example.com")
+        student = find_or_create_user("student#{level}-#{index}@example.com")
         create_student_rsvp(event: event, user: student, class_level: level)
       end
     end
@@ -157,7 +153,7 @@ module Seeder
     event.update_attribute(:student_rsvp_limit, student_count)
 
     (1..student_count/3).each do |index|
-      volunteer = create_user("volunteer#{index}@example.com")
+      volunteer = find_or_create_user("volunteer#{index}@example.com")
       volunteer_class_preference = (0..5).to_a.sample
       create_volunteer_rsvp(event: event,
                             user: volunteer,
@@ -168,7 +164,7 @@ module Seeder
     end
 
     rand(3..6).times do |n|
-      waitlisted = create_user("waitlisted-#{n}@example.com")
+      waitlisted = find_or_create_user("waitlisted-#{n}@example.com")
       create_student_rsvp(event: event, user: waitlisted, class_level: 2, waitlist_position: n)
     end
 
