@@ -1,5 +1,9 @@
 class OrganizationPolicy < ApplicationPolicy
 
+  def create?
+    user && user.admin?
+  end
+
   def manage_organization?
     user && (user.admin? || record.has_leader?(user))
   end

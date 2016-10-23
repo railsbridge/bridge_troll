@@ -23,4 +23,22 @@ describe OrganizationPolicy do
       end
     end
   end
+
+  describe "create?" do
+    describe 'for regular users' do
+      let(:user) { create(:user) }
+
+      it 'is false' do
+        expect(OrganizationPolicy.new(user, nil).create?).to be_falsey
+      end
+    end
+
+    describe 'for admins' do
+      let(:admin) { create(:user, admin: true) }
+
+      it 'is true' do
+        expect(OrganizationPolicy.new(admin, nil).create?).to be_truthy
+      end
+    end
+  end
 end

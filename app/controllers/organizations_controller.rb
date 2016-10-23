@@ -20,6 +20,22 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:id])
   end
 
+  def new
+    authorize Organization, :create?
+    @organization = Organization.new
+  end
+
+  def create
+    authorize Organization, :create?
+    @organization = Organization.new(organization_params)
+
+    if @organization.save
+      redirect_to @organization, notice: 'Organization was successfully created.'
+    else
+      render :new
+    end
+  end
+
   def download_subscriptions
     @organization = Organization.find(params[:organization_id])
     authorize @organization, :manage_organization?
@@ -29,6 +45,12 @@ class OrganizationsController < ApplicationController
     respond_to do |format|
       format.csv { send_data @organization.subscription_csv, filename: filename }
     end
+  end
+
+  private
+
+  def organization_params
+    params.require(:organization).permit(Organization::PERMITTED_ATTRIBUTES)
   end
 
   class ChapterEventLocation

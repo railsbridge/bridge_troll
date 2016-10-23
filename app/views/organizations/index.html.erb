@@ -20,3 +20,11 @@
            locations: @chapter_locations,
            map_class: 'gmaps4rails_bigger_map',
            infowindow_template: 'chapter_infowindow' %>
+
+<% if user_signed_in? %>
+  <% links = [] %>
+  <% if policy(Organization).create? %>
+    <% links << ['Add Organization', new_organization_path] %>
+  <% end %>
+  <%= render 'shared/actions', links: links, additional_class: 'no-margin' %>
+<% end %>
