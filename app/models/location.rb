@@ -67,6 +67,11 @@ class Location < ActiveRecord::Base
     end
   end
 
+  def inferred_time_zone
+    return nil unless latitude && longitude
+    NearestTimeZone.to(latitude, longitude)
+  end
+
   def reset_events_count
     update_column(:events_count, all_events.count)
   end
