@@ -1,7 +1,7 @@
 class SurveysController < ApplicationController
   before_action :authenticate_user!
   before_action :find_event
-  before_action :find_rsvp, except: [:index, :preview]
+  before_action :find_rsvp, only: [:new, :create]
 
   def new
     authorize @rsvp, :survey?
@@ -48,6 +48,10 @@ class SurveysController < ApplicationController
   end
 
   def find_rsvp
-    @rsvp = current_user.rsvps.find_by!(event_id: @event.id)
+    @rsvp = current_user.rsvps.find_by(event_id: @event.id)
+    unless @rsvp
+      flash[:error] = "It looks like you're trying to take the survey for an event you didn't attend. Maybe you're signed in with the wrong account?"
+      redirect_to event_path(@event)
+    end
   end
 end

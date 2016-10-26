@@ -33,10 +33,10 @@ describe SurveysController do
           @rsvp.destroy
         end
 
-        it "shows a 404 error" do
-          expect {
-            get :new, event_id: @event.id, rsvp_id: @destroyed_rsvp_id
-          }.to raise_error(ActiveRecord::RecordNotFound)
+        it "redirects to the event with an error" do
+          get :new, event_id: @event.id, rsvp_id: @destroyed_rsvp_id
+          expect(response).to redirect_to(event_path(@event))
+          expect(flash[:error]).to be_present
         end
       end
 
