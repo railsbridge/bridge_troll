@@ -552,29 +552,9 @@ concepts, like collections and scope.',
       id: 15,
       name: 'Elixir',
       title: 'Elixir and Phoenix',
-      description: 'This is a ElixirBridge event. The focus will be on developing a web application using Elixir and Phoenix. You can find all the curriculum materials at <a href="http://www.elixirbridge.org</a>.',
+      description: 'This is a ElixirBridge event. The focus will be on developing a web application using Elixir and Phoenix.',
       levels: [
         {
-          level: 1,
-          color: 'blue',
-          title: "Totally New to Programming",
-          level_description: [
-              'You have little to no experience with the terminal or a graphical IDE',
-              'You might have done a little bit with HTML or CSS, but not necessarily',
-              'You\'re unfamiliar with terms like functions, arrays, lists, hashes/maps, or dictionaries.'
-          ]
-        },{
-          level: 2,
-          color: 'green',
-          title: "Somewhat New to Programming",
-          level_description: [
-              'You may have used the terminal a little — to change directories, for instance',
-              'You might have done an online programming tutorial or two',
-              'You don\'t have a lot of experience with Elixir or Phoenix',
-              'You know what a function is',
-              'You aren\'t totally clear on how a request gets from the browser to your app'
-          ]
-        }, {
           level: 3,
           color: 'gold',
           title: "Some Elixir/Phoenix Experience",
@@ -584,7 +564,7 @@ concepts, like collections and scope.',
               'You know how to define a function in Elixir',
               'You have a decent handle on slices and maps'
               ]
-          }, {
+        }, {
             level: 4,
             color: 'orange',
             title: "Other Programming Experience",
@@ -593,9 +573,9 @@ concepts, like collections and scope.',
                 'You\'re new to Elixir & Phoenix',
                 'You might be familiar with version control and basic web architecture'
             ]
-          }
-        ]
-      }
+        }
+      ]
+    }
   ]
   enum_accessor :name
 end
