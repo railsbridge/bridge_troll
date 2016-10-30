@@ -32,7 +32,7 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       'click .projector-mode': 'onProjectorModeClick',
       'click .poll-for-changes': 'onPollForChangesClick',
       'click .auto-arrange-choices': 'onAutoArrangeChoicesClick',
-      'click .section-checkin-highlight-legend .dropdown': 'onSectionRsvpHighlightLegendClick',
+      'click .dropdown': 'onDropdownClick',
       'click .section-highlight-link': 'onSectionHighlightLinkClick'
     },
 
@@ -192,13 +192,13 @@ Bridgetroll.Views.SectionOrganizer = (function () {
       choicesView.showModally();
     },
 
-    onSectionRsvpHighlightLegendClick: function (e) {
+    onDropdownClick: function (e) {
       $(e.currentTarget).toggleClass('open');
       return false;
     },
 
     onSectionHighlightLinkClick: function (e) {
-      $('.section-checkin-highlight-legend .dropdown').toggleClass('open');
+      $('.section-checkin-highlight-legend .dropdown').removeClass('open');
       this.selectedSession.set(this.sessions.where({id: $(e.target).data('id')})[0].attributes);
       this.render();
       return false;

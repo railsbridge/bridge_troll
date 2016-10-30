@@ -34,6 +34,20 @@ body.section-organizer-projector-mode {
     button i {
       margin-right: 5px;
     }
+
+    .dropdown {
+      display: inline-block;
+    }
+
+    .dropdown-menu li {
+      width: 100%;
+      margin: 10px 0;
+      a {
+        cursor: pointer;
+        margin: 0;
+        padding: 3px 20px;
+      }
+    }
   }
 }
 
@@ -66,6 +80,7 @@ body.section-organizer-projector-mode {
 
 .student-os-key {
   float: right;
+  clear: both;
 
   .swatch {
     height: 10px;
