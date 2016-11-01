@@ -5,7 +5,7 @@ class Course < ActiveHash::Base
       id: 1,
       name: 'RAILS',
       title: 'Ruby on Rails',
-      description: 'This is a Ruby on Rails event. The focus will be on developing functional web apps and programming in Ruby.  You can find all the curriculum materials at <a href="http://docs.railsbridge.org">docs.railsbridge.org</a>.',
+      description: 'This is a Ruby on Rails event. The focus will be on developing web apps and programming in Ruby.  You can find all the curriculum materials at <a href="http://docs.railsbridge.org">docs.railsbridge.org</a>.',
       levels: [
         {
           level: 1,
@@ -552,7 +552,7 @@ concepts, like collections and scope.',
       id: 15,
       name: 'Elixir',
       title: 'Elixir and Phoenix',
-      description: 'This is a ElixirBridge event. The focus will be on developing a web application using Elixir and Phoenix.',
+      description: 'This is an ElixirBridge event. The focus will be on developing a web application using Elixir and Phoenix.',
       levels: [
         {
           level: 3,
