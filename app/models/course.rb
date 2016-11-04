@@ -575,6 +575,42 @@ concepts, like collections and scope.',
             ]
         }
       ]
+    }, {
+      id: 16,
+      name: 'Learn to Code',
+      title: 'Learn to Code',
+      description: 'This is an introductory event. The focus will be on learning programming fundamentals using Ruby.',
+      levels: [
+        {
+          level: 1,
+          color: 'blue',
+          title: "No Programming Experience",
+          level_description: [
+            'You\'re brand new! You haven\'t done any programming, and that\'s OK!'
+          ]
+        }, {
+          level: 2,
+          color: 'green',
+          title: "Dabbled, Maybe a Little HTML or PHP",
+          level_description: [
+            'You\'ve written some HTML, maybe some CSS, and maybe looked at PHP once or twice.'
+          ]
+        }, {
+          level: 3,
+          color: 'gold',
+          title: "Some Programming Experience, Nothing Formal",
+          level_description: [
+            'Maybe you\'re a front-end developer and written a little JavaScript, or you\'ve written a WordPress plugin.'
+          ]
+        }, {
+          level: 4,
+          color: 'orange',
+          title: 'I\'m a Professional Programmer',
+          level_description: [
+            'You should probably be volunteering instead of attending, but that\'s alright. You can come!'
+          ]
+        }
+      ]
     }
   ]
   enum_accessor :name
