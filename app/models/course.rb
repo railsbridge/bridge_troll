@@ -578,7 +578,7 @@ concepts, like collections and scope.',
     }, {
       id: 16,
       name: 'Learn to Code',
-      title: 'Learn to Code',
+      title: 'Learn to Code with Ruby',
       description: 'This is an introductory event. The focus will be on learning programming fundamentals using Ruby.',
       levels: [
         {
