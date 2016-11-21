@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 describe "New Event" do
-  let(:create_region_and_revisit_page) do
-    @region = create(:region)
-    visit "/events/new"
-  end
-
   let(:fill_in_good_location_details) do
     find('#location_region_id').find(:xpath, 'option[2]').select_option
     fill_in "Name", with: "UChicago"
@@ -20,25 +15,31 @@ describe "New Event" do
     @chapter = create(:chapter)
 
     sign_in_as(@user_organizer)
-
-    visit "/events/new"
   end
 
   it "should pre-fill the event details textarea" do
+    visit "/events/new"
+
     expect(page.find_field('event_details')[:value]).to match(/Workshop Description/)
   end
 
   it "should have a public organizer email field" do
+    visit "/events/new"
+
     label = "What email address should users contact you at with questions?"
     expect(page).to have_field(label)
     expect(page.field_labeled(label)[:value]).to eq("organizer@mail.com")
   end
 
   it "should have the code of conduct checkbox checked" do
+    visit "/events/new"
+
     expect(page).to have_unchecked_field("coc")
   end
 
   it 'changes the code of conduct URL if the chapter-org has a custom one', js: true do
+    visit "/events/new"
+
     custom_coc_org = create(:organization, name: 'CustomCoc', code_of_conduct_url: 'http://example.com/coc')
     create(:chapter, name: 'CustomCocChapter', organization: custom_coc_org)
 
@@ -54,6 +55,8 @@ describe "New Event" do
   end
 
   it "should have appropriate locations available" do
+    visit "/events/new"
+
     live_location = create(:location)
     archived_location = create(:location)
     archived_location.archive!
@@ -66,6 +69,8 @@ describe "New Event" do
   end
 
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do
+    visit "/events/new"
+
     fill_in_good_event_details
 
     check('event_restrict_operating_systems')
@@ -81,50 +86,42 @@ describe "New Event" do
   end
 
   it 'allows organizer to choose when to send their announcement email' do
+    visit "/events/new"
+
     expect(page.find('#event_email_on_approval_true')[:checked]).to eq('checked')
     choose('event_email_on_approval_true')
     choose('event_email_on_approval_false')
   end
 
-  describe "the location form modal" do
-    it "should be contained within the new even page" do
-      expect(page).to have_css('#new-location-modal')
+  describe "the location form modal", js: true do
+    it "should show errors if a location form is invalid" do
+      visit "/events/new"
+
+      click_link "add it"
+      click_button "Create Location"
+
+      expect(page).to have_css('#error_explanation')
     end
 
-    context "after clicking add location link", js: true do
-      before(:each) do 
-        click_link "add it"
-      end
+    it "should accept and add a valid location" do
+      @region = create(:region)
+      visit "/events/new"
 
-      it "should have a form for a new location" do
-        within '.modal-content' do
-          expect(page).to have_content("New Location")
-        end
-      end
+      click_link "add it"
+      fill_in_good_location_details
 
-      it "should show errors if a location form is invalid" do
+      expect {
         click_button "Create Location"
+        expect(page).to have_css('#new-location-modal', visible: :hidden)
+      }.to change(Location, :count).by(1)
 
-        expect(page).to have_css('#error_explanation')
-      end
-
-      it "should accept and add a valid location" do
-        create_region_and_revisit_page
-        click_link "add it"
-        fill_in_good_location_details
-
-        expect {
-          click_button "Create Location"
-          expect(page).to have_css('#new-location-modal', visible: :hidden)
-        }.to change(Location, :count).by(1)
-
-        expect(page.all('select#event_location_id option').map(&:text)).to include("UChicago (#{@region.name})")
-      end
+      expect(page.all('select#event_location_id option').map(&:text)).to include("UChicago (#{@region.name})")
     end
   end
 
   context 'after clicking "Add another session"', js: true do
     before do
+      visit "/events/new"
       click_on 'Add another session'
     end
 
@@ -170,6 +167,8 @@ describe "New Event" do
 
   context 'submit form', js: true do
     it 'requires code of conduct to be checked, and preserves checked-ness on error' do
+      visit "/events/new"
+
       expect(page).to have_button 'Submit Event For Approval', disabled: true
       expect(page).to have_unchecked_field('coc')
       check("coc")
@@ -181,6 +180,8 @@ describe "New Event" do
     end
 
     it 'allows a draft to be saved' do
+      visit "/events/new"
+
       fill_in_good_event_details
       choose('event_email_on_approval_false')
       expect(page).to have_button 'Save Draft'
