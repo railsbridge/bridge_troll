@@ -13,7 +13,6 @@ describe 'Locations' do
       expect(page).to have_content(@my_location.address_1)
       expect(page).to have_content(@my_location.city)
       expect(page).to have_content(@my_location.state)
-      expect(page).to have_content(@my_location.zip)
     end
 
     it "with the most recent event date" do
