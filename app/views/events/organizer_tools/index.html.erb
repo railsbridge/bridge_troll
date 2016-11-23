@@ -20,11 +20,9 @@
       <%= render partial: 'events/organizer_preworkshop_buttons' %>
     </section>
 
-    <% if @event.has_childcare? %>
-      <section class='organizer-dashboard-section bordered'>
-        <%= render partial: 'childcare_requests' %>
-      </section>
-    <% end %>
+    <section class='organizer-dashboard-section bordered'>
+      <%= render partial: 'childcare_requests' %>
+    </section>
 
     <section class='organizer-dashboard-section bordered'>
       <%= render partial: 'checkin_counts' %>
@@ -59,7 +57,6 @@
         title to the section.'
       } %>
     </section>
-
 
     <h2>Tools for after the event</h2>
     <p>We encourage you to send this quick survey to everyone who participated.</p>

@@ -1,4 +1,7 @@
 <h3>Childcare Requests</h3>
+<% if !@event.has_childcare %>
+  Childcare sign ups are currently disabled.
+<% end %>
 <% if @childcare_requests.length > 0 %>
   <table class="table responsive-table">
     <thead>
