@@ -6,7 +6,7 @@ FactoryGirl.define do
     sequence(:email) { |n| "example#{n}@example.com" }
     confirmed_at DateTime.now
     password "password"
-    
+
     factory :admin do
       admin true
     end
@@ -74,10 +74,6 @@ FactoryGirl.define do
     sequence(:name) { |n| "Test Session #{n}" }
     starts_at 1.day.from_now
     ends_at { starts_at + 6.hours }
-  end
-
-  factory :role do
-    sequence(:title) { "Teacher Level #{n}" }
   end
 
   factory :rsvp, aliases: [:volunteer_rsvp] do
