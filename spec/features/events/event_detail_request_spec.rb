@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "the individual event page" do
+describe "the event detail page" do
   let(:rsvp_actions_selector) { '.rsvp-actions' }
   before do
     @event = create(:event, public_email: "public_email@example.org")
