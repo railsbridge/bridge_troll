@@ -5,6 +5,7 @@ class AdminPagesController < ApplicationController
     authorize Event, :admin?
     @admins = User.where(admin: true)
     @publishers = User.where(publisher: true)
+    @external_event_editors = User.where(external_event_editor: true)
 
     @user_authentication_counts = Hash.new(0)
     User.find_each do |user|

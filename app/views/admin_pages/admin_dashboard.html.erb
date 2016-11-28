@@ -20,6 +20,16 @@
   </ul>
 </div>
 
+<h2>Who can add external events?</h2>
+<div>
+  Your Bridge Troll external event editors are all the above admins plus these <%= pluralize(@external_event_editors.count, "people") %>:
+  <ul>
+    <% @external_event_editors.each do |external_event_editor| %>
+      <li><%= link_to external_event_editor.full_name, user_profile_path(external_event_editor) %></li>
+    <% end %>
+  </ul>
+</div>
+
 <h2># of authentication providers set up</h2>
 
 <strong><%= User.where('encrypted_password != ?', '').count %></strong> out of <%= User.count %> users have set up a password to log in to Bridge Troll.
