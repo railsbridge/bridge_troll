@@ -12,6 +12,16 @@
 
 <script>
   window.whenReady(function () {
+    function createLink(params) {
+      var link = document.createElement('a');
+      link.setAttribute('href', params.url);
+      link.innerHTML = params.text;
+      if (params.cssClass) {
+        link.classList.add(params.cssClass);
+      }
+      return link.outerHTML;
+    }
+
     $('#past-events-table').DataTable({
       paging: true,
       pageLength: 10,
@@ -29,7 +39,26 @@
         targets: 0,
         render: function ( data, type, row ) {
           if (row.url) {
-            return "<a href='" + row.url + "'>" + row.title + "</a>";
+            var parts = [createLink({
+              url: row.url,
+              text: row.title
+            })];
+            if (row.external_event_data &&
+                row.external_event_data.hasOwnProperty('student_event') &&
+                row.external_event_data.hasOwnProperty('volunteer_event')) {
+              var externalEventData = row.external_event_data;
+              parts.push(createLink({
+                url: externalEventData.student_event.url,
+                text: '[S]',
+                cssClass: 'external-link'
+              }));
+              parts.push(createLink({
+                url: externalEventData.volunteer_event.url,
+                text: '[V]',
+                cssClass: 'external-link'
+              }));
+            }
+            return parts.join(' ');
           } else {
             return row.title;
           }

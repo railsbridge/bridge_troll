@@ -62,6 +62,7 @@ class EventList
         url: event.is_a?(Event) ? "/events/#{event.id}" : event.to_linkable,
         location_name: event.location_name,
         location_city_and_state: event.location_city_and_state,
+        external_event_data: event.external_event_data,
         date: I18n.localize(event.date_in_time_zone(:starts_at), format: :date_as_day_mdy)
       }
     end
