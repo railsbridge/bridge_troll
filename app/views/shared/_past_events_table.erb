@@ -16,10 +16,16 @@
       var link = document.createElement('a');
       link.setAttribute('href', params.url);
       link.innerHTML = params.text;
-      if (params.cssClass) {
-        link.classList.add(params.cssClass);
-      }
       return link.outerHTML;
+    }
+
+    function createButton(text, attributes) {
+      var button = document.createElement('button');
+      button.innerHTML = text;
+      _.each(attributes, function (value, key) {
+        button.setAttribute(key, value);
+      });
+      return button.outerHTML;
     }
 
     $('#past-events-table').DataTable({
@@ -35,6 +41,9 @@
         { data: 'location_name' },
         { data: 'location_city_and_state' }
       ],
+      createdRow: function( row, data, dataIndex ) {
+        $(row).find('[data-toggle="popover"]').popover();
+      },
       columnDefs: [{
         targets: 0,
         render: function ( data, type, row ) {
@@ -43,19 +52,19 @@
               url: row.url,
               text: row.title
             })];
-            if (row.external_event_data &&
-                row.external_event_data.hasOwnProperty('student_event') &&
-                row.external_event_data.hasOwnProperty('volunteer_event')) {
-              var externalEventData = row.external_event_data;
-              parts.push(createLink({
-                url: externalEventData.student_event.url,
-                text: '[S]',
-                cssClass: 'external-link'
-              }));
-              parts.push(createLink({
-                url: externalEventData.volunteer_event.url,
-                text: '[V]',
-                cssClass: 'external-link'
+            if (row.external_event_data) {
+              var popoverContent = HandlebarsTemplates['imported_event_popover']({
+                type: row.external_event_data.type,
+                student_event_url: row.external_event_data.student_event.url,
+                volunteer_event_url: row.external_event_data.volunteer_event.url
+              });
+              parts.push(createButton('?', {
+                'data-toggle': "popover",
+                'data-title': "Imported Event",
+                'data-trigger': 'focus',
+                'data-content': popoverContent,
+                'data-html': true,
+                'class': 'external-link'
               }));
             }
             return parts.join(' ');
