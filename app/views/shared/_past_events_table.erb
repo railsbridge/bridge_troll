@@ -42,7 +42,9 @@
         { data: 'location_city_and_state' }
       ],
       createdRow: function( row, data, dataIndex ) {
-        $(row).find('[data-toggle="popover"]').popover();
+        $(row).find('[data-toggle="popover"]')
+            .popover()
+            .on("show.bs.popover", function () { $(this).data("bs.popover").tip().css({maxWidth: "320px"}) });
       },
       columnDefs: [{
         targets: 0,
@@ -64,7 +66,7 @@
                 'data-trigger': 'focus',
                 'data-content': popoverContent,
                 'data-html': true,
-                'class': 'external-link'
+                'class': 'imported-event-popover-trigger'
               }));
             }
             return parts.join(' ');

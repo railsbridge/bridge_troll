@@ -253,6 +253,20 @@ ul.bulleted {
   color: darkgrey;
 }
 
+.imported-event-popover-trigger {
+  border-radius: 50%;
+  background: #eee;
+  border: 1px solid #777;
+  width: 20px;
+  height: 20px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.imported-event-popover-content {
+  min-width: 600px;
+}
+
 .gmaps4rails_map {
   height: 300px;
 }
