@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161002052810) do
+ActiveRecord::Schema.define(version: 20161204040052) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -113,7 +113,7 @@ ActiveRecord::Schema.define(version: 20161002052810) do
     t.text     "survey_greeting"
     t.datetime "announcement_email_sent_at"
     t.integer  "current_state",                  default: 0
-    t.string   "external_event_data"
+    t.string   "imported_event_data"
     t.integer  "chapter_id",                                     null: false
   end
 

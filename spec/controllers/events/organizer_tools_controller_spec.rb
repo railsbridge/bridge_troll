@@ -46,7 +46,7 @@ describe Events::OrganizerToolsController do
 
       context "historical event" do
         it "redirects" do
-          external_event_data = {
+          imported_event_data = {
             type: 'meetup',
             student_event: {
               id: 901,
@@ -56,7 +56,7 @@ describe Events::OrganizerToolsController do
               url: 'http://example.com/901'
             }
           }
-          event.update_attributes(external_event_data: external_event_data)
+          event.update_attributes(imported_event_data: imported_event_data)
 
           make_request
           expect(response).to be_redirect

@@ -15,7 +15,7 @@ describe MeetupImporter do
     let(:bridgetroll_user) { create(:user) }
 
     before do
-      external_event_data = {
+      imported_event_data = {
         type: 'meetup',
         student_event: {
           id: volunteer_event_id,
@@ -26,7 +26,7 @@ describe MeetupImporter do
         }
       }
 
-      @event = create(:event, external_event_data: external_event_data)
+      @event = create(:event, imported_event_data: imported_event_data)
 
       @sven_model = create(:meetup_user, full_name: sven[:name], meetup_id: sven[:id])
       create(:rsvp, user: @sven_model, event: @event)

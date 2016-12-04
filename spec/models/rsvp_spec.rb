@@ -74,7 +74,7 @@ describe Rsvp do
 
   describe '#no_show?' do
     it 'is always false for a historical rsvp' do
-      external_event_data = {
+      imported_event_data = {
         type: 'meetup',
         student_event: {
           id: 901,
@@ -85,7 +85,7 @@ describe Rsvp do
         }
       }
 
-      historical_event = create(:event, external_event_data: external_event_data)
+      historical_event = create(:event, imported_event_data: imported_event_data)
 
       rsvp = create(:rsvp, user: create(:meetup_user), event: historical_event)
       expect(rsvp).not_to be_no_show

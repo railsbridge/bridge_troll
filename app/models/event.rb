@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   DEFAULT_CODE_OF_CONDUCT_URL = 'http://bridgefoundry.org/code-of-conduct/'
 
   serialize :allowed_operating_system_ids, JSON
-  serialize :external_event_data, JSON
+  serialize :imported_event_data, JSON
   enum current_state: [ :draft, :pending_approval, :published ]
   validates :current_state, inclusion: { in: Event.current_states.keys }
 
@@ -107,7 +107,7 @@ class Event < ActiveRecord::Base
   end
 
   def historical?
-    !!external_event_data
+    !!imported_event_data
   end
 
   def close_rsvps

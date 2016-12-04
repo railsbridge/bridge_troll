@@ -349,7 +349,7 @@ describe Event do
 
     context "when the event has no limit (historical events)" do
       let(:event) do
-        external_event_data = {
+        imported_event_data = {
           type: 'meetup',
           student_event: {
             id: 901,
@@ -359,7 +359,7 @@ describe Event do
             url: 'http://example.com/901'
           }
         }
-        create(:event, student_rsvp_limit: nil, external_event_data: external_event_data)
+        create(:event, student_rsvp_limit: nil, imported_event_data: imported_event_data)
       end
 
       it 'is false' do
@@ -381,7 +381,7 @@ describe Event do
 
     context "when the event has no limit (historical events)" do
       let(:event) do
-        external_event_data = {
+        imported_event_data = {
           type: 'meetup',
           student_event: {
             id: 901,
@@ -391,7 +391,7 @@ describe Event do
             url: 'http://example.com/901'
           }
         }
-        create(:event, volunteer_rsvp_limit: nil, external_event_data: external_event_data)
+        create(:event, volunteer_rsvp_limit: nil, imported_event_data: imported_event_data)
       end
 
       it 'is false' do
@@ -413,7 +413,7 @@ describe Event do
 
     context "when the event has no limit (historical events)" do
       let(:event) do
-        external_event_data = {
+        imported_event_data = {
           type: 'meetup',
           student_event: {
             id: 901,
@@ -423,7 +423,7 @@ describe Event do
             url: 'http://example.com/901'
           }
         }
-        create(:event, volunteer_rsvp_limit: nil, external_event_data: external_event_data)
+        create(:event, volunteer_rsvp_limit: nil, imported_event_data: imported_event_data)
       end
 
       it 'is false' do

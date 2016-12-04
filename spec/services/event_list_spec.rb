@@ -52,8 +52,8 @@ describe EventList do
 
     let!(:event) { create(:event) }
     let!(:meetup_event) do
-      external_event_data = {'student_event' => {'url' => meetup_event_url}}
-      create(:event, external_event_data: external_event_data)
+      imported_event_data = {'student_event' => {'url' => meetup_event_url}}
+      create(:event, imported_event_data: imported_event_data)
     end
     let!(:external_event) { create(:external_event) }
 

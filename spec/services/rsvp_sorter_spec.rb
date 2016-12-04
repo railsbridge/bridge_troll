@@ -58,7 +58,7 @@ describe RsvpSorter do
 
   context 'for an event imported from meetup' do
     before do
-      external_event_data = {
+      imported_event_data = {
         type: 'meetup',
         student_event: {
           id: 90210,
@@ -69,7 +69,7 @@ describe RsvpSorter do
         }
       }
 
-      event.update_attributes(external_event_data: external_event_data)
+      event.update_attributes(imported_event_data: imported_event_data)
 
       @meetup_rsvps = []
       @bridgetroll_rsvps = []

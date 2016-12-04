@@ -65,8 +65,8 @@ class EventCsvReporter
 
     def url
       if event.is_a?(Event)
-        if event.external_event_data
-          event.external_event_data['student_event']['url']
+        if event.imported_event_data
+          event.imported_event_data['student_event']['url']
         else
           "https://#{ENV['CANONICAL_HOST']}/events/#{event.id}"
         end

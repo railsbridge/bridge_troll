@@ -228,7 +228,7 @@ describe "the event detail page" do
 
   context "historical (meetup) events" do
     before do
-      external_event_data = {
+      imported_event_data = {
         type: 'meetup',
         student_event: {
           id: 901,
@@ -238,7 +238,7 @@ describe "the event detail page" do
           url: 'http://example.com/901'
         }
       }
-      @event.update_attributes(student_rsvp_limit: nil, external_event_data: external_event_data)
+      @event.update_attributes(student_rsvp_limit: nil, imported_event_data: imported_event_data)
     end
 
     it 'does not render rsvp actions' do

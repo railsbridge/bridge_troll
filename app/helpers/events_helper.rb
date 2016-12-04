@@ -81,9 +81,9 @@ module EventsHelper
 
   def external_links(event)
     links = []
-    if event.external_event_data
-      links << link_to("[S]", event.external_event_data['student_event']['url'], class: 'external-link').html_safe
-      links << link_to("[V]", event.external_event_data['volunteer_event']['url'], class: 'external-link').html_safe
+    if event.imported_event_data
+      links << link_to("[S]", event.imported_event_data['student_event']['url'], class: 'external-link').html_safe
+      links << link_to("[V]", event.imported_event_data['volunteer_event']['url'], class: 'external-link').html_safe
     end
     links.join("\n").html_safe
   end

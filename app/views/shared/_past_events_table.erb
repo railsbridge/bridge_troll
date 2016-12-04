@@ -54,11 +54,11 @@
               url: row.url,
               text: row.title
             })];
-            if (row.external_event_data) {
+            if (row.imported_event_data) {
               var popoverContent = HandlebarsTemplates['imported_event_popover']({
-                type: row.external_event_data.type,
-                student_event_url: row.external_event_data.student_event.url,
-                volunteer_event_url: row.external_event_data.volunteer_event.url
+                type: row.imported_event_data.type,
+                student_event_url: row.imported_event_data.student_event.url,
+                volunteer_event_url: row.imported_event_data.volunteer_event.url
               });
               parts.push(createButton('?', {
                 'data-toggle': "popover",

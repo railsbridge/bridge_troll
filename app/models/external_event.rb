@@ -19,7 +19,7 @@ class ExternalEvent < ActiveRecord::Base
     name
   end
 
-  def external_event_data
+  def imported_event_data
     false
   end
 
