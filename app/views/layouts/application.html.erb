@@ -49,6 +49,8 @@
       <%= yield %>
     </div>
     <footer class="hide"><div class="trollholder"><%= image_tag asset_path('troll.svg'), alt: '' %></div></footer>
-   <%= render 'shared/sign_in_dialog' %>
+    <% unless current_user %>
+      <%= render 'shared/sign_in_dialog' %>
+    <% end %>
   </body>
 </html>
