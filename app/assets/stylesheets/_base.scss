@@ -254,13 +254,20 @@ ul.bulleted {
 }
 
 .imported-event-popover-trigger {
+  margin-left: 5px;
+  @include font-amble-regular;
+  font-size: 16px;
   border-radius: 50%;
   background: #eee;
+  display: inline-block;
   border: 1px solid #777;
   width: 20px;
   height: 20px;
   line-height: 16px;
   text-align: center;
+  &, &:hover {
+    color: black;
+  }
 }
 
 .imported-event-popover-content {

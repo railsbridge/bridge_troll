@@ -1,5 +1,17 @@
 <%= content_for(:header_text, @event.title) %>
 
+<% if @event.historical? %>
+  <script>
+    whenReady(function () {
+      var importedEventTrigger = ImportedEventPopover.createPopoverTrigger(
+        <%= @event.imported_event_data.to_json.html_safe %>
+      );
+      $('.header-container h1').append(importedEventTrigger);
+      ImportedEventPopover.activatePopoverTrigger('.header-container h1');
+    });
+  </script>
+<% end %>
+
 <% if @can_edit || @checkiner %>
   <div class="organizer-breadcrumb">
     <%= event_special_permissions_text(@event, @can_edit ? :editor : :checkiner) %>

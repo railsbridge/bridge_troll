@@ -19,15 +19,6 @@
       return link.outerHTML;
     }
 
-    function createButton(text, attributes) {
-      var button = document.createElement('button');
-      button.innerHTML = text;
-      _.each(attributes, function (value, key) {
-        button.setAttribute(key, value);
-      });
-      return button.outerHTML;
-    }
-
     $('#past-events-table').DataTable({
       paging: true,
       pageLength: 10,
@@ -42,9 +33,7 @@
         { data: 'location_city_and_state' }
       ],
       createdRow: function( row, data, dataIndex ) {
-        $(row).find('[data-toggle="popover"]')
-            .popover()
-            .on("show.bs.popover", function () { $(this).data("bs.popover").tip().css({maxWidth: "320px"}) });
+        ImportedEventPopover.activatePopoverTrigger(row);
       },
       columnDefs: [{
         targets: 0,
@@ -55,19 +44,7 @@
               text: row.title
             })];
             if (row.imported_event_data) {
-              var popoverContent = HandlebarsTemplates['imported_event_popover']({
-                type: row.imported_event_data.type,
-                student_event_url: row.imported_event_data.student_event.url,
-                volunteer_event_url: row.imported_event_data.volunteer_event.url
-              });
-              parts.push(createButton('?', {
-                'data-toggle': "popover",
-                'data-title': "Imported Event",
-                'data-trigger': 'focus',
-                'data-content': popoverContent,
-                'data-html': true,
-                'class': 'imported-event-popover-trigger'
-              }));
+              parts.push(ImportedEventPopover.createPopoverTrigger(row.imported_event_data));
             }
             return parts.join(' ');
           } else {
