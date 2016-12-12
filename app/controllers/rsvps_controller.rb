@@ -121,7 +121,7 @@ class RsvpsController < ApplicationController
 
   def rsvp_params
     role_id = params[:rsvp][:role_id].to_i
-    params.require(:rsvp).permit(Rsvp::PERMITTED_ATTRIBUTES + [
+    params.require(:rsvp).permit(policy(Rsvp).permitted_attributes + [
       event_session_ids: [], dietary_restriction_diets: []
     ]).tap do |params|
       if role_id == Role::STUDENT.id

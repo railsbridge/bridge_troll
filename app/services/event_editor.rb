@@ -67,8 +67,8 @@ class EventEditor
   private
 
   def event_params(event = nil)
-    permitted = Event::PERMITTED_ATTRIBUTES.dup
-    permitted << {event_sessions_attributes: EventSession::PERMITTED_ATTRIBUTES + [:id]}
+    permitted = EventPolicy.new(current_user, Event).permitted_attributes.dup
+    permitted << {event_sessions_attributes: EventSessionPolicy.new(current_user, EventSession).permitted_attributes + [:id]}
     permitted << {allowed_operating_system_ids: []}
 
     derived_params = {}

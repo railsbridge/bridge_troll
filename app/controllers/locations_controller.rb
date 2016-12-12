@@ -66,7 +66,7 @@ class LocationsController < ApplicationController
   private
 
   def location_params
-    attributes = Location::PERMITTED_ATTRIBUTES
+    attributes = policy(Location).permitted_attributes
     attributes = attributes + [:contact_info, :notes] if @location && policy(@location).edit_additional_details?
     params.require(:location).permit(attributes)
   end

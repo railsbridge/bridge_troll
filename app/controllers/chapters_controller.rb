@@ -72,7 +72,7 @@ class ChaptersController < ApplicationController
   private
 
   def chapter_params
-    params.require(:chapter).permit(Chapter::PERMITTED_ATTRIBUTES)
+    permitted_attributes(Chapter)
   end
 
   def assign_chapter

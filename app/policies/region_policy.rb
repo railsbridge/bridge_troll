@@ -6,4 +6,10 @@ class RegionPolicy < ApplicationPolicy
   def modify_leadership?
     record.has_leader?(user)
   end
+
+  def permitted_attributes
+    [
+      :name
+    ]
+  end
 end

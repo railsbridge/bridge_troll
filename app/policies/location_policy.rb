@@ -19,4 +19,16 @@ class LocationPolicy < ApplicationPolicy
   def edit_additional_details?
     record.region&.has_leader?(user)
   end
+
+  def permitted_attributes
+    [
+      :name,
+      :address_1,
+      :address_2,
+      :city,
+      :state,
+      :zip,
+      :region_id
+    ]
+  end
 end

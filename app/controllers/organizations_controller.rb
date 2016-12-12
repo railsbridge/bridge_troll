@@ -50,7 +50,7 @@ class OrganizationsController < ApplicationController
   private
 
   def organization_params
-    params.require(:organization).permit(Organization::PERMITTED_ATTRIBUTES)
+    permitted_attributes(Organization)
   end
 
   class ChapterEventLocation

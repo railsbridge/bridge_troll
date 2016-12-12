@@ -40,7 +40,7 @@ class SurveysController < ApplicationController
   private
 
   def survey_params
-    params.require(:survey).permit(Survey::PERMITTED_ATTRIBUTES)
+    permitted_attributes(Survey)
   end
 
   def find_event

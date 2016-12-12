@@ -1,6 +1,4 @@
 class Section < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:name, :class_level]
-
   belongs_to :event
   has_many :rsvps, dependent: :nullify
 

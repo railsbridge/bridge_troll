@@ -50,6 +50,6 @@ class ExternalEventsController < ApplicationController
   private
 
   def external_event_params
-    params.require(:external_event).permit(ExternalEvent::PERMITTED_ATTRIBUTES)
+    permitted_attributes(ExternalEvent)
   end
 end

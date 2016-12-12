@@ -1,6 +1,4 @@
 class Chapter < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:name, :organization_id]
-
   belongs_to :organization, inverse_of: :chapters
   has_many :events
   has_many :external_events

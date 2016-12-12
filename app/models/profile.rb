@@ -1,6 +1,4 @@
 class Profile < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:childcaring, :designing, :outreach, :linux, :macosx, :mentoring, :other, :windows, :writing, :bio, :github_username, :twitter_username]
-
   belongs_to :user, inverse_of: :profile
 
   after_initialize :remove_at_from_twitter_username

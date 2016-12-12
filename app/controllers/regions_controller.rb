@@ -75,7 +75,7 @@ class RegionsController < ApplicationController
   private
 
   def region_params
-    params.require(:region).permit(Region::PERMITTED_ATTRIBUTES)
+    permitted_attributes(Region)
   end
 
   def assign_region

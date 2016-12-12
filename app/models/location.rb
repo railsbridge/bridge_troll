@@ -1,6 +1,4 @@
 class Location < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:name, :address_1, :address_2, :city, :state, :zip, :region_id]
-
   scope :available, -> { where(archived_at: nil) }
   has_many :events
   belongs_to :region, counter_cache: true

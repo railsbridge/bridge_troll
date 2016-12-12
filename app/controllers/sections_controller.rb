@@ -38,6 +38,6 @@ class SectionsController < ApplicationController
   end
 
   def section_params
-    params.require(:section).permit(Section::PERMITTED_ATTRIBUTES)
+    permitted_attributes(Section)
   end
 end

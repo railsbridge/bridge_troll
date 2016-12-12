@@ -1,8 +1,6 @@
 class EventSession < ActiveRecord::Base
   include PresenceTrackingBoolean
 
-  PERMITTED_ATTRIBUTES = [:starts_at, :ends_at, :name, :required_for_students, :volunteers_only, :location_overridden, :location_id]
-
   belongs_to :location, required: false
 
   validates_presence_of :starts_at, :ends_at, :name

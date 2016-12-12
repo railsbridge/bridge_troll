@@ -1,6 +1,4 @@
 class Region < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:name]
-
   has_many :locations, dependent: :nullify
   has_many :events, through: :locations
   has_many :external_events

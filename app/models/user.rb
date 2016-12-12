@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :time_zone, :gender, :allow_event_email]
-
   before_validation :build_profile, on: :create
 
   devise :database_authenticatable, :registerable, :omniauthable,

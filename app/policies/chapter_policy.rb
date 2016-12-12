@@ -18,4 +18,11 @@ class ChapterPolicy < ApplicationPolicy
   def modify_leadership?
     update?
   end
+
+  def permitted_attributes
+    [
+      :name,
+      :organization_id
+    ]
+  end
 end

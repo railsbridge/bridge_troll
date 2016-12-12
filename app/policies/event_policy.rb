@@ -45,4 +45,29 @@ class EventPolicy < ApplicationPolicy
   def admin?
     user.admin?
   end
+
+  def permitted_attributes
+    [
+      :title,
+      :target_audience,
+      :location_id,
+      :chapter_id,
+      :details,
+      :time_zone,
+      :volunteer_details,
+      :public_email,
+      :starts_at,
+      :ends_at,
+      :student_rsvp_limit,
+      :volunteer_rsvp_limit,
+      :course_id,
+      :allow_student_rsvp,
+      :student_details,
+      :plus_one_host_toggle,
+      :email_on_approval,
+      :has_childcare,
+      :restrict_operating_systems,
+      :survey_greeting
+    ]
+  end
 end

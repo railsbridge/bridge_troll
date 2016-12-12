@@ -1,8 +1,6 @@
 require 'csv'
 
 class Organization < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:name]
-
   has_many :chapters, dependent: :destroy, inverse_of: :organization
   has_many :leaders, through: :organization_leaderships, source: :user
   has_many :organization_leaderships, dependent: :destroy
