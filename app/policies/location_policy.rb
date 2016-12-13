@@ -21,7 +21,7 @@ class LocationPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [
+    attributes = [
       :name,
       :address_1,
       :address_2,
@@ -30,5 +30,12 @@ class LocationPolicy < ApplicationPolicy
       :zip,
       :region_id
     ]
+    if edit_additional_details?
+      attributes += [
+        :contact_info,
+        :notes
+      ]
+    end
+    attributes
   end
 end

@@ -9,7 +9,13 @@ class UserPolicy < ApplicationPolicy
       :remember_me,
       :time_zone,
       :gender,
-      :allow_event_email
+      :allow_event_email,
+      :current_password,
+      {
+        region_ids: [],
+        subscribed_organization_ids: [],
+        profile_attributes: ProfilePolicy.new(user, Profile).permitted_attributes
+      }
     ]
   end
 end

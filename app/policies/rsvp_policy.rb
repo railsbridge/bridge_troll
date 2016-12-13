@@ -16,7 +16,11 @@ class RsvpPolicy < ApplicationPolicy
       :class_level,
       :dietary_info,
       :needs_childcare,
-      :plus_one_host
+      :plus_one_host,
+      {
+        event_session_ids: [],
+        dietary_restriction_diets: []
+      }
     ]
   end
 end
