@@ -33,29 +33,48 @@ class Event < ActiveRecord::Base
   has_many :sections, dependent: :destroy
   has_many :event_emails, dependent: :destroy
 
-  has_many :attendee_rsvps, -> { where(role_id: Role.attendee_role_ids, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
+  with_options(class_name: 'Rsvp', inverse_of: :event) do
+    has_many :attendee_rsvps, -> {
+      where(role_id: Role.attendee_role_ids, waitlist_position: nil)
+    }
+    has_many :student_rsvps, -> {
+      where(role_id: Role::STUDENT.id, waitlist_position: nil)
+    }
+    has_many :volunteer_rsvps, -> {
+      where(role_id: Role::VOLUNTEER.id, waitlist_position: nil)
+    }
+    has_many :student_waitlist_rsvps, -> {
+      where(role_id: Role::STUDENT.id).where.not(waitlist_position: nil).order(:waitlist_position)
+    }
+    has_many :volunteer_waitlist_rsvps, -> {
+      where(role_id: Role::VOLUNTEER.id).where.not(waitlist_position: nil).order(:waitlist_position)
+    }
+    has_many :organizer_rsvps, -> {
+      where(role_id: Role::ORGANIZER.id)
+    }
+  end
 
-  has_many :student_rsvps, -> { where(role_id: Role::STUDENT.id, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
-  has_many :student_waitlist_rsvps, -> { where("role_id = #{Role::STUDENT.id} AND waitlist_position IS NOT NULL").order(:waitlist_position) }, class_name: 'Rsvp', inverse_of: :event
-  has_many :students, through: :student_rsvps, source: :user, source_type: 'User'
-  has_many :legacy_students, through: :student_rsvps, source: :user, source_type: 'MeetupUser'
+  with_options(source: :user, source_type: 'User') do
+    has_many :students, through: :student_rsvps
+    has_many :volunteers, through: :volunteer_rsvps
+    has_many :organizers, through: :organizer_rsvps
+  end
 
-  has_many :volunteer_rsvps, -> { where(role_id: Role::VOLUNTEER.id, waitlist_position: nil) }, class_name: 'Rsvp', inverse_of: :event
-  has_many :volunteer_waitlist_rsvps, -> { where("role_id = #{Role::VOLUNTEER.id} AND waitlist_position IS NOT NULL").order(:waitlist_position) }, class_name: 'Rsvp', inverse_of: :event
-  has_many :volunteers, through: :volunteer_rsvps, source: :user, source_type: 'User'
-  has_many :legacy_volunteers, through: :volunteer_rsvps, source: :user, source_type: 'MeetupUser'
-
-  has_many :organizer_rsvps, -> { where(role_id: Role::ORGANIZER.id) }, class_name: 'Rsvp', inverse_of: :event
-  has_many :organizers, through: :organizer_rsvps, source: :user, source_type: 'User'
-  has_many :legacy_organizers, through: :organizer_rsvps, source: :user, source_type: 'MeetupUser'
+  with_options(source: :user, source_type: 'MeetupUser') do
+    has_many :legacy_students, through: :student_rsvps
+    has_many :legacy_volunteers, through: :volunteer_rsvps
+    has_many :legacy_organizers, through: :organizer_rsvps
+  end
 
   has_many :event_sessions, -> { order('ends_at ASC') }, dependent: :destroy, inverse_of: :event
   accepts_nested_attributes_for :event_sessions, allow_destroy: true
   validates :event_sessions, length: { minimum: 1 }
 
-  has_many :surveys, through: :rsvps, source: :survey
-  has_many :student_surveys, -> { where('rsvps.role_id = ?', Role::STUDENT.id) }, through: :rsvps, source: :survey
-  has_many :volunteer_surveys, -> { where('rsvps.role_id = ?', Role::VOLUNTEER.id) }, through: :rsvps, source: :survey
+  with_options(through: :rsvps, source: :survey) do
+    has_many :surveys
+    has_many :student_surveys, -> { where('rsvps.role_id = ?', Role::STUDENT.id) }
+    has_many :volunteer_surveys, -> { where('rsvps.role_id = ?', Role::VOLUNTEER.id) }
+  end
 
   validates_presence_of :title
   validates_presence_of :time_zone
