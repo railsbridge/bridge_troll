@@ -36,6 +36,33 @@ describe "the event listing page" do
     expect(page).to have_content("January 31, #{next_year}")
   end
 
+  describe 'when an upcoming event has many sessions' do
+    it "shows sessions in date order" do
+      event = create(:event,
+                     location_id: nil,
+                     title: 'mytitle2',
+                     time_zone: 'Pacific Time (US & Canada)')
+      create(:event_session, event: event)
+
+      session1, session2 = event.event_sessions.to_a
+      session1.update_attributes(
+        name: 'SecondSession',
+        starts_at: 10.days.from_now,
+        ends_at: 11.days.from_now
+      )
+      session2.update_attributes(
+        name: 'FirstSession',
+        starts_at: 5.days.from_now,
+        ends_at: 6.days.from_now
+      )
+
+      visit events_path
+      within '.event-times' do
+        expect(page).to have_content(/FirstSession.*SecondSession/)
+      end
+    end
+  end
+
   describe "the past events table", js: true do
     before do
       event = create(:event, title: 'InternalPastBridge', time_zone: 'Alaska')
