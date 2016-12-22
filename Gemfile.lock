@@ -355,7 +355,7 @@ DEPENDENCIES
   bower-rails
   bullet
   byebug
-  capybara (>= 2.0.1)
+  capybara
   capybara-screenshot
   coffee-rails
   devise (~> 4.2.0)
