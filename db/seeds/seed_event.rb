@@ -54,6 +54,7 @@ module Seeder
       chapter.destroy if chapter.events.count == 1
       event.location.destroy
     end
+    event.course.destroy if event.course.events.count == 1
     event.destroy
   end
 
@@ -63,7 +64,13 @@ module Seeder
     destroy_event(old_event) if old_event.present?
 
     chapter = Chapter.where(name: 'RailsBridge San Francisco').first_or_create!
-
+    course = Course.find_by_name('RAILS')
+    unless course
+      course = Course.new(id: 1,
+                          name: 'RAILS',
+                          title: 'Ruby on Rails',
+                          description: 'This is a Ruby on Rails event. The focus will be on developing functional web apps and programming in Ruby.  You can find all the curriculum materials at <a href="http://docs.railsbridge.org">docs.railsbridge.org</a>.')
+    end
     location = Location.create!(
       chapter_id: chapter.id,
       name: "Sutro Tower",
@@ -79,7 +86,7 @@ module Seeder
       title: 'Seeded Test Event',
       student_rsvp_limit: 5,
       time_zone: 'Pacific Time (US & Canada)',
-      course_id: Course::RAILS.id,
+      course: course,
       location: location,
       published: true,
       target_audience: 'women',
@@ -114,7 +121,6 @@ module Seeder
     event.event_sessions << EventSession.new(name: 'Second Session', starts_at: 65.days.from_now, ends_at: 66.days.from_now)
 
     event.save!
-
     organizer = create_user('organizer@example.com')
     event.organizers << organizer
 

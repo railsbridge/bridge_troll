@@ -3,6 +3,8 @@ require 'rails_helper'
 describe "New Event" do
   before do
     @user_organizer = create(:user, email: "organizer@mail.com", first_name: "Sam", last_name: "Spade")
+    course = create(:course)
+    course_fe = create(:course, name: "FRONTEND", title: "Front End")
     3.times { create(:location) }
     @archived = Location.last.tap { |l| l.archive! }
 
@@ -49,7 +51,7 @@ describe "New Event" do
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do
     fill_in_good_event_details
     fill_in 'event_target_audience', :with => "women"
-    
+
     check('Do you want to restrict the operating systems students should use?')
     uncheck('Linux - Other')
     uncheck('Linux - Ubuntu')

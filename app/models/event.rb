@@ -15,7 +15,7 @@ class Event < ActiveRecord::Base
   belongs_to :location, counter_cache: true
 
   extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to_active_hash :course
+  belongs_to :course
 
   has_one :chapter, through: :location
 
@@ -54,7 +54,7 @@ class Event < ActiveRecord::Base
       workshop_event.validates_numericality_of :student_rsvp_limit, only_integer: true, greater_than: 0
       workshop_event.validate :validate_student_rsvp_limit
     end
-  
+
     with_options(if: :has_volunteer_limit?) do |workshop_event|
       workshop_event.validates_numericality_of :volunteer_rsvp_limit, only_integer: true, greater_than: 0
       workshop_event.validate :validate_volunteer_rsvp_limit
@@ -314,7 +314,7 @@ class Event < ActiveRecord::Base
       :pending_approval
     end
   end
-  
+
   def as_json(options = {})
     options = {
       only: [:id, :title, :student_rsvp_limit],

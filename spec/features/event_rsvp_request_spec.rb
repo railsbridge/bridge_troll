@@ -6,6 +6,9 @@ describe 'creating or editing an rsvp' do
     before do
       @event = create(:event)
       @user = create(:user)
+      @course = create(:course)
+      @course_js = create(:course, name: "JAVASCRIPT", title: "Intro to JavaScript")
+      @course_fe = create(:course, name: "FRONTEND", title: "Front End")
       sign_in_as @user
     end
 
@@ -44,7 +47,7 @@ describe 'creating or editing an rsvp' do
         before do
           fill_in "rsvp_subject_experience", with: "asdfasdfasdfasd"
           fill_in "rsvp_teaching_experience", with: "asdfasdfasdfasd"
-          choose Course.find_by_name('RAILS').levels[0][:title]
+          choose @course.levels[0][:title]
         end
 
         it "should allow the user to update their gender" do
@@ -148,15 +151,15 @@ describe 'creating or editing an rsvp' do
     describe "a new learn rsvp" do
       it "should show rails levels for rails events" do
         visit learn_new_event_rsvp_path(@event)
-        page.should have_content Course.find_by_name('RAILS').levels[0][:title]
+        page.should have_content @course.levels[0][:title]
       end
 
       it "should show frontend levels for frontend events" do
-        @event.update_attributes(:course_id => Course::FRONTEND.id)
+        @event.update_attributes(course_id: @course_fe.id)
         @event.save!
 
         visit learn_new_event_rsvp_path(@event)
-        page.should have_content Course.find_by_name('FRONTEND').levels[0][:title]
+        page.should have_content @course_fe.levels[0][:title]
       end
 
       it "should not allow students to have 'No preference'" do

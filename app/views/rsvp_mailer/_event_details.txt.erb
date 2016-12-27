@@ -9,9 +9,9 @@ You're signed up to <%= verb(@rsvp.role) %> <%= pluralize(@rsvp.rsvp_sessions.co
 <% end %>
 
 <% if @rsvp.role_student? %>
-  <% level = @rsvp.event.course.levels.find { |l| l[:level] == @rsvp.class_level } %>
-  <p>You identified your skill level as "<%= level[:title] %>", which we think means:</p>
-  <% level[:level_description].each do |desc| %>
+  <% level = @rsvp.event.course.levels.find { |l| l.num == @rsvp.class_level } %>
+  <p>You identified your skill level as "<%= level.title %>", which we think means:</p>
+  <% level.description.each do |desc| %>
     <%= desc %>
   <% end %>
 <% end %>

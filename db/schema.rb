@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818033729) do
+ActiveRecord::Schema.define(version: 20161223153105) do
 
   create_table "authentications", force: :cascade do |t|
     t.integer  "user_id"
@@ -40,6 +40,14 @@ ActiveRecord::Schema.define(version: 20150818033729) do
   end
 
   add_index "chapters_users", ["chapter_id", "user_id"], name: "index_chapters_users_on_chapter_id_and_user_id", unique: true
+
+  create_table "courses", force: :cascade do |t|
+    t.string   "name"
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "dietary_restrictions", force: :cascade do |t|
     t.string   "restriction"
@@ -132,6 +140,16 @@ ActiveRecord::Schema.define(version: 20150818033729) do
   end
 
   add_index "external_events", ["chapter_id"], name: "index_external_events_on_chapter_id"
+
+  create_table "levels", force: :cascade do |t|
+    t.integer  "course_id"
+    t.integer  "num"
+    t.string   "color"
+    t.string   "title"
+    t.text     "level_description"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
 
   create_table "locations", force: :cascade do |t|
     t.string   "name"
