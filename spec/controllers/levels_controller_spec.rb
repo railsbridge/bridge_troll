@@ -35,14 +35,6 @@ describe LevelsController, type: :controller do
     end
   end
 
-  describe "GET #show" do
-    it "assigns the requested level as @level" do
-      level = @course.levels.first
-      get :show, {course_id: @course.id, id: level.to_param}, valid_session
-      expect(assigns(:level)).to eq(level)
-    end
-  end
-
   describe "GET #new" do
     it "assigns a new level as @level" do
       get :new, {course_id: @course.id}, valid_session
@@ -74,7 +66,7 @@ describe LevelsController, type: :controller do
 
       it "redirects to the created level" do
         post :create, {level: valid_attributes, course_id: @course.id}, valid_session
-        expect(response).to redirect_to([@course, Level.last])
+        expect(response).to redirect_to(course_levels_url(@course))
       end
     end
 
@@ -118,7 +110,7 @@ describe LevelsController, type: :controller do
       it "redirects to the level" do
         level = @course.levels.first
         put :update, {id: level.to_param, level: valid_attributes, course_id: @course.id}, valid_session
-        expect(response).to redirect_to([@course, level])
+        expect(response).to redirect_to(course_levels_url(@course))
       end
     end
 

@@ -8,10 +8,6 @@ class LevelsController < ApplicationController
     @levels = @course.levels
   end
 
-  # GET courses/1/levels/1
-  def show
-  end
-
   # GET courses/1/levels/new
   def new
     @level = @course.levels.build
@@ -25,7 +21,7 @@ class LevelsController < ApplicationController
   def create
     @level = @course.levels.build(level_params)
     if @level.save
-      redirect_to([@level.course, @level], notice: 'Level was successfully created.')
+      redirect_to(course_levels_url(@level.course), notice: 'Level was successfully created.')
     else
       render action: 'new'
     end
@@ -34,7 +30,7 @@ class LevelsController < ApplicationController
   # PUT courses/1/levels/1
   def update
     if @level.update_attributes(level_params)
-      redirect_to([@level.course, @level], notice: 'Level was successfully updated.')
+      redirect_to(course_levels_url(@level.course), notice: 'Level was successfully updated.')
     else
       render action: 'edit'
     end
@@ -62,6 +58,7 @@ class LevelsController < ApplicationController
       params.require(:level).permit(:num, :color, :title, :level_description)
     end
 
+    # user must be an admin to make changes to levels
     def is_user_admin
       unless current_user.admin
         redirect_to root_path, notice: 'Must be an admin to make changes to courses.'

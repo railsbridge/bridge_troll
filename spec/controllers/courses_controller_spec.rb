@@ -55,7 +55,7 @@ describe CoursesController, type: :controller do
 
       it "redirects to the created course" do
         post :create, {:course => valid_attributes}, valid_session
-        expect(response).to redirect_to(Course.last)
+        expect(response).to redirect_to(admin_dashboard_path)
       end
     end
 
@@ -98,7 +98,7 @@ describe CoursesController, type: :controller do
       it "redirects to the course" do
         course = Course.create! valid_attributes
         put :update, {:id => course.to_param, :course => valid_attributes}, valid_session
-        expect(response).to redirect_to(course)
+        expect(response).to redirect_to(admin_dashboard_path)
       end
     end
 
@@ -128,7 +128,7 @@ describe CoursesController, type: :controller do
     it "redirects to the courses list" do
       course = Course.create! valid_attributes
       delete :destroy, {:id => course.to_param}, valid_session
-      expect(response).to redirect_to(courses_url)
+      expect(response).to redirect_to(admin_dashboard_path)
     end
   end
 

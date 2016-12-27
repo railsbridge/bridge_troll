@@ -108,7 +108,7 @@
             <td><%= course.description %></td>
             <td><%= link_to 'Show Levels', course_levels_path(course) %></td>
             <td><%= link_to 'Edit', edit_course_path(course) %></td>
-            <td><%= link_to 'Remove', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td><%= link_to 'Remove', course, method: :delete, data: { confirm: "Are you sure you want to remove " + course.title + " and its' " + pluralize(course.levels.count, 'level') + "?" } %></td>
           </tr>
         <% end %>
       </tbody>

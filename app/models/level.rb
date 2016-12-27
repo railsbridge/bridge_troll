@@ -1,24 +1,21 @@
 class Level < ActiveRecord::Base
   belongs_to :course
-  validates :num, presence: true, numericality: true
-  validates :color, presence: true
+  validates :num, presence: true, numericality: true, uniqueness: { scope: :course_id }
+  validates :color, presence: true, uniqueness: { scope: :course_id }
   validates :title, presence: true
   validates :level_description, presence: true
-  validate :description_must_be_array
 
+  # level_description is an array that is getting saved as a string
+  # this parses it back as an array
   def description
     if level_description.blank?
       []
     else
-      ActiveSupport::JSON.decode(level_description)
-    end
-  end
-
-  def description_must_be_array
-    begin
-      ActiveSupport::JSON.decode(level_description)
-    rescue
-      errors.add(:description, "must be an array.")
+      begin
+        ActiveSupport::JSON.decode(level_description)
+      rescue
+        level_description.gsub(", ", ",").gsub(/[\[\]]/, "").split(",")
+      end
     end
   end
 end

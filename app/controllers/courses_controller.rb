@@ -16,7 +16,7 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
-      redirect_to @course, notice: 'Course was successfully created.'
+      redirect_to admin_dashboard_path, notice: 'Course was successfully created.'
     else
       render :new
     end
@@ -25,7 +25,7 @@ class CoursesController < ApplicationController
   # PATCH/PUT /courses/1
   def update
     if @course.update(course_params)
-      redirect_to @course, notice: 'Course was successfully updated.'
+      redirect_to admin_dashboard_path, notice: 'Course was successfully updated.'
     else
       render :edit
     end
@@ -34,7 +34,7 @@ class CoursesController < ApplicationController
   # DELETE /courses/1
   def destroy
     @course.destroy
-    redirect_to courses_url, notice: 'Course was successfully destroyed.'
+    redirect_to admin_dashboard_path, notice: 'Course was successfully destroyed.'
   end
 
   private
@@ -48,6 +48,7 @@ class CoursesController < ApplicationController
       params.require(:course).permit(:name, :title, :description)
     end
 
+    # user must be admin to make changes to courses
     def is_user_admin
       unless current_user.admin
         redirect_to root_path, notice: 'Must be an admin to make changes to courses.'

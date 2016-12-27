@@ -24,8 +24,9 @@
     <%= f.text_field :title %>
   </div>
   <div class="field">
-    <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.label "Description" %><br />
+    <small>Please separate different descriptions with a comma (,).</small><br />
+    <%= f.text_area :level_description %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -14,7 +14,10 @@
         <td><%= level.num %></td>
         <td><%= level.color %></td>
         <td><%= level.title %></td>
-        <td><%= level.description %></td>
+        <td><% level.description.each do |desc| %>
+          <%= desc %><br/>
+        <% end %>
+        </td>
         <td><%= link_to 'Edit', edit_course_level_path(level.course, level) %></td>
         <td><%= link_to 'Remove', [level.course, level], :confirm => 'Are you sure?', :method => :delete %></td>
       </tr>
