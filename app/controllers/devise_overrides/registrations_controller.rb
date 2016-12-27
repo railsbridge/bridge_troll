@@ -1,8 +1,11 @@
 class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
+  require_dependency 'newsletter'
+
   # cf. https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
   def update
     @user = User.find(current_user.id)
-
+    puts params
+    puts "subscription_ids:", params["subscription_ids"]
     successfully_updated = if assigning_password?(@user, params)
       @user.update(user_params)
     elsif needs_password?(@user, params)
@@ -48,6 +51,7 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
   end
 
   def build_resource(*args)
+    puts('========> build_resource', @user, args)
     super
     if session['devise.omniauth']
       @user.apply_omniauth(session['devise.omniauth'])

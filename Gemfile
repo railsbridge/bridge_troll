@@ -27,6 +27,7 @@ gem 'pg' if ENV['FORCE_POSTGRES']
 gem 'rack-mini-profiler'
 gem 'bower-rails'
 gem 'nearest_time_zone'
+gem 'gibbon'
 
 group :production do
   gem 'pg'

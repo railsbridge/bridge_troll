@@ -8,6 +8,9 @@ Rails.application.configure do
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
+  # also watch the lib directory for changes during development
+  config.watchable_dirs['lib'] = [:rb]
+
   # Do not eager load code on boot.
   config.eager_load = false
 

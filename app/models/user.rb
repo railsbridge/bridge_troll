@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
   def self.from_omniauth(omniauth)
+    logger.debug('========> self.from_omniauth', omniauth)
+
     authentication = Authentication.where(provider: omniauth['provider'], uid: omniauth['uid'].to_s).first
     if authentication
       authentication.user
@@ -40,6 +42,7 @@ class User < ActiveRecord::Base
   end
 
   def apply_omniauth(omniauth)
+        logger.debug('========> apply_omniauth', omniauth)
     OmniauthProviders.user_attributes_from_omniauth(omniauth).each do |attr, value|
       assign_attributes(attr => value) if send(attr).blank?
     end

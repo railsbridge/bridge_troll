@@ -122,6 +122,9 @@ GEM
     font-awesome-rails (4.7.0.1)
       railties (>= 3.2, < 5.1)
     geocoder (1.4.1)
+    gibbon (2.2.5)
+      faraday (>= 0.9.1)
+      multi_json (>= 1.11.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     gmaps4rails (2.1.2)
@@ -364,6 +367,7 @@ DEPENDENCIES
   faker
   font-awesome-rails
   geocoder
+  gibbon
   gmaps4rails
   gravatar_image_tag
   handlebars_assets
@@ -410,4 +414,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.5
+   1.13.7
