@@ -1,6 +1,9 @@
 supportsLocalStorage = ->
   try
     localStorage? && window['localStorage'] != null
+    localStorage.setItem('testLocalStorage', 1);
+    localStorage.removeItem('testLocalStorage');
+    true
   catch e
     false
 
@@ -10,19 +13,20 @@ class window.EventsFilterView extends Backbone.View
 
   initialize: ->
     validValues = _.map @$('option'), (o) -> o.value
-    @model = new EventsFilterModel('eventFilterChapterId', validValues)
+    @model = new EventsFilterModel('eventFilterRegionId', validValues)
     @restore()
 
   handleChange: (e) =>
-    chapterId = e.currentTarget.value
-    @filter(@model.set(chapterId))
+    regionId = e.currentTarget.value
+    @filter(@model.set(regionId))
 
-  filter: (chapterId) =>
-    if chapterId != @model.defaultValue
-      $('.event-card').hide()
-      $(".event-card[data-chapter-id=#{chapterId}]").show()
+  filter: (regionId) =>
+    if regionId != @model.defaultValue
+      $('.event-card').addClass('hide')
+      $(".event-card[data-region-id=#{regionId}]").removeClass('hide')
     else
-      $('.event-card').show()
+      $('.event-card').removeClass('hide')
+    window.resizeHeightMatchingItems($('.upcoming-events'))
 
   restore: ->
     @$el.val(@model.get())
@@ -51,3 +55,13 @@ class EventsFilterModel
   restore: ->
     if supportsLocalStorage()
       @set(localStorage[@key])
+    else
+      @set(@defaultValue)
+
+renameLocalStorageKey = (oldKey, newKey) ->
+  if supportsLocalStorage()
+    if localStorage[oldKey] && !localStorage[newKey]
+      localStorage[newKey] = localStorage[oldKey]
+      delete localStorage[oldKey]
+
+renameLocalStorageKey('eventFilterChapterId', 'eventFilterRegionId')

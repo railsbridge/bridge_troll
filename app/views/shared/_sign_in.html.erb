@@ -6,9 +6,7 @@
 
       <%= f.input :password %>
 
-      <% if devise_mapping.rememberable? -%>
-        <%= f.input :remember_me, as: :boolean %>
-      <% end -%>
+      <%= f.input :remember_me, as: :boolean %>
 
       <div>
         <%= f.submit "Sign in", class: 'btn btn-submit' %>
@@ -21,7 +19,7 @@
     <ul class='external-auth'>
       <% OmniauthProviders.provider_data.each do |provider| %>
         <li>
-          <%= link_to user_omniauth_authorize_path(provider[:key], origin: session["user_return_to"]) do %>
+          <%= link_to omniauth_authorize_path(:user, provider[:key], origin: session["user_return_to"]) do %>
             <i class='fa <%= provider[:icon] %>'></i>
             <%= provider[:name] %>
           <% end %>

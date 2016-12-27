@@ -1,0 +1,24 @@
+<% if event.location %>
+  <%= button_to 'Publish', unpublished_event_publish_path(event), class: 'btn', id: "publish-event-#{event.id}", method: :post, form_class: 'button_to inline-block' %>
+  <script>
+    window.whenReady(function () {
+      $("#publish-event-<%= event.id %>").on('click', function (e) {
+        e.preventDefault();
+        $.get('/regions/<%= event.region.id %>.json', function (region) {
+          var confirmText;
+          <% if event.email_on_approval %>
+            confirmText = "Are you sure? This will email " + region.users_subscribed_to_email_count + " members of " + region.name;
+          <% else %>
+            confirmText = "Are you sure? The event will start showing for all users, and no one will be emailed since the event organizers have chosen to manually send the announcement email.";
+          <% end %>
+          var answer = confirm(confirmText);
+          if (answer) {
+            $(e.target).closest('form').submit();
+          }
+        });
+      });
+    });
+  </script>
+<% else %>
+  <button class="btn" disabled>No Location - Can't Publish!</button>
+<% end %>

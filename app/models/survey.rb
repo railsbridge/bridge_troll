@@ -1,6 +1,4 @@
 class Survey < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:good_things, :bad_things, :other_comments, :rsvp_id, :recommendation_likelihood]
-
   belongs_to :rsvp
 
   validates_presence_of :rsvp_id

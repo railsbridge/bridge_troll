@@ -29,6 +29,14 @@ setUpExclusiveCheckboxes = ($el) ->
         if (checkbox.id != e.target.id)
           $(checkbox).prop('checked', false)
 
+setupSessionLocation = (sessionElement) ->
+  setSessionLocationVisibility = () ->
+    $(this).closest('.fields').find('.select2').toggleClass('hidden', !this.checked)
+
+  sessionElement.find('.session-location-select').select2({width: '100%'})
+  sessionElement.find('.session-location-toggle').each(setSessionLocationVisibility)
+  sessionElement.find('.session-location-toggle').on('change', setSessionLocationVisibility)
+
 setupRemoveSessions = ->
   if $('.remove-session').length
     $(document).on 'click', '.remove-session > a', (e)->
@@ -43,15 +51,44 @@ setupRemoveSessions = ->
         .attr('href', '#')
         .removeAttr('data-method')
         .removeAttr('data-confirm')
+      setupSessionLocation(e.field)
+
+setUpHints = ->
+  $('.form-section-header, .form-section-header-expander').on 'click', ->
+    $('.hint-element').remove()
+
+  window.activateHint = ($toggler) =>
+    selector = $toggler.data('toggle-hint')
+    $sidebar = $('.event-form-sidebar')
+    $sidebar.empty()
+
+    $hintElement = $('<div class="hint-element"></div>')
+    $hintElement.html($('#' + selector).html());
+    $hintElement.css(
+      position: 'absolute'
+      top: $toggler.offset().top - $sidebar.offset().top - 13
+      left: 0
+      right: 0
+    )
+    $sidebar.append($hintElement)
+
+  $('[data-focus-hint]').on 'focus', ->
+    togglerSelector = $(this).data('focus-hint')
+    $toggler = $("[data-toggle-hint='#{togglerSelector}']")
+    window.activateHint($toggler)
+
+  $('[data-toggle-hint]').on 'mouseenter', ->
+    window.activateHint($(this))
 
 jQuery ->
   setupRemoveSessions()
+  $('.event-sessions .fields').each (ix, element) ->
+    setupSessionLocation($(element))
 
   $.datepicker.setDefaults
     dateFormat: 'yy-mm-dd'
 
-  $('.select2-dropdown').select2(width: 'element')
-
+  setUpHints()
   setUpDatePicker($('.datepicker'))
   setUpExclusiveCheckboxes($('body'))
 
@@ -60,7 +97,3 @@ jQuery ->
     $dateField = $field.find('.datepicker')
     setUpDatePicker($dateField)
     setUpExclusiveCheckboxes($field)
-
-  $chapterSelect = $('.chapter-select')
-  if $chapterSelect.length > 0
-    new EventsFilterView(el: $chapterSelect)

@@ -1,5 +1,4 @@
 class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
-
   # cf. https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
   def update
     @user = User.find(current_user.id)
@@ -19,7 +18,7 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
     if successfully_updated
       set_flash_message :notice, :updated
       # Sign in the user bypassing validation in case his password changed
-      sign_in @user, :bypass => true
+      bypass_sign_in @user
       redirect_to after_update_path_for(@user)
     else
       render "edit"
@@ -33,10 +32,7 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
   private
 
   def user_params
-    params.require(:user).permit(User::PERMITTED_ATTRIBUTES + [:current_password, {
-      chapter_ids: [],
-      profile_attributes: Profile::PERMITTED_ATTRIBUTES
-    }])
+    permitted_attributes(User)
   end
 
   # check if we need password to update user data

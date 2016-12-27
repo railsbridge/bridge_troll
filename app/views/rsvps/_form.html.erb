@@ -128,7 +128,7 @@
                     as: :boolean,
                     label: 'Do you need childcare?',
                     input_html: {
-                      'data-toggle-target' => 'childcare-info-wrapper',
+                      'data-toggle-target' => '.childcare-info-wrapper',
                       'data-toggle-show-when' => '1'
                     } %>
       </div>
@@ -140,10 +140,10 @@
 
     <% if @event.location %>
       <div class="field question">
-        <div class="form-group boolean optional affiliate_with_chapter">
+        <div class="form-group boolean optional affiliate_with_region">
           <div class="checkbox">
-            <%= label_tag :affiliate_with_chapter do %>
-              <%= check_box_tag :affiliate_with_chapter, 1, current_user.chapters.include?(@event.chapter) %> I want to be notified of future RailsBridge events in the "<%= @event.chapter.name %>" chapter.
+            <%= label_tag :affiliate_with_region do %>
+              <%= check_box_tag :affiliate_with_region, 1, current_user.regions.include?(@event.region) %> I want to be notified of future events in the "<%= @event.region.name %>" region.
             <% end %>
             <div>
               <small>(Full email preferences are available <%= link_to 'on your User Account', edit_user_registration_path %>)</small>
@@ -157,9 +157,9 @@
       <div class="checkbox">
         <%= label_tag :coc, class: 'question' do %>
           <%= check_box_tag :coc, '1', params[:coc], data: {
-            'toggle-target' => 'coc-required',
+            'toggle-target' => '.coc-required',
             'toggle-enable-when-checked' => true
-          } %> I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a>
+          } %> I accept the <%= link_to 'Code of Conduct', @event.code_of_conduct_url, target: :blank %>
         <% end %>
       </div>
     <%end%>
@@ -168,7 +168,7 @@
       <%= f.hidden_field :event_id %>
       <%= f.hidden_field :role_id %>
       <% unless @rsvp_preview_mode %>
-        <%= f.submit "Submit", class: 'btn btn-submit coc-required' %>
+        <%= f.submit "Submit", class: 'btn btn-submit coc-required', data: {disable_with: 'Please wait...'} %>
       <% end %>
     </div>
   <% end %>

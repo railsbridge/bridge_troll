@@ -2,17 +2,18 @@ require 'rails_helper'
 
 describe UsersController do
   before do
-    sign_in_stub double('user', id: 1234, meetup_id: 1)
+    @logged_in_user = create(:user)
+    sign_in @logged_in_user
   end
 
   describe "index" do
     before do
-      @user1 = create(:meetup_user)
+      @user1 = create(:meetup_user, full_name: 'Major MeetupUser')
       @user2 = create(:meetup_user)
       @user_no_rsvps = create(:meetup_user)
 
       @user_associated = create(:meetup_user)
-      @bridgetroll_user = create(:user)
+      @bridgetroll_user = create(:user, first_name: 'Baroque', last_name: 'BridgetrollUser')
 
       @event1 = create(:event)
       @event2 = create(:event)
@@ -26,31 +27,42 @@ describe UsersController do
       @event1.rsvps << create(:rsvp, user: @user2, event: @event1)
     end
 
-    context "when rendering" do
-      render_views
+    it "shows a bunch of user names" do
+      get :index, format: :json
+      users = JSON.parse(response.body)['data']
+      all_users = [@user1, @user2, @user_no_rsvps, @bridgetroll_user, @logged_in_user]
+      expect(users.map { |u| u['global_id']}).to match_array(all_users.map(&:to_global_id).map(&:to_s))
 
-      it "shows a bunch of user names" do
-        get :index
-        response.body.should include(ERB::Util.html_escape @user1.full_name)
-        response.body.should include(ERB::Util.html_escape @user2.full_name)
-      end
-
-      it "ignores users with no rsvps" do
-        get :index
-        response.body.should_not include(ERB::Util.html_escape @user_no_rsvps.full_name)
-      end
-
-      it "shows users that have associated with meetup" do
-        get :index
-        response.body.should include(ERB::Util.html_escape @bridgetroll_user.full_name)
+      all_users.each do |user|
+        expect(response.body).to include(user.full_name)
       end
     end
 
     it "calculates attendances" do
-      get :index
-      assigns(:attendances)[:MeetupUser][@user1.id][Role::VOLUNTEER.id].should == 2
-      assigns(:attendances)[:MeetupUser][@user2.id][Role::VOLUNTEER.id].should == 1
-      assigns(:attendances)[:User][@bridgetroll_user.id][Role::VOLUNTEER.id].should == 1
+      get :index, format: :json
+      users = JSON.parse(response.body)['data'].each_with_object({}) do |u, hsh|
+        hsh[u['global_id']] = u
+      end
+
+      expect(users[@user1.to_global_id.to_s]['volunteer_rsvp_count']).to eq(2)
+      expect(users[@user2.to_global_id.to_s]['volunteer_rsvp_count']).to eq(1)
+      expect(users[@bridgetroll_user.to_global_id.to_s]['volunteer_rsvp_count']).to eq(1)
+    end
+
+    describe "searching" do
+      let(:ids_from_json) do
+        Proc.new do |response|
+          JSON.parse(response.body)['data'].map { |u| u['global_id'] }
+        end
+      end
+
+      it "filters by search query" do
+        get :index, format: :json, search: {value: 'major meetup'}
+        expect(ids_from_json.call(response)).to match_array([@user1.to_global_id.to_s])
+
+        get :index, format: :json, search: {value: 'baroque bridgetroll'}
+        expect(ids_from_json.call(response)).to match_array([@bridgetroll_user.to_global_id.to_s])
+      end
     end
   end
 end

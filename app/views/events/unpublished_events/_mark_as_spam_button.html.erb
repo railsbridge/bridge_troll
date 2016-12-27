@@ -1,0 +1,5 @@
+<%= button_to 'Flag as Spam', unpublished_event_flag_path(event), class: 'btn btn-danger', method: :post,
+              form_class: 'button_to inline-block',
+              data: {
+                  confirm: "Are you sure? This will remove this event from the approval page, and flag #{event.organizers.first.full_name} as a spammer so that all subsequent events they create will immediately be flagged as spam."
+              } %>

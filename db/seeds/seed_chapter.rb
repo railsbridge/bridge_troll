@@ -1,11 +1,9 @@
 module Seeder
   def self.seed_chapter
-    # seeds the database with an admin user
-    chapter = Chapter.where(name: 'RailsBridge Seattle').first_or_initialize
-    chapter.save!
-    chapter = Chapter.where(name: 'RailsBridge San Francisco').first_or_initialize
-    chapter.save!
-    chapter = Chapter.where(name: 'RailsBridge Tulsa').first_or_initialize
-    chapter.save!
+    org = Organization.find_or_create_by(name: 'RailsBridge')
+
+    Chapter.find_or_create_by(name: 'RailsBridge Seattle', organization: org)
+    Chapter.find_or_create_by(name: 'RailsBridge San Francisco', organization: org)
+    Chapter.find_or_create_by(name: 'RailsBridge Tulsa', organization: org)
   end
 end

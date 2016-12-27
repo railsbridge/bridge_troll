@@ -3,6 +3,8 @@
 
 <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Checkiner Assignments'} %>
 
+<%= render 'shared/model_error_messages', model: @event %>
+
 <h3>Potential Checkiners</h3>
 <%= render 'shared/user_chooser',
            action: event_checkiners_path(@event),
@@ -24,12 +26,12 @@
   <tbody>
   <% @checkiner_rsvps.each do |rsvp|  %>
       <tr>
-        <td class="avatar-column"><%= render 'shared/viewed_gravatars', :email => rsvp.user.email %></td>
+        <td class="avatar-column"><%= user_gravatar(rsvp.user) %></td>
         <td><%= rsvp.user.full_name %></td>
         <td><%= rsvp.user.email %></td>
         <td>
         <% if rsvp.user_id != current_user.id %>
-            <%= button_to 'Remove', event_checkiners_path(@event, rsvp), method: :delete,
+            <%= button_to 'Remove', event_checkiner_path(@event, rsvp), method: :delete,
                                :form => {:style => "margin-bottom : 0;"}, :class => "btn btn-mini" %>
         <% end %>
         </td>

@@ -1,5 +1,5 @@
 <% if Rails.env.production? %>
-$(document).ready(function () {
+window.whenReady(function () {
   var fontTracking = _.extend(document.createElement('link'), {
     type: 'text/css',
     rel: 'stylesheet',

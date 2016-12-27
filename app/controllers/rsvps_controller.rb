@@ -1,18 +1,21 @@
 class RsvpsController < ApplicationController
-  before_filter :authenticate_user!, except: [:quick_destroy_confirm, :destroy]
-  before_filter :assign_event
-  before_filter :load_rsvp, only: [:edit, :update]
-  before_filter :redirect_if_rsvp_exists, only: [:volunteer, :learn]
-  before_filter :redirect_if_event_in_past
-  before_filter :redirect_if_event_closed, only: [:volunteer, :learn, :create]
+  before_action :authenticate_user!, except: [:quick_destroy_confirm, :destroy]
+  before_action :assign_event
+  before_action :load_rsvp, only: [:edit, :update]
+  before_action :redirect_if_rsvp_exists, only: [:volunteer, :learn]
+  before_action :redirect_if_event_in_past
+  before_action :redirect_if_event_closed, only: [:volunteer, :learn, :create]
+  before_action :skip_authorization
 
   def volunteer
+    @show_new_region_warning = signup_for_new_region?
     @rsvp = @event.rsvps.build(user: current_user)
     @rsvp.setup_for_role(Role::VOLUNTEER)
     render :new
   end
 
   def learn
+    @show_new_region_warning = signup_for_new_region?
     @rsvp = @event.rsvps.build(user: current_user)
     @rsvp.setup_for_role(Role::STUDENT)
     render :new
@@ -35,17 +38,15 @@ class RsvpsController < ApplicationController
         @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0 ) + 1
       end
 
-      set_dietary_restrictions(@rsvp, params[:dietary_restrictions])
-
       if @rsvp.save
         apply_other_changes_from_params
 
         RsvpMailer.confirmation(@rsvp).deliver_now
         RsvpMailer.childcare_notification(@rsvp).deliver_now if @rsvp.childcare_info?
-        notice_message = 'Thanks for signing up!'
-        notice_message << " We've added you to the waitlist." if @rsvp.waitlisted?
+        notice_messages = ['Thanks for signing up!']
+        notice_messages << "We've added you to the waitlist." if @rsvp.waitlisted?
 
-        redirect_to @event, notice: notice_message
+        redirect_to @event, notice: notice_messages.join(' ')
       else
         render :new
       end
@@ -61,7 +62,6 @@ class RsvpsController < ApplicationController
   end
 
   def update
-    set_dietary_restrictions(@rsvp,  params[:dietary_restrictions])
     if @rsvp.update_attributes(rsvp_params)
       apply_other_changes_from_params
 
@@ -101,7 +101,7 @@ class RsvpsController < ApplicationController
   protected
 
   def redirect_if_event_closed
-    if !@event.open?
+    unless @event.open?
       flash[:error] = "Sorry. This event is closed!"
       redirect_to @event
     end
@@ -111,17 +111,17 @@ class RsvpsController < ApplicationController
     @rsvp.user.update_attributes(gender: params[:user][:gender])
 
     if @event.location
-      if params[:affiliate_with_chapter]
-        @rsvp.user.chapter_ids += [@event.chapter.id]
+      if params[:affiliate_with_region]
+        @rsvp.user.region_ids += [@event.region.id]
       else
-        @rsvp.user.chapter_ids -= [@event.chapter.id]
+        @rsvp.user.region_ids -= [@event.region.id]
       end
     end
   end
 
   def rsvp_params
     role_id = params[:rsvp][:role_id].to_i
-    params.require(:rsvp).permit(Rsvp::PERMITTED_ATTRIBUTES + [event_session_ids: []]).tap do |params|
+    permitted_attributes(Rsvp).tap do |params|
       if role_id == Role::STUDENT.id
         user_choices = Array(params[:event_session_ids]).select(&:present?).map(&:to_i)
         required_sessions = @event.event_sessions.where(required_for_students: true).pluck(:id)
@@ -133,17 +133,9 @@ class RsvpsController < ApplicationController
     end
   end
 
-  def set_dietary_restrictions(rsvp, restrictions_params)
-    restrictions_params ||= {}
-
-    rsvp.dietary_restrictions = restrictions_params.keys.map do |diet|
-      DietaryRestriction.new(restriction: diet)
-    end
-  end
-
   def load_rsvp
     @rsvp = Rsvp.find_by_id(params[:id])
-    unless @rsvp && ((@rsvp.user == current_user) || (@rsvp.event.organizer?(current_user)))
+    unless @rsvp && ((@rsvp.user == current_user) || @rsvp.event.organizer?(current_user))
       redirect_to events_path, notice: 'You are not signed up for this event'
     end
   end
@@ -160,6 +152,15 @@ class RsvpsController < ApplicationController
     @event = Event.find_by_id(params[:event_id])
     if @event.nil?
       redirect_to events_path, notice: 'You are not signed up for this event'
+    end
+  end
+
+  def signup_for_new_region?
+    regions = Region.joins(locations: :events).where('events.id IN (?)', current_user.events.pluck(:id)).distinct
+    if regions.empty?
+      false
+    else
+      !regions.include?(@event.region)
     end
   end
 end

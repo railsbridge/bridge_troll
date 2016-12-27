@@ -5,12 +5,14 @@
 <div class="row">
   <div class="col-md-12">
     <div class='upcoming-events'>
-      <label class="chapter-select-container form-inline">
-        Filter: <%= select_tag :chapter,
-                               options_from_collection_for_select(@event_chapters, "id", "name"),
-                               prompt: "All Chapters",
-                               class: 'chapter-select form-control' %>
-      </label>
+      <% if @events.present? %>
+        <label class="region-select-container form-inline">
+          Filter: <%= select_tag :region,
+                                 options_from_collection_for_select(@event_regions, "id", "name"),
+                                 prompt: "All Regions",
+                                 class: 'region-select form-control cross-browser-select' %>
+        </label>
+      <% end %>
       <h1>Upcoming events</h1>
 
       <% if @events.empty? %>
@@ -19,23 +21,40 @@
       <% @events.each do |event| %>
         <%= render 'upcoming_event', event: event %>
       <% end %>
+
+      <script>
+        window.whenReady(function () {
+          var $regionSelect = $('.region-select');
+          if ($regionSelect.length > 0) {
+            new EventsFilterView({el: $regionSelect});
+          }
+        });
+      </script>
     </div>
 
-    <p>
-      Subscribe to our calendar via: 
-      <%= link_to "RSS", feed_events_path(format: :rss) %>
-      <%= link_to "Atom", feed_events_path(format: :atom) %>
+    <p class="event-notifications">
+      Subscribe to our calendar via:
+      <%= link_to " RSS", feed_events_path(format: :rss), class: 'fa-before fa-rss' %>
+      <%= link_to " Atom", feed_events_path(format: :atom), class: 'fa-before fa-rss' %> or
+      <% if user_signed_in? %>
+        manage your <%= link_to 'event notification email preferences', edit_user_registration_path %>.
+      <% else %>
+        <%= link_to "sign up", new_user_registration_path %> to receive email notifications.
+      <% end %>
     </p>
 
     <% if user_signed_in? %>
       <h1>Get Involved</h1>
       <% links = [
         ['Organize Event', new_event_path],
-        ['Manage Locations', locations_path],
-        ['Manage Chapters', chapters_path]
+        ['Locations', locations_path],
+        ['Chapters', chapters_path],
+        ['Regions', regions_path]
       ] %>
-      <% if current_user.admin? %>
-        <% links << ['Manage External Events', external_events_path] %>
+      <% if policy(ExternalEvent).edit? %>
+        <% links << ['External Events', external_events_path] %>
+      <% end %>
+      <% if policy(Event).see_unpublished? %>
         <% links << ['Publish Unpublished Events', unpublished_events_path] %>
       <% end %>
       <%= render 'shared/actions', links: links, additional_class: 'no-margin' %>
@@ -43,7 +62,7 @@
 
     <div class='past-events'>
       <h1>Past events</h1>
-      <%= render 'shared/events_table', events: @past_events %>
+      <%= render 'shared/past_events_table' %>
 
     </div>
   </div>

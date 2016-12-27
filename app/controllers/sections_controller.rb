@@ -1,13 +1,15 @@
 class SectionsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :validate_organizer!
+  before_action :authenticate_user!
+  before_action :find_event
 
   def create
+    authorize @event, :edit?
     section = @event.sections.create!(name: 'New Section')
     render json: section
   end
 
   def update
+    authorize @event, :edit?
     section = @event.sections.find(params[:id])
     if section.update_attributes(section_params)
       render json: section
@@ -17,19 +19,25 @@ class SectionsController < ApplicationController
   end
 
   def destroy
+    authorize @event, :edit?
     section = @event.sections.find(params[:id])
     section.destroy
     render json: {}
   end
 
   def arrange
-    SectionArranger.arrange(@event, params[:checked_in_to])
+    authorize @event, :edit?
+    SectionArranger.new(@event).arrange(params[:checked_in_to])
     redirect_to event_organize_sections_path(@event)
   end
 
   private
 
+  def find_event
+    @event = Event.find_by_id(params[:event_id])
+  end
+
   def section_params
-    params.require(:section).permit(Section::PERMITTED_ATTRIBUTES)
+    permitted_attributes(Section)
   end
 end

@@ -1,24 +1,24 @@
 class ExternalEvent < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:city, :ends_at, :location, :name, :organizers, :starts_at, :url, :chapter_id]
-
+  belongs_to :region, counter_cache: true
   belongs_to :chapter, counter_cache: true
+  has_one :organization, through: :chapter
 
-  validates_presence_of :name, :starts_at, :location
+  validates_presence_of :name, :starts_at, :city
 
   def self.past
     where('ends_at < ?', Time.now.utc)
+  end
+
+  def self.upcoming
+    where('ends_at >= ?', Time.now.utc)
   end
 
   def title
     name
   end
 
-  def meetup_student_event_id
-    nil
-  end
-
-  def meetup_volunteer_event_id
-    nil
+  def imported_event_data
+    false
   end
 
   def location_name
@@ -46,6 +46,7 @@ class ExternalEvent < ActiveRecord::Base
       },
       organizers: organizers,
       sessions: fake_sessions,
+      organization: organization.try(:name),
       workshop: true
     }
   end

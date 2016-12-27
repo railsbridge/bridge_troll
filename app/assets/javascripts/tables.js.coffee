@@ -1,6 +1,6 @@
-$(document).ready ->
+window.whenReady ->
   domWithoutActions = "t<'row'<'col-md-6'i><'col-md-6'p>>"
-  domWithActions = "<'row'<'col-md-6'l><'col-md-6'f>r>" + domWithoutActions
+  domWithActions = "r<'row'<'col-md-6'l><'col-md-6'f>>" + domWithoutActions
 
   $.extend($.fn.dataTable.defaults, {
     dom: domWithActions,
@@ -24,11 +24,13 @@ $(document).ready ->
     needsPagination = tableNeedsPagination($table)
     $table.DataTable
       paging: needsPagination,
+      pageLength: $table.data('page-length') || 50,
       searching: needsPagination,
       dom: if needsPagination then domWithActions else domWithoutActions
       order: discoverSortOrder($table) || [[ 1, "desc" ]],
       columnDefs: [
-        {targets: ['date'], type: "date"}
+        {targets: ['date'], type: "date"},
+        {targets: ['no-sort'], orderable: false}
       ]
 
   $('.datatable-checkins').DataTable

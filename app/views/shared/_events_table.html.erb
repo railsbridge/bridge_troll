@@ -1,10 +1,14 @@
 <table class="<%= events.any? ? 'datatable-sorted' : '' %> table table-striped table-bordered table-condensed responsive-table">
   <thead>
+
   <tr>
     <th>Title</th>
-    <th class='date'>Date</th>
+    <th>Date</th>
     <th>Venue</th>
     <th>City</th>
+    <% if @show_organizers %>
+      <th>Organizers</th>
+    <% end %>
   </tr>
   </thead>
 
@@ -22,9 +26,9 @@
         <% else %>
           <%= event.title %>
         <% end %>
-        <%= meetup_links(event) %>
+        <%= external_links(event) %>
       </td>
-      <td>
+      <td class='whitespace-nowrap'>
         <%= formatted_event_date(event) %>
       </td>
       <% if event.location %>
@@ -33,6 +37,19 @@
       <% else %>
         <td></td>
         <td></td>
+      <% end %>
+      <% if @show_organizers %>
+        <td>
+          <% if event.organizers.is_a? (ActiveRecord::Relation) %>
+            <% event.organizers.each do |organizer| %>
+              <%= link_to user_profile_path(organizer.id) do  %>
+                <%= organizer.first_name  %>
+                <%= organizer.last_name  %>
+              <% end %>
+              <br>
+            <% end %>
+          <% end %>
+        </td>
       <% end %>
     </tr>
   <% end %>

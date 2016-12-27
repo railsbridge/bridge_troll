@@ -1,7 +1,10 @@
 require 'faker'
 
 module Seeder
-  def self.create_user email
+  def self.find_or_create_user email
+    existing_user = User.find_by(email: email)
+    return existing_user if existing_user
+
     user = User.create!(
       email: email,
       password: 'password',
@@ -49,10 +52,19 @@ module Seeder
         rsvp.user.destroy
       end
     end
+
+    event.destroy
+
     if event.location.present?
-      chapter = event.location.chapter
-      chapter.destroy if chapter.events.count == 1
-      event.location.destroy
+      event.location.destroy if event.location.events.count == 0
+      region = event.location.region
+      region.destroy if region.events.count == 0
+    end
+
+    if event.chapter.present?
+      organization = event.chapter.organization
+      organization.destroy if organization.chapters.count == 1
+      event.chapter.destroy
     end
     event.course.destroy if event.course.events.count == 1
     event.destroy
@@ -63,7 +75,6 @@ module Seeder
     old_event = Event.where(title: 'Seeded Test Event').first
     destroy_event(old_event) if old_event.present?
 
-    chapter = Chapter.where(name: 'RailsBridge San Francisco').first_or_create!
     course = Course.find_by_name('RAILS')
     unless course
       course = Course.new(id: 1,
@@ -71,8 +82,12 @@ module Seeder
                           title: 'Ruby on Rails',
                           description: 'This is a Ruby on Rails event. The focus will be on developing functional web apps and programming in Ruby.  You can find all the curriculum materials at <a href="http://docs.railsbridge.org">docs.railsbridge.org</a>.')
     end
+    organization = Organization.find_or_create_by(name: 'RailsBridge')
+    region = Region.find_or_create_by(name: 'San Francisco')
+    chapter = Chapter.find_or_create_by(name: 'RailsBridge San Francisco', organization: organization)
+
     location = Location.create!(
-      chapter_id: chapter.id,
+      region_id: region.id,
       name: "Sutro Tower",
       address_1: "Sutro Tower",
       city: "San Francisco",
@@ -88,7 +103,8 @@ module Seeder
       time_zone: 'Pacific Time (US & Canada)',
       course: course,
       location: location,
-      published: true,
+      chapter: chapter,
+      current_state: :published,
       target_audience: 'women',
       details: <<-DETAILS.strip_heredoc
         <h2>Workshop Description</h2>
@@ -121,22 +137,23 @@ module Seeder
     event.event_sessions << EventSession.new(name: 'Second Session', starts_at: 65.days.from_now, ends_at: 66.days.from_now)
 
     event.save!
-    organizer = create_user('organizer@example.com')
+
+    organizer = find_or_create_user('organizer@example.com')
     event.organizers << organizer
 
-    coorganizer = create_user('coorganizer@example.com')
+    coorganizer = find_or_create_user('coorganizer@example.com')
     event.organizers << coorganizer
 
-    teacher = create_user('teacher@example.com')
+    teacher = find_or_create_user('teacher@example.com')
     create_volunteer_rsvp(event: event, user: teacher, volunteer_assignment: VolunteerAssignment::TEACHER, class_level: 0)
 
-    ta = create_user('ta@example.com')
+    ta = find_or_create_user('ta@example.com')
     create_volunteer_rsvp(event: event, user: ta, volunteer_assignment: VolunteerAssignment::TA, class_level: 3)
 
     (1..5).each do |level|
       students_in_level = rand(students_per_level_range)
       (1..students_in_level).each do |index|
-        student = create_user("student#{level}-#{index}@example.com")
+        student = find_or_create_user("student#{level}-#{index}@example.com")
         create_student_rsvp(event: event, user: student, class_level: level)
       end
     end
@@ -145,7 +162,7 @@ module Seeder
     event.update_attribute(:student_rsvp_limit, student_count)
 
     (1..student_count/3).each do |index|
-      volunteer = create_user("volunteer#{index}@example.com")
+      volunteer = find_or_create_user("volunteer#{index}@example.com")
       volunteer_class_preference = (0..5).to_a.sample
       create_volunteer_rsvp(event: event,
                             user: volunteer,
@@ -156,7 +173,7 @@ module Seeder
     end
 
     rand(3..6).times do |n|
-      waitlisted = create_user("waitlisted-#{n}@example.com")
+      waitlisted = find_or_create_user("waitlisted-#{n}@example.com")
       create_student_rsvp(event: event, user: waitlisted, class_level: 2, waitlist_position: n)
     end
 
@@ -189,6 +206,64 @@ module Seeder
     )
 
     event.update_attribute(:survey_sent_at, DateTime.now)
+
+    event
+  end
+
+  def self.seed_multiple_location_event(options={})
+    old_event = Event.where(title: 'Seeded Multiple Location Event').first
+    destroy_event(old_event) if old_event.present?
+
+    organization = Organization.find_or_create_by(name: 'RailsBridge')
+    region = Region.find_or_create_by(name: 'San Francisco')
+    chapter = Chapter.find_or_create_by(name: 'RailsBridge San Francisco', organization: organization)
+
+    location = Location.find_or_create_by(
+      region_id: region.id,
+      name: "Sutro Tower",
+      address_1: "Sutro Tower",
+      city: "San Francisco",
+      state: "CA",
+      zip: "94131",
+      gmaps: true)
+
+    session_location = Location.find_or_create_by(
+      region_id: region.id,
+      name: "Ferry Building",
+      address_1: "Ferry Building",
+      city: "San Francisco",
+      state: "CA",
+      zip: "94111",
+      gmaps: true)
+
+    event = Event.new(
+      title: 'Seeded Multiple Location Event',
+      student_rsvp_limit: 15,
+      time_zone: 'Pacific Time (US & Canada)',
+      course_id: Course::RAILS.id,
+      location: location,
+      chapter: chapter,
+      current_state: :published,
+      target_audience: 'women',
+      details: <<-DETAILS.strip_heredoc
+        This is an example of an event that takes place in multiple locations!
+      DETAILS
+    )
+    event.event_sessions << EventSession.new(name: 'Teacher Training', starts_at: 60.days.from_now, ends_at: 61.days.from_now, location: session_location)
+    event.event_sessions << EventSession.new(name: 'Workshop', starts_at: 65.days.from_now, ends_at: 66.days.from_now)
+
+    event.save!
+
+    organizer = find_or_create_user('organizer@example.com')
+    event.organizers << organizer
+
+    volunteer = find_or_create_user("volunteer1@example.com")
+    create_volunteer_rsvp(event: event,
+                          user: volunteer,
+                          volunteer_assignment: VolunteerAssignment::UNASSIGNED,
+                          class_level: 1,
+                          teaching: true,
+                          taing: true)
 
     event
   end

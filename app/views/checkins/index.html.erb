@@ -35,7 +35,7 @@
         <% rsvp = rsvp_session.rsvp %>
         <tr>
           <td>
-            <%= render 'shared/viewed_gravatars', :email => rsvp.user.email %>
+            <%= user_gravatar(rsvp.user) %>
             <%= link_to rsvp_session.user_full_name, user_profile_path(rsvp_session.rsvp.user), class: 'user-name' %>
           </td>
           <td><%= rsvp.role.title %>
@@ -70,20 +70,12 @@
 </div>
 
 <script>
-  window.setupCheckinsPage({
-    event_id: <%= @event.id %>,
-    session_id: <%= @session.id %>,
-    poll: <%= !Rails.env.test? %>,
-    popoverData: <%= @event.course ? @event.course.levels.to_json.html_safe : [] %>
+  window.whenReady(function(){
+    window.setupCheckinsPage({
+      event_id: <%= @event.id %>,
+      session_id: <%= @session.id %>,
+      poll: <%= !Rails.env.test? %>,
+      popoverData: <%= @event.course ? @event.course.levels.to_json.html_safe : [] %>
+    });
   });
 </script>
-
-<% if @event.organizer?(current_user) %>
-  <%= render 'shared/actions', links: [
-    ['Back', event_organizer_tools_path(@event)],
-  ] %>
-<% elsif @event.checkiner?(current_user) %>
-  <%= render 'shared/actions', links: [
-    ['Back', event_path(@event)],
-  ] %>
-<% end %>

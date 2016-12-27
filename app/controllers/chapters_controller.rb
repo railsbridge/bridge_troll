@@ -1,37 +1,41 @@
 class ChaptersController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :index]
-  before_filter :assign_chapter, :only => [:show, :edit, :update, :destroy]
-  before_filter :validate_chapter_leader!, only: [:edit, :update]
+  before_action :authenticate_user!, except: [:show, :index]
+  before_action :assign_chapter, except: [:index, :new, :create]
 
   def index
-    @chapters = Chapter.includes(:leaders).all
+    skip_authorization
+    @chapters = Chapter.all.includes(:organization)
   end
 
   def show
-    @chapter_events = (@chapter.events + @chapter.external_events).sort_by(&:ends_at)
+    skip_authorization
+    @chapter_events = (
+      @chapter.events.includes(:organizers, :location).published_or_visible_to(current_user) + @chapter.external_events
+    ).sort_by(&:ends_at)
+    @show_organizers = true
+
     if @chapter.has_leader?(current_user)
       @organizer_rsvps = Rsvp.
-        group(:user_id).
-        joins([event: [location: :chapter]]).
+        group(:user_id, :user_type).
+        joins([event: :chapter]).
         includes(:user).
-        select("user_id, 'User' as user_type, count(*) as events_count").
-        where('chapters.id = ? AND role_id = ? AND user_type = ?',
-              @chapter.id,
-              Role::ORGANIZER.id,
-              'User')
+        select("user_id, user_type, count(*) as events_count").
+        where('chapters.id' => @chapter.id, role_id: Role::ORGANIZER.id, user_type: 'User')
     end
   end
 
   def new
+    authorize Chapter
     @chapter = Chapter.new
   end
 
   def edit
+    authorize @chapter, :update?
   end
 
   def create
     @chapter = Chapter.new(chapter_params)
-    @chapter.chapter_leaderships.build(user: current_user)
+    authorize @chapter
 
     if @chapter.save
       redirect_to @chapter, notice: 'Chapter was successfully created.'
@@ -41,6 +45,7 @@ class ChaptersController < ApplicationController
   end
 
   def update
+    authorize @chapter
     if @chapter.update_attributes(chapter_params)
       redirect_to @chapter, notice: 'Chapter was successfully updated.'
     else
@@ -49,8 +54,9 @@ class ChaptersController < ApplicationController
   end
 
   def destroy
+    authorize @chapter
     unless @chapter.destroyable?
-      return redirect_to root_url, alert: "Can't delete a chapter that's still assigned to a location or external event."
+      return redirect_to root_url, alert: "Can't delete a chapter that's still assigned to an event or external event."
     end
 
     @chapter.destroy
@@ -58,10 +64,15 @@ class ChaptersController < ApplicationController
     redirect_to chapters_url
   end
 
+  def code_of_conduct_url
+    skip_authorization
+    render text: @chapter.code_of_conduct_url
+  end
+
   private
 
   def chapter_params
-    params.require(:chapter).permit(Chapter::PERMITTED_ATTRIBUTES)
+    permitted_attributes(Chapter)
   end
 
   def assign_chapter

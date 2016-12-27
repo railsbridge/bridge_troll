@@ -1,11 +1,11 @@
-<% @rsvp.dietary_restrictions ? diets = @rsvp.dietary_restrictions.map { |diet| diet.restriction } : diets = [] %>
-
-<% DietaryRestriction::DIETS.each do |diet| %>
-  <div class="checkbox_row">
-    <%= label_tag do %>
-      <%= check_box_tag("dietary_restrictions[#{diet}]", 1, diets.include?(diet)) %>
-      <%= diet.capitalize %>
-    <% end %>
-  </div>
-<% end %>
+<%= f.collection_check_boxes(:dietary_restriction_diets,
+                             DietaryRestriction::DIETS,
+                             :to_s,
+                             :capitalize,
+                             {
+                                 item_wrapper_class: 'checkbox_row',
+                                 item_wrapper_tag: 'div',
+                                 include_hidden: false
+                             }
+    ) %>
 <%= f.input :dietary_info, label: "Other" %>

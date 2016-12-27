@@ -2,15 +2,15 @@
 
 <% if @chapter.leaders.present? %>
   <h2>Chapter Leaders</h2>
-    <ul>
+  <ul>
     <% @chapter.leaders.each do |leader| %>
       <li><%= link_to leader.full_name, user_profile_path(leader) %></li>
     <% end %>
-    </ul>
+  </ul>
 <% end %>
 
 <% if @chapter.has_leader?(current_user) %>
-  <%= link_to 'Edit Chapter Leaders', chapter_chapter_leaderships_path(@chapter), class: "btn mb20" %>
+  <%= link_to 'Edit Chapter Leaders', chapter_leaders_path(@chapter), class: "btn mb20" %>
 
   <h2>Organizers</h2>
   <table class="datatable-sorted table table-striped table-bordered table-condensed responsive-table">
@@ -36,10 +36,6 @@
 <h2>Events</h2>
 <%= render 'shared/events_table', events: @chapter_events %>
 
-<h2>Locations</h2>
-<%= render 'shared/locations_table', locations: @chapter.locations %>
-
 <%= render 'shared/actions', links: [
-  ['Edit', edit_chapter_path(@chapter)],
-  ['Back', chapters_path]
+  current_user.try(:admin?) ? ['Edit', edit_chapter_path(@chapter)] : nil,
 ] %>

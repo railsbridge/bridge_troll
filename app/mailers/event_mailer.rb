@@ -18,10 +18,12 @@ class EventMailer < BaseMailer
   def unpublished_event(event)
     @event = event
 
-    set_recipients(User.where('admin = ? OR publisher = ?', true, true).map(&:email))
+    approver_addresses = User.where('admin = ? OR publisher = ?', true, true).map(&:email)
+    approver_addresses << 'info@bridgetroll.org' unless approver_addresses.present?
 
     mail(
-      subject: "Bridge Troll event #{@event.published? ? 'created' : 'awaits approval'}: '#{@event.title}' by #{@event.organizers.first.full_name}"
+      subject: "Bridge Troll event #{@event.published? ? 'created' : 'awaits approval'}: '#{@event.title}' by #{@event.organizers.first.full_name}",
+      to: approver_addresses
     )
   end
 
@@ -35,15 +37,39 @@ class EventMailer < BaseMailer
     )
   end
 
+  def event_has_been_approved(event)
+    @event = event
+
+    set_recipients(event.organizers.map(&:email))
+
+    mail(
+      subject: "Your Bridge Troll event has been approved: '#{@event.title}'"
+    )
+
+  end
+
   def new_event(event)
     @event = event
     return unless @event.location
-    @chapter = @event.chapter
+    @region = @event.region
 
-    set_recipients(User.joins(:chapters).where('users.allow_event_email = ?', true).where('chapters.id' => [@chapter.id]).map(&:email))
+    set_recipients(User.joins(:regions).where('users.allow_event_email = ?', true).where('regions.id' => [@region.id]).map(&:email))
 
     mail(
-      subject: "[#{@chapter.name}] New event posted: '#{@event.title}'"
+      subject: "[#{@region.name}] New event posted: '#{@event.title}'"
     )
   end
+
+  def new_organizer_alert(event, new_organizer)
+    @event = event
+    @user = new_organizer
+
+    set_recipients(@user.email)
+
+    mail(
+      subject: "You have been added as an organizer to '#{@event.title}'"
+    )
+
+  end
+
 end

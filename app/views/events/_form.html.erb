@@ -1,111 +1,184 @@
 <%= simple_nested_form_for @event do |f| %>
+  <% if @event.new_record? || @event.draft? %>
+    <h2>Ready to create your Event? Hold on a second...</h2>
+
+    <p>If you're organizing a workshop, make sure you've read over the
+      <a href="https://github.com/bridgefoundry/WorkshopCookbook/wiki/Cookbook">Organizer Cookbook</a> so you know what you're getting into.</p>
+
+    <p>Pay particular attention to the
+      <a href="https://github.com/bridgefoundry/WorkshopCookbook/wiki/Workshop-Planning-Tasks">Workshop Planning Tasks</a> page. You're already posting an event on Bridge Troll, which is a thing on that page!</p>
+  <% end %>
+
   <%= render 'shared/model_error_messages', model: @event %>
 
-  <h2>Basic Event Information</h2>
+  <div class="form-section-header-expander">
+    <a href=""><i class='fa fa-arrows-alt'></i> Expand All</a>
+  </div>
+  <script>
+    window.whenReady(function () {
+      $('.form-section-header-expander').on('click', function (event) {
+        event.stopPropagation();
+        $('section.collapse').collapse('show');
+        return false;
+      });
+    });
+  </script>
 
-  <h3>Event Type</h3>
-  <div class="field non-bolded">
-    <div>
-      <%= label_tag do %>
-        <%= f.radio_button :allow_student_rsvp, true, data: {'toggle-target' => 'workshop-only', 'toggle-show-when' => true} %> Students and Volunteers (normal workshop)
-      <% end %>
+  <%= event_form_section form: f, label: 'Organizer Information' do %>
+    <div class="field">
+      <%= f.input :public_email, label: 'What email address should users contact you at with questions?' %>
     </div>
-    <div>
-      <%= label_tag do %>
-        <%= f.radio_button :allow_student_rsvp, false, data: {'toggle-target' => 'workshop-only', 'toggle-show-when' => true} %> Just Volunteers (work party, teacher
-        training)
-      <% end %>
-    </div>
-  </div>
+  <% end %>
 
-  <div class="field">
-    <%= f.input :title %>
-  </div>
+  <%= event_form_section form: f, label: 'Basic Event Information' do %>
+    <%= content_tag :div, class: field_classes(@event, :chapter) do %>
+      <div class='hint-toggler' data-toggle-hint="hint-chapter"></div>
 
-  <div class="field">
-    <div>
-      <%= f.label :location_id %>
-    </div>
-    <%= collection_select(:event, :location_id, Location.available, :id, :name_with_chapter, {prompt: true}, {class: 'select2-dropdown'}) %>
-    <p>
-      <em>If your location isn't in this list, head over to the <%= link_to 'locations page', locations_path %> and add
-        it before you continue.</em>
-    </p>
-  </div>
+      <%= render 'shared/chapter_select', label: 'What Chapter is hosting?', f: f, on_open: 'window.activateHint($(\'[data-toggle-hint="hint-chapter"]\'))' %>
 
-  <div class="field workshop-only">
-    <div>
-      <%= f.label :course_id %>
-    </div>
-    <%= collection_select :event, :course_id, Course.all, :id, :title, {}, {class: 'form-control'} %>
-  </div>
-
-  <div class="field workshop-only">
-    <%= f.input :target_audience, label: 'What population is this workshop reaching out to?' %>
-    <p>
-      <em>
-        All workshops must reach out to one or more underrepresented population in tech, such as women, people of color, or transgender people.
-      </em>
-    </p>
-  </div>
-
-  <div class="field">
-    <%= f.input :time_zone, priority: ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
-  </div>
-
-  <div class="field">
-    <%= f.input :public_email, label: 'What email address should users contact you at with questions?' %>
-  </div>
-
-  <h3>Operating Systems</h3>
-
-  <div class="field workshop-only">
-    <div class="question">
-      <%= f.label :restrict_operating_systems do %>
-        <%= f.check_box :restrict_operating_systems,
-                        'data-toggle-target' => 'allowed-operating-systems-wrapper',
-                        'data-toggle-show-when' => '1' %>
-        Do you want to restrict the operating systems students should use?
-      <% end %>
-    </div>
-
-    <div class="field allowed-operating-systems-wrapper">
-      <div class="mb20">
-        <strong>Note:</strong> this feature is for disallowing operating systems due to technical restrictions, i.e. no Windows at an iOS workshop. Don't uncheck Windows just because you don't like Windows!
+      <div class='hint-content' id="hint-chapter">
+        <p>
+          <em>If your chapter isn't in this list, please <%= link_to "open an issue on GitHub", "https://github.com/railsbridge/bridge_troll/issues/new", target: "_blank" %> with the name of the chapter to get it added before you continue.</em>
+        </p>
       </div>
-      <%= f.collection_check_boxes(:allowed_operating_system_ids,
-                                   OperatingSystem.all,
-                                   :id,
-                                   :title,
-                                   {
-                                     item_wrapper_class: 'checkbox_row',
-                                     item_wrapper_tag: 'div',
-                                     include_hidden: false
-                                   }) %>
-    </div>
-  </div>
-
-  <h3>Childcare</h3>
-
-  <div class="field non-bolded">
-    <%= f.label :has_childcare do %>
-      <%= f.check_box :has_childcare %> Offer childcare at this event
     <% end %>
 
-    <p>If you are offering childcare at this event, volunteers and students requesting childcare will be prompted to enter their children's names and ages when they RSVP.</p>
-  </div>
+    <h3>This event is for:</h3>
+    <div class="field non-bolded">
+      <div>
+        <%= label_tag do %>
+          <%= f.radio_button :allow_student_rsvp, true, data: {'toggle-target' => '.workshop-only', 'toggle-show-when' => true} %> Students and Volunteers (normal workshop)
+        <% end %>
+      </div>
+      <div>
+        <%= label_tag do %>
+          <%= f.radio_button :allow_student_rsvp, false, data: {'toggle-target' => '.workshop-only', 'toggle-show-when' => true} %> Just Volunteers (work party, teacher
+          training)
+        <% end %>
+      </div>
+    </div>
 
-  <h3>Sessions</h3>
+    <div class="field workshop-only">
+      <div>
+        <%= f.label :course_id, 'What course is being offered?' %>
+      </div>
+      <%= f.collection_select(:course_id, Course.all, :id, :title, {}, {class: 'form-control'}) %>
+    </div>
 
-  <p>
-    <em>There should be one session for each thing that a student or volunteer might be checked in for. This usually means 'Installfest' and 'Workshop'. If there's no Installfest, just keep the one session.</em>
-  </p>
-  <p>
-  <em>If "Required for Students" is checked, the RSVP form will not let students deselect the session. (Volunteers can always choose which sessions they will be attending.)</em>
-  </p>
+    <div class="field workshop-only">
+      <div class="question">
+        <%= f.label :restrict_operating_systems do %>
+          <%= f.check_box :restrict_operating_systems,
+                          'data-toggle-target' => '.allowed-operating-systems-wrapper',
+                          'data-toggle-show-when' => '1' %>
+          Restrict the operating systems students should use
+        <% end %>
+      </div>
 
-  <div class="event-sessions">
-    <%= f.fields_for :event_sessions do |event_sessions_form| %>
+      <div class="field allowed-operating-systems-wrapper">
+        <div class="mb20">
+          <strong>Note:</strong> this feature is for disallowing operating systems due to technical restrictions, i.e. no Windows at an iOS workshop. Don't uncheck Windows just because you don't like Windows!
+        </div>
+        <%= f.collection_check_boxes(:allowed_operating_system_ids,
+                                     OperatingSystem.all,
+                                     :id,
+                                     :title,
+                                     {
+                                         item_wrapper_class: 'checkbox_row',
+                                         item_wrapper_tag: 'div',
+                                         include_hidden: false
+                                     }) %>
+      </div>
+    </div>
+
+    <div class="field workshop-only">
+      <div class='hint-toggler' data-toggle-hint="hint-population"></div>
+
+      <%= f.input :target_audience, label: 'What population is this workshop reaching out to?', input_html: {data: {'focus-hint' => "hint-population"}} %>
+
+      <div class="hint-content" id="hint-population">
+        <p>
+          <em>
+            All workshops must reach out to one or more underrepresented population in tech, such as women, people of color, or transgender people.
+          </em>
+        </p>
+      </div>
+    </div>
+
+    <div class='workshop-only'>
+      <div class="question">
+        <%= f.label :plus_one_host_toggle do %>
+          <%= f.check_box :plus_one_host_toggle, {data: {'focus-hint' => 'hint-plus-one-host'}} %>
+          Allow students to bring a +1 who's not from the target demographic?
+        <% end %>
+
+        <div class='hint-toggler' data-toggle-hint="hint-plus-one-host"></div>
+      </div>
+
+      <div class="hint-content" id="hint-plus-one-host">
+        <p>Historically, *Bridge workshops for women have allowed men to attend as the guest of a woman. If you want to do a similar +1 thing, you can ask attendees to list who they are the guest of.</p>
+        <p>The plus-one host form says this:</p>
+        <blockquote>
+          <%= render :partial => "shared/plus_one_disclaimer" %>
+        </blockquote>
+        <p>If your workshop isn't open to +1s, you can choose not to show that field.</p>
+      </div>
+    </div>
+
+    <div class="field">
+      <div class='hint-toggler' data-toggle-hint="hint-childcare"></div>
+
+      <%= f.label :has_childcare do %>
+        <%= f.check_box :has_childcare, {data: {'focus-hint' => 'hint-childcare'}} %> Offer childcare at this event
+      <% end %>
+
+      <div class='hint-content' id="hint-childcare">
+        <p>If you are offering childcare at this event, volunteers and students requesting childcare will be prompted to enter their children's names and ages when they RSVP.</p>
+      </div>
+    </div>
+  <% end %>
+
+  <%= event_form_section form: f, label: 'Event Description & Page Info' do %>
+    <div class="field">
+      <%= f.input :title, label: 'Event Title' %>
+    </div>
+
+    <div class="field">
+      <div>
+        <%= f.label :location_id, label: 'Event Location' %>
+      </div>
+      <%= f.select(:location_id,
+                   locations_for_select,
+                   {include_blank: 'Please select'},
+                   onchange: "$('#event_time_zone').val(this.selectedOptions[0].dataset.inferredTimeZone)"
+                  ) %>
+      <script>
+        window.whenReady(function () {
+          $('#event_location_id').select2({width: '100%'});
+        });
+      </script>
+      <% if @event.new_record? %>
+        <p>
+          <em>If your location isn't in this list, <%= link_to 'add it', '#new-location-modal', 'data-toggle' => 'modal' %> before you continue.</em>
+        </p>
+      <% end %>
+    </div>
+
+    <div class="field">
+      <%= f.input :time_zone, priority: ActiveSupport::TimeZone.us_zones, include_blank: 'Select Time Zone' %>
+    </div>
+
+    <h3>Sessions</h3>
+
+    <p>
+      <em>There should be one session for each thing that a student or volunteer might be checked in for. This usually means 'Installfest' and 'Workshop'. If there's no Installfest, just keep the one session.</em>
+    </p>
+    <p>
+      <em>If "Required for Students" is checked, the RSVP form will not let students deselect the session. (Volunteers can always choose which sessions they will be attending.)</em>
+    </p>
+
+    <div class="event-sessions">
+      <%= f.fields_for :event_sessions do |event_sessions_form| %>
       <span class="remove-session pull-right <% if @event.event_sessions.length == 1 || event_sessions_form.object.has_rsvps? %>hidden<% end %>">
         <% if @event.persisted? %>
           <%= link_to '(Remove Session)', [@event, event_sessions_form.object], method: :delete, data: { confirm: 'Are you sure?' } %>
@@ -113,147 +186,171 @@
           (<a href="#">Remove Session</a>)
         <% end %>
       </span>
-      <%= event_sessions_form.input :name, label: 'Session Name' %>
+        <%= event_sessions_form.input :name, label: 'Session Name' %>
 
-      <div class='form-group'>
-        <%= event_sessions_form.text_field :session_date, class: 'datepicker form-control' %>
-        <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {class: "input-small start_time form-control"} %>
-        -
-        <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {class: "input-small end_time form-control"} %>
-      </div>
-      <div class='form-group session-checkboxes'>
-        <%= event_sessions_form.label :required_for_students do %>
-          <%= event_sessions_form.check_box :required_for_students, class: 'exclusive-checkbox' %> Required for Students?
-        <% end %>
+        <div class='form-group'>
+          <%= event_sessions_form.text_field :session_date, class: 'datepicker form-control' %>
+          <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {class: "input-small start_time form-control"} %>
+          -
+          <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {class: "input-small end_time form-control"} %>
+        </div>
+        <div class='form-group session-checkboxes'>
+          <%= event_sessions_form.label :required_for_students do %>
+            <%= event_sessions_form.check_box :required_for_students, class: 'exclusive-checkbox' %> Required for Students?
+          <% end %>
 
-        <%= event_sessions_form.label :volunteers_only do %>
-          <%= event_sessions_form.check_box :volunteers_only, class: 'exclusive-checkbox' %> Volunteers Only!
+          <%= event_sessions_form.label :volunteers_only do %>
+            <%= event_sessions_form.check_box :volunteers_only, class: 'exclusive-checkbox' %> Volunteers Only!
+          <% end %>
+        </div>
+        <%= event_sessions_form.label :location_overridden do %>
+          <%= event_sessions_form.check_box :location_overridden, class: 'session-location-toggle' %>
+          This session takes place at a different location
         <% end %>
-      </div>
-    <% end %>
-    <%= f.link_to_add :event_sessions, class: 'btn btn-info' do %>
-      <i class='fa fa-plus-square' style='margin-right: 5px;'></i>Add another session
-    <% end %>
-  </div>
-
-  <div class='workshop-only'>
-    <h2>Student details</h2>
-
-    <div class="field">
-      <h3>Ask for plus-one host name?</h3>
-      <p>Historically, *Bridge workshops for women have allowed men to attend as the guest of a woman. If you want to do a similar +1 thing, you can ask attendees to list who they are the guest of.</p>
-      <p>The plus-one host form says this:</p>
-      <blockquote>
-      <%= render :partial => "shared/plus_one_disclaimer" %>
-      </blockquote>
-      <p>If your workshop isn't open to +1s, you can choose not to show that field.</p>
-      <div>
-        <%= label_tag do %>
-          <%= f.radio_button :plus_one_host_toggle, true %> Show plus-one host name form
-        <% end %>
-      </div>
-      <div>
-        <%= label_tag do %>
-          <%= f.radio_button :plus_one_host_toggle, false %> Don't show plus-one host name form
-        <% end %>
-      </div>
+        <div>
+          <%= event_sessions_form.collection_select(:location_id,
+                                                    Location.includes(:region).available,
+                                                    :id,
+                                                    :name_with_region,
+                                                    {prompt: true},
+                                                    {class: 'session-location-select'}) %>
+        </div>
+      <% end %>
+      <%= f.link_to_add :event_sessions, class: 'btn btn-info mb20' do %>
+        <i class='fa fa-plus-square' style='margin-right: 5px;'></i>Add another session
+      <% end %>
     </div>
 
-    <h3>Capacity</h3>
+    <h3>Additional Event Info</h3>
 
-    <p>
-      This sets be the maximum number of <strong>students</strong> and <strong>volunteers</strong> you think could fit in your event.
-    </p>
-    <p>
-      Student rsvp limit is <strong>required</strong>, volunteer limit is optional.
-    </p>
-    <p>
-      Most workshops have less than one volunteer for every student.
-    </p>
-  </div>
+    <div class="field">
+      <div class='hint-toggler' data-toggle-hint="hint-additional-details"></div>
 
-  <div class="field workshop-only">
-    <%= f.input :student_rsvp_limit, label: 'Student RSVP limit' %>
-    <%= f.input :volunteer_rsvp_limit, label: 'Volunteer RSVP limit' %>
-    <p>
-      After this event is published, you can <strong>increase</strong> these numbers, but you cannot decrease them below the number of RSVP'd attendees.
-    </p>
-    <p>
-      You may <strong>remove</strong> the volunteer limit, but it will promote everyone from the waitlist.
-    </p>
-  </div>
+      <p>Using basic HTML include any additional info you want to share with prospective event attendees.</p>
 
-  <h2>Event Description</h2>
-  <div class="field">
-    <p>We will automatically include the name of the course and a link to the corresponding class levels, so that should not be duplicated here.</p>
-    <p>You can use basic html, like:</p>
-    <ul class="margined">
-      <li><pre><%= "<img src='http://example.com/sponsor/logo'>" %></pre></li>
-      <li><pre><%= "<a href='http://bridgetroll.org'>Link Text</a>" %></pre></li>
-      <li><pre><%= "<h3>Littler Header</h3>\nMore text below, no blank line needed after headers" %></pre></li>
-      <li><pre><%= "<ul>\n  <li>List Item One</li>\n  <li>List Item Two</li>\n</ul>" %></pre></li>
-    </ul>
-    <p>But you don't have to put paragraph tags around everything; blank lines will do just fine.</p>
-    <%= f.input :details, as: :text, input_html: {rows: 14} %>
-  </div>
+      <p>We will automatically include the name of the course and a link to the corresponding class levels, so that should not be duplicated here.</p>
 
-  <h3>Post-RSVP Details</h3>
-  <p>The following details will be included in the confirmation & reminder emails and will appear at the bottom of the
-    event detail page <em>after</em> the student or volunteer has signed up.</p>
-  <div class="field">
-    <%= f.input :volunteer_details, label: 'Volunteer Details', input_html: {rows: 4} %>
-  </div>
+      <%= f.input :details, as: :text, label: false, input_html: {rows: 14, data: {'focus-hint' => "hint-additional-details"}} %>
 
-  <div class="field workshop-only">
-    <%= f.input :student_details, label: 'Student Details', input_html: {rows: 4} %>
-  </div>
-
-  <h3>Survey Details</h3>
-
-  <div class="field">
-    <p>
-      Email body - Link to survey will be included at bottom
-    </p>
-    <%= f.input :survey_greeting, label: 'Greeting', input_html: {rows: 4} %>
-  </div>
-
-  <% unless @event.published? %>
-    <h2>Announcement Email</h2>
-
-    <div class="field non-bolded">
-      <%= f.label :email_on_approval do %>
-        <%= f.check_box :email_on_approval %> Send announcement email to chapter when the event is approved
-      <% end %>
+      <div class='hint-content' id="hint-additional-details">
+        <p>You can use basic html, like:</p>
+        <ul>
+          <li><pre><%= "<img src='http://example.com/sponsor/logo'>" %></pre></li>
+          <li><pre><%= "<a href='http://bridgetroll.org'>Link Text</a>" %></pre></li>
+          <li><pre><%= "<h3>Littler Header</h3>\nMore text below, no blank line needed after headers" %></pre></li>
+          <li><pre><%= "<ul>\n  <li>List Item One</li>\n  <li>List Item Two</li>\n</ul>" %></pre></li>
+        </ul>
+        <p>But you don't have to put paragraph tags around everything; blank lines will do just fine.</p>
+      </div>
     </div>
   <% end %>
 
-  <% if @event.new_record? || @event.current_state == :draft_saved %>
-    <h2>Ready to create your Event? Hold on a second...</h2>
+  <%= event_form_section form: f, label: 'RSVP Info' do %>
+    <div class="workshop-only">
+      <div class="field">
+        <div class='hint-toggler' data-toggle-hint="hint-student-limit"></div>
 
-    <p>If you're organizing a workshop, make sure you've read over the
-      <a href="https://github.com/railsbridge/docs/wiki/Cookbook">Organizer's Cookbook</a> so you know what you're getting into.</p>
+        <%= f.input :student_rsvp_limit,
+                    as: :string,
+                    label: 'Student RSVP limit (required)',
+                    input_html: {data: {'focus-hint' => "hint-student-limit"}},
+                    wrapper_html: {class: 'workshop-only'} %>
 
-    <p>Pay particular attention to the
-      <a href="https://github.com/railsbridge/docs/wiki/Workshop-Planning-Tasks">Workshop Planning Tasks</a> page. You're already posting an event on Bridge Troll, which is a thing on that page!</p>
+        <div class="hint-content" id="hint-student-limit">
+          <p>
+            These are the limits for the maximum number of attendees you think could fit in your event.
+          </p>
+          <p>
+            After this event is published, you can <strong>increase</strong> these numbers, but you cannot decrease them below the number of RSVP'd attendees.
+          </p>
+        </div>
+      </div>
+      <div class="field workshop-only">
+        <%= f.input :student_details, label: 'RSVP confirmation details sent to Students after sign up', input_html: {rows: 4} %>
+      </div>
+    </div>
 
     <div class="field">
+      <div class='hint-toggler' data-toggle-hint="hint-volunteer-limit"></div>
+
+      <%= f.input :volunteer_rsvp_limit,
+                  as: :string,
+                  input_html: {data: {'focus-hint' => "hint-volunteer-limit"}},
+                  label: 'Volunteer RSVP limit' %>
+
+      <div class="hint-content" id="hint-volunteer-limit">
+        <p class="workshop-only">
+          As a guideline, most workshops have less than one volunteer for every student.
+        </p>
+        <p>
+          After this event is published, you may <strong>remove</strong> the volunteer limit, but it will promote everyone from the volunteer waitlist.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <%= f.input :volunteer_details, label: 'RSVP confirmation details sent to Volunteers after sign up', input_html: {rows: 4} %>
+
+    </div>
+  <% end %>
+
+  <% unless @event.published? %>
+    <%= event_form_section form: f, label: 'Finalize' do %>
+      <ul class="bulleted margined">
+        <li>Your event will be reviewed before it becomes live on the front page</li>
+        <li>When it's live you will get an email notification</li>
+        <li>Feel free to edit the event while it's pending</li>
+      </ul>
+
+      <div class="field non-bolded">
+        <%= f.label :email_on_approval do %>
+          <%= label_tag do %>
+            <%= f.radio_button :email_on_approval, true %> Send an announcement email to region members when the event is approved
+          <% end %>
+          <%= label_tag do %>
+            <%= f.radio_button :email_on_approval, false %> Let me control when to send the announcement email
+            <i>(A button will show up on your organizer console when your event is approved)</i>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if @event.new_record? || @event.draft? %>
+    <div class="field">
+      <script>
+        window.whenReady(function () {
+          $('#event_chapter_id').on('change', function () {
+            var chapterId = parseInt(this.value, 10);
+            $('#coc').attr('checked', false);
+            $.get("/chapters/" + chapterId + "/code_of_conduct_url").then(function (codeOfConductUrl) {
+              $('#coc_url').attr('href', codeOfConductUrl);
+            });
+          });
+        });
+      </script>
+
       <%= label_tag :coc, class: 'question' do %>
         <strong><%= check_box_tag :coc, '1', params[:coc], data: {
-          'toggle-target' => 'coc-required',
+          'toggle-target' => '.coc-required',
           'toggle-enable-when-checked' => true
         } %>
-          I accept the <a href="http://bridgefoundry.org/code-of-conduct/" target="_blank">Code of Conduct</a> and will communicate it at the beginning of the event.
+          I accept the <%= link_to 'Code of Conduct', @event.code_of_conduct_url, target: :blank, id: 'coc_url' %> and will communicate it at the beginning of the event.
         </strong>
       <% end %>
     </div>
   <% end %>
 
   <div class="actions">
-    <% if @event.new_record? || @event.draft_saved %>
-      <%= f.submit class: 'btn btn-submit coc-required', name: 'create_event', value: 'Submit Event For Approval' %>
-      <%= f.submit class: 'btn btn-submit event-new-save-draft', name: 'save_draft', value: 'Save Draft' %>
+    <% if @event.new_record? || @event.draft? %>
+      <%= f.submit class: 'btn btn-submit coc-required', name: 'create_event', value: 'Submit Event For Approval', data: {disable_with: 'Please wait...'} %>
+      <%= f.submit class: 'btn btn-submit event-new-save-draft', name: 'save_draft', value: 'Save Draft', data: {disable_with: 'Please wait...'} %>
     <% else %>
-      <%= f.submit class: 'btn btn-submit coc-required' %>
+      <%= f.submit class: 'btn btn-submit coc-required', data: {disable_with: 'Please wait...'} %>
     <% end %>
   </div>
+<% end %>
+
+<% if @event.new_record? %>
+  <%= render "location_modal", modal: true %>
 <% end %>

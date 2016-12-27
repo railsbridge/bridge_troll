@@ -127,11 +127,11 @@ table.responsive-table {
       background-color: transparent;
     }
 
-    tbody td {
+    tbody td, &.table-bordered tbody td {
       border-left-width: 1px;
     }
 
-    td:last-child {
+    td:last-child, &.table-bordered td:last-child {
       border-right-width: 1px;
     }
 
@@ -186,4 +186,8 @@ table.dataTable thead {
   .sorting_desc:after {
     content: "\f0dd"; /* fa-sort-desc */
   }
+}
+
+.dataTables_processing {
+  z-index: 1;
 }

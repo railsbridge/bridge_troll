@@ -1,19 +1,20 @@
 source 'https://rubygems.org'
 
-ruby '2.2.2'
+ruby '2.3.1'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem 'rails', '4.2.3'
-gem 'devise', '~> 3.5.0'
+gem 'rails', '~> 4.2.7'
+gem 'devise', '~> 4.2.0'
+gem 'pundit'
 gem 'puma'
 gem 'jquery-rails'
 gem 'nested_form'
-gem 'select2-rails'
 gem 'active_hash'
 gem 'sanitize'
 gem 'gmaps4rails'
 gem 'geocoder'
+gem 'omniauth-google-oauth2'
 gem 'omniauth-meetup'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
@@ -23,6 +24,9 @@ gem 'simple_form'
 gem 'rack-canonical-host'
 gem 'icalendar'
 gem 'pg' if ENV['FORCE_POSTGRES']
+gem 'rack-mini-profiler'
+gem 'bower-rails'
+gem 'nearest_time_zone'
 
 group :production do
   gem 'pg'
@@ -30,28 +34,26 @@ group :production do
   gem 'heroku_rails_deflate'
   gem 'newrelic_rpm'
   gem 'sentry-raven'
+  gem 'rack-timeout'
 end
 
 gem 'handlebars_assets'
-gem 'jquery-datatables-rails'
 gem 'sass-rails'
-gem 'compass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 gem 'jquery-ui-rails'
 gem 'backbone-on-rails'
-gem 'masonry-rails'
 
 group :development do
   gem 'quiet_assets'
   gem 'rb-fsevent'
-  gem "bullet"
-  gem "heroku_san"
-  gem "better_errors"
-  gem "binding_of_caller"
-  gem "byebug"
+  gem 'bullet'
+  gem 'heroku_san'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'byebug'
 end
 
 group :test, :development do
@@ -65,19 +67,13 @@ end
 
 group :test do
   gem 'webmock'
-  gem "factory_girl_rails"
-  gem 'capybara', '>= 2.0.1'
-  gem "poltergeist"
-  gem "launchy"
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'poltergeist'
+  gem 'launchy'
   gem 'shoulda-matchers'
-  gem "faker"
+  gem 'faker'
   gem 'capybara-screenshot'
   # Remove after Rails 5: https://github.com/rails/rails/pull/18458
   gem 'test_after_commit'
-end
-
-source 'https://rails-assets.org' do
-  group :test, :development do
-    gem 'rails-assets-sinonjs'
-  end
 end

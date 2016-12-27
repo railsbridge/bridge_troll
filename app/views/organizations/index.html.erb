@@ -1,0 +1,30 @@
+<h1>Organizations</h1>
+
+<% @organizations.sort_by(&:name).each do |org| %>
+  <% if org.chapters.count > 0 %>
+    <h2><%= link_to org.name, organization_path(org) %></h2>
+    <div><% org.chapters.count %><%= pluralize(org.chapters.count, 'chapter') %></div>
+    <% if org.leaders.length > 0 %>
+      <div>Leaders:</div>
+      <ul>
+        <% org.leaders.each do |leader| %>
+          <li><%= link_to leader.full_name, user_profile_path(leader) %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+<% end %>
+
+<h1 class=='mt-10'>Chapters</h1>
+<%= render "shared/map",
+           locations: @chapter_locations,
+           map_class: 'gmaps4rails_bigger_map',
+           infowindow_template: 'chapter_infowindow' %>
+
+<% if user_signed_in? %>
+  <% links = [] %>
+  <% if policy(Organization).create? %>
+    <% links << ['Add Organization', new_organization_path] %>
+  <% end %>
+  <%= render 'shared/actions', links: links, additional_class: 'no-margin' %>
+<% end %>

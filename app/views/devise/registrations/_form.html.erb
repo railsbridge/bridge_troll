@@ -23,16 +23,23 @@
       <%= f.input :gender %>
 
       <div class='form-group'>
-        <%= f.label :chapter_ids, 'Chapters' %>
+        <%= f.label :region_ids, 'Regions' %>
         <div class='checkbox-columns'>
-          <%= f.collection_check_boxes(:chapter_ids, Chapter.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
+          <%= f.collection_check_boxes(:region_ids, Region.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
         </div>
       </div>
 
       <div class='form-group'>
         <%= f.label :allow_event_email do %>
-          <%= f.check_box :allow_event_email %> Allow Bridge Troll to send you an email when a new event is posted in one of those chapters
+          <%= f.check_box :allow_event_email %> Allow Bridge Troll to send you an email when a new event is posted in one of those regions
         <% end %>
+      </div>
+
+      <div class='form-group'>
+        <%= f.label :subscribed_organization_ids, 'Allow these Bridge organizations to (potentially) send you email newsletters:' %>
+        <div class='checkbox-columns'>
+          <%= f.collection_check_boxes(:subscribed_organization_ids, Organization.order(:name), :id, :name, item_wrapper_class: 'checkbox_row', item_wrapper_tag: 'div') %>
+        </div>
       </div>
 
       <div class='form-group'>
@@ -59,6 +66,8 @@
           <%= ff.input :bio, input_html: {rows: 3} %>
 
           <%= ff.input :github_username, label: "GitHub username" %>
+
+          <%= ff.input :twitter_username, label: "Twitter username" %>
         <% end %>
       <% end %>
 
@@ -82,7 +91,7 @@
     </div>
   </div>
 
-  <div><%= f.submit button_text, class: 'btn btn-submit' %></div>
+  <div><%= f.submit button_text, class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %></div>
 
   <% if is_registered %>
     <hr>
@@ -96,7 +105,7 @@
               <i class='fa <%= provider[:icon] %>'></i>
               <%= provider[:name] %> (UID <%= existing_authentication.uid %>)
             <% else %>
-              <%= link_to user_omniauth_authorize_path(provider[:key]) do %>
+              <%= link_to omniauth_authorize_path(:user, provider[:key]) do %>
                 <i class='fa <%= provider[:icon] %>'></i>
                 Associate with <%= provider[:name] %>
               <% end %>

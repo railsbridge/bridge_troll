@@ -1,0 +1,15 @@
+<%= content_for(:header_text, 'New organization') %>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= simple_form_for(@organization) do |f| %>
+      <%= render 'shared/model_error_messages', model: @organization %>
+
+      <%= f.input :name, placeholder: "ex: SandwichBridge" %>
+
+      <div class="actions">
+        <%= f.submit class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %>
+      </div>
+    <% end %>
+  </div>
+</div>

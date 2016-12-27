@@ -14,7 +14,7 @@ describe SurveyMailer do
     end
 
     it "includes the survey link" do
-      mail.subject.should eq "How was #{event.title}?"
+      expect(mail.subject).to eq "How was #{event.title}?"
       expect(mail.body).to include "Click right here to take the survey!"
       expect(mail.body).to include "Test greeting"
     end

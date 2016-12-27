@@ -1,51 +1,25 @@
 @font-face {
   font-family: 'Freehand521BT-RegularC';
-  src: font_url('freehand.eot');
-  src: font_url('freehand.eot?#iefix') format('embedded-opentype'),
-       font_url('freehand.woff') format('woff'),
-       font_url('freehand.ttf') format('truetype');
+  src: font_url('freehand.woff') format('woff');
 }
 
 @font-face {
   font-family: 'AmbleLight';
-  src: font_url('Amble-Light-webfont.eot');
-  src: font_url('Amble-Light-webfont.eot?#iefix') format('embedded-opentype'),
-  font_url('Amble-Light-webfont.woff') format('woff'),
-  font_url('Amble-Light-webfont.ttf') format('truetype'),
-  font_url('Amble-Light-webfont.svg#AmbleLight') format('svg');
+  src: font_url('Amble-Light-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'AmbleRegular';
-  src: font_url('Amble-Regular-webfont.eot');
-  src: font_url('Amble-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-  font_url('Amble-Regular-webfont.woff') format('woff'),
-  font_url('Amble-Regular-webfont.ttf') format('truetype'),
-  font_url('Amble-Regular-webfont.svg#AmbleRegular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'AmbleItalic';
-  src: font_url('Amble-Italic-webfont.eot');
-  src: font_url('Amble-Italic-webfont.eot?#iefix') format('embedded-opentype'),
-  font_url('Amble-Italic-webfont.woff') format('woff'),
-  font_url('Amble-Italic-webfont.ttf') format('truetype'),
-  font_url('Amble-Italic-webfont.svg#AmbleItalic') format('svg');
+  src: font_url('Amble-Regular-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'AmbleBold';
-  src: font_url('Amble-Bold-webfont.eot');
-  src: font_url('Amble-Bold-webfont.eot?#iefix') format('embedded-opentype'),
-  font_url('Amble-Bold-webfont.woff') format('woff'),
-  font_url('Amble-Bold-webfont.ttf') format('truetype'),
-  font_url('Amble-Bold-webfont.svg#AmbleBold') format('svg');
+  src: font_url('Amble-Bold-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }

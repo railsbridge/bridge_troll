@@ -20,21 +20,22 @@ FactoryGirl.define do
   factory :external_event do
     sequence(:name) { |n| "External Event #{n}" }
     sequence(:location) { |n| "External Event Location #{n}" }
+    sequence(:city) { |n| "External Event City #{n}" }
     starts_at DateTime.now
   end
 
-  factory :event_with_no_sessions, :class => Event do
+  factory :event_with_no_sessions, class: Event do
     sequence(:title) { |n| "Event #{n}" }
     details "This is note in the details attribute."
     time_zone "Hawaii"
     starts_at 1.hour.from_now
     ends_at { starts_at + 1.day }
-    published true
-    draft_saved false
+    current_state :published
     student_rsvp_limit 100
     volunteer_rsvp_limit 75
     location
     course
+    chapter
     volunteer_details "I am some details for volunteers."
     student_details "I am some details for students."
     target_audience "default target audience"
@@ -76,21 +77,28 @@ FactoryGirl.define do
     sequence(:name) { |n| "Location #{n}" }
     sequence(:address_1) { |n| "#{n} Street" }
     city "San Francisco"
-    chapter
+    latitude 37.7955458
+    longitude -122.3934205
+    region
+  end
+
+  factory :region do
+    sequence(:name) { |n| "Region #{n}" }
   end
 
   factory :chapter do
-    sequence(:name) { |n| "Chapter #{n}" }
+    sequence(:name) { |n| "Region #{n}" }
+    organization
+  end
+
+  factory :organization do
+    sequence(:name) { |n| "Organization #{n}" }
   end
 
   factory :event_session do
     sequence(:name) { |n| "Test Session #{n}" }
     starts_at 1.day.from_now
     ends_at { starts_at + 6.hours }
-  end
-
-  factory :role do
-    sequence(:title) { "Teacher Level #{n}" }
   end
 
   factory :rsvp, aliases: [:volunteer_rsvp] do
@@ -128,10 +136,8 @@ FactoryGirl.define do
           rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session_id: event_session_id, checked_in: checked_in)
         end
         rsvp.checkins_count = evaluator.session_checkins.values.select { |v| v }.length
-      else
-        unless rsvp.rsvp_sessions.length > 0
-          rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session: rsvp.event.event_sessions.first)
-        end
+      elsif rsvp.rsvp_sessions.empty?
+        rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session: rsvp.event.event_sessions.first)
       end
     end
   end
@@ -158,5 +164,11 @@ FactoryGirl.define do
     association(:sender, factory: :user)
     subject 'hello world'
     body 'this is an exciting email'
+  end
+
+  factory :section do
+    event
+    class_level 1
+    sequence(:name) { |n| "sec_#{n}" }
   end
 end

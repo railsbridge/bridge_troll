@@ -17,6 +17,6 @@ class MeetupUser < ActiveRecord::Base
   end
 
   def profile_path
-    Rails.application.routes.url_helpers.meetup_user_path(self)
+    "/meetup_users/#{id}"
   end
 end

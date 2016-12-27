@@ -1,7 +1,18 @@
-<div class="form-group">
-  <%= f.label :chapter_id %>
-  <%= f.collection_select(:chapter_id, Chapter.order(:name), :id, :name, {prompt: true}, {class: 'form-control'}) %>
-  <p>
-    <em>If your chapter isn't in this list, head over to the <%= link_to 'chapters page', chapters_path %> and add it before you continue.</em>
-  </p>
+<div>
+  <%= f.label :chapter_id, local_assigns[:label] || 'Chapter', class: 'control-label', label: 'org' %>
 </div>
+<%= f.collection_select(:chapter_id,
+                        Chapter.all,
+                        :id,
+                        :name,
+                        {prompt: true}) %>
+<script>
+  window.whenReady(function () {
+    $('#<%= f.object.class.name.underscore %>_chapter_id').select2({width: '100%'});
+    <% if local_assigns[:on_open] %>
+      $('#<%= f.object.class.name.underscore %>_chapter_id').on('select2:open', function () {
+        <%= local_assigns[:on_open].html_safe %>
+      });
+    <% end %>
+  });
+</script>

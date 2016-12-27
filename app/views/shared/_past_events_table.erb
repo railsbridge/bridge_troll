@@ -1,0 +1,57 @@
+<table id="past-events-table" class="table table-striped table-bordered table-condensed responsive-table">
+  <thead>
+
+  <tr>
+    <th>Title</th>
+    <th>Date</th>
+    <th>Venue</th>
+    <th>City</th>
+  </tr>
+  </thead>
+</table>
+
+<script>
+  window.whenReady(function () {
+    function createLink(params) {
+      var link = document.createElement('a');
+      link.setAttribute('href', params.url);
+      link.innerHTML = params.text;
+      return link.outerHTML;
+    }
+
+    $('#past-events-table').DataTable({
+      paging: true,
+      pageLength: 10,
+      serverSide: true,
+      searching: true,
+      sort: false,
+      ajax: '/events.json?type=past&serialization_format=dataTables',
+      columns: [
+        { data: 'title' },
+        { data: 'date' },
+        { data: 'location_name' },
+        { data: 'location_city_and_state' }
+      ],
+      createdRow: function( row, data, dataIndex ) {
+        ImportedEventPopover.activatePopoverTrigger(row);
+      },
+      columnDefs: [{
+        targets: 0,
+        render: function ( data, type, row ) {
+          if (row.url) {
+            var parts = [createLink({
+              url: row.url,
+              text: row.title
+            })];
+            if (row.imported_event_data) {
+              parts.push(ImportedEventPopover.createPopoverTrigger(row.imported_event_data));
+            }
+            return parts.join(' ');
+          } else {
+            return row.title;
+          }
+        }
+      }]
+    });
+  });
+</script>

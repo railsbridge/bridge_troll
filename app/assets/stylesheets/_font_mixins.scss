@@ -1,0 +1,15 @@
+@mixin font-amble-light() {
+  font-family: 'AmbleLight', sans-serif;
+}
+
+@mixin font-amble-regular() {
+  font-family: 'AmbleRegular', sans-serif;
+}
+
+@mixin font-amble-bold() {
+  font-family: 'AmbleBold', sans-serif;
+}
+
+@mixin font-freehand() {
+  font-family: 'Freehand521BT-RegularC', sans-serif;
+}

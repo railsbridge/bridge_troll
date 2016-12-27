@@ -15,7 +15,7 @@
 
   <script>
     // Populate color-value placeholders with computed value at render time
-    $(document).ready(function () {
+    window.whenReady(function () {
       function componentToHex(c) {
         var hex = parseInt(c).toString(16);
         return hex.length == 1 ? "0" + hex : hex;

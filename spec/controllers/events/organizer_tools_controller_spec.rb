@@ -31,7 +31,7 @@ describe Events::OrganizerToolsController do
           checkin_counts: {1 => {foo: 'bar'}}
         }
         stub_data.each do |method, value|
-          Event.any_instance.stub(method).and_return(value)
+          allow_any_instance_of(Event).to receive(method).and_return(value)
         end
 
         make_request
@@ -45,12 +45,21 @@ describe Events::OrganizerToolsController do
       end
 
       context "historical event" do
-        it "redirects you to the events page" do
-          event.meetup_volunteer_event_id = 1337
-          event.save!
+        it "redirects" do
+          imported_event_data = {
+            type: 'meetup',
+            student_event: {
+              id: 901,
+              url: 'http://example.com/901'
+            }, volunteer_event: {
+              id: 902,
+              url: 'http://example.com/901'
+            }
+          }
+          event.update_attributes(imported_event_data: imported_event_data)
 
           make_request
-          expect(response).to redirect_to(events_path)
+          expect(response).to be_redirect
         end
       end
     end
@@ -97,6 +106,60 @@ describe Events::OrganizerToolsController do
           expect(response).to render_template(:new)
           expect(assigns(:rsvp)).to be_a_new(Rsvp)
           expect(assigns(:rsvp).role).to eq(Role::VOLUNTEER)
+        end
+      end
+    end
+  end
+
+  describe "POST #send_announcement_email" do
+    let(:organizer) { create(:user) }
+
+    def make_request
+      post :send_announcement_email, event_id: event.id
+    end
+
+    it_behaves_like "an event action that requires an organizer"
+
+    before do
+      event.update_attribute(:email_on_approval, false)
+    end
+
+    context "as an event organizer" do
+      before do
+        sign_in organizer
+        event.organizers << organizer
+      end
+
+      context "when announcement has been sent" do
+        before do
+          event.update_attribute(:announcement_email_sent_at, DateTime.now)
+        end
+
+        it "doesn't send the email" do
+          expect { make_request }.not_to change(ActionMailer::Base.deliveries, :count)
+        end
+      end
+
+      context "when the event has not be published" do
+        before do
+          event.update_attributes(current_state: :pending_approval)
+        end
+
+        it "doesn't send the email" do
+          expect { make_request }.not_to change(ActionMailer::Base.deliveries, :count)
+        end
+      end
+      
+      context "when the event has been published and announcement email has not been sent" do
+        before do
+          event.update_attributes(
+            current_state: :published,
+            announcement_email_sent_at: nil
+          )
+        end
+
+        it "sends the email" do
+          expect { make_request }.to change(ActionMailer::Base.deliveries, :count).by(1)
         end
       end
     end

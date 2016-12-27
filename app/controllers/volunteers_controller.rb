@@ -1,9 +1,9 @@
 class VolunteersController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :find_event
-  before_filter :validate_organizer!
+  before_action :authenticate_user!
+  before_action :find_event
 
   def index
+    authorize @event, :edit?
     @volunteer_rsvps = @event.volunteer_rsvps
   end
 

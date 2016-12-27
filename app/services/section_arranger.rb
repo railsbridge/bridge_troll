@@ -1,13 +1,18 @@
 class SectionArranger
   IDEAL_CLASS_SIZE = 6.0
 
-  def self.arrange(event, checked_in = 'indiscriminate')
+  attr_reader :event
+
+  def initialize(event)
+    @event = event
+  end
+
+  def arrange(checked_in = 'indiscriminate')
     event.sections.destroy_all
     return if event.student_rsvps_count == 0
 
-    student_rsvps, volunteer_rsvps = rsvps_to_arrange(event, checked_in)
+    student_rsvps, volunteer_rsvps = rsvps_to_arrange(checked_in)
 
-    section_counts = self.section_counts(event)
     sections = Hash.new { |hsh, key| hsh[key] = [] }
 
     student_rsvps.each do |rsvp|
@@ -46,24 +51,25 @@ class SectionArranger
 
   private
 
-  def self.rsvps_to_arrange(event, checked_in)
+  def rsvps_to_arrange(checked_in)
     if checked_in == 'any'
-      condition = Proc.new { |relation| relation.where("checkins_count > 0") }
+      condition = proc { |relation| relation.where("checkins_count > 0") }
     elsif checked_in == 'indiscriminate'
-      condition = Proc.new { |relation| relation }
+      condition = proc { |relation| relation }
     else
       session_id = checked_in.to_i
-      condition = Proc.new do |relation|
+      condition = proc do |relation|
         relation.
           joins(:rsvp_sessions).
           where('rsvp_sessions.event_session_id' => session_id).
           where("rsvp_sessions.checked_in = ?", true).readonly(false)
       end
     end
-    return [event.student_rsvps, event.volunteer_rsvps].map(&condition)
+
+    [event.student_rsvps, event.volunteer_rsvps].map(&condition)
   end
 
-  def self.section_size_given_total_students(count)
+  def section_size_given_total_students(count)
     if count <= IDEAL_CLASS_SIZE + 2
       return count
     end
@@ -72,8 +78,8 @@ class SectionArranger
     (count / number_of_sections.to_f).ceil
   end
 
-  def self.section_counts(event)
-    event.student_rsvps.select('event_id, class_level, count(class_level) count')
+  def section_counts
+    @section_counts ||= event.student_rsvps.select('event_id, class_level, count(class_level) count')
       .group(:event_id, :class_level)
       .each_with_object({}) do |rsvp_group, hsh|
       hsh[rsvp_group.class_level] = section_size_given_total_students(rsvp_group.count.to_i)

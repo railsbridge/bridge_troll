@@ -23,7 +23,7 @@
 
     <div id="sign-up">
       <%= render 'form', button_text: 'Sign up', is_registered: false %>
-      <%= render :partial => "devise/shared/links", locals: {no_sign_up: true} %>
+      <%= devise_links(:forgot_password, :confirmation_instructions) %>
     </div>
   </div>
 </div>

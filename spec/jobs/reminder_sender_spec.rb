@@ -7,7 +7,7 @@ describe ReminderSender do
       past_event = create(:event)
       past_event.event_sessions.first.update_attributes(starts_at: 2.days.ago, ends_at: 1.day.ago)
 
-      ReminderSender.should_receive(:remind_attendees_for_event).once.with(upcoming_event)
+      expect(ReminderSender).to receive(:remind_attendees_for_event).once.with(upcoming_event)
 
       ReminderSender.send_all_reminders
     end
@@ -22,7 +22,7 @@ describe ReminderSender do
 
     it 'sends emails to all the students' do
       pending_reminder_count = event.rsvps.confirmed.where('reminded_at IS NULL').count
-      pending_reminder_count.should >= 0
+      expect(pending_reminder_count).to be >= 0
 
       expect {
         ReminderSender.remind_attendees_for_event(event)
@@ -38,14 +38,14 @@ describe ReminderSender do
         event.event_sessions.first.update_attributes(starts_at: 4.days.from_now, ends_at: 5.days.from_now)
         @volunteer_session = create(:event_session, event: event, starts_at: 2.days.from_now, ends_at: 3.days.from_now, required_for_students: false, volunteers_only: true)
 
-        @volunteer_rsvp  = build(:volunteer_rsvp, event: event).tap do |rsvp|
+        @volunteer_rsvp = build(:volunteer_rsvp, event: event).tap do |rsvp|
           rsvp.rsvp_sessions.build(event_session: @volunteer_session)
           rsvp.save!
         end
       end
 
       it 'sends volunteers a session reminder' do
-        RsvpMailer.should_receive(:reminder_for_session).once.and_call_original
+        expect(RsvpMailer).to receive(:reminder_for_session).once.and_call_original
 
         expect {
           ReminderSender.remind_attendees_for_event(event)
@@ -75,7 +75,7 @@ describe "querying for events and sessions" do
     end
 
     it 'includes only events in the next three days' do
-      events.should == [@event_tomorrow]
+      expect(events).to eq([@event_tomorrow])
     end
   end
 end

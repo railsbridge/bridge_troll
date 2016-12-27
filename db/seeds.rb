@@ -1,9 +1,11 @@
-require Rails.root.join('db', 'seeds', 'seed_chapter')
-require Rails.root.join('db', 'seeds', 'admin_user')
-require Rails.root.join('db', 'seeds', 'seed_event')
+Dir[Rails.root.join('db', 'seeds', '*.rb')].each do |seed_file|
+  require seed_file
+end
 
 if Rails.env.development?
-  Seeder::seed_chapter
-  Seeder::admin_user
-  Seeder::seed_event
+  Seeder.seed_region
+  Seeder.seed_chapter
+  Seeder.admin_user
+  Seeder.seed_event
+  Seeder.seed_multiple_location_event
 end

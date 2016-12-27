@@ -1,44 +1,50 @@
 class LocationsController < ApplicationController
-  before_filter :authenticate_user!, :except => [:show, :index]
-  before_filter :assign_location, :only => [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:show, :index]
+  before_action :assign_location, only: [:show, :edit, :update, :destroy, :archive]
 
   def index
-    @locations = Location.all
+    skip_authorization
+    @locations = Location.all.includes(:events, :event_sessions)
   end
 
   def show
+    skip_authorization
   end
 
   def new
+    skip_authorization
     @location = Location.new
   end
 
   def edit
+    authorize @location, :update?
   end
 
   def create
+    skip_authorization
     @location = Location.new(location_params)
 
-    if @location.save
-      redirect_to @location, notice: 'Location was successfully created.'
-    else
-      render :new
+    respond_to do |format|
+      if @location.save
+        format.html { redirect_to @location, notice: 'Location was successfully created.'}
+        format.js   {}
+      else
+        format.html { render :new }
+        format.js   { render action: 'create_failed' }
+      end
     end
   end
 
-  def update
-    if params[:commit] == 'Archive Location'
-      if @location.archivable_by?(current_user)
-        @location.archive!
-        return redirect_to locations_path, notice: 'Location was successfully archived.'
-      else
-        return redirect_to @location, alert: 'This location is only editable by admins and organizers of events that have taken place there.'
-      end
-    end
+  def archive
+    authorize @location
 
-    unless @location.editable_by?(current_user)
-      return redirect_to @location, alert: 'This location is only editable by admins and organizers of events that have taken place there.'
-    end
+    @location.archive!
+
+    redirect_to locations_path, notice: 'Location was successfully archived.'
+  end
+
+  def update
+    authorize @location
 
     @location.gmaps = false
 
@@ -50,9 +56,7 @@ class LocationsController < ApplicationController
   end
 
   def destroy
-    if @location.events.count > 0
-      return redirect_to root_url, alert: "Can't delete a location that's still assigned to an event."
-    end
+    authorize @location
 
     @location.destroy
 
@@ -62,9 +66,7 @@ class LocationsController < ApplicationController
   private
 
   def location_params
-    attributes = Location::PERMITTED_ATTRIBUTES
-    attributes = attributes + [:contact_info, :notes] if @location.try(:additional_details_editable_by?, current_user)
-    params.require(:location).permit(attributes)
+    permitted_attributes(@location || Location.new)
   end
 
   def assign_location

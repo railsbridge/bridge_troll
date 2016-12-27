@@ -1,29 +1,27 @@
 class Chapter < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:name]
-
-  has_many :locations
-  has_many :events, -> { where published: true }, through: :locations
+  belongs_to :organization, inverse_of: :chapters
+  has_many :events
   has_many :external_events
-  has_and_belongs_to_many :users
   has_many :leaders, through: :chapter_leaderships, source: :user
   has_many :chapter_leaderships, dependent: :destroy
 
   validates_presence_of :name
   validates_uniqueness_of :name
+  validates_presence_of :organization
 
   def has_leader?(user)
     return false unless user
 
     return true if user.admin?
 
-    leaders.include?(user)
-  end
-
-  def editable_by?(user)
-    user.admin? || has_leader?(user)
+    user.chapter_leaderships.map(&:chapter_id).include?(id)
   end
 
   def destroyable?
-    (locations_count + external_events_count) == 0
+    (events_count + external_events_count) == 0
+  end
+
+  def code_of_conduct_url
+    organization.code_of_conduct_url || Event::DEFAULT_CODE_OF_CONDUCT_URL
   end
 end

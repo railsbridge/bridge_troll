@@ -12,7 +12,7 @@
     margin: 0;
   }
 
-  input[type=text] {
+  input[type=text], .select2-container {
     margin-bottom: 20px;
   }
 
@@ -21,22 +21,9 @@
     margin: 5px 5px 5px 0;
   }
 
-  .recipients-popover {
-    color: dodgerblue;
-    cursor: pointer;
-  }
-
-  .popover {
-    max-width: 600px;
-
-    .recipients {
-      height: 300px;
-      overflow-y: auto;
-      overflow-x: hidden;
-
-      ul {
-        margin: 0;
-      }
+  .recipients-selection {
+    label {
+      display: block;
     }
   }
 }

@@ -1,10 +1,11 @@
 class AdminPagesController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :validate_admin!
+  before_action :authenticate_user!
 
   def admin_dashboard
+    authorize Event, :admin?
     @admins = User.where(admin: true)
     @publishers = User.where(publisher: true)
+    @external_event_editors = User.where(external_event_editor: true)
 
     @user_authentication_counts = Hash.new(0)
     User.find_each do |user|
@@ -20,6 +21,7 @@ class AdminPagesController < ApplicationController
   end
 
   def send_test_email
+    authorize Event, :admin?
     AdminMailer.test_group_mail(to: current_user.email).deliver_now
     AdminMailer.test_individual_mail(to: current_user.email).deliver_now
 
@@ -27,6 +29,7 @@ class AdminPagesController < ApplicationController
   end
 
   def raise_exception
+    authorize Event, :admin?
     raise 'This error was intentionally raised to check error handling.'
   end
 end

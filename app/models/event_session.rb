@@ -1,11 +1,13 @@
 class EventSession < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:starts_at, :ends_at, :name, :required_for_students, :volunteers_only]
+  include PresenceTrackingBoolean
+
+  belongs_to :location, required: false
 
   validates_presence_of :starts_at, :ends_at, :name
   validates_uniqueness_of :name, scope: [:event_id]
   validate on: :create do
     if starts_at && starts_at < Time.now
-      errors.add(:starts_at, 'must start in the future') unless event && event.historical?
+      errors.add(:starts_at, 'must start in the future') unless event&.historical?
     end
   end
   validate do
@@ -21,10 +23,22 @@ class EventSession < ActiveRecord::Base
 
   belongs_to :event, inverse_of: :event_sessions
   has_many :rsvp_sessions, dependent: :destroy
-  has_many :rsvps, :through => :rsvp_sessions
+  has_many :rsvps, through: :rsvp_sessions
 
   after_save :update_event_times
   after_destroy :update_event_times
+
+  after_create :update_counter_cache
+  after_save do
+    update_counter_cache if location_id_changed?
+  end
+  after_destroy :update_counter_cache
+
+  add_presence_tracking_boolean(:location_overridden, :location_id)
+
+  def true_location
+    location || event.location
+  end
 
   def update_event_times
     return unless event
@@ -33,18 +47,18 @@ class EventSession < ActiveRecord::Base
     # following minimum/maximum statements return 'nil' when
     # initially creating an event and its session. Booo!
     event.reload
-    event.update_attributes(
+    event.update_columns(
       starts_at: event.event_sessions.minimum("event_sessions.starts_at"),
       ends_at: event.event_sessions.maximum("event_sessions.ends_at")
     )
   end
 
   def starts_at
-    (event && event.persisted?) ? date_in_time_zone(:starts_at) : read_attribute(:starts_at)
+    (event&.persisted?) ? date_in_time_zone(:starts_at) : read_attribute(:starts_at)
   end
 
   def ends_at
-    (event && event.persisted?) ? date_in_time_zone(:ends_at) : read_attribute(:ends_at)
+    (event&.persisted?) ? date_in_time_zone(:ends_at) : read_attribute(:ends_at)
   end
 
   def session_date
@@ -57,5 +71,12 @@ class EventSession < ActiveRecord::Base
 
   def has_rsvps?
     persisted? && rsvps.count > 0
+  end
+
+  def update_counter_cache
+    location.try(:reset_events_count)
+    if location_id_changed? && location_id_was
+      Location.find(location_id_was).reset_events_count
+    end
   end
 end

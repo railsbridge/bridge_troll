@@ -50,7 +50,7 @@ describe SectionArranger do
       end
 
       it 'arranges students into classes based on their level' do
-        SectionArranger.arrange(@event)
+        SectionArranger.new(@event).arrange
         expected_arrangement = {
           1 => [{students: 1, volunteers: 2}],
           2 => [{students: 5, volunteers: 2}, {students: 5, volunteers: 2}],
@@ -59,10 +59,10 @@ describe SectionArranger do
           5 => [{students: 1, volunteers: 2}]
         }
 
-        calculate_arrangement(@event).should == expected_arrangement
+        expect(calculate_arrangement(@event)).to eq(expected_arrangement)
 
         volunteer_preferences(@event).each do |prefs|
-          prefs.should satisfy { |pref|
+          expect(prefs).to satisfy { |pref|
             pref.include?('T') || pref.include?('?')
           }
         end
@@ -77,12 +77,12 @@ describe SectionArranger do
       end
 
       it "assigns the students to sections without incident" do
-        SectionArranger.arrange(@event)
+        SectionArranger.new(@event).arrange
         expected_arrangement = {
           1 => [{students: 1, volunteers: 0}],
           2 => [{students: 1, volunteers: 0}]
         }
-        calculate_arrangement(@event).should == expected_arrangement
+        expect(calculate_arrangement(@event)).to eq(expected_arrangement)
       end
     end
 
@@ -94,8 +94,8 @@ describe SectionArranger do
       end
 
       it "doesn't do anything, successfully" do
-        SectionArranger.arrange(@event)
-        @event.rsvps.map(&:section_id).uniq.should == [nil]
+        SectionArranger.new(@event).arrange
+        expect(@event.rsvps.map(&:section_id).uniq).to eq([nil])
       end
     end
 
@@ -112,7 +112,7 @@ describe SectionArranger do
         @event = create(:event)
         create(:event_session, event: @event)
         @event.reload
-        @event.event_sessions.count.should == 2
+        expect(@event.event_sessions.count).to eq(2)
 
         @session1, @session2 = @event.event_sessions.to_a
 
@@ -127,31 +127,31 @@ describe SectionArranger do
 
       context "when asked to arrange for only the first session" do
         before do
-          SectionArranger.arrange(@event, @session1.id)
+          SectionArranger.new(@event).arrange(@session1.id)
         end
 
         it 'arranges only those people' do
-          placed_attendee_ids.should =~ [@session1_rsvp.id, @both_rsvp.id]
+          expect(placed_attendee_ids).to match_array([@session1_rsvp.id, @both_rsvp.id])
         end
       end
 
       context "when asked to arrange for only the second session" do
         before do
-          SectionArranger.arrange(@event, @session2.id)
+          SectionArranger.new(@event).arrange(@session2.id)
         end
 
         it 'arranges only those people' do
-          placed_attendee_ids.should =~ [@session2_rsvp.id, @both_rsvp.id]
+          expect(placed_attendee_ids).to match_array([@session2_rsvp.id, @both_rsvp.id])
         end
       end
 
       context "when asked to arrange for people who have checked in to any session" do
         before do
-          SectionArranger.arrange(@event, 'any')
+          SectionArranger.new(@event).arrange('any')
         end
 
         it 'arranges only those people' do
-          placed_attendee_ids.should =~ [@session1_rsvp.id, @session2_rsvp.id, @both_rsvp.id]
+          expect(placed_attendee_ids).to match_array([@session1_rsvp.id, @session2_rsvp.id, @both_rsvp.id])
         end
       end
     end

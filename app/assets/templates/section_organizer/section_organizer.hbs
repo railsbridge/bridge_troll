@@ -9,28 +9,36 @@
       <i class='fa fa-laptop'></i>Projector Mode
     {{/if}}
   </button>
-  <button class='btn show-os'>
-    {{#if showOS}}Hide Student OS{{else}}Show Student OS{{/if}}
-  </button>
-  <button class='btn poll-for-changes'>
-    {{#if polling}}
-      <i class='fa fa-spin fa-spinner'></i>Stop Polling
-    {{else}}
-      Poll for Changes
-    {{/if}}
-  </button>
   {{#if upcoming}}
     <button class='btn auto-arrange-choices hide-on-projector'>
       Auto-Arrange
     </button>
   {{/if}}
-  {{#if showOS}}
-    <div class='student-os-key'>
-      <div class='swatch linux'></div>Linux
-      <div class='swatch osx'></div>OSX
-      <div class='swatch windows'></div>Windows
-    </div>
-  {{/if}}
+  <div class="dropdown">
+    <button class='btn dropdown-toggle'>
+      Options
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li class='show-os'>
+        <a>
+          {{#if showOS}}Hide Student OS{{else}}Show Student OS{{/if}}
+        </a>
+      </li>
+      <li class='poll-for-changes'>
+        <a>
+          {{#if polling}}
+            <i class='fa fa-spin fa-spinner'></i> Stop Polling
+          {{else}}
+            Poll for Changes
+          {{/if}}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <button class='btn show-help hide-on-projector'>
+    <i class='fa fa-question-circle' style="margin-right: 0;"></i>
+  </button>
   <div class='section-checkin-highlight-legend'>
     <div>
       Highlighting checkins for:
@@ -48,9 +56,13 @@
       <strong>{{checkinCounts.volunteers.checkedIn}}/{{checkinCounts.volunteers.total}}</strong> Volunteers
     </div>
   </div>
-  <button class='btn show-help hide-on-projector'>
-    <i class='fa fa-question-circle' style="margin-right: 0;"></i>
-  </button>
+  {{#if showOS}}
+    <div class='student-os-key'>
+      <div class='swatch linux'></div>Linux
+      <div class='swatch osx'></div>OSX
+      <div class='swatch windows'></div>Windows
+    </div>
+  {{/if}}
 </div>
 {{#if upcoming}}
   {{#unless hasSections}}

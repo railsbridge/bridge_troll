@@ -14,18 +14,28 @@ Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:ho
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
+
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.use_transactional_fixtures = true
 
   config.before(:each) do
-    # Remove after https://github.com/mattheworiordan/capybara-screenshot/pull/126
-    Capybara.save_and_open_page_path = Rails.root.join('tmp/capybara')
     WebMock.disable_net_connect!(allow_localhost: true)
+    Time.zone = 'UTC'
+    ActionMailer::Base.deliveries.clear
   end
 
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include SignInHelper, type: :feature
+  config.include EventFormHelper, type: :feature
+  config.include FormHelper, type: :feature
 
   config.include FactoryGirl::Syntax::Methods
 

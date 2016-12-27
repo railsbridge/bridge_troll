@@ -1,22 +1,28 @@
-<div class='event-card js-match-height-item <% unless event.published %>unpublished<% end %>' data-chapter-id="<%= event.chapter.try(:id) %>">
-  <% unless event.published %>
+<div class='event-card js-match-height-item <% unless event.published? %>unpublished<% end %>' data-region-id="<%= event.region.try(:id) %>">
+  <% unless event.published? %>
     <div class='pull-right unpublished-indicator'><%= state_display(event) %></div>
   <% end %>
   <div class='event-title'>
     <%= link_to event.title, event %>
-    <%= meetup_links(event) %>
+    <%= external_links(event) %>
   </div>
   <div class='event-times'>
-    <% event.event_sessions.each_with_index do |session, index| %>
+    <% event.event_sessions.sort_by(&:starts_at).each_with_index do |session, index| %>
       <i class='fa fa-calendar'></i><%= formatted_session_fancy_date(session) %><% if index < event.event_sessions.length - 1 %><br /><% end %>
+      <% if event.has_multiple_locations? %>
+        <div class='event-session-location'>
+          <i class='fa fa-map-marker'></i><%= session.true_location.name %>,
+          <%= [session.true_location.city, session.true_location.state].select(&:present?).join(', ') %>
+        </div>
+      <% end %>
     <% end %>
   </div>
-  <div class='event-location'>
-    <% if event.location %>
+  <% if event.location && !event.has_multiple_locations? %>
+    <div class='event-location'>
       <i class='fa fa-map-marker'></i><%= event.location.name %>,
       <%= [event.location.city, event.location.state].select(&:present?).join(', ') %>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
   <div class='event-counts'>
     <div>
       <i class='fa fa-user'></i>Volunteers: <%= event.volunteer_rsvps_count %> 
@@ -39,7 +45,7 @@
   <div class='event-actions'>
     <% if user_signed_in? %>
       <%= render 'shared/rsvp_actions', event: event %>
-      <% if event.organizer?(current_user) || current_user.admin? %>
+      <% if policy(event).update? %>
         <%= link_to 'Organizer Console', event_organizer_tools_path(event), :class => 'btn fa-before fa-bullhorn' %>
       <% elsif event.checkiner?(current_user) %>
         <%= link_to 'Checkin Console', event_event_sessions_path(event), :class => 'btn' %>

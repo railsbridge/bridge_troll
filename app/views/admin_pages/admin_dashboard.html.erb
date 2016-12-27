@@ -20,6 +20,16 @@
   </ul>
 </div>
 
+<h2>Who can add external events?</h2>
+<div>
+  Your Bridge Troll external event editors are all the above admins plus these <%= pluralize(@external_event_editors.count, "people") %>:
+  <ul>
+    <% @external_event_editors.each do |external_event_editor| %>
+      <li><%= link_to external_event_editor.full_name, user_profile_path(external_event_editor) %></li>
+    <% end %>
+  </ul>
+</div>
+
 <h2># of authentication providers set up</h2>
 
 <strong><%= User.where('encrypted_password != ?', '').count %></strong> out of <%= User.count %> users have set up a password to log in to Bridge Troll.
@@ -67,21 +77,21 @@
   </div>
 </div>
 
-<h2>Chapter Membership</h2>
+<h2>Region Membership</h2>
 <div class="row">
   <div class="col-md-8 col-lg-7">
-    <table class='table table-bordered table-condensed table-striped datatable-sorted'>
+    <table class='table table-bordered table-condensed table-striped datatable-sorted' data-page-length="10">
       <thead>
       <tr>
-        <th>Chapter</th>
+        <th>Region</th>
         <th>Followers</th>
       </tr>
       </thead>
       <tbody>
-      <% Chapter.all.each do |chapter| %>
+      <% Region.all.each do |region| %>
         <tr>
-          <td><%= chapter.name %></td>
-          <td><%= chapter.users.count %></td>
+          <td><%= region.name %></td>
+          <td><%= region.users.count %></td>
         </tr>
       <% end %>
       </tbody>
@@ -137,9 +147,31 @@
   </ul>
 </div>
 
+<h2>Recent survey responses</h2>
+<div class="row">
+  <div class="col-md-8 col-lg-7">
+    <table class='table table-bordered table-condensed table-striped datatable-sorted'>
+      <thead>
+      <tr>
+        <th>Event</th>
+        <th>Survey Responses</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% Event.past.order('ends_at DESC').first(10).each do |event| %>
+        <tr>
+          <td><%= link_to event.title, event %></td>
+          <td><%= link_to event.surveys.count, event_surveys_path(event) %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <h2>System Health</h2>
 <%= render partial: 'shared/organizer_action', locals: {
-  path: '/admin_dashboard/send_test_email',
+  path: send_test_email_path,
   icon: 'fa fa-envelope',
   text: 'Send Test Email',
   tip: "Send an email from Bridge Troll to #{current_user.email}",
@@ -147,7 +179,7 @@
 } %>
 
 <%= render partial: 'shared/organizer_action', locals: {
-  path: '/admin_dashboard/raise_exception',
+  path: raise_exception_path,
   icon: 'fa fa-warning',
   text: 'Raise an Exception',
   tip: "Intentionally raise an exception (to test whether exception handling is configured correctly)",

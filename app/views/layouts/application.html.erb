@@ -8,17 +8,24 @@
         Bridge Troll
       <% end %>
     </title>
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
-    <![endif]-->
     <%= stylesheet_link_tag  "application", :media => "all" %>
     <% if Rails.env.test? %>
       <%= test_only_stylesheet %>
     <% end %>
-    <%= javascript_include_tag "application" %>
+    <script>
+      window.whenReady = function (fn) {
+        if (document.readyState != 'loading'){
+          fn();
+        } else {
+          document.addEventListener('DOMContentLoaded', fn);
+        }
+      };
+    </script>
+    <%= javascript_include_tag "application", defer: true %>
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="format-detection" content="telephone=no">
+    <%= render 'shared/google_analytics' if ENV['GOOGLE_ANALYTICS_ID'] %>
   </head>
   <body>
    <%= render 'shared/navbar' %>
@@ -40,9 +47,10 @@
       <% end %>
 
       <%= yield %>
-      <%= yield :scripts %>
     </div>
-    <footer><div class="trollholder"><%= image_tag asset_path('troll.svg'), alt: '' %></div></footer>
-   <%= render 'shared/sign_in_dialog' %>
+    <footer class="hide"><div class="trollholder"><%= image_tag asset_path('troll.svg'), alt: '' %></div></footer>
+    <% unless current_user %>
+      <%= render 'shared/sign_in_dialog' %>
+    <% end %>
   </body>
 </html>

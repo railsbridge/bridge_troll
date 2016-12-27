@@ -1,0 +1,25 @@
+<h1><%= @organization.name %></h1>
+
+<% if @organization.leaders.present? %>
+  <h2>Organization Leaders</h2>
+  <i>These are people who can approve Bridge Troll postings for any <%= @organization.name %> event.</i>
+  <ul>
+    <% @organization.leaders.each do |leader| %>
+      <li><%= link_to leader.full_name, user_profile_path(leader) %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if policy(@organization).manage_organization? %>
+  <div class="org-leader-tools bg-info p20">
+    <h2>Organization Leader Tools</h2>
+    <i>This section is only visible to admins & organization leaders.</i>
+    <p>
+      <%= link_to "Download subscribed user email addresses", organization_download_subscriptions_path(@organization, format: :csv), class: "btn mt10" %>
+    </p>
+  </div>
+<% end %>
+
+<h2 class="mt20">Chapters</h2>
+
+<%= render 'chapters/table', chapters: @organization.chapters %>

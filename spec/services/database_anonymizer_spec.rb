@@ -114,6 +114,7 @@ describe DatabaseAnonymizer do
     it 'replaces identifying data from the Profile' do
       profile = create(:user).profile
       profile.update_attribute(:github_username, Faker::Hacker.noun.gsub('', '-'))
+      profile.update_attribute(:twitter_username, 'fake_username')
       expect{ DatabaseAnonymizer.new.anonymize_profile(profile) }.to change{ [ profile.other,
                                                                            profile.github_username,
                                                                            profile.bio ]}

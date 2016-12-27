@@ -10,7 +10,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = '"RailsBridge" <troll@railsbridge.org>'
+  config.mailer_sender = '"Bridge Troll" <troll@railsbridge.org>'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -117,7 +117,7 @@ Devise.setup do |config|
   # initial account confirmation) to be applied. Requires additional unconfirmed_email
   # db field (see migrations). Until confirmed new email is stored in
   # unconfirmed email column, and copied to email column on successful confirmation.
-  # config.reconfirmable = true
+  config.reconfirmable = false
 
   # Defines which key will be used when confirming an account
   # config.confirmation_keys = [ :email ]
@@ -234,6 +234,7 @@ Devise.setup do |config|
   config.omniauth :twitter, ENV['TWITTER_OAUTH_KEY'], ENV['TWITTER_OAUTH_SECRET']
   config.omniauth :github, ENV['GITHUB_OAUTH_KEY'], ENV['GITHUB_OAUTH_SECRET']
   config.omniauth :meetup, ENV['MEETUP_OAUTH_KEY'], ENV['MEETUP_OAUTH_SECRET']
+  config.omniauth :google_oauth2, ENV['GOOGLE_OAUTH_KEY'], ENV['GOOGLE_OAUTH_SECRET']
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

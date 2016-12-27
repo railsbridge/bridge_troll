@@ -11,9 +11,10 @@
 #   - dist/**/*.js
 #
 src_files:
-  - assets/application.js
-  - assets/jasmine-jquery.js
-  - assets/sinonjs.js
+  - assets/application
+  - assets/section_organizer
+  - assets/jasmine-jquery
+  - assets/sinonjs
 
 # stylesheets
 #
@@ -112,4 +113,3 @@ boot_dir:
 #   - '**/*.js'
 #
 boot_files:
-

@@ -1,13 +1,13 @@
 class CheckinsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :find_event_and_session
-  before_filter :validate_checkiner!
-  before_filter :find_rsvp_session, only: [:create, :destroy]
+  before_action :authenticate_user!
+  before_action :find_event_and_session
+  before_action :find_rsvp_session, only: [:create, :destroy]
 
   def index
+    authorize @event, :checkin?
     @rsvp_sessions = @session.rsvp_sessions.joins(
-        :rsvp => :bridgetroll_user
-    ).includes([:rsvp => :user]).order('users.first_name asc, users.last_name asc, users.email asc')
+      rsvp: :bridgetroll_user
+    ).includes([rsvp: :user]).order('users.first_name asc, users.last_name asc, users.email asc')
     respond_to do |format|
       format.html { @checkin_counts = @event.checkin_counts }
       format.json { render json: @rsvp_sessions }
@@ -15,6 +15,7 @@ class CheckinsController < ApplicationController
   end
 
   def create
+    authorize @event, :checkin?
     @rsvp_session.checked_in = true
     @rsvp_session.save!
 
@@ -22,6 +23,7 @@ class CheckinsController < ApplicationController
   end
 
   def destroy
+    authorize @event, :checkin?
     @rsvp_session.checked_in = false
     @rsvp_session.save!
 

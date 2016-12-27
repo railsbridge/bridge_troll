@@ -1,6 +1,6 @@
 <%= content_for(:header_text, "Users") %>
 
-<table class="datatable-checkins table table-striped table-bordered table-condensed responsive-table">
+<table id="users-table" class="table table-striped table-bordered table-condensed responsive-table">
   <thead>
     <tr>
       <th>Name</th>
@@ -10,17 +10,28 @@
       <th># Organized</th>
     </tr>
   </thead>
-
-  <tbody>
-  <% @users.each do |user| %>
-    <tr>
-      <td><%= link_to user.full_name, user.profile_path %></td>
-      <td data-label="Meetup ID:"><% if user.meetup_id %><%= link_to user.meetup_id, "http://www.meetup.com/members/#{user.meetup_id}/" %><% end %></td>
-      <% attendance = @attendances[user.class.name.to_sym][user.id] %>
-      <td data-label="Student RSVPs:"><%= attendance[Role::STUDENT.id] %></td>
-      <td data-label="Volunteer RSVPs:"><%= attendance[Role::VOLUNTEER.id] %></td>
-      <td data-label="Organizer RSVPs:"><%= attendance[Role::ORGANIZER.id] %></td>
-    </tr>
-  <% end %>
-  </tbody>
 </table>
+
+<script>
+  window.whenReady(function () {
+    $('#users-table').DataTable({
+      paging: true,
+      pageLength: 10,
+      serverSide: true,
+      searching: true,
+      processing: true,
+      ajax: '/users.json',
+      columns: [
+        { data: 'link' },
+        { data: 'meetup_id' },
+        { data: 'student_rsvp_count' },
+        { data: 'volunteer_rsvp_count' },
+        { data: 'organizer_rsvp_count' }
+      ],
+      columnDefs: [{
+        targets: 1,
+        sortable: false
+      }]
+    });
+  });
+</script>

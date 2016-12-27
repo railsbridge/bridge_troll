@@ -20,12 +20,12 @@ describe AdminPagesController do
       site_host = Rails.configuration.action_mailer.default_url_options[:host]
 
       group_mail = ActionMailer::Base.deliveries[-2]
-      JSON.parse(group_mail.header['X-SMTPAPI'].to_s)['to'].should == [admin.email]
-      group_mail.body.should include(site_host)
+      expect(JSON.parse(group_mail.header['X-SMTPAPI'].to_s)['to']).to eq([admin.email])
+      expect(group_mail.body).to include(site_host)
 
       individual_mail = ActionMailer::Base.deliveries[-1]
-      individual_mail.to.should == [admin.email]
-      individual_mail.body.should include(site_host)
+      expect(individual_mail.to).to eq([admin.email])
+      expect(individual_mail.body).to include(site_host)
     end
   end
 

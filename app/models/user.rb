@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :time_zone, :gender, :allow_event_email]
-
   before_validation :build_profile, on: :create
 
   devise :database_authenticatable, :registerable, :omniauthable,
@@ -9,11 +7,17 @@ class User < ActiveRecord::Base
 
   has_many :authentications, inverse_of: :user, dependent: :destroy
   has_many :rsvps, -> { where user_type: 'User' }, dependent: :destroy
-  has_many :events, -> { where published: true }, through: :rsvps
-  has_many :chapter_leaderships, dependent: :destroy
+  has_many :events, -> { published }, through: :rsvps
+  has_many :region_leaderships, dependent: :destroy, inverse_of: :user
+  has_many :chapter_leaderships, dependent: :destroy, inverse_of: :user
+  has_many :organization_leaderships, dependent: :destroy, inverse_of: :user
+  has_many :event_emails, foreign_key: :sender_id, dependent: :nullify
 
   has_one :profile, dependent: :destroy, inverse_of: :user, validate: true
-  has_and_belongs_to_many :chapters
+  has_and_belongs_to_many :regions
+
+  has_many :organization_subscriptions
+  has_many :subscribed_organizations, through: :organization_subscriptions, class_name: Organization
 
   accepts_nested_attributes_for :profile, update_only: true
 
@@ -43,8 +47,8 @@ class User < ActiveRecord::Base
   end
 
   def self.not_assigned_as_organizer(event)
-    users = order('last_name asc, first_name asc, email asc')
-    users - event.organizers
+    where('id NOT IN (?)', event.organizers.pluck(:id))
+      .order('last_name asc, first_name asc, email asc')
   end
 
   def full_name
@@ -52,7 +56,7 @@ class User < ActiveRecord::Base
   end
 
   def profile_path
-    Rails.application.routes.url_helpers.user_profile_path(self)
+    "/users/#{id}/profile"
   end
 
   def meetup_id
@@ -63,12 +67,21 @@ class User < ActiveRecord::Base
     @event_attendances ||= rsvps.each_with_object({}) do |rsvp, hsh|
       hsh[rsvp.event_id] = {
         role: rsvp.role,
-        waitlist_position: rsvp.waitlist_position
+        waitlist_position: rsvp.waitlist_position,
+        checkiner: rsvp.checkiner
       }
     end
   end
 
+  def event_attendance(event)
+    event_attendances.fetch(event.id, {})
+  end
+
   def event_role(event)
-    event_attendances.fetch(event.id, {})[:role]
+    event_attendance(event)[:role]
+  end
+
+  def event_checkiner?(event)
+    event_attendance(event)[:checkiner]
   end
 end

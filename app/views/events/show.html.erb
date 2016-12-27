@@ -1,15 +1,36 @@
 <%= content_for(:header_text, @event.title) %>
 
-<% if @organizer || @checkiner %>
+<% if @event.historical? %>
+  <script>
+    whenReady(function () {
+      var importedEventTrigger = ImportedEventPopover.createPopoverTrigger(
+        <%= @event.imported_event_data.to_json.html_safe %>
+      );
+      $('.header-container h1').append(importedEventTrigger);
+      ImportedEventPopover.activatePopoverTrigger('.header-container h1');
+    });
+  </script>
+<% end %>
+
+<% if @can_edit || @checkiner %>
   <div class="organizer-breadcrumb">
-    You are <%= @organizer ? 'an organizer of' : 'a checkiner for' %> this event!
+    <%= event_special_permissions_text(@event, @can_edit ? :editor : :checkiner) %>
 
     <div class="header-actions">
-      <% if @organizer %>
+      <% if @can_edit %>
         <%= link_to 'Edit', edit_event_path(@event), class: "btn fa-before fa-edit" %>
         <%= link_to 'Organizer Console', event_organizer_tools_path(@event), class: "btn fa-before fa-bullhorn" %>
       <% elsif @checkiner %>
         <%= link_to 'Checkin Console', event_event_sessions_path(@event), class: "btn" %>
+      <% end %>
+
+      <% if @can_publish && !@event.published? %>
+        <div style="margin-top: 5px;">
+          <%= render 'events/unpublished_events/publish_event_button', event: @event %>
+          <% if current_user.admin? || current_user.publisher? %>
+            <%= render 'events/unpublished_events/mark_as_spam_button', event: @event %>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>
@@ -17,13 +38,15 @@
 
 <div class="row">
   <div class="col-md-8">
-    <div class="critical-details">
-      <% if @event.location %>
-        <%= link_to pretty_print_address(@event.location), location_map_link(@event.location) %>
-      <% else %>
-        This event currently has no location!
-      <% end %>
-    </div>
+    <% unless @event.has_multiple_locations? %>
+      <div class="location-text">
+        <% if @event.location %>
+          <%= link_to pretty_print_address(@event.location), location_map_link(@event.location) %>
+        <% else %>
+          This event currently has no location!
+        <% end %>
+      </div>
+    <% end %>
 
     <div class='session-display'>
       <% @event.event_sessions.each do |event_session| %>
@@ -43,6 +66,11 @@
               <i class="fa fa-calendar-plus-o"></i> Export to Google Calendar
             <% end %>
           </div>
+          <% if @event.has_multiple_locations? %>
+            <div class='location-text' style="margin-top: 10px;">
+              <%= link_to pretty_print_address(event_session.true_location), location_map_link(event_session.true_location) %>
+            </div>
+          <% end %>
         </div>
       <% end %>
     </div>
@@ -60,21 +88,15 @@
     <div class="details">
       <%= simple_format_with_html(@event.details) %>
       <% if current_user %>
-        <% if @event.volunteer?(current_user) || @organizer %>
+        <% if @event.volunteer?(current_user) || @can_edit %>
           <h2>Volunteer Details</h2>
           <%= simple_format_with_html(@event.volunteer_details) %>
         <% end %>
 
-        <% if @event.allow_student_rsvp? && (@event.student?(current_user) || @organizer) %>
+        <% if @event.allow_student_rsvp? && (@event.student?(current_user) || @can_edit) %>
           <h2>Student Details</h2>
           <%= simple_format_with_html(@event.student_details) %>
         <% end %>
-
-        <% if @organizer %>
-          <h2>Survey Greeting</h2>
-          <%= simple_format_with_html(@event.survey_greeting) %>
-        <% end %>
-
       <% end %>
     </div>
   </div>
@@ -82,7 +104,7 @@
 
     <div class='location-display'>
       <% if @event.location.present? && !Rails.env.test? %>
-        <%= render "shared/map", location: @event.location %>
+        <%= render "shared/map", locations: @event.all_locations %>
       <% end %>
     </div>
 
@@ -105,57 +127,42 @@
       <ul class="attendees">
         <% if organizer_list.any? %>
           <% organizer_list.each do |organizer| %>
-            <li class='attendee'><%= render 'shared/viewed_gravatars', email: organizer.email %><%= link_to organizer.full_name, organizer.profile_path %></li>
+            <li class='attendee'><%= user_gravatar(organizer) %><%= link_to organizer.full_name, organizer.profile_path %></li>
           <% end %>
         <% else %>
           <li>No Organizer Assigned</li>
         <% end %>
       </ul>
     </div>
+
     <h3><%= pluralize(@event.checked_in_rsvps(Role::VOLUNTEER).count, "volunteer") %>!</h3>
-    <% if @event.volunteer_rsvps.none? %>
+    <% if @ordered_rsvps[Role::VOLUNTEER].none? %>
       <div class="mb20">
         No volunteers are currently signed up for this event.
       </div>
     <% else %>
-      <ul class="attendees">
-        <% @event.ordered_rsvps(Role::VOLUNTEER).each do |rsvp| %>
-          <li class='attendee'><%= render 'shared/viewed_gravatars', :email => rsvp.loaded_user.email %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path, class: rsvp_class(rsvp) %></li>
-        <% end %>
-      </ul>
+      <%= render 'attendee_list', attendees: @ordered_rsvps[Role::VOLUNTEER] %>
     <% end %>
 
     <% if @event.allow_student_rsvp? %>
       <h3><%= pluralize(@event.checked_in_rsvps(Role::STUDENT).count, "student") %>!</h3>
-      <% if @event.student_rsvps.none? %>
+      <% if @ordered_rsvps[Role::STUDENT].none? %>
         <div class="mb20">
           No students are currently signed up for this event.
         </div>
       <% else %>
-        <ul class="attendees">
-          <% @event.ordered_rsvps(Role::STUDENT).each do |rsvp| %>
-            <li class='attendee'><%= render 'shared/viewed_gravatars', email: rsvp.loaded_user.email %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path, class: rsvp_class(rsvp) %></li>
-          <% end %>
-        </ul>
+        <%= render 'attendee_list', attendees: @ordered_rsvps[Role::STUDENT] %>
       <% end %>
     <% end %>
 
-    <% if @event.volunteer_waitlist_rsvps.any? %>
-        <h3><%= @event.volunteer_waitlist_rsvps.length %> waitlisted <%= "volunteer".pluralize(@event.volunteer_waitlist_rsvps.length) %>!</h3>
-        <ul class="attendees">
-          <% @event.volunteer_waitlist_rsvps.each do |rsvp| %>
-              <li class='attendee'><%= render 'shared/viewed_gravatars', email: rsvp.loaded_user.email %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path %><span class='waitlist-number pull-right'>#<%= rsvp.waitlist_position %></span></li>
-          <% end %>
-        </ul>
+    <% if @ordered_waitlist_rsvps[Role::VOLUNTEER].any? %>
+      <h3><%= pluralize(@ordered_waitlist_rsvps[Role::VOLUNTEER].length, "waitlisted volunteer") %>!</h3>
+      <%= render 'attendee_list', attendees: @ordered_waitlist_rsvps[Role::VOLUNTEER] %>
     <% end %>
 
-    <% if @event.student_waitlist_rsvps.any? %>
-      <h3><%= @event.student_waitlist_rsvps.length %> waitlisted <%= "student".pluralize(@event.student_waitlist_rsvps.length) %>!</h3>
-      <ul class="attendees">
-        <% @event.student_waitlist_rsvps.each do |rsvp| %>
-          <li class='attendee'><%= render 'shared/viewed_gravatars', email: rsvp.loaded_user.email %><%= link_to rsvp.loaded_user.full_name, rsvp.loaded_user.profile_path %><span class='waitlist-number pull-right'>#<%= rsvp.waitlist_position %></span></li>
-        <% end %>
-      </ul>
+    <% if @ordered_waitlist_rsvps[Role::STUDENT].any? %>
+      <h3><%= pluralize(@ordered_waitlist_rsvps[Role::STUDENT].length, "waitlisted student") %>!</h3>
+      <%= render 'attendee_list', attendees: @ordered_waitlist_rsvps[Role::STUDENT] %>
     <% end %>
   </div>
 </div>

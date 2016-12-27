@@ -3,18 +3,26 @@
     <%= simple_form_for(@external_event) do |f| %>
       <%= render 'shared/model_error_messages', model: @external_event %>
 
-      <%= render 'shared/chapter_select', f: f %>
+      <%= content_tag :div, class: field_classes(@external_event, :region) do %>
+        <%= render 'shared/region_select', f: f %>
+      <% end %>
+
+      <%= content_tag :div, class: field_classes(@external_event, :chapter) do %>
+        <div class="form-group">
+          <%= render 'shared/chapter_select', f: f %>
+        </div>
+      <% end %>
 
       <%= f.input :name %>
 
       <%= f.input :url, label: 'URL' %>
 
       <div class="form-date">
-        <%= f.input :starts_at %>
+        <%= f.input :starts_at, start_year: 2009 %>
       </div>
 
       <div class="form-date">
-        <%= f.input :ends_at %>
+        <%= f.input :ends_at, start_year: 2009 %>
       </div>
 
       <%= f.input :city %>
@@ -24,7 +32,7 @@
       <%= f.input :organizers %>
 
       <div class="actions">
-        <%= f.submit class: :btn %>
+        <%= f.submit class: :btn, data: {disable_with: 'Please wait...'} %>
       </div>
     <% end %>
   </div>

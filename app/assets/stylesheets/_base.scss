@@ -1,8 +1,9 @@
 @import "constants";
 @import "bootstrap/variables";
+@import 'font_mixins';
 
 body {
-  font-family: 'AmbleLight', sans-serif;
+  @include font-amble-light;
   background-image: image_url('background.png');
 }
 
@@ -18,7 +19,7 @@ h1, h2, h3, h4, h5 {
 }
 
 h1 {
-  font-family: 'Freehand521BT-RegularC', sans-serif;
+  @include font-freehand;
   font-size: 42px;
   color: $red-color;
 
@@ -33,29 +34,29 @@ h1 {
 }
 
 h2 {
-  font-family: 'AmbleRegular', sans-serif;
+  @include font-amble-regular;
   font-size: 24px;
   line-height: 150%;
 }
 
 h3 {
-  font-family: 'AmbleLight', sans-serif;
+  @include font-amble-light;
   font-size: 18px;
   margin-bottom: 5px;
 }
 
 h4 {
-  font-family: 'AmbleRegular', sans-serif;
+  @include font-amble-regular;
   font-size: 14px;
 }
 
 h5 {
-  font-family: 'AmbleBold', sans-serif;
+  @include font-amble-bold;
   font-size: 14px;
 }
 
 strong {
-  font-family: 'AmbleBold', sans-serif;
+  @include font-amble-bold;
   font-weight: normal;
 }
 
@@ -64,7 +65,7 @@ ul {
 }
 
 p {
-  font-family: 'AmbleLight', sans-serif;
+  @include font-amble-light;
   line-height: 140%;
   font-size: 15px;
 }
@@ -97,7 +98,7 @@ td.wide {
 
 .btn, .btn:focus {
   font-size: 16px;
-  font-family: 'AmbleLight';
+  @include font-amble-light;
   padding: 9px 16px;
   border-radius: 0;
 
@@ -247,13 +248,38 @@ ul.bulleted {
   }
 }
 
-.meetup-link {
+.external-link {
   font-size: 8pt;
   color: darkgrey;
 }
 
+.imported-event-popover-trigger {
+  margin-left: 5px;
+  @include font-amble-regular;
+  font-size: 16px;
+  border-radius: 50%;
+  background: #eee;
+  display: inline-block;
+  border: 1px solid #777;
+  width: 20px;
+  height: 20px;
+  line-height: 16px;
+  text-align: center;
+  &, &:hover {
+    color: black;
+  }
+}
+
+.imported-event-popover-content {
+  min-width: 600px;
+}
+
 .gmaps4rails_map {
   height: 300px;
+}
+
+.gmaps4rails_bigger_map {
+  height: 550px;
 }
 
 .location-display .gmaps4rails_map {

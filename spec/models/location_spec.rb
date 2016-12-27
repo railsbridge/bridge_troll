@@ -1,117 +1,29 @@
 require 'rails_helper'
 
 describe Location do
-  it { should have_many(:events) }
+  it { is_expected.to have_many(:events) }
 
-  it { should validate_presence_of(:name) }
-  it { should validate_presence_of(:address_1) }
-  it { should validate_presence_of(:city) }
-
-  describe '#editable_by?' do
-    let!(:user) { create(:user) }
-    let(:location) { create(:location) }
-    context "when the location has not yet used for an event" do
-      it "is true" do
-        location.should be_editable_by(user)
-      end
-    end
-
-    context "when the location was used for a event" do
-      let!(:event) do
-        create(:event, location: location).tap { |_| location.reload }
-      end
-
-      context "and the logged in user is an organizer of that event" do
-        before do
-          event.organizers << user
-        end
-
-        it "is true if that event was published" do
-          location.should be_editable_by(user)
-        end
-
-        context "when the event has not been published" do
-          before do
-            event.update_attribute(:published, false)
-          end
-
-          it "is true if the location has only been used for unpublished events" do
-            location.should be_editable_by(user)
-          end
-
-          it "is false if the location has ever been used in a published event" do
-            create(:event, location: location)
-            location.reload.should_not be_editable_by(user)
-          end
-        end
-      end
-
-      it "is true if the logged in user is an admin" do
-        user.update_attribute(:admin, true)
-        location.should be_editable_by(user)
-      end
-
-      it "is false for a normal user" do
-        location.should_not be_editable_by(user)
-      end
-    end
-  end
-
-  describe "#archivable_by?" do
-    let(:organizer_rsvp) { create(:organizer_rsvp)}
-    let(:event) { organizer_rsvp.event }
-    let(:location) { event.location }
-    let(:organizer) { organizer_rsvp.user }
-    let(:user) { create(:user) }
-    let(:admin) { create(:admin) }
-
-    context "with an admin" do
-      it "should be archivable" do
-        location.archivable_by?(admin).should be true
-      end
-    end
-
-
-    context "by a chapter leader" do
-      before do
-        location.chapter.chapter_leaderships.create(user: user)
-      end
-
-      it "should be archivable" do
-        location.archivable_by?(user).should be true
-      end
-    end
-
-    context "by someone who has organized an event at the given location" do
-      it "should be archivable" do
-          location.archivable_by?(organizer).should be true
-      end
-    end
-
-    context "by a normal user" do
-      it "should not be archivable" do
-          location.archivable_by?(user).should be false
-      end
-    end
-  end
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:address_1) }
+  it { is_expected.to validate_presence_of(:city) }
 
   describe "#archive!" do
     let!(:location) { create(:location) }
     it "can be archived" do
       location.archive!
-      location.archived_at.should be_present
+      expect(location.archived_at).to be_present
     end
   end
 
   describe "#archived?" do
     let!(:location) { create(:location) }
     it "returns returns false on unarchived location" do
-      location.should_not be_archived
+      expect(location).not_to be_archived
     end
 
     it "returns returns true on unarchived location" do
       location.archive!
-      location.should be_archived
+      expect(location).to be_archived
     end
   end
 
@@ -123,11 +35,52 @@ describe Location do
     let(:user) { create(:user) }
 
     it "returns true for a user that organized an event at this location" do
-      location.organized_event?(organizer).should be true
+      expect(location.organized_event?(organizer)).to be true
     end
 
     it "returns false for a user that has not organized an event at this location" do
-      location.organized_event?(user).should be false
+      expect(location.organized_event?(user)).to be false
+    end
+  end
+
+  describe "#most_recent_event_date" do
+    it "finds the event with the most recent start date and returns that date" do
+      this_year = Date.current.year
+      my_location = create(:location)
+      expected_date = DateTime.new(this_year + 3, 1, 5, 12)
+      my_location.events << create(:event, starts_at: expected_date)
+      my_location.events << create(:event, starts_at: DateTime.new(this_year + 1, 1, 5, 12))
+
+      most_recent_date = my_location.most_recent_event_date
+      date = expected_date.strftime("%b %d, %Y")
+
+      expect(most_recent_date).to eq(date)
+    end
+
+    describe 'when a location was used only as a session location' do
+      it "returns the date of that session's event" do
+        session_location = create(:location)
+        event = create(:event)
+        create(:event_session, event: event, location: session_location)
+
+        expected_time = event.starts_at.in_time_zone(event.time_zone).strftime("%b %d, %Y")
+        expect(session_location.most_recent_event_date).to eq(expected_time)
+      end
+    end
+  end
+
+  describe 'inferred time zone' do
+    let!(:location) { create(:location) }
+    it 'infers time zone from latitude and longtidue' do
+      location.latitude = 45
+      location.longitude = 45
+      expect(location.inferred_time_zone).to eq('Europe/Moscow')
+    end
+
+    it 'does not infer time zone when latitude and longitude are not present' do
+      location.latitude = nil
+      location.longitude = nil
+      expect(location.inferred_time_zone).to be_nil
     end
   end
 end

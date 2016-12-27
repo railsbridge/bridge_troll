@@ -1,5 +1,5 @@
 class Rsvp < ActiveRecord::Base
-  PERMITTED_ATTRIBUTES = [:subject_experience, :teaching, :taing, :teaching_experience, :teaching_experience, :childcare_info, :operating_system_id, :job_details, :class_level, :dietary_info, :needs_childcare, :plus_one_host]
+  include PresenceTrackingBoolean
 
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
   belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id
@@ -22,6 +22,7 @@ class Rsvp < ActiveRecord::Base
   validates_presence_of :childcare_info, if: :needs_childcare?
 
   scope :confirmed, -> { where("waitlist_position IS NULL") }
+  scope :checked_in, -> { where.not(checkins_count: 0) }
   scope :needs_childcare, -> { where("childcare_info <> ''") }
 
   after_initialize :set_defaults
@@ -33,14 +34,14 @@ class Rsvp < ActiveRecord::Base
   with_options(unless: :historical?) do |normal_event|
     normal_event.with_options(if: :role_volunteer?) do |for_volunteers|
       for_volunteers.validates_presence_of :subject_experience
-      for_volunteers.validates_length_of :subject_experience, :in => 10..MAX_EXPERIENCE_LENGTH
+      for_volunteers.validates_length_of :subject_experience, in: 10..MAX_EXPERIENCE_LENGTH
     end
 
     normal_event.with_options(if: :teaching_or_taing?) do |for_teachers|
       for_teachers.validates_presence_of :class_level
       for_teachers.validates_inclusion_of :class_level, in: (0..5), allow_blank: true
       for_teachers.validates_presence_of :teaching_experience
-      for_teachers.validates_length_of :teaching_experience, :in => 10..MAX_EXPERIENCE_LENGTH
+      for_teachers.validates_length_of :teaching_experience, in: 10..MAX_EXPERIENCE_LENGTH
     end
 
     normal_event.with_options(if: :role_student?) do |for_students|
@@ -59,9 +60,11 @@ class Rsvp < ActiveRecord::Base
   belongs_to_active_hash :operating_system
   belongs_to_active_hash :volunteer_preference
 
+  add_presence_tracking_boolean(:needs_childcare, :childcare_info)
+
   def set_defaults
     if has_attribute?(:token)
-      self.token ||= SecureRandom.uuid.gsub(/\-/, '')
+      self.token ||= SecureRandom.uuid.delete('-')
     end
   end
 
@@ -106,6 +109,14 @@ class Rsvp < ActiveRecord::Base
     end
   end
 
+  def level_title
+    level[:title] if role == Role::STUDENT
+  end
+
+  def level
+    event.levels.find {|level| level[:level] == class_level}
+  end
+
   def operating_system_title
     operating_system.try(:title)
   end
@@ -118,6 +129,16 @@ class Rsvp < ActiveRecord::Base
     restrictions = dietary_restrictions.map { |dr| dr.restriction.capitalize }
     restrictions << dietary_info if dietary_info.present?
     restrictions.join(', ')
+  end
+
+  def dietary_restriction_diets
+    dietary_restrictions.map(&:restriction)
+  end
+
+  def dietary_restriction_diets=(diets)
+    self.dietary_restrictions = diets.map do |diet|
+      DietaryRestriction.new(restriction: diet)
+    end
   end
 
   def no_show?
@@ -181,50 +202,13 @@ class Rsvp < ActiveRecord::Base
     !!waitlist_position
   end
 
-  def needs_childcare?
-    @needs_childcare = childcare_info.present? if @needs_childcare.nil?
-    @needs_childcare
-  end
-
-  alias_method :needs_childcare, :needs_childcare?
-
-  def needs_childcare= needs_childcare
-    needs_childcare = needs_childcare == '1' if needs_childcare.is_a? String
-
-    @needs_childcare = needs_childcare
-    self.childcare_info = nil unless needs_childcare
-    needs_childcare
-  end
-
-  before_save do
-    unless needs_childcare?
-      self.childcare_info = nil
-    end
-  end
-
-  def self.attendances_for(user_type)
-    # TODO: This fetches one row for each user+role combo that exists in the system.
-    # This may someday be too much to fit in memory, but find_each doesn't work
-    # because it wants to order by rsvps.id, which defeats the purpose of a 'group_by'
-    # Consider reworking to either just iterate over all RSVPs (without group_by)
-    # or somehow construct one mecha-query that fetches user information as well
-    # as their student/volunteer/organizer attendance count.
-    attendances = {}
-    Rsvp.where(user_type: user_type).select('user_id, role_id, count(*) count').group('role_id, user_id').each do |rsvp_group|
-      attendances[rsvp_group.user_id] ||= Role.empty_attendance.clone
-      attendances[rsvp_group.user_id][rsvp_group.role_id] = rsvp_group.count.to_i
-    end
-
-    attendances
-  end
-
   def update_counter_cache
-    event.update_rsvp_counts if event
+    event&.update_rsvp_counts
   end
 
   def as_json(options={})
     options[:methods] ||= []
-    options[:methods] |= [:full_name, :operating_system_title, :operating_system_type]
+    options[:methods] |= [:full_name, :operating_system_title, :operating_system_type, :level_title]
     super(options)
   end
 end

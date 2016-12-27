@@ -7,9 +7,9 @@
 
       <%= f.input :email %>
 
-      <div><%= f.submit "Resend confirmation instructions", class: 'btn btn-submit' %></div>
+      <div><%= f.submit "Resend confirmation instructions", class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %></div>
     <% end %>
   </div>
 </div>
 
-<%= render :partial => "devise/shared/links" %>
+<%= devise_links(:sign_up, :forgot_password) %>

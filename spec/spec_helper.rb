@@ -13,13 +13,9 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 
-  config.expect_with :rspec do |expectations|
-    expectations.syntax = [:should, :expect]
-  end
+  config.example_status_persistence_file_path = "./tmp/rspec_examples.txt"
 
   config.mock_with :rspec do |mocks|
-    mocks.syntax = [:should, :expect]
-
     # Prevents you from mocking or stubbing a method that does not exist on
     # a real object. This is generally recommended.
     mocks.verify_partial_doubles = true
