@@ -103,8 +103,8 @@ describe "the event listing page" do
       visit chapter_path(chapter.id)
 
       expect(page).to have_content('Organizers')
-    end 
-  end 
+    end
+  end
 
   context 'as a non-logged in user', js: true do
     before do
@@ -142,13 +142,17 @@ describe "the event listing page" do
       let!(:chapter) { create(:chapter) }
 
       before do
+        create(:course)
+        create(:event, course: create(:course, name: "FRONTEND",
+                                               title: "Front End",
+                                               description: "This is a Front End workshop. The focus will be on designing web apps with HTML and CSS."))
         visit events_path
         click_link "Organize Event"
       end
 
       it "can create a new event" do
         fill_in_good_event_details
-        
+
         check("coc")
         click_button submit_for_approval_button
 

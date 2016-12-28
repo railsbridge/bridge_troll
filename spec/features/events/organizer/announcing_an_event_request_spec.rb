@@ -8,6 +8,7 @@ describe "Announcing an event", js: true do
   let!(:chapter) { create(:chapter) }
 
   before do
+    create(:course)
     sign_in_as(user_organizer)
     visit "/events/new"
     fill_in_good_event_details

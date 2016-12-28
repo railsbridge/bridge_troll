@@ -30,7 +30,7 @@
         </p>
         <%= render partial: 'rsvps/class_levels', locals: {
           f: f,
-          levels: (@rsvp.event.course || Course::RAILS).levels,
+          levels: (@rsvp.event.course || Course.find_by_name("RAILS").first).levels,
           show_no_preference: false
         } %>
       </div>
@@ -82,7 +82,7 @@
           <div class="field">
             <%= render partial: 'rsvps/class_levels', locals: {
               f: f,
-              levels: (@rsvp.event.course || Course::RAILS).levels,
+              levels: (@rsvp.event.course || Course.find_by_name("RAILS").first).levels,
               show_no_preference: true
             } %>
           </div>

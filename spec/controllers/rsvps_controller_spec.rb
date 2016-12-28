@@ -81,7 +81,7 @@ describe RsvpsController do
 
       describe "when the user has previously volunteered" do
         before do
-          frontend_event = create(:event, course: Course::FRONTEND)
+          frontend_event = create(:event, course: create(:course, name: "FRONTEND", title: "Front End"))
           @frontend_rsvp = create(:rsvp, {
             user: @user,
             event: frontend_event,
@@ -90,7 +90,7 @@ describe RsvpsController do
             job_details: 'Software Engineer'
           })
 
-          rails_event = create(:event, course: Course::RAILS)
+          rails_event = create(:event, course: @event.course)
           @rails_rsvp = create(:rsvp, {
             user: @user,
             event: rails_event,
@@ -110,7 +110,8 @@ describe RsvpsController do
 
         context 'when the RSVP is for a course they have never attended' do
           before do
-            @event.update_attributes(course_id: Course::JAVASCRIPT.id)
+            @course = create(:course, name: "JAVASCRIPT", title: "Intro to JavaScript")
+            @event.update_attributes(course_id: @course.id)
           end
 
           it "carries over only limited details" do

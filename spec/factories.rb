@@ -35,7 +35,7 @@ FactoryGirl.define do
     volunteer_rsvp_limit 75
     location
     chapter
-    course_id Course::RAILS.id
+    course
     volunteer_details "I am some details for volunteers."
     student_details "I am some details for students."
     target_audience "default target audience"
@@ -46,6 +46,33 @@ FactoryGirl.define do
         event.event_sessions << build(:event_session, event: event, starts_at: event.starts_at, ends_at: event.ends_at)
       end
     end
+  end
+
+  factory :course do
+    name "RAILS"
+    title 'Ruby on Rails'
+    description 'This is a Ruby on Rails event. The focus will be on developing functional web apps and programming in Ruby.  You can find all the curriculum materials at <a href="http://docs.railsbridge.org">docs.railsbridge.org</a>.'
+    transient do
+      levels_count 3
+    end
+    after(:create) do |course, evaluator|
+      levels = [[1, 'blue', 'Totally New to Programming'],
+                 [2, 'green', 'Somewhat New to Programming'],
+                 [3, 'gold', 'Some Experience'],
+                 [4, 'orange', 'Other Programming Experience'],
+                 [5, 'purple', 'Ready for the Next Challenge']
+                ]
+      evaluator.levels_count.times do |i|
+        course.levels << create(:level, num: levels[i][0], color: levels[i][1], title: levels[i][2])
+      end
+    end
+  end
+
+  factory :level do
+    num 1
+    color 'blue'
+    title "Totally New to Programming"
+    level_description ["You have little to no experience with the terminal or a graphical IDE", "You might have done a little bit with HTML or CSS, but not necessarily", "You're unfamiliar with terms like methods, arrays, lists, hashes, or dictionaries."]
   end
 
   factory :location do
