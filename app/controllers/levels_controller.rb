@@ -1,25 +1,31 @@
 class LevelsController < ApplicationController
   before_action :set_levels
   before_action :set_level, only: [:show, :edit, :update, :destroy]
-  before_action :is_user_admin
+  before_action :authenticate_user!
 
   # GET courses/1/levels
   def index
     @levels = @course.levels
+    authorize @levels
   end
 
   # GET courses/1/levels/new
   def new
     @level = @course.levels.build
+    authorize @level
   end
 
   # GET courses/1/levels/1/edit
   def edit
+    authorize @level
   end
 
   # POST courses/1/levels
   def create
-    @level = @course.levels.build(level_params)
+    params = level_params
+    params[:level_description] = parse_description_as_array(params[:level_description])
+    @level = @course.levels.build(params)
+    authorize @level
     if @level.save
       redirect_to(course_levels_url(@level.course), notice: 'Level was successfully created.')
     else
@@ -29,6 +35,7 @@ class LevelsController < ApplicationController
 
   # PUT courses/1/levels/1
   def update
+    authorize @level
     if @level.update_attributes(level_params)
       redirect_to(course_levels_url(@level.course), notice: 'Level was successfully updated.')
     else
@@ -38,8 +45,8 @@ class LevelsController < ApplicationController
 
   # DELETE courses/1/levels/1
   def destroy
+    authorize @level
     @level.destroy
-
     redirect_to course_levels_url(@course)
   end
 
@@ -55,13 +62,14 @@ class LevelsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def level_params
-      params.require(:level).permit(:num, :color, :title, :level_description)
+      permitted_attributes(@level || Level.new)
     end
 
-    # user must be an admin to make changes to levels
-    def is_user_admin
-      unless current_user.admin
-        redirect_to root_path, notice: 'Must be an admin to make changes to courses.'
+    def parse_description_as_array(description)
+      begin
+        ActiveSupport::JSON.decode(description)
+      rescue
+        description.gsub(", ", ",").gsub(/[\[\]]/, "").split(",")
       end
     end
 end

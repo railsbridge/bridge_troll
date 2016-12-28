@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
 
   serialize :allowed_operating_system_ids, JSON
   serialize :imported_event_data, JSON
-  enum current_state: [ :draft, :pending_approval, :published ]
+  enum current_state: [ :draft, :curpending_approval, :published ]
   validates :current_state, inclusion: { in: Event.current_states.keys }
 
   after_initialize :set_defaults
@@ -360,16 +360,6 @@ class Event < ActiveRecord::Base
       student_rsvps_count: student_rsvps.count,
       student_waitlist_rsvps_count: student_waitlist_rsvps.count
     )
-  end
-
-  def current_state
-    if self.published
-      :published
-    elsif self.draft_saved
-      :draft_saved
-    else
-      :pending_approval
-    end
   end
 
   def as_json(options = {})

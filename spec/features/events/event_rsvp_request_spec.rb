@@ -161,19 +161,6 @@ describe 'creating or editing an rsvp' do
     end
 
     describe "a new learn rsvp" do
-      it "should show rails levels for rails events" do
-        visit learn_new_event_rsvp_path(@event)
-        expect(page).to have_content @course.levels[0][:title]
-      end
-
-      it "should show frontend levels for frontend events" do
-        @event.update_attributes(course_id: @course_fe.id)
-        @event.save!
-
-        visit learn_new_event_rsvp_path(@event)
-        expect(page).to have_content @course_fe.levels[0][:title]
-      end
-
       it "should not allow students to have 'No preference'" do
         visit learn_new_event_rsvp_path(@event)
         expect(page).not_to have_content no_preference_text
