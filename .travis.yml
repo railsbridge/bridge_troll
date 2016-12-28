@@ -2,7 +2,11 @@ language: ruby
 rvm:
   - 2.3.1
 bundler_args: "--without development --without production --deployment"
-cache: bundler
+cache:
+  bundler: true
+  directories:
+    - node_modules
+    - vendor/assets/bower_components
 env:
   - "PATH=$PWD/node_modules/.bin:$PATH"
 before_install:
