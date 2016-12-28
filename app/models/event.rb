@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
 
   serialize :allowed_operating_system_ids, JSON
   serialize :imported_event_data, JSON
-  enum current_state: [ :draft, :pending_approval, :published ]
+  enum current_state: [ :draft, :curpending_approval, :published ]
   validates :current_state, inclusion: { in: Event.current_states.keys }
 
   after_initialize :set_defaults
@@ -25,7 +25,7 @@ class Event < ActiveRecord::Base
   has_one :organization, through: :chapter
 
   extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to_active_hash :course
+  belongs_to :course
 
   has_one :region, through: :location
 

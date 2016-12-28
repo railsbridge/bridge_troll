@@ -15,7 +15,7 @@ class AdminPagesController < ApplicationController
     @authentication_counts = Authentication.all.each_with_object(Hash.new(0)) do |auth, hsh|
       hsh[auth.provider] += 1
     end
-
+    @courses = Course.all
     @spammers = User.where(spammer: true)
     @spam_events = Event.where(spam: true)
   end

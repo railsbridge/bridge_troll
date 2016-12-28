@@ -52,9 +52,6 @@ module Seeder
         rsvp.user.destroy
       end
     end
-
-    event.destroy
-
     if event.location.present?
       event.location.destroy if event.location.events.count == 0
       region = event.location.region
@@ -66,12 +63,81 @@ module Seeder
       organization.destroy if organization.chapters.count == 1
       event.chapter.destroy
     end
+    event.course.destroy if event.course.events.count == 1
+    event.destroy
   end
 
   def self.seed_event(options={})
     students_per_level_range = options[:students_per_level_range] || (3..15)
     old_event = Event.where(title: 'Seeded Test Event').first
     destroy_event(old_event) if old_event.present?
+
+    course = Course.find_or_create_by(
+      id: 1,
+      name: 'RAILS',
+      title: 'Ruby on Rails',
+      description: 'This is a Ruby on Rails event. The focus will be on developing web apps and programming in Ruby.  You can find all the curriculum materials at <a href="http://docs.railsbridge.org">docs.railsbridge.org</a>.')
+    if course.levels.count == 0
+      levels = [
+        {
+          level: 1,
+          color: 'blue',
+          title: "Totally New to Programming",
+          level_description: [
+            'You have little to no experience with the terminal or a graphical IDE',
+            'You might have done a little bit with HTML or CSS, but not necessarily',
+            'You\'re unfamiliar with terms like methods, arrays, lists, hashes, or dictionaries.'
+          ]
+        }, {
+          level: 2,
+          color: 'green',
+          title: "Somewhat New to Programming",
+          level_description: [
+            'You may have used the terminal a little — to change directories, for instance',
+            'You might have done an online programming tutorial or two',
+            'You don\'t have a lot of experience with Rails',
+            'You know what a method is',
+            'You aren\'t totally clear on how a request gets from the browser to your app'
+          ]
+        }, {
+          level: 3,
+          color: 'gold',
+          title: "Some Rails Experience",
+          level_description: [
+            'You\'re comfortable using the terminal, but not necessarily a Power User',
+            'You have a general understanding of a Rails app\'s structure, perhaps from a prior workshop or tutorial',
+            'You know how to define a method in Ruby',
+            'You have a decent handle on Ruby arrays and hashes',
+          ]
+        }, {
+          level: 4,
+          color: 'orange',
+          title: "Other Programming Experience",
+          level_description: [
+            'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
+            'You\'re new to Ruby and Rails',
+            'You might be familiar with version control and basic web architecture'
+          ]
+        }, {
+          level: 5,
+          color: 'purple',
+          title: "Ready for the Next Challenge",
+          level_description: [
+            'You\'ve exhausted the fun of the Suggestotron/Intro Rails curriculum',
+            'You\'re comfortable with the terminal',
+            'You want to problem-solve instead of copying other\'s code',
+            'You want to build an app without using scaffolds'
+          ]
+        }
+      ]
+      levels.each do |level|
+        l = Level.create(num: level[:level],
+                         color: level[:color],
+                         title: level[:title],
+                         level_description: level[:level_description])
+        course.levels << l
+      end
+    end
 
     organization = Organization.find_or_create_by(name: 'RailsBridge')
     region = Region.find_or_create_by(name: 'San Francisco')
@@ -92,7 +158,7 @@ module Seeder
       title: 'Seeded Test Event',
       student_rsvp_limit: 5,
       time_zone: 'Pacific Time (US & Canada)',
-      course_id: Course::RAILS.id,
+      course: course,
       location: location,
       chapter: chapter,
       current_state: :published,
@@ -231,7 +297,7 @@ module Seeder
       title: 'Seeded Multiple Location Event',
       student_rsvp_limit: 15,
       time_zone: 'Pacific Time (US & Canada)',
-      course_id: Course::RAILS.id,
+      course: Course.find(1),
       location: location,
       chapter: chapter,
       current_state: :published,
