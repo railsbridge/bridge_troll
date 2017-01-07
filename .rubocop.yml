@@ -1,3 +1,8 @@
+AllCops:
+  Exclude:
+    - 'db/migrate/20151210035820_init_schema.rb'
+    - 'db/schema.rb'
+
 Lint/BlockAlignment:
   Exclude:
     - 'lib/tasks/db.rake'
@@ -108,8 +113,6 @@ Style/ExtraSpacing:
   Exclude:
     - 'bin/setup'
     - 'config.ru'
-    - 'db/migrate/20131210054655_init_schema.rb'
-    - 'db/schema.rb'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -128,6 +131,8 @@ Style/IndentationWidth:
 
 Style/IndentHash:
   EnforcedStyle: consistent
+  Exclude:
+    - 'app/models/course.rb'
 
 Style/Lambda:
   Enabled: false
@@ -249,6 +254,3 @@ Style/VariableNumber:
 
 Style/WordArray:
   MinSize: 3
-  Exclude:
-    - 'db/schema.rb'
-    - 'db/migrate/20131210054655_init_schema.rb'

@@ -52,8 +52,8 @@ FactoryGirl.define do
     sequence(:name) { |n| "Location #{n}" }
     sequence(:address_1) { |n| "#{n} Street" }
     city "San Francisco"
-    latitude 37.7955458
-    longitude -122.3934205
+    latitude(37.7955458)
+    longitude(-122.3934205)
     region
   end
 
