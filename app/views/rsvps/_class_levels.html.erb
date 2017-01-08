@@ -3,12 +3,12 @@
     <div class="class_level_line">
       <label class='class_level' >
         <% if defined?(f) %>
-          <%= f.radio_button :class_level, level[:level] %>
+          <%= f.radio_button :class_level, level.num %>
         <% end %>
-        <span class="<%= "label btn-#{level[:color]}" %>"><%= level[:color].capitalize %></span>
-        <%= level[:title] %>
+        <span class="<%= "label btn-#{level.color}" %>"><%= level.color.capitalize %></span>
+        <%= level.title %>
         <ul>
-          <% level[:level_description].each do |info| %>
+          <% level.description.each do |info| %>
             <li><%= info.html_safe %></li>
           <% end %>
         </ul>

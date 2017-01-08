@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "arranging sections for an event", js: true do
   before do
-    @event = create(:event)
+    @event = create(:event, course: create(:course, levels_count: 5))
     create(:event_session, event: @event)
     expect(@event.reload.event_sessions.count).to eq(2)
 

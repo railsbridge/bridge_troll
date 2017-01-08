@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206055208) do
+ActiveRecord::Schema.define(version: 20161228162440) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -36,6 +36,14 @@ ActiveRecord::Schema.define(version: 20161206055208) do
     t.integer  "organization_id",                   null: false
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string   "name"
+    t.string   "title"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "dietary_restrictions", force: :cascade do |t|
@@ -135,6 +143,16 @@ ActiveRecord::Schema.define(version: 20161206055208) do
 
   add_index "external_events", ["chapter_id"], name: "index_external_events_on_chapter_id"
   add_index "external_events", ["region_id"], name: "index_external_events_on_region_id"
+
+  create_table "levels", force: :cascade do |t|
+    t.integer  "course_id"
+    t.integer  "num"
+    t.string   "color"
+    t.string   "title"
+    t.text     "level_description"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
 
   create_table "locations", force: :cascade do |t|
     t.string   "name"

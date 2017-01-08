@@ -17,10 +17,10 @@ You'll be <%= verb(@rsvp.role) %> <%= pluralize(@rsvp.rsvp_sessions.count, 'sess
 </ul>
 
 <% if @rsvp.role_student? %>
-  <% level = @rsvp.event.course.levels.find { |l| l[:level] == @rsvp.class_level } %>
-  <p>You identified your skill level as "<strong><%= level[:title] %></strong>", which we think means:</p>
+  <% level = @rsvp.event.course.levels.find { |l| l.num == @rsvp.class_level } %>
+  <p>You identified your skill level as "<strong><%= level.title %></strong>", which we think means:</p>
   <ul>
-    <% level[:level_description].each do |desc| %>
+    <% level.description.each do |desc| %>
       <li><%= desc %></li>
     <% end %>
   </ul>

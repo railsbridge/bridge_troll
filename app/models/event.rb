@@ -25,7 +25,7 @@ class Event < ActiveRecord::Base
   has_one :organization, through: :chapter
 
   extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to_active_hash :course
+  belongs_to :course
 
   has_one :region, through: :location
 
@@ -384,7 +384,7 @@ class Event < ActiveRecord::Base
   end
 
   def levels
-    course[:levels]
+    course.levels
   end
 
   private

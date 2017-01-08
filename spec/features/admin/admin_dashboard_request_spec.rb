@@ -14,6 +14,7 @@ describe "the admin dashboard" do
 
   context "when signed in as an admin" do
     before do
+      @course = create(:course)
       @admin = create(:user, first_name: 'Gavin', last_name: 'Grapejuice', admin: true)
       sign_in_as(@admin)
     end
@@ -21,6 +22,11 @@ describe "the admin dashboard" do
     it "shows a list of admins" do
       visit '/admin_dashboard'
       expect(page).to have_content('Gavin Grapejuice')
+    end
+
+    it "shows courses" do
+      visit '/admin_dashboard'
+      expect(page).to have_content(@course.title)
     end
   end
 end

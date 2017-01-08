@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Num:</b>
+  <%= @level.num %>
+</p>
+
+<p>
+  <b>Color:</b>
+  <%= @level.color %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @level.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @level.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_course_level_path(@level.course, @level) %> |
+<%= link_to 'Back', course_levels_path(@level.course) %>

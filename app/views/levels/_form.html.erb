@@ -1,0 +1,34 @@
+<%= form_for([@level.course, @level]) do |f| %>
+  <% if @level.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@level.errors.count, "error") %> prohibited this level from being saved:</h2>
+
+      <ul>
+      <% @level.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :num %><br />
+    <%= f.number_field :num %>
+  </div>
+  <div class="field">
+    <%= f.label :color %><br />
+    <%= f.text_field :color %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label "Description" %><br />
+    <small>Please separate different descriptions with a comma (,).</small><br />
+    <%= f.text_area :level_description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -11,6 +11,7 @@ describe "New Event" do
   end
 
   before do
+    create(:course)
     @user_organizer = create(:user, email: "organizer@mail.com", first_name: "Sam", last_name: "Spade")
     @chapter = create(:chapter)
 

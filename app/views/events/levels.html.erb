@@ -1,9 +1,9 @@
 <%= content_for(:header_text, @event.title) %>
 <%= content_for(:header_link, event_path(@event)) %>
 
-<h2>Class Levels for <%= (@event.course || Course::RAILS).title %></h2>
+<h2>Class Levels for <%= (@event.course || Course.find_by_name("RAILS").first).title %></h2>
 
 <%= render partial: 'rsvps/class_levels', locals: {
-  levels: (@event.course || Course::RAILS).levels,
+  levels: (@event.course || Course.find_by_name("RAILS").first).levels,
   show_no_preference: false
 } %>

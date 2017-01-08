@@ -89,12 +89,14 @@ class Rsvp < ActiveRecord::Base
     end
 
     return unless user
-
     prior_rsvps = user.rsvps.includes(:event).order('events.ends_at')
-
-    last_rsvp = prior_rsvps.where('events.course_id = ?', event.course_id).last || prior_rsvps.last
+    if event.course
+      last_rsvp = prior_rsvps.where('events.course_id = ?', event.course.id).last || prior_rsvps.last
+    else
+      last_rsvp = prior_rsvps.last
+    end
     if last_rsvp
-      assign_attributes(last_rsvp.carryover_attributes(event.course_id, role))
+      assign_attributes(last_rsvp.carryover_attributes(event.course, role))
     end
   end
 
@@ -110,11 +112,11 @@ class Rsvp < ActiveRecord::Base
   end
 
   def level_title
-    level[:title] if role == Role::STUDENT
+    level.title if role == Role::STUDENT
   end
 
   def level
-    event.levels.find {|level| level[:level] == class_level}
+    event.levels.find {|level| level.num == class_level}
   end
 
   def operating_system_title
@@ -182,10 +184,9 @@ class Rsvp < ActiveRecord::Base
     VolunteerPreference::NEITHER.id
   end
 
-  def carryover_attributes(new_event_course_id, role)
+  def carryover_attributes(course, role)
     fields = [:job_details]
-
-    if role == Role::VOLUNTEER && event.course_id == new_event_course_id
+    if role == Role::VOLUNTEER && event.course == course
       fields += [:subject_experience, :teaching_experience]
     end
 

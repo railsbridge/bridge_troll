@@ -27,7 +27,7 @@
       sessions: sessions,
       attendees: attendees,
       levels: <%= @event.course.levels.map do |l|
-          {index: l[:level], color: l[:color]}
+          {index: l.num, color: l.color}
         end.to_json.html_safe
       %>
     });
