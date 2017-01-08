@@ -679,7 +679,34 @@ concepts, like collections and scope.',
             ]
           }
         ]
-      },
+      }, {
+        id: 18,
+        name: "Scala",
+        title: 'Scala for programmers',
+        description: 'This is a Scala programming event. Some programming knowledge expected, but you don\'t yet know Scala.',
+        levels: [
+          {
+            level: 3,
+            color: 'gold',
+            title: 'Some programming experience, nothing formal.',
+            level_description: [
+              'You know what a variable and a function is',
+              'You might have attended another *Bridge event, or done an online programming tutorial or two',
+              'You may have used the terminal a little — to change directories, for instance'
+            ]
+          }, {
+            level: 4,
+            color: 'orange',
+            title: 'Other Programming Experience',
+            level_description: [
+              'You\'re proficient in another language and understand programming
+concepts, like collections and scope.',
+              'You\'re new to Scala or functional programming',
+              'You might be familiar with version control and basic web architecture'
+            ]
+          }
+        ]
+      }
     ]
   end
 end
