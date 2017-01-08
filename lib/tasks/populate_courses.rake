@@ -1,5 +1,5 @@
 desc "Populate courses (only run once)"
-task :populate_courses, [:url] => :environment do |t, args|
+task :populate_courses => :environment do |t, args|
   data = [
     {
       id: 1,
@@ -512,42 +512,42 @@ concepts, like collections and scope.',
         }
       ]
     }, {
-        id: 14,
-        name: 'Intro to Go',
-        title: 'Introduction to Go',
-        description: 'This is a Go programming event. Some programming knowledge is expected, but you don\'t need to know Go.',
-        levels: [
-            {
-                level: 2,
-                color: 'green',
-                title: "Somewhat New to Programming",
-                level_description: [
-                    'You know what a function is',
-                    'You might have done an online programming tutorial or two',
-                    'You may have used the terminal a little — to change directories, for instance'
-                ]
-            }, {
-                level: 3,
-                color: 'gold',
-                title: "Some Go Experience",
-                level_description: [
-                    'You know how to define a function in Go',
-                    'You have a decent handle on Go slices and maps',
-                    'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
-                    'You\'re comfortable using the terminal, but not necessarily a Power User'
-                ]
-            }, {
-                level: 4,
-                color: 'orange',
-                title: "Other Programming Experience",
-                level_description: [
-                    'You\'re new to Go',
-                    'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
-                    'You are an intermediate-level developer',
-                    'You might be familiar with version control and basic web architecture'
-                ]
-            }
-        ]
+      id: 14,
+      name: 'Intro to Go',
+      title: 'Introduction to Go',
+      description: 'This is a Go programming event. Some programming knowledge is expected, but you don\'t need to know Go.',
+      levels: [
+        {
+          level: 2,
+          color: 'green',
+          title: "Somewhat New to Programming",
+          level_description: [
+            'You know what a function is',
+            'You might have done an online programming tutorial or two',
+            'You may have used the terminal a little — to change directories, for instance'
+          ]
+        }, {
+          level: 3,
+          color: 'gold',
+          title: "Some Go Experience",
+          level_description: [
+            'You know how to define a function in Go',
+            'You have a decent handle on Go slices and maps',
+            'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
+            'You\'re comfortable using the terminal, but not necessarily a Power User'
+          ]
+        }, {
+          level: 4,
+          color: 'orange',
+          title: "Other Programming Experience",
+          level_description: [
+            'You\'re new to Go',
+            'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
+            'You are an intermediate-level developer',
+            'You might be familiar with version control and basic web architecture'
+          ]
+        }
+      ]
     }, {
       id: 15,
       name: 'Elixir',
@@ -559,20 +559,20 @@ concepts, like collections and scope.',
           color: 'gold',
           title: "Some Elixir/Phoenix Experience",
           level_description: [
-              'You\'re comfortable using the terminal, but not necessarily a Power User',
-              'You have a general understanding of Elixir data types and the Phoenix framework structure, perhaps from a prior workshop or tutorial',
-              'You know how to define a function in Elixir',
-              'You have a decent handle on slices and maps'
-              ]
+            'You\'re comfortable using the terminal, but not necessarily a Power User',
+            'You have a general understanding of Elixir data types and the Phoenix framework structure, perhaps from a prior workshop or tutorial',
+            'You know how to define a function in Elixir',
+            'You have a decent handle on slices and maps'
+          ]
         }, {
-            level: 4,
-            color: 'orange',
-            title: "Other Programming Experience",
-            level_description: [
-                'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
-                'You\'re new to Elixir & Phoenix',
-                'You might be familiar with version control and basic web architecture'
-            ]
+          level: 4,
+          color: 'orange',
+          title: "Other Programming Experience",
+          level_description: [
+            'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
+            'You\'re new to Elixir & Phoenix',
+            'You might be familiar with version control and basic web architecture'
+          ]
         }
       ]
     }, {
@@ -622,7 +622,7 @@ concepts, like collections and scope.',
           color: 'blue',
           title: "New to Programming",
           level_description: [
-              'You are completely new to programming'
+            'You are completely new to programming'
           ]
         },
         {
@@ -630,46 +630,50 @@ concepts, like collections and scope.',
           color: 'green',
           title: "Somewhat New to Programming",
           level_description: [
-              'You know what a function is',
-              'You might have done an online programming tutorial or two',
-              'You may have used the terminal a little — to change directories, for instance'
+            'You know what a function is',
+            'You might have done an online programming tutorial or two',
+            'You may have used the terminal a little — to change directories, for instance'
           ]
         }, {
           level: 3,
           color: 'gold',
           title: "Some Go Experience",
           level_description: [
-              'You know how to define a function in Go',
-              'You have a decent handle on Go slices and maps',
-              'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
-              'You\'re comfortable using the terminal, but not necessarily a Power User'
+            'You know how to define a function in Go',
+            'You have a decent handle on Go slices and maps',
+            'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
+            'You\'re comfortable using the terminal, but not necessarily a Power User'
           ]
         }, {
           level: 4,
           color: 'orange',
           title: "Other Programming Experience",
           level_description: [
-              'You\'re new to Go',
-              'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
-              'You are an intermediate-level developer',
-              'You might be familiar with version control and basic web architecture'
+            'You\'re new to Go',
+            'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
+            'You are an intermediate-level developer',
+            'You might be familiar with version control and basic web architecture'
           ]
         }
       ]
     },
   ]
   data.each do |course|
-    c = Course.where(id: course[:id])
-    if c.empty?
-      c = Course.create(id: course[:id], name: course[:name], title: course[:title], description: course[:description])
-    else
-      c = c.take!
-    end
+    c = Course.where(
+      id: course[:id]
+    ).first_or_create!(
+      name: course[:name],
+      title: course[:title],
+      description: course[:description]
+    )
     course[:levels].each do |level|
-      if Level.where(num: level[:level], course_id: course[:id]).empty?
-        l = Level.create(num: level[:level], color: level[:color], title: level[:title], course_id: course[:id], level_description: level[:description])
-        c.levels << l
-      end
+      c.levels.where(
+        num: level[:level]
+      ).first_or_create!(
+        color: level[:color],
+        title: level[:title],
+        level_description: level[:level_description]
+      )
     end
   end
 end
