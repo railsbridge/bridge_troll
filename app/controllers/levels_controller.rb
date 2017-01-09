@@ -53,28 +53,29 @@ class LevelsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_levels
-      @course = Course.find(params[:course_id])
-    end
 
-    def set_level
-      @level = @course.levels.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_levels
+    @course = Course.find(params[:course_id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def level_params
-      permitted_attributes(@level || Level.new)
-    end
+  def set_level
+    @level = @course.levels.find(params[:id])
+  end
 
-    # form still sending param as string, so need to make it an array
-    def parse_description_as_array(description)
-      unless description.nil? || (description.is_a? Array)
-        begin
-          ActiveSupport::JSON.decode(description)
-        rescue
-          description.gsub(", ", ",").gsub(/[\[\]]/, "").split(",")
-        end
+  # Only allow a trusted parameter "white list" through.
+  def level_params
+    permitted_attributes(@level || Level.new)
+  end
+
+  # form still sending param as string, so need to make it an array
+  def parse_description_as_array(description)
+    unless description.nil? || (description.is_a? Array)
+      begin
+        ActiveSupport::JSON.decode(description)
+      rescue
+        description.gsub(", ", ",").gsub(/[\[\]]/, "").split(",")
       end
     end
+  end
 end

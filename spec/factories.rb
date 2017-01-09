@@ -60,8 +60,7 @@ FactoryGirl.define do
                  [2, 'green', 'Somewhat New to Programming'],
                  [3, 'gold', 'Some Experience'],
                  [4, 'orange', 'Other Programming Experience'],
-                 [5, 'purple', 'Ready for the Next Challenge']
-                ]
+                 [5, 'purple', 'Ready for the Next Challenge']]
       evaluator.levels_count.times do |i|
         course.levels << create(:level, num: levels[i][0], color: levels[i][1], title: levels[i][2])
       end

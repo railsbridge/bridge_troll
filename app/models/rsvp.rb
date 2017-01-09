@@ -89,12 +89,8 @@ class Rsvp < ActiveRecord::Base
     end
 
     return unless user
-    prior_rsvps = user.rsvps.includes(:event).order('events.ends_at')
-    if event.course
-      last_rsvp = prior_rsvps.where('events.course_id = ?', event.course.id).last || prior_rsvps.last
-    else
-      last_rsvp = prior_rsvps.last
-    end
+
+    last_rsvp = find_last_relevant_rsvp(user, event)
     if last_rsvp
       assign_attributes(last_rsvp.carryover_attributes(event.course, role))
     end
@@ -211,5 +207,16 @@ class Rsvp < ActiveRecord::Base
     options[:methods] ||= []
     options[:methods] |= [:full_name, :operating_system_title, :operating_system_type, :level_title]
     super(options)
+  end
+
+  private
+
+  def find_last_relevant_rsvp(user, event)
+    prior_rsvps = user.rsvps.includes(:event).order('events.ends_at')
+    if event.course
+      prior_rsvps.where('events.course_id = ?', event.course.id).last || prior_rsvps.last
+    else
+      prior_rsvps.last
+    end
   end
 end
