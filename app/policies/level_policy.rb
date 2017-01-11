@@ -1,34 +1,12 @@
 class LevelPolicy < ApplicationPolicy
-  def index?
-    user.admin?
-  end
-
-  def destroy?
-    user.admin?
-  end
-
-  def edit?
-    update?
-  end
-
-  def new?
-    create?
-  end
-
-  def update?
-    user.admin?
-  end
-
-  def create?
-    user.admin?
-  end
-
   def permitted_attributes
+    return [] unless user && user.admin?
+
     [
       :num,
       :color,
       :title,
-      :level_description
+      :level_description_bullets
     ]
   end
 end

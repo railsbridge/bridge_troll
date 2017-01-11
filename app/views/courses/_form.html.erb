@@ -1,4 +1,4 @@
-<%= form_for(@course) do |f| %>
+<%= simple_nested_form_for(@course) do |f| %>
   <% if @course.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:</h2>
@@ -11,19 +11,40 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+  <%= f.input :name %><br>
+  <%= f.input :title %><br>
+  <%= f.input :description %><br>
+
+  <div class="course-levels">
+    <%= f.fields_for(:levels) do |levels_form| %>
+      <div class="row">
+        <div class="col-md-4">
+          <%= levels_form.input :num %>
+        </div>
+        <div class="col-md-4">
+          <%= levels_form.input :color %>
+        </div>
+        <div class="col-md-4">
+          <%= levels_form.input :title %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div>
+            <%= levels_form.input :level_description_bullets,
+                                  label: 'Level description',
+                                  as: :text,
+                                  input_html: {rows: 5} %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <%= f.link_to_add :levels, class: 'btn btn-info mb20' do %>
+      <i class='fa fa-plus-square' style='margin-right: 5px;'></i>Add another level
+    <% end %>
   </div>
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
-  </div>
+  
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %>
   </div>
 <% end %>

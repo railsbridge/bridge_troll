@@ -6,4 +6,12 @@ class Level < ActiveRecord::Base
   validates :level_description, presence: true
   serialize :level_description, Array
   alias_attribute :description, :level_description
+
+  def level_description_bullets
+    level_description.map { |line| "* #{line}" }.join("\n")
+  end
+
+  def level_description_bullets=(value)
+    self.level_description = value.split("\n").map { |line| line.gsub(/^\s*\*\s*/, '').strip }
+  end
 end

@@ -20,10 +20,15 @@ class CoursePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
+    return [] unless user && user.admin?
+
     [
       :name,
       :title,
-      :description
+      :description,
+      {
+        levels_attributes: LevelPolicy.new(user, Level).permitted_attributes + [:id],
+      }
     ]
   end
 end

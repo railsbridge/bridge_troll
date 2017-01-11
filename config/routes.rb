@@ -102,9 +102,7 @@ Bridgetroll::Application.routes.draw do
 
   resources :external_events, except: [:show]
 
-  resources :courses, only: [:new, :edit, :create, :update, :destroy] do
-    resources :levels, only: [:index, :new, :edit, :create, :update, :destroy]
-  end
+  resources :courses, only: [:new, :edit, :create, :update, :destroy]
 
   get "/about" => "static_pages#about"
   get "/admin_dashboard" => "admin_pages#admin_dashboard"
