@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Level do
   it { should belong_to(:course) }
   it { should validate_presence_of(:num) }
-  it { should validate_numericality_of(:num) }
+  it { should validate_inclusion_of(:num).in_array((1..5).to_a) }
   it { should validate_uniqueness_of(:num).scoped_to(:course_id) }
   it { should validate_presence_of(:color) }
   it { should validate_uniqueness_of(:color).scoped_to(:course_id) }

@@ -16,8 +16,8 @@ describe "courses", js: :true do
 
     click_on 'Add another level'
     within '.course-levels .fields', match: :first do
-      fill_in 'Num', with: 1
-      fill_in 'Color', with: 'blue'
+      select '1', from: 'Num'
+      select 'blue', from: 'Color'
       fill_in 'Title', with: 'Beginner'
       fill_in 'Level description', with: "* Desires adventure\n* Has hill climbing skills"
     end

@@ -11,21 +11,23 @@
     </div>
   <% end %>
 
-  <%= f.input :name %><br>
-  <%= f.input :title %><br>
-  <%= f.input :description %><br>
+  <%= f.input :name %>
+  <%= f.input :title %>
+  <%= f.input :description %>
 
   <div class="course-levels">
     <%= f.fields_for(:levels) do |levels_form| %>
       <div class="row">
-        <div class="col-md-4">
-          <%= levels_form.input :num %>
+        <div class="col-md-2">
+          <%= levels_form.input :num, collection: (1..5) %>
         </div>
-        <div class="col-md-4">
-          <%= levels_form.input :color %>
-        </div>
+      </div>
+      <div class="row">
         <div class="col-md-4">
           <%= levels_form.input :title %>
+        </div>
+        <div class="col-md-2">
+          <%= levels_form.input :color, collection: Level::COLORS %>
         </div>
       </div>
       <div class="row">
