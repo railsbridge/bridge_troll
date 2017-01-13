@@ -17,6 +17,8 @@
 
   <div class="course-levels">
     <%= f.fields_for(:levels) do |levels_form| %>
+      <%= levels_form.link_to_remove '(Remove Level)', class: 'pull-right' %>
+
       <div class="row">
         <div class="col-md-2">
           <%= levels_form.input :num, collection: (1..5) %>

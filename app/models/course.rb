@@ -6,4 +6,5 @@ class Course < ActiveRecord::Base
   validates_presence_of :description
 
   accepts_nested_attributes_for :levels, allow_destroy: true
+  validates :levels, length: { maximum: 5 }
 end

@@ -33,4 +33,23 @@ describe "courses", js: :true do
     expect(created_level.title).to eq('Beginner')
     expect(created_level.level_description).to eq(['Desires adventure', 'Has hill climbing skills'])
   end
+
+  describe 'editing courses' do
+    let!(:course) { create(:course, levels_count: 3) }
+
+    it 'allows an admin to remove levels from a course' do
+      visit "/courses/#{course.id}/edit"
+
+      expect(page).to have_css('.course-levels .fields', count: 3)
+      within '.course-levels .fields', match: :first do
+        click_on "Remove Level"
+      end
+      expect(page).to have_css('.course-levels .fields', count: 2)
+
+      click_on 'Update Course'
+      expect(page).to have_content('Admin Dashboard')
+
+      expect(course.reload.levels.length).to eq(2)
+    end
+  end
 end

@@ -6,7 +6,8 @@ class LevelPolicy < ApplicationPolicy
       :num,
       :color,
       :title,
-      :level_description_bullets
+      :level_description_bullets,
+      :_destroy
     ]
   end
 end
