@@ -23,10 +23,5 @@ describe "the admin dashboard" do
       visit '/admin_dashboard'
       expect(page).to have_content('Gavin Grapejuice')
     end
-
-    it "shows courses" do
-      visit '/admin_dashboard'
-      expect(page).to have_content(@course.title)
-    end
   end
 end

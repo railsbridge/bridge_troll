@@ -24,7 +24,7 @@ describe "courses", js: :true do
 
     click_on 'Create Course'
 
-    expect(page).to have_content('Admin Dashboard')
+    expect(page).to have_content('Listing courses')
 
     created_course = Course.last
     expect(created_course.title).to eq('Lisp for Llamas')
@@ -47,7 +47,7 @@ describe "courses", js: :true do
       expect(page).to have_css('.course-levels .fields', count: 2)
 
       click_on 'Update Course'
-      expect(page).to have_content('Admin Dashboard')
+      expect(page).to have_content('Listing courses')
 
       expect(course.reload.levels.length).to eq(2)
     end

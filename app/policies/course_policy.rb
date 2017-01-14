@@ -1,4 +1,8 @@
 class CoursePolicy < ApplicationPolicy
+  def index?
+    user.admin?
+  end
+
   def destroy?
     record.events.count == 0 && user.admin?
   end

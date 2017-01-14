@@ -16,7 +16,6 @@ class AdminPagesController < ApplicationController
       hsh[auth.provider] += 1
     end
 
-    @courses = Course.all
     @spammers = User.where(spammer: true)
     @spam_events = Event.where(spam: true)
   end
