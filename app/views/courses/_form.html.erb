@@ -21,7 +21,7 @@
 
       <div class="row">
         <div class="col-md-2">
-          <%= levels_form.input :num, collection: (1..5) %>
+          <%= levels_form.input :num, collection: (1..5), label: 'Position' %>
         </div>
       </div>
       <div class="row">
@@ -47,6 +47,21 @@
       <i class='fa fa-plus-square' style='margin-right: 5px;'></i>Add another level
     <% end %>
   </div>
+
+  <script>
+    window.whenReady(function () {
+      $(document).on('nested:fieldAdded', function(event) {
+        var field = event.field;
+
+        var positionValues = $('.course_levels_num select').toArray().map(function (el) {
+          return +$(el).val();
+        });
+        var assignedPositionValues = _.filter(positionValues, function (value) { return value > 0; });
+        var lastValue = _.last(assignedPositionValues) || 0;
+        field.find('.course_levels_num select').val(lastValue + 1);
+      });
+    });
+  </script>
   
   <div class="actions">
     <%= f.submit class: 'btn btn-submit', data: {disable_with: 'Please wait...'} %>
