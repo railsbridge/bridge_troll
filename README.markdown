@@ -19,7 +19,7 @@ New? Keep reading this, and then read the [contributor guidelines](CONTRIBUTING.
 
 ### Features & Bugs
 * We use [GitHub Issues](https://github.com/railsbridge/bridge_troll/issues?state=open) for tracking bugs and features.
- * Issues marked as [Ready for Action](https://github.com/railsbridge/bridge_troll/labels/Ready%20for%20Action) are ready to go, so pick one up!
+ * Issues marked as [Help Wanted](https://github.com/railsbridge/bridge_troll/issues?q=is%3Aissue+is%3Aopen+label%3A%22Help+Wanted%22) are ready to go, so pick one up!
  * Bugs are, naturally, [marked as bugs](https://github.com/railsbridge/bridge_troll/labels/bug).
  * Issues marked with the [Discussion label](https://github.com/railsbridge/bridge_troll/labels/Discussion) are currently being refined. If you're interested in working on one, comment and ask what needs to be finalized before it's ready to be worked on.
  * We also mark issues as [beginner friendly](https://github.com/railsbridge/bridge_troll/labels/Beginner%20Friendly), so if you're new to Rails, check those out.
