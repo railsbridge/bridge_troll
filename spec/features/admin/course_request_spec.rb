@@ -51,4 +51,23 @@ describe "courses", js: :true do
       expect(course.reload.levels.length).to eq(2)
     end
   end
+
+  describe 'reordering course levels' do
+    let!(:course) { create(:course, levels_count: 2) }
+
+    it 'reorders course levels if you assign the position to an existing level' do
+      expect(course.levels.order(:num).to_a.map(&:color)).to eq(['blue', 'green'])
+
+      visit "/courses/#{course.id}/edit"
+
+      within '.course-levels .fields:nth-of-type(2)' do
+        select '1', from: 'Position'
+      end
+
+      click_on 'Update Course'
+      expect(page).to have_content('Listing courses')
+
+      expect(course.levels.order(:num).to_a.map(&:color)).to eq(['green', 'blue'])
+    end
+  end
 end

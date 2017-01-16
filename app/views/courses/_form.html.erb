@@ -50,6 +50,34 @@
 
   <script>
     window.whenReady(function () {
+      $('.course-levels').on('change', '.course_levels_num select', function (event) {
+        var newValue = $(event.target).val();
+        var thisLevelContainer = $(event.target).closest('.fields')[0];
+        var conflictingLevelContainer = _.find($('.course-levels .fields').toArray(), function (el) {
+          return $(el).find('.course_levels_num select').val() === newValue;
+        });
+
+        if (conflictingLevelContainer && (thisLevelContainer !== conflictingLevelContainer)) {
+          $(thisLevelContainer).insertBefore(conflictingLevelContainer);
+          var fudgeFactor = 8;
+          window.scrollTo(0, thisLevelContainer.offsetTop - fudgeFactor);
+
+          var seenChangedField, previousPosition;
+          _.each($('.course-levels .fields').toArray(), function (el) {
+            var $select = $(el).find('.course_levels_num select');
+            if (thisLevelContainer == el) {
+              seenChangedField = true;
+            } else if (seenChangedField) {
+              var thisPosition = $select.val();
+              if (+thisPosition === +previousPosition) {
+                $select.val(+thisPosition + 1);
+              }
+            }
+            previousPosition = $select.val();
+          });
+        }
+      });
+
       $(document).on('nested:fieldAdded', function(event) {
         var field = event.field;
 

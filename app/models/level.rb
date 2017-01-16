@@ -1,19 +1,19 @@
 class Level < ActiveRecord::Base
   COLORS = %w(blue green gold purple orange pink)
 
+  default_scope { order(:num) }
+
   belongs_to :course
   validates :num, presence: true,
             inclusion: {
               in: (1..5),
               message: "Must be between 1 and 5"
-            },
-            uniqueness: { scope: :course_id }
+            }
   validates :color, presence: true,
             inclusion: {
               in: COLORS,
               message: "Must be one of: #{COLORS.sort.join(', ')}"
-            },
-            uniqueness: { scope: :course_id }
+            }
   validates :title, presence: true
   validates :level_description, presence: true
   serialize :level_description, Array
