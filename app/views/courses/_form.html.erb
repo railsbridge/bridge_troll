@@ -21,7 +21,7 @@
 
       <div class="row">
         <div class="col-md-2">
-          <%= levels_form.input :num, collection: (1..5), label: 'Position' %>
+          <%= levels_form.input :num, collection: (1..5), label: 'Position', include_blank: false %>
         </div>
       </div>
       <div class="row">
@@ -29,7 +29,7 @@
           <%= levels_form.input :title %>
         </div>
         <div class="col-md-2">
-          <%= levels_form.input :color, collection: Level::COLORS %>
+          <%= levels_form.input :color, collection: Level::COLORS, include_blank: false %>
         </div>
       </div>
       <div class="row">
@@ -53,12 +53,12 @@
       $('.course-levels').on('change', '.course_levels_num select', function (event) {
         var newValue = $(event.target).val();
         var thisLevelContainer = $(event.target).closest('.fields')[0];
-        var conflictingLevelContainer = _.find($('.course-levels .fields').toArray(), function (el) {
-          return $(el).find('.course_levels_num select').val() === newValue;
+        var targetLevelContainer = _.find($('.course-levels .fields').toArray(), function (el) {
+          return $(el).find('.course_levels_num select').val() >= newValue;
         });
 
-        if (conflictingLevelContainer && (thisLevelContainer !== conflictingLevelContainer)) {
-          $(thisLevelContainer).insertBefore(conflictingLevelContainer);
+        if (targetLevelContainer && (thisLevelContainer !== targetLevelContainer)) {
+          $(thisLevelContainer).insertBefore(targetLevelContainer);
           var fudgeFactor = 8;
           window.scrollTo(0, thisLevelContainer.offsetTop - fudgeFactor);
 
@@ -82,9 +82,11 @@
         var field = event.field;
 
         var positionValues = $('.course_levels_num select').toArray().map(function (el) {
-          return +$(el).val();
+          if ($(el).closest('.fields')[0] !== field[0]) {
+            return +$(el).val();
+          }
         });
-        var assignedPositionValues = _.filter(positionValues, function (value) { return value > 0; });
+        var assignedPositionValues = _.filter(positionValues, _.identity);
         var lastValue = _.last(assignedPositionValues) || 0;
         field.find('.course_levels_num select').val(lastValue + 1);
       });
