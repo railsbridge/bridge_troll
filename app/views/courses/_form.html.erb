@@ -15,7 +15,7 @@
   <%= f.input :title %>
   <%= f.input :description %>
 
-  <div class="course-levels">
+  <div class="course-levels hidden">
     <%= f.fields_for(:levels) do |levels_form| %>
       <%= levels_form.link_to_remove '(Remove Level)', class: 'pull-right' %>
 
@@ -50,17 +50,19 @@
 
   <script>
     window.whenReady(function () {
+      $('.course-levels').removeClass('hidden');
+
       $('.course-levels').on('change', '.course_levels_num select', function (event) {
         var newValue = $(event.target).val();
         var thisLevelContainer = $(event.target).closest('.fields')[0];
         var targetLevelContainer = _.find($('.course-levels .fields').toArray(), function (el) {
-          return $(el).find('.course_levels_num select').val() >= newValue;
+          if (el !== thisLevelContainer) {
+            return $(el).find('.course_levels_num select').val() >= newValue;
+          }
         });
 
-        if (targetLevelContainer && (thisLevelContainer !== targetLevelContainer)) {
+        if (targetLevelContainer) {
           $(thisLevelContainer).insertBefore(targetLevelContainer);
-          var fudgeFactor = 8;
-          window.scrollTo(0, thisLevelContainer.offsetTop - fudgeFactor);
 
           var seenChangedField, previousPosition;
           _.each($('.course-levels .fields').toArray(), function (el) {
@@ -75,7 +77,20 @@
             }
             previousPosition = $select.val();
           });
+        } else {
+          // Re-add all the .fields divs to the container in sorted order
+          var fieldContainersByPosition = {};
+          _.each($('.course-levels .fields').toArray(), function (el) {
+            var position = $(el).find('.course_levels_num select').val();
+            fieldContainersByPosition[position] = el;
+          });
+          _.each(_.keys(fieldContainersByPosition).sort(), function (position) {
+            $('.course-levels').append(fieldContainersByPosition[position]);
+          });
         }
+
+        var fudgeFactor = 8;
+        window.scrollTo(0, thisLevelContainer.offsetTop - fudgeFactor);
       });
 
       $(document).on('nested:fieldAdded', function(event) {
