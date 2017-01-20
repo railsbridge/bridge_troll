@@ -69,7 +69,8 @@ group :test do
   gem 'webmock'
   gem 'factory_girl_rails'
   gem 'capybara'
-  gem 'poltergeist'
+  gem 'poltergeist', require: false
+  gem 'selenium-webdriver', require: false
   gem 'launchy'
   gem 'shoulda-matchers'
   gem 'faker'

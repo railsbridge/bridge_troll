@@ -5,11 +5,20 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 
 require 'capybara/rspec'
-require 'capybara/poltergeist'
 require 'capybara-screenshot/rspec'
 require 'webmock/rspec'
 
-Capybara.javascript_driver = :poltergeist
+if ENV['JS_DRIVER'] == 'selenium' || ENV['SELENIUM'].present?
+  require 'selenium-webdriver'
+  Capybara.register_driver :selenium do |app|
+    Capybara::Selenium::Driver.new(app, browser: ENV.fetch('BROWSER', 'chrome').to_sym)
+  end
+  Capybara.javascript_driver = :selenium
+else
+  require 'capybara/poltergeist'
+  Capybara.javascript_driver = :poltergeist
+end
+
 Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:host]}"
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
