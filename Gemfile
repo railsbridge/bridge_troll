@@ -23,7 +23,6 @@ gem 'gravatar_image_tag'
 gem 'simple_form'
 gem 'rack-canonical-host'
 gem 'icalendar'
-gem 'pg' if ENV['FORCE_POSTGRES']
 gem 'rack-mini-profiler'
 gem 'bower-rails'
 gem 'nearest_time_zone'
@@ -35,6 +34,12 @@ group :production do
   gem 'newrelic_rpm'
   gem 'sentry-raven'
   gem 'rack-timeout'
+end
+
+if ENV['FORCE_POSTGRES']
+  group :development, :test do
+    gem 'pg'
+  end
 end
 
 gem 'handlebars_assets'
