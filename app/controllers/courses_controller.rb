@@ -5,7 +5,7 @@ class CoursesController < ApplicationController
   def index
     authorize Course
     @courses = Course.all
-    @course_level_counts = Level.group(:course_id).count
+    @course_level_counts = Level.unscoped.group(:course_id).count
   end
 
   def new
