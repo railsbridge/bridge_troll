@@ -61,7 +61,7 @@ module Seeder
 
     if event.chapter.present?
       organization = event.chapter.organization
-      event.chapter.destroy
+      event.chapter.destroy if event.chapter.events.count == 0
       organization.destroy if organization.chapters.count == 0
     end
 
