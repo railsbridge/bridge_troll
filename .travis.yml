@@ -8,7 +8,11 @@ cache:
     - node_modules
     - vendor/assets/bower_components
 env:
-  - "PATH=$PWD/node_modules/.bin:$PATH"
+  global:
+    - "PATH=$PWD/node_modules/.bin:$PATH"
+  matrix:
+    - FORCE_POSTGRES=true
+    - DO_NOT_FORCE_POSTGRES=true
 before_install:
   - 'npm install'
   - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
