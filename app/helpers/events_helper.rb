@@ -72,20 +72,22 @@ module EventsHelper
     "#{formatted_session_date(event_session)} - #{formatted_session_timerange(event_session)}"
   end
 
+  # rubocop:disable Rails/OutputSafety
   def simple_format_with_html(string)
     simple_format(
       Sanitize.clean(string, Sanitize::Config::RELAXED),
       sanitize: false
     ).gsub(%r{(</h\d>|</li>|<ul>|<li>)\s*<br\s*/>}, '\1').html_safe # remove unsightly </h2>\n<br/> combos
   end
+  # rubocop:enable Rails/OutputSafety
 
   def external_links(event)
     links = []
     if event.imported_event_data
-      links << link_to("[S]", event.imported_event_data['student_event']['url'], class: 'external-link').html_safe
-      links << link_to("[V]", event.imported_event_data['volunteer_event']['url'], class: 'external-link').html_safe
+      links << link_to("[S]", event.imported_event_data['student_event']['url'], class: 'external-link')
+      links << link_to("[V]", event.imported_event_data['volunteer_event']['url'], class: 'external-link')
     end
-    links.join("\n").html_safe
+    safe_join(links, "\n")
   end
 
   def formatted_event_date_range(event)
@@ -188,6 +190,6 @@ module EventsHelper
       yield
     end
 
-    results.join("\n").html_safe
+    safe_join(results, "\n")
   end
 end

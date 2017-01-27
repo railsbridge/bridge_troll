@@ -32,7 +32,7 @@ Metrics/AbcSize:
 Metrics/ClassLength:
   Max: 500
   Exclude:
-    - 'app/models/course.rb'
+    - db/seeds/course_populator.rb
 
 Metrics/CyclomaticComplexity:
   Max: 11
@@ -50,6 +50,31 @@ Metrics/PerceivedComplexity:
   Max: 12
 
 Performance/Count:
+  Enabled: false
+
+Rails/Date:
+  Enabled: false
+
+Rails/Delegate:
+  Enabled: false
+
+Rails/Exit:
+  Exclude:
+    - lib/tasks/support/rspec_rerunner.rb
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Rails/Output:
+  Enabled: false
+
+Rails/ReadWriteAttribute:
+  Enabled: false
+
+Rails/TimeZone:
+  Enabled: false
+
+Rails/Validation:
   Enabled: false
 
 Style/AccessorMethodName:

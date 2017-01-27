@@ -18,11 +18,12 @@ module NavigationHelper
   end
 
   def devise_links(*links_to_show)
-    links_to_show.map do |link_symbol|
+    link_divs = links_to_show.map do |link_symbol|
       content_tag :div do
         devise_link(link_symbol)
       end
-    end.join("\n").html_safe
+    end
+    safe_join(link_divs, "\n")
   end
 
   private

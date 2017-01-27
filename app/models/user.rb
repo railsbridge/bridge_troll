@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
 
   def self.from_omniauth(omniauth)
-    authentication = Authentication.where(provider: omniauth['provider'], uid: omniauth['uid'].to_s).first
+    authentication = Authentication.find_by(provider: omniauth['provider'], uid: omniauth['uid'].to_s)
     if authentication
       authentication.user
     else
