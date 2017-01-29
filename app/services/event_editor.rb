@@ -18,7 +18,7 @@ class EventEditor
     event.organizers << current_user
 
     if event.draft?
-      result.notice = 'Draft saved. You can continue editing.'
+      result.notice = 'Draft saved!'
       result.render = :edit
     elsif event.published?
       result.notice = 'Event was successfully created.'
@@ -42,7 +42,7 @@ class EventEditor
     end
 
     if event.draft?
-      result.notice = 'Draft updated. You can continue editing.'
+      result.notice = 'Draft updated!'
       result.render = :edit
     else
       mark_for_approval(event) if was_draft
