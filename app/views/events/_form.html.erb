@@ -3,10 +3,10 @@
     <h2>Ready to create your Event? Hold on a second...</h2>
 
     <p>If you're organizing a workshop, make sure you've read over the
-      <a href="https://github.com/bridgefoundry/WorkshopCookbook/wiki/Cookbook">Organizer Cookbook</a> so you know what you're getting into.</p>
+      <a href=<%= COOKBOOK_LINK %> target="_blank">Organizer Cookbook</a> so you know what you're getting into.</p>
 
     <p>Pay particular attention to the
-      <a href="https://github.com/bridgefoundry/WorkshopCookbook/wiki/Workshop-Planning-Tasks">Workshop Planning Tasks</a> page. Creating your event here is one task you can mark off your checklist.</p>
+      <a href=<%= COOKBOOK_PLANNING_TASKS_LINK %> target="_blank">Workshop Planning Tasks</a> page. Creating your event here is one task you can mark off your checklist.</p>
   <% end %>
 
   <%= render 'shared/model_error_messages', model: @event %>
