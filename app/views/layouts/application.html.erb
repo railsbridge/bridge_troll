@@ -31,11 +31,14 @@
    <%= render 'shared/navbar' %>
     <div class='container header-container'>
       <% if content_for?(:header_text) %>
-        <% if content_for?(:header_link) %>
-          <h1><%= link_to yield(:header_text), yield(:header_link) %></h1>
-        <% else %>
-          <h1><%= yield(:header_text) %></h1>
-        <% end %>
+        <h1>
+          <% if content_for?(:header_link) %>
+            <%= link_to yield(:header_text), yield(:header_link) %>
+          <% else %>
+            <%= yield(:header_text) %>
+          <% end %>
+          <%= yield(:header_extra_content) %>
+        </h1>
       <% end %>
     </div>
     <div class="container center bridgetroll-content">

@@ -1,13 +1,10 @@
 <%= content_for(:header_text, @event.title) %>
-
 <% if @event.historical? %>
+  <%= content_for(:header_extra_content, content_tag(:button, '?', class: 'imported-event-popover-trigger')) %>
+
   <script>
     whenReady(function () {
-      var importedEventTrigger = ImportedEventPopover.createPopoverTrigger(
-        <%= @event.imported_event_data.to_json.html_safe %>
-      );
-      $('.header-container h1').append(importedEventTrigger);
-      ImportedEventPopover.activatePopoverTrigger('.header-container h1');
+      ImportedEventPopover.activatePopoverTrigger('.header-container h1', <%= @event.imported_event_data.to_json.html_safe %>);
     });
   </script>
 <% end %>
