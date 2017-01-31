@@ -4,7 +4,7 @@
   <% end %>
   <div class='event-title'>
     <%= link_to event.title, event %>
-    <%= external_links(event) %>
+    <%= imported_event_popover_trigger(event) %>
   </div>
   <div class='event-times'>
     <% event.event_sessions.sort_by(&:starts_at).each_with_index do |session, index| %>

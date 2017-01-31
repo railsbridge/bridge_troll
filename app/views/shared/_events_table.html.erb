@@ -26,7 +26,7 @@
         <% else %>
           <%= event.title %>
         <% end %>
-        <%= external_links(event) %>
+        <%= imported_event_popover_trigger(event) %>
       </td>
       <td class='whitespace-nowrap'>
         <%= formatted_event_date(event) %>

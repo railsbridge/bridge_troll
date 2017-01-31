@@ -364,7 +364,7 @@ class Event < ActiveRecord::Base
 
   def as_json(options = {})
     options = {
-      only: [:id, :title, :student_rsvp_limit],
+      only: [:id, :title, :student_rsvp_limit, :imported_event_data],
       methods: [:location]
     }.merge(options)
     super(options).merge(

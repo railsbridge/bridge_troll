@@ -6,6 +6,8 @@ window.whenReady ->
     dom: domWithActions,
     pagingType: 'full_numbers',
     pageLength: 50
+    createdRow: ( row, data, dataIndex ) ->
+      ImportedEventPopover.activatePopoverTriggers(row);
   })
 
   $('.datatable').DataTable()

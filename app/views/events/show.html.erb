@@ -1,12 +1,6 @@
 <%= content_for(:header_text, @event.title) %>
 <% if @event.historical? %>
-  <%= content_for(:header_extra_content, content_tag(:button, '?', class: 'imported-event-popover-trigger')) %>
-
-  <script>
-    whenReady(function () {
-      ImportedEventPopover.activatePopoverTrigger('.header-container h1', <%= @event.imported_event_data.to_json.html_safe %>);
-    });
-  </script>
+  <%= content_for(:header_extra_content, imported_event_popover_trigger(@event)) %>
 <% end %>
 
 <% if @can_edit || @checkiner %>

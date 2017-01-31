@@ -32,9 +32,6 @@
         { data: 'location_name' },
         { data: 'location_city_and_state' }
       ],
-      createdRow: function( row, data, dataIndex ) {
-        ImportedEventPopover.activatePopoverTrigger(row, row.imported_event_data);
-      },
       columnDefs: [{
         targets: 0,
         render: function ( data, type, row ) {
@@ -44,7 +41,8 @@
               text: row.title
             })];
             if (row.imported_event_data) {
-              parts.push(ImportedEventPopover.createPopoverTrigger());
+              var eventId = _.last(row.global_id.split('/'));
+              parts.push(ImportedEventPopover.createPopoverTrigger(eventId));
             }
             return parts.join(' ');
           } else {

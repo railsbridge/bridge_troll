@@ -92,6 +92,8 @@ jQuery ->
   setUpDatePicker($('.datepicker'))
   setUpExclusiveCheckboxes($('body'))
 
+  ImportedEventPopover.activatePopoverTriggers();
+
   $(document).on 'nested:fieldAdded', (event) ->
     $field = event.field
     $dateField = $field.find('.datepicker')

@@ -81,13 +81,15 @@ module EventsHelper
   end
   # rubocop:enable Rails/OutputSafety
 
-  def external_links(event)
-    links = []
+  def imported_event_popover_trigger(event)
     if event.imported_event_data
-      links << link_to("[S]", event.imported_event_data['student_event']['url'], class: 'external-link')
-      links << link_to("[V]", event.imported_event_data['volunteer_event']['url'], class: 'external-link')
+      content_tag(
+        :button,
+        '?',
+        class: 'imported-event-popover-trigger',
+        data: {event_id: event.id}
+      )
     end
-    safe_join(links, "\n")
   end
 
   def formatted_event_date_range(event)

@@ -14,7 +14,7 @@
     <tr>
       <td>
         <%= link_to event.title, event %>
-        <%= external_links(event) %>
+        <%= imported_event_popover_trigger(event) %>
       </td>
       <td><%= formatted_session_date(event.event_sessions.first) %></td>
       <td><%= event.location.name rescue nil %></td>

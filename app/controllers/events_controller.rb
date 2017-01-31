@@ -38,22 +38,29 @@ class EventsController < ApplicationController
   def show
     skip_authorization
     @event = Event.includes(event_sessions: :location).find(params[:id])
-    if user_signed_in? && !@event.historical?
-      @can_edit = policy(@event).update?
-      @can_publish = policy(@event).publish?
-      @checkiner = @event.checkiner?(current_user)
-    else
-      @organizer = false
-      @checkiner = false
+    respond_to do |format|
+      format.html do
+        if user_signed_in? && !@event.historical?
+          @can_edit = policy(@event).update?
+          @can_publish = policy(@event).publish?
+          @checkiner = @event.checkiner?(current_user)
+        else
+          @organizer = false
+          @checkiner = false
+        end
+        @ordered_rsvps = {
+          Role::VOLUNTEER => @event.ordered_rsvps(Role::VOLUNTEER),
+          Role::STUDENT => @event.ordered_rsvps(Role::STUDENT)
+        }
+        @ordered_waitlist_rsvps = {
+          Role::VOLUNTEER => @event.ordered_rsvps(Role::VOLUNTEER, waitlisted: true).to_a,
+          Role::STUDENT => @event.ordered_rsvps(Role::STUDENT, waitlisted: true).to_a
+        }
+      end
+      format.json do
+        render json: @event
+      end
     end
-    @ordered_rsvps = {
-      Role::VOLUNTEER => @event.ordered_rsvps(Role::VOLUNTEER),
-      Role::STUDENT => @event.ordered_rsvps(Role::STUDENT)
-    }
-    @ordered_waitlist_rsvps = {
-      Role::VOLUNTEER => @event.ordered_rsvps(Role::VOLUNTEER, waitlisted: true).to_a,
-      Role::STUDENT => @event.ordered_rsvps(Role::STUDENT, waitlisted: true).to_a
-    }
   end
 
   def new
