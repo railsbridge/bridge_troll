@@ -139,6 +139,23 @@ describe 'creating or editing an rsvp' do
       end
     end
 
+    context "given an rsvp toggling food options" do
+      let(:food_text) { "The food's on us. Let us know if you have any dietary restrictions." }
+
+      it "should have food options when enabled" do
+        expect(@event.food_provided).to eq true
+        visit volunteer_new_event_rsvp_path(@event)
+        expect(page).to have_content(food_text)
+      end
+
+      it "should not have food options when disabled" do
+        @event.update(food_provided: false)
+        expect(@event.food_provided?).to eq(false)
+        visit volunteer_new_event_rsvp_path(@event)
+        expect(page).to_not have_content(food_text)
+      end
+    end
+
     context 'given an rsvp with dietary restrictions' do
       let(:rsvp) {
         create(:rsvp,

@@ -56,6 +56,7 @@ class EventPolicy < ApplicationPolicy
       :time_zone,
       :volunteer_details,
       :public_email,
+      :food_provided,
       :starts_at,
       :ends_at,
       :student_rsvp_limit,

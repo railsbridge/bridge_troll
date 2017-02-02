@@ -69,6 +69,12 @@ describe "New Event" do
     ])
   end
 
+  it "should have a food options toggle" do
+    visit "/events/new"
+    
+    expect(page).to have_checked_field('event_food_provided_true')
+  end
+
   it 'allows organizers to specify a whitelist of allowed OSes', js: true do
     visit "/events/new"
 

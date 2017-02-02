@@ -79,6 +79,7 @@ class Event < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :time_zone
   validates_presence_of :chapter
+  validates :food_provided, inclusion: { in: [true, false] }
   validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
   validates :allowed_operating_system_ids, array_of_ids: OperatingSystem.all.map(&:id), if: :restrict_operating_systems?
   validates_presence_of :target_audience, unless: :historical?, if: [:allow_student_rsvp?, :target_audience_required?]
@@ -113,6 +114,10 @@ class Event < ActiveRecord::Base
 
   def has_multiple_locations?
     all_locations.length > 1
+  end
+
+  def food_provided?
+    food_provided
   end
 
   def rsvps_with_childcare
