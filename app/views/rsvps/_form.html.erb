@@ -117,10 +117,12 @@
       <% end %>
     </div>
 
-    <div class="field">
-      <p class="question">The food's on us. Let us know if you have any dietary restrictions.</p>
-      <%= render partial: 'rsvps/dietary_restrictions', locals: {f: f} %>
-    </div>
+    <% if @event.food_provided? %>
+      <div class="field">
+        <p class="question">The food's on us. Let us know if you have any dietary restrictions.</p>
+        <%= render partial: 'rsvps/dietary_restrictions', locals: {f: f} %>
+      </div>
+    <% end %>
 
     <% if @event.has_childcare? %>
       <div class="field question">

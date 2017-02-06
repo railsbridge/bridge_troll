@@ -269,7 +269,7 @@ describe EventsController do
               "title" => "Party Zone",
               "target_audience" => "yaya",
               "time_zone" => "Alaska",
-              "food_provided" => "test",
+              "food_provided" => false,
               "student_rsvp_limit" => 100,
               "event_sessions_attributes" => {
                 "0" => {
