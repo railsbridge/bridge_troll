@@ -1,4 +1,13 @@
 module EventFormHelper
+  def visit_new_events_form_and_expand_all_sections
+    visit '/events/new'
+    expand_all_event_sections
+  end
+
+  def expand_all_event_sections
+    page.find('.form-section-header-expander .expand-all').click
+  end
+
   def fill_in_good_event_details
     fill_in 'event_title', with: good_event_title
     select "Ruby on Rails", from: "event_course_id"

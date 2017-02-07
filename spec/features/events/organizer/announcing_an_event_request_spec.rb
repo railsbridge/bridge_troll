@@ -10,7 +10,7 @@ describe "Announcing an event", js: true do
   before do
     create(:course)
     sign_in_as(user_organizer)
-    visit "/events/new"
+    visit_new_events_form_and_expand_all_sections
     fill_in_good_event_details
     fill_in 'What population is this workshop reaching out to?', with: "a population"
     check("coc")

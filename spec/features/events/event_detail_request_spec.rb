@@ -214,11 +214,9 @@ describe "the event detail page" do
 
         visit edit_event_path(@event)
 
-        page.find('.form-section-header', text: 'Event Description').click
         expect(page).to have_css('.remove-session')
-        page.all('.remove-session')[-1].click
+        page.all('.remove-session').last.click
 
-        page.find('.form-section-header', text: 'Event Description').click
         expect(page).to have_css('.event-sessions .fields', count: 1)
 
         expect(@event.event_sessions.count).to eq(1)

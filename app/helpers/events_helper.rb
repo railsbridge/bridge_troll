@@ -171,17 +171,17 @@ module EventsHelper
     "You are #{role_text} this event!"
   end
 
-  def event_form_section(label:, form:)
+  def event_form_section(label:, form:, force_expanded: false)
     id = "section-#{label}".parameterize
 
     results = []
 
     toggler_classes = ['form-section-header']
     section_classes = ['collapse']
-    if form.object.published?
-      toggler_classes << 'collapsed'
-    else
+    if form.object.published? || force_expanded
       section_classes << 'in'
+    else
+      toggler_classes << 'collapsed'
     end
 
     results << content_tag('a', class: toggler_classes, data: {toggle: 'collapse', target: "##{id}"}) do
