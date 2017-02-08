@@ -42,7 +42,23 @@ FactoryGirl.define do
     survey_greeting "Test greeting"
 
     factory :event do
-      before(:create) do |event, evaluator|
+      trait :imported do
+        imported_event_data(
+          {
+            type: 'meetup',
+            student_event: {
+              id: 901,
+              url: 'http://example.com/901'
+            },
+            volunteer_event: {
+              id: 902,
+              url: 'http://example.com/901'
+            }
+          }
+        )
+      end
+
+      after(:build) do |event, evaluator|
         event.event_sessions << build(:event_session, event: event, starts_at: event.starts_at, ends_at: event.ends_at)
       end
     end
