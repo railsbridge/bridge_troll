@@ -12,46 +12,48 @@ describe Event do
   it { is_expected.to validate_numericality_of(:volunteer_rsvp_limit).is_greater_than(0) }
   it { is_expected.to validate_presence_of(:title) }
 
-  describe "validation of target_audience" do
-    subject { Event.new }
-    before { allow(subject).to receive(:allow_student_rsvp?) { true } }
-    it { is_expected.to validate_presence_of(:target_audience) }
+  describe "validations" do
+    describe "target_audience" do
+      subject { Event.new }
+      before { allow(subject).to receive(:allow_student_rsvp?) { true } }
+      it { is_expected.to validate_presence_of(:target_audience) }
 
-    context "when event is not a workshop" do
-      before { allow(subject).to receive(:allow_student_rsvp?) { false } }
-      it { is_expected.not_to validate_presence_of(:target_audience) }
+      context "when event is not a workshop" do
+        before { allow(subject).to receive(:allow_student_rsvp?) { false } }
+        it { is_expected.not_to validate_presence_of(:target_audience) }
+      end
+
+      context "when event is not a new event and never had target_audience set" do
+        before {
+          allow(subject).to receive(:new_record?) { false }
+          allow(subject).to receive(:target_audience_was) { false }
+        }
+        it { is_expected.not_to validate_presence_of(:target_audience) }
+      end
     end
 
-    context "when event is not a new event and never had target_audience set" do
-      before {
-        allow(subject).to receive(:new_record?) { false }
-        allow(subject).to receive(:target_audience_was) { false }
-      }
-      it { is_expected.not_to validate_presence_of(:target_audience) }
-    end
-  end
+    it "event_sessions" do
+      event = create(:event)
+      event.event_sessions.destroy_all
+      expect(event).to have(1).error_on(:event_sessions)
 
-  it "validates that there is at least one event session" do
-    event = create(:event)
-    event.event_sessions.destroy_all
-    expect(event).to have(1).error_on(:event_sessions)
-
-    event.event_sessions << build(:event_session)
-    expect(event).to be_valid
-  end
-
-  it "validates that allowed_operating_system_ids correspond to OperatingSystem records" do
-    valid = [nil, [OperatingSystem.first.id, OperatingSystem.last.id]]
-    invalid = ['fjord', [], [999999]]
-
-    valid.each do |value|
-      event = Event.new(restrict_operating_systems: true, allowed_operating_system_ids: value)
-      expect(event).to have(0).errors_on(:allowed_operating_system_ids)
+      event.event_sessions << build(:event_session)
+      expect(event).to be_valid
     end
 
-    invalid.each do |value|
-      event = Event.new(restrict_operating_systems: true, allowed_operating_system_ids: value)
-      expect(event).to have(1).errors_on(:allowed_operating_system_ids)
+    it "requires that allowed_operating_system_ids correspond to OperatingSystem records" do
+      valid = [nil, [OperatingSystem.first.id, OperatingSystem.last.id]]
+      invalid = ['fjord', [], [999999]]
+
+      valid.each do |value|
+        event = Event.new(restrict_operating_systems: true, allowed_operating_system_ids: value)
+        expect(event).to have(0).errors_on(:allowed_operating_system_ids)
+      end
+
+      invalid.each do |value|
+        event = Event.new(restrict_operating_systems: true, allowed_operating_system_ids: value)
+        expect(event).to have(1).errors_on(:allowed_operating_system_ids)
+      end
     end
   end
 
@@ -357,17 +359,7 @@ describe Event do
 
     context "when the event has no limit (historical events)" do
       let(:event) do
-        imported_event_data = {
-          type: 'meetup',
-          student_event: {
-            id: 901,
-            url: 'http://example.com/901'
-          }, volunteer_event: {
-            id: 902,
-            url: 'http://example.com/901'
-          }
-        }
-        create(:event, student_rsvp_limit: nil, imported_event_data: imported_event_data)
+        create(:event, :imported, student_rsvp_limit: nil)
       end
 
       it 'is false' do
@@ -389,17 +381,7 @@ describe Event do
 
     context "when the event has no limit (historical events)" do
       let(:event) do
-        imported_event_data = {
-          type: 'meetup',
-          student_event: {
-            id: 901,
-            url: 'http://example.com/901'
-          }, volunteer_event: {
-            id: 902,
-            url: 'http://example.com/901'
-          }
-        }
-        create(:event, volunteer_rsvp_limit: nil, imported_event_data: imported_event_data)
+        create(:event, :imported, volunteer_rsvp_limit: nil)
       end
 
       it 'is false' do
@@ -421,17 +403,7 @@ describe Event do
 
     context "when the event has no limit (historical events)" do
       let(:event) do
-        imported_event_data = {
-          type: 'meetup',
-          student_event: {
-            id: 901,
-            url: 'http://example.com/901'
-          }, volunteer_event: {
-            id: 902,
-            url: 'http://example.com/901'
-          }
-        }
-        create(:event, volunteer_rsvp_limit: nil, imported_event_data: imported_event_data)
+        create(:event, :imported, volunteer_rsvp_limit: nil)
       end
 
       it 'is false' do

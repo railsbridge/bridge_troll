@@ -12,19 +12,33 @@
   <%= render 'shared/model_error_messages', model: @event %>
 
   <div class="form-section-header-expander">
-    <a href=""><i class='fa fa-arrows-alt'></i> Expand All</a>
+    <%= content_tag(:a, href: '', class: "expand-all #{@event.persisted? ? 'hidden' : ''}") do %>
+      <i class='fa fa-expand'></i> Expand All
+    <% end %>
+    <%= content_tag(:a, href: '', class: "collapse-all") do %>
+      <i class='fa fa-compress'></i> Collapse All
+    <% end %>
   </div>
   <script>
     window.whenReady(function () {
-      $('.form-section-header-expander').on('click', function (event) {
+      function setCollapseVisibility () {
+        var allCollapsables = $('section.collapse, section.collapsing').length;
+        var openCollapsables = $('section.collapse.in').length;
+        $('.form-section-header-expander .collapse-all').toggleClass('hidden', openCollapsables === 0);
+        $('.form-section-header-expander .expand-all').toggleClass('hidden', openCollapsables === allCollapsables);
+      }
+      $('section.collapse').on('shown.bs.collapse hidden.bs.collapse', setCollapseVisibility);
+      $('.form-section-header-expander a').on('click', function (event) {
         event.stopPropagation();
-        $('section.collapse').collapse('show');
+        var action = $(event.currentTarget).hasClass('expand-all') ? 'show' : 'hide';
+        $('section.collapse').collapse(action);
         return false;
       });
+      setTimeout(setCollapseVisibility);
     });
   </script>
 
-  <%= event_form_section form: f, label: 'Organizer Information' do %>
+  <%= event_form_section form: f, label: 'Organizer Information', force_expanded: true do %>
     <div class="field">
       <%= f.input :public_email, label: 'What email address should users contact you at with questions?' %>
     </div>

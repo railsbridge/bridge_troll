@@ -148,6 +148,7 @@ describe "the event listing page" do
                                                description: "This is a Front End workshop. The focus will be on designing web apps with HTML and CSS."))
         visit events_path
         click_link "Organize Event"
+        expand_all_event_sections
       end
 
       it "can create a new event" do
@@ -211,6 +212,7 @@ describe "the event listing page" do
       it "should display frontend content for frontend events" do
         visit events_path
         click_link "Organize Event"
+        expand_all_event_sections
 
         fill_in "Title", with: "March Event"
         fill_in "event_target_audience", with: "women"

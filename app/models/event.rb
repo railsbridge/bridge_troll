@@ -4,7 +4,6 @@ class Event < ActiveRecord::Base
   serialize :allowed_operating_system_ids, JSON
   serialize :imported_event_data, JSON
   enum current_state: [ :draft, :pending_approval, :published ]
-  validates :current_state, inclusion: { in: Event.current_states.keys }
 
   after_initialize :set_defaults
   before_validation :normalize_allowed_operating_system_ids
@@ -24,7 +23,6 @@ class Event < ActiveRecord::Base
   belongs_to :chapter, counter_cache: true
   has_one :organization, through: :chapter
 
-  extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :course
 
   has_one :region, through: :location
@@ -68,7 +66,6 @@ class Event < ActiveRecord::Base
 
   has_many :event_sessions, -> { order('ends_at ASC') }, dependent: :destroy, inverse_of: :event
   accepts_nested_attributes_for :event_sessions, allow_destroy: true
-  validates :event_sessions, length: { minimum: 1 }
 
   with_options(through: :rsvps, source: :survey) do
     has_many :surveys
@@ -76,23 +73,30 @@ class Event < ActiveRecord::Base
     has_many :volunteer_surveys, -> { where('rsvps.role_id = ?', Role::VOLUNTEER.id) }
   end
 
-  validates_presence_of :title
-  validates_presence_of :time_zone
-  validates_presence_of :chapter
+  validates :title, presence: true
+  validates :chapter, presence: true
   validates :food_provided, inclusion: { in: [true, false] }
-  validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
-  validates :allowed_operating_system_ids, array_of_ids: OperatingSystem.all.map(&:id), if: :restrict_operating_systems?
-  validates_presence_of :target_audience, unless: :historical?, if: [:allow_student_rsvp?, :target_audience_required?]
+  validates :time_zone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true }, presence: true
+  validates :current_state, inclusion: { in: Event.current_states.keys }
+  validates :event_sessions, length: { minimum: 1 }
 
-  with_options(unless: :historical?) do |normal_event|
-    normal_event.with_options(if: :allow_student_rsvp?) do |workshop_event|
-      workshop_event.validates_numericality_of :student_rsvp_limit, greater_than: 0
-      workshop_event.validate :validate_student_rsvp_limit
+  with_options(if: :restrict_operating_systems?) do
+    validates :allowed_operating_system_ids, array_of_ids: OperatingSystem.all.map(&:id)
+  end
+
+  with_options(unless: :historical?) do
+    with_options(if: :allow_student_rsvp?) do
+      validates_numericality_of :student_rsvp_limit, greater_than: 0
+      validate :validate_student_rsvp_limit
     end
 
-    with_options(if: :has_volunteer_limit?) do |workshop_event|
-      workshop_event.validates_numericality_of :volunteer_rsvp_limit, greater_than: 0
-      workshop_event.validate :validate_volunteer_rsvp_limit
+    with_options(if: [:allow_student_rsvp?, :target_audience_required?]) do
+      validates_presence_of :target_audience
+    end
+
+    with_options(if: :has_volunteer_limit?) do
+      validates_numericality_of :volunteer_rsvp_limit, greater_than: 0
+      validate :validate_volunteer_rsvp_limit
     end
   end
 
