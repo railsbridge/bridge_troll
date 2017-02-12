@@ -238,6 +238,7 @@ GEM
     rack-canonical-host (0.2.2)
       addressable (> 0, < 3)
       rack (>= 1.0.0, < 3)
+    rack-cors (0.4.1)
     rack-mini-profiler (0.10.1)
       rack (>= 1.2.0)
     rack-test (0.6.3)
@@ -398,6 +399,7 @@ DEPENDENCIES
   pundit
   quiet_assets
   rack-canonical-host
+  rack-cors
   rack-mini-profiler
   rack-timeout
   rails (~> 4.2.7)

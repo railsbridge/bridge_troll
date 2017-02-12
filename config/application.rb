@@ -32,5 +32,13 @@ module Bridgetroll
     config.to_prepare do
       Devise::Mailer.layout "mailer"
     end
+
+    # allow cross origin requests from BridgeFoundry
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins 'bridgefoundry.org'
+        resource '/events.json', :headers => :any, :methods => [:get]
+      end
+    end
   end
 end

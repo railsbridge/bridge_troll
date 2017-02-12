@@ -26,6 +26,7 @@ gem 'icalendar'
 gem 'rack-mini-profiler'
 gem 'bower-rails'
 gem 'nearest_time_zone'
+gem 'rack-cors'
 
 group :production do
   gem 'pg'
