@@ -196,14 +196,6 @@ describe Event do
     end
   end
 
-  describe "#food_provided?" do
-    let(:event) { create(:event) }
-    it "defaults to true when created" do
-      expect(event.food_provided).to eq(true)
-      expect(event.food_provided?).to eq(true)
-    end
-  end
-
   describe "#waitlisted_student?" do
     let(:event) { create(:event) }
 

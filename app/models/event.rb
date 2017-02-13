@@ -120,10 +120,6 @@ class Event < ActiveRecord::Base
     all_locations.length > 1
   end
 
-  def food_provided?
-    food_provided
-  end
-
   def rsvps_with_childcare
     rsvps.confirmed.needs_childcare
   end
