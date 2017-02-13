@@ -75,6 +75,7 @@ class Event < ActiveRecord::Base
 
   validates :title, presence: true
   validates :chapter, presence: true
+  validates :food_provided, inclusion: { in: [true, false] }
   validates :time_zone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true }, presence: true
   validates :current_state, inclusion: { in: Event.current_states.keys }
   validates :event_sessions, length: { minimum: 1 }
@@ -117,6 +118,10 @@ class Event < ActiveRecord::Base
 
   def has_multiple_locations?
     all_locations.length > 1
+  end
+
+  def food_provided?
+    food_provided
   end
 
   def rsvps_with_childcare

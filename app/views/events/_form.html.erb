@@ -72,6 +72,20 @@
       </div>
     </div>
 
+    <h3>Is food provided?</h3>
+    <div class="field non-bolded">
+      <div>
+        <%= label_tag do %>
+          <%= f.radio_button :food_provided, false  %> No
+        <% end %>
+      </div>
+      <div>
+        <%= label_tag do %>
+          <%= f.radio_button :food_provided, true  %> Yes
+        <% end %>
+      </div>
+    </div>
+
     <div class="field workshop-only">
       <div>
         <%= f.label :course_id, 'What course is being offered?' %>
