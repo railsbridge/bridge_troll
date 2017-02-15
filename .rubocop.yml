@@ -3,6 +3,9 @@ AllCops:
     - 'db/migrate/20151210035820_init_schema.rb'
     - 'db/schema.rb'
 
+Bundler/OrderedGems:
+  Enabled: false
+
 Lint/BlockAlignment:
   Exclude:
     - 'lib/tasks/db.rake'
@@ -28,6 +31,9 @@ Lint/Void:
 
 Metrics/AbcSize:
   Max: 160
+
+Metrics/BlockLength:
+  Enabled: false
 
 Metrics/ClassLength:
   Max: 500
@@ -132,6 +138,9 @@ Style/EmptyLinesAroundMethodBody:
   Enabled: false
 
 Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Style/EmptyMethod:
   Enabled: false
 
 Style/ExtraSpacing:

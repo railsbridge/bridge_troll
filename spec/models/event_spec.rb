@@ -477,10 +477,6 @@ describe Event do
       @session1 = @event.event_sessions.first
       @session2 = create(:event_session, event: @event)
 
-      def deep_copy(o)
-        Marshal.load(Marshal.dump(o))
-      end
-
       expectation = {
         Role::VOLUNTEER.id => {
           @session1.id => [],
@@ -491,8 +487,8 @@ describe Event do
           @session2.id => []
         }
       }
-      @rsvps = deep_copy(expectation)
-      @checkins = deep_copy(expectation)
+      @rsvps = expectation.deep_dup
+      @checkins = expectation.deep_dup
 
       def add_rsvp(factory, session_checkins, additional_rsvp_options = {})
         rsvp_options = {
