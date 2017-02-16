@@ -134,7 +134,7 @@ class RsvpsController < ApplicationController
   end
 
   def load_rsvp
-    @rsvp = Rsvp.find_by_id(params[:id])
+    @rsvp = Rsvp.find_by(id: params[:id])
     unless @rsvp && ((@rsvp.user == current_user) || @rsvp.event.organizer?(current_user))
       redirect_to events_path, notice: 'You are not signed up for this event'
     end
@@ -149,7 +149,7 @@ class RsvpsController < ApplicationController
   end
 
   def assign_event
-    @event = Event.find_by_id(params[:event_id])
+    @event = Event.find_by(id: params[:event_id])
     if @event.nil?
       redirect_to events_path, notice: 'You are not signed up for this event'
     end

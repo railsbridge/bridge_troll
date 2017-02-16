@@ -39,7 +39,7 @@ class Events::OrganizerToolsController < ApplicationController
 
   def rsvp_preview
     authorize @event, :edit?
-    role = Role.find_by_id(params[:role_id])
+    role = Role.find_by(id: params[:role_id].to_i)
     @rsvp = @event.rsvps.build(role: role)
     @rsvp.setup_for_role(role)
     @rsvp_preview_mode = true
@@ -75,6 +75,6 @@ class Events::OrganizerToolsController < ApplicationController
   private
 
   def find_event
-    @event = Event.find_by_id(params[:event_id])
+    @event = Event.find_by(id: params[:event_id])
   end
 end

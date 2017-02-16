@@ -227,7 +227,7 @@ describe Event do
   describe "#rsvp_for_user" do
     it "should return the rsvp for a user" do
       event = create(:event)
-      expect(event.rsvp_for_user(@user)).to eq(event.rsvps.find_by_user_id(@user.id))
+      expect(event.rsvp_for_user(@user)).to eq(event.rsvps.find_by(user_id: @user.id))
     end
   end
 

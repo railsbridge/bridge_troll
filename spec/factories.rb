@@ -121,7 +121,7 @@ FactoryGirl.define do
   factory :rsvp, aliases: [:volunteer_rsvp] do
     user
     event
-    role Role.find_by_title('Volunteer')
+    role Role.find_by(title: 'Volunteer')
     teaching_experience "Quite experienced"
     subject_experience "Use professionally"
     childcare_info "Bobby: 8\nSusie: 4"
@@ -129,7 +129,7 @@ FactoryGirl.define do
     dietary_info "Paleo"
 
     factory :student_rsvp do
-      role Role.find_by_title 'Student'
+      role Role.find_by title: 'Student'
       operating_system OperatingSystem::OSX_LION
       class_level 2
     end
@@ -141,7 +141,7 @@ FactoryGirl.define do
     end
 
     factory :organizer_rsvp do
-      role Role.find_by_title 'Organizer'
+      role Role.find_by title: 'Organizer'
     end
     transient do
       session_checkins nil

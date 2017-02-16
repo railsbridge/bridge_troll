@@ -21,7 +21,7 @@ end
 
 Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:host]}"
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec", "support", "**", "*.rb")].each {|f| require f}
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

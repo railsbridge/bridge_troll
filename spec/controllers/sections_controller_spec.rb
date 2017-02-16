@@ -48,7 +48,7 @@ describe SectionsController do
       expect {
         delete :destroy, event_id: @event.id, id: @section.id
       }.to change(@event.sections, :count).by(-1)
-      expect(Section.find_by_id(@section.id)).to be_nil
+      expect(Section.find_by(id: @section.id)).to be_nil
     end
   end
 

@@ -494,7 +494,7 @@ describe EventsController do
 
       it "destroys the event and redirects to the events page" do
         make_request
-        expect(Event.find_by_id(event.id)).to eq(nil)
+        expect(Event.find_by(id: event.id)).to eq(nil)
         expect(response).to redirect_to events_path
       end
     end

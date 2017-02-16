@@ -25,7 +25,7 @@ class Events::AttendeesController < ApplicationController
   private
 
   def find_event
-    @event = Event.find_by_id(params[:event_id])
+    @event = Event.find_by(id: params[:event_id])
   end
 
   def attendee_csv_data(rsvps)

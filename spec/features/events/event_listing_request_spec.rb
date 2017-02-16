@@ -160,7 +160,7 @@ describe "the event listing page" do
         expect(page).to have_content good_event_title
         expect(page).to have_content("My Amazing Session")
         expect(page).to have_content("This event currently has no location!")
-        expect(page).to have_content(Course.find_by_name('RAILS').description.split('.')[0])
+        expect(page).to have_content(Course.find_by(name: 'RAILS').description.split('.')[0])
 
         visit events_path
 
@@ -316,7 +316,7 @@ describe "the event listing page" do
 
         it "allows user to cancel their event RSVP" do
           click_link('Cancel RSVP')
-          expect(Rsvp.find_by_id(@rsvp.id)).to be_nil
+          expect(Rsvp.find_by(id: @rsvp.id)).to be_nil
         end
 
         it "allows user to edit volunteer responsibilities" do

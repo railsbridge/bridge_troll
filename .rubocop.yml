@@ -64,6 +64,9 @@ Rails/Date:
 Rails/Delegate:
   Enabled: false
 
+Bundler/DuplicatedGem:
+  Enabled: false
+
 Rails/Exit:
   Exclude:
     - lib/tasks/support/rspec_rerunner.rb
@@ -71,10 +74,17 @@ Rails/Exit:
 Rails/HasAndBelongsToMany:
   Enabled: false
 
+# TODO: remove in rails 5
+Rails/HttpPositionalArguments:
+  Enabled: false
+
 Rails/Output:
   Enabled: false
 
 Rails/ReadWriteAttribute:
+  Enabled: false
+
+Rails/SkipsModelValidations:
   Enabled: false
 
 Rails/TimeZone:

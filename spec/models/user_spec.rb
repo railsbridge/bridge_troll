@@ -18,7 +18,7 @@ describe User do
     rsvp = create(:rsvp, event_id: event.id, user: user)
 
     user.destroy
-    expect(Rsvp.find_by_id(rsvp.id)).to be_nil
+    expect(Rsvp.find_by(id: rsvp.id)).to be_nil
   end
 
   it 'can update the profile via nested attributes' do

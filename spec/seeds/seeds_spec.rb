@@ -29,7 +29,7 @@ describe "#seed_event" do
     event.organizers << innocent_user
 
     Seeder.destroy_event(event)
-    expect(User.find_by_id(innocent_user.id)).to be_present
+    expect(User.find_by(id: innocent_user.id)).to be_present
   end
 end
 

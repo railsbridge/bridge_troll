@@ -1,5 +1,5 @@
 class SetIdSequenceForNewCourses < ActiveRecord::Migration
-  def change
+  def up
     if ActiveRecord::Base.connection.adapter_name == "PostgreSQL"
       execute("ALTER SEQUENCE courses_id_seq START with 10000 RESTART;")
     else

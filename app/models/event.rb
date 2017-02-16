@@ -276,7 +276,7 @@ class Event < ActiveRecord::Base
   end
 
   def rsvp_for_user(user)
-    rsvps.find_by_user_id(user.id)
+    rsvps.find_by(user_id: user.id)
   end
 
   def no_rsvp?(user)
