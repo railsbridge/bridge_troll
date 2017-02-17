@@ -19,6 +19,8 @@ class EventMailer < BaseMailer
     @event = event
 
     approver_addresses = User.where('admin = ? OR publisher = ?', true, true).map(&:email)
+    approver_addresses.concat(event.chapter.leaders.map(&:email))
+    approver_addresses.concat(event.chapter.organization.leaders.map(&:email))
     approver_addresses << 'info@bridgetroll.org' unless approver_addresses.present?
 
     mail(
