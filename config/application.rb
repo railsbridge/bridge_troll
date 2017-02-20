@@ -34,7 +34,7 @@ module Bridgetroll
     end
 
     # allow cross origin requests from BridgeFoundry
-    config.middleware.insert_before 0, "Rack::Cors" do
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins 'bridgefoundry.org'
         resource '/events.json', headers: :any, methods: [:get]
