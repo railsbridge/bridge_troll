@@ -31,8 +31,8 @@ window.whenReady ->
       dom: if needsPagination then domWithActions else domWithoutActions
       order: discoverSortOrder($table) || [[ 1, "desc" ]],
       columnDefs: [
-        {targets: ['date'], type: "date"},
-        {targets: ['no-sort'], orderable: false}
+        {targets: ['datatables-date'], type: "date"},
+        {targets: ['datatables-no-sort'], orderable: false}
       ]
 
   $('.datatable-checkins').DataTable

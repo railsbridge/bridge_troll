@@ -24,5 +24,6 @@
 //= require DataTables
 //= require DataTables/media/js/dataTables.bootstrap
 //= stub section_organizer
+//= require imported_event
 //= require_tree .
 //= require jquery_nested_form
