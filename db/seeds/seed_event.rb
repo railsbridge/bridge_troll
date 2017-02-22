@@ -240,8 +240,8 @@ module Seeder
         This is an example of an event that takes place in multiple locations!
       DETAILS
     )
-    event.event_sessions << EventSession.new(name: 'Teacher Training', starts_at: 60.days.from_now, ends_at: 61.days.from_now, location: session_location)
-    event.event_sessions << EventSession.new(name: 'Workshop', starts_at: 65.days.from_now, ends_at: 66.days.from_now)
+    event.event_sessions << EventSession.new(name: 'Teacher Training', starts_at: 80.days.from_now, ends_at: 81.days.from_now, location: session_location)
+    event.event_sessions << EventSession.new(name: 'Workshop', starts_at: 85.days.from_now, ends_at: 86.days.from_now)
 
     event.save!
 
