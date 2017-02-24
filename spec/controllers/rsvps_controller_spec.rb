@@ -3,7 +3,7 @@ require 'rails_helper'
 describe RsvpsController do
   def extract_rsvp_params(rsvp)
     accessible_attrs = RsvpPolicy.new(nil, Rsvp).permitted_attributes.map(&:to_s) + ['role_id']
-    rsvp.attributes.select { |attr, val| accessible_attrs.include?(attr) }
+    rsvp.attributes.select { |attr, val| accessible_attrs.include?(attr) }.symbolize_keys
   end
 
   before do
