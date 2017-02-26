@@ -48,7 +48,7 @@
     <%= content_tag :div, class: field_classes(@event, :chapter) do %>
       <div class='hint-toggler' data-toggle-hint="hint-chapter"></div>
 
-      <%= render 'shared/chapter_select', label: 'What Chapter is hosting?', f: f, on_open: 'window.activateHint($(\'[data-toggle-hint="hint-chapter"]\'))' %>
+      <%= render 'shared/chapter_select', label: 'What Chapter is hosting? (required)', f: f, on_open: 'window.activateHint($(\'[data-toggle-hint="hint-chapter"]\'))' %>
 
       <div class='hint-content' id="hint-chapter">
         <p>
@@ -122,7 +122,7 @@
     <div class="field workshop-only">
       <div class='hint-toggler' data-toggle-hint="hint-population"></div>
 
-      <%= f.input :target_audience, label: 'What population is this workshop reaching out to?', input_html: {data: {'focus-hint' => "hint-population"}} %>
+      <%= f.input :target_audience, label: 'What population is this workshop reaching out to? (required)', input_html: {data: {'focus-hint' => "hint-population"}} %>
 
       <div class="hint-content" id="hint-population">
         <p>
@@ -168,7 +168,7 @@
 
   <%= event_form_section form: f, label: 'Event Description & Page Info' do %>
     <div class="field">
-      <%= f.input :title, label: 'Event Title' %>
+      <%= f.input :title, label: 'Event Title (required)' %>
     </div>
 
     <div class="field">
@@ -214,7 +214,7 @@
           (<a href="#">Remove Session</a>)
         <% end %>
       </span>
-        <%= event_sessions_form.input :name, label: 'Session Name' %>
+        <%= event_sessions_form.input :name, label: 'Session Name (required)' %>
 
         <div class='form-group'>
           <%= event_sessions_form.text_field :session_date, class: 'datepicker form-control' %>
