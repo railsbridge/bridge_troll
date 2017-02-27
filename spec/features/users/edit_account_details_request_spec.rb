@@ -24,7 +24,7 @@ describe "Profile" do
     check "RailsBridge"
     click_button "Update"
 
-    expect(user.subscribed_organization_ids).to eq [railsbridge.id]
+    expect(user.reload.subscribed_organization_ids).to eq [railsbridge.id]
   end
 
   it "shows errors when changes cannot be saved" do
