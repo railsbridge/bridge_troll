@@ -11,10 +11,10 @@
 #   - dist/**/*.js
 #
 src_files:
+  - assets/sinon
   - assets/application
   - assets/section_organizer
   - assets/jasmine-jquery
-  - assets/sinonjs
 
 # stylesheets
 #
