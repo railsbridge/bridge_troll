@@ -13,12 +13,12 @@ describe CheckinsController do
 
   describe "GET index" do
     it "succeeds" do
-      get :index, event_id: @event.id, event_session_id: @session.id
+      get :index, params: { event_id: @event.id, event_session_id: @session.id }
       expect(response).to be_success
     end
 
     it "assigns the event and session" do
-      get :index, event_id: @event.id, event_session_id: @session.id
+      get :index, params: { event_id: @event.id, event_session_id: @session.id }
       expect(assigns(:event)).to eq(@event)
       expect(assigns(:session)).to eq(@session)
     end
@@ -34,7 +34,7 @@ describe CheckinsController do
 
     it "checks in the volunteer and returns the number of checked-in persons" do
       expect {
-        post :create, event_id: @event.id, event_session_id: @session.id, rsvp_session: { id: @rsvp_session.id }
+        post :create, params: { event_id: @event.id, event_session_id: @session.id, rsvp_session: { id: @rsvp_session.id } }
       }.to change { @rsvp_session.reload.checked_in? }.from(false).to(true)
 
       expect(JSON.parse(response.body).as_json).to eq(JSON.parse({
@@ -61,7 +61,7 @@ describe CheckinsController do
 
     it "removes checked-in status for the volunteer and returns the number of checked-in persons" do
       expect {
-        delete :destroy, event_id: @event.id, event_session_id: @session.id, id: @rsvp_session.id, rsvp_session: { id: @rsvp_session.id }
+        delete :destroy, params: { event_id: @event.id, event_session_id: @session.id, id: @rsvp_session.id, rsvp_session: { id: @rsvp_session.id } }
       }.to change { @rsvp_session.reload.checked_in? }.from(true).to(false)
 
       expect(JSON.parse(response.body).as_json).to eq(JSON.parse({

@@ -7,7 +7,7 @@ describe OrganizationsController do
     context "a user that is not logged in" do
       it "can not download a subscription list" do
         expect(
-          get :download_subscriptions, organization_id: organization.id
+          get :download_subscriptions, params: { organization_id: organization.id }
         ).to redirect_to(new_user_session_path)
       end
     end
@@ -26,7 +26,7 @@ describe OrganizationsController do
 
       it "should return the subscribed users" do
         expect(
-          get :download_subscriptions, organization_id: organization.id, format: :csv
+          get :download_subscriptions, params: { organization_id: organization.id }, format: :csv
         ).to be_success
         expect(response.headers["Content-Disposition"]).to include "railsbridge_subscribed_users"
         expect(response.body).to include "seven_lemurs@example.com"
@@ -36,7 +36,7 @@ describe OrganizationsController do
     context "logged in as a regular user" do
       it "should redirect" do
         expect(
-          get :download_subscriptions, organization_id: organization.id
+          get :download_subscriptions, params: { organization_id: organization.id }
         ).to be_redirect
       end
     end

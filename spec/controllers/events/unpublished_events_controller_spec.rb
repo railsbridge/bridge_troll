@@ -45,7 +45,7 @@ describe Events::UnpublishedEventsController do
 
   describe "POST #publish" do
     def make_request
-      post :publish, unpublished_event_id: @event.id
+      post :publish, params: { unpublished_event_id: @event.id }
     end
 
     before do
@@ -129,13 +129,13 @@ describe Events::UnpublishedEventsController do
 
       it 'allows publishing of chapter events' do
         expect {
-          post :publish, unpublished_event_id: @chapter_event.id
+          post :publish, params: { unpublished_event_id: @chapter_event.id }
         }.to change { @chapter_event.reload.current_state }.to('published')
       end
 
       it 'disallows publishing of non-chapter events' do
         expect {
-          post :publish, unpublished_event_id: @event.id
+          post :publish, params: { unpublished_event_id: @event.id }
         }.not_to change { @chapter_event.reload.current_state }
         expect(response).to be_redirect
       end

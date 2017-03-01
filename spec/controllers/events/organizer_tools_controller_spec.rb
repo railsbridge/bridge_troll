@@ -6,7 +6,7 @@ describe Events::OrganizerToolsController do
 
   describe "GET #index" do
     def make_request
-      get :index, event_id: event.id
+      get :index, params: { event_id: event.id }
     end
 
     it_behaves_like "an event action that requires an organizer"
@@ -69,7 +69,7 @@ describe Events::OrganizerToolsController do
     let(:role) { Role::STUDENT }
 
     def make_request
-      get :rsvp_preview, event_id: event.id, role_id: role.id
+      get :rsvp_preview, params: { event_id: event.id, role_id: role.id }
     end
 
     it_behaves_like "an event action that requires an organizer"
@@ -115,7 +115,7 @@ describe Events::OrganizerToolsController do
     let(:organizer) { create(:user) }
 
     def make_request
-      post :send_announcement_email, event_id: event.id
+      post :send_announcement_email, params: { event_id: event.id }
     end
 
     it_behaves_like "an event action that requires an organizer"

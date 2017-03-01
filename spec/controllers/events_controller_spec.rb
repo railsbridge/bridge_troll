@@ -42,19 +42,19 @@ describe EventsController do
     end
 
     it 'can render published past events as json' do
-      get :index, format: 'json', type: 'past'
+      get :index, params: { type: 'past' }, format: 'json'
       result_titles = JSON.parse(response.body).map{ |e| e['title'] }
       expect(result_titles).to eq([@past_event, @past_external_event].map(&:title))
     end
 
     it 'can render all published events as json' do
-      get :index, format: 'json', type: 'all'
+      get :index, params: { type: 'all' }, format: 'json'
       result_titles = JSON.parse(response.body).map{ |e| e['title'] }
       expect(result_titles).to eq([@past_event, @past_external_event, @future_external_event, @future_event].map(&:title))
     end
 
     it 'can render only upcoming published events as json' do
-      get :index, format: 'json', type: 'upcoming'
+      get :index, params: { type: 'upcoming' }, format: 'json'
       result_titles = JSON.parse(response.body).map{ |e| e['title'] }
       expect(result_titles).to eq([@future_external_event, @future_event].map(&:title))
     end
@@ -64,7 +64,7 @@ describe EventsController do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     it "successfully assigns the event" do
-      get :show, id: event.id
+      get :show, params: { id: event.id }
       expect(assigns(:event)).to eq(event)
       expect(response).to be_success
     end
@@ -77,7 +77,7 @@ describe EventsController do
       end
 
       it "includes the location" do
-        get :show, id: event.id
+        get :show, params: { id: event.id }
         expect(response.body).to include('Carbon Nine')
       end
 
@@ -88,7 +88,7 @@ describe EventsController do
 
           sign_in chapter_leader
 
-          get :show, id: event.id
+          get :show, params: { id: event.id }
           expect(response.body).to include('As a chapter leader')
         end
 
@@ -98,7 +98,7 @@ describe EventsController do
 
           sign_in organization_leader
 
-          get :show, id: event.id
+          get :show, params: { id: event.id }
           expect(response.body).to include('As an organization leader')
         end
       end
@@ -111,20 +111,20 @@ describe EventsController do
 
         it "shows an 'Attend' button when allowing student RSVP" do
           event.update_attribute(:allow_student_rsvp, true)
-          get :show, id: event.id
+          get :show, params: { id: event.id }
           expect(response.body).to include(attend_text)
         end
 
         it "hides the 'Attend' button when not allowing student RSVP" do
           event.update_attribute(:allow_student_rsvp, false)
-          get :show, id: event.id
+          get :show, params: { id: event.id }
           expect(response.body).not_to include(attend_text)
         end
       end
 
       context "when no volunteers or students are attending" do
         it "shows messages about the lack of volunteers and students" do
-          get :show, id: event.id
+          get :show, params: { id: event.id }
           expect(response.body).to include('No volunteers')
           expect(response.body).to include('No students')
         end
@@ -137,7 +137,7 @@ describe EventsController do
         end
 
         it "shows the volunteer somewhere on the page" do
-          get :show, id: event.id
+          get :show, params: { id: event.id }
           expect(response.body).to include('Ron Swanson')
         end
       end
@@ -149,7 +149,7 @@ describe EventsController do
         end
 
         it "shows the student somewhere on the page" do
-          get :show, id: event.id
+          get :show, params: { id: event.id }
           expect(response.body).to include('Jane Fontaine')
         end
 
@@ -158,7 +158,7 @@ describe EventsController do
 
           context "when there is no waitlist" do
             it "doesn't have the waitlist header" do
-              get :show, id: event.id
+              get :show, params: { id: event.id }
               expect(response.body).not_to include(waitlist_label)
             end
           end
@@ -171,7 +171,7 @@ describe EventsController do
             end
 
             it "shows waitlisted students in a waitlist section" do
-              get :show, id: event.id
+              get :show, params: { id: event.id }
               expect(response.body).to include(waitlist_label)
               expect(response.body).to include('Sandy Sontaine')
             end
@@ -217,7 +217,7 @@ describe EventsController do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     def make_request
-      get :edit, id: event.id
+      get :edit, params: { id: event.id }
     end
 
     it_behaves_like "an event action that requires an organizer"
@@ -241,14 +241,14 @@ describe EventsController do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     it "succeeds without requiring any permissions" do
-      get :levels, id: event.id
+      get :levels, params: { id: event.id }
       expect(response).to be_success
     end
   end
 
   describe "POST create" do
     def make_request(params = {})
-      post :create, params
+      post :create, params: params
     end
 
     it_behaves_like "an action that requires user log-in"
@@ -396,7 +396,7 @@ describe EventsController do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     def make_request(params = {})
-      put :update, id: event.id, event: params, create_event: true
+      put :update, params: { id: event.id, event: params, create_event: true }
     end
 
     it_behaves_like "an event action that requires an organizer"
@@ -480,7 +480,7 @@ describe EventsController do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     def make_request
-      delete :destroy, id: event.id
+      delete :destroy, params: { id: event.id }
     end
 
     it_behaves_like "an event action that requires an organizer"

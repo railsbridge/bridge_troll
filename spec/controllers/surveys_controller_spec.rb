@@ -14,14 +14,14 @@ describe SurveysController do
 
     describe "#new" do
       it "shows the survey form" do
-        get :new, event_id: @event.id, rsvp_id: @rsvp.id
+        get :new, params: { event_id: @event.id, rsvp_id: @rsvp.id }
         expect(response).to render_template(:new)
         expect(assigns(:event)).to eq @event
         expect(assigns(:rsvp)).to eq @rsvp
       end
 
       it "shows the survey form when only an event_id is provided" do
-        get :new, event_id: @event.id
+        get :new, params: { event_id: @event.id }
         expect(response).to render_template(:new)
         expect(assigns(:event)).to eq @event
         expect(assigns(:rsvp)).to eq @rsvp
@@ -34,7 +34,7 @@ describe SurveysController do
         end
 
         it "redirects to the event with an error" do
-          get :new, event_id: @event.id, rsvp_id: @destroyed_rsvp_id
+          get :new, params: { event_id: @event.id, rsvp_id: @destroyed_rsvp_id }
           expect(response).to redirect_to(event_path(@event))
           expect(flash[:error]).to be_present
         end
@@ -46,7 +46,7 @@ describe SurveysController do
         end
 
         it "shows a warning message" do
-          get :new, event_id: @event.id, rsvp_id: @rsvp.id
+          get :new, params: { event_id: @event.id, rsvp_id: @rsvp.id }
           expect(flash[:error]).not_to be_nil
         end
       end
@@ -58,7 +58,7 @@ describe SurveysController do
         end
 
         it "takes the survey for the logged-in user instead" do
-          get :new, event_id: @event.id, rsvp_id: @other_rsvp.id
+          get :new, params: { event_id: @event.id, rsvp_id: @other_rsvp.id }
           expect(assigns(:rsvp).user).to eq(@user)
         end
       end
@@ -78,7 +78,7 @@ describe SurveysController do
             }
           }
 
-          expect { put :create, params }.to change { Survey.count }.by(1)
+          expect { put :create, params: params }.to change { Survey.count }.by(1)
         end
       end
 
@@ -99,7 +99,7 @@ describe SurveysController do
               recommendation_likelihood: "9"
             }
           }
-          expect { put :create, params }.to change { Survey.count }.by(1)
+          expect { put :create, params: params }.to change { Survey.count }.by(1)
           expect(Survey.last.rsvp.user).to eq(@user)
         end
       end
@@ -116,7 +116,7 @@ describe SurveysController do
       end
 
       it "shows the survey results" do
-        get :index, event_id: @event.id
+        get :index, params: { event_id: @event.id }
         expect(response).to be_success
         expect(assigns(:event)).to eq @event
         expect(assigns(:event).volunteer_surveys.to_a).to eq [@rsvp.survey]
@@ -129,7 +129,7 @@ describe SurveysController do
       end
 
       it "doesn't show the survey results" do
-        get :index, event_id: @event.id
+        get :index, params: { event_id: @event.id }
         expect(response.code).to eq "302"
       end
     end

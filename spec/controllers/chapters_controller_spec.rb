@@ -29,7 +29,7 @@ describe ChaptersController do
 
     describe 'as an admin' do
       it 'shows all events' do
-        get :show, id: chapter.id
+        get :show, params: { id: chapter.id }
         expect(assigns(:chapter_events)).to match_array([@draft_event, @pending_event, @published_event])
       end
     end
@@ -38,7 +38,7 @@ describe ChaptersController do
       let(:user) { create(:user) }
 
       it 'shows a list of published events' do
-        get :show, id: chapter.id
+        get :show, params: { id: chapter.id }
         expect(assigns(:chapter_events)).to match_array([@published_event])
       end
     end
@@ -54,7 +54,7 @@ describe ChaptersController do
   describe '#create' do
     it 'creates a new chapter' do
       expect {
-        post :create, chapter: {name: "Fabulous Chapter", organization_id: organization.id}
+        post :create, params: {chapter: {name: "Fabulous Chapter", organization_id: organization.id}}
       }.to change(Chapter, :count).by(1)
     end
   end
@@ -63,7 +63,7 @@ describe ChaptersController do
     let!(:chapter) { create(:chapter) }
 
     it "shows a chapter edit form" do
-      get :edit, id: chapter.id
+      get :edit, params: { id: chapter.id }
       expect(response).to be_success
     end
   end
@@ -73,7 +73,7 @@ describe ChaptersController do
 
     it "changes chapter details" do
       expect {
-        put :update, id: chapter.id, chapter: {name: 'Sandwich Chapter'}
+        put :update, params: {id: chapter.id, chapter: {name: 'Sandwich Chapter'}}
       }.to change { chapter.reload.name }
       expect(response).to redirect_to(chapter_path(chapter))
     end
@@ -84,14 +84,14 @@ describe ChaptersController do
 
     it "can delete a chapter that belongs to no events" do
       expect {
-        delete :destroy, {id: chapter.id}
+        delete :destroy, params: {id: chapter.id}
       }.to change(Chapter, :count).by(-1)
     end
 
     it "cannot delete a chapter that belongs to a event" do
       create(:event, chapter: chapter)
       expect {
-        delete :destroy, {id: chapter.id}
+        delete :destroy, params: {id: chapter.id}
       }.not_to change(Chapter, :count)
     end
   end

@@ -8,15 +8,15 @@ describe Regions::LeadersController do
   describe "with a user who is not logged in" do
     it "can not edit, create, or delete an event organizer" do
       expect(
-        get :index, region_id: region.id
+        get :index, params: { region_id: region.id }
       ).to redirect_to(new_user_session_path)
 
       expect(
-        post :create, region_id: region.id, event_organizer: {region_id: region.id, user_id: leader.id}
+        post :create, params: {region_id: region.id, event_organizer: {region_id: region.id, user_id: leader.id}}
       ).to redirect_to(new_user_session_path)
 
       expect(
-        delete :destroy, region_id: region.id, id: 12345
+        delete :destroy, params: { region_id: region.id, id: 12345 }
       ).to redirect_to(new_user_session_path)
     end
   end
@@ -26,15 +26,15 @@ describe Regions::LeadersController do
 
     it "can not edit, create, or delete an event organizer" do
       expect(
-        get :index, region_id: region.id
+        get :index, params: { region_id: region.id }
       ).to be_redirect
 
       expect(
-        post :create, region_id: region.id, event_organizer: {region_id: region.id, user_id: leader.id}
+        post :create, params: {region_id: region.id, event_organizer: {region_id: region.id, user_id: leader.id}}
       ).to be_redirect
 
       expect(
-        delete :destroy, region_id: region.id, id: 12345
+        delete :destroy, params: { region_id: region.id, id: 12345 }
       ).to be_redirect
     end
   end
@@ -49,7 +49,7 @@ describe Regions::LeadersController do
       let!(:leadership) { RegionLeadership.create(user: leader, region: region) }
 
       it "grabs the right leaders" do
-        get :index, region_id: region
+        get :index, params: { region_id: region }
         expect(assigns(:leaders)).to include(user)
       end
     end
@@ -61,7 +61,7 @@ describe Regions::LeadersController do
         let(:params) { { region_id: region, id: new_leader } }
 
         it "creates the new region leadership" do
-          post :create, params
+          post :create, params: params
           expect(RegionLeadership.last.user).to eq new_leader
           expect(RegionLeadership.last.region).to eq region
         end
@@ -73,7 +73,7 @@ describe Regions::LeadersController do
       let(:params) { { region_id: region, id: leader } }
 
       it "deletes the region leadership" do
-        expect {delete :destroy, params }.to change { RegionLeadership.count }.from(2).to(1)
+        expect {delete :destroy, params: params }.to change { RegionLeadership.count }.from(2).to(1)
       end
     end
   end
@@ -93,7 +93,7 @@ describe Regions::LeadersController do
 
       non_region = create(:user, first_name: 'Steve')
 
-      get :potential, format: :json, region_id: region.id, q: 'Steve'
+      get :potential, params: { region_id: region.id, q: 'Steve' }, format: :json
 
       expect(JSON.parse(response.body).map { |u| u['id'] }).to eq([non_leader.id])
     end
