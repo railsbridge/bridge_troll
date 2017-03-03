@@ -74,10 +74,6 @@ Rails/Exit:
 Rails/HasAndBelongsToMany:
   Enabled: false
 
-# TODO: remove in rails 5
-Rails/HttpPositionalArguments:
-  Enabled: false
-
 Rails/Output:
   Enabled: false
 
