@@ -5,7 +5,6 @@ ruby '2.3.1'
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'rails', '~> 5.0.0'
-gem 'sprockets-rails', '2.3.3'
 gem 'devise', '~> 4.2.0'
 gem 'pundit'
 gem 'puma'
