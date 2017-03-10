@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery
+
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   after_action :verify_authorized, unless: :devise_controller?
@@ -11,8 +13,6 @@ class ApplicationController < ActionController::Base
       Rack::MiniProfiler.authorize_request
     end
   end
-
-  protect_from_forgery
 
   rescue_from(ActionView::MissingTemplate) do |e|
     if request.format != :html
