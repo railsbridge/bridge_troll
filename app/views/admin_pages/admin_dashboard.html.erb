@@ -30,10 +30,14 @@
   </ul>
 </div>
 
+<h2>How many users are there?</h2>
+<div>
+  <ul>
+    <li><%= link_to User.count, :users %></li>
+  </ul>
+</div>
+
 <h2># of authentication providers set up</h2>
-
-<strong><%= User.where('encrypted_password != ?', '').count %></strong> out of <%= User.count %> users have set up a password to log in to Bridge Troll.
-
 <div class="row">
   <div class="col-md-4">
     <table class='table table-bordered table-condensed table-striped'>
@@ -66,6 +70,10 @@
       </tr>
       </thead>
       <tbody>
+      <tr>
+        <td>password</td>
+        <td><%= User.where('encrypted_password != ?', '').count %></td>
+      </tr>
       <% @authentication_counts.each do |provider, count| %>
         <tr>
           <td><%= provider %></td>
