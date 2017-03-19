@@ -392,6 +392,10 @@ class Event < ActiveRecord::Base
     course.levels
   end
 
+  def asks_custom_question?
+    custom_question.present?
+  end
+
   private
 
   DEFAULT_DETAIL_FILES = Dir[Rails.root.join('app', 'models', 'event_details', '*.html')]

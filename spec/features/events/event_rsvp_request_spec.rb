@@ -205,6 +205,30 @@ describe 'creating or editing an rsvp' do
         end
       end
     end
+
+    describe 'displaying custom question field' do
+      before do
+        @event.update(custom_question: custom_question)
+        visit volunteer_new_event_rsvp_path(@event)
+      end
+
+      context 'when event asks a custom question' do
+        let(:custom_question) { 'What is your t-shirt size?' }
+
+        it 'diplays a field for the user to respond to the custom question' do
+          expect(page).to have_content custom_question
+          expect(page).to have_field('rsvp_custom_question_answer')
+        end
+      end
+
+      context 'when event does not ask a custom question' do
+        let(:custom_question) { '' }
+
+        it 'does not display a field for the user to respond to the custom question' do
+          expect(page).not_to have_field('rsvp_custom_question_answer')
+        end
+      end
+    end
   end
 
   context "for a non-teaching event" do

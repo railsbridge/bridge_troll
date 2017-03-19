@@ -117,6 +117,12 @@
       <% end %>
     </div>
 
+    <% if @event.asks_custom_question? %>
+      <div class="field question">
+        <%= f.input :custom_question_answer, label: @event.custom_question, input_html: {rows: 3} %>
+      </div>
+    <% end %>
+
     <% if @event.food_provided? %>
       <div class="field">
         <p class="question">The food's on us. Let us know if you have any dietary restrictions.</p>
