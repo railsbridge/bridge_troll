@@ -5,7 +5,12 @@
 
   <% if @show_new_region_warning %>
       <div class="alert alert-warning">
-        <p>Reminder: this event is in <strong><%=@event.location_city_and_state%></strong>. Since you've never attended an event in that location, please double check you can make it.</p>
+        <p>
+          Reminder: this event is in
+          <strong>
+            <%= @event.location ? @event.location_city_and_state : @event.region.name %></strong>.
+          Since you've never attended an event in that location, please double check you can make it.
+        </p>
       </div>
   <% end %>
 
