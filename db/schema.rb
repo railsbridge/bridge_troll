@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170202035358) do
+ActiveRecord::Schema.define(version: 20170319192836) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 20170202035358) do
     t.string   "imported_event_data"
     t.integer  "chapter_id",                                     null: false
     t.boolean  "food_provided",                  default: true,  null: false
+    t.text     "custom_question"
     t.index ["chapter_id"], name: "index_events_on_chapter_id"
   end
 
@@ -266,6 +267,7 @@ ActiveRecord::Schema.define(version: 20170202035358) do
     t.boolean  "checkiner",                           default: false
     t.text     "plus_one_host"
     t.string   "token"
+    t.text     "custom_question_answer"
     t.index ["token"], name: "index_rsvps_on_token", unique: true
     t.index ["user_id", "event_id", "user_type"], name: "index_rsvps_on_user_id_and_event_id_and_event_type", unique: true
   end

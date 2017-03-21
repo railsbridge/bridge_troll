@@ -14,6 +14,7 @@ class RsvpPolicy < ApplicationPolicy
       :operating_system_id,
       :job_details,
       :class_level,
+      :custom_question_answer,
       :dietary_info,
       :needs_childcare,
       :plus_one_host,

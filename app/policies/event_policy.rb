@@ -69,6 +69,7 @@ class EventPolicy < ApplicationPolicy
       :has_childcare,
       :restrict_operating_systems,
       :survey_greeting,
+      :custom_question,
       {
         event_sessions_attributes: EventSessionPolicy.new(user, EventSession).permitted_attributes + [:id],
         allowed_operating_system_ids: []

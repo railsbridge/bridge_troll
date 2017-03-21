@@ -598,4 +598,26 @@ describe Event do
       end
     end
   end
+
+  describe '#asks_custom_question?' do
+    context 'when event asks a custom question' do
+      before do
+        allow(subject).to receive(:custom_question) { 'What is your t-shirt size?' }
+      end
+
+      it 'returns true' do
+        expect(subject.asks_custom_question?).to eql true
+      end
+    end
+
+    context 'when event does not ask a custom question' do
+      before do
+        allow(subject).to receive(:custom_question) { '' }
+      end
+
+      it 'returns false' do
+        expect(subject.asks_custom_question?).to eql false
+      end
+    end
+  end
 end

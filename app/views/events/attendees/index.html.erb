@@ -36,6 +36,7 @@
       <tr>
         <th class='attendee-name'>Name</th>
         <th class='attendee-role'>Attending As</th>
+        <th class='attendee-custom-question-answer'>Custom Question Answer</th>
         <th class='attendee-dietary-info'>Dietary Info</th>
         <th class='attendee-childcare-info'>Childcare Info</th>
         <th class='attendee-job-details'>Job Details</th>
@@ -53,6 +54,7 @@
             <%= link_to rsvp.user.full_name, user_profile_path(rsvp.user) %>
           </td>
           <td data-label="Attending as:"><%= rsvp.role.title %></td>
+          <%= content_tag_maybe_hidden(:td, rsvp.custom_question_answer, 'data-label' => 'Custom question answer:') %>
           <%= content_tag_maybe_hidden(:td, rsvp.full_dietary_info, 'data-label' => 'Dietary info:') %>
           <%= content_tag_maybe_hidden(:td, rsvp.childcare_info, 'data-label' => 'Childcare info:') %>
           <td data-label="Job details:"><%= rsvp.job_details %></td>
