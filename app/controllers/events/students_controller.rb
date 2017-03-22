@@ -24,13 +24,20 @@ module Events
     def student_csv_data(rsvps)
       CSV.generate do |csv|
         csv << [
-          'Student Name', 'Class Level', 'Operating System', 'Occupation', 'Gender'
+          'Student Name',
+          'Class Level',
+          'Operating System',
+          'Occupation',
+          'Gender'
         ]
 
         rsvps.each do |rsvp|
           csv << [
-            rsvp.user.full_name, rsvp.class_level, rsvp.operating_system.name,
-            rsvp.job_details, rsvp.user.gender
+            rsvp.user.full_name,
+            rsvp.class_level,
+            rsvp.operating_system.name,
+            rsvp.job_details,
+            rsvp.user.gender
           ]
         end
       end

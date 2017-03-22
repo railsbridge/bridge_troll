@@ -31,17 +31,29 @@ class Events::AttendeesController < ApplicationController
   def attendee_csv_data(rsvps)
     CSV.generate do |csv|
       csv << [
-        'Name', 'Attending As', 'Custom Question Answer', 'Dietary Info',
-        'Childcare Info', 'Job Details', 'Gender', 'Plus-One Host',
-        'Waitlisted', 'Waitlist Position'
+        'Name',
+        'Attending As',
+        'Custom Question Answer',
+        'Dietary Info',
+        'Childcare Info',
+        'Job Details',
+        'Gender',
+        'Plus-One Host',
+        'Waitlisted',
+        'Waitlist Position'
       ]
 
       rsvps.includes(:user).joins(:bridgetroll_user).order('users.first_name ASC, users.last_name ASC').each do |rsvp|
-        waitlisted = rsvp.waitlisted? ? 'yes' : 'no'
         csv << [
-          rsvp.user.full_name, rsvp.role.title, rsvp.custom_question_answer,
-          rsvp.full_dietary_info, rsvp.childcare_info, rsvp.job_details,
-          rsvp.user.gender, rsvp.plus_one_host, waitlisted,
+          rsvp.user.full_name,
+          rsvp.role.title,
+          rsvp.custom_question_answer,
+          rsvp.full_dietary_info,
+          rsvp.childcare_info,
+          rsvp.job_details,
+          rsvp.user.gender,
+          rsvp.plus_one_host,
+          rsvp.waitlisted? ? 'yes' : 'no',
           rsvp.waitlist_position
         ]
       end
