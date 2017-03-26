@@ -1,6 +1,39 @@
 require 'rails_helper'
 
 describe DatabaseAnonymizer do
+  RSpec::Matchers.define :scrub_fields do |record, fields|
+    match do |actual|
+      original_attributes = record.attributes.slice(*fields.map(&:to_s))
+      unless original_attributes.present?
+        raise "Could not determine original attributes"
+      end
+
+      actual.call
+
+      processed_attributes = record.attributes.slice(*fields.map(&:to_s))
+
+      @unscrubbed_attributes = []
+      original_attributes.each do |key, value|
+        if processed_attributes[key] == value
+          @unscrubbed_attributes << key
+        end
+      end
+
+      @unscrubbed_attributes.length == 0
+    end
+
+    failure_message do |actual|
+      <<~EOT
+          Did not seem to scrub these #{record.class} attributes:
+          #{@unscrubbed_attributes.join(', ')}
+      EOT
+    end
+
+    def supports_block_expectations?
+      true
+    end
+  end
+
   describe '#anonymize_database' do
     let(:logger) { Logger.new(STDOUT) }
     let(:anonymizer) { DatabaseAnonymizer.new(logger) }
@@ -61,79 +94,116 @@ describe DatabaseAnonymizer do
   describe '#anonymize_user' do
     it 'replaces identifying data for non-admin users' do
       user = create(:user)
-      expect { DatabaseAnonymizer.new.anonymize_user(user) }.to change{ [user.email,
-                                                                     user.first_name,
-                                                                     user.last_name,
-                                                                     user.gender,
-                                                                     user.password] }
+      anonymized_fields = [
+        :email,
+        :first_name,
+        :last_name,
+        :password
+      ]
+      expect {
+        DatabaseAnonymizer.new.anonymize_user(user)
+      }.to scrub_fields(user, anonymized_fields)
     end
 
     it 'does not replace data for a sample admin user' do
       user = create(:user)
       user.email = 'admin@example.com'
-      expect { DatabaseAnonymizer.new.anonymize_user(user) }.to_not change{ [user.email, user.password] }
+      expect { DatabaseAnonymizer.new.anonymize_user(user) }.to_not change { user.attributes }
     end
 
     it 'does not replace data for a sample organizer user' do
       user = create(:user)
       user.email = 'organizer@example.com'
-      expect { DatabaseAnonymizer.new.anonymize_user(user) }.to_not change{ [user.email, user.password] }
+      expect { DatabaseAnonymizer.new.anonymize_user(user) }.to_not change { user.attributes }
     end
   end
 
   describe '#anonymize_meetup_user' do
     it 'replaces identifying data from Meetup User data' do
       user = create(:meetup_user)
-      expect{ DatabaseAnonymizer.new.anonymize_meetup_user(user) }.to change{ [user.full_name,
-                                                                         user.meetup_id ] }
+      anonymized_fields = [
+        :full_name,
+        :meetup_id
+      ]
+      expect {
+        DatabaseAnonymizer.new.anonymize_meetup_user(user)
+      }.to scrub_fields(user, anonymized_fields)
     end
   end
 
   describe '#anonymize_survey' do
     it 'replaces identifying data from Survey data' do
       survey = create(:survey)
-      expect{ DatabaseAnonymizer.new.anonymize_survey(survey) }.to change{ [ survey.good_things,
-                                                                         survey.bad_things,
-                                                                         survey.other_comments ] }
+      anonymized_fields = [
+        :good_things,
+        :bad_things,
+        :other_comments
+      ]
+      expect {
+        DatabaseAnonymizer.new.anonymize_survey(survey)
+      }.to scrub_fields(survey, anonymized_fields)
     end
   end
 
   describe '#anonymize_rsvp' do
     it 'replaces identifying data from RSVP data' do
-      rsvp = create(:rsvp)
-      expect{ DatabaseAnonymizer.new.anonymize_rsvp(rsvp) }.to change{ [ rsvp.subject_experience,
-                                                                     rsvp.teaching_experience,
-                                                                     rsvp.job_details,
-                                                                     rsvp.childcare_info,
-                                                                     rsvp.plus_one_host,
-                                                                     rsvp.dietary_info ] }
+      rsvp = create(:rsvp, plus_one_host: Faker::Name.name)
+      anonymized_fields = [
+        :subject_experience,
+        :teaching_experience,
+        :job_details,
+        :childcare_info,
+        :plus_one_host,
+        :dietary_info
+      ]
+      expect {
+        DatabaseAnonymizer.new.anonymize_rsvp(rsvp)
+      }.to scrub_fields(rsvp, anonymized_fields)
     end
   end
 
   describe '#anonymize_profile' do
     it 'replaces identifying data from the Profile' do
       profile = create(:user).profile
-      profile.update_attribute(:github_username, Faker::Hacker.noun.gsub('', '-'))
-      profile.update_attribute(:twitter_username, 'fake_username')
-      expect{ DatabaseAnonymizer.new.anonymize_profile(profile) }.to change{ [ profile.other,
-                                                                           profile.github_username,
-                                                                           profile.bio ]}
+      profile.update_attributes(
+        github_username: Faker::Hacker.noun.gsub('', '-'),
+        twitter_username: 'fake_username'
+      )
+      anonymized_fields = [
+        :other,
+        :github_username,
+        :twitter_username,
+        :bio
+      ]
+      expect {
+        DatabaseAnonymizer.new.anonymize_profile(profile)
+      }.to scrub_fields(profile, anonymized_fields)
     end
   end
 
   describe '#anonymize_location' do
     it 'replaces sensitive data from the Location' do
       location = create(:location, notes: 'fun place', contact_info: 'someone important')
-      expect{ DatabaseAnonymizer.new.anonymize_location(location) }.to change{ [ location.notes,
-                                                                           location.contact_info ]}
+      anonymized_fields = [
+        :notes,
+        :contact_info
+      ]
+      expect {
+        DatabaseAnonymizer.new.anonymize_location(location)
+      }.to scrub_fields(location, anonymized_fields)
     end
   end
 
   describe '#anonymize_event_email' do
     it 'replaces sensitive data from the email' do
       event_email = create(:event_email, subject: 'hello', body: 'this is some info')
-      expect{ DatabaseAnonymizer.new.anonymize_event_email(event_email) }.to change{ [ event_email.subject,
-                                                                           event_email.body ]}
+      anonymized_fields = [
+        :subject,
+        :body
+      ]
+      expect {
+        DatabaseAnonymizer.new.anonymize_event_email(event_email)
+      }.to scrub_fields(event_email, anonymized_fields)
     end
   end
 end
