@@ -18,7 +18,7 @@ describe "the event listing page" do
     expect(page).to have_content('Secondary Location')
   end
 
-  it "listing should show formatted dates" do
+  it "shows formatted dates" do
     next_year = Time.now.year + 1
     event = create(:event,
                    location_id: nil,
@@ -80,7 +80,7 @@ describe "the event listing page" do
     end
   end
 
-  it "should not show event organizers column" do
+  it "does not show event organizers column" do
     user_organizer = create(:user, email: "orgainzer@mail.com", first_name: "Sam", last_name: "Spade")
     event = create(:event)
     event.organizers << user_organizer
@@ -91,7 +91,7 @@ describe "the event listing page" do
   end
 
   context "chapter show page" do
-    it 'should show organizers for each event' do
+    it 'shows organizers for each event' do
       chapter = create(:chapter)
       user_organizer = create(:user, email: "orgainzer@mail.com", first_name: "Sam", last_name: "Spade")
       event = create(:event)
@@ -111,7 +111,7 @@ describe "the event listing page" do
       @user = create(:user)
     end
 
-    it "listing should redirect to event detail page when non-logged in user volunteers" do
+    it "redirects to event detail page when non-logged in user volunteers" do
       event = create(:event, time_zone: 'Pacific Time (US & Canada)')
       event.event_sessions.first.update_attributes(
         starts_at: 365.days.from_now,
@@ -209,7 +209,7 @@ describe "the event listing page" do
         expect(Event.last.allow_student_rsvp).to be false
       end
 
-      it "should display frontend content for frontend events" do
+      it "displays frontend content for frontend events" do
         visit events_path
         click_link "Organize Event"
         expand_all_event_sections
@@ -238,8 +238,18 @@ describe "the event listing page" do
       before(:each) do
         @event = create(:event)
         @session1 = @event.event_sessions.first
-        @session1.update_attributes!(name: 'Installfest', starts_at: 10.days.from_now, ends_at: 11.days.from_now)
-        @session2 = create(:event_session, event: @event, name: 'Curriculum', starts_at: 12.days.from_now, ends_at: 13.days.from_now)
+        @session1.update_attributes!(
+          name: 'Installfest',
+          starts_at: 10.days.from_now,
+          ends_at: 11.days.from_now
+        )
+        @session2 = create(
+          :event_session,
+          event: @event,
+          name: 'Curriculum',
+          starts_at: 12.days.from_now,
+          ends_at: 13.days.from_now
+        )
         @event.reload
       end
 

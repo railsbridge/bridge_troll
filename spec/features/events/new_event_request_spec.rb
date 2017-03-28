@@ -18,13 +18,13 @@ describe "New Event", js: true do
     sign_in_as(@user_organizer)
   end
 
-  it "should pre-fill the event details textarea" do
+  it "pre-fills the event details textarea" do
     visit_new_events_form_and_expand_all_sections
 
     expect(page.find_field('event_details')[:value]).to match(/Workshop Description/)
   end
 
-  it "should have a public organizer email field" do
+  it "has a public organizer email field" do
     visit_new_events_form_and_expand_all_sections
 
     label = "What email address should users contact you at with questions?"
@@ -32,7 +32,7 @@ describe "New Event", js: true do
     expect(page.field_labeled(label)[:value]).to eq("organizer@mail.com")
   end
 
-  it "should have the code of conduct checkbox checked" do
+  it "has the code of conduct checkbox unchecked" do
     visit_new_events_form_and_expand_all_sections
 
     expect(page).to have_unchecked_field("coc")
@@ -56,7 +56,7 @@ describe "New Event", js: true do
     expect(page).to have_unchecked_field('coc')
   end
 
-  it "should have appropriate locations available" do
+  it "has appropriate locations available" do
     visit_new_events_form_and_expand_all_sections
 
     live_location = create(:location)
@@ -70,7 +70,7 @@ describe "New Event", js: true do
     ])
   end
 
-  it "should have a food options toggle" do
+  it "has a food options toggle" do
     visit_new_events_form_and_expand_all_sections
 
     expect(page).to have_checked_field('event_food_provided_true')
@@ -102,7 +102,7 @@ describe "New Event", js: true do
   end
 
   describe "the location form modal" do
-    it "should show errors if a location form is invalid" do
+    it "shows errors if a location form is invalid" do
       visit_new_events_form_and_expand_all_sections
 
       click_link "add it"
@@ -111,7 +111,7 @@ describe "New Event", js: true do
       expect(page).to have_css('#error_explanation')
     end
 
-    it "should accept and add a valid location" do
+    it "accepts and adds a valid location" do
       @region = create(:region)
       visit_new_events_form_and_expand_all_sections
 
@@ -171,7 +171,7 @@ describe "New Event", js: true do
       click_on 'Add another session'
     end
 
-    it 'should have two event session options, of which only the second can be removed' do
+    it 'has two event session options, of which only the second can be removed' do
       expect(page).to have_selector('.event-sessions > .fields', count: 2)
 
       find(:link, 'Remove Session', visible: true).click

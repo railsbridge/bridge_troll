@@ -17,20 +17,10 @@ describe "the attendee details modal", js: true do
     end
   end
 
-  it "should list the student's operating system" do
+  it "lists the student's RSVP details" do
     within '.modal-body' do
       expect(page).to have_content(@student_rsvp.operating_system_title)
-    end
-  end
-
-  it "should list the student's class level title" do
-    within '.modal-body' do
       expect(page).to have_content(@student_rsvp.level_title)
-    end
-  end
-
-  it "it should list the student's job details" do
-    within '.modal-body' do
       expect(page).to have_content(@student_rsvp.job_details)
     end
   end

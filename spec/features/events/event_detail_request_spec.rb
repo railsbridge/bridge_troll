@@ -133,7 +133,7 @@ describe "the event detail page" do
     end
 
     context "when user has not rsvp'd to event" do
-      it "should allow user to rsvp as a volunteer or student" do
+      it "allows user to rsvp as a volunteer or student" do
         visit event_path(@event)
         expect(page).to have_link("Volunteer")
         expect(page).to have_link(attend_as_student_text)
@@ -146,13 +146,13 @@ describe "the event detail page" do
           allow_any_instance_of(Event).to receive(:volunteers_at_limit?).and_return(true)
         end
 
-        it "should allow the user to join the student waitlist" do
+        it "allows the user to join the student waitlist" do
           visit event_path(@event)
           expect(page).not_to have_link(attend_as_student_text)
           expect(page).to have_link(join_student_waitlist_text)
         end
 
-        it "should allow the user to join the volunteer waitlist" do
+        it "allows the user to join the volunteer waitlist" do
           visit event_path(@event)
           expect(page).not_to have_link(attend_as_volunteer_text)
           expect(page).to have_link(join_volunteer_waitlist_text)

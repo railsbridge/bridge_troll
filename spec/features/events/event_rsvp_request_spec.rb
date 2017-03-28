@@ -16,7 +16,7 @@ describe 'creating or editing an rsvp' do
       sign_in_as @user
     end
 
-    context "given a new volunteer rsvp" do
+    context "with a new volunteer rsvp" do
       before do
         visit volunteer_new_event_rsvp_path(@event)
       end
@@ -39,7 +39,7 @@ describe 'creating or editing an rsvp' do
           fill_in_valid_volunteer_details
         end
 
-        it "should allow the user to update their gender" do
+        it "allows the user to update their gender" do
           expect(page.find("#user_gender").value).to eq(@user.gender)
           fill_in "user_gender", with: "human"
           click_on "Submit"
@@ -47,7 +47,7 @@ describe 'creating or editing an rsvp' do
           expect(page.find("#user_gender").value).to eq("human")
         end
 
-        it "should allow the user to affiliate themselves with the event's region" do
+        it "allows the user to affiliate themselves with the event's region" do
           check 'affiliate_with_region'
           expect {
             click_on "Submit"
@@ -58,7 +58,7 @@ describe 'creating or editing an rsvp' do
       end
 
       context 'with an invalid RSVP' do
-        it 'should maintain state when the form is submitted' do
+        it 'maintains state when the form is submitted' do
           check 'Vegetarian'
 
           click_on 'Submit'
@@ -68,7 +68,7 @@ describe 'creating or editing an rsvp' do
       end
     end
 
-    context "given an rsvp with childcare info" do
+    context "with an rsvp with childcare info" do
       before do
         @rsvp = create(:rsvp, user: @user, childcare_info: "Bobbie: 17, Susie: 20000007")
         visit edit_event_rsvp_path @rsvp.event, @rsvp
@@ -87,16 +87,16 @@ describe 'creating or editing an rsvp' do
       end
     end
 
-    context "given an rsvp toggling food options" do
+    context "with an rsvp toggling food options" do
       let(:food_text) { "The food's on us. Let us know if you have any dietary restrictions." }
 
-      it "should have food options when enabled" do
+      it "has food options when enabled" do
         expect(@event.food_provided).to eq true
         visit volunteer_new_event_rsvp_path(@event)
         expect(page).to have_content(food_text)
       end
 
-      it "should not have food options when disabled" do
+      it "does not have food options when disabled" do
         @event.update(food_provided: false)
         expect(@event.food_provided?).to eq(false)
         visit volunteer_new_event_rsvp_path(@event)
@@ -104,7 +104,7 @@ describe 'creating or editing an rsvp' do
       end
     end
 
-    context 'given an rsvp with dietary restrictions' do
+    context 'with an rsvp with dietary restrictions' do
       let(:rsvp) {
         create(:rsvp,
           user: @user,
@@ -130,7 +130,7 @@ describe 'creating or editing an rsvp' do
         let(:plus_one_host_text) { "If you are not a member of this workshop's target demographic" }
 
         context "when enabled" do
-          it "should ask for the name of the person's host (if they are a plus-one)" do
+          it "asks for the name of the person's host (if they are a plus-one)" do
             visit learn_new_event_rsvp_path(@event)
             expect(page).to have_content plus_one_host_text
           end
@@ -141,7 +141,7 @@ describe 'creating or editing an rsvp' do
             @event.update_attribute(:plus_one_host_toggle, false)
           end
 
-          it "should not show the plus-one host form" do
+          it "does not show the plus-one host form" do
             visit learn_new_event_rsvp_path(@event)
             expect(page).not_to have_content plus_one_host_text
           end
@@ -186,7 +186,7 @@ describe 'creating or editing an rsvp' do
       visit volunteer_new_event_rsvp_path(@event)
     end
 
-    it "should require subject experience" do
+    it "requires subject experience" do
       fill_in "rsvp_subject_experience", with: "I organized the February workshop after attending one in January"
       click_on "Submit"
       expect(page).to have_content "Thanks for signing up!"

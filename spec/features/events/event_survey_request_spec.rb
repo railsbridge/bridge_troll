@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe 'the post-workshop survey' do
+  let(:submit_button_text) { 'Submit' }
+
   before do
     @event = create(:event)
     @user = create(:user)
@@ -15,11 +17,11 @@ describe 'the post-workshop survey' do
       visit preview_event_surveys_path(@event)
     end
 
-    it 'should not allow organizer to submit survey' do
-      expect(page).not_to have_content("Submit")
+    it 'does not allow organizer to submit survey' do
+      expect(page).not_to have_content(submit_button_text)
     end
 
-    it 'should allow organizer to email RSVPs the survey' do
+    it 'allows organizer to email RSVPs the survey' do
       expect(page).to have_content("Send Survey")
     end
   end
@@ -31,19 +33,19 @@ describe 'the post-workshop survey' do
     end
 
     context 'with a new survey' do
-      it 'should have survey questions' do
+      it 'has survey questions' do
         expect(page).to have_content "How was #{@event.title}"
 
         within(".survey-form") do
           expect(page).to have_content "What was great?"
-          expect(page).to have_button "Submit"
+          expect(page).to have_button submit_button_text
         end
       end
 
-      it 'should take you home on submit' do
+      it 'redirects home on submit' do
         within(".survey-form") do
           fill_in 'What was great?', with: "Hotdogs"
-          click_button 'Submit'
+          click_button submit_button_text
         end
 
         expect(page).to have_content "Thanks for taking the survey!"
@@ -53,20 +55,20 @@ describe 'the post-workshop survey' do
     context 'with an already-taken survey' do
       before do
         fill_in 'What was great?', with: "Hotdogs"
-        click_button 'Submit'
+        click_button submit_button_text
         visit new_event_rsvp_survey_path(@event, @rsvp)
       end
 
-      it 'should have a flash warning' do
+      it 'has a flash warning' do
         expect(page).to have_content "It looks like you've already taken this survey!"
       end
 
-      it 'should show you your previous answers' do
+      it 'shows you your previous answers' do
         expect(page).to have_content "Hotdogs"
       end
 
-      it 'should not have a submit button' do
-        expect(page).to_not have_button "Submit"
+      it 'does not have a submit button' do
+        expect(page).to_not have_button submit_button_text
       end
     end
   end
@@ -84,7 +86,7 @@ describe 'the post-workshop survey' do
         visit event_surveys_path(@event)
       end
 
-      it 'should show the feedback' do
+      it 'shows the feedback' do
         expect(page).to have_content "Those dog stickers were great"
       end
     end

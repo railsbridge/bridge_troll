@@ -37,7 +37,7 @@ RSpec.describe 'Sending an event email', js: true do
     click_link 'Email Attendees'
   end
 
-  it 'should show an accurate count of the # of people to be emailed when clicking buttons' do
+  it 'shows an accurate count of the # of people to be emailed when clicking buttons' do
     choose_dropdown_option('Add', 'Volunteers')
     expect(page).to have_content('2 people')
 
@@ -99,11 +99,11 @@ RSpec.describe 'Sending an event email', js: true do
     expect(recipients.length).to eq(3)
   end
 
-  it 'should have a "CC Organizers" checkbox' do
+  it 'has a "CC Organizers" checkbox' do
     expect(page).to have_unchecked_field('CC Organizers')
   end
 
-  it "should show an accurate count of the # of cc'd recipients when selecting cc checkboxes" do
+  it "shows an accurate count of the # of cc'd recipients when selecting cc checkboxes" do
     expect(page).to_not have_content('1 event organizer')
 
     check 'CC Organizers'

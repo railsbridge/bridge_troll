@@ -6,14 +6,14 @@ describe "sign in lightbox" do
     @user = create(:user)
   end
 
-  it "should show on home page on click" do
+  it "shows on home page on click" do
     visit "/"
     page.find('#sign_in_dialog', visible: false)
     click_link('Sign In')
     page.find('#sign_in_dialog', visible: true)
   end
 
-  it "should not show if signed in" do
+  it "does not show if signed in" do
     sign_in_as(@user)
     visit "/"
     expect(page).to have_link("Sign Out")
@@ -73,7 +73,7 @@ describe "user" do
     @user = create(:user)
   end
 
-  it "should be able to sign in from the home page" do
+  it "can sign in from the home page" do
     visit "/"
     within("#sign_in_dialog") do
       fill_in "Email", with: @user.email

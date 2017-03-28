@@ -8,7 +8,7 @@ describe "the organizer dashboard" do
     sign_in_as(@organizer)
   end
 
-  it "should have a page" do
+  it "displays the event title" do
     visit event_organizer_tools_path(@event)
     expect(page).to have_content('RailsBridge for Dik Diks')
   end

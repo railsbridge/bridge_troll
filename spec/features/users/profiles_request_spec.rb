@@ -38,7 +38,7 @@ describe "Profile" do
     expect(page).to have_content("Linux")
   end
 
-  it "user should be able to add his/her skills" do
+  it "allows user to add skills" do
     skill_settings = {
       "Childcare" => false,
       "Writer" => false,
@@ -91,7 +91,7 @@ describe "Profile" do
       event.rsvps << create(:rsvp, user: @user, event: event)
     end
 
-    it "should be able to see workshop history" do
+    it "is able to see workshop history" do
       visit user_profile_path(@user)
       expect(page).to have_content("Workshop History")
       expect(page).to have_content("BridgeBridge")

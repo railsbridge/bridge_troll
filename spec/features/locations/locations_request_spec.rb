@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Locations' do
-  describe "should display a sortable list of locations" do #without user sign-in
+  describe "displays a sortable list of locations" do #without user sign-in
     before do
       @my_location = create(:location)
     end
@@ -28,7 +28,7 @@ describe 'Locations' do
     end
   end
 
-  it "should create a new location" do
+  it "creates a new location" do
     @user = create(:user)
     region = create(:region, name: "Green Hill Zone")
 
@@ -83,12 +83,12 @@ describe 'Locations' do
     end
   end
 
-  it "should not create a new location if user is not signed in" do
+  it "does not create a new location if user is not signed in" do
     visit new_location_path
     expect(page).to have_content("You need to sign in or sign up before continuing")
   end
 
-  it "should not allow location editing if user is not signed in" do
+  it "does not allow location editing if user is not signed in" do
     @location = create(:location)
     visit edit_location_path(@location.id)
     expect(page).to have_content("You need to sign in or sign up before continuing")
