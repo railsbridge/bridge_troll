@@ -111,7 +111,6 @@ Bridgetroll::Application.routes.draw do
     get :raise_exception
   end
 
-  if Rails.env.development?
-    get "/style_guide" => "static_pages#style_guide"
-  end
+  get "/style_guide" => "static_pages#style_guide"
+  get "/styleguide", to: redirect('/style_guide')
 end
