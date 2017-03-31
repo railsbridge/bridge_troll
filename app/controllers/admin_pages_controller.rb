@@ -7,14 +7,15 @@ class AdminPagesController < ApplicationController
     @publishers = User.where(publisher: true)
     @external_event_editors = User.where(external_event_editor: true)
 
-    @user_authentication_counts = Hash.new(0)
-    User.find_each do |user|
-      @user_authentication_counts[user.authentications_count] += 1
-    end
+    @user_authentication_counts = User.
+      select('authentications_count, count(*) count').
+      group(:authentications_count).
+      order('count(*)')
 
-    @authentication_counts = Authentication.all.each_with_object(Hash.new(0)) do |auth, hsh|
-      hsh[auth.provider] += 1
-    end
+    @authentication_counts = Authentication.
+      select('provider, count(*) count').
+      group(:provider).
+      order('count(*)')
 
     @spammers = User.where(spammer: true)
     @spam_events = Event.where(spam: true)

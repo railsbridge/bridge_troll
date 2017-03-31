@@ -48,10 +48,10 @@
       </tr>
       </thead>
       <tbody>
-      <% @user_authentication_counts.keys.sort.reverse.each do |authentication_count| %>
+      <% @user_authentication_counts.each do |row| %>
         <tr>
-          <td><%= authentication_count %></td>
-          <td><%= @user_authentication_counts[authentication_count] %></td>
+          <td><%= row.authentications_count %></td>
+          <td><%= row.count %></td>
         </tr>
       <% end %>
       </tbody>
@@ -74,10 +74,10 @@
         <td>password</td>
         <td><%= User.where('encrypted_password != ?', '').count %></td>
       </tr>
-      <% @authentication_counts.each do |provider, count| %>
+      <% @authentication_counts.each do |row| %>
         <tr>
-          <td><%= provider %></td>
-          <td><%= count %></td>
+          <td><%= row.provider %></td>
+          <td><%= row.count %></td>
         </tr>
       <% end %>
       </tbody>
