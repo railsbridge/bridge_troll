@@ -96,10 +96,10 @@
       </tr>
       </thead>
       <tbody>
-      <% Region.all.each do |region| %>
+      <% @region_user_counts.each do |row| %>
         <tr>
-          <td><%= region.name %></td>
-          <td><%= region.users.count %></td>
+          <td><%= row.name %></td>
+          <td><%= row.count %></td>
         </tr>
       <% end %>
       </tbody>

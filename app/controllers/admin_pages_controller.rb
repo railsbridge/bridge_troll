@@ -17,6 +17,15 @@ class AdminPagesController < ApplicationController
       group(:provider).
       order('count(*)')
 
+    regions_users_count = <<~SQL
+      SELECT COUNT(*)
+      FROM regions_users
+      WHERE region_id = regions.id
+    SQL
+    @region_user_counts = Region.
+      select("name, (#{regions_users_count}) as count").
+      order('count')
+
     @spammers = User.where(spammer: true)
     @spam_events = Event.where(spam: true)
   end
