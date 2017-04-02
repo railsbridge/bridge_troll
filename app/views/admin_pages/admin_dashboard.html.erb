@@ -2,9 +2,9 @@
 
 <h2>Who can see this page?</h2>
 <div>
-  Your Bridge Troll admins are the following <%= pluralize(@admins.count, "people") %>:
+  Your Bridge Troll admins are the following <%= pluralize(@data.admins.length, "people") %>:
   <ul>
-    <% @admins.each do |admin| %>
+    <% @data.admins.each do |admin| %>
       <li><%= link_to admin.full_name, user_profile_path(admin) %></li>
     <% end %>
   </ul>
@@ -12,9 +12,9 @@
 
 <h2>Who can approve events?</h2>
 <div>
-  Your Bridge Troll event approvers are all the above admins plus these <%= pluralize(@publishers.count, "people") %>:
+  Your Bridge Troll event approvers are all the above admins plus these <%= pluralize(@data.publishers.length, "people") %>:
   <ul>
-    <% @publishers.each do |publisher| %>
+    <% @data.publishers.each do |publisher| %>
       <li><%= link_to publisher.full_name, user_profile_path(publisher) %></li>
     <% end %>
   </ul>
@@ -22,9 +22,9 @@
 
 <h2>Who can add external events?</h2>
 <div>
-  Your Bridge Troll external event editors are all the above admins plus these <%= pluralize(@external_event_editors.count, "people") %>:
+  Your Bridge Troll external event editors are all the above admins plus these <%= pluralize(@data.external_event_editors.length, "people") %>:
   <ul>
-    <% @external_event_editors.each do |external_event_editor| %>
+    <% @data.external_event_editors.each do |external_event_editor| %>
       <li><%= link_to external_event_editor.full_name, user_profile_path(external_event_editor) %></li>
     <% end %>
   </ul>
@@ -48,7 +48,7 @@
       </tr>
       </thead>
       <tbody>
-      <% @user_authentication_counts.each do |row| %>
+      <% @data.user_authentication_counts.each do |row| %>
         <tr>
           <td><%= row.authentications_count %></td>
           <td><%= row.count %></td>
@@ -74,7 +74,7 @@
         <td>password</td>
         <td><%= User.where('encrypted_password != ?', '').count %></td>
       </tr>
-      <% @authentication_counts.each do |row| %>
+      <% @data.authentication_counts.each do |row| %>
         <tr>
           <td><%= row.provider %></td>
           <td><%= row.count %></td>
@@ -96,7 +96,7 @@
       </tr>
       </thead>
       <tbody>
-      <% @region_user_counts.each do |row| %>
+      <% @data.region_user_counts.each do |row| %>
         <tr>
           <td><%= row.name %></td>
           <td><%= row.count %></td>
@@ -109,9 +109,9 @@
 
 <h2>Spammers</h2>
 <div>
-  <%= pluralize(@spammers.count, "user has", plural: "users have") %> been flagged as a spammer.
+  <%= pluralize(@data.spammers.length, "user has", plural: "users have") %> been flagged as a spammer.
   <ul>
-    <% @spammers.each do |spammer| %>
+    <% @data.spammers.each do |spammer| %>
       <li><%= link_to spammer.full_name, user_profile_path(spammer) %></li>
     <% end %>
   </ul>
@@ -119,9 +119,9 @@
 
 <h2>Spam events</h2>
 <div>
-  <%= pluralize(@spam_events.count, "event has", plural: "events have") %> been marked as spam.
+  <%= pluralize(@data.spam_events.length, "event has", plural: "events have") %> been marked as spam.
   <ul>
-    <% @spam_events.each do |event| %>
+    <% @data.spam_events.each do |event| %>
       <li><%= link_to event.title, event %></li>
     <% end %>
   </ul>
