@@ -14,7 +14,6 @@
         </label>
       <% end %>
       <h1>Upcoming events</h1>
-
       <% if @events.empty? %>
         <h2>There are currently no upcoming events.</h2>
       <% end %>
@@ -33,7 +32,7 @@
     </div>
 
     <p class="event-notifications">
-      Subscribe to our calendar via:
+      To stay up to date about the latest events, subscribe via 
       <%= link_to " RSS", feed_events_path(format: :rss), class: 'fa-before fa-rss' %>
       <%= link_to " Atom", feed_events_path(format: :atom), class: 'fa-before fa-rss' %> or
       <% if user_signed_in? %>
