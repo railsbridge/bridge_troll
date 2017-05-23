@@ -30,6 +30,21 @@ describe "chapter pages" do
     end
   end
 
+  it "allows authorized users to delete chapter leaders", js: true do
+    leader = create(:user)
+    chapter.leaders << leader
+
+    sign_in_as(admin)
+
+    visit chapter_path(chapter)
+
+    click_on "Edit Chapter Leaders"
+
+    click_on "Remove"
+
+    expect(page).to have_content("Removed #{leader.full_name} as chapter leader.")
+  end
+
   context "for a chapter with past events" do
     let!(:event) { create(:event, chapter: chapter) }
     let(:organizer) { create(:user) }

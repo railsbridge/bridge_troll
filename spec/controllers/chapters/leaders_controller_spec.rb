@@ -20,4 +20,20 @@ describe Chapters::LeadersController do
       expect(JSON.parse(response.body).map { |u| u['id'] }).to eq([non_leader.id])
     end
   end
+
+  describe "#destroy" do
+    before do
+      sign_in admin
+    end
+
+    it "removes a chapter leader" do
+      leader = create(:user)
+      chapter.leaders << leader
+
+      expect {
+        delete :destroy, params: {chapter_id: chapter.id, id: leader.id}
+      }.to change(chapter.leaders, :count).by(-1)
+    end
+  end
+
 end
