@@ -28,7 +28,7 @@
         <% end %>
         <%= imported_event_popover_trigger(event) %>
       </td>
-      <td class='whitespace-nowrap'>
+      <td class='whitespace-nowrap' data-order='<%= event.starts_at.to_datetime.to_i %>'>
         <%= formatted_event_date(event) %>
       </td>
       <% if event.location %>
