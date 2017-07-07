@@ -4,7 +4,7 @@
 <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Survey Results'} %>
 
 <h2>Student Survey Results</h2>
-<%= render 'results', surveys: @event.student_surveys %>
+<%= render 'results', surveys: @event.student_surveys, student_results: true %>
 
 <h2>Volunteer Survey Results</h2>
-<%= render 'results', surveys: @event.volunteer_surveys %>
+<%= render 'results', surveys: @event.volunteer_surveys, student_results: false %>
