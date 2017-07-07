@@ -17,6 +17,10 @@
 
       <%= f.input :bad_things, label: "What could have been better?", readonly: @preview  %>
 
+      <% if @preview || @rsvp.role_student? %>
+        <%= f.input :appropriate_for_skill, label: "Was the class or section you were in appropriate to your skill level? <span>Please let us know if you switched sections or classes (or wish you had), and whether your original section/class was too fast, too slow, or something else.</span>".html_safe, readonly: @preview  %>
+      <% end %>
+
       <%= f.input :other_comments, label: "Any other comments?", readonly: @preview  %>
 
       <%= f.label :recommendation_likelihood, "How likely are you to recommend this workshop to a friend or colleague? (10 is very likely, 1 is unlikely)" %>
