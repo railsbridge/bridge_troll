@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/thoughtbot/shoulda-matchers.git
+  revision: f800d62525a65f9bf001ea984ae4926a92ff5b82
+  branch: rails-5
+  specs:
+    shoulda-matchers (3.1.2)
+      activesupport (>= 4.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -320,8 +328,6 @@ GEM
       websocket (~> 1.0)
     sentry-raven (2.4.0)
       faraday (>= 0.7.6, < 1.0)
-    shoulda-matchers (3.1.1)
-      activesupport (>= 4.0.0)
     simple_form (3.4.0)
       actionpack (> 4, < 5.1)
       activemodel (> 4, < 5.1)
@@ -413,7 +419,7 @@ DEPENDENCIES
   sass-rails
   selenium-webdriver
   sentry-raven
-  shoulda-matchers
+  shoulda-matchers!
   simple_form
   sqlite3
   uglifier
@@ -423,4 +429,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.14.2
+   1.14.6
