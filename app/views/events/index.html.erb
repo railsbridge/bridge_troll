@@ -13,8 +13,13 @@
                                  class: 'region-select form-control cross-browser-select' %>
         </label>
       <% end %>
+      
       <h1>Upcoming events</h1>
-
+      <p>All events are organized by volunteers who are inspired by our mission
+      to empower people with technology through teaching and facilitating access,
+      enlarging the community of people who give back and teach others.
+      </p>
+                                  
       <% if @events.empty? %>
         <h2>There are currently no upcoming events.</h2>
       <% end %>
@@ -45,6 +50,23 @@
 
     <% if user_signed_in? %>
       <h1>Get Involved</h1>
+      <p>Volunteers independently organize events using our online
+      tools and open source curricula. In order to participate, everyone must 
+      agree to our <a href="https://bridgefoundry.org/code-of-conduct">code of conduct</a>, 
+      so the volunteers can work together with the students to create a safe 
+      and effective learning environment for everyone.</p>
+      <p>Most classes are led by working software developers who have a lot of
+      knowledge and want to share their joy of coding in specific language or
+      framework. Some teachers are just a little bit ahead of students. Usually
+      there are many volunteers with a range of experience who can help answer
+      questions and connect you to resources if you want to keep learning on your
+      own.</p>
+      
+      <p>Bridge Foundry offers volunteer teacher training and mentors
+      new organizers, including guidance on how to create a safe and effective
+      learning environment. There are <a href="https://docs.google.com/forms/d/1zkxx0Ao5xeg-epedPl1zw4aZ-JKYVNc6yxx0tVSGYJo/viewform?edit_requested=true">
+      lots of ways to volunteer</a>.</p>
+  
       <% links = [
         ['Organize Event', new_event_path],
         ['Locations', locations_path],
@@ -60,8 +82,11 @@
       <%= render 'shared/actions', links: links, additional_class: 'no-margin' %>
     <% end %>
 
+
     <div class='past-events'>
       <h1>Past events</h1>
+      <p>Hundreds of workshops in dozens of cities around the world have been
+      organized and taught by volunteers, based on our open source curricula.</p>
       <%= render 'shared/past_events_table' %>
 
     </div>
