@@ -8,4 +8,9 @@
       <img alt='Confirm your account!' src="http://<%= Rails.configuration.action_mailer.default_url_options[:host] %>/email_images/confirm_account.gif">
     <% end %>
   </p>
+
+  <p>
+    Should the image above not load for any reason, click here:
+      <%= link_to "Sign up to Bridge Troll", confirmation_url(@resource, confirmation_token: @token) %>
+  </p>
 </div>
