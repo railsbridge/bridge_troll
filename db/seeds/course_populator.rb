@@ -706,6 +706,43 @@ concepts, like collections and scope.',
             ]
           }
         ]
+      }, {
+        id: 19,
+        name: 'Test Driven Development',
+        title: 'TDD with React',
+        description: 'This is an event for Test Driven Development with React. The focus will be on developing React components with a test-first approach. In this workshop, participants will learn the basics of unit and feature testing with the library Jasmine while building React components. A basic knowledge of React is recommended.',
+        levels: [
+          {
+            level: 2,
+            color: 'green',
+            title: 'Somewhat New to TDD',
+            level_description: [
+              'You know what a variable and a function is in Javascript',
+              'You know how to create a basic React component',
+              'You may have heard of testing but never written any tests'
+            ]
+          }, {
+            level: 3,
+            color: 'gold',
+            title: 'Some TDD Experience',
+            level_description: [
+              'You know how to write simple assertions',
+              'You might have completed a TDD tutorial or two',
+              'You have a general understanding of the React lifecycle and writing change handlers',
+              'You are comfortable using the terminal, but not necessarily a Power User'
+            ]
+          }, {
+            level: 4,
+            color: 'orange',
+            title: 'Other TDD Experience',
+            level_description: [
+              'You have heard of mocks or spies and may have tried using them in your specs',
+              'You are proficient in a testing framework in another language',
+              'You are an intermediate-level developer',
+              'You are familiar with version control and basic web architecture'
+            ]
+          }
+        ]
       }
     ]
   end
