@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe EventEmailPresenter do
   subject(:presenter) { EventEmailPresenter.new(event_email) }
-  let(:event_email) { FactoryGirl.create(:event_email, event: event) }
+  let(:event_email) { FactoryBot.create(:event_email, event: event) }
 
-  let(:event) { FactoryGirl.create(:event) }
-  let!(:volunteer_rsvp) { FactoryGirl.create(:volunteer_rsvp, event: event) }
-  let!(:student_accepted_rsvp) { FactoryGirl.create(:student_rsvp, event: event) }
-  let!(:student_waitlisted_rsvp) { FactoryGirl.create(:student_rsvp, event: event, waitlist_position: 1) }
+  let(:event) { FactoryBot.create(:event) }
+  let!(:volunteer_rsvp) { FactoryBot.create(:volunteer_rsvp, event: event) }
+  let!(:student_accepted_rsvp) { FactoryBot.create(:student_rsvp, event: event) }
+  let!(:student_waitlisted_rsvp) { FactoryBot.create(:student_rsvp, event: event, waitlist_position: 1) }
 
   describe '#rsvps' do
     it 'presents the rsvps for the event' do

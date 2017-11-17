@@ -75,7 +75,7 @@ describe RsvpMailer do
   end
 
   describe 'the reminder email' do
-    let(:rsvp) { FactoryGirl.create(:rsvp) }
+    let(:rsvp) { FactoryBot.create(:rsvp) }
     let(:mail) { RsvpMailer.reminder(rsvp) }
 
     it 'is sent to the user' do
@@ -93,7 +93,7 @@ describe RsvpMailer do
   end
 
   describe 'the email when someone gets off the waitlist' do
-    let(:rsvp) { FactoryGirl.create(:student_rsvp) }
+    let(:rsvp) { FactoryBot.create(:student_rsvp) }
     let(:mail) { RsvpMailer.off_waitlist(rsvp) }
 
     it 'is sent to the user' do

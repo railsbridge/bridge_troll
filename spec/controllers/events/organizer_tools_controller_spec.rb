@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Events::OrganizerToolsController do
-  let(:event) { FactoryGirl.create(:event) }
+  let(:event) { FactoryBot.create(:event) }
   let(:admin) { create(:admin) }
 
   describe "GET #index" do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe "FactoryGirl factories" do
-  FactoryGirl.factories.map(&:name).uniq.each do |factory_name|
+describe "FactoryBot factories" do
+  FactoryBot.factories.map(&:name).uniq.each do |factory_name|
     next if factory_name.to_s.starts_with?('event')
 
     it "has a valid #{factory_name} factory" do

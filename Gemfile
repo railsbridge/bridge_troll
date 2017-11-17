@@ -72,7 +72,7 @@ end
 
 group :test do
   gem 'webmock'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'capybara'
   gem 'poltergeist', require: false
   gem 'selenium-webdriver', require: false

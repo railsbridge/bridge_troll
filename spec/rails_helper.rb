@@ -69,7 +69,7 @@ RSpec.configure do |config|
   config.include EventFormHelper, type: :feature
   config.include FormHelper, type: :feature
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   [:feature, :request].each do |type|
     config.include Warden::Test::Helpers, type: type

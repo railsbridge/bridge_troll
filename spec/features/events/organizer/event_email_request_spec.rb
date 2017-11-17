@@ -4,8 +4,8 @@ RSpec.describe 'Sending an event email', js: true do
   let(:recipients) do
     JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to']
   end
-  let!(:event) { FactoryGirl.create(:event, student_rsvp_limit: 1) }
-  let(:organizer) { FactoryGirl.create(:user) }
+  let!(:event) { FactoryBot.create(:event, student_rsvp_limit: 1) }
+  let(:organizer) { FactoryBot.create(:user) }
 
   def choose_dropdown_option(dropdown_name, dropdown_option)
     click_button dropdown_name
@@ -15,22 +15,22 @@ RSpec.describe 'Sending an event email', js: true do
   end
 
   before do
-    FactoryGirl.create(:rsvp, user: organizer, event: event, role: Role::ORGANIZER)
+    FactoryBot.create(:rsvp, user: organizer, event: event, role: Role::ORGANIZER)
 
-    no_show_volunteer = FactoryGirl.create(:user)
-    FactoryGirl.create(:volunteer_rsvp, user: no_show_volunteer, event: event)
+    no_show_volunteer = FactoryBot.create(:user)
+    FactoryBot.create(:volunteer_rsvp, user: no_show_volunteer, event: event)
 
-    reliable_volunteer = FactoryGirl.create(:user, first_name: 'Sheila', last_name: 'Cool')
-    reliable_rsvp = FactoryGirl.create(:volunteer_rsvp, user: reliable_volunteer, event: event)
+    reliable_volunteer = FactoryBot.create(:user, first_name: 'Sheila', last_name: 'Cool')
+    reliable_rsvp = FactoryBot.create(:volunteer_rsvp, user: reliable_volunteer, event: event)
     reliable_rsvp.rsvp_sessions.first.update(checked_in: true)
 
-    accepted_student = FactoryGirl.create(:user, first_name: 'Mark', last_name: 'Mywords')
-    FactoryGirl.create(:student_rsvp, user: accepted_student, event: event)
+    accepted_student = FactoryBot.create(:user, first_name: 'Mark', last_name: 'Mywords')
+    FactoryBot.create(:student_rsvp, user: accepted_student, event: event)
 
-    waitlisted_student = FactoryGirl.create(:user)
-    FactoryGirl.create(:student_rsvp, user: waitlisted_student, event: event, waitlist_position: 1)
+    waitlisted_student = FactoryBot.create(:user)
+    FactoryBot.create(:student_rsvp, user: waitlisted_student, event: event, waitlist_position: 1)
 
-    FactoryGirl.create(:user, email: 'unrelated_user@example.com')
+    FactoryBot.create(:user, email: 'unrelated_user@example.com')
 
     sign_in_as(organizer)
     visit event_organizer_tools_path(event)
