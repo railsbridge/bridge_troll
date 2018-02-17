@@ -16,7 +16,7 @@ env:
 before_install:
   - 'npm install'
   - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
-  - "rvm @global do gem uninstall bundler -x && gem install bundler"
+  - "gem install bundler"
 before_script:
   - 'bundle exec rake bower:install:development'
   - "./config/before-travis.sh"
