@@ -53,7 +53,6 @@ gem 'backbone-on-rails'
 group :development do
   gem 'rb-fsevent'
   gem 'bullet'
-  gem 'heroku_san'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'byebug'
