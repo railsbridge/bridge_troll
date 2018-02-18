@@ -409,11 +409,12 @@ describe EventsController do
       end
 
       describe "with valid params" do
+        let(:caracas_zone) { 'Caracas' }
         let(:update_params) {
           {
             "title" => "Updated event title",
             "details" => "Updated event details",
-            "time_zone" => "Caracas"
+            "time_zone" => caracas_zone
           }
         }
 
@@ -440,7 +441,8 @@ describe EventsController do
         it "sets the event's session times in the event's time zone" do
           make_request(update_params)
           event_session = event.reload.event_sessions.last
-          expect(event_session.starts_at.zone).to eq('VET')
+          caracas_zone_string = Time.now.in_time_zone(caracas_zone).zone
+          expect(event_session.starts_at.zone).to eq(caracas_zone_string)
         end
 
         context 'when the event was previously in a draft state' do
