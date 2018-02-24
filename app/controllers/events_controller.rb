@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :feed, :show, :levels]
-  before_action :find_event, except: [:index, :show, :feed, :create, :new]
+  before_action :authenticate_user!, except: [:index, :feed, :show, :levels, :past_events]
+  before_action :find_event, except: [:index, :show, :feed, :create, :new, :past_events]
   before_action :set_time_zone, only: [:create, :update]
   before_action :set_empty_location, only: [:new, :create]
 
@@ -21,7 +21,14 @@ class EventsController < ApplicationController
     end
   end
 
-  def feed
+    def past_events
+    skip_authorization
+        @events = Event.past.published_or_visible_to(current_user)
+                    .includes(:location, :region, :chapter, :organization, event_sessions: :location)
+        @event_regions = @events.map(&:region).compact.uniq
+    end
+  
+    def feed
     skip_authorization
     @events = Event.upcoming.published_or_visible_to(current_user).includes(:event_sessions, :location, :region)
 
