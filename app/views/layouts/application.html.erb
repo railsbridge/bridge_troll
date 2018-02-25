@@ -51,15 +51,18 @@
 
       <%= yield %>
     </div>
+
     <footer class="hide">
+      <div class="trollholder"><%= image_tag asset_path('troll.svg'), alt: '' %></div>  
+      <div class="container center footerlinks">
+        <%= link_to "About Bridge Foundry", "https://bridgefoundry.org/about" %>
+        <%= link_to "Past events", "https://github.com/railsbridge/bridge_troll" %>
+        <%= link_to "Code of Conduct", "https://bridgefoundry.org/code-of-conduct" %>
+        <%= link_to "Source Code", "https://github.com/railsbridge/bridge_troll" %>
+        <%= link_to "Report a Bug", "https://github.com/railsbridge/bridge_troll/issues" %>
+      </div>
+    </footer>
 
-            <%= link_to "About Bridge Foundry", "https://bridgefoundry.org/about" %>
-            <%= link_to "Past events", "https://github.com/railsbridge/bridge_troll" %>
-            <%= link_to "Code of Conduct", "https://bridgefoundry.org/code-of-conduct" %>
-            <%= link_to "Source Code", "https://github.com/railsbridge/bridge_troll" %>
-            <%= link_to "Report a Bug", "https://github.com/railsbridge/bridge_troll/issues" %>
-
-      <div class="trollholder"><%= image_tag asset_path('troll.svg'), alt: '' %></div></footer>
     <% unless current_user %>
       <%= render 'shared/sign_in_dialog' %>
     <% end %>
