@@ -16,7 +16,8 @@ class ApplicationController < ActionController::Base
 
   before_action do
     if force_ssl
-      response.set_header("Strict-Transport-Security", "max-age=3600; includeSubDomains")
+      # See https://hstspreload.org/?domain=bridgetroll.org for information about HSTS preloading.
+      response.set_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
     end
   end
 
