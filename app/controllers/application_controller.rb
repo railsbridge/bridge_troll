@@ -14,6 +14,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  before_action do
+    if force_ssl
+      response.set_header("Strict-Transport-Security", "max-age=3600; includeSubDomains")
+    end
+  end
+
   rescue_from(ActionView::MissingTemplate) do |e|
     if request.format != :html
       head(:not_acceptable)
