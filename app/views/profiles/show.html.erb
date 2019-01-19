@@ -3,6 +3,17 @@
 <div class="user-profile">
   <%= render 'shared/profile_gravatars' %>
 
+  <% if @user.org_leader? %>
+    <section>
+      <h3>Leadership</h3>
+        <ul>
+        <% @user.organization_leaderships.each do |leadership| %>
+          <%= content_tag(:li, link_to(leadership.organization.name, leadership.organization)) %>
+        <% end %>
+        </ul>
+    </section>
+  <% end %>
+
   <section>
     <h3>Skills</h3>
     <% if has_skills(@user) %>
@@ -15,6 +26,7 @@
       N/A
     <% end %>
   </section>
+
 
   <% if @profile.other.present? %>
     <section>
