@@ -42,3 +42,5 @@ custom_plan.rb
 # bower-rails
 vendor/assets/bower_components
 node_modules
+
+coverage
