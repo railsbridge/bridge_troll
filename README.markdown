@@ -44,7 +44,7 @@ git clone https://github.com/username/bridge_troll.git
 cd bridge_troll
 ```
 
-Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run: `rvm install 2.3.1`. For rbenv, run: `rbenv install 2.3.1`.
+Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run: `rvm install 2.5.1`. For rbenv, run: `rbenv install 2.5.1`.
 
 Finish setting up your environment
 ```
@@ -56,11 +56,11 @@ To verify your environment is set up correctly, run the server
 rails s
 ```
 
-Go to http://localhost:3000/ and verify your success! You can play with the app locally to become more familiar with it. 
+Go to http://localhost:3000/ and verify your success! You can play with the app locally to become more familiar with it.
 
 Pro-tip: Confirming Users Locally
 * outgoing emails are logged, so if you scroll back in your terminal window, you can see the contents of the confirmation email and copy/paste the confirmation link into your browser
-* or create a valid user for most recent signup, run `rails console`: `User.last.confirm!` 
+* or create a valid user for most recent signup, run `rails console`: `User.last.confirm!`
 
 ### Running tests
 
@@ -133,7 +133,7 @@ You can see rendered versions of all emails the application can send at http://l
 
 If you are just getting started, skip these steps for now.
 
-When developing the parts of Bridge Troll that communicate with external services such as meetup and authentication, you will need to use API keys, which are most easily managed with environment variables. Environment variables control various aspects of how your code runs. 
+When developing the parts of Bridge Troll that communicate with external services such as meetup and authentication, you will need to use API keys, which are most easily managed with environment variables. Environment variables control various aspects of how your code runs.
 
 To set up environment variables for the Rails server, you'll need to create an `.env` file in the Bridge Troll directory. Here's a sample one (note these are not real API keys):
 
