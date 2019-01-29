@@ -93,6 +93,7 @@ Bridgetroll::Application.routes.draw do
       end
 
       get :feed
+      get :past_events
     end
 
     member do
