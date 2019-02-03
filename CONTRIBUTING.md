@@ -1,5 +1,11 @@
 If you're new to open source, check out our guide on [how to add features](https://github.com/railsbridge/bridge_troll/wiki/How-to-add-features).
 
+Please join the [bridge-troll email list](https://groups.google.com/forum/?fromgroups#!forum/bridge-troll). We need all kinds of help:
+* organizers, teachers and students who want to help validate that our new improvements don't negatively affect current behavior, as well as advocating for changes you need   
+* visual and interaction designers
+* developers of Ruby, JavaScript, HTML, CSS
+* writers of documentation and important text that helps people understand how to make great events happen!
+
 #### Bugs
 * If you see a bug in the code (or the running app), check the [GitHub issues](https://github.com/railsbridge/bridge_troll/issues) and comment on the issue if there is one.  If you know how to fix it, go for it! If you don't know how to fix it, please create a new issue. We're using GitHub issues for bug tracking and new features.
 
