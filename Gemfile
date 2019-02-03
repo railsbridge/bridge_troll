@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.5.1'
+ruby '2.5.3'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
@@ -60,7 +60,7 @@ group :development do
 end
 
 group :test, :development do
-  gem 'jasmine'
+  gem 'jasmine', '~> 2.6.0'
   gem 'jasmine-jquery-rails'
   gem 'sqlite3'
   gem 'rspec-rails'
@@ -71,8 +71,8 @@ end
 
 group :test do
   gem 'webmock'
-  gem 'factory_bot_rails'
-  gem 'capybara'
+  gem 'factory_bot_rails', '4.8.2'
+  gem 'capybara', '2.13.0'
   gem 'poltergeist', require: false
   gem 'selenium-webdriver', require: false
   gem 'launchy'
