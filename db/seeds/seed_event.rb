@@ -22,7 +22,7 @@ module Seeder
       role: Role::VOLUNTEER,
       subject_experience: Faker::Lorem.sentence,
       teaching_experience: Faker::Lorem.sentence,
-      job_details: Faker::Name.title
+      job_details: Faker::Job.title
     }.merge(options)
 
     rsvp = Rsvp.new(rsvp_params)
@@ -36,7 +36,7 @@ module Seeder
     rsvp_params = {
       role: Role::STUDENT,
       operating_system: OperatingSystem.all.sample,
-      job_details: Faker::Name.title
+      job_details: Faker::Job.title
     }.merge(options)
 
     rsvp = Rsvp.new(rsvp_params)
