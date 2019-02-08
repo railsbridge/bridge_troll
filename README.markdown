@@ -67,7 +67,8 @@ Pro-tip: Confirming Users Locally
 This project has many tests that you should run before submitting a pull request, even if it's just a simple text change. You will need to install PhantomJS to run the tests. On OSX with Homebrew, try
 ```
 brew update
-brew install phantomjs
+brew tap homebrew/cask
+brew cask install phantomjs
 ```
 
 If you are on a Ubuntu-based linux distribution, you can try
