@@ -1,0 +1,85 @@
+<div class='actions'>
+  <button class='btn add-section hide-on-projector'>
+    <i class='fa fa-plus-square'></i>Add Section
+  </button>
+  <button class='btn projector-mode'>
+    {{#if projectorMode}}
+      <i class='fa fa-random'></i>Arranging Mode
+    {{else}}
+      <i class='fa fa-laptop'></i>Projector Mode
+    {{/if}}
+  </button>
+  {{#if upcoming}}
+    <button class='btn auto-arrange-choices hide-on-projector'>
+      Auto-Arrange
+    </button>
+  {{/if}}
+  <div class="dropdown">
+    <button class='btn dropdown-toggle'>
+      Options
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li class='show-os'>
+        <a>
+          {{#if showOS}}Hide Student OS{{else}}Show Student OS{{/if}}
+        </a>
+      </li>
+      <li class='poll-for-changes'>
+        <a>
+          {{#if polling}}
+            <i class='fa fa-spin fa-spinner'></i> Stop Polling
+          {{else}}
+            Poll for Changes
+          {{/if}}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <button class='btn show-help hide-on-projector'>
+    <i class='fa fa-question-circle' style="margin-right: 0;"></i>
+  </button>
+  <div class='section-checkin-highlight-legend'>
+    <div>
+      Highlighting checkins for:
+      <div class='dropdown'>
+        <a class='dropdown-toggle' href='#'>{{selectedSession.name}} <b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+          {{#each sessions}}
+            <li><a tabindex="-1" data-id="{{this.id}}" class='section-highlight-link' href="#">{{this.name}}</a></li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+    <div class='pull-right'>
+      <strong>{{checkinCounts.students.checkedIn}}/{{checkinCounts.students.total}}</strong> Students,
+      <strong>{{checkinCounts.volunteers.checkedIn}}/{{checkinCounts.volunteers.total}}</strong> Volunteers
+    </div>
+  </div>
+  {{#if showOS}}
+    <div class='student-os-key'>
+      <div class='swatch linux'></div>Linux
+      <div class='swatch osx'></div>OSX
+      <div class='swatch windows'></div>Windows
+    </div>
+  {{/if}}
+</div>
+{{#if upcoming}}
+  {{#unless hasSections}}
+    <div class='auto-assign-reminder'>
+      Click the 'Auto Arrange' button above to get started!
+    </div>
+  {{/unless}}
+{{/if}}
+<div class='masonry-container'></div>
+{{#unless projectorMode}}
+  <div class='bridgetroll-section-level level0'></div>
+{{/unless}}
+{{#each levels}}
+  <div class='bridgetroll-section-level level{{this.index}}'>
+    <div class='bridgetroll-section-title header level{{this.index}} level-{{this.color}}'>
+      {{capitalize this.color}}
+      <a href="levels" target="_blank"><i class='fa fa-info-circle info'></i></a>
+    </div>
+  </div>
+{{/each}}
