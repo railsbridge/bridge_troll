@@ -476,13 +476,23 @@ class CoursePopulator
         description: 'This is a Clojure event. The focus will be on programming in Clojure.',
         levels: [
           {
-            level: 4,
-            color: 'orange',
+            level: 1,
+            color: 'green',
+            title: "New to Programming",
+            level_description: [
+              'You have little to no experience with programming',
+              'You might have done a little bit with HTML or CSS, but not necessarily',
+              'You\'re unfamiliar with terms like functions, lists, maps',
+            ]
+          },
+          {
+            level: 2,
+            color: 'blue',
             title: 'Other Programming Experience',
             level_description: [
-              'You\'re proficient in another language and understand general programming
+              'You are experienced in another language and understand general programming
 concepts, like collections and scope.',
-              'You\'re new to Clojure or functional programming',
+              'You are new to Clojure or functional programming',
               'You are familiar with version control and basic web architecture'
             ]
           }
