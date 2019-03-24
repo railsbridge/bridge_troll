@@ -488,6 +488,16 @@ class CoursePopulator
           {
             level: 2,
             color: 'blue',
+            title: "Somewhat New to Programming",
+            level_description: [
+              'You know what a function is',
+              'You might have done an online programming tutorial or two',
+              'You may have used the terminal a little — to change directories, for instance'
+            ]
+          },
+          {
+            level: 4,
+            color: 'gold',
             title: 'Other Programming Experience',
             level_description: [
               'You are experienced in another language and understand general programming
@@ -496,6 +506,7 @@ concepts, like collections and scope.',
               'You are familiar with version control and basic web architecture'
             ]
           }
+
         ]
       }, {
         id: 12,
