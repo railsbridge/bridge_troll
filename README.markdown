@@ -17,6 +17,8 @@ New? Keep reading this, and then read the [contributor guidelines](CONTRIBUTING.
 * The staging server lives at [bridgetroll-staging.herokuapp.com](http://bridgetroll-staging.herokuapp.com/)
 * The continuous integration server is at [travis-ci.org/railsbridge/bridge_troll](http://travis-ci.org/railsbridge/bridge_troll)
 
+The wiki has more details on how production and staging are setup ([Deploying the App](https://github.com/railsbridge/bridge_troll/wiki/Deploying-the-App))
+
 ### Features & Bugs
 * We use [GitHub Issues](https://github.com/railsbridge/bridge_troll/issues?state=open) for tracking bugs and features.
  * Issues marked as [Help Wanted](https://github.com/railsbridge/bridge_troll/issues?q=is%3Aissue+is%3Aopen+label%3A%22Help+Wanted%22) are ready to go, so pick one up!
