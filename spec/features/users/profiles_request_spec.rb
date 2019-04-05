@@ -97,4 +97,16 @@ describe "Profile" do
       expect(page).to have_content("BridgeBridge")
     end
   end
+  context "when the user is an organization leader" do
+    before do
+      org = create(:organization, name: 'FooBridge')
+      org.leaders << @user
+    end
+
+    it "is able to see which organizations they lead" do
+      visit user_profile_path(@user)
+      expect(page).to have_content("Leadership")
+      expect(page).to have_content("FooBridge")
+    end
+  end
 end

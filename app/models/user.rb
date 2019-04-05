@@ -84,4 +84,8 @@ class User < ActiveRecord::Base
   def event_checkiner?(event)
     event_attendance(event)[:checkiner]
   end
+
+  def org_leader?
+    organization_leaderships.count > 0
+  end
 end

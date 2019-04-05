@@ -56,4 +56,21 @@ describe User do
       expect(@user.profile_path).to eq(Rails.application.routes.url_helpers.user_profile_path(@user))
     end
   end
+  describe '#org_leader?' do
+    it 'returns false when the user is not a organization leader' do
+      expect(@user.org_leader?).to be_falsey
+    end
+
+    context "when the user is an organization leader" do
+      before do
+        org = create(:organization, name: 'FooBridge')
+        org.leaders << @user
+      end
+
+      it "returns true" do
+        expect(@user.org_leader?).to be_truthy
+      end
+    end
+
+  end
 end
