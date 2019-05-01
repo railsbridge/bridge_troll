@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-ruby "2.5.3"
+ruby '2.5.3'
+
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'rails', '~> 5.0.0'
@@ -75,7 +76,7 @@ group :test do
   gem 'poltergeist', require: false
   gem 'selenium-webdriver', require: false
   gem 'launchy'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'faker'
   gem 'capybara-screenshot'
   gem 'database_cleaner'
