@@ -1,6 +1,21 @@
 # Deployment Docs
 
-The app is deployed on Heroku with staging and production servers.  Everyone with commit privileges to this repo, should be able to push to staging, since we should update staging whenever we update the code.  If you don't have access and you are ready to accept a pull request, ask a [project admin](Project-Admins).
+The app is deployed on Heroku with staging and production servers.  Everyone with commit privileges to this repo, should be able to push to staging, since we should update staging whenever we update the code.  If you don't have access and you think you should, ask a [project admin](Project-Admins).
+
+## Backups
+
+We have daily backups:
+
+```
+heroku pg:backups schedules --app bridgetroll
+
+=== Backup Schedules
+HEROKU_POSTGRESQL_RED_URL: daily at 2:00 America/Los_Angeles
+```
+
+For more info, see [Heroku PGBackups docs](https://devcenter.heroku.com/articles/heroku-postgres-backups).
+
+## production and staging git config
 
 Here's a sample .git/config:
 
