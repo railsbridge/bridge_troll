@@ -21,14 +21,11 @@ class EventsController < ApplicationController
     end
   end
 
-    def past_events
+  def past_events
     skip_authorization
-        @events = Event.past.published_or_visible_to(current_user)
-                    .includes(:location, :region, :chapter, :organization, event_sessions: :location)
-        @event_regions = @events.map(&:region).compact.uniq
-    end
-  
-    def feed
+  end
+
+  def feed
     skip_authorization
     @events = Event.upcoming.published_or_visible_to(current_user).includes(:event_sessions, :location, :region)
 
