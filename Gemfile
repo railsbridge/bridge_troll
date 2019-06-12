@@ -42,7 +42,7 @@ if ENV['FORCE_POSTGRES']
 end
 
 gem 'handlebars_assets'
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'bootstrap-sass'
