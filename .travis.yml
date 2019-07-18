@@ -16,7 +16,8 @@ env:
 before_install:
   - 'npm install'
   - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
-  - "rvm @global do gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)""
+  - gem update --system
+  - "rvm @global do gem install bundler"
 before_script:
   - 'bundle exec rake bower:install:development'
   - "./config/before-travis.sh"
