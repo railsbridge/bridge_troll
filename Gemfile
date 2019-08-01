@@ -77,7 +77,7 @@ group :test do
   gem 'poltergeist', require: false
   gem 'selenium-webdriver', require: false
   gem 'launchy'
-  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem 'shoulda-matchers'
   gem 'faker'
   gem 'capybara-screenshot'
   gem 'database_cleaner'
