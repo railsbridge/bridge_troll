@@ -1,7 +1,7 @@
 language: ruby
 rvm:
   - 2.6.3
-bundler_args: "--without development --without production --deployment"
+bundler_args: "--without development production --deployment"
 cache:
   bundler: true
   directories:
