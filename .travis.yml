@@ -22,8 +22,7 @@ matrix:
 before_install:
   - 'npm install'
   - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
-  # See: https://bundler.io/blog/2019/05/14/solutions-for-cant-find-gem-bundler-with-executable-bundle.html
-  - 'rvm @global do gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"'
+  - 'gem update bundler'
 before_script:
   - 'bundle exec rake bower:install:development'
   - "./config/before-travis.sh"
