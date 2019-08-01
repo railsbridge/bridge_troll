@@ -23,7 +23,7 @@ before_install:
   - 'npm install'
   - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
   - 'gem update --system'
-  - 'gem update bundler'
+  - 'gem install bundler'
 before_script:
   - 'bundle exec rake bower:install:development'
   - "./config/before-travis.sh"
