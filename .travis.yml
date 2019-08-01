@@ -20,6 +20,7 @@ matrix:
   - env: DO_NOT_FORCE_POSTGRES=true
 
 before_install:
+  - 'env'
   - 'npm install'
   - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
   - 'gem update --system'
