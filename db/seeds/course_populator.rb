@@ -764,6 +764,38 @@ concepts, like collections and scope.',
             ]
           }
         ]
+      },
+      {
+        id: 20,
+        name: 'Learn to code with Scala',
+        title: 'Learn to code with Scala',
+        description: 'This is a Scala event. At the end of the day, you will have learned to code and to create a couple of fun applications in Scala yourself. ',
+        levels: [
+          {
+            level: 1,
+            color: 'blue',
+            title: 'Beginner',
+            level_description: [
+              'You have never worked with any programming languages before'
+            ]
+          }, {
+            level: 2,
+            color: 'green',
+            title: 'Advanced Beginner',
+            level_description: [
+              'You have worked with other programming languages and know some programming concepts',
+              'You have not worked with Scala before'
+            ]
+          }, {
+            level: 3,
+            color: 'orange',
+            title: 'Novice Scala developer',
+            level_description: [
+              'You have tried Scala before but have no professional experience with it',
+              'Or you have used another functional programming language such as Haskell before'
+            ]
+          }
+        ]
       }
     ]
   end
