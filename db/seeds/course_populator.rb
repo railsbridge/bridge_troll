@@ -787,7 +787,7 @@ concepts, like collections and scope.',
               'You have not worked with Scala before'
             ]
           }, {
-            level: 4,
+            level: 3,
             color: 'orange',
             title: 'Novice Scala developer',
             level_description: [
