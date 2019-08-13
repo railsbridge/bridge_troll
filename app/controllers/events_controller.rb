@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :feed, :show, :levels, :past_events]
-  before_action :find_event, except: [:index, :show, :feed, :create, :new, :past_events]
+  before_action :authenticate_user!, except: [:index, :feed, :show, :levels]
+  before_action :find_event, except: [:index, :show, :feed, :create, :new]
   before_action :set_time_zone, only: [:create, :update]
   before_action :set_empty_location, only: [:new, :create]
 
@@ -19,10 +19,6 @@ class EventsController < ApplicationController
         send_data EventList.new(EventList::ALL).to_csv, type: :csv
       end
     end
-  end
-
-  def past_events
-    skip_authorization
   end
 
   def feed

@@ -581,22 +581,4 @@ describe EventsController do
       end
     end
   end
-
-  describe "GET past_events" do
-    render_views
-
-    let(:past_events_table_id) { "table#past-events-table" }
-
-    before do
-      get :past_events
-    end
-
-    it "allows non-signed in users to view page" do
-      expect(response).to be_success
-    end
-
-    it "displays the Past Events table" do
-      expect(Nokogiri::XML.parse(response.body).css(past_events_table_id).length).to eq(1)
-    end
-  end
 end

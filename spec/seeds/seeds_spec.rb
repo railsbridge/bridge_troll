@@ -14,12 +14,10 @@ describe "#seed_event" do
   it "can safely re-seed multiple times" do
     Seeder.seed_event(students_per_level_range: (1..1))
     Seeder.seed_multiple_location_event
-    Seeder.seed_past_event
 
     Seeder.seed_event(students_per_level_range: (1..1))
     Seeder.seed_multiple_location_event
-    Seeder.seed_past_event
-    expect(Event.count).to eq(3)
+    expect(Event.count).to eq(2)
   end
 
   it 'does not destroy users that get accidentally associated to the event' do
