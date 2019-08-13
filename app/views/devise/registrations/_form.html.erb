@@ -105,7 +105,7 @@
               <i class='fa <%= provider[:icon] %>'></i>
               <%= provider[:name] %> (UID <%= existing_authentication.uid %>)
             <% else %>
-              <%= link_to omniauth_authorize_path(:user, provider[:key]) do %>
+              <%= link_to omniauth_authorize_path(:user, provider[:key]), method: :post do %>
                 <i class='fa <%= provider[:icon] %>'></i>
                 Associate with <%= provider[:name] %>
               <% end %>
