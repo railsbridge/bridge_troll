@@ -10,7 +10,7 @@ class EventMailer < BaseMailer
     set_recipients(options[:recipients], options[:cc])
 
     mail(
-      from: "#{@sender.full_name} <#{@sender.email}>",
+      reply_to: "#{@sender.full_name} <#{@sender.email}>",
       subject: options[:subject]
     )
   end
