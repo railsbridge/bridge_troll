@@ -185,11 +185,12 @@ describe Rsvp do
 
   describe "#level_title" do
     let(:event) do
-      build(:event_with_no_sessions).tap do |event|
-        @session_no_options = build(:event_session, event: event, required_for_students: false, volunteers_only: false)
-        event.event_sessions << @session_no_options
-        event.save!
-      end
+      event = build(:event_with_no_sessions)
+      @session_no_options = build(:event_session, event: event, required_for_students: false, volunteers_only: false)
+      event.course = create(:course)
+      event.event_sessions << @session_no_options
+      event.save!
+      event
     end
 
     describe "for students" do

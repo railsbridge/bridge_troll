@@ -5,7 +5,7 @@ describe "FactoryBot factories" do
     next if factory_name.to_s.starts_with?('event')
 
     it "has a valid #{factory_name} factory" do
-      expect(build(factory_name)).to be_valid
+      expect(create(factory_name)).to be_persisted
     end
   end
 end

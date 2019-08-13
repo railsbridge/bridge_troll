@@ -24,7 +24,7 @@ gem 'gravatar_image_tag'
 gem 'simple_form'
 gem 'rack-canonical-host'
 gem 'icalendar'
-gem 'rack-mini-profiler'
+gem 'rack-mini-profiler', require: false
 gem 'bower-rails'
 gem 'nearest_time_zone'
 gem 'rack-cors'
@@ -72,7 +72,7 @@ end
 
 group :test do
   gem 'webmock'
-  gem 'factory_bot_rails', '4.8.2'
+  gem 'factory_bot_rails'
   gem 'capybara'
   gem 'poltergeist', require: false
   gem 'selenium-webdriver', require: false
