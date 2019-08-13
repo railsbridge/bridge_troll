@@ -29,7 +29,7 @@ describe "New Event", js: true do
 
     label = "What email address should users contact you at with questions?"
     expect(page).to have_field(label)
-    expect(page.field_labeled(label)[:value]).to eq("organizer@mail.com")
+    expect(page.find_field(label)[:value]).to eq("organizer@mail.com")
   end
 
   it "has the code of conduct checkbox unchecked" do
