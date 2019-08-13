@@ -1,7 +1,7 @@
 language: ruby
 rvm:
-  - 2.5.3
-bundler_args: "--without development --without production --deployment"
+  - 2.6.3
+bundler_args: "--without development production --deployment"
 cache:
   bundler: true
   directories:
@@ -20,10 +20,11 @@ matrix:
   - env: DO_NOT_FORCE_POSTGRES=true
 
 before_install:
+  - 'env'
   - 'npm install'
-  - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
-  # See: https://bundler.io/blog/2019/05/14/solutions-for-cant-find-gem-bundler-with-executable-bundle.html
-  - 'rvm @global do gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"'
+  - 'echo ''gem: --no-document'' > ~/.gemrc'
+  - 'gem update --system'
+  - 'gem install bundler'
 before_script:
   - 'bundle exec rake bower:install:development'
   - "./config/before-travis.sh"
