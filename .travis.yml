@@ -7,12 +7,18 @@ cache:
   directories:
     - node_modules
     - vendor/assets/bower_components
+
 env:
   global:
     - "PATH=$PWD/node_modules/.bin:$PATH"
-  matrix:
-    - FORCE_POSTGRES=true
-    - DO_NOT_FORCE_POSTGRES=true
+
+matrix:
+  include:
+  - env: FORCE_POSTGRES=true
+    services:
+    - postgresql
+  - env: DO_NOT_FORCE_POSTGRES=true
+
 before_install:
   - 'npm install'
   - 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
