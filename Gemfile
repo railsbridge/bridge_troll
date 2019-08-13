@@ -81,5 +81,6 @@ group :test do
   gem 'faker'
   gem 'capybara-screenshot'
   gem 'database_cleaner'
+  gem 'codecov', require: false
   gem 'simplecov', '0.16.1', require: false
 end
