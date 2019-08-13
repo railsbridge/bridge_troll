@@ -9,4 +9,5 @@ if Rails.env.development?
   Seeder.seed_courses
   Seeder.seed_event
   Seeder.seed_multiple_location_event
+  Seeder.seed_past_event
 end
