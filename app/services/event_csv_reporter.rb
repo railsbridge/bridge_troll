@@ -68,7 +68,7 @@ class EventCsvReporter
         if event.imported_event_data
           event.imported_event_data['student_event']['url']
         else
-          "https://#{ENV['CANONICAL_HOST']}/events/#{event.id}"
+          "https://#{ENV['HOST_URL']}/events/#{event.id}"
         end
       else
         event.url
