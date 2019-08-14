@@ -36,14 +36,14 @@ class AdminPagesController < ApplicationController
       @user_authentication_counts ||= User.
         select('authentications_count, count(*) count').
         group(:authentications_count).
-        order('count(*)')
+        order(Arel.sql('count(*)'))
     end
 
     def authentication_counts
       @authentication_counts ||= Authentication.
         select('provider, count(*) count').
         group(:provider).
-        order('count(*)')
+        order(Arel.sql('count(*)'))
     end
 
     def region_user_counts
