@@ -244,7 +244,7 @@ GEM
       addressable (> 0, < 3)
       rack (>= 1.0.0, < 3)
     rack-cors (1.0.3)
-    rack-mini-profiler (1.0.1)
+    rack-mini-profiler (1.0.2)
       rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
