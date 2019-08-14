@@ -3,8 +3,8 @@ class Region < ActiveRecord::Base
   has_many :events, through: :locations
   has_many :external_events
   has_and_belongs_to_many :users
-  has_many :leaders, through: :region_leaderships, source: :user
   has_many :region_leaderships, dependent: :destroy
+  has_many :leaders, through: :region_leaderships, source: :user
 
   validates_presence_of :name
   validates_uniqueness_of :name
