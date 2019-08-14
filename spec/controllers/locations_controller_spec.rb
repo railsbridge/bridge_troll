@@ -36,14 +36,14 @@ describe LocationsController do
         create(:location, name: 'Ultimate Location')
         get :index
 
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to include('Ultimate Location')
       end
     end
 
     it "should be able to create a new location" do
       get :new
-      expect(response).to be_success
+      expect(response).to be_successful
 
       region = create(:region)
       location_params = {
@@ -59,7 +59,7 @@ describe LocationsController do
 
     it "should be able to edit an location" do
       get :edit, params: {id: @location.id}
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     describe "updating a location" do

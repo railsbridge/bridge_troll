@@ -12,13 +12,13 @@ describe ProfilesController do
 
     it "lets users view their own profile" do
       get :show, params: { user_id: @user.id }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.body).to include(ERB::Util.html_escape(@user.full_name))
     end
 
     it "lets users view other user's profiles" do
       get :show, params: { user_id: @other_user.id }
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(response.body).to include(ERB::Util.html_escape(@other_user.full_name))
     end
   end

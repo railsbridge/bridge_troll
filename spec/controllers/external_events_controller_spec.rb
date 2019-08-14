@@ -8,14 +8,14 @@ describe ExternalEventsController do
   describe "GET index" do
     it "succeeds" do
       get :index
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
   describe "GET new" do
     it "succeeds" do
       get :new
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -23,7 +23,7 @@ describe ExternalEventsController do
     it "succeeds" do
       external_event = create(:external_event)
       get :edit, params: { id: external_event.to_param }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

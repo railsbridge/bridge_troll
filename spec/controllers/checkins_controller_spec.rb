@@ -14,7 +14,7 @@ describe CheckinsController do
   describe "GET index" do
     it "succeeds" do
       get :index, params: { event_id: @event.id, event_session_id: @session.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "assigns the event and session" do

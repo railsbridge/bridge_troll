@@ -117,7 +117,7 @@ describe SurveysController do
 
       it "shows the survey results" do
         get :index, params: { event_id: @event.id }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(assigns(:event)).to eq @event
         expect(assigns(:event).volunteer_surveys.to_a).to eq [@rsvp.survey]
       end

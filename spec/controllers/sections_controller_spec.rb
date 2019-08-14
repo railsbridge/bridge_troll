@@ -30,7 +30,7 @@ describe SectionsController do
     it 'changes the section' do
       put :update, params: {event_id: @event.id, id: @section.id, section: {name: 'Scrabble Sands'}}
       expect(@section.reload.name).to eq('Scrabble Sands')
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'does not respect invalid params' do

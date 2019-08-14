@@ -27,7 +27,7 @@ describe OrganizationsController do
       it "should return the subscribed users" do
         expect(
           get :download_subscriptions, params: { organization_id: organization.id }, format: :csv
-        ).to be_success
+        ).to be_successful
         expect(response.headers["Content-Disposition"]).to include "railsbridge_subscribed_users"
         expect(response.body).to include "seven_lemurs@example.com"
       end

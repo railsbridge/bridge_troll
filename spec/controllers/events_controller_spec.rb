@@ -6,7 +6,7 @@ describe EventsController do
 
     it "successfully assigns upcoming events" do
       get :index
-      expect(response).to be_success
+      expect(response).to be_successful
       expect(assigns(:events)).to eq([event])
     end
 
@@ -66,7 +66,7 @@ describe EventsController do
     it "successfully assigns the event" do
       get :show, params: { id: event.id }
       expect(assigns(:event)).to eq(event)
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     describe "when rendering views" do
@@ -197,7 +197,7 @@ describe EventsController do
       it "successfully assigns an event" do
         get :new
         expect(assigns(:event)).to be_new_record
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it "uses the logged in user's time zone as the event's time zone" do
@@ -208,7 +208,7 @@ describe EventsController do
       it "assigns an empty location" do
         get :new
         expect(assigns(:location)).to be_new_record
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -232,7 +232,7 @@ describe EventsController do
       it "successfully assigns the event" do
         make_request
         expect(assigns(:event)).to eq(event)
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -242,7 +242,7 @@ describe EventsController do
 
     it "succeeds without requiring any permissions" do
       get :levels, params: { id: event.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -385,7 +385,7 @@ describe EventsController do
           expect { make_request(invalid_params) }.to_not change { Event.count }
 
           expect(assigns(:event)).to be_new_record
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response).to render_template('events/new')
         end
       end
@@ -529,7 +529,7 @@ describe EventsController do
       end
 
       it "successfully directs to xml rss feed" do
-        expect(response).to be_success
+        expect(response).to be_successful
 
         expect(event).to be_in(assigns(:events))
         expect(other_event).to be_in(assigns(:events))
@@ -560,7 +560,7 @@ describe EventsController do
       end
 
       it "successfully directs to xml rss feed" do
-        expect(response).to be_success
+        expect(response).to be_successful
 
         expect(event).to be_in(assigns(:events))
         expect(other_event).to be_in(assigns(:events))

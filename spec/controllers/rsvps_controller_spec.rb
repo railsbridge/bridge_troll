@@ -577,7 +577,7 @@ describe RsvpsController do
         put :update, params: { event_id: @event.id, id: @other_rsvp.id, rsvp: rsvp_params, user: { gender: "human" } }
       }.not_to change { @other_rsvp.reload.subject_experience }
 
-      expect(response).not_to be_success
+      expect(response).not_to be_successful
     end
   end
 
