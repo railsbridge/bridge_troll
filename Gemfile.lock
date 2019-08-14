@@ -79,8 +79,8 @@ GEM
     capybara-screenshot (1.0.22)
       capybara (>= 1.0, < 4)
       launchy
-    childprocess (0.9.0)
-      ffi (~> 1.0, >= 1.0.11)
+    childprocess (1.0.1)
+      rake (< 13.0)
     cliver (0.3.2)
     codecov (0.1.14)
       json
@@ -130,7 +130,7 @@ GEM
       i18n (>= 0.7)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
-    ffi (1.10.0)
+    ffi (1.11.1)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
     geocoder (1.5.1)
@@ -305,7 +305,7 @@ GEM
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
     ruby_dep (1.5.0)
-    rubyzip (1.2.2)
+    rubyzip (1.2.3)
     safe_yaml (1.0.4)
     sanitize (5.0.0)
       crass (~> 1.0.2)
@@ -320,8 +320,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (3.141.0)
-      childprocess (~> 0.5)
+    selenium-webdriver (3.142.3)
+      childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
     sentry-raven (2.11.0)
       faraday (>= 0.7.6, < 1.0)
