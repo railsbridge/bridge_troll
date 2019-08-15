@@ -128,5 +128,25 @@ describe Events::EmailsController do
         end
       end
     end
+
+    context 'when there no corresponding event id' do
+      it "returns 404 and doesn't send any email" do
+        old_count = ActionMailer::Base.deliveries.count
+        expect {
+          post(:create,
+            params: {
+              event_id: -1,
+              event_email: mail_params.merge(
+                recipients: [],
+                attendee_group: 'All'
+              )
+            }
+          )
+        }.to raise_error(ActiveRecord::RecordNotFound)
+        # we want to raise this exception so we get a 404 in the frontend
+        # and so 404s don't get classified as 500s in our error tracking software
+        expect(ActionMailer::Base.deliveries.count).to eq old_count
+      end
+    end
   end
 end
