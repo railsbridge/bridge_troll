@@ -82,5 +82,5 @@ group :test do
   gem 'capybara-screenshot'
   gem 'database_cleaner'
   gem 'codecov', require: false
-  gem 'simplecov', '0.16.1', require: false
+  gem 'simplecov', '0.17.0', require: false
 end
