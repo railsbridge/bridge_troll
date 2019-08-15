@@ -29,5 +29,13 @@ module Bridgetroll
         resource '/events.json', headers: :any, methods: [:get]
       end
     end
+
+    # taken from https://github.com/tylerhunt/rack-canonical-host/issues/36#issuecomment-330813507
+    # to support HSTS, we want to redirect to SSL before redirecting to www
+
+    config.middleware.insert_after(
+      ActionDispatch::SSL,
+      Rack::CanonicalHost, ENV['CANONICAL_HOST']
+    )
   end
 end
