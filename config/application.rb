@@ -35,7 +35,9 @@ module Bridgetroll
 
     config.middleware.insert_after(
       ActionDispatch::SSL,
-      Rack::CanonicalHost, ENV['CANONICAL_HOST']
+      Rack::CanonicalHost,
+      ENV['CANONICAL_HOST'],
+      cache_control: 'max-age=3600'
     )
   end
 end
