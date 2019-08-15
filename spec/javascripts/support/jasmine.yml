@@ -98,9 +98,9 @@ spec_helper: spec/javascripts/support/jasmine_helper.rb
 #
 # EXAMPLE:
 #
-# boot_dir: spec/javascripts/support/boot
+boot_dir: spec/javascripts/support
 #
-boot_dir:
+# boot_dir:
 
 # boot_files
 #
@@ -113,3 +113,4 @@ boot_dir:
 #   - '**/*.js'
 #
 boot_files:
+  - "boot.js"
