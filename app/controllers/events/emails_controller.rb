@@ -58,7 +58,7 @@ module Events
     end
 
     def find_event
-      @event = Event.find_by(id: params[:event_id])
+      @event = Event.find(params[:event_id])
     end
 
     def present_form_data
