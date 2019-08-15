@@ -20,7 +20,7 @@ class RsvpSorter
       if @event.past?
         "checkins_count > 0 DESC, #{name_clause}"
       else
-        'lower(users.first_name) ASC, lower(users.last_name) ASC'
+        name_clause
       end
     )
   end
