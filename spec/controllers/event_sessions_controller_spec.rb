@@ -42,7 +42,7 @@ describe EventSessionsController do
     context 'format is ics' do
       it 'responds with success' do
         get :show, params: { event_id: @event.id, id: @event_session.id }, format: 'ics'
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'delegates to IcsGenerator' do

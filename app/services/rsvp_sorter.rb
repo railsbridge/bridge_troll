@@ -16,11 +16,13 @@ class RsvpSorter
 
   def modern_rsvps_order_clause
     name_clause = 'lower(users.first_name) ASC, lower(users.last_name) ASC'
-    if @event.past?
-      "checkins_count > 0 DESC, #{name_clause}"
-    else
-      'lower(users.first_name) ASC, lower(users.last_name) ASC'
-    end
+    Arel.sql(
+      if @event.past?
+        "checkins_count > 0 DESC, #{name_clause}"
+      else
+        name_clause
+      end
+    )
   end
 
   def modern_rsvps
@@ -35,7 +37,7 @@ class RsvpSorter
     @rsvps
       .where(user_type: 'MeetupUser')
       .includes(:meetup_user)
-      .order('lower(meetup_users.full_name) ASC')
+      .order(Arel.sql('lower(meetup_users.full_name) ASC'))
       .references(:meetup_users)
   end
 end

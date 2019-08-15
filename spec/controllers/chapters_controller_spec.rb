@@ -47,7 +47,7 @@ describe ChaptersController do
   describe '#new' do
     it 'shows an empty chapter' do
       get :new
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 
@@ -64,7 +64,7 @@ describe ChaptersController do
 
     it "shows a chapter edit form" do
       get :edit, params: { id: chapter.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

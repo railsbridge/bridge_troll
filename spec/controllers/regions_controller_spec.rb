@@ -11,12 +11,12 @@ describe RegionsController do
         render_views
         it "can see the index page" do
           get :index
-          expect(response).to be_success
+          expect(response).to be_successful
         end
 
         it "can see the show page" do
           get :show, params: { id: @region.id }
-          expect(response).to be_success
+          expect(response).to be_successful
         end
       end
 
@@ -57,14 +57,14 @@ describe RegionsController do
           create(:region, name: 'Ultimate Region')
           get :index
 
-          expect(response).to be_success
+          expect(response).to be_successful
           expect(response.body).to include('Ultimate Region')
         end
       end
 
       it "should be able to create a new region" do
         get :new
-        expect(response).to be_success
+        expect(response).to be_successful
 
         expect {
           post :create, params: {region: {name: "Fabulous Region"}}
@@ -80,7 +80,7 @@ describe RegionsController do
 
         it "should be able to edit an region" do
           get :edit, params: { id: @region.id }
-          expect(response).to be_success
+          expect(response).to be_successful
 
           expect {
             put :update, params: {id: @region.id, region: {name: 'Sandwich Region'}}

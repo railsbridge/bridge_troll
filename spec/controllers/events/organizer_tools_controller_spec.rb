@@ -14,7 +14,7 @@ describe Events::OrganizerToolsController do
     it "always allows admins, even if they aren't organizers of the event" do
       sign_in(admin)
       make_request
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     context "logged in as the organizer" do
@@ -35,7 +35,7 @@ describe Events::OrganizerToolsController do
         end
 
         make_request
-        expect(response).to be_success
+        expect(response).to be_successful
 
         expect(assigns(:event)).to eq(event)
         expect(assigns(:organizer_dashboard)).to eq(true)
@@ -77,7 +77,7 @@ describe Events::OrganizerToolsController do
     it "always allows admins, even if they aren't organizers of the event" do
       sign_in(admin)
       make_request
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     context "logged in as the organizer" do

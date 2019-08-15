@@ -77,7 +77,7 @@ describe OrganizersController do
 
     it "can see list of organizers" do
       get :index, params: { event_id: @event.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     describe "assigning organizers" do

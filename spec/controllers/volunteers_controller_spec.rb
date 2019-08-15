@@ -28,7 +28,7 @@ describe VolunteersController do
 
       it "should be able to see list of volunteers" do
         get :index, params: {event_id: @event.id}
-        expect(response).to be_success
+        expect(response).to be_successful
 
         expect(response.body).to have_content 'Vol1'
         expect(response.body).to have_content 'Vol2'

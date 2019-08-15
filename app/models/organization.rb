@@ -2,8 +2,8 @@ require 'csv'
 
 class Organization < ActiveRecord::Base
   has_many :chapters, dependent: :destroy, inverse_of: :organization
-  has_many :leaders, through: :organization_leaderships, source: :user
   has_many :organization_leaderships, dependent: :destroy
+  has_many :leaders, through: :organization_leaderships, source: :user
   has_many :organization_subscriptions
   has_many :users, through: :organization_subscriptions
 

@@ -239,7 +239,7 @@ class Event < ActiveRecord::Base
     else
       includes(:rsvps).where(
         '(rsvps.role_id = ? AND rsvps.user_id = ?) OR (current_state = ?) OR (chapter_id IN (?))',
-        Role::ORGANIZER,
+        Role::ORGANIZER.id,
         user.id,
         Event.current_states[:published],
         user.chapter_leaderships.pluck(:chapter_id)

@@ -15,7 +15,7 @@ describe CheckinersController do
 
     it "can see list of checkiners" do
       get :index, params: { event_id: @event.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     describe "assigning checkiners" do

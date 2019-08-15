@@ -10,7 +10,7 @@ describe Users::EventsController do
     it 'should respond successfully with json' do
       get :index, params: { user_id: user.id }
       expect(response.content_type).to eq('application/json')
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'should respond with the correct count' do
