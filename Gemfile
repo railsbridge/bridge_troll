@@ -61,7 +61,7 @@ group :development do
 end
 
 group :test, :development do
-  gem 'jasmine', '~> 2.6.0'
+  gem 'jasmine', '~> 3.4.0'
   gem 'jasmine-jquery-rails'
   gem 'sqlite3'
   gem 'rspec-rails'

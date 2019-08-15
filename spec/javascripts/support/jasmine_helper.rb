@@ -9,3 +9,5 @@
 #end
 #
 
+
+Rails.application.config.assets.precompile += %w( jasmine-jquery.js sinonjs/sinon.js )
