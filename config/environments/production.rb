@@ -48,7 +48,17 @@ Rails.application.configure do
   # config.action_cable.mount_path = nil
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
+  config.ssl_options = {
+    hsts: { preload: true, subdomains: true, expires: 1.year },
+    redirect: {
+      exclude: -> request {
+        request.get? &&
+          (request.format.json? || request.format.csv?) &&
+          Rails.application.routes.recognize_path(request.path)[:controller] == "events"
+      }
+    }
+  }
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -102,3 +112,12 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: ENV['HOST_URL'] }
 end
+
+# taken from https://github.com/tylerhunt/rack-canonical-host/issues/36#issuecomment-330813507
+# to support HSTS, we want to redirect to SSL before redirecting to www
+Rails.application.middleware.insert_after(
+  ActionDispatch::SSL,
+  Rack::CanonicalHost,
+  ENV['CANONICAL_HOST'],
+  cache_control: 'max-age=3600'
+)

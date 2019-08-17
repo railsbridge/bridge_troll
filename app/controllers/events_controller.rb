@@ -119,8 +119,4 @@ class EventsController < ApplicationController
   def find_event
     @event = Event.find(params[:id])
   end
-
-  def allow_insecure?
-    request.get? && (request.format.json? || request.format.csv?)
-  end
 end

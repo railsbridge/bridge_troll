@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   after_action :verify_authorized, unless: :devise_controller?
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  force_ssl if: -> { Rails.env.production? }, unless: :allow_insecure?
 
   before_action do
     if current_user.try(:admin?)
@@ -32,10 +31,6 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up) do |u|
       u.permit(policy(User).permitted_attributes + [region_ids: []])
     end
-  end
-
-  def allow_insecure?
-    false
   end
 
   def user_not_authorized
