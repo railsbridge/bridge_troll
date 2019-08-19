@@ -58,6 +58,8 @@ group :development do
   gem 'binding_of_caller'
   gem 'byebug'
   gem 'listen'
+  gem 'spring'
+  gem 'spring-commands-rspec', group: :development
 end
 
 group :test, :development do
