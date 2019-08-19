@@ -29,6 +29,10 @@ gem 'bower-rails'
 gem 'nearest_time_zone'
 gem 'rack-cors'
 
+# optimize and cache expensive computations for faster boot times. It's
+# `require`d in a specific way in config/boot.rb
+gem 'bootsnap', require: false
+
 group :production do
   gem 'pg'
   gem 'newrelic_rpm'
