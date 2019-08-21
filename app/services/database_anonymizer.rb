@@ -56,15 +56,15 @@ class DatabaseAnonymizer
   end
 
   def anonymize_survey(survey)
-    survey.good_things = Faker::Lorem.sentence(1)
-    survey.bad_things  = Faker::Lorem.sentence(1)
-    survey.other_comments = Faker::Lorem.sentence(1)
+    survey.good_things = Faker::Lorem.sentence(word_count: 1)
+    survey.bad_things  = Faker::Lorem.sentence(word_count: 1)
+    survey.other_comments = Faker::Lorem.sentence(word_count: 1)
     survey.save!
   end
 
   def anonymize_rsvp(rsvp)
-    rsvp.subject_experience = Faker::Lorem.sentence(10)
-    rsvp.teaching_experience = Faker::Lorem.sentence(10)
+    rsvp.subject_experience = Faker::Lorem.sentence(word_count: 10)
+    rsvp.teaching_experience = Faker::Lorem.sentence(word_count: 10)
     rsvp.job_details = Faker::Hacker.say_something_smart
     rsvp.needs_childcare = '0'
     rsvp.childcare_info = nil
@@ -88,8 +88,8 @@ class DatabaseAnonymizer
   end
 
   def anonymize_event_email(event_email)
-    event_email.subject = Faker::Lorem.sentence(1)
-    event_email.body = Faker::Lorem.sentence(3)
+    event_email.subject = Faker::Lorem.sentence(word_count: 1)
+    event_email.body = Faker::Lorem.sentence(word_count: 3)
     event_email.save!
   end
 
