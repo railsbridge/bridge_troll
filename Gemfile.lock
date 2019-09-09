@@ -192,7 +192,7 @@ GEM
       require_all
     nested_form (0.3.2)
     newrelic_rpm (6.6.0.358)
-    nio4r (2.3.1)
+    nio4r (2.5.1)
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     nokogumbo (2.0.1)
@@ -239,7 +239,7 @@ GEM
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
     public_suffix (4.0.1)
-    puma (4.1.0)
+    puma (4.1.1)
       nio4r (~> 2.0)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
