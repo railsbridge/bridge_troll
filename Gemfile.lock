@@ -84,7 +84,7 @@ GEM
     childprocess (2.0.0)
       rake (< 13.0)
     cliver (0.3.2)
-    codecov (0.1.14)
+    codecov (0.1.15)
       json
       simplecov
       url
