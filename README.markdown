@@ -47,7 +47,7 @@ git clone https://github.com/username/bridge_troll.git
 cd bridge_troll
 ```
 
-Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run: `rvm install 2.6.3`. For rbenv, run: `rbenv install 2.6.3`.
+Make sure you have the correct version of ruby before installing the gems for this repo. If you are using rvm, run: `rvm install 2.6.4`. For rbenv, run: `rbenv install 2.6.4`.
 
 Finish setting up your environment
 ```
