@@ -12,7 +12,7 @@
 //= require bootstrap/modal
 //= require bootstrap/tooltip
 //= require bootstrap/popover
-//= require select2
+//= require select2/dist/js/select2.js
 //= require handlebars.runtime
 //= require underscore
 //= require gmaps/google
