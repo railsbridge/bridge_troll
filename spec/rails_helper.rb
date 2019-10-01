@@ -12,16 +12,45 @@ require 'rails-controller-testing'
 require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 require 'webmock/rspec'
+require 'webdrivers'
+require 'selenium-webdriver'
 
 if ENV['JS_DRIVER'] == 'selenium' || ENV['SELENIUM'].present?
-  require 'selenium-webdriver'
   Capybara.register_driver :selenium do |app|
     Capybara::Selenium::Driver.new(app, browser: ENV.fetch('BROWSER', 'chrome').to_sym)
   end
   Capybara.javascript_driver = :selenium
 else
-  require 'capybara/poltergeist'
-  Capybara.javascript_driver = :poltergeist
+  # need to fix window size else tests aren't consistent
+  window_size = "window-size=1024,768"
+  # installs latest chromedriver
+
+  Capybara.register_driver :selenium_chrome_headless_with_resolution_for_travis do |app|
+
+    browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+      opts.args << '--headless'
+      opts.args << '--disable-gpu' if Gem.win_platform?
+      # Workaround https://bugs.chromium.org/p/chromedriver/issues/detail?id=2650&q=load&sort=-id&colspec=ID%20Status%20Pri%20Owner%20Summary
+      opts.args << '--disable-site-isolation-trials'
+      opts.args << "--#{window_size}"
+      opts.args << "--no-sandbox" # see https://docs.travis-ci.com/user/chrome#sandboxing, https://docs.travis-ci.com/user/chrome#capybara
+    end
+
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+  end
+
+  Capybara.register_driver :selenium_chrome_with_resolution do |app|
+    browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+      # Workaround https://bugs.chromium.org/p/chromedriver/issues/detail?id=2650&q=load&sort=-id&colspec=ID%20Status%20Pri%20Owner%20Summary
+      opts.args << '--disable-site-isolation-trials'
+      opts.args << "--#{window_size}"
+    end
+
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+  end
+
+  Capybara.javascript_driver = :selenium_chrome_headless_with_resolution_for_travis
+  # Capybara.javascript_driver = :selenium_chrome_with_resolution
 end
 
 Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:host]}"
@@ -53,7 +82,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do |example|
-    WebMock.disable_net_connect!(allow_localhost: true)
+    WebMock.disable_net_connect!(allow_localhost: true, allow: 'chromedriver.storage.googleapis.com')
     Time.zone = 'UTC'
     ActionMailer::Base.deliveries.clear
     DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction

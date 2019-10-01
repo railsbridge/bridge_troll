@@ -130,6 +130,7 @@ describe "the organizer dashboard" do
       within '.destroy' do
         click_on 'Un-Check In'
       end
+      accept_alert
       expect(page).not_to have_content 'Saving'
     end
 

@@ -3,7 +3,6 @@
   "name": "bridge_troll",
   "version": "0.0.0",
   "dependencies": {
-    "bower": "^1.7.2",
-    "phantomjs-prebuilt": "2.1.7"
+    "bower": "^1.7.2"
   }
 }

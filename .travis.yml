@@ -8,6 +8,9 @@ cache:
     - node_modules
     - vendor/assets/bower_components
 
+addons:
+  chrome: stable
+
 env:
   global:
     - "PATH=$PWD/node_modules/.bin:$PATH"

@@ -30,23 +30,23 @@ Dir.chdir APP_ROOT do
   system "npm install -g bower"
   system "rake bower:install"
 
-  if `which phantomjs`.empty?
+  if `which chromedriver`.empty?
     puts <<~EOT
-      You don't have phantomjs installed, which means you won't be able to run
+      You don't have chromedriver installed, which means you won't be able to run
       our full test suite.
     EOT
 
     if is_osx
       puts <<~EOT
         Since you're on Mac OS X. You can install it with Homebrew using
-          brew install phantomjs
+          brew install chromedriver
 
         If you don't have homebrew, check out http://mxcl.github.com/homebrew/
       EOT
     else
       puts <<~EOT
-        Use your system's package manager to install phantomjs.
-          http://phantomjs.org
+        Use your system's package manager to install chromedriver.
+          https://chromedriver.chromium.org
       EOT
     end
   end

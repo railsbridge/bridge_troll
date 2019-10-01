@@ -60,33 +60,34 @@ group :development do
   gem 'bullet'
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem 'byebug'
   gem 'listen'
   gem 'spring'
   gem 'spring-commands-rspec', group: :development
 end
 
 group :test, :development do
+  gem 'byebug'
+  gem 'awesome_print'
   gem 'jasmine', '~> 3.5.0'
   gem 'jasmine-jquery-rails'
-  gem 'sqlite3'
+  gem 'pry'
   gem 'rspec-rails'
   gem 'rspec-collection_matchers'
-  gem 'awesome_print'
+  gem 'sqlite3'
   gem 'rails-controller-testing', require: false
 end
 
 group :test do
-  gem 'webmock'
-  gem 'factory_bot_rails'
   gem 'capybara'
-  gem 'poltergeist', require: false
-  gem 'selenium-webdriver', require: false
-  gem 'launchy'
-  gem 'shoulda-matchers'
-  gem 'faker'
   gem 'capybara-screenshot'
-  gem 'database_cleaner'
   gem 'codecov', require: false
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'launchy'
+  gem 'selenium-webdriver', require: false
+  gem 'shoulda-matchers'
   gem 'simplecov', '0.17.1', require: false
+  gem 'webdrivers'
+  gem 'webmock'
 end

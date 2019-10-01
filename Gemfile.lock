@@ -83,7 +83,6 @@ GEM
       launchy
     childprocess (2.0.0)
       rake (< 13.0)
-    cliver (0.3.2)
     codecov (0.1.15)
       json
       simplecov
@@ -234,10 +233,9 @@ GEM
     orm_adapter (0.5.0)
     pg (1.1.4)
     phantomjs (2.1.1.0)
-    poltergeist (1.18.1)
-      capybara (>= 2.1, < 4)
-      cliver (~> 0.3.1)
-      websocket-driver (>= 0.2.0)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
     public_suffix (4.0.1)
     puma (4.2.0)
       nio4r (~> 2.0)
@@ -361,6 +359,10 @@ GEM
     url (0.3.2)
     warden (1.2.8)
       rack (>= 2.0.6)
+    webdrivers (4.1.2)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     webmock (3.7.6)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -416,7 +418,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   omniauth-twitter
   pg
-  poltergeist
+  pry
   puma
   pundit
   rack-canonical-host
@@ -439,6 +441,7 @@ DEPENDENCIES
   spring-commands-rspec
   sqlite3
   uglifier
+  webdrivers
   webmock
 
 RUBY VERSION
