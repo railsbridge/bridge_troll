@@ -21,8 +21,8 @@
 //= require bridgetroll
 //= require_tree ../templates
 //= require_tree ./enums
-//= require DataTables
-//= require DataTables/media/js/dataTables.bootstrap
+//= require datatables
+//= require datatables/media/js/dataTables.bootstrap
 //= stub section_organizer
 //= require imported_event
 //= require_tree .

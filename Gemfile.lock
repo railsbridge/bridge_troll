@@ -68,7 +68,6 @@ GEM
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
-    bower-rails (0.12.0)
     builder (3.2.3)
     bullet (6.0.2)
       activesupport (>= 3.0.0)
@@ -386,7 +385,6 @@ DEPENDENCIES
   binding_of_caller
   bootsnap
   bootstrap-sass
-  bower-rails
   bullet
   byebug
   capybara

@@ -39,8 +39,7 @@ custom_plan.rb
 # Byebug
 .byebug_history
 
-# bower-rails
-vendor/assets/bower_components
+# npm
 node_modules
 
 coverage
