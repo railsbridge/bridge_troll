@@ -96,7 +96,7 @@ describe "New Event", js: true do
   it 'allows organizer to choose when to send their announcement email' do
     visit_new_events_form_and_expand_all_sections
 
-    expect(page.find('#event_email_on_approval_true')[:checked]).to be true
+    expect(page.find('#event_email_on_approval_true')).to be_checked
     choose('event_email_on_approval_true')
     choose('event_email_on_approval_false')
   end
@@ -237,7 +237,7 @@ describe "New Event", js: true do
       expect(page).to have_content('Draft saved')
       expect(page.current_path).to eq '/events'
       expect(page).to have_button 'Save Draft'
-      expect(page.find('#event_email_on_approval_false')[:checked]).to eq(true)
+      expect(page.find('#event_email_on_approval_false')).to be_checked
 
       visit '/events'
       expect(page.find('.upcoming-events .event-title').text).to match(Regexp.new(good_event_title))

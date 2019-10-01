@@ -83,7 +83,8 @@ GEM
       launchy
     childprocess (2.0.0)
       rake (< 13.0)
-    cliver (0.3.2)
+    chrome_remote (0.2.0)
+      websocket-driver (~> 0.6)
     codecov (0.1.15)
       json
       simplecov
@@ -234,10 +235,9 @@ GEM
     orm_adapter (0.5.0)
     pg (1.1.4)
     phantomjs (2.1.1.0)
-    poltergeist (1.18.1)
-      capybara (>= 2.1, < 4)
-      cliver (~> 0.3.1)
-      websocket-driver (>= 0.2.0)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
     public_suffix (4.0.1)
     puma (4.2.0)
       nio4r (~> 2.0)
@@ -387,6 +387,7 @@ DEPENDENCIES
   byebug
   capybara
   capybara-screenshot
+  chrome_remote
   codecov
   coffee-rails
   database_cleaner
@@ -416,7 +417,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   omniauth-twitter
   pg
-  poltergeist
+  pry
   puma
   pundit
   rack-canonical-host
