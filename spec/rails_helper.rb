@@ -12,7 +12,6 @@ require 'rails-controller-testing'
 require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 require 'webmock/rspec'
-require 'webdrivers'
 require 'selenium-webdriver'
 
 if ENV['JS_DRIVER'] == 'selenium' || ENV['SELENIUM'].present?
@@ -82,7 +81,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do |example|
-    WebMock.disable_net_connect!(allow_localhost: true, allow: 'chromedriver.storage.googleapis.com')
+    WebMock.disable_net_connect!(allow_localhost: true)
     Time.zone = 'UTC'
     ActionMailer::Base.deliveries.clear
     DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
