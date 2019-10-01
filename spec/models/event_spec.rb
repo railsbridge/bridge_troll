@@ -582,7 +582,7 @@ describe Event do
 
     describe "#other_dietary_restrictions" do
       it "should return an array of dietary restrictions" do
-        expect(@event.other_dietary_restrictions).to eq(["Paleo", "No sea urchins"])
+        expect(@event.other_dietary_restrictions).to match_array(["Paleo", "No sea urchins"])
       end
     end
 
