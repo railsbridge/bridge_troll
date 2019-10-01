@@ -11,3 +11,8 @@
 
 
 Rails.application.config.assets.precompile += %w( jasmine-jquery.js sinonjs/sinon.js )
+
+
+Jasmine.configure do |config|
+  config.runner_browser = :chromeheadless
+end

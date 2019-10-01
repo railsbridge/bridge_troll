@@ -83,6 +83,8 @@ GEM
       launchy
     childprocess (2.0.0)
       rake (< 13.0)
+    chrome_remote (0.2.0)
+      websocket-driver (~> 0.6)
     codecov (0.1.15)
       json
       simplecov
@@ -389,6 +391,7 @@ DEPENDENCIES
   byebug
   capybara
   capybara-screenshot
+  chrome_remote
   codecov
   coffee-rails
   database_cleaner
