@@ -10,7 +10,7 @@
 #
 
 
-Rails.application.config.assets.precompile += %w( jasmine-jquery.js sinon/sinon.js )
+Rails.application.config.assets.precompile += %w( jasmine-jquery.js sinon/lib/sinon.js )
 Jasmine.configure do |config|
   config.runner_browser = :chromeheadless
 end
