@@ -28,7 +28,7 @@ Dir.chdir APP_ROOT do
     exit 1
   end
   system "npm install -g bower"
-  system "rake bower:install"
+  system "RAILS_ENV=development rake bower:install"
 
   if `which chromedriver`.empty?
     puts <<~EOT
