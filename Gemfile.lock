@@ -81,8 +81,7 @@ GEM
     capybara-screenshot (1.0.23)
       capybara (>= 1.0, < 4)
       launchy
-    childprocess (2.0.0)
-      rake (< 13.0)
+    childprocess (3.0.0)
     chrome_remote (0.2.0)
       websocket-driver (~> 0.6)
     codecov (0.1.15)
@@ -279,7 +278,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (12.3.3)
+    rake (13.0.0)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -322,8 +321,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (3.142.5)
-      childprocess (>= 0.5, < 3.0)
+    selenium-webdriver (3.142.6)
+      childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     sentry-raven (2.11.3)
       faraday (>= 0.7.6, < 1.0)
