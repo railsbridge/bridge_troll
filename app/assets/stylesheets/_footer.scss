@@ -10,6 +10,20 @@
 }
 
 footer {
+  
+  .footerlinks {
+    margin: 0 auto;
+    padding: 1em 0;
+    background-color: #f32b00;
+    width: 100%;
+    text-align: center;
+  }
+
+  .footerlinks a {
+    margin: 0 0.6em;
+    color: #fff;
+  }
+
   .trollholder {
     height: 113px;
     width: 224px;
