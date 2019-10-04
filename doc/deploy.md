@@ -45,6 +45,20 @@ publish new course descriptions
 heroku run rake populate_courses --remote staging
 ```
 
+## buildpacks
+For heroku, we use both the nodejs (to install bower) and the ruby buildpack (for the app)
+Note: the nodejs buildpack is first
+```
+$ heroku buildpacks --remote staging
+=== bridgetroll-staging Buildpack URLs
+1. heroku/nodejs
+2. heroku/ruby
+```
+
+The second buildpack was added with
+```
+$ heroku buildpacks:add heroku/nodejs --index 1 --app bridgetroll-staging
+```
 
 ## staging environment
 staging is setup just like production, except
@@ -92,8 +106,3 @@ pg_restore: [archiver (db)] could not execute query: ERROR:  must be owner of ex
 WARNING: errors ignored on restore: 2
  ▸    pg_restore errored with 1
 ```
-
-
-
-
-
