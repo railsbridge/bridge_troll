@@ -35,7 +35,7 @@ module Seeder
   def self.create_student_rsvp options
     rsvp_params = {
       role: Role::STUDENT,
-      operating_system: OperatingSystem.all.sample,
+      operating_system: OperatingSystem.all.to_a.sample,
       job_details: Faker::Job.title
     }.merge(options)
 
