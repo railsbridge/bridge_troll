@@ -20,7 +20,7 @@ class Event < ActiveRecord::Base
   after_destroy :update_location_counts
 
   belongs_to :location, optional: true
-  belongs_to :chapter, counter_cache: true, required: true
+  belongs_to :chapter, counter_cache: true
   has_one :organization, through: :chapter
 
   belongs_to :course, optional: true

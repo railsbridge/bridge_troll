@@ -1,5 +1,5 @@
 class Profile < ActiveRecord::Base
-  belongs_to :user, inverse_of: :profile, required: true
+  belongs_to :user, inverse_of: :profile
 
   after_initialize :remove_at_from_twitter_username
 

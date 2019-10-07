@@ -1,5 +1,5 @@
 class Chapter < ActiveRecord::Base
-  belongs_to :organization, inverse_of: :chapters, required: true
+  belongs_to :organization, inverse_of: :chapters
   has_many :events
   has_many :external_events
   has_many :chapter_leaderships, dependent: :destroy
