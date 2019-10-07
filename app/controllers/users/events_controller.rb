@@ -1,6 +1,6 @@
 module Users
   class EventsController < ApplicationController
-    # Provides a simple, public, mini-api to allow third parties to check to 
+    # Provides a simple, public, mini-api to allow third parties to check to
     # see if a user has attended any classes
     def index
       skip_authorization
