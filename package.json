@@ -1,11 +1,15 @@
 {
-  "//": "This package.json is mostly for Heroku and TravisCI, use bin/setup for local development.",
   "name": "bridge_troll",
   "version": "0.0.0",
   "dependencies": {
-    "bower": "^1.7.2"
+    "datatables.net": "1.10.13",
+    "datatables.net-bs": "1.10.13",
+    "select2": "4.0.3",
+    "markerclustererplus": "2.1.4",
+    "masonry-layout": "4.1.1"
   },
   "devDependencies": {
-    "chromedriver": "^77.0.0"
+    "chromedriver": "^77.0.0",
+    "sinon": "1.17.1"
   }
 }

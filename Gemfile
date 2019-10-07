@@ -25,7 +25,6 @@ gem 'simple_form'
 gem 'rack-canonical-host'
 gem 'icalendar'
 gem 'rack-mini-profiler', require: false
-gem 'bower-rails'
 gem 'nearest_time_zone'
 gem 'rack-cors'
 

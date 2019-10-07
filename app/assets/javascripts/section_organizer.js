@@ -1,4 +1,4 @@
-//= require masonry/dist/masonry.pkgd.js
+//= require masonry-layout/dist/masonry.pkgd.js
 //= require jquery.event.drag
 //= require jquery.event.drop
 //= require ./section_organizer/views/base_view

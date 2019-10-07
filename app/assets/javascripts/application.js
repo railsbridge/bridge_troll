@@ -12,7 +12,7 @@
 //= require bootstrap/modal
 //= require bootstrap/tooltip
 //= require bootstrap/popover
-//= require select2
+//= require select2/dist/js/select2.js
 //= require handlebars.runtime
 //= require underscore
 //= require gmaps/google
@@ -21,8 +21,8 @@
 //= require bridgetroll
 //= require_tree ../templates
 //= require_tree ./enums
-//= require DataTables
-//= require DataTables/media/js/dataTables.bootstrap
+//= require datatables.net/js/jquery.dataTables
+//= require datatables.net-bs/js/dataTables.bootstrap
 //= stub section_organizer
 //= require imported_event
 //= require_tree .

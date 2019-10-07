@@ -14,7 +14,7 @@ src_files:
   - assets/application
   - assets/section_organizer
   - assets/jasmine-jquery
-  - assets/sinonjs
+  - assets/sinon/pkg/sinon
 
 # stylesheets
 #
