@@ -1,4 +1,4 @@
-class InitSchema < ActiveRecord::Migration
+class InitSchema < ActiveRecord::Migration[4.2]
   def up
     # These are extensions that must be enabled in order to support this database
     enable_extension "plpgsql"
@@ -11,7 +11,7 @@ class InitSchema < ActiveRecord::Migration
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
     end
-    
+
     create_table "chapters", force: :cascade do |t|
       t.string   "name"
       t.integer  "events_count",          default: 0
@@ -20,24 +20,24 @@ class InitSchema < ActiveRecord::Migration
       t.datetime "created_at",                        null: false
       t.datetime "updated_at",                        null: false
     end
-    
+
     create_table "dietary_restrictions", force: :cascade do |t|
       t.string   "restriction"
       t.integer  "rsvp_id"
       t.datetime "created_at",  null: false
       t.datetime "updated_at",  null: false
     end
-    
+
     create_table "event_email_recipients", force: :cascade do |t|
       t.integer  "event_email_id"
       t.integer  "recipient_rsvp_id"
       t.datetime "created_at",        null: false
       t.datetime "updated_at",        null: false
     end
-    
+
     add_index "event_email_recipients", ["event_email_id"], name: "index_event_email_recipients_on_event_email_id"
     add_index "event_email_recipients", ["recipient_rsvp_id"], name: "index_event_email_recipients_on_recipient_rsvp_id"
-    
+
     create_table "event_emails", force: :cascade do |t|
       t.integer  "event_id"
       t.integer  "sender_id"
@@ -46,9 +46,9 @@ class InitSchema < ActiveRecord::Migration
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
     end
-    
+
     add_index "event_emails", ["event_id"], name: "index_event_emails_on_event_id"
-    
+
     create_table "event_sessions", force: :cascade do |t|
       t.datetime "starts_at"
       t.datetime "ends_at"
@@ -59,9 +59,9 @@ class InitSchema < ActiveRecord::Migration
       t.boolean  "required_for_students", default: true
       t.boolean  "volunteers_only",       default: false
     end
-    
+
     add_index "event_sessions", ["event_id", "name"], name: "index_event_sessions_on_event_id_and_name", unique: true
-    
+
     create_table "events", force: :cascade do |t|
       t.string   "title"
       t.datetime "created_at",                                     null: false
@@ -97,9 +97,9 @@ class InitSchema < ActiveRecord::Migration
       t.string   "external_event_data"
       t.integer  "chapter_id",                                     null: false
     end
-    
+
     add_index "events", ["chapter_id"], name: "index_events_on_chapter_id"
-    
+
     create_table "external_events", force: :cascade do |t|
       t.string   "name"
       t.string   "url"
@@ -113,10 +113,10 @@ class InitSchema < ActiveRecord::Migration
       t.integer  "region_id"
       t.integer  "chapter_id"
     end
-    
+
     add_index "external_events", ["chapter_id"], name: "index_external_events_on_chapter_id"
     add_index "external_events", ["region_id"], name: "index_external_events_on_region_id"
-    
+
     create_table "locations", force: :cascade do |t|
       t.string   "name"
       t.string   "address_1"
@@ -135,21 +135,21 @@ class InitSchema < ActiveRecord::Migration
       t.text     "notes"
       t.datetime "archived_at"
     end
-    
+
     create_table "meetup_users", force: :cascade do |t|
       t.string   "full_name"
       t.integer  "meetup_id"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
     end
-    
+
     create_table "organizations", force: :cascade do |t|
       t.string   "name"
       t.datetime "created_at",          null: false
       t.datetime "updated_at",          null: false
       t.string   "code_of_conduct_url"
     end
-    
+
     create_table "profiles", force: :cascade do |t|
       t.integer  "user_id"
       t.boolean  "childcaring"
@@ -166,12 +166,12 @@ class InitSchema < ActiveRecord::Migration
       t.boolean  "outreach"
       t.string   "github_username"
     end
-    
+
     create_table "region_leaderships", force: :cascade do |t|
       t.integer "user_id"
       t.integer "region_id"
     end
-    
+
     create_table "regions", force: :cascade do |t|
       t.string   "name"
       t.integer  "locations_count",       default: 0
@@ -179,14 +179,14 @@ class InitSchema < ActiveRecord::Migration
       t.datetime "updated_at",                        null: false
       t.integer  "external_events_count", default: 0
     end
-    
+
     create_table "regions_users", id: false, force: :cascade do |t|
       t.integer "region_id"
       t.integer "user_id"
     end
-    
+
     add_index "regions_users", ["region_id", "user_id"], name: "index_regions_users_on_region_id_and_user_id", unique: true
-    
+
     create_table "rsvp_sessions", force: :cascade do |t|
       t.integer  "rsvp_id"
       t.integer  "event_session_id"
@@ -195,7 +195,7 @@ class InitSchema < ActiveRecord::Migration
       t.boolean  "checked_in",       default: false
       t.datetime "reminded_at"
     end
-    
+
     create_table "rsvps", force: :cascade do |t|
       t.integer  "user_id"
       t.integer  "event_id"
@@ -221,10 +221,10 @@ class InitSchema < ActiveRecord::Migration
       t.text     "plus_one_host"
       t.string   "token"
     end
-    
+
     add_index "rsvps", ["token"], name: "index_rsvps_on_token", unique: true
     add_index "rsvps", ["user_id", "event_id", "user_type"], name: "index_rsvps_on_user_id_and_event_id_and_event_type", unique: true
-    
+
     create_table "sections", force: :cascade do |t|
       t.integer  "event_id"
       t.string   "name"
@@ -232,9 +232,9 @@ class InitSchema < ActiveRecord::Migration
       t.datetime "updated_at",  null: false
       t.integer  "class_level"
     end
-    
+
     add_index "sections", ["event_id"], name: "index_sections_on_event_id"
-    
+
     create_table "surveys", force: :cascade do |t|
       t.integer  "rsvp_id"
       t.text     "good_things"
@@ -244,7 +244,7 @@ class InitSchema < ActiveRecord::Migration
       t.datetime "created_at",                null: false
       t.datetime "updated_at",                null: false
     end
-    
+
     create_table "users", force: :cascade do |t|
       t.string   "email",                  default: "",    null: false
       t.string   "encrypted_password",     default: "",    null: false
@@ -271,7 +271,7 @@ class InitSchema < ActiveRecord::Migration
       t.boolean  "spammer",                default: false
       t.integer  "authentications_count",  default: 0
     end
-    
+
     add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     add_index "users", ["email"], name: "index_users_on_email", unique: true
     add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

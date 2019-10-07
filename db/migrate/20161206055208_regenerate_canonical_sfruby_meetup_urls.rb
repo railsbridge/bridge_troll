@@ -1,4 +1,4 @@
-class RegenerateCanonicalSfrubyMeetupUrls < ActiveRecord::Migration
+class RegenerateCanonicalSfrubyMeetupUrls < ActiveRecord::Migration[4.2]
   class Event < ActiveRecord::Base
     serialize :imported_event_data, JSON
   end
