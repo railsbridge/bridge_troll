@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(version: 20170707161519) do
     t.text     "level_description"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.index ["course_id"], name: "index_levels_on_course_id"
   end
 
   create_table "locations", force: :cascade do |t|
