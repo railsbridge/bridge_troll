@@ -58,7 +58,7 @@ describe Regions::LeadersController do
       let(:new_leader) { create :user }
 
       context "with good params" do
-        let(:params) { { region_id: region, id: new_leader } }
+        let(:params) { { region_id: region, region_leader: {id: new_leader} } }
 
         it "creates the new region leadership" do
           post :create, params: params
