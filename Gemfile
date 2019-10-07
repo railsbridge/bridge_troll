@@ -39,6 +39,7 @@ gem 'sassc-rails'
 gem 'simple_form'
 gem 'sprockets'
 gem 'uglifier'
+gem 'webpacker'
 # faster interoperable json
 gem 'multi_json'
 gem 'oj'
