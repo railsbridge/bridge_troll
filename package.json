@@ -3,7 +3,9 @@
   "name": "bridge_troll",
   "version": "0.0.0",
   "dependencies": {
-    "bower": "^1.7.2",
+    "bower": "^1.7.2"
+  },
+  "devDependencies": {
     "chromedriver": "^77.0.0"
   }
 }
