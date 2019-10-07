@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 describe Profile do
-  it { is_expected.to belong_to(:user) }
-  it { is_expected.to validate_presence_of(:user) }
+  it { is_expected.to belong_to(:user).required }
 
   describe "uniqueness" do
     let!(:profile) { create(:user).profile }
@@ -39,4 +38,3 @@ describe Profile do
     expect(profile.twitter_username).to eq('banana')
   end
 end
-

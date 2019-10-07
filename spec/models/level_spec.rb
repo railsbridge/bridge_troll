@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Level do
-  it { should belong_to(:course) }
+  it { should belong_to(:course).optional }
   it { should validate_presence_of(:num) }
   it { should validate_inclusion_of(:num)
       .in_array((1..5).to_a)

@@ -592,7 +592,7 @@ describe EventsController do
     end
 
     it "allows non-signed in users to view page" do
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it "displays the Past Events table" do

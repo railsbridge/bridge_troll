@@ -143,7 +143,15 @@ FactoryBot.define do
     factory :organizer_rsvp do
       role {Role.find_by title: 'Organizer'}
     end
+
+    trait(:checked_in) do
+      transient do
+        checked_in { true }
+      end
+    end
+
     transient do
+      checked_in { false }
       session_checkins {nil}
     end
 
@@ -154,7 +162,10 @@ FactoryBot.define do
         end
         rsvp.checkins_count = evaluator.session_checkins.values.select { |v| v }.length
       elsif rsvp.rsvp_sessions.empty?
-        rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session: rsvp.event.event_sessions.first)
+        rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session: rsvp.event.event_sessions.first, checked_in: evaluator.checked_in)
+        if evaluator.checked_in
+          rsvp.checkins_count = 1 # TODO: remove me when we upgrade to rails 5.2
+        end
       end
     end
   end

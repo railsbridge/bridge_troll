@@ -10,7 +10,7 @@ module Chapters
 
     def create
       authorize @chapter, :modify_leadership?
-      leader = ChapterLeadership.new(chapter: @chapter, user_id: leader_params[:id])
+      leader = ChapterLeadership.new(chapter: @chapter, user_id: leader_id_param)
       if leader.save
         redirect_to chapter_leaders_path(@chapter), notice: "Booyah!"
       else
@@ -22,7 +22,7 @@ module Chapters
       authorize @chapter, :modify_leadership?
       leadership = ChapterLeadership.where(
         chapter: @chapter,
-        user_id: leader_params[:id]
+        user_id: params[:id]
       ).first
 
       leadership.destroy
@@ -39,7 +39,7 @@ module Chapters
             )
           SQL
 
-          render json: UserSearcher.new(users_not_assigned, params[:q])
+          render json: UserSearcher.new(users_not_assigned, search_query)
         end
       end
     end
@@ -47,11 +47,19 @@ module Chapters
     private
 
     def load_chapter
-      @chapter = Chapter.find(params[:chapter_id])
+      @chapter = Chapter.find(chapter_id_param)
     end
 
-    def leader_params
-      params.permit(:id, :chapter_id)
+    def chapter_id_param
+      params.require(:chapter_id)
+    end
+
+    def leader_id_param
+      params.require(:chapter_leader).require(:id)
+    end
+
+    def search_query
+      params.require(:q)
     end
   end
 end

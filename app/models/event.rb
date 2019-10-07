@@ -19,11 +19,11 @@ class Event < ActiveRecord::Base
   end
   after_destroy :update_location_counts
 
-  belongs_to :location
-  belongs_to :chapter, counter_cache: true
+  belongs_to :location, optional: true
+  belongs_to :chapter, counter_cache: true, required: true
   has_one :organization, through: :chapter
 
-  belongs_to :course
+  belongs_to :course, optional: true
 
   has_one :region, through: :location
 
@@ -74,7 +74,6 @@ class Event < ActiveRecord::Base
   end
 
   validates :title, presence: true
-  validates :chapter, presence: true
   validates :food_provided, inclusion: { in: [true, false] }
   validates :time_zone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true }, presence: true
   validates :current_state, inclusion: { in: Event.current_states.keys }

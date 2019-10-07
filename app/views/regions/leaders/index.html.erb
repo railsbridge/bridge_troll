@@ -3,7 +3,7 @@
 <h3>Potential Leaders</h3>
 <%= render 'shared/user_chooser',
            action: region_leaders_path(@region),
-           select_id: '',
+           select_id: 'region_leader',
            foreign_key: 'id',
            url: potential_region_leaders_path(@region),
            choices: []

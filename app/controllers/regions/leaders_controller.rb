@@ -10,7 +10,7 @@ module Regions
 
     def create
       authorize @region, :modify_leadership?
-      leader = RegionLeadership.new(region: @region, user_id: leader_params[:id])
+      leader = RegionLeadership.new(region: @region, user_id: leader_id_param)
       if leader.save
         redirect_to region_leaders_path(@region), notice: "Booyah!"
       else
@@ -22,7 +22,7 @@ module Regions
       authorize @region, :modify_leadership?
       leadership = RegionLeadership.where(
         region: @region,
-        user_id: leader_params[:id]
+        user_id: params[:id]
       ).first
 
       leadership.destroy
@@ -39,19 +39,27 @@ module Regions
             )
           SQL
 
-          render json: UserSearcher.new(users_not_assigned, params[:q])
+          render json: UserSearcher.new(users_not_assigned, search_query)
         end
       end
     end
 
     private
 
-    def load_region
-      @region = Region.find(params[:region_id])
+    def search_query
+      params.require(:q)
     end
 
-    def leader_params
-      params.permit(:id, :region_id)
+    def load_region
+      @region = Region.find(region_id_param)
+    end
+
+    def region_id_param
+      params.require(:region_id)
+    end
+
+    def leader_id_param
+      params.require(:region_leader).require(:id)
     end
   end
 end

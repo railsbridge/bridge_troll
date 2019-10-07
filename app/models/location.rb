@@ -1,10 +1,10 @@
 class Location < ActiveRecord::Base
   scope :available, -> { where(archived_at: nil) }
   has_many :events
-  belongs_to :region, counter_cache: true
+  belongs_to :region, counter_cache: true, required: true
   has_many :event_sessions
 
-  validates_presence_of :name, :address_1, :city, :region
+  validates_presence_of :name, :address_1, :city
   unless Rails.env.test?
     geocoded_by :full_address
     after_validation :geocode

@@ -3,8 +3,7 @@ require 'rails_helper'
 describe Users::EventsController do
   let(:user) { FactoryBot.create(:user) }
   let(:event) { FactoryBot.create(:event) }
-  let!(:rsvp) { FactoryBot.create(:rsvp, user: user, event: event,
-                                   checkins_count: 1) }
+  let!(:rsvp) { FactoryBot.create(:rsvp, user: user, event: event, checked_in: true) }
 
   describe "#index" do
     it 'should respond successfully with json' do
