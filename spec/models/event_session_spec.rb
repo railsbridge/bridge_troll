@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe EventSession do  
-  it { is_expected.to belong_to(:event) }
+describe EventSession do
+  it { is_expected.to belong_to(:event).optional }
 
   it { is_expected.to validate_presence_of(:starts_at) }
   it { is_expected.to validate_presence_of(:ends_at) }

@@ -1,6 +1,6 @@
 class ExternalEvent < ActiveRecord::Base
-  belongs_to :region, counter_cache: true
-  belongs_to :chapter, counter_cache: true
+  belongs_to :region, counter_cache: true, optional: true
+  belongs_to :chapter, counter_cache: true, optional: true
   has_one :organization, through: :chapter
 
   validates_presence_of :name, :starts_at, :city

@@ -3,7 +3,7 @@ class Level < ActiveRecord::Base
 
   default_scope { order(:num) }
 
-  belongs_to :course
+  belongs_to :course, optional: true
   validates :num, presence: true,
             inclusion: {
               in: (1..5),

@@ -1,7 +1,7 @@
 class EventSession < ActiveRecord::Base
   include PresenceTrackingBoolean
 
-  belongs_to :location, required: false
+  belongs_to :location, optional: true
 
   validates_presence_of :starts_at, :ends_at, :name
   validates_uniqueness_of :name, scope: [:event_id]
@@ -21,7 +21,7 @@ class EventSession < ActiveRecord::Base
     end
   end
 
-  belongs_to :event, inverse_of: :event_sessions
+  belongs_to :event, inverse_of: :event_sessions, optional: true
   has_many :rsvp_sessions, dependent: :destroy
   has_many :rsvps, through: :rsvp_sessions
 

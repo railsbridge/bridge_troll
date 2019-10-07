@@ -5,7 +5,7 @@ describe Event do
     @user = create(:user)
   end
 
-  it { is_expected.to belong_to(:location) }
+  it { is_expected.to belong_to(:location).optional }
   it { is_expected.to have_many(:rsvps) }
   it { is_expected.to have_many(:event_sessions) }
   it { is_expected.to validate_numericality_of(:student_rsvp_limit).is_greater_than(0) }
@@ -124,6 +124,7 @@ describe Event do
       allow(WaitlistManager).to receive(:new).and_return(waitlist_manager)
 
       event = create(:event, student_rsvp_limit: 10)
+
 
       expect(waitlist_manager).to receive(:reorder_waitlist!)
       event.update_attributes(student_rsvp_limit: 200)
