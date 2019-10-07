@@ -2,4 +2,3 @@
 //= link markerclustererplus/dist/markerclusterer.min.js
 //= link application.js
 //= link application.css
-//= link logo.svg

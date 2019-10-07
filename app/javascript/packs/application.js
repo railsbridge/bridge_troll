@@ -16,3 +16,4 @@
 // const imagePath = (name) => images(name, true)
 import('../images/troll_plus_logo.svg')
 import('../images/troll.svg')
+import('../images/logo.svg')
