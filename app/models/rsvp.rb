@@ -3,8 +3,8 @@ class Rsvp < ActiveRecord::Base
 
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id, optional: true
   belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id, optional: true
-  belongs_to :user, polymorphic: true
-  belongs_to :event, inverse_of: :rsvps
+  belongs_to :user, polymorphic: true, required: true
+  belongs_to :event, inverse_of: :rsvps, required: true
   belongs_to :section, optional: true
 
   delegate :full_name, to: :user
@@ -18,7 +18,7 @@ class Rsvp < ActiveRecord::Base
   has_one  :survey, dependent: :destroy
 
   validates_uniqueness_of :user_id, scope: [:event_id, :user_type]
-  validates_presence_of :user, :event, :role
+  validates_presence_of :role
   validates_presence_of :childcare_info, if: :needs_childcare?
 
   scope :confirmed, -> { where("waitlist_position IS NULL") }
