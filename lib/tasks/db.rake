@@ -39,10 +39,10 @@ db_namespace = namespace :db do
         begin
           new_schema_content = File.read(filename)
           enable_extension_match = existing_schema_content.match(
-            /.*?ActiveRecord::Schema\.define\(version: \d+\) do\n(.*enable_extension "\w+"\n)/m
+            /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m
           )
           new_schema_define_match = new_schema_content.match(
-            /.*?(ActiveRecord::Schema\.define\(version: \d+\) do\n)/m
+            /.*?(ActiveRecord::Schema\.define\(version: [^)]+\) do\n)/m
           )
           if enable_extension_match && new_schema_define_match
             new_schema_def_line = new_schema_define_match[1]
