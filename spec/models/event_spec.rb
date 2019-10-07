@@ -567,7 +567,7 @@ describe Event do
     before do
       @event = create(:event, student_rsvp_limit: 2)
       @rsvp = create(:rsvp,  event: @event, dietary_info: "Paleo")
-      @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins", checkins_count: 1)
+      @rsvp2 = create(:rsvp, event: @event, dietary_info: "No sea urchins", checked_in: true)
       @waitlisted = create(:rsvp, event: @event, dietary_info: "Pizza only", waitlist_position: 1)
       create(:dietary_restriction, restriction: "gluten-free", rsvp: @rsvp)
       create(:dietary_restriction, restriction: "vegan", rsvp: @rsvp)

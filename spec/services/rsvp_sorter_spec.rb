@@ -22,12 +22,12 @@ describe RsvpSorter do
       @checked_in << create(
         :student_rsvp,
         event: event,
-        checkins_count: 1,
+        checked_in: true,
         user: create(:user, first_name: 'Bee', last_name: 'Beeson'))
       @checked_in << create(
         :student_rsvp,
         event: event,
-        checkins_count: 1,
+        checked_in: true,
         user: create(:user, first_name: 'Deer', last_name: 'Diary'))
     end
 
