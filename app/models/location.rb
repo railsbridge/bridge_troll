@@ -1,7 +1,7 @@
 class Location < ActiveRecord::Base
   scope :available, -> { where(archived_at: nil) }
   has_many :events
-  belongs_to :region, counter_cache: true, required: true
+  belongs_to :region, counter_cache: true
   has_many :event_sessions
 
   validates_presence_of :name, :address_1, :city

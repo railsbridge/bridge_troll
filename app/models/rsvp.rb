@@ -3,8 +3,8 @@ class Rsvp < ActiveRecord::Base
 
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id, optional: true
   belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id, optional: true
-  belongs_to :user, polymorphic: true, required: true
-  belongs_to :event, inverse_of: :rsvps, required: true
+  belongs_to :user, polymorphic: true
+  belongs_to :event, inverse_of: :rsvps
   belongs_to :section, optional: true
 
   delegate :full_name, to: :user

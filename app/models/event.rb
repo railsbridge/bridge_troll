@@ -8,19 +8,19 @@ class Event < ActiveRecord::Base
   after_initialize :set_defaults
   before_validation :normalize_allowed_operating_system_ids
   after_save do |event|
-    if student_rsvp_limit_changed? || volunteer_rsvp_limit_changed?
+    if saved_change_to_attribute?(:student_rsvp_limit) || saved_change_to_attribute?(:volunteer_rsvp_limit)
       WaitlistManager.new(event).reorder_waitlist!
     end
   end
 
   after_create :update_location_counts
   after_save do
-    update_location_counts if location_id_changed?
+    update_location_counts if saved_change_to_attribute?(:location_id)
   end
   after_destroy :update_location_counts
 
   belongs_to :location, optional: true
-  belongs_to :chapter, counter_cache: true, required: true
+  belongs_to :chapter, counter_cache: true
   has_one :organization, through: :chapter
 
   belongs_to :course, optional: true
@@ -434,8 +434,8 @@ class Event < ActiveRecord::Base
 
   def update_location_counts
     location.try(:reset_events_count)
-    if location_id_changed? && location_id_was
-      Location.find(location_id_was).reset_events_count
+    if saved_change_to_attribute?(:location_id) && saved_changes[:location_id].first
+      Location.find(saved_changes[:location_id].first).reset_events_count
     end
   end
 end
