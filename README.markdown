@@ -67,16 +67,14 @@ Pro-tip: Confirming Users Locally
 
 ### Running tests
 
-This project has many tests that you should run before submitting a pull request, even if it's just a simple text change. You will need to install PhantomJS to run the tests. On OSX with Homebrew, try
+This project has many tests that you should run before submitting a pull request, even if it's just a simple text change. You will need to install npm to run the tests. On OSX with Homebrew, try
 ```
-brew update
-brew tap homebrew/cask
-brew cask install phantomjs
+brew install node
 ```
 
 If you are on a Ubuntu-based linux distribution, you can try
 ```
-sudo apt-get install phantomjs
+sudo apt-get install nodejs
 ```
 
 Then you can run tests by doing
@@ -90,7 +88,7 @@ Seed data refers to the initial data provided with the site for training, testin
 
 `rake db:seed` will create a sample event (called 'Seeded Test Event'), organized by a sample user, with many more sample user volunteers and students.
 
-All the created users have easyish-to-remember logins, so a great way to test out organizer functionality is to load the seeds and log in as `organizer@example.com` with the password `password` (it will always be 'password'). 
+All the created users have easyish-to-remember logins, so a great way to test out organizer functionality is to load the seeds and log in as `organizer@example.com` with the password `password` (it will always be 'password').
 
 Doing `rake db:seed` again will destroy all those sample persons and create the event again. The exact details of what is created can be found in `seed_event.rb`.
 

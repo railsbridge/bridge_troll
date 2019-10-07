@@ -48,6 +48,7 @@ else
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
   end
 
+  Selenium::WebDriver::Chrome.driver_path = Rails.root.join("node_modules", ".bin", "chromedriver").to_s
   Capybara.javascript_driver = :selenium_chrome_headless_with_resolution_for_travis
   # Capybara.javascript_driver = :selenium_chrome_with_resolution
 end

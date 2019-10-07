@@ -27,10 +27,8 @@ Dir.chdir APP_ROOT do
     EOT
     exit 1
   end
-  system "npm install -g bower"
+  system "npm install"
   system "RAILS_ENV=development rake bower:install"
-
-  system "npm install -g chromedriver"
 
   puts "\n== Removing old logs and tempfiles =="
   system! 'bin/rails log:clear tmp:clear'
