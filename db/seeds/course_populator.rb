@@ -1,6 +1,7 @@
-class CoursePopulator
+module CoursePopulator
+  module_function
   def populate_courses
-    default_course_data.each do |course|
+    DEFAULT_COURSE_DATA.each do |course|
       c = Course.where(
         id: course[:id]
       ).first_or_create!(
@@ -20,9 +21,7 @@ class CoursePopulator
     end
   end
 
-  private
-
-  def default_course_data
+  DEFAULT_COURSE_DATA =
     [
       {
         id: 1,
@@ -798,5 +797,6 @@ concepts, like collections and scope.',
         ]
       }
     ]
-  end
+
+  private_constant :DEFAULT_COURSE_DATA
 end
