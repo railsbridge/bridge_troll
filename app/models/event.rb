@@ -23,7 +23,7 @@ class Event < ActiveRecord::Base
   belongs_to :chapter, counter_cache: true
   has_one :organization, through: :chapter
 
-  belongs_to :course
+  belongs_to :course, optional: true
 
   has_one :region, through: :location
 

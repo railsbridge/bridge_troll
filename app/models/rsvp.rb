@@ -2,10 +2,10 @@ class Rsvp < ActiveRecord::Base
   include PresenceTrackingBoolean
 
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id
-  belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id
+  belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id, optional: true
   belongs_to :user, polymorphic: true
   belongs_to :event, inverse_of: :rsvps
-  belongs_to :section
+  belongs_to :section, optional: true
 
   delegate :full_name, to: :user
   delegate :historical?, to: :event, allow_nil: true
