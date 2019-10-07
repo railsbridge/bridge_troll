@@ -3,4 +3,3 @@
 //= link application.js
 //= link application.css
 //= link logo.svg
-//= link troll.svg

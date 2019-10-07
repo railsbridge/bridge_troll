@@ -50,7 +50,7 @@
     </div>
 
     <footer class="hide">
-      <div class="trollholder"><%= image_tag asset_path('troll.svg'), alt: '' %></div>  
+      <div class="trollholder"><%= image_pack_tag('troll.svg', alt: 'logo') %></div>  
       <div class="container center footerlinks">
         <%= link_to "About Bridge Foundry", "https://bridgefoundry.org/about", target: :_blank %>
         <%= link_to "Past Events", past_events_events_path %>
