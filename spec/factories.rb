@@ -163,6 +163,9 @@ FactoryBot.define do
         rsvp.checkins_count = evaluator.session_checkins.values.select { |v| v }.length
       elsif rsvp.rsvp_sessions.empty?
         rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session: rsvp.event.event_sessions.first, checked_in: evaluator.checked_in)
+        if evaluator.checked_in
+          rsvp.checkins_count = 1 # TODO: remove me when we upgrade to rails 5.2
+        end
       end
     end
   end
