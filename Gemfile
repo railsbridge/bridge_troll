@@ -72,7 +72,7 @@ group :test, :development do
   gem 'jasmine'
   gem 'jasmine-jquery-rails'
   gem 'pry'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '4.0.0.beta2'
   gem 'rspec-collection_matchers'
   gem 'sqlite3'
   gem 'rails-controller-testing', require: false
