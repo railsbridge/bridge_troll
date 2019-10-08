@@ -396,7 +396,7 @@ DEPENDENCIES
   codecov
   coffee-rails
   database_cleaner
-  devise (~> 4.7.1)
+  devise
   dotenv-rails
   factory_bot_rails
   faker
@@ -406,7 +406,7 @@ DEPENDENCIES
   gravatar_image_tag
   handlebars_assets
   icalendar
-  jasmine (~> 3.5.0)
+  jasmine
   jasmine-jquery-rails
   jquery-rails
   jquery-ui-rails
@@ -430,7 +430,7 @@ DEPENDENCIES
   rack-cors
   rack-mini-profiler
   rack-timeout
-  rails (~> 5.2.3)
+  rails
   rails-controller-testing
   rb-fsevent
   rspec-collection_matchers
@@ -441,7 +441,7 @@ DEPENDENCIES
   sentry-raven
   shoulda-matchers
   simple_form
-  simplecov (= 0.17.1)
+  simplecov
   spring
   spring-commands-rspec
   sqlite3
