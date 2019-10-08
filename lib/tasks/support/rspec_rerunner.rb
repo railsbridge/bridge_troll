@@ -13,7 +13,7 @@ class RspecRerunner
 
   def run_tests
     Bundler.with_clean_env do
-      succeeded_initially = system("bundle exec rspec spec")
+      succeeded_initially = system("bundle exec rake parallel:spec")
       return if succeeded_initially
     end
 
@@ -25,7 +25,7 @@ class RspecRerunner
 
     RERUN_ATTEMPTS.times do
       Bundler.with_clean_env do
-        succeeded_on_retry = system("bundle exec rspec spec --only-failures")
+        succeeded_on_retry = system("bundle exec rake parallel:spec --only-failures")
         return if succeeded_on_retry
       end
     end

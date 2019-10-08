@@ -236,6 +236,9 @@ GEM
       omniauth-oauth (~> 1.1)
       rack
     orm_adapter (0.5.0)
+    parallel (1.17.0)
+    parallel_tests (2.28.0)
+      parallel
     pg (1.1.4)
     phantomjs (2.1.1.0)
     pry (0.12.2)
@@ -418,6 +421,7 @@ DEPENDENCIES
   omniauth-meetup
   omniauth-rails_csrf_protection
   omniauth-twitter
+  parallel_tests
   pg
   pry
   puma
