@@ -18,16 +18,7 @@ chdir APP_ROOT do
   system('bundle check') || system!('bundle install')
 
   # Install JavaScript dependencies if using Yarn
-  # system('bin/yarn')
-
-  if `which npm`.empty?
-    puts <<~EOT
-      You don't have npm installed, which is needed for JS dependencies.
-      Install npm by installing node.js from https://nodejs.org
-    EOT
-    exit 1
-  end
-  system "npm install"
+  system('bin/yarn')
 
   # puts "\n== Copying sample files =="
   # unless File.exist?('config/database.yml')

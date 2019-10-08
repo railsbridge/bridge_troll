@@ -67,20 +67,7 @@ Pro-tip: Confirming Users Locally
 
 ### Running tests
 
-This project has many tests that you should run before submitting a pull request, even if it's just a simple text change. You will need to install npm to run the tests. On OSX with Homebrew, try
-```
-brew install node
-```
-
-If you are on a Ubuntu-based linux distribution, you can try
-```
-sudo apt-get install nodejs
-```
-
-Then you can run tests by doing
-```
-bundle exec rake
-```
+This project has many tests that you should run before submitting a pull request, even if it's just a simple text change. You will need to [install yarn](https://yarnpkg.com/lang/en/docs/install) to run the tests.
 
 ### Seed Data
 

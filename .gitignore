@@ -39,7 +39,7 @@ custom_plan.rb
 # Byebug
 .byebug_history
 
-# npm
+# yarn
 node_modules
 
 coverage
