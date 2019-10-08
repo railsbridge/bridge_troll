@@ -9,7 +9,7 @@ shared_examples_for 'a mailer view' do
   def extract_body(mail)
     if mail.multipart?
       mail.parts.find do |p|
-        p.content_type.starts_with?('text/html')
+        p.media_type.starts_with?('text/html')
       end.body.encoded
     else
       mail.body.encoded
