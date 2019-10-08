@@ -94,6 +94,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Location #{n}" }
     sequence(:address_1) { |n| "#{n} Street" }
     city {"San Francisco"}
+    state { "CA" }
     latitude {37.7955458}
     longitude{-122.3934205}
     region
