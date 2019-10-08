@@ -65,6 +65,7 @@ group :development do
 end
 
 group :test, :development do
+  gem 'parallel_tests'
   gem 'byebug'
   gem 'awesome_print'
   gem 'chrome_remote'

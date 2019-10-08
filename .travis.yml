@@ -6,6 +6,7 @@ cache:
   bundler: true
   directories:
     - node_modules
+    - tmp
 
 addons:
   chrome: stable
@@ -31,7 +32,6 @@ before_script:
   - 'npm install'
   - './config/before-travis.sh'
 script:
-  - 'bundle exec rake rspec_with_retries'
-  - 'bundle exec rake jasmine:ci'
+  - 'bundle exec rake'
 
 sudo: false

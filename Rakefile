@@ -5,3 +5,7 @@
 require File.expand_path('../config/application', __FILE__)
 
 Bridgetroll::Application.load_tasks
+
+
+Rake::Task["default"].clear
+task :default => [:rspec_with_retries, "jasmine:ci"]
