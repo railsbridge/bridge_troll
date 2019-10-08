@@ -4,6 +4,7 @@ rvm:
 bundler_args: "--without development production --deployment"
 cache:
   bundler: true
+  yarn: true
   directories:
     - node_modules
     - tmp
@@ -24,12 +25,11 @@ matrix:
 
 before_install:
   - 'env'
-  - 'npm install'
+  - 'yarn install'
   - 'echo ''gem: --no-document'' > ~/.gemrc'
   - 'gem update --system'
   - 'gem install bundler'
 before_script:
-  - 'npm install'
   - './config/before-travis.sh'
 script:
   - 'bundle exec rake'
