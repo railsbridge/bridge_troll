@@ -34,7 +34,7 @@ describe RsvpsController do
 
     describe "when the event is in the past" do
       before do
-        @event.update_attributes(ends_at: 1.day.ago)
+        @event.update(ends_at: 1.day.ago)
       end
 
       it 'does not allow RSVPing' do
@@ -52,7 +52,7 @@ describe RsvpsController do
 
     describe "when the event is closed" do
       before do
-        @event.update_attributes(open: false)
+        @event.update(open: false)
       end
 
       it 'does not allow RSVPing' do
@@ -111,7 +111,7 @@ describe RsvpsController do
         context 'when the RSVP is for a course they have never attended' do
           before do
             @course = create(:course, name: "JAVASCRIPT", title: "Intro to JavaScript")
-            @event.update_attributes(course_id: @course.id)
+            @event.update(course_id: @course.id)
           end
 
           it "carries over only limited details" do

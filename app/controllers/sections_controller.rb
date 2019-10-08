@@ -11,7 +11,7 @@ class SectionsController < ApplicationController
   def update
     authorize @event, :edit?
     section = @event.sections.find(params[:id])
-    if section.update_attributes(section_params)
+    if section.update(section_params)
       render json: section
     else
       render json: {}, status: :unprocessable_entity

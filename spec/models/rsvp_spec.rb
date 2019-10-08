@@ -96,7 +96,7 @@ describe Rsvp do
       let(:event) { create(:event) }
       let(:event_session) do
         event.event_sessions.first.tap do |event_session|
-          event_session.update_attributes(starts_at: 1.year.ago, ends_at: 6.months.ago)
+          event_session.update(starts_at: 1.year.ago, ends_at: 6.months.ago)
         end
       end
       let(:rsvp) do
@@ -123,7 +123,7 @@ describe Rsvp do
     context 'when the event has not passed' do
       it 'is always false' do
         event = create(:event)
-        event.event_sessions.first.update_attributes(starts_at: 1.year.from_now, ends_at: 2.years.from_now)
+        event.event_sessions.first.update(starts_at: 1.year.from_now, ends_at: 2.years.from_now)
 
         rsvp = create(:rsvp, user: create(:user), event: event)
         expect(rsvp).not_to be_no_show

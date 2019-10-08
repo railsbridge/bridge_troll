@@ -56,7 +56,7 @@ describe Events::OrganizerToolsController do
               url: 'http://example.com/901'
             }
           }
-          event.update_attributes(imported_event_data: imported_event_data)
+          event.update(imported_event_data: imported_event_data)
 
           make_request
           expect(response).to be_redirect
@@ -142,7 +142,7 @@ describe Events::OrganizerToolsController do
 
       context "when the event has not be published" do
         before do
-          event.update_attributes(current_state: :pending_approval)
+          event.update(current_state: :pending_approval)
         end
 
         it "doesn't send the email" do
@@ -152,7 +152,7 @@ describe Events::OrganizerToolsController do
       
       context "when the event has been published and announcement email has not been sent" do
         before do
-          event.update_attributes(
+          event.update(
             current_state: :published,
             announcement_email_sent_at: nil
           )

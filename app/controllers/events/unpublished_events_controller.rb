@@ -13,7 +13,7 @@ class Events::UnpublishedEventsController < ApplicationController
 
   def publish
     authorize @event, :publish?
-    @event.update_attributes(current_state: :published)
+    @event.update(current_state: :published)
     if @event.email_on_approval
       EventMailer.new_event(@event).deliver_now
       @event.update_attribute(:announcement_email_sent_at, DateTime.now)

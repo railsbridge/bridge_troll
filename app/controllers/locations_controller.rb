@@ -48,7 +48,7 @@ class LocationsController < ApplicationController
 
     @location.gmaps = false
 
-    if @location.update_attributes(location_params)
+    if @location.update(location_params)
       redirect_to @location, notice: 'Location was successfully updated.'
     else
       render :edit

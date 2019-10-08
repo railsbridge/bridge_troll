@@ -5,7 +5,7 @@ describe ReminderSender do
     it 'sends reminders for each of the upcoming events' do
       upcoming_event = create(:event, starts_at: 1.day.from_now, ends_at: 2.days.from_now)
       past_event = create(:event)
-      past_event.event_sessions.first.update_attributes(starts_at: 2.days.ago, ends_at: 1.day.ago)
+      past_event.event_sessions.first.update(starts_at: 2.days.ago, ends_at: 1.day.ago)
 
       expect(ReminderSender).to receive(:remind_attendees_for_event).once.with(upcoming_event)
 
@@ -35,7 +35,7 @@ describe ReminderSender do
 
     describe 'when there is a volunteer-only session occuring before the all-attendees session' do
       before do
-        event.event_sessions.first.update_attributes(starts_at: 4.days.from_now, ends_at: 5.days.from_now)
+        event.event_sessions.first.update(starts_at: 4.days.from_now, ends_at: 5.days.from_now)
         @volunteer_session = create(:event_session, event: event, starts_at: 2.days.from_now, ends_at: 3.days.from_now, required_for_students: false, volunteers_only: true)
 
         @volunteer_rsvp = create(:volunteer_rsvp, event: event).tap do |rsvp|
@@ -63,7 +63,7 @@ describe "querying for events and sessions" do
     @event_tomorrow = create(:event, starts_at: Time.now + 1.day)
     @event_four_days_away = create(:event, starts_at: Time.now + 4.days)
     @event_past = create(:event)
-    @event_past.update_attributes(starts_at: 2.days.ago, ends_at: 1.day.ago)
+    @event_past.update(starts_at: 2.days.ago, ends_at: 1.day.ago)
   end
 
   describe UpcomingEventsQuery do

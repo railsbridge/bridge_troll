@@ -27,7 +27,7 @@ describe LocationPolicy do
 
         context "when the event has not been published" do
           before do
-            event.update_attributes(current_state: :pending_approval)
+            event.update(current_state: :pending_approval)
           end
 
           it "is true if the location has only been used for unpublished events" do

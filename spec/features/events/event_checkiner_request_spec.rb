@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "checking in attendees" do
   before do
     @event = create(:event)
-    @event.event_sessions.first.update_attributes(name: 'Unique Session Name')
+    @event.event_sessions.first.update(name: 'Unique Session Name')
   end
 
   describe "as an organizer" do
@@ -29,7 +29,7 @@ describe "checking in attendees" do
 
     describe "when a user is assigned as a checkiner" do
       before do
-        attendee_rsvp.update_attributes(checkiner: true)
+        attendee_rsvp.update(checkiner: true)
       end
 
       it "can remove checkiner status from the user" do

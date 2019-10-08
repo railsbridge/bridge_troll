@@ -61,10 +61,10 @@ describe Event do
     event = create(:event)
 
     session2 = event.event_sessions.first
-    session2.update_attributes(starts_at: Time.now, ends_at: 1.hour.from_now)
+    session2.update(starts_at: Time.now, ends_at: 1.hour.from_now)
     session3 = create(:event_session, event: event, starts_at: 20.days.from_now, ends_at: 21.days.from_now)
     session1 = create(:event_session, event: event)
-    session1.update_attributes(starts_at: 10.days.ago, ends_at: 9.days.ago)
+    session1.update(starts_at: 10.days.ago, ends_at: 9.days.ago)
 
     expect(event.reload.event_sessions).to eq([session1, session2, session3])
   end
@@ -92,30 +92,30 @@ describe Event do
       end
 
       it 'is allowed if the new limit is greater than or equal to the current number of attendees' do
-        @event.update_attributes(student_rsvp_limit: 2)
+        @event.update(student_rsvp_limit: 2)
         expect(@event).to have(0).errors_on(:student_rsvp_limit)
       end
 
       it 'is disallowed if anyone would be kicked out of the workshop' do
-        @event.update_attributes(student_rsvp_limit: 1)
+        @event.update(student_rsvp_limit: 1)
         expect(@event).to have(1).errors_on(:student_rsvp_limit)
       end
 
       it 'is disallowed if the proposed limit is empty' do
-        @event.update_attributes(student_rsvp_limit: 0)
+        @event.update(student_rsvp_limit: 0)
         expect(@event).to have(2).errors_on(:student_rsvp_limit)
       end
     end
 
     it "does allow student_rsvp_limit to be increased" do
       event = create(:event, volunteer_rsvp_limit: 10)
-      event.update_attributes(volunteer_rsvp_limit: 20)
+      event.update(volunteer_rsvp_limit: 20)
       expect(event).to have(0).errors_on(:volunteer_rsvp_limit)
     end
 
     it "does allow volunteer_rsvp_limit to be increased" do
       event = create(:event, student_rsvp_limit: 10)
-      event.update_attributes(student_rsvp_limit: 20)
+      event.update(student_rsvp_limit: 20)
       expect(event).to have(0).errors_on(:student_rsvp_limit)
     end
 
@@ -127,7 +127,7 @@ describe Event do
 
 
       expect(waitlist_manager).to receive(:reorder_waitlist!)
-      event.update_attributes(student_rsvp_limit: 200)
+      event.update(student_rsvp_limit: 200)
     end
   end
 
@@ -235,17 +235,17 @@ describe Event do
   describe ".upcoming" do
     before do
       @event_past = create(:event)
-      @event_past.event_sessions.first.update_attributes(
+      @event_past.event_sessions.first.update(
         starts_at: 4.weeks.ago, ends_at: 3.weeks.ago
       )
 
       @event_future = create(:event)
-      @event_future.event_sessions.first.update_attributes(
+      @event_future.event_sessions.first.update(
         starts_at: 3.weeks.from_now, ends_at: 4.weeks.from_now
       )
 
       @event_in_progress = create(:event)
-      @event_in_progress.event_sessions.first.update_attributes(
+      @event_in_progress.event_sessions.first.update(
         starts_at: 2.days.ago, ends_at: 2.days.from_now
       )
     end
@@ -435,7 +435,7 @@ describe Event do
     before do
       @event = create(:event)
       @first_session = @event.event_sessions.first
-      @first_session.update_attributes(ends_at: 6.months.from_now)
+      @first_session.update(ends_at: 6.months.from_now)
 
       @last_session = create(:event_session, event: @event, ends_at: 1.year.from_now)
 
@@ -461,7 +461,7 @@ describe Event do
     end
 
     it 'includes RSVPs that are waitlisted but checked in' do
-      @event.update_attributes(student_rsvp_limit: @event.student_rsvps.count)
+      @event.update(student_rsvp_limit: @event.student_rsvps.count)
       @checked_in = create(:student_rsvp, event: @event, waitlist_position: 1)
       @checked_in.rsvp_sessions.find { |rs| rs.event_session_id = @last_session.id }.update_attribute(:checked_in, true)
       @not_checked_in = create(:student_rsvp, event: @event, waitlist_position: 2)

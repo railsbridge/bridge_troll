@@ -50,7 +50,7 @@ describe Events::UnpublishedEventsController do
 
     before do
       this_region = @event.region
-      this_region.update_attributes(name: 'RailsBridge Shellmound')
+      this_region.update(name: 'RailsBridge Shellmound')
       other_region = create(:region, name: 'RailsBridge Meriloft')
 
       @user_none = create(:user)
