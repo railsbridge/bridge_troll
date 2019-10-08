@@ -81,7 +81,7 @@ group :test, :development do
   gem 'rails-controller-testing', require: false
   gem 'rake', require: false
   gem 'rspec-collection_matchers'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '4.0.0.beta3'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
