@@ -67,7 +67,7 @@ describe "the event detail page" do
 
       context "when a course is not chosen" do
         before do
-          @event.update_attributes(course_id: nil)
+          @event.update(course_id: nil)
         end
 
         it "does not display a course" do
@@ -236,7 +236,7 @@ describe "the event detail page" do
           url: 'http://example.com/901'
         }
       }
-      @event.update_attributes(student_rsvp_limit: nil, imported_event_data: imported_event_data)
+      @event.update(student_rsvp_limit: nil, imported_event_data: imported_event_data)
     end
 
     it 'does not render rsvp actions' do
@@ -247,7 +247,7 @@ describe "the event detail page" do
 
   context "past events" do
     before do
-      @event.update_attributes(ends_at: 1.day.ago)
+      @event.update(ends_at: 1.day.ago)
     end
 
     it 'does not render rsvp actions' do

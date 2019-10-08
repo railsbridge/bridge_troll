@@ -36,7 +36,7 @@ describe EventsController do
       @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska')
       @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 4.days.from_now)
       @past_event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
-      @past_event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
+      @past_event.update(starts_at: 5.days.ago, ends_at: 4.days.ago)
       @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
       @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, current_state: :pending_approval)
     end
@@ -323,7 +323,7 @@ describe EventsController do
 
         describe "notifying publishers of events" do
           before do
-            @user.update_attributes(first_name: 'Nitro', last_name: 'Boost')
+            @user.update(first_name: 'Nitro', last_name: 'Boost')
             @admin = create(:user, admin: true)
             @publisher = create(:user, publisher: true)
           end
@@ -348,7 +348,7 @@ describe EventsController do
 
         describe "notifying the user of pending approval" do
           before do
-            @user.update_attributes(first_name: 'Evel', last_name: 'Knievel')
+            @user.update(first_name: 'Evel', last_name: 'Knievel')
           end
 
           let(:mail) do
@@ -447,7 +447,7 @@ describe EventsController do
 
         context 'when the event was previously in a draft state' do
           before do
-            event.update_attributes(current_state: :draft)
+            event.update(current_state: :draft)
           end
 
           it "sends an approval email to all admins/publishers on event creation" do

@@ -46,7 +46,7 @@ class ChaptersController < ApplicationController
 
   def update
     authorize @chapter
-    if @chapter.update_attributes(chapter_params)
+    if @chapter.update(chapter_params)
       redirect_to @chapter, notice: 'Chapter was successfully updated.'
     else
       render :edit

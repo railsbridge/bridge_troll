@@ -16,7 +16,7 @@ describe "Profile" do
       bio: "This is a Bio",
       github_username: "sally33"
     }
-    @user.profile.update_attributes(profile_attributes)
+    @user.profile.update(profile_attributes)
 
     sign_in_as(@user)
   end

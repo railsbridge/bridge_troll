@@ -29,7 +29,7 @@ describe EventList do
       before do
         @past_bt_event_location = create(:location, name: 'PBPlace', city: 'PBCity')
         @past_bt_event = create(:event, title: 'PastBridge', location: @past_bt_event_location)
-        @past_bt_event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
+        @past_bt_event.update(starts_at: 5.days.ago, ends_at: 4.days.ago)
 
         @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago, location: 'PEBPlace')
       end

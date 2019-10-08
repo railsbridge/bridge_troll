@@ -4,7 +4,7 @@ describe SurveySender do
   describe ".send_all_surveys" do
     def create_event_for_date(d)
       create(:event).tap do |e|
-        e.event_sessions.first.update_attributes(starts_at: d, ends_at: d + 10.seconds)
+        e.event_sessions.first.update(starts_at: d, ends_at: d + 10.seconds)
       end
     end
 

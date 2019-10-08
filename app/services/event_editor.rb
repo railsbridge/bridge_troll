@@ -35,7 +35,7 @@ class EventEditor
     was_draft = event.draft?
     result = EventEditorResult.new(event: event)
 
-    unless event.update_attributes(event_params(event))
+    unless event.update(event_params(event))
       result.render = :edit
       result.status = :unprocessable_entity
       return result

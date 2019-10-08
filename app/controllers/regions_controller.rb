@@ -54,7 +54,7 @@ class RegionsController < ApplicationController
 
   def update
     authorize @region
-    if @region.update_attributes(region_params)
+    if @region.update(region_params)
       redirect_to @region, notice: 'Region was successfully updated.'
     else
       render :edit

@@ -17,7 +17,7 @@ describe Events::AttendeesController do
     it 'responds to csv' do
       get :index, params: { event_id: @event.id }, format: :csv
       expect(response).to have_http_status(:success)
-      expect(response.content_type).to eq('text/csv')
+      expect(response.media_type).to eq('text/csv')
 
       csv_rows = CSV.parse(response.body)
       expect(csv_rows[0][0]).to eq('Name')

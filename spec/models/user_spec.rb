@@ -29,7 +29,7 @@ describe User do
       }
     }
     expect {
-      @user.update_attributes(attributes)
+      @user.update(attributes)
     }.not_to change { @user.profile.reload.id }
   end
 

@@ -62,7 +62,7 @@ describe EventSession do
     it "renders in the event's time zone when there is one" do
       event = create(:event, time_zone: 'Alaska')
       session = event.event_sessions.first
-      session.update_attributes(
+      session.update(
         starts_at: '2012-02-03 11:41',
         ends_at: '2012-02-04 02:44'
       )

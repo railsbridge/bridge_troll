@@ -307,8 +307,8 @@ module Seeder
 
     event.save!
 
-    installfest.update_attributes(starts_at: 61.days.ago, ends_at: 60.days.ago)
-    workshop.update_attributes(starts_at: 60.days.ago, ends_at: 59.days.ago)
+    installfest.update(starts_at: 61.days.ago, ends_at: 60.days.ago)
+    workshop.update(starts_at: 60.days.ago, ends_at: 59.days.ago)
 
     organizer = find_or_create_user('organizer@example.com')
     event.organizers << organizer

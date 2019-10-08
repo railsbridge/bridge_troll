@@ -8,7 +8,7 @@ describe Users::EventsController do
   describe "#index" do
     it 'should respond successfully with json' do
       get :index, params: { user_id: user.id }
-      expect(response.content_type).to eq('application/json')
+      expect(response.media_type).to eq('application/json')
       expect(response).to be_successful
     end
 

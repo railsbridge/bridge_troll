@@ -62,7 +62,7 @@ class RsvpsController < ApplicationController
   end
 
   def update
-    if @rsvp.update_attributes(rsvp_params)
+    if @rsvp.update(rsvp_params)
       apply_other_changes_from_params
 
       redirect_to @event
@@ -108,7 +108,7 @@ class RsvpsController < ApplicationController
   end
 
   def apply_other_changes_from_params
-    @rsvp.user.update_attributes(gender: params[:user][:gender])
+    @rsvp.user.update(gender: params[:user][:gender])
 
     if @event.location
       if params[:affiliate_with_region]

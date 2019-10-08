@@ -33,7 +33,7 @@ describe RsvpSorter do
 
     context 'when the event is in the past' do
       before do
-        event.update_attributes(ends_at: 3.days.ago)
+        event.update(ends_at: 3.days.ago)
       end
 
       it 'sorts checked-in attendees first' do
@@ -45,7 +45,7 @@ describe RsvpSorter do
 
     context 'when the event is upcoming' do
       before do
-        event.update_attributes(ends_at: 2.days.from_now)
+        event.update(ends_at: 2.days.from_now)
       end
 
       it 'sorts all attendees by first+last name' do
@@ -69,7 +69,7 @@ describe RsvpSorter do
         }
       }
 
-      event.update_attributes(imported_event_data: imported_event_data)
+      event.update(imported_event_data: imported_event_data)
 
       @meetup_rsvps = []
       @bridgetroll_rsvps = []

@@ -88,7 +88,7 @@ describe LocationsController do
 
       it "should return javascript" do
         post_req
-        expect(response.content_type).to eq('text/javascript')
+        expect(response.media_type).to eq('text/javascript')
       end
 
       it "respond successfully with an HTTP 200 status code" do

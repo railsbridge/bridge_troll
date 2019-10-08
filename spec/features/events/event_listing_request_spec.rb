@@ -24,7 +24,7 @@ describe "the event listing page" do
                    location_id: nil,
                    title: 'mytitle2',
                    time_zone: 'Pacific Time (US & Canada)')
-    event.event_sessions.first.update_attributes(
+    event.event_sessions.first.update(
       starts_at: Time.utc(next_year, 1, 31, 11, 20),
       ends_at: Time.utc(next_year, 1, 31, 11, 55)
     )
@@ -45,12 +45,12 @@ describe "the event listing page" do
       create(:event_session, event: event)
 
       session1, session2 = event.event_sessions.to_a
-      session1.update_attributes(
+      session1.update(
         name: 'SecondSession',
         starts_at: 10.days.from_now,
         ends_at: 11.days.from_now
       )
-      session2.update_attributes(
+      session2.update(
         name: 'FirstSession',
         starts_at: 5.days.from_now,
         ends_at: 6.days.from_now
@@ -66,7 +66,7 @@ describe "the event listing page" do
   describe "the past events table", js: true do
     before do
       event = create(:event, title: 'InternalPastBridge', time_zone: 'Alaska')
-      event.update_attributes(starts_at: 5.days.ago, ends_at: 4.days.ago)
+      event.update(starts_at: 5.days.ago, ends_at: 4.days.ago)
       create(:external_event, name: 'ExternalPastBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
     end
 
@@ -113,7 +113,7 @@ describe "the event listing page" do
 
     it "redirects to event detail page when non-logged in user volunteers" do
       event = create(:event, time_zone: 'Pacific Time (US & Canada)')
-      event.event_sessions.first.update_attributes(
+      event.event_sessions.first.update(
         starts_at: 365.days.from_now,
         ends_at: 366.days.from_now
       )
@@ -238,7 +238,7 @@ describe "the event listing page" do
       before(:each) do
         @event = create(:event)
         @session1 = @event.event_sessions.first
-        @session1.update_attributes!(
+        @session1.update!(
           name: 'Installfest',
           starts_at: 10.days.from_now,
           ends_at: 11.days.from_now

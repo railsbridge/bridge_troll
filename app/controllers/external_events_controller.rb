@@ -32,7 +32,7 @@ class ExternalEventsController < ApplicationController
     authorize ExternalEvent, :edit?
     @external_event = ExternalEvent.find(params[:id])
 
-    if @external_event.update_attributes(external_event_params)
+    if @external_event.update(external_event_params)
       redirect_to external_events_url, notice: 'External event was successfully updated.'
     else
       render :edit
