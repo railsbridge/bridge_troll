@@ -14,6 +14,7 @@ end
 
 db_namespace = namespace :db do
   namespace :schema do
+    ENABLE_EXTENSION_PATTERN = /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m
     desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
     task dump: [:environment, :load_config] do
       raise_weird_schema_error = Proc.new do |specific_message|
@@ -28,18 +29,21 @@ db_namespace = namespace :db do
 
       require 'active_record/schema_dumper'
       filename = ENV['SCHEMA'] || File.join(ActiveRecord::Tasks::DatabaseTasks.db_dir, 'schema.rb')
-      foreign_keys_supported = ActiveRecord::Base.connection.supports_foreign_keys?
+      needs_foreign_keys = !ActiveRecord::Base.connection.supports_foreign_keys?
       existing_schema_content = File.read(filename)
 
       File.open(filename, "w:utf-8") do |file|
         ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, file)
       end
 
-      unless foreign_keys_supported
+      new_schema_content = File.read(filename)
+
+      needs_extensions = !new_schema_content.match(ENABLE_EXTENSION_PATTERN)
+
+      if needs_extensions
         begin
-          new_schema_content = File.read(filename)
           enable_extension_match = existing_schema_content.match(
-            /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m
+            ENABLE_EXTENSION_PATTERN
           )
           new_schema_define_match = new_schema_content.match(
             /.*?(ActiveRecord::Schema\.define\(version: [^)]+\) do\n)/m
@@ -52,19 +56,28 @@ db_namespace = namespace :db do
           else
             raise_weird_schema_error.call("No 'enable_extension' statements were found in schema.rb.")
           end
+        rescue StandardError => _e
+          File.write(filename, existing_schema_content)
+          raise
+        end
+      end
 
+      if needs_foreign_keys
+        begin
           fk_rows = existing_schema_content.match(/.*?([ ]+add_foreign.+\nend\n$)/m).try(:[], 1)
           if fk_rows
             new_schema_content.sub!(/end\n\Z/m, fk_rows)
           else
             raise_weird_schema_error.call("No 'add_foreign_key' statements were found in schema.rb.")
           end
-
-          File.write(filename, new_schema_content)
         rescue StandardError => _e
           File.write(filename, existing_schema_content)
           raise
         end
+      end
+
+      if needs_extensions || needs_foreign_keys
+        File.write(filename, new_schema_content)
       end
 
       db_namespace['schema:dump'].reenable
