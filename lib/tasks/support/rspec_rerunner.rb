@@ -25,7 +25,7 @@ class RspecRerunner
 
     RERUN_ATTEMPTS.times do
       Bundler.with_clean_env do
-        succeeded_on_retry = system("bundle exec rake parallel:spec --only-failures")
+        succeeded_on_retry = system("SPEC_OPTS='--only-failures' bundle exec rake parallel:spec")
         return if succeeded_on_retry
       end
     end
