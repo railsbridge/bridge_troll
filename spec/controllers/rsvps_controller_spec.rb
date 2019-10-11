@@ -241,15 +241,30 @@ describe RsvpsController do
       it 'can set region affiliation' do
         expect(@user.regions).to match_array([])
 
-        post :create, params: {event_id: @event.id, rsvp: @rsvp_params, user: {gender: 'human'}, affiliate_with_region: true}
+        expect {
+          post :create, params: {event_id: @event.id, rsvp: @rsvp_params, user: {gender: 'human'}, affiliate_with_region: true}
+        }.to change { Rsvp.count}.by(1)
         expect(@user.reload.regions).to match_array([@event.region])
       end
 
-      it 'can unset region affiliation' do
-        @user.regions << @event.region
+      context 'when the user is already part of the region' do
+        before  {
+          @user.regions << @event.region
+        }
 
-        post :create, params: {event_id: @event.id, rsvp: @rsvp_params, user: {gender: 'human'}}
-        expect(@user.reload.regions).to match_array([])
+        it 'can unset region affiliation' do
+          expect {
+            post :create, params: {event_id: @event.id, rsvp: @rsvp_params, user: {gender: 'human'}}
+          }.to change {Rsvp.count}.by(1)
+          expect(@user.reload.regions).to match_array([])
+        end
+
+        it 'does nothing when trying to set the region' do
+          expect {
+            post :create, params: {event_id: @event.id, rsvp: @rsvp_params, user: {gender: 'human'}, affiliate_with_region: true}
+          }.to change {Rsvp.count}.by(1)
+          expect(@user.reload.regions).to match_array([@event.region])
+        end
       end
 
       it "should generate a token for the RSVP" do
@@ -581,6 +596,11 @@ describe RsvpsController do
 
       put :update, params: {event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: {gender: 'human'}, affiliate_with_region: true}
       expect(@user.reload.regions).to match_array([@event.region])
+
+      # doing it again to make sure we don't try to set it twice
+      put :update, params: {event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: {gender: 'human'}, affiliate_with_region: true}
+      expect(@user.reload.regions).to match_array([@event.region])
+
 
       put :update, params: {event_id: @event.id, id: @my_rsvp.id, rsvp: rsvp_params, user: {gender: 'human'}}
       expect(@user.reload.regions).to match_array([])
