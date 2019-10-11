@@ -112,7 +112,9 @@ class RsvpsController < ApplicationController
 
     if @event.location
       if params[:affiliate_with_region]
-        @rsvp.user.region_ids += [@event.region.id]
+        unless @rsvp.user.region_ids.include? @event.region.id
+          @rsvp.user.region_ids += [@event.region.id]
+        end
       else
         @rsvp.user.region_ids -= [@event.region.id]
       end
