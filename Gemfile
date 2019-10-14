@@ -68,7 +68,7 @@ group :test, :development do
   gem 'parallel_tests'
   gem 'byebug'
   gem 'awesome_print'
-  gem 'chrome_remote'
+  gem 'chrome_remote', require: false
   gem 'jasmine', '~> 3.5.0'
   gem 'jasmine-jquery-rails'
   gem 'pry'
