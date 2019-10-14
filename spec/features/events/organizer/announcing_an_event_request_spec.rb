@@ -37,14 +37,13 @@ describe 'Announcing an event', js: true do
 
         sign_in_as admin
         visit unpublished_events_path
-        click_on 'Publish'
+        accept_confirm { click_on 'Publish' }
 
         sign_in_as(user_organizer)
       end
 
       it 'will not allow the announcement to be resent by an organizer' do
         visit '/'
-        dismiss_prompt
         click_on good_event_title
         click_on 'Organizer Console'
         expect(page).to have_no_content(send_email_text)
@@ -84,7 +83,7 @@ describe 'Announcing an event', js: true do
         visit '/'
         click_on good_event_title
         click_on 'Organizer Console'
-        accept_alert { click_on send_email_text }
+        accept_confirm { click_on send_email_text }
         expect(page).to have_content 'Your announcement email was sent!'
         expect(page).to have_no_content(send_email_text)
       end
