@@ -26,6 +26,7 @@ matrix:
 before_install:
   - 'env'
   - 'yarn install'
+  - 'which chromedriver'
   - 'chromedriver --version'
   - 'echo ''gem: --no-document'' > ~/.gemrc'
   - 'gem update --system'
