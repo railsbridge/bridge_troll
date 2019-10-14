@@ -9,7 +9,6 @@
     "select2": "4.0.3"
   },
   "devDependencies": {
-    "chromedriver": "^86.0.0",
     "sinon": "1.17.1"
   }
 }
