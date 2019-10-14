@@ -73,6 +73,8 @@ describe 'the event listing page' do
     end
 
     it 'renders a combination of internal and external events' do
+      accept_alert {visit events_path} # There's some weird caching issue that's breaking the ajax request.
+      # reloading fixes it
       visit events_path
 
       within '#past-events-table' do
