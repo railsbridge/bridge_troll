@@ -14,40 +14,15 @@ require 'rails-controller-testing'
 require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 require 'webmock/rspec'
-require 'selenium-webdriver'
+require 'capybara/apparition'
 
-if ENV['JS_DRIVER'] == 'selenium' || ENV['SELENIUM'].present?
-  Capybara.register_driver :selenium do |app|
-    Capybara::Selenium::Driver.new(app, browser: ENV.fetch('BROWSER', 'chrome').to_sym)
-  end
-  Capybara.javascript_driver = :selenium
-else
-  def default_opts
-    opts = ::Selenium::WebDriver::Chrome::Options.new
-    # Workaround https://bugs.chromium.org/p/chromedriver/issues/detail?id=2650&q=load&sort=-id&colspec=ID%20Status%20Pri%20Owner%20Summary
-    opts.args << '--disable-site-isolation-trials'
-    # need to fix window size else tests aren't consistent
-    opts.args << '--window-size=1024,768'
-    opts
-  end
 
-  Capybara.register_driver :selenium_chrome_headless_with_resolution_for_travis do |app|
-    browser_options = default_opts
-    browser_options.args << '--headless'
-    browser_options.args << '--disable-gpu' if Gem.win_platform?
-    browser_options.args << '--no-sandbox' # see https://docs.travis-ci.com/user/chrome#sandboxing, https://docs.travis-ci.com/user/chrome#capybara
-
-    Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
-  end
-
-  Capybara.register_driver :selenium_chrome_with_resolution do |app|
-    Capybara::Selenium::Driver.new(app, browser: :chrome, options: default_opts)
-  end
-
-  Selenium::WebDriver::Chrome::Service.driver_path = Rails.root.join('node_modules/.bin/chromedriver').to_s
-  Capybara.javascript_driver = :selenium_chrome_headless_with_resolution_for_travis
-  # Capybara.javascript_driver = :selenium_chrome_with_resolution
+Capybara.register_driver :apparition_visible do |app|
+  Capybara::Apparition::Driver.new(app, headless: false)
 end
+
+# Capybara.javascript_driver = :apparition_visible
+Capybara.javascript_driver = :apparition
 
 Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:host]}"
 Capybara.disable_animation = true
