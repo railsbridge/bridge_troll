@@ -26,7 +26,7 @@ gem 'pundit'
 gem 'rack-canonical-host'
 gem 'rack-cors'
 gem 'rack-mini-profiler', require: false
-gem 'rails', '~> 5.2.4.1'
+gem 'rails'
 gem 'sanitize'
 gem 'simple_form'
 # faster interoperable json
