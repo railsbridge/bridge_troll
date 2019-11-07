@@ -4,8 +4,8 @@ ruby '2.6.4'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem 'rails', '~> 6.0.1'
-gem 'devise', '~> 4.7.1'
+gem 'rails'
+gem 'devise'
 gem 'pundit'
 gem 'puma'
 gem 'jquery-rails'
@@ -69,10 +69,10 @@ group :test, :development do
   gem 'byebug'
   gem 'awesome_print'
   gem 'chrome_remote'
-  gem 'jasmine', '~> 3.5.0'
+  gem 'jasmine'
   gem 'jasmine-jquery-rails'
   gem 'pry'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '4.0.0.beta2'
   gem 'rspec-collection_matchers'
   gem 'sqlite3'
   gem 'rails-controller-testing', require: false
@@ -88,6 +88,6 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver', require: false
   gem 'shoulda-matchers'
-  gem 'simplecov', '0.17.1', require: false
+  gem 'simplecov', require: false
   gem 'webmock'
 end
