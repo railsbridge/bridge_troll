@@ -87,7 +87,7 @@ GEM
     childprocess (3.0.0)
     chrome_remote (0.2.0)
       websocket-driver (~> 0.6)
-    codecov (0.1.15)
+    codecov (0.1.16)
       json
       simplecov
       url
