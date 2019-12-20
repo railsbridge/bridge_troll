@@ -9,7 +9,7 @@
     "masonry-layout": "4.1.1"
   },
   "devDependencies": {
-    "chromedriver": "^77.0.0",
+    "chromedriver": "^79.0.0",
     "sinon": "1.17.1"
   }
 }
