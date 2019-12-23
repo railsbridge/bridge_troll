@@ -128,7 +128,7 @@ db_namespace = namespace :db do
 
   def print_and_run(cmd)
     puts "Running '#{cmd}'"
-    Bundler.with_clean_env do
+    Bundler.with_unbundled_env do
       `#{cmd}`
     end
   end
