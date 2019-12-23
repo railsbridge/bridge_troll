@@ -4,7 +4,7 @@ ruby '2.6.4'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 6.0.2'
 gem 'devise', '~> 4.7.1'
 gem 'pundit'
 gem 'puma'
