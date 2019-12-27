@@ -4,8 +4,8 @@ ruby '2.6.4'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
-gem 'rails', '~> 5.2.3'
-gem 'devise', '~> 4.7.1'
+gem 'rails', '~> 5.2.4.1'
+gem 'devise'
 gem 'pundit'
 gem 'puma'
 gem 'jquery-rails'
@@ -27,6 +27,9 @@ gem 'icalendar'
 gem 'rack-mini-profiler', require: false
 gem 'nearest_time_zone'
 gem 'rack-cors'
+# faster interoperable json
+gem 'oj'
+gem 'multi_json'
 
 # optimize and cache expensive computations for faster boot times. It's
 # `require`d in a specific way in config/boot.rb
@@ -53,6 +56,7 @@ gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 gem 'jquery-ui-rails'
 gem 'backbone-on-rails'
+gem 'sprockets', '~> 3.7.2' # sprockets 4 requires some more major changes
 
 group :development do
   gem 'rb-fsevent'
@@ -69,7 +73,7 @@ group :test, :development do
   gem 'byebug'
   gem 'awesome_print'
   gem 'chrome_remote'
-  gem 'jasmine', '~> 3.5.0'
+  gem 'jasmine'
   gem 'jasmine-jquery-rails'
   gem 'pry'
   gem 'rspec-rails'
@@ -88,6 +92,6 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver', require: false
   gem 'shoulda-matchers'
-  gem 'simplecov', '0.17.1', require: false
+  gem 'simplecov', require: false
   gem 'webmock'
 end
