@@ -397,7 +397,7 @@ DEPENDENCIES
   codecov
   coffee-rails
   database_cleaner
-  devise (~> 4.7.1)
+  devise
   dotenv-rails
   factory_bot_rails
   faker
