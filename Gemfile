@@ -27,6 +27,9 @@ gem 'icalendar'
 gem 'rack-mini-profiler', require: false
 gem 'nearest_time_zone'
 gem 'rack-cors'
+# faster interoperable json
+gem 'oj'
+gem 'multi_json'
 
 # optimize and cache expensive computations for faster boot times. It's
 # `require`d in a specific way in config/boot.rb
