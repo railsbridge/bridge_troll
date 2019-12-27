@@ -53,6 +53,7 @@ gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 gem 'jquery-ui-rails'
 gem 'backbone-on-rails'
+gem 'sprockets', '~> 3.7.2' # sprockets 4 requires some more major changes
 
 group :development do
   gem 'rb-fsevent'

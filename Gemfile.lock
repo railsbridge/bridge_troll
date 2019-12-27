@@ -445,6 +445,7 @@ DEPENDENCIES
   simplecov (= 0.17.1)
   spring
   spring-commands-rspec
+  sprockets (~> 3.7.2)
   sqlite3
   uglifier
   webmock
