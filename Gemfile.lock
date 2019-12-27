@@ -433,7 +433,7 @@ DEPENDENCIES
   rack-cors
   rack-mini-profiler
   rack-timeout
-  rails (~> 5.2.3)
+  rails (~> 5.2.4.1)
   rails-controller-testing
   rb-fsevent
   rspec-collection_matchers
