@@ -444,7 +444,7 @@ DEPENDENCIES
   sentry-raven
   shoulda-matchers
   simple_form
-  simplecov (= 0.17.1)
+  simplecov
   spring
   spring-commands-rspec
   sprockets (~> 3.7.2)
