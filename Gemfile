@@ -73,7 +73,7 @@ group :test, :development do
   gem 'byebug'
   gem 'awesome_print'
   gem 'chrome_remote'
-  gem 'jasmine', '~> 3.5.0'
+  gem 'jasmine'
   gem 'jasmine-jquery-rails'
   gem 'pry'
   gem 'rspec-rails'

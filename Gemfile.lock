@@ -407,7 +407,7 @@ DEPENDENCIES
   gravatar_image_tag
   handlebars_assets
   icalendar
-  jasmine (~> 3.5.0)
+  jasmine
   jasmine-jquery-rails
   jquery-rails
   jquery-ui-rails
