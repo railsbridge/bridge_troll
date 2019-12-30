@@ -4,7 +4,7 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Bridgetroll::Application.load_tasks
+Rails.application.load_tasks
 
 
 if Rails.env.development? || Rails.env.test?
