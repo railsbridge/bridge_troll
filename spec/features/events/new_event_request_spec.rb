@@ -165,13 +165,13 @@ describe "New Event", js: true do
   end
 
   context 'after clicking "Add another session"' do
-    before do
+    it 'has two event session options, of which only the second can be removed' do
       visit_new_events_form_and_expand_all_sections
 
-      click_on 'Add another session'
-    end
+      expect(page).to have_selector('.event-sessions > .fields', count: 1)
 
-    it 'has two event session options, of which only the second can be removed' do
+      click_on 'Add another session'
+
       expect(page).to have_selector('.event-sessions > .fields', count: 2)
 
       find(:link, 'Remove Session', visible: true).click
