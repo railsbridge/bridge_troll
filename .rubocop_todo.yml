@@ -236,14 +236,6 @@ Rails/FilePath:
     - 'spec/rails_helper.rb'
     - 'spec/seeds/seeds_spec.rb'
 
-# Offense count: 2
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/HasAndBelongsToMany:
-  Exclude:
-    - 'app/models/region.rb'
-    - 'app/models/user.rb'
-
 # Offense count: 8
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb

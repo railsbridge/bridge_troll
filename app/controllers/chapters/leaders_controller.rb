@@ -36,7 +36,7 @@ module Chapters
       respond_to do |format|
         format.json do
           users_not_assigned = User.where(<<-SQL, @chapter.id)
-            id NOT IN (
+            users.id NOT IN (
               SELECT user_id FROM chapter_leaderships WHERE chapter_id = ?
             )
           SQL

@@ -16,7 +16,8 @@ class User < ApplicationRecord
   has_many :event_emails, foreign_key: :sender_id, dependent: :nullify
 
   has_one :profile, dependent: :destroy, inverse_of: :user, validate: true
-  has_and_belongs_to_many :regions
+  has_many :regions_users, dependent: :destroy
+  has_many :regions, through: :regions_users
 
   has_many :organization_subscriptions
   has_many :subscribed_organizations, through: :organization_subscriptions, class_name: 'Organization'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2017_07_07_161519) do
+ActiveRecord::Schema.define(version: 2020_01_02_135517) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -229,7 +229,7 @@ ActiveRecord::Schema.define(version: 2017_07_07_161519) do
     t.integer "external_events_count", default: 0
   end
 
-  create_table "regions_users", id: false, force: :cascade do |t|
+  create_table "regions_users", force: :cascade do |t|
     t.integer "region_id"
     t.integer "user_id"
     t.index ["region_id", "user_id"], name: "index_regions_users_on_region_id_and_user_id", unique: true
