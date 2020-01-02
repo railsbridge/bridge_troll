@@ -9,7 +9,10 @@ class MeetupUser < ApplicationRecord
   end
 
   def profile
-    @profile ||= Profile.new.tap(&:readonly!)
+    @profile ||= Profile.new.tap do |p|
+      Profile.attribute_names.each { |attrib| p[attrib] = false }
+      p.readonly!
+    end
   end
 
   def profile_path
