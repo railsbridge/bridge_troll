@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe AccountMerger do
   before do
-    allow_any_instance_of(described_class).to receive(:get_answer).and_return('y')
+    allow_any_instance_of(described_class).to receive(:gets).and_return('y')
   end
 
   describe 'merging two users' do
