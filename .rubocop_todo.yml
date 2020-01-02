@@ -290,7 +290,6 @@ Rails/HelperInstanceVariable:
 # Include: app/models/**/*.rb
 Rails/InverseOf:
   Exclude:
-    - 'app/models/meetup_user.rb'
     - 'app/models/organization_subscription.rb'
     - 'app/models/rsvp.rb'
     - 'app/models/user.rb'
@@ -343,16 +342,6 @@ Style/GuardClause:
 # Cop supports --auto-correct.
 Style/IfUnlessModifier:
   Enabled: false
-
-# Offense count: 1
-Style/MethodMissingSuper:
-  Exclude:
-    - 'app/models/meetup_user.rb'
-
-# Offense count: 1
-Style/MissingRespondToMissing:
-  Exclude:
-    - 'app/models/meetup_user.rb'
 
 # Offense count: 2
 Style/MixinUsage:
