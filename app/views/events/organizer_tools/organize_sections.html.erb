@@ -2,7 +2,7 @@
 <%= content_for(:header_link, event_organizer_tools_path(@event)) %>
 <%= javascript_include_tag "section_organizer", defer: true %>
 
-<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Section Organizer'} %>
+<%= render partial: 'shared/organizer_breadcrumb', locals: {current_page_title: 'Section Organizer'} %>
 
 <div id="section-organizer" class="section-organizer"></div>
 

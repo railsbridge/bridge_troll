@@ -3,7 +3,7 @@
 <%= simple_form_for @event do |f| %>
   <%= render 'shared/model_error_messages', model: @event %>
 
-  <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Edit Email Body'} %>
+  <%= render partial: 'shared/organizer_breadcrumb', locals: {current_page_title: 'Edit Email Body'} %>
 
   <div class="field">
     <p>

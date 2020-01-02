@@ -1,6 +1,6 @@
 <%= content_for(:header_text, "Sign in") %>
 
 <div id="sign-in-page">
-	<%= render :partial => "shared/sign_in" %>
+	<%= render partial: "shared/sign_in" %>
   <%= devise_links(:forgot_password, :confirmation_instructions) %>
 </div>

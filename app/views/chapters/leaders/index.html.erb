@@ -27,7 +27,7 @@
       <td>
         <% if leader.id != current_user.id %>
           <%= button_to 'Remove', chapter_leader_path(@chapter, leader), method: :delete,
-                        :form => {:style => "margin-bottom : 0;"}, :class => "btn btn-mini" %>
+                        form: {style: "margin-bottom : 0;"}, class: "btn btn-mini" %>
         <% end %>
       </td>
     </tr>

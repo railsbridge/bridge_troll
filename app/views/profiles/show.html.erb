@@ -47,7 +47,7 @@
   <% if @profile.github_username.present? %>
     <section>
       <h3>GitHub</h3>
-      <%= link_to "https://github.com/#{@profile.github_username}", :target => "_blank" do %>
+      <%= link_to "https://github.com/#{@profile.github_username}", target: "_blank" do %>
         <i class="fa fa-github" style="margin-right: 4px;"></i><%= @profile.github_username %>
     <% end %>
     </section>
@@ -56,7 +56,7 @@
   <% if @profile.twitter_username.present? %>
     <section>
       <h3>Twitter</h3>
-      <%= link_to "https://twitter.com/#{@profile.twitter_username}", :target => "_blank" do %>
+      <%= link_to "https://twitter.com/#{@profile.twitter_username}", target: "_blank" do %>
         <i class="fa fa-twitter" style="margin-right: 4px;"></i><%= @profile.twitter_username %>
       <% end %>
     </section>

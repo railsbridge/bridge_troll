@@ -1,5 +1,5 @@
 <div class="rsvp-form">
-  <%= simple_form_for([@event, @rsvp], html: {:class => 'form-vertical'},
+  <%= simple_form_for([@event, @rsvp], html: {class: 'form-vertical'},
                       wrapper_mappings: {
                         boolean: :vertical_boolean,
                         radio_buttons: :vertical_radio_and_checkboxes
@@ -38,7 +38,7 @@
       <% if @event.plus_one_host_toggle %>
         <div class="field">
           <h2>Are you someone's plus-one?</h2>
-          <%= render :partial => "shared/plus_one_disclaimer" %>
+          <%= render partial: "shared/plus_one_disclaimer" %>
           <div class="field">
             <%= f.input :plus_one_host %>
           </div>
