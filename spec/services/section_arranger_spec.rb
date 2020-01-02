@@ -112,7 +112,6 @@ describe SectionArranger do
         @event = create(:event)
         create(:event_session, event: @event)
         @event.reload
-        expect(@event.event_sessions.count).to eq(2)
 
         @session1, @session2 = @event.event_sessions.to_a
 
@@ -131,6 +130,7 @@ describe SectionArranger do
         end
 
         it 'arranges only those people' do
+          expect(@event.event_sessions.count).to eq(2)
           expect(placed_attendee_ids).to match_array([@session1_rsvp.id, @both_rsvp.id])
         end
       end

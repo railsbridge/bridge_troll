@@ -62,18 +62,6 @@ RSpec/DescribeClass:
 RSpec/ExampleLength:
   Enabled: false
 
-# Offense count: 15
-RSpec/ExpectInHook:
-  Exclude:
-    - 'spec/controllers/chapters_controller_spec.rb'
-    - 'spec/controllers/rsvps_controller_spec.rb'
-    - 'spec/features/events/edit_event_request_spec.rb'
-    - 'spec/features/events/organizer/announcing_an_event_request_spec.rb'
-    - 'spec/features/section_organizer/section_arranger_request_spec.rb'
-    - 'spec/features/users/sign_in_menu_request_spec.rb'
-    - 'spec/mailers/mailer_previews_spec.rb'
-    - 'spec/services/section_arranger_spec.rb'
-
 # Offense count: 1151
 # Configuration parameters: AssignmentOnly.
 RSpec/InstanceVariable:

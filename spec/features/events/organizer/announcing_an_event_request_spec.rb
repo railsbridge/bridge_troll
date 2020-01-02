@@ -74,12 +74,13 @@ describe 'Announcing an event', js: true do
         accept_confirm do
           click_on 'Publish'
         end
-        expect(page).to have_content('This event has been published')
-
-        sign_in_as(user_organizer)
       end
 
       it 'will allow an organizer to send an announcement email' do
+        expect(page).to have_content('This event has been published')
+
+        sign_in_as(user_organizer)
+
         visit '/'
         click_on good_event_title
         click_on 'Organizer Console'

@@ -23,17 +23,15 @@ describe 'sign in functionality' do
   end
 
   describe 'when the user visits an authenticated page, then leaves and goes to an unauthenticated one', js: true do
-    before do
-      visit '/users'
-      within '.alert' do
-        expect(page).to have_content('sign in')
-      end
-      visit '/about'
-      expect(page).to have_content("Bridge Troll's Features for Organizers")
-    end
-
     context 'with password auth' do
       it 'always returns the user to the current page, instead of the last path Devise remembers' do
+        visit '/users'
+        within '.alert' do
+          expect(page).to have_content('sign in')
+        end
+        visit '/about'
+        expect(page).to have_content("Bridge Troll's Features for Organizers")
+
         within '.navbar' do
           click_on 'Sign In'
         end
@@ -52,6 +50,7 @@ describe 'sign in functionality' do
         OmniAuth.config.test_mode = true
         OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new(facebook_response)
         @user.authentications.create(provider: :facebook, uid: facebook_response[:uid])
+        visit '/about'
       end
 
       it 'always returns the user to the current page, instead of the last path Devise remembers' do

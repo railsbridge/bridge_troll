@@ -8,13 +8,13 @@ describe 'Edit Event' do
     @drafted_event = create(:event, title: 'draft title', current_state: :draft)
     @drafted_event.organizers << @user_organizer
 
-    expect(@drafted_event).to be_draft
     sign_in_as(@user_organizer)
     visit edit_event_path(@drafted_event)
   end
 
   context 'event saved previously as draft' do
     it 'allows a draft to be saved' do
+      expect(@drafted_event).to be_draft
       fill_in 'Title', with: 'real title'
       check('coc')
       click_on 'Submit Event For Approval'

@@ -6,7 +6,6 @@ describe 'arranging sections for an event', js: true do
   before do
     @event = create(:event, course: create(:course, levels_count: 5))
     create(:event_session, event: @event)
-    expect(@event.reload.event_sessions.count).to eq(2)
 
     @session1, @session2 = @event.event_sessions.to_a
 
@@ -24,6 +23,7 @@ describe 'arranging sections for an event', js: true do
   end
 
   it 'groups the attendees by their chosen level' do
+    expect(@event.reload.event_sessions.count).to eq(2)
     visit event_organize_sections_path(@event)
 
     expect(page).to have_css('.auto-assign-reminder')

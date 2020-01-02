@@ -39,15 +39,12 @@ RSpec.describe 'mailer previews' do
   end
 
   describe 'for non-devise mailer classes' do
-    before do
-      @mailer_classes = find_leaves(ActionMailer::Base) - [Devise::Mailer]
-
-      # Sanity check that these subclass shenanigans are still working
-      expect(@mailer_classes.length).to be > 2
-    end
-
     it 'has a preview for every normal mail' do
-      missing_previews = @mailer_classes.reject do |mailer_class|
+      mailer_classes = find_leaves(ActionMailer::Base) - [Devise::Mailer]
+      # Sanity check that these subclass shenanigans are still working
+      expect(mailer_classes.length).to be > 2
+
+      missing_previews = mailer_classes.reject do |mailer_class|
         preview_class = find_preview_class(mailer_class)
 
         mailer_class.instance_methods(false).each do |mailer_method|

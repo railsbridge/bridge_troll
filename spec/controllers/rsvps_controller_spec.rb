@@ -308,18 +308,14 @@ describe RsvpsController do
         end
 
         describe 'and a student rsvps' do
-          before do
-            @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event)
-            expect do
-              post :create, params: { event_id: @event.id, rsvp: @rsvp_params, user: { gender: 'human' } }
-            end.to change(Rsvp, :count).by(1)
-          end
-
           it "adds the a newly rsvp'd student as a confirmed user" do
-            expect(Rsvp.last.waitlist_position).to be_nil
-          end
+            rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event)
+            expect do
+              post :create, params: { event_id: @event.id, rsvp: rsvp_params, user: { gender: 'human' } }
+            end.to change(Rsvp, :count).by(1)
 
-          it 'gives a notice that does not mention the waitlist' do
+            expect(Rsvp.last.waitlist_position).to be_nil
+            # gives a notice that does not mention the waitlist
             expect(flash[:notice]).to be_present
             expect(flash[:notice]).not_to match(/waitlist/i)
           end
@@ -382,32 +378,33 @@ describe RsvpsController do
         end
 
         describe 'and a student rsvps' do
-          before do
-            @rsvp_params = extract_rsvp_params build(:student_rsvp, event: @event, role: Role::STUDENT)
-            expect do
-              post :create, params: { event_id: @event.id, rsvp: @rsvp_params, user: { gender: 'human' } }
-            end.to change(Rsvp, :count).by(1)
+          let(:rsvp_params) do
+            extract_rsvp_params(build(:student_rsvp, event: @event, role: Role::STUDENT))
+          end
+
+          def student_rsvp
+            post :create, params: { event_id: @event.id, rsvp: rsvp_params, user: { gender: 'human' } }
           end
 
           it 'adds the student to the waitlist' do
+            expect { student_rsvp }.to change(Rsvp, :count).by(1)
             expect(Rsvp.last.waitlist_position).to eq(1)
-          end
-
-          it 'gives a notice that mentions the waitlist' do
+            # gives a notice that mentions the waitlist
             expect(flash[:notice]).to match(/waitlist/i)
           end
 
           describe 'then another student rsvps' do
             before do
+              student_rsvp
               sign_out @user
               sign_in create(:user)
-
-              expect do
-                post :create, params: { event_id: @event.id, rsvp: @rsvp_params, user: { gender: 'human' } }
-              end.to change(Rsvp, :count).by(1)
             end
 
             it 'adds the student the waitlist after the original student' do
+              expect do
+                student_rsvp
+              end.to change(Rsvp, :count).by(1)
+
               expect(Rsvp.last.waitlist_position).to eq(2)
             end
           end
@@ -433,32 +430,31 @@ describe RsvpsController do
         end
 
         describe 'and a volunteer rsvps' do
-          before do
-            @rsvp_params = extract_rsvp_params build(:volunteer_rsvp, event: @event, role: Role::VOLUNTEER)
-            expect do
-              post :create, params: { event_id: @event.id, rsvp: @rsvp_params, user: { gender: 'human' } }
-            end.to change(Rsvp, :count).by(1)
+          let(:rsvp_params) { extract_rsvp_params build(:volunteer_rsvp, event: @event, role: Role::VOLUNTEER) }
+
+          def volunteer_rsvp
+            post :create, params: { event_id: @event.id, rsvp: rsvp_params, user: { gender: 'human' } }
           end
 
           it 'adds the volunteer to the waitlist' do
+            expect { volunteer_rsvp }.to change(Rsvp, :count).by(1)
             expect(Rsvp.last.waitlist_position).to eq(1)
-          end
-
-          it 'gives a notice that mentions the waitlist' do
+            # gives a notice that mentions the waitlist
             expect(flash[:notice]).to match(/waitlist/i)
           end
 
           describe 'then another volunteer rsvps' do
             before do
+              volunteer_rsvp
               sign_out @user
               sign_in create(:user)
-
-              expect do
-                post :create, params: { event_id: @event.id, rsvp: @rsvp_params, user: { gender: 'human' } }
-              end.to change(Rsvp, :count).by(1)
             end
 
             it 'adds the volunteer the waitlist after the original student' do
+              expect do
+                volunteer_rsvp
+              end.to change(Rsvp, :count).by(1)
+
               expect(Rsvp.last.waitlist_position).to eq(2)
             end
           end
@@ -696,11 +692,10 @@ describe RsvpsController do
           @event.update_attribute(:student_rsvp_limit, 2)
           create(:student_rsvp, event: @event)
           @waitlisted = create(:student_rsvp, event: @event, waitlist_position: 1)
-
-          expect(@event.reload).to be_students_at_limit
         end
 
         it 'reorders the student waitlist' do
+          expect(@event.reload).to be_students_at_limit
           delete :destroy, params: { event_id: @rsvp.event.id, id: @rsvp.id }
 
           expect(@waitlisted.reload.waitlist_position).to be_nil
@@ -714,11 +709,10 @@ describe RsvpsController do
           @event.update_attribute(:volunteer_rsvp_limit, 2)
           create(:volunteer_rsvp, event: @event)
           @waitlisted = create(:volunteer_rsvp, event: @event, waitlist_position: 1)
-
-          expect(@event.reload).to be_volunteers_at_limit
         end
 
         it 'reorders the volunteer waitlist' do
+          expect(@event.reload).to be_volunteers_at_limit
           delete :destroy, params: { event_id: @rsvp.event.id, id: @rsvp.id }
 
           expect(@waitlisted.reload.waitlist_position).to be_nil

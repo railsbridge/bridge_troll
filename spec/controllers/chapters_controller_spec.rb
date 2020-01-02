@@ -26,12 +26,11 @@ describe ChaptersController do
       @draft_event = create(:event, current_state: :draft, chapter: chapter)
       @pending_event = create(:event, current_state: :pending_approval, chapter: chapter)
       @published_event = create(:event, chapter: chapter)
-
-      expect(chapter.events).to match_array([@draft_event, @pending_event, @published_event])
     end
 
     describe 'as an admin' do
       it 'shows all events' do
+        expect(chapter.events).to match_array([@draft_event, @pending_event, @published_event])
         get :show, params: { id: chapter.id }
         expect(assigns(:chapter_events)).to match_array([@draft_event, @pending_event, @published_event])
       end
