@@ -48,6 +48,7 @@ else
 end
 
 Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:host]}"
+Capybara.disable_animation = true
 
 Dir[Rails.root.join("spec", "support", "**", "*.rb")].each {|f| require f}
 
