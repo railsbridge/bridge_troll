@@ -95,7 +95,7 @@ class Event < ApplicationRecord
       validates :target_audience, presence: true
     end
 
-    with_options(if: :has_volunteer_limit?) do
+    with_options(if: :volunteer_limit?) do
       validates :volunteer_rsvp_limit, numericality: { greater_than: 0 }
       validate :validate_volunteer_rsvp_limit
     end
@@ -117,7 +117,7 @@ class Event < ApplicationRecord
     @all_locations ||= ([location] + event_sessions.map(&:location)).compact
   end
 
-  def has_multiple_locations?
+  def multiple_locations?
     all_locations.length > 1
   end
 
@@ -125,7 +125,7 @@ class Event < ApplicationRecord
     rsvps.confirmed.needs_childcare
   end
 
-  def has_volunteer_limit?
+  def volunteer_limit?
     volunteer_rsvp_limit != nil
   end
 

@@ -73,7 +73,7 @@ class EventSession < ApplicationRecord
     self[start_or_end].in_time_zone(ActiveSupport::TimeZone.new(event.time_zone))
   end
 
-  def has_rsvps?
+  def any_rsvps?
     persisted? && rsvps.count > 0
   end
 

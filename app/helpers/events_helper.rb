@@ -91,9 +91,9 @@ module EventsHelper
   def event_special_permissions_text(event, user_event_role)
     if current_user.admin?
       return 'As an admin, you can view organizer tools for this event.'
-    elsif event.chapter.has_leader?(current_user)
+    elsif event.chapter.leader?(current_user)
       return "As a chapter leader for #{event.chapter.name}, you can view organizer tools for this event."
-    elsif event.organization.has_leader?(current_user)
+    elsif event.organization.leader?(current_user)
       return "As an organization leader for #{event.organization.name}, you can view organizer tools for this event."
     end
 

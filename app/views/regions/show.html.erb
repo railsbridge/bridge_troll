@@ -9,7 +9,7 @@
     </ul>
 <% end %>
 
-<% if @region.has_leader?(current_user) %>
+<% if @region.leader?(current_user) %>
   <%= link_to 'Edit Region Leaders', region_leaders_path(@region), class: "btn mb20" %>
 
   <h2>Organizers</h2>

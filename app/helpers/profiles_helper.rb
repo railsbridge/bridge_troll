@@ -14,11 +14,8 @@ module ProfilesHelper
     ]
   end
 
-  def has_skills(user)
-    skills.each do |(skill_symbol, _)|
-      return true if user.profile[skill_symbol]
-    end
-    false
+  def skills?(user)
+    skills.any? { |(skill_symbol, _)| user.profile[skill_symbol] }
   end
 
   def skill_title(skill)

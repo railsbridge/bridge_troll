@@ -2,11 +2,11 @@
 
 class RegionPolicy < ApplicationPolicy
   def update?
-    record.has_leader?(user)
+    record.leader?(user)
   end
 
   def modify_leadership?
-    record.has_leader?(user)
+    record.leader?(user)
   end
 
   def permitted_attributes

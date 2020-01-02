@@ -12,12 +12,10 @@ class Region < ApplicationRecord
   validates :name, presence: true
   validates :name, uniqueness: true
 
-  def has_leader?(user)
+  def leader?(user)
     return false unless user
 
-    return true if user.admin?
-
-    user.region_leaderships.map(&:region_id).include?(id)
+    user.admin? || user.region_leaderships.map(&:region_id).include?(id)
   end
 
   def destroyable?

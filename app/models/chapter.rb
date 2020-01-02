@@ -10,12 +10,10 @@ class Chapter < ApplicationRecord
   validates :name, presence: true
   validates :name, uniqueness: true
 
-  def has_leader?(user)
+  def leader?(user)
     return false unless user
 
-    return true if user.admin?
-
-    user.chapter_leaderships.map(&:chapter_id).include?(id)
+    user.admin? || user.chapter_leaderships.map(&:chapter_id).include?(id)
   end
 
   def destroyable?

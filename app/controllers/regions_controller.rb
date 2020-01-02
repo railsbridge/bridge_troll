@@ -18,7 +18,7 @@ class RegionsController < ApplicationController
           @region.external_events
       ).sort_by(&:ends_at)
 
-        if @region.has_leader?(current_user)
+        if @region.leader?(current_user)
           @organizer_rsvps = Rsvp
                              .group(:user_id, :user_type)
                              .joins([event: [location: :region]])

@@ -71,7 +71,7 @@ describe RegionsController do
         expect do
           post :create, params: { region: { name: 'Fabulous Region' } }
         end.to change(Region, :count).by(1)
-        expect(Region.last).to have_leader(@user)
+        expect(Region.last).to be_leader(@user)
       end
 
       describe 'who is a region leader' do

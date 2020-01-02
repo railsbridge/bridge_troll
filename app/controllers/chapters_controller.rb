@@ -16,7 +16,7 @@ class ChaptersController < ApplicationController
     ).sort_by(&:ends_at)
     @show_organizers = true
 
-    if @chapter.has_leader?(current_user)
+    if @chapter.leader?(current_user)
       @organizer_rsvps = Rsvp
                          .group(:user_id, :user_type)
                          .joins([event: :chapter])

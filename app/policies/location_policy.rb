@@ -20,7 +20,7 @@ class LocationPolicy < ApplicationPolicy
   end
 
   def edit_additional_details?
-    record.region&.has_leader?(user)
+    record.region&.leader?(user)
   end
 
   def permitted_attributes

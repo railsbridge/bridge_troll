@@ -23,7 +23,7 @@ class EventSessionsController < ApplicationController
   def destroy
     authorize @event, :edit?
     event_session = @event.event_sessions.find(params[:id])
-    if @event.event_sessions.count > 1 && !event_session.has_rsvps?
+    if @event.event_sessions.count > 1 && !event_session.any_rsvps?
       event_session.destroy
       flash[:notice] = "Session #{event_session.name} deleted!"
     else

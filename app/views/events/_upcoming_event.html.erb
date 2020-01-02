@@ -14,7 +14,7 @@
   <div class='event-times'>
     <% event.event_sessions.sort_by(&:starts_at).each_with_index do |session, index| %>
       <i class='fa fa-calendar'></i><%= formatted_session_fancy_date(session) %><% if index < event.event_sessions.length - 1 %><br /><% end %>
-      <% if event.has_multiple_locations? %>
+      <% if event.multiple_locations? %>
         <div class='event-session-location'>
           <i class='fa fa-map-marker'></i><%= session.true_location.name %>,
           <%= [session.true_location.city, session.true_location.state].select(&:present?).join(', ') %>
@@ -22,7 +22,7 @@
       <% end %>
     <% end %>
   </div>
-  <% if event.location && !event.has_multiple_locations? %>
+  <% if event.location && !event.multiple_locations? %>
     <div class='event-location'>
       <i class='fa fa-map-marker'></i><%= event.location.name %>,
       <%= [event.location.city, event.location.state].select(&:present?).join(', ') %>

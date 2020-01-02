@@ -29,7 +29,7 @@
 
 <div class="row">
   <div class="col-md-8">
-    <% unless @event.has_multiple_locations? %>
+    <% unless @event.multiple_locations? %>
       <div class="location-text">
         <% if @event.location %>
           <%= link_to pretty_print_address(@event.location), location_map_link(@event.location) %>
@@ -57,7 +57,7 @@
               <i class="fa fa-calendar-plus-o"></i> Export to Google Calendar
             <% end %>
           </div>
-          <% if @event.has_multiple_locations? %>
+          <% if @event.multiple_locations? %>
             <div class='location-text' style="margin-top: 10px;">
               <%= link_to pretty_print_address(event_session.true_location), location_map_link(event_session.true_location) %>
             </div>

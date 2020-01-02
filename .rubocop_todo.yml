@@ -63,23 +63,6 @@ Metrics/PerceivedComplexity:
     - 'app/services/section_arranger.rb'
     - 'db/seeds/seed_event.rb'
 
-# Offense count: 10
-# Configuration parameters: NamePrefix, ForbiddenPrefixes, AllowedMethods, MethodDefinitionMacros.
-# NamePrefix: is_, has_, have_
-# ForbiddenPrefixes: is_, has_, have_
-# AllowedMethods: is_a?
-# MethodDefinitionMacros: define_method, define_singleton_method
-Naming/PredicateName:
-  Exclude:
-    - 'spec/**/*'
-    - 'app/helpers/profiles_helper.rb'
-    - 'app/models/chapter.rb'
-    - 'app/models/event.rb'
-    - 'app/models/event_session.rb'
-    - 'app/models/organization.rb'
-    - 'app/models/region.rb'
-    - 'app/services/event_csv_reporter.rb'
-
 # Offense count: 78
 # Configuration parameters: Prefixes.
 # Prefixes: when, with, without

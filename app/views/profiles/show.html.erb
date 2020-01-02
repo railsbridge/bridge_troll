@@ -16,7 +16,7 @@
 
   <section>
     <h3>Skills</h3>
-    <% if has_skills(@user) %>
+    <% if skills?(@user) %>
       <ul>
         <% skills.each do |skill| %>
           <%= content_tag(:li, skill_title(skill)) if @user.profile[skill_symbol(skill)] %>
