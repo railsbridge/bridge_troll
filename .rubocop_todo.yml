@@ -23,11 +23,6 @@ Lint/AmbiguousBlockAssociation:
     - 'spec/services/section_arranger_spec.rb'
     - 'spec/services/waitlist_manager_spec.rb'
 
-# Offense count: 1
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - 'spec/mailers/mailer_previews_spec.rb'
-
 # Offense count: 5
 Lint/UselessAssignment:
   Exclude:

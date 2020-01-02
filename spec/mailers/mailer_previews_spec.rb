@@ -16,7 +16,7 @@ RSpec.describe 'mailer previews' do
     subclasses = klass.subclasses
     return klass if subclasses.empty?
 
-    subclasses.map { |klass| find_leaves(klass) }.flatten
+    subclasses.map { |subclass| find_leaves(subclass) }.flatten
   end
 
   before do
