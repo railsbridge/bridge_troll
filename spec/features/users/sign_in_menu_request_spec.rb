@@ -3,7 +3,7 @@
 require 'rails_helper'
 require Rails.root.join('spec', 'services', 'omniauth_responses')
 
-describe 'sign in lightbox' do
+describe 'sign in functionality' do
   before do
     @user = create(:user)
   end
@@ -68,14 +68,8 @@ describe 'sign in lightbox' do
       end
     end
   end
-end
 
-describe 'user' do
-  before do
-    @user = create(:user)
-  end
-
-  it 'can sign in from the home page' do
+  it 'allows a user to sign in from the home page' do
     visit '/'
     within('#sign_in_dialog') do
       fill_in 'Email', with: @user.email

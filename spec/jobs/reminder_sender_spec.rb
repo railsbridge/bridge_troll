@@ -58,25 +58,25 @@ describe ReminderSender do
       end
     end
   end
-end
 
-describe 'querying for events and sessions' do
-  before do
-    @event_tomorrow = create(:event, starts_at: Time.zone.now + 1.day)
-    @event_four_days_away = create(:event, starts_at: Time.zone.now + 4.days)
-    @event_past = create(:event)
-    @event_past.update(starts_at: 2.days.ago, ends_at: 1.day.ago)
-  end
-
-  describe UpcomingEventsQuery do
-    let(:events) do
-      [].tap do |found_events|
-        described_class.new.find_each { |e| found_events << e }
-      end
+  describe 'querying for events and sessions' do
+    before do
+      @event_tomorrow = create(:event, starts_at: Time.zone.now + 1.day)
+      @event_four_days_away = create(:event, starts_at: Time.zone.now + 4.days)
+      @event_past = create(:event)
+      @event_past.update(starts_at: 2.days.ago, ends_at: 1.day.ago)
     end
 
-    it 'includes only events in the next three days' do
-      expect(events).to eq([@event_tomorrow])
+    describe UpcomingEventsQuery do
+      let(:events) do
+        [].tap do |found_events|
+          described_class.new.find_each { |e| found_events << e }
+        end
+      end
+
+      it 'includes only events in the next three days' do
+        expect(events).to eq([@event_tomorrow])
+      end
     end
   end
 end

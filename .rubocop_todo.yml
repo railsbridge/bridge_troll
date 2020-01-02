@@ -161,13 +161,6 @@ RSpec/LetSetup:
 RSpec/MessageSpies:
   EnforcedStyle: receive
 
-# Offense count: 3
-RSpec/MultipleDescribes:
-  Exclude:
-    - 'spec/features/users/sign_in_menu_request_spec.rb'
-    - 'spec/jobs/reminder_sender_spec.rb'
-    - 'spec/seeds/seeds_spec.rb'
-
 # Offense count: 266
 # Configuration parameters: AggregateFailuresByDefault.
 RSpec/MultipleExpectations:
