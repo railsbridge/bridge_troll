@@ -3,7 +3,6 @@
 require 'faker'
 
 # rubocop:disable Metrics/ModuleLength
-# rubocop:disable ThreadSafety/InstanceVariableInClassMethod
 module Seeder
   def self.find_or_create_user(email)
     existing_user = User.find_by(email: email)
@@ -184,11 +183,11 @@ module Seeder
   end
 
   def self.region
-    @region ||= Region.find_or_create_by(name: 'San Francisco')
+    Region.find_or_create_by(name: 'San Francisco')
   end
 
   def self.session_location
-    @session_location ||= Location.find_or_create_by(
+    Location.find_or_create_by(
       region_id: region.id,
       name: 'Ferry Building',
       address_1: 'Ferry Building',
@@ -200,7 +199,7 @@ module Seeder
   end
 
   def self.location
-    @location ||= Location.find_or_create_by(
+    Location.find_or_create_by(
       region_id: region.id,
       name: 'Sutro Tower',
       address_1: 'Sutro Tower',
@@ -212,15 +211,15 @@ module Seeder
   end
 
   def self.organizer
-    @organizer ||= find_or_create_user('organizer@example.com')
+    find_or_create_user('organizer@example.com')
   end
 
   def self.organization
-    @organization ||= Organization.find_or_create_by(name: 'RailsBridge')
+    Organization.find_or_create_by(name: 'RailsBridge')
   end
 
   def self.chapter
-    @chapter ||= Chapter.find_or_create_by(name: 'RailsBridge San Francisco', organization: organization)
+    Chapter.find_or_create_by(name: 'RailsBridge San Francisco', organization: organization)
   end
 
   def self.seed_multiple_location_event(_options = {})
@@ -301,4 +300,3 @@ module Seeder
   end
 end
 # rubocop:enable Metrics/ModuleLength
-# rubocop:enable ThreadSafety/InstanceVariableInClassMethod
