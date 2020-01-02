@@ -4,9 +4,9 @@ require 'rails_helper'
 
 describe SurveySender do
   describe '.send_all_surveys' do
-    def create_event_for_date(d)
+    def create_event_for_date(date)
       create(:event).tap do |e|
-        e.event_sessions.first.update(starts_at: d, ends_at: d + 10.seconds)
+        e.event_sessions.first.update(starts_at: date, ends_at: date + 10.seconds)
       end
     end
 
