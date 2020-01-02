@@ -245,12 +245,6 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 4
-Style/DoubleNegation:
-  Exclude:
-    - 'app/models/event.rb'
-    - 'app/models/rsvp.rb'
-
 # Offense count: 26
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
