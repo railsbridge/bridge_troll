@@ -458,7 +458,7 @@ describe EventsController do
             end.to change(ActionMailer::Base.deliveries, :count).by(2)
 
             approval_mail = ActionMailer::Base.deliveries.reverse.find { |d| d.subject.include? 'awaits approval' }
-            expect(approval_mail).to be
+            expect(approval_mail).to be_present
           end
         end
       end

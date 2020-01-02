@@ -124,11 +124,6 @@ RSpec/AnyInstance:
     - 'spec/features/events/event_detail_request_spec.rb'
     - 'spec/services/account_merger_spec.rb'
 
-# Offense count: 1
-RSpec/Be:
-  Exclude:
-    - 'spec/controllers/events_controller_spec.rb'
-
 # Offense count: 78
 # Configuration parameters: Prefixes.
 # Prefixes: when, with, without
@@ -155,12 +150,6 @@ RSpec/ExpectInHook:
     - 'spec/features/users/sign_in_menu_request_spec.rb'
     - 'spec/mailers/mailer_previews_spec.rb'
     - 'spec/services/section_arranger_spec.rb'
-
-# Offense count: 1
-# Configuration parameters: CustomTransform, IgnoreMethods.
-RSpec/FilePath:
-  Exclude:
-    - 'spec/controllers/registrations_controller_spec.rb'
 
 # Offense count: 1154
 # Configuration parameters: AssignmentOnly.
