@@ -52,7 +52,7 @@ Rails.application.configure do
   config.ssl_options = {
     hsts: { preload: true, subdomains: true, expires: 1.year },
     redirect: {
-      exclude: -> request {
+      exclude: ->request {
         request.get? &&
           (request.format.json? || request.format.csv?) &&
           Rails.application.routes.recognize_path(request.path)[:controller] == "events"
