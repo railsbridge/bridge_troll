@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AdminMailer < BaseMailer
+class AdminMailer < ApplicationMailer
   def test_group_mail(options)
     set_recipients([options[:to]])
 

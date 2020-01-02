@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SurveyMailer < BaseMailer
+class SurveyMailer < ApplicationMailer
   add_template_helper(EventsHelper)
   def notification(rsvp)
     @rsvp = rsvp

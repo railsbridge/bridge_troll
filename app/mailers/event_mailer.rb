@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class EventMailer < BaseMailer
+class EventMailer < ApplicationMailer
   add_template_helper(EventsHelper)
   add_template_helper(LocationsHelper)
 
