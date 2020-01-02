@@ -24,8 +24,8 @@ describe DatabaseAnonymizer do
 
     failure_message do |actual|
       <<~EOT
-          Did not seem to scrub these #{record.class} attributes:
-          #{@unscrubbed_attributes.join(', ')}
+        Did not seem to scrub these #{record.class} attributes:
+        #{@unscrubbed_attributes.join(', ')}
       EOT
     end
 

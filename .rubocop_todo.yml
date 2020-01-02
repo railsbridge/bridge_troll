@@ -208,14 +208,6 @@ Layout/HashAlignment:
     - 'config/initializers/simple_form.rb'
     - 'spec/helpers/events_helper_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: squiggly, active_support, powerpack, unindent
-Layout/HeredocIndentation:
-  Exclude:
-    - 'spec/services/database_anonymizer_spec.rb'
-
 # Offense count: 4
 # Cop supports --auto-correct.
 # Configuration parameters: Width, IgnoredPatterns.
