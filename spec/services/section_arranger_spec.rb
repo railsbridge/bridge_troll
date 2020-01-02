@@ -63,11 +63,9 @@ describe SectionArranger do
 
         expect(calculate_arrangement(@event)).to eq(expected_arrangement)
 
-        volunteer_preferences(@event).each do |prefs|
-          expect(prefs).to satisfy { |pref|
-            pref.include?('T') || pref.include?('?')
-          }
-        end
+        expect(volunteer_preferences(@event)).to all(
+          satisfy { |pref| pref.include?('T') || pref.include?('?') }
+        )
       end
     end
 

@@ -151,12 +151,6 @@ RSpec/ExpectInHook:
 RSpec/InstanceVariable:
   Enabled: false
 
-# Offense count: 2
-RSpec/IteratedExpectation:
-  Exclude:
-    - 'spec/services/section_arranger_spec.rb'
-    - 'spec/support/mailers.rb'
-
 # Offense count: 23
 RSpec/LetSetup:
   Enabled: false
