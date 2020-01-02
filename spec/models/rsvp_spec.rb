@@ -38,27 +38,27 @@ describe Rsvp do
   end
 
   context 'for volunteers' do
-    subject { build(:rsvp) }
+    subject(:rsvp) { build(:rsvp) }
 
     it { is_expected.to validate_presence_of(:subject_experience) }
     it { is_expected.to validate_length_of(:subject_experience).is_at_most(250).is_at_least(10) }
 
     it 'onlies require class_level if teaching or TAing' do
-      expect(subject.class_level).to be_nil
-      expect(subject).to have(0).errors_on(:class_level)
+      expect(rsvp.class_level).to be_nil
+      expect(rsvp).to have(0).errors_on(:class_level)
 
-      subject.teaching = true
-      expect(subject).to have(1).errors_on(:class_level)
-      expect(subject).to validate_inclusion_of(:class_level).in_range(0..5)
+      rsvp.teaching = true
+      expect(rsvp).to have(1).errors_on(:class_level)
+      expect(rsvp).to validate_inclusion_of(:class_level).in_range(0..5)
     end
 
     it 'onlies require teaching_experience if teaching or TAing' do
-      expect(subject.teaching).to be false
-      expect(subject).not_to validate_presence_of(:teaching_experience)
+      expect(rsvp.teaching).to be false
+      expect(rsvp).not_to validate_presence_of(:teaching_experience)
 
-      subject.teaching = true
-      expect(subject).to validate_presence_of(:teaching_experience)
-      expect(subject).to validate_length_of(:teaching_experience).is_at_least(10).is_at_most(250)
+      rsvp.teaching = true
+      expect(rsvp).to validate_presence_of(:teaching_experience)
+      expect(rsvp).to validate_length_of(:teaching_experience).is_at_least(10).is_at_most(250)
     end
 
     it 'allows rsvps from the same user ID but different user type' do

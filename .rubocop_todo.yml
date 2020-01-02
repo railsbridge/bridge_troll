@@ -82,14 +82,6 @@ RSpec/MessageSpies:
 RSpec/MultipleExpectations:
   Max: 16
 
-# Offense count: 19
-# Configuration parameters: IgnoreSharedExamples.
-RSpec/NamedSubject:
-  Exclude:
-    - 'spec/models/event_spec.rb'
-    - 'spec/models/level_spec.rb'
-    - 'spec/models/rsvp_spec.rb'
-
 # Offense count: 97
 RSpec/NestedGroups:
   Max: 6
