@@ -81,6 +81,11 @@ group :test, :development do
   gem 'sqlite3'
   gem 'rails-controller-testing', require: false
   gem 'rake', require: false
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
+  gem 'rubocop-thread_safety', require: false
 end
 
 group :test do
