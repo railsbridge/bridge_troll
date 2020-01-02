@@ -1,6 +1,11 @@
 <div class='event-card js-match-height-item <% unless event.published? %>unpublished<% end %>' data-region-id="<%= event.region.try(:id) %>">
   <% unless event.published? %>
-    <div class='pull-right unpublished-indicator'><%= state_display(event) %></div>
+    <div class='pull-right unpublished-indicator'>
+      <%if event.draft?%>DRAFT
+      <%elsif event.published?%>PUBLISHED
+      <%else%>PENDING APPR
+      <%end%>
+    </div>
   <% end %>
   <div class='event-title'>
     <%= link_to event.title, event %>

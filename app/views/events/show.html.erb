@@ -44,7 +44,7 @@
         <div class='event-session'>
           <h2 class='name'><%= event_session.name %></h2>
 
-          <div class='date'><%= formatted_session_date(event_session) %></div>
+          <div class='date'><%= formatted_date(event_session) %></div>
           <div class='time'>Start time: <%= formatted_session_time(event_session, :starts_at) %></div>
           <div class='time'>End time: <%= formatted_session_time(event_session, :ends_at) %></div>
           <div class='ical'>

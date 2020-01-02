@@ -16,7 +16,7 @@
         <%= link_to event.title, event %>
         <%= imported_event_popover_trigger(event) %>
       </td>
-      <td><%= formatted_session_date(event.event_sessions.first) %></td>
+      <td><%= formatted_date(event.event_sessions.first) %></td>
       <td><%= event.location.name rescue nil %></td>
       <td><%= rsvp.role.title %></td>
       <td data-label="Session Checkins:"><%= event.historical? ? 'N/A' : rsvp.checkins_count %></td>

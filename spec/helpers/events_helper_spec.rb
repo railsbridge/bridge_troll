@@ -15,44 +15,6 @@ def event_for_dates(starts_at, ends_at)
 end
 
 describe EventsHelper do
-  describe '#formatted_event_date_range(event)' do
-    context 'when called with an event occurring in a single month' do
-      before do
-        @event = event_for_dates(DateTime.parse('2013-02-12'),
-                                 DateTime.parse('2013-02-14'))
-      end
-
-      it 'returns a string with that month once' do
-        # off by a day because of time zones
-        expect(helper.formatted_event_date_range(@event)).to eq('Feb 11-13 2013')
-      end
-    end
-
-    context 'when called with an event occuring across two months but one year' do
-      before do
-        @event = event_for_dates(DateTime.parse('2013-02-27'),
-                                 DateTime.parse('2013-03-02'))
-      end
-
-      it 'returns a string with both of those months but one year' do
-        # off by a day because of time zones
-        expect(helper.formatted_event_date_range(@event)).to eq('Feb 26-Mar 1 2013')
-      end
-    end
-
-    context 'when called with an event occuring across two years' do
-      before do
-        @event = event_for_dates(DateTime.parse('2013-12-30'),
-                                 DateTime.parse('2014-01-02'))
-      end
-
-      it 'returns a string with both months and years' do
-        # off by a day because of time zones
-        expect(helper.formatted_event_date_range(@event)).to eq('Dec 29 2013-Jan 1 2014')
-      end
-    end
-  end
-
   describe '#google_calendar_event_url(event, event_session)' do
     let(:event) { event_for_dates(DateTime.tomorrow, DateTime.tomorrow + 1.day) }
     let(:event_session) { event.event_sessions.first }

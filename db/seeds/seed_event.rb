@@ -2,6 +2,7 @@
 
 require 'faker'
 
+# rubocop:disable Metrics/ModuleLength
 module Seeder
   def self.find_or_create_user(email)
     existing_user = User.find_by(email: email)
@@ -329,3 +330,4 @@ module Seeder
     event
   end
 end
+# rubocop:enable Metrics/ModuleLength

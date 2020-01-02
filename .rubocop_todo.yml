@@ -65,15 +65,6 @@ Metrics/CyclomaticComplexity:
 Metrics/MethodLength:
   Max: 269
 
-# Offense count: 4
-# Configuration parameters: CountComments, Max.
-Metrics/ModuleLength:
-  Exclude:
-    - 'app/helpers/events_helper.rb'
-    - 'db/seeds/course_populator.rb'
-    - 'db/seeds/seed_event.rb'
-    - 'spec/services/omniauth_responses.rb'
-
 # Offense count: 5
 # Configuration parameters: Max.
 Metrics/PerceivedComplexity:
