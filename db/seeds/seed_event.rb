@@ -122,7 +122,7 @@ module Seeder
 
         The afterparty will be at the Fancy Goat at 7:09 PM.
 
-        DETAILS
+      DETAILS
     )
     event.event_sessions << EventSession.new(name: 'First Session', starts_at: 60.days.from_now, ends_at: 61.days.from_now)
     event.event_sessions << EventSession.new(name: 'Second Session', starts_at: 65.days.from_now, ends_at: 66.days.from_now)

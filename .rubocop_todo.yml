@@ -66,12 +66,6 @@ Layout/CaseIndentation:
     - 'app/models/event.rb'
     - 'app/services/omniauth_providers.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/ClosingHeredocIndentation:
-  Exclude:
-    - 'db/seeds/seed_event.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Layout/ClosingParenthesisIndentation:
