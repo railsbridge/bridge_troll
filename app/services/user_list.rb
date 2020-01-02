@@ -17,9 +17,10 @@ class UserList
 
     attendances = { User: user_attendances, MeetupUser: meetup_user_attendances }
 
-    users = (meetup_users + bridgetroll_users).map do |u|
-      IndexPageUser.new(u, meetup_ids_for_users, attendances)
-    end.sort_by { |u| u.send(@sort_field) }
+    users =
+      (meetup_users + bridgetroll_users)
+      .map { |u| IndexPageUser.new(u, meetup_ids_for_users, attendances) }
+      .sort_by { |u| u.send(@sort_field) }
 
     {
       draw: @draw,

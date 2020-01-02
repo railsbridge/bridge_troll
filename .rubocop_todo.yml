@@ -243,12 +243,6 @@ Style/GuardClause:
 Style/IfUnlessModifier:
   Enabled: false
 
-# Offense count: 3
-Style/MultilineBlockChain:
-  Exclude:
-    - 'app/services/user_list.rb'
-    - 'lib/tasks/support/failure_file_parser.rb'
-
 # Offense count: 14
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, EnforcedStyle, IgnoredMethods.
