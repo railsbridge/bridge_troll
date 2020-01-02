@@ -53,10 +53,6 @@ Metrics/PerceivedComplexity:
 RSpec/ContextWording:
   Enabled: false
 
-# Offense count: 32
-RSpec/DescribeClass:
-  Enabled: false
-
 # Offense count: 166
 # Configuration parameters: Max.
 RSpec/ExampleLength:

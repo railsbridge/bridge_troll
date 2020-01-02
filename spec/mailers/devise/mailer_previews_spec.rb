@@ -6,7 +6,7 @@ require Rails.root.join('db/seeds/seed_event')
 Dir[Rails.root.join('app/mailers/*.rb')].sort.each { |f| require f }
 Dir[Rails.root.join('spec/mailers/previews/**/*.rb')].sort.each { |f| require f }
 
-RSpec.describe 'mailer previews' do
+RSpec.describe Devise::MailerPreview do
   def find_preview_class(mailer_class)
     mailer_name = mailer_class.to_s.sub('Mailer', '')
     "#{mailer_name}Preview".constantize
@@ -33,8 +33,8 @@ RSpec.describe 'mailer previews' do
       expect(Devise::Mailer).to receive(mailer_method)
     end
 
-    Devise::MailerPreview.instance_methods(false).each do |preview_method|
-      Devise::MailerPreview.new.send(preview_method)
+    described_class.instance_methods(false).each do |preview_method|
+      described_class.new.send(preview_method)
     end
   end
 
