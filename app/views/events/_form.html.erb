@@ -147,7 +147,7 @@
         <p>Historically, *Bridge workshops for women have allowed men to attend as the guest of a woman. If you want to do a similar +1 thing, you can ask attendees to list who they are the guest of.</p>
         <p>The plus-one host form says this:</p>
         <blockquote>
-          <%= render :partial => "shared/plus_one_disclaimer" %>
+          <%= render partial: "shared/plus_one_disclaimer" %>
         </blockquote>
         <p>If your workshop isn't open to +1s, you can choose not to show that field.</p>
       </div>
@@ -218,9 +218,9 @@
 
         <div class='form-group'>
           <%= event_sessions_form.text_field :session_date, class: 'datepicker form-control' %>
-          <%= event_sessions_form.time_select :starts_at, {:ampm => true, :minute_step => 15}, {class: "input-small start_time form-control"} %>
+          <%= event_sessions_form.time_select :starts_at, {ampm: true, minute_step: 15}, {class: "input-small start_time form-control"} %>
           -
-          <%= event_sessions_form.time_select :ends_at, {:ampm => true, :minute_step => 15}, {class: "input-small end_time form-control"} %>
+          <%= event_sessions_form.time_select :ends_at, {ampm: true, minute_step: 15}, {class: "input-small end_time form-control"} %>
         </div>
         <div class='form-group session-checkboxes'>
           <%= event_sessions_form.label :required_for_students do %>

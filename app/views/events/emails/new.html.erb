@@ -1,7 +1,7 @@
 <%= content_for(:header_text, @event.title) %>
 <%= content_for(:header_link, event_organizer_tools_path(@event)) %>
 
-<%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Email Attendees'} %>
+<%= render partial: 'shared/organizer_breadcrumb', locals: {current_page_title: 'Email Attendees'} %>
 <script>
   var attendees = <%= @email.rsvps.map do |rsvp|
   {
@@ -75,7 +75,7 @@
                      tabindex: -1,
                      class: 'form-control select2-hidden-accessible',
                      id: 'recipients',
-                     :'aria-hidden' => true
+                     'aria-hidden': true
       %>
       <div>
         <%= label_tag do %>

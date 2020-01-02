@@ -9,5 +9,5 @@ Rails.application.load_tasks
 
 if Rails.env.development? || Rails.env.test?
   Rake::Task["default"].clear
-  task :default => [:rspec_with_retries, "jasmine:ci"]
+  task default: [:rspec_with_retries, "jasmine:ci"]
 end

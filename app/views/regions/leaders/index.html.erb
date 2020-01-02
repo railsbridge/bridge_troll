@@ -27,7 +27,7 @@
       <td>
         <% if leader.id != current_user.id %>
           <%= button_to 'Remove', region_leaders_path(@region, leader), method: :delete,
-                        :form => {:style => "margin-bottom : 0;"}, :class => "btn btn-mini" %>
+                        form: {style: "margin-bottom : 0;"}, class: "btn btn-mini" %>
         <% end %>
       </td>
     </tr>

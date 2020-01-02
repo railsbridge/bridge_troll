@@ -30,8 +30,6 @@ before_install:
   - 'gem update --system'
   - 'gem install bundler'
 before_script:
-  - './config/before-travis.sh'
-script:
-  - 'bundle exec rake'
+  - 'bundle exec rake parallel:setup'
 
 sudo: false

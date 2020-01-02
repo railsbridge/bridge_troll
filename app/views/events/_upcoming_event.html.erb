@@ -46,9 +46,9 @@
     <% if user_signed_in? %>
       <%= render 'shared/rsvp_actions', event: event %>
       <% if policy(event).update? %>
-        <%= link_to 'Organizer Console', event_organizer_tools_path(event), :class => 'btn fa-before fa-bullhorn' %>
+        <%= link_to 'Organizer Console', event_organizer_tools_path(event), class: 'btn fa-before fa-bullhorn' %>
       <% elsif event.checkiner?(current_user) %>
-        <%= link_to 'Checkin Console', event_event_sessions_path(event), :class => 'btn' %>
+        <%= link_to 'Checkin Console', event_event_sessions_path(event), class: 'btn' %>
       <% end %>
     <% else %>
       <%= render 'shared/rsvp_actions_unauthenticated', event: event, stay_on_event: true %>

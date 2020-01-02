@@ -2,6 +2,6 @@ Hey <%= @rsvp.user.full_name %>,
 
 <p>A spot opened up! You are now confirmed as a <%= @rsvp.role.name.downcase %> for <%= @rsvp.event.title %>!</p>
 
-<%= render :partial => 'event_details' %>
+<%= render partial: 'event_details' %>
 
 <p>- The Troll</p>

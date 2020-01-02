@@ -3,7 +3,7 @@
 <%= render 'shared/model_error_messages', model: @survey %>
 
 <% if @preview %>
-  <%= render :partial => 'shared/organizer_breadcrumb', locals: {current_page_title: 'Survey Preview'} %>
+  <%= render partial: 'shared/organizer_breadcrumb', locals: {current_page_title: 'Survey Preview'} %>
 <% end %>
 
 <h2>How was <%= @event.title %>?</h2>
@@ -32,7 +32,7 @@
       <% if @preview && @event.survey_sent? %>
         <p>Survey has been sent.</p>
       <% elsif @preview %>
-        <p><%= link_to 'Send Survey', event_send_survey_email_path(@event), class: "btn", :data => {:confirm => 'Are you sure?'} %></p>
+        <p><%= link_to 'Send Survey', event_send_survey_email_path(@event), class: "btn", data: {confirm: 'Are you sure?'} %></p>
       <% end %>
 
     <% end %>

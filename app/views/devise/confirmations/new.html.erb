@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col-md-6">
-    <%= simple_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+    <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
       <%= render "shared/devise_error_messages" if resource.errors.any? %>
 
       <%= f.input :email %>
