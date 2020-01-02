@@ -33,12 +33,6 @@ FactoryBot/CreateList:
   Exclude:
     - 'spec/models/event_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-FactoryBot/FactoryClassName:
-  Exclude:
-    - 'spec/factories.rb'
-
 # Offense count: 8
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.

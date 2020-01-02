@@ -24,7 +24,7 @@ FactoryBot.define do
     starts_at { DateTime.now }
   end
 
-  factory :event_with_no_sessions, class: Event do
+  factory :event_with_no_sessions, class: 'Event' do
     sequence(:title) { |n| "Event #{n}" }
     details {"This is note in the details attribute."}
     time_zone {"Hawaii"}
