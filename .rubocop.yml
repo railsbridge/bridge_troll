@@ -7,7 +7,7 @@ require:
 
 AllCops:
   Exclude:
-    - db/**
+    - db/schema.rb
     - vendor/**/*
 
 
