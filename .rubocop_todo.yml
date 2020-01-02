@@ -6,13 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 1
-# Configuration parameters: Include.
-# Include: **/*.gemfile, **/Gemfile, **/gems.rb
-Bundler/DuplicatedGem:
-  Exclude:
-    - 'Gemfile'
-
 # Offense count: 24
 # Cop supports --auto-correct.
 # Configuration parameters: TreatCommentsAsGroupSeparators, Include.

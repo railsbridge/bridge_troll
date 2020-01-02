@@ -44,7 +44,7 @@ end
 
 if ENV['FORCE_POSTGRES']
   group :development, :test do
-    gem 'pg'
+    gem 'pg' # rubocop:disable Bundler/DuplicatedGem
   end
 end
 
