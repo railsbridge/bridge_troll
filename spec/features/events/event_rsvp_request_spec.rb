@@ -1,14 +1,17 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'creating or editing an rsvp' do
-  context "for a teaching event" do
+  context 'for a teaching event' do
     def fill_in_valid_volunteer_details
-      fill_in "rsvp_subject_experience", with: "I have some subject experience"
-      fill_in "rsvp_teaching_experience", with: "I have some teaching experience"
+      fill_in 'rsvp_subject_experience', with: 'I have some subject experience'
+      fill_in 'rsvp_teaching_experience', with: 'I have some teaching experience'
       choose @course.levels[0][:title]
     end
 
     let(:chapter) { create(:chapter) }
+
     before do
       @event = create(:event, chapter: chapter)
       @user = create(:user)
@@ -16,44 +19,44 @@ describe 'creating or editing an rsvp' do
       sign_in_as @user
     end
 
-    context "with a new volunteer rsvp" do
+    context 'with a new volunteer rsvp' do
       before do
         visit volunteer_new_event_rsvp_path(@event)
       end
 
-      it "allows user to toggle childcare info with the needs_childcare button", js: true do
-        expect(page.find("#rsvp_needs_childcare")).not_to be_checked
+      it 'allows user to toggle childcare info with the needs_childcare button', js: true do
+        expect(page.find('#rsvp_needs_childcare')).not_to be_checked
         expect(page).to have_field('rsvp_childcare_info', visible: false)
 
-        page.check "rsvp_needs_childcare"
+        page.check 'rsvp_needs_childcare'
 
         expect(page).to have_field('rsvp_childcare_info', visible: true)
 
-        page.uncheck "rsvp_needs_childcare"
+        page.uncheck 'rsvp_needs_childcare'
 
         expect(page).to have_field('rsvp_childcare_info', visible: false)
       end
 
-      context "with a valid RSVP" do
+      context 'with a valid RSVP' do
         before do
           fill_in_valid_volunteer_details
         end
 
-        it "allows the user to update their gender" do
-          expect(page.find("#user_gender").value).to eq(@user.gender)
-          fill_in "user_gender", with: "human"
-          click_on "Submit"
+        it 'allows the user to update their gender' do
+          expect(page.find('#user_gender').value).to eq(@user.gender)
+          fill_in 'user_gender', with: 'human'
+          click_on 'Submit'
           visit edit_user_registration_path
-          expect(page.find("#user_gender").value).to eq("human")
+          expect(page.find('#user_gender').value).to eq('human')
         end
 
         it "allows the user to affiliate themselves with the event's region" do
           check 'affiliate_with_region'
-          expect {
-            click_on "Submit"
-          }.to change { @user.regions.count }.by(1)
+          expect do
+            click_on 'Submit'
+          end.to change { @user.regions.count }.by(1)
           visit edit_event_rsvp_path(@event, Rsvp.last)
-          expect(page.find("#affiliate_with_region").value).to eq("1")
+          expect(page.find('#affiliate_with_region').value).to eq('1')
         end
       end
 
@@ -68,49 +71,48 @@ describe 'creating or editing an rsvp' do
       end
     end
 
-    context "with an rsvp with childcare info" do
+    context 'with an rsvp with childcare info' do
       before do
-        @rsvp = create(:rsvp, user: @user, childcare_info: "Bobbie: 17, Susie: 20000007")
+        @rsvp = create(:rsvp, user: @user, childcare_info: 'Bobbie: 17, Susie: 20000007')
         visit edit_event_rsvp_path @rsvp.event, @rsvp
       end
 
-      it "allows user to toggle childcare info with the needs_childcare button", js: true do
-        expect(page.find("#rsvp_needs_childcare")).to be_checked
-        expect(page.find("#rsvp_childcare_info")).to have_text(@rsvp.childcare_info)
+      it 'allows user to toggle childcare info with the needs_childcare button', js: true do
+        expect(page.find('#rsvp_needs_childcare')).to be_checked
+        expect(page.find('#rsvp_childcare_info')).to have_text(@rsvp.childcare_info)
 
-        page.uncheck "rsvp_needs_childcare"
+        page.uncheck 'rsvp_needs_childcare'
         expect(page).to have_field('rsvp_childcare_info', visible: false)
 
-        page.check "rsvp_needs_childcare"
+        page.check 'rsvp_needs_childcare'
 
-        expect(page.find("#rsvp_childcare_info")).to have_text(@rsvp.childcare_info)
+        expect(page.find('#rsvp_childcare_info')).to have_text(@rsvp.childcare_info)
       end
     end
 
-    context "with an rsvp toggling food options" do
+    context 'with an rsvp toggling food options' do
       let(:food_text) { "The food's on us. Let us know if you have any dietary restrictions." }
 
-      it "has food options when enabled" do
+      it 'has food options when enabled' do
         expect(@event.food_provided).to eq true
         visit volunteer_new_event_rsvp_path(@event)
         expect(page).to have_content(food_text)
       end
 
-      it "does not have food options when disabled" do
+      it 'does not have food options when disabled' do
         @event.update(food_provided: false)
         expect(@event.food_provided?).to eq(false)
         visit volunteer_new_event_rsvp_path(@event)
-        expect(page).to_not have_content(food_text)
+        expect(page).not_to have_content(food_text)
       end
     end
 
     context 'with an rsvp with dietary restrictions' do
-      let(:rsvp) {
+      let(:rsvp) do
         create(:rsvp,
-          user: @user,
-          dietary_restrictions: [build(:dietary_restriction, restriction: 'vegetarian')]
-        )
-      }
+               user: @user,
+               dietary_restrictions: [build(:dietary_restriction, restriction: 'vegetarian')])
+      end
       let(:form_url) { edit_event_rsvp_path(rsvp.event, rsvp) }
 
       it 'allows user to change them' do
@@ -125,23 +127,23 @@ describe 'creating or editing an rsvp' do
       end
     end
 
-    describe "a new learn rsvp" do
-      describe "plus-one host toggle" do
+    describe 'a new learn rsvp' do
+      describe 'plus-one host toggle' do
         let(:plus_one_host_text) { "If you are not a member of this workshop's target demographic" }
 
-        context "when enabled" do
+        context 'when enabled' do
           it "asks for the name of the person's host (if they are a plus-one)" do
             visit learn_new_event_rsvp_path(@event)
             expect(page).to have_content plus_one_host_text
           end
         end
 
-        context "when disabled" do
+        context 'when disabled' do
           before do
             @event.update_attribute(:plus_one_host_toggle, false)
           end
 
-          it "does not show the plus-one host form" do
+          it 'does not show the plus-one host form' do
             visit learn_new_event_rsvp_path(@event)
             expect(page).not_to have_content plus_one_host_text
           end
@@ -178,7 +180,7 @@ describe 'creating or editing an rsvp' do
     end
   end
 
-  context "for a non-teaching event" do
+  context 'for a non-teaching event' do
     before do
       @event = create(:event, course_id: nil)
       @user = create(:user)
@@ -186,10 +188,10 @@ describe 'creating or editing an rsvp' do
       visit volunteer_new_event_rsvp_path(@event)
     end
 
-    it "requires subject experience" do
-      fill_in "rsvp_subject_experience", with: "I organized the February workshop after attending one in January"
-      click_on "Submit"
-      expect(page).to have_content "Thanks for signing up!"
+    it 'requires subject experience' do
+      fill_in 'rsvp_subject_experience', with: 'I organized the February workshop after attending one in January'
+      click_on 'Submit'
+      expect(page).to have_content 'Thanks for signing up!'
     end
   end
 end

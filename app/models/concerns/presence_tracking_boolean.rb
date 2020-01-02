@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PresenceTrackingBoolean
   extend ActiveSupport::Concern
 
@@ -37,15 +39,15 @@ module PresenceTrackingBoolean
       define_method :"#{boolean_attribute}=" do |value|
         value = value == '1' if value.is_a? String
 
-        unless value
-          assign_attributes(tracked_attribute => nil)
-        end
+        assign_attributes(tracked_attribute => nil) unless value
 
         instance_variable_set(ivar_symbol, value)
       end
 
       define_method :"#{tracked_attribute}=" do |value|
-        return if instance_variable_defined?(ivar_symbol) && !instance_variable_get(ivar_symbol)
+        if instance_variable_defined?(ivar_symbol) && !instance_variable_get(ivar_symbol)
+          return
+        end
 
         super(value)
       end

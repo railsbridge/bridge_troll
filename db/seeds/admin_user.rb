@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Seeder
   def self.admin_user
     # seeds the database with an admin user

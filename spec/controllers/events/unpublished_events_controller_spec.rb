@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Events::UnpublishedEventsController do
@@ -7,15 +9,15 @@ describe Events::UnpublishedEventsController do
     @event.organizers << @organizer
   end
 
-  describe "GET #index" do
-    describe "visibility" do
+  describe 'GET #index' do
+    describe 'visibility' do
       let!(:chapter) { create(:chapter) }
       let!(:pending_chapter_event) { create(:event, chapter: chapter, current_state: :pending_approval) }
       let!(:pending_other_event) { create(:event, current_state: :pending_approval) }
       let!(:draft_event) { create(:event, current_state: :draft) }
       let!(:published_event) { create(:event, current_state: :published) }
 
-      context "as an admin/publisher" do
+      context 'as an admin/publisher' do
         before do
           sign_in create(:user, publisher: true)
         end
@@ -27,7 +29,7 @@ describe Events::UnpublishedEventsController do
         end
       end
 
-      context "as a chapter leader" do
+      context 'as a chapter leader' do
         before do
           leader = create(:user)
           chapter.leaders << leader
@@ -43,7 +45,7 @@ describe Events::UnpublishedEventsController do
     end
   end
 
-  describe "POST #publish" do
+  describe 'POST #publish' do
     def make_request
       post :publish, params: { unpublished_event_id: @event.id }
     end
@@ -104,17 +106,17 @@ describe Events::UnpublishedEventsController do
 
         expect(recipients(mail)).to match_array([@organizer.email, @user_no_email.email])
 
-        expect(mail.subject).to include("Your Bridge Troll event has been approved")
+        expect(mail.subject).to include('Your Bridge Troll event has been approved')
         expect(mail.body).to include(@event.title)
-        expect(mail.subject).not_to include("New event posted:")
+        expect(mail.subject).not_to include('New event posted:')
       end
     end
 
     it 'updates the time the announcement email was sent' do
       @event.update_attribute(:email_on_approval, true)
-      expect {
+      expect do
         make_request
-      }.to change{ @event.reload.announcement_email_sent_at.present? }.from(false).to(true)
+      end.to change { @event.reload.announcement_email_sent_at.present? }.from(false).to(true)
     end
 
     context 'as a chapter leader' do
@@ -128,15 +130,15 @@ describe Events::UnpublishedEventsController do
       end
 
       it 'allows publishing of chapter events' do
-        expect {
+        expect do
           post :publish, params: { unpublished_event_id: @chapter_event.id }
-        }.to change { @chapter_event.reload.current_state }.to('published')
+        end.to change { @chapter_event.reload.current_state }.to('published')
       end
 
       it 'disallows publishing of non-chapter events' do
-        expect {
+        expect do
           post :publish, params: { unpublished_event_id: @event.id }
-        }.not_to change { @chapter_event.reload.current_state }
+        end.not_to change { @chapter_event.reload.current_state }
         expect(response).to be_redirect
       end
     end

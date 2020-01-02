@@ -1,9 +1,11 @@
-class DietaryRestriction < ActiveRecord::Base
+# frozen_string_literal: true
+
+class DietaryRestriction < ApplicationRecord
   belongs_to :rsvp
 
-  DIETS = %w(vegetarian vegan gluten-free dairy-free)
+  DIETS = %w[vegetarian vegan gluten-free dairy-free].freeze
 
-  validates_uniqueness_of :restriction, {scope: :rsvp_id}
+  validates :restriction, uniqueness: { scope: :rsvp_id }
 
-  validates_inclusion_of :restriction, in: DIETS
+  validates :restriction, inclusion: { in: DIETS }
 end

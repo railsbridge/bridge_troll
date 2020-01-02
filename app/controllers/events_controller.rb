@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 class EventsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :feed, :show, :levels, :past_events]
-  before_action :find_event, except: [:index, :show, :feed, :create, :new, :past_events]
-  before_action :set_time_zone, only: [:create, :update]
-  before_action :set_empty_location, only: [:new, :create]
+  before_action :authenticate_user!, except: %i[index feed show levels past_events]
+  before_action :find_event, except: %i[index show feed create new past_events]
+  before_action :set_time_zone, only: %i[create update]
+  before_action :set_empty_location, only: %i[new create]
 
   def index
     skip_authorization
     respond_to do |format|
       format.html do
         @events = Event.upcoming.published_or_visible_to(current_user)
-                    .includes(:location, :region, :chapter, :organization, event_sessions: :location)
+                       .includes(:location, :region, :chapter, :organization, event_sessions: :location)
         @event_regions = @events.map(&:region).compact.uniq
       end
       format.json do
@@ -30,8 +32,8 @@ class EventsController < ApplicationController
     @events = Event.upcoming.published_or_visible_to(current_user).includes(:event_sessions, :location, :region)
 
     respond_to do |format|
-      format.rss {render 'events/feed.rss.builder', layout: false}
-      format.atom {render 'events/feed.atom.builder', layout: false}
+      format.rss { render 'events/feed.rss.builder', layout: false }
+      format.atom { render 'events/feed.atom.builder', layout: false }
     end
   end
 

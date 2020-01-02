@@ -1,4 +1,6 @@
-class Region < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Region < ApplicationRecord
   has_many :locations, dependent: :nullify
   has_many :events, through: :locations
   has_many :external_events
@@ -6,8 +8,8 @@ class Region < ActiveRecord::Base
   has_many :region_leaderships, dependent: :destroy
   has_many :leaders, through: :region_leaderships, source: :user
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
+  validates :name, presence: true
+  validates :name, uniqueness: true
 
   def has_leader?(user)
     return false unless user
@@ -21,7 +23,7 @@ class Region < ActiveRecord::Base
     (locations_count + external_events_count) == 0
   end
 
-  def as_json(options = {})
+  def as_json(_options = {})
     {
       name: name,
       users_subscribed_to_email_count: users.where(allow_event_email: true).count

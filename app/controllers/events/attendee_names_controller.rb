@@ -1,4 +1,6 @@
-require "csv"
+# frozen_string_literal: true
+
+require 'csv'
 
 class Events::AttendeeNamesController < ApplicationController
   before_action :authenticate_user!

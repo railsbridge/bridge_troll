@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe EventList do
@@ -14,15 +16,15 @@ describe EventList do
     let!(:org2_external_event) { create(:external_event, chapter: org2_chapter) }
 
     it 'returns only the events from a given organization' do
-      events = EventList.new('all', organization_id: org1.id).combined_events
+      events = described_class.new('all', organization_id: org1.id).combined_events
       expect(events).to match_array([org1_event, org1_external_event])
     end
   end
 
   describe 'when returning datatables json' do
     describe 'searching' do
-      search_result_ids = Proc.new do |query|
-        json = EventList.new('past', serialization_format: 'dataTables', start: 0, length: 10, search: {'value' => query}).as_json
+      search_result_ids = proc do |query|
+        json = described_class.new('past', serialization_format: 'dataTables', start: 0, length: 10, search: { 'value' => query }).as_json
         json[:data].map { |e| e[:global_id] }
       end
 
@@ -52,13 +54,13 @@ describe EventList do
 
     let!(:event) { create(:event) }
     let!(:meetup_event) do
-      imported_event_data = {'student_event' => {'url' => meetup_event_url}}
+      imported_event_data = { 'student_event' => { 'url' => meetup_event_url } }
       create(:event, imported_event_data: imported_event_data)
     end
     let!(:external_event) { create(:external_event) }
 
     it 'aggregates data for bridgetroll and external events' do
-      csv = EventList.new('all').to_csv
+      csv = described_class.new('all').to_csv
       expect(csv).to include(event.title)
       expect(csv).to include(external_event.title)
       expect(csv).to include(meetup_event.title)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FormHelper
   def fill_in_select2(option)
     page.find('.select2-selection').click

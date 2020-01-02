@@ -1,5 +1,7 @@
-class Authentication < ActiveRecord::Base
-  validates_uniqueness_of :provider, scope: [:uid]
+# frozen_string_literal: true
+
+class Authentication < ApplicationRecord
+  validates :provider, uniqueness: { scope: [:uid] }
 
   belongs_to :user, inverse_of: :authentications, counter_cache: true
 

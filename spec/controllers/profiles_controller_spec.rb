@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ProfilesController do
@@ -7,10 +9,10 @@ describe ProfilesController do
     sign_in @user
   end
 
-  describe "showing profiles" do
+  describe 'showing profiles' do
     render_views
 
-    it "lets users view their own profile" do
+    it 'lets users view their own profile' do
       get :show, params: { user_id: @user.id }
       expect(response).to be_successful
       expect(response.body).to include(ERB::Util.html_escape(@user.full_name))

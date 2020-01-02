@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AccountMerger
   def initialize(user_to_keep, user_to_merge)
     @user_to_keep = user_to_keep
@@ -5,11 +7,13 @@ class AccountMerger
   end
 
   def merge!
-    raise "Can't merge the same user onto itself!" if @user_to_merge.id == @user_to_keep.id
+    if @user_to_merge.id == @user_to_keep.id
+      raise "Can't merge the same user onto itself!"
+    end
 
     to_destroy = Rsvp.where(event_id: (
         @user_to_merge.rsvps.pluck('event_id') & @user_to_keep.rsvps.pluck('event_id')
-       ), user_id: @user_to_merge.id, user_type: 'User')
+      ), user_id: @user_to_merge.id, user_type: 'User')
 
     Rails.logger.info(<<-EOT.strip_heredoc)
 

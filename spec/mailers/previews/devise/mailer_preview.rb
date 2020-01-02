@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Devise::MailerPreview < ActionMailer::Preview
   def confirmation_instructions
     Devise::Mailer.confirmation_instructions(User.first, {})

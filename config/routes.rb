@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  root to: "events#index"
+  root to: 'events#index'
 
   devise_for :users, controllers: {
-    registrations: "devise_overrides/registrations",
-    omniauth_callbacks: "devise_overrides/omniauth_callbacks"
+    registrations: 'devise_overrides/registrations',
+    omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }
 
   resources :users, only: [:index] do
@@ -17,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   resources :chapters do
-    resources :leaders, only: [:index, :create, :destroy], controller: 'chapters/leaders' do
+    resources :leaders, only: %i[index create destroy], controller: 'chapters/leaders' do
       get :potential, on: :collection
     end
 
@@ -27,35 +29,35 @@ Rails.application.routes.draw do
   end
 
   resources :regions do
-    resources :leaders, only: [:index, :create, :destroy], controller: 'regions/leaders' do
+    resources :leaders, only: %i[index create destroy], controller: 'regions/leaders' do
       get :potential, on: :collection
     end
   end
 
-  resources :organizations, only: [:index, :show, :new, :create] do
+  resources :organizations, only: %i[index show new create] do
     get :download_subscriptions
   end
 
   resources :events do
-    resources :organizers, only: [:index, :create, :destroy] do
+    resources :organizers, only: %i[index create destroy] do
       get :potential, on: :collection
     end
-    resources :checkiners, only: [:index, :create, :destroy]
+    resources :checkiners, only: %i[index create destroy]
     resources :volunteers, only: [:index]
 
     scope module: :events do
       resources :students, only: [:index]
-      resources :attendees, only: [:index, :update]
+      resources :attendees, only: %i[index update]
       resources :attendee_names, only: [:index]
-      resources :emails, only: [:new, :create, :show]
+      resources :emails, only: %i[new create show]
       resource :survey, only: [:edit]
     end
 
-    resources :sections, only: [:create, :update, :destroy] do
+    resources :sections, only: %i[create update destroy] do
       post :arrange, on: :collection
     end
 
-    resources :rsvps, except: [:show, :index, :new] do
+    resources :rsvps, except: %i[show index new] do
       get :quick_destroy_confirm
 
       new do
@@ -63,20 +65,20 @@ Rails.application.routes.draw do
         get :learn
       end
 
-      resources :surveys, only: [:new, :create]
+      resources :surveys, only: %i[new create]
     end
 
-    resources :surveys, only: [:new, :index] do
+    resources :surveys, only: %i[new index] do
       get :preview, on: :collection
     end
 
-    resources :event_sessions, only: [:index, :show, :destroy] do
-      resources :checkins, only: [:index, :create, :destroy]
+    resources :event_sessions, only: %i[index show destroy] do
+      resources :checkins, only: %i[index create destroy]
     end
 
-    resources :organizer_tools, only: [:index], controller: "events/organizer_tools"
+    resources :organizer_tools, only: [:index], controller: 'events/organizer_tools'
 
-    controller "events/organizer_tools" do
+    controller 'events/organizer_tools' do
       get :send_survey_email
       get :organize_sections
       get :diets
@@ -87,7 +89,7 @@ Rails.application.routes.draw do
     end
 
     collection do
-      resources :unpublished_events, only: [:index], controller: "events/unpublished_events" do
+      resources :unpublished_events, only: [:index], controller: 'events/unpublished_events' do
         post :publish
         post :flag
       end
@@ -105,13 +107,13 @@ Rails.application.routes.draw do
 
   resources :courses, except: [:show]
 
-  get "/about" => "static_pages#about"
-  get "/admin_dashboard" => "admin_pages#admin_dashboard"
+  get '/about' => 'static_pages#about'
+  get '/admin_dashboard' => 'admin_pages#admin_dashboard'
   scope :admin_dashboard, controller: :admin_pages do
     get :send_test_email
     get :raise_exception
   end
 
-  get "/style_guide" => "static_pages#style_guide"
-  get "/styleguide", to: redirect('/style_guide')
+  get '/style_guide' => 'static_pages#style_guide'
+  get '/styleguide', to: redirect('/style_guide')
 end

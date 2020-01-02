@@ -1,8 +1,12 @@
+# frozen_string_literal: true
+
 ENV['RAILS_ENV'] ||= 'test'
 
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
+if Rails.env.production?
+  abort('The Rails environment is running in production mode!')
+end
 
 require 'spec_helper'
 require 'rspec/rails'
@@ -25,7 +29,7 @@ else
     # Workaround https://bugs.chromium.org/p/chromedriver/issues/detail?id=2650&q=load&sort=-id&colspec=ID%20Status%20Pri%20Owner%20Summary
     opts.args << '--disable-site-isolation-trials'
     # need to fix window size else tests aren't consistent
-    opts.args << "--window-size=1024,768"
+    opts.args << '--window-size=1024,768'
     opts
   end
 
@@ -33,7 +37,7 @@ else
     browser_options = default_opts
     browser_options.args << '--headless'
     browser_options.args << '--disable-gpu' if Gem.win_platform?
-    browser_options.args << "--no-sandbox" # see https://docs.travis-ci.com/user/chrome#sandboxing, https://docs.travis-ci.com/user/chrome#capybara
+    browser_options.args << '--no-sandbox' # see https://docs.travis-ci.com/user/chrome#sandboxing, https://docs.travis-ci.com/user/chrome#capybara
 
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
   end
@@ -42,7 +46,7 @@ else
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: default_opts)
   end
 
-  Selenium::WebDriver::Chrome::Service.driver_path = Rails.root.join("node_modules", ".bin", "chromedriver").to_s
+  Selenium::WebDriver::Chrome::Service.driver_path = Rails.root.join('node_modules', '.bin', 'chromedriver').to_s
   Capybara.javascript_driver = :selenium_chrome_headless_with_resolution_for_travis
   # Capybara.javascript_driver = :selenium_chrome_with_resolution
 end
@@ -50,7 +54,7 @@ end
 Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:host]}"
 Capybara.disable_animation = true
 
-Dir[Rails.root.join("spec", "support", "**", "*.rb")].each {|f| require f}
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -76,7 +80,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.before(:each) do |example|
+  config.before do |example|
     WebMock.disable_net_connect!(allow_localhost: true)
     Time.zone = 'UTC'
     ActionMailer::Base.deliveries.clear
@@ -84,7 +88,7 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.clean
   end
 
@@ -95,7 +99,7 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
 
-  [:feature, :request].each do |type|
+  %i[feature request].each do |type|
     config.include Warden::Test::Helpers, type: type
     config.after(:example, type: type) do
       Warden.test_reset!

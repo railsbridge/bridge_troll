@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # BEGIN: SimpleCov
 require 'simplecov'
 SimpleCov.start :rails
@@ -26,7 +28,7 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 
-  config.example_status_persistence_file_path = "./tmp/rspec_examples.txt"
+  config.example_status_persistence_file_path = './tmp/rspec_examples.txt'
 
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`

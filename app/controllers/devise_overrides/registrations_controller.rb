@@ -1,19 +1,22 @@
+# frozen_string_literal: true
+
 class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
   # cf. https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-edit-their-account-without-providing-a-password
   def update
     @user = User.find(current_user.id)
 
-    successfully_updated = if assigning_password?(@user, params)
-      @user.update(user_params)
-    elsif needs_password?(@user, params)
-      @user.update_with_password(user_params)
-    else
-      # remove the virtual current_password attribute update_without_password
-      # doesn't know how to ignore it
-      filtered_params = user_params
-      filtered_params.delete(:current_password)
-      @user.update_without_password(filtered_params)
-    end
+    successfully_updated =
+      if assigning_password?(@user, params)
+        @user.update(user_params)
+      elsif needs_password?(@user, params)
+        @user.update_with_password(user_params)
+      else
+        # remove the virtual current_password attribute update_without_password
+        # doesn't know how to ignore it
+        filtered_params = user_params
+        filtered_params.delete(:current_password)
+        @user.update_without_password(filtered_params)
+      end
 
     if successfully_updated
       set_flash_message :notice, :updated
@@ -21,7 +24,7 @@ class DeviseOverrides::RegistrationsController < Devise::RegistrationsController
       bypass_sign_in @user
       redirect_to after_update_path_for(@user)
     else
-      render "edit"
+      render 'edit'
     end
   end
 

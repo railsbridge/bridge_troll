@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   $stdout.sync = true
 
@@ -68,7 +70,7 @@ Rails.application.configure do
 
   # Send to local mailserver for viewing mail with mailcatcher
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { address: "localhost", port: 1025 }
+  config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
   config.action_mailer.preview_path = Rails.root.join('spec', 'mailers', 'previews')
 
   # Setup default url options for your specific environment.

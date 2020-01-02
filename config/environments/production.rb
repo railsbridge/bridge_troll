@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   config.middleware.use Rack::Deflater
 
@@ -52,10 +54,10 @@ Rails.application.configure do
   config.ssl_options = {
     hsts: { preload: true, subdomains: true, expires: 1.year },
     redirect: {
-      exclude: ->request {
+      exclude: lambda { |request|
         request.get? &&
           (request.format.json? || request.format.csv?) &&
-          Rails.application.routes.recognize_path(request.path)[:controller] == "events"
+          Rails.application.routes.recognize_path(request.path)[:controller] == 'events'
       }
     }
   }
@@ -65,13 +67,13 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
   end
 

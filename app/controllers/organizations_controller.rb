@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrganizationsController < ApplicationController
   before_action :authenticate_user!, only: [:download_subscriptions]
 
@@ -5,14 +7,14 @@ class OrganizationsController < ApplicationController
     skip_authorization
     @organizations = Organization.all
     chapter_last_event_ids = Event
-                               .published
-                               .select('max(id) as event_id, chapter_id')
-                               .group(:chapter_id)
-                               .map(&:event_id)
+                             .published
+                             .select('max(id) as event_id, chapter_id')
+                             .group(:chapter_id)
+                             .map(&:event_id)
     @chapter_locations = Event
-                           .includes(:location, :chapter)
-                           .where(id: chapter_last_event_ids)
-                           .map { |e| ChapterEventLocation.new(e) }
+                         .includes(:location, :chapter)
+                         .where(id: chapter_last_event_ids)
+                         .map { |e| ChapterEventLocation.new(e) }
   end
 
   def show
@@ -40,7 +42,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:organization_id])
     authorize @organization, :manage_organization?
 
-    filename = "#{@organization.name.downcase.sub(' ', '_')}_subscribed_users_#{Date.today.strftime("%Y_%m_%d")}"
+    filename = "#{@organization.name.downcase.sub(' ', '_')}_subscribed_users_#{Date.today.strftime('%Y_%m_%d')}"
 
     respond_to do |format|
       format.csv { send_data @organization.subscription_csv, filename: filename }

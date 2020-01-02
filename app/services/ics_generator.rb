@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Generates downloadable calendar event files to support 'Export to iCal' feature
 class IcsGenerator
   require 'icalendar'

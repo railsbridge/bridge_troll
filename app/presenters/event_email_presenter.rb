@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventEmailPresenter < SimpleDelegator
   def rsvps
     @rsvps ||= event.rsvps.where(role_id: Role.attendee_role_ids).includes(:user)
@@ -12,6 +14,6 @@ class EventEmailPresenter < SimpleDelegator
   end
 
   def students_waitlisted_rsvps
-    rsvps.where(role_id: Role::STUDENT.id).where.not("waitlist_position IS NULL")
+    rsvps.where(role_id: Role::STUDENT.id).where.not('waitlist_position IS NULL')
   end
 end

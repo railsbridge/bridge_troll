@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe "the attendee details modal", js: true do
+describe 'the attendee details modal', js: true do
   before do
     @organizer = create(:user)
 

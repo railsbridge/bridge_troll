@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:edit, :update, :destroy]
+  before_action :set_course, only: %i[edit update destroy]
   before_action :authenticate_user!
 
   def index

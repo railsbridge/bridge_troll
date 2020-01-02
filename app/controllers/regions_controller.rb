@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class RegionsController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index]
-  before_action :assign_region, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: %i[show index]
+  before_action :assign_region, only: %i[show edit update destroy]
 
   def index
     skip_authorization
@@ -14,15 +16,15 @@ class RegionsController < ApplicationController
         @region_events = (
         @region.events.published_or_visible_to(current_user).includes(:location) +
           @region.external_events
-        ).sort_by(&:ends_at)
+      ).sort_by(&:ends_at)
 
         if @region.has_leader?(current_user)
-          @organizer_rsvps = Rsvp.
-            group(:user_id, :user_type).
-            joins([event: [location: :region]]).
-            includes(:user).
-            select("user_id, user_type, count(*) as events_count").
-            where('regions.id' => @region.id, role_id: Role::ORGANIZER.id, user_type: 'User')
+          @organizer_rsvps = Rsvp
+                             .group(:user_id, :user_type)
+                             .joins([event: [location: :region]])
+                             .includes(:user)
+                             .select('user_id, user_type, count(*) as events_count')
+                             .where('regions.id' => @region.id, role_id: Role::ORGANIZER.id, user_type: 'User')
         end
       end
       format.json do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Events::AttendeesController do
@@ -28,7 +30,7 @@ describe Events::AttendeesController do
     it 'includes organizers in csv' do
       get :index, params: { event_id: @event.id }, format: :csv
       csv_rows = CSV.parse(response.body, headers: true)
-      expect(csv_rows[0]["Attending As"]).to eq('Organizer')
+      expect(csv_rows[0]['Attending As']).to eq('Organizer')
     end
 
     it 'includes all dietary info in the dietary info field' do
@@ -52,7 +54,7 @@ describe Events::AttendeesController do
     end
   end
 
-  describe "#update" do
+  describe '#update' do
     let!(:section) { create(:section, event: @event) }
 
     let(:do_request) do
@@ -63,15 +65,15 @@ describe Events::AttendeesController do
     end
 
     it 'allows organizers to update an attendee\'s section_id' do
-      expect {
+      expect do
         do_request
-      }.to change { @rsvp.reload.section_id }.to(section.id)
+      end.to change { @rsvp.reload.section_id }.to(section.id)
     end
 
     it 'does not allow updates to columns other than section_id' do
-      expect {
+      expect do
         do_request
-      }.not_to change { @rsvp.reload.subject_experience }
+      end.not_to change { @rsvp.reload.subject_experience }
     end
   end
 end

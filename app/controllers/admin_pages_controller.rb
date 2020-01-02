@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AdminPagesController < ApplicationController
   before_action :authenticate_user!
 
@@ -33,17 +35,17 @@ class AdminPagesController < ApplicationController
     end
 
     def user_authentication_counts
-      @user_authentication_counts ||= User.
-        select('authentications_count, count(*) count').
-        group(:authentications_count).
-        order(Arel.sql('count(*)'))
+      @user_authentication_counts ||= User
+                                      .select('authentications_count, count(*) count')
+                                      .group(:authentications_count)
+                                      .order(Arel.sql('count(*)'))
     end
 
     def authentication_counts
-      @authentication_counts ||= Authentication.
-        select('provider, count(*) count').
-        group(:provider).
-        order(Arel.sql('count(*)'))
+      @authentication_counts ||= Authentication
+                                 .select('provider, count(*) count')
+                                 .group(:provider)
+                                 .order(Arel.sql('count(*)'))
     end
 
     def region_user_counts
@@ -52,9 +54,9 @@ class AdminPagesController < ApplicationController
         FROM regions_users
         WHERE region_id = regions.id
       SQL
-      @region_user_counts ||= Region.
-        select("name, (#{regions_users_count}) as count").
-        order('count')
+      @region_user_counts ||= Region
+                              .select("name, (#{regions_users_count}) as count")
+                              .order('count')
     end
 
     def spammers

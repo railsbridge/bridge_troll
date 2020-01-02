@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe UsersController do
@@ -6,7 +8,7 @@ describe UsersController do
     sign_in @logged_in_user
   end
 
-  describe "index" do
+  describe 'index' do
     before do
       @user1 = create(:meetup_user, full_name: 'Major MeetupUser')
       @user2 = create(:meetup_user)
@@ -27,18 +29,18 @@ describe UsersController do
       @event1.rsvps << create(:rsvp, user: @user2, event: @event1)
     end
 
-    it "shows a bunch of user names" do
+    it 'shows a bunch of user names' do
       get :index, format: :json
       users = JSON.parse(response.body)['data']
       all_users = [@user1, @user2, @user_no_rsvps, @bridgetroll_user, @logged_in_user]
-      expect(users.map { |u| u['global_id']}).to match_array(all_users.map(&:to_global_id).map(&:to_s))
+      expect(users.map { |u| u['global_id'] }).to match_array(all_users.map(&:to_global_id).map(&:to_s))
 
       all_users.each do |user|
         expect(response.body).to include(user.full_name)
       end
     end
 
-    it "calculates attendances" do
+    it 'calculates attendances' do
       get :index, format: :json
       users = JSON.parse(response.body)['data'].each_with_object({}) do |u, hsh|
         hsh[u['global_id']] = u
@@ -49,18 +51,18 @@ describe UsersController do
       expect(users[@bridgetroll_user.to_global_id.to_s]['volunteer_rsvp_count']).to eq(1)
     end
 
-    describe "searching" do
+    describe 'searching' do
       let(:ids_from_json) do
-        Proc.new do |response|
+        proc do |response|
           JSON.parse(response.body)['data'].map { |u| u['global_id'] }
         end
       end
 
-      it "filters by search query" do
-        get :index, params: {search: {value: 'major meetup'}}, format: :json
+      it 'filters by search query' do
+        get :index, params: { search: { value: 'major meetup' } }, format: :json
         expect(ids_from_json.call(response)).to match_array([@user1.to_global_id.to_s])
 
-        get :index, params: {search: {value: 'baroque bridgetroll'}}, format: :json
+        get :index, params: { search: { value: 'baroque bridgetroll' } }, format: :json
         expect(ids_from_json.call(response)).to match_array([@bridgetroll_user.to_global_id.to_s])
       end
     end

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class LocationsController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index]
-  before_action :assign_location, only: [:show, :edit, :update, :destroy, :archive]
+  before_action :authenticate_user!, except: %i[show index]
+  before_action :assign_location, only: %i[show edit update destroy archive]
 
   def index
     skip_authorization
@@ -26,7 +28,7 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
-        format.html { redirect_to @location, notice: 'Location was successfully created.'}
+        format.html { redirect_to @location, notice: 'Location was successfully created.' }
         format.js   {}
       else
         format.html { render :new }

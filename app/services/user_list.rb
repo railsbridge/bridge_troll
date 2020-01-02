@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserList
   def initialize(params)
     @offset = (params[:start] || 0).to_i
@@ -9,11 +11,11 @@ class UserList
     @search_query = params['search'].try(:[], 'value').presence
   end
 
-  def as_json(options = {})
+  def as_json(_options = {})
     user_attendances = attendances_for('User')
     meetup_user_attendances = attendances_for('MeetupUser')
 
-    attendances = {User: user_attendances, MeetupUser: meetup_user_attendances }
+    attendances = { User: user_attendances, MeetupUser: meetup_user_attendances }
 
     users = (meetup_users + bridgetroll_users).map do |u|
       IndexPageUser.new(u, meetup_ids_for_users, attendances)
@@ -31,8 +33,9 @@ class UserList
 
   def determine_sort_field(params)
     if params[:order]
-      sort_data_field = params[:columns][params[:order]["0"]["column"]]["data"]
+      sort_data_field = params[:columns][params[:order]['0']['column']]['data']
       return :full_name if sort_data_field == 'link'
+
       return sort_data_field.to_sym
     end
 
@@ -41,7 +44,7 @@ class UserList
 
   def determine_sort_reverse(params)
     if params[:order]
-      params[:order]["0"]["dir"] == "desc"
+      params[:order]['0']['dir'] == 'desc'
     else
       false
     end
@@ -49,9 +52,9 @@ class UserList
 
   def meetup_ids_for_users
     @meetup_ids_for_users ||= Authentication
-                                .where(provider: :meetup)
-                                .pluck('user_id', 'uid')
-                                .each_with_object({}) do |(user_id, uid), hsh|
+                              .where(provider: :meetup)
+                              .pluck('user_id', 'uid')
+                              .each_with_object({}) do |(user_id, uid), hsh|
       hsh[user_id] = uid
     end
   end
@@ -80,7 +83,7 @@ class UserList
   end
 
   def using_postgres
-    @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == "PostgreSQL")
+    @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == 'PostgreSQL')
   end
 
   def meetup_user_search_sql
@@ -144,7 +147,7 @@ class UserList
       @attendance.fetch(Role::ORGANIZER.id, 0)
     end
 
-    def as_json(options = {})
+    def as_json(_options = {})
       {
         global_id: to_global_id.to_s,
         link: profile_link,

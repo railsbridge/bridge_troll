@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ChaptersController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index]
-  before_action :assign_chapter, except: [:index, :new, :create]
+  before_action :authenticate_user!, except: %i[show index]
+  before_action :assign_chapter, except: %i[index new create]
 
   def index
     skip_authorization
@@ -15,12 +17,12 @@ class ChaptersController < ApplicationController
     @show_organizers = true
 
     if @chapter.has_leader?(current_user)
-      @organizer_rsvps = Rsvp.
-        group(:user_id, :user_type).
-        joins([event: :chapter]).
-        includes(:user).
-        select("user_id, user_type, count(*) as events_count").
-        where('chapters.id' => @chapter.id, role_id: Role::ORGANIZER.id, user_type: 'User')
+      @organizer_rsvps = Rsvp
+                         .group(:user_id, :user_type)
+                         .joins([event: :chapter])
+                         .includes(:user)
+                         .select('user_id, user_type, count(*) as events_count')
+                         .where('chapters.id' => @chapter.id, role_id: Role::ORGANIZER.id, user_type: 'User')
     end
   end
 

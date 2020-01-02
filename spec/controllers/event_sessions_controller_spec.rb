@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe EventSessionsController do
@@ -13,7 +15,7 @@ describe EventSessionsController do
     describe 'an unauthorized user' do
       it 'cannot see a list of attendees' do
         expect(
-          get :index, params: { event_id: @event.id }
+          get(:index, params: { event_id: @event.id })
         ).to be_redirect
       end
     end
@@ -25,7 +27,7 @@ describe EventSessionsController do
 
       it 'can see a list of attendees' do
         expect(
-          get :index, params: { event_id: @event.id }
+          get(:index, params: { event_id: @event.id })
         ).not_to be_redirect
       end
     end

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'csv'
 
-class Organization < ActiveRecord::Base
+class Organization < ApplicationRecord
   has_many :chapters, dependent: :destroy, inverse_of: :organization
   has_many :organization_leaderships, dependent: :destroy
   has_many :leaders, through: :organization_leaderships, source: :user
@@ -17,7 +19,7 @@ class Organization < ActiveRecord::Base
 
   def subscription_csv
     CSV.generate do |csv|
-      csv << %w(email first_name last_name)
+      csv << %w[email first_name last_name]
       users.each do |user|
         csv << [user.email, user.first_name, user.last_name]
       end

@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe EventEmailPresenter do
-  subject(:presenter) { EventEmailPresenter.new(event_email) }
+  subject(:presenter) { described_class.new(event_email) }
+
   let(:event_email) { FactoryBot.create(:event_email, event: event) }
 
   let(:event) { FactoryBot.create(:event) }

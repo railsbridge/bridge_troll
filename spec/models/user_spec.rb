@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe User do
@@ -25,27 +27,27 @@ describe User do
     attributes = {
       email: 'new_email@example.com',
       profile_attributes: {
-        bio: "This is my updated bio"
+        bio: 'This is my updated bio'
       }
     }
-    expect {
+    expect do
       @user.update(attributes)
-    }.not_to change { @user.profile.reload.id }
+    end.not_to change { @user.profile.reload.id }
   end
 
-  it "must have a valid time zone" do
-    user = build(:user, time_zone: "xxx")
+  it 'must have a valid time zone' do
+    user = build(:user, time_zone: 'xxx')
     expect(user).to have(1).error_on(:time_zone)
 
     user = build(:user, time_zone: 'Hawaii')
     expect(user).to have(0).errors_on(:time_zone)
   end
 
-  it "creates a profile when the user is created" do
+  it 'creates a profile when the user is created' do
     expect(@user.profile).to be_present
   end
 
-  describe "#full_name" do
+  describe '#full_name' do
     it "returns the user's full name" do
       expect(@user.full_name).to eq("#{@user.first_name} #{@user.last_name}")
     end
@@ -56,21 +58,21 @@ describe User do
       expect(@user.profile_path).to eq(Rails.application.routes.url_helpers.user_profile_path(@user))
     end
   end
+
   describe '#org_leader?' do
     it 'returns false when the user is not a organization leader' do
-      expect(@user.org_leader?).to be_falsey
+      expect(@user).not_to be_org_leader
     end
 
-    context "when the user is an organization leader" do
+    context 'when the user is an organization leader' do
       before do
         org = create(:organization, name: 'FooBridge')
         org.leaders << @user
       end
 
-      it "returns true" do
-        expect(@user.org_leader?).to be_truthy
+      it 'returns true' do
+        expect(@user).to be_org_leader
       end
     end
-
   end
 end

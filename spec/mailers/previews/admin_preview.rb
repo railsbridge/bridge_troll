@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AdminPreview < ActionMailer::Preview
   def test_group_mail
     options = { to: 'test@example.com' }
@@ -8,5 +10,4 @@ class AdminPreview < ActionMailer::Preview
     options = { to: 'test@example.com' }
     AdminMailer.test_individual_mail(options)
   end
-
 end

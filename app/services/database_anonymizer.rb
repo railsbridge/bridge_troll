@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # anonymizes historical data to use for attendance forecasting.
 class DatabaseAnonymizer
   def initialize(logger = nil)
     require 'faker'
 
     @logger = logger || Logger.new(STDOUT)
-    @logger.formatter = proc do |severity, datetime, progname, msg|
+    @logger.formatter = proc do |_severity, _datetime, _progname, msg|
       "#{msg}\n"
     end
   end
@@ -38,11 +40,14 @@ class DatabaseAnonymizer
   end
 
   def anonymize_user(user)
-    return if user.email == 'admin@example.com' || user.email == 'organizer@example.com'
+    if user.email == 'admin@example.com' || user.email == 'organizer@example.com'
+      return
+    end
+
     user.email = "email_#{user.id}@example.com"
     user.first_name = Faker::Name.first_name
     user.last_name = Faker::Name.last_name
-    user.gender = %w(male female genderqueer).sample
+    user.gender = %w[male female genderqueer].sample
     user.last_sign_in_ip = '127.0.0.1'
     user.current_sign_in_ip = '127.0.0.1'
     user.password = 'password'

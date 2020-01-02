@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LocationPolicy < ApplicationPolicy
   def destroy?
     record.events.count == 0
@@ -6,6 +8,7 @@ class LocationPolicy < ApplicationPolicy
   def archive?
     return false unless record.persisted?
     return false if record.archived?
+
     update? || edit_additional_details?
   end
 
@@ -21,19 +24,19 @@ class LocationPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    attributes = [
-      :name,
-      :address_1,
-      :address_2,
-      :city,
-      :state,
-      :zip,
-      :region_id
+    attributes = %i[
+      name
+      address_1
+      address_2
+      city
+      state
+      zip
+      region_id
     ]
     if edit_additional_details?
-      attributes += [
-        :contact_info,
-        :notes
+      attributes += %i[
+        contact_info
+        notes
       ]
     end
     attributes

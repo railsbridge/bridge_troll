@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Course do
-  it { should have_many(:levels) }
-  it { should have_many(:events) }
-  it { should validate_presence_of(:name) }
-  it { should validate_presence_of(:title) }
-  it { should validate_presence_of(:description)}
+  it { is_expected.to have_many(:levels) }
+  it { is_expected.to have_many(:events) }
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:title) }
+  it { is_expected.to validate_presence_of(:description) }
 
   describe 'validations' do
     it 'does not allow multiple levels to have the same position' do

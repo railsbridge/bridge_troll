@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class LevelPolicy < ApplicationPolicy
   def permitted_attributes
-    return [] unless user && user.admin?
+    return [] unless user&.admin?
 
-    [
-      :num,
-      :color,
-      :title,
-      :level_description_bullets,
-      :_destroy
+    %i[
+      num
+      color
+      title
+      level_description_bullets
+      _destroy
     ]
   end
 end

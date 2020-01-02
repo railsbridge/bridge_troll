@@ -1,4 +1,6 @@
-class BaseMailer < ActionMailer::Base
+# frozen_string_literal: true
+
+class BaseMailer < ApplicationMailer
   layout 'mailer'
   append_view_path Rails.root.join('app', 'views', 'mailers')
 

@@ -1,9 +1,11 @@
-class Event < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Event < ApplicationRecord
   DEFAULT_CODE_OF_CONDUCT_URL = 'http://bridgefoundry.org/code-of-conduct/'
 
   serialize :allowed_operating_system_ids, JSON
   serialize :imported_event_data, JSON
-  enum current_state: [ :draft, :pending_approval, :published ]
+  enum current_state: { draft: 0, pending_approval: 1, published: 2 }
 
   after_initialize :set_defaults
   before_validation :normalize_allowed_operating_system_ids
@@ -32,22 +34,22 @@ class Event < ActiveRecord::Base
   has_many :event_emails, dependent: :destroy
 
   with_options(class_name: 'Rsvp', inverse_of: :event) do
-    has_many :attendee_rsvps, -> {
+    has_many :attendee_rsvps, lambda {
       where(role_id: Role.attendee_role_ids, waitlist_position: nil)
     }
-    has_many :student_rsvps, -> {
+    has_many :student_rsvps, lambda {
       where(role_id: Role::STUDENT.id, waitlist_position: nil)
     }
-    has_many :volunteer_rsvps, -> {
+    has_many :volunteer_rsvps, lambda {
       where(role_id: Role::VOLUNTEER.id, waitlist_position: nil)
     }
-    has_many :student_waitlist_rsvps, -> {
+    has_many :student_waitlist_rsvps, lambda {
       where(role_id: Role::STUDENT.id).where.not(waitlist_position: nil).order(:waitlist_position)
     }
-    has_many :volunteer_waitlist_rsvps, -> {
+    has_many :volunteer_waitlist_rsvps, lambda {
       where(role_id: Role::VOLUNTEER.id).where.not(waitlist_position: nil).order(:waitlist_position)
     }
-    has_many :organizer_rsvps, -> {
+    has_many :organizer_rsvps, lambda {
       where(role_id: Role::ORGANIZER.id)
     }
   end
@@ -85,16 +87,16 @@ class Event < ActiveRecord::Base
 
   with_options(unless: :historical?) do
     with_options(if: :allow_student_rsvp?) do
-      validates_numericality_of :student_rsvp_limit, greater_than: 0
+      validates :student_rsvp_limit, numericality: { greater_than: 0 }
       validate :validate_student_rsvp_limit
     end
 
-    with_options(if: [:allow_student_rsvp?, :target_audience_required?]) do
-      validates_presence_of :target_audience
+    with_options(if: %i[allow_student_rsvp? target_audience_required?]) do
+      validates :target_audience, presence: true
     end
 
     with_options(if: :has_volunteer_limit?) do
-      validates_numericality_of :volunteer_rsvp_limit, greater_than: 0
+      validates :volunteer_rsvp_limit, numericality: { greater_than: 0 }
       validate :validate_volunteer_rsvp_limit
     end
   end
@@ -146,15 +148,11 @@ class Event < ActiveRecord::Base
   end
 
   def students_at_limit?
-    if student_rsvp_limit
-      student_rsvps_count >= student_rsvp_limit
-    end
+    student_rsvps_count >= student_rsvp_limit if student_rsvp_limit
   end
 
   def volunteers_at_limit?
-    if volunteer_rsvp_limit
-      volunteer_rsvps_count >= volunteer_rsvp_limit
-    end
+    volunteer_rsvps_count >= volunteer_rsvp_limit if volunteer_rsvp_limit
   end
 
   def survey_sent?
@@ -187,7 +185,7 @@ class Event < ActiveRecord::Base
     if upcoming? || historical?
       association_for_role(role)
     else
-      association_for_role(role).where("checkins_count > 0")
+      association_for_role(role).where('checkins_count > 0')
     end
   end
 
@@ -217,8 +215,8 @@ class Event < ActiveRecord::Base
 
   def rsvps_with_checkins
     attendee_rsvps = rsvps
-                       .where('waitlist_position IS NULL OR checkins_count > 0')
-                       .includes(:user, :rsvp_sessions)
+                     .where('waitlist_position IS NULL OR checkins_count > 0')
+                     .includes(:user, :rsvp_sessions)
     attendee_rsvps.map do |rsvp|
       rsvp.as_json(methods: [:checked_in_session_ids])
     end
@@ -254,12 +252,12 @@ class Event < ActiveRecord::Base
     where('events.ends_at < ?', Time.now.utc)
   end
 
-  def date_in_time_zone start_or_end
-    read_attribute(start_or_end).in_time_zone(ActiveSupport::TimeZone.new(time_zone))
+  def date_in_time_zone(start_or_end)
+    self[start_or_end].in_time_zone(ActiveSupport::TimeZone.new(time_zone))
   end
 
   def upcoming?
-    ends_at > Time.now
+    ends_at > Time.zone.now
   end
 
   def past?
@@ -308,6 +306,7 @@ class Event < ActiveRecord::Base
 
   def checkiner?(user)
     return true if organizer?(user)
+
     user.admin? || user.event_checkiner?(self)
   end
 
@@ -344,12 +343,13 @@ class Event < ActiveRecord::Base
 
   def session_details
     event_sessions.map do |e|
-      {name: e.name, starts_at: e.starts_at, ends_at: e.ends_at}
+      { name: e.name, starts_at: e.starts_at, ends_at: e.ends_at }
     end
   end
 
   def allowed_operating_systems
     return OperatingSystem.all unless restrict_operating_systems
+
     OperatingSystem.all.select { |os| allowed_operating_system_ids.include?(os.id) }
   end
 
@@ -368,7 +368,7 @@ class Event < ActiveRecord::Base
 
   def as_json(options = {})
     options = {
-      only: [:id, :title, :student_rsvp_limit, :imported_event_data],
+      only: %i[id title student_rsvp_limit imported_event_data],
       methods: [:location]
     }.merge(options)
     super(options).merge(
@@ -387,9 +387,7 @@ class Event < ActiveRecord::Base
     self
   end
 
-  def levels
-    course.levels
-  end
+  delegate :levels, to: :course
 
   def asks_custom_question?
     custom_question.present?
@@ -414,12 +412,12 @@ class Event < ActiveRecord::Base
 
   def association_for_role(role, waitlisted: false)
     case role
-      when Role::VOLUNTEER
-        waitlisted ? volunteer_waitlist_rsvps : volunteer_rsvps
-      when Role::STUDENT
-        waitlisted ? student_waitlist_rsvps : student_rsvps
-      else
-        raise "Can't find appropriate association for Role::#{role.name}"
+    when Role::VOLUNTEER
+      waitlisted ? volunteer_waitlist_rsvps : volunteer_rsvps
+    when Role::STUDENT
+      waitlisted ? student_waitlist_rsvps : student_rsvps
+    else
+      raise "Can't find appropriate association for Role::#{role.name}"
     end
   end
 

@@ -1,4 +1,6 @@
-class EventEmail < ActiveRecord::Base
+# frozen_string_literal: true
+
+class EventEmail < ApplicationRecord
   attr_accessor :attendee_group, :include_waitlisted, :only_checked_in, :cc_organizers
 
   belongs_to :event
@@ -8,5 +10,5 @@ class EventEmail < ActiveRecord::Base
   has_many :recipient_rsvps, through: :event_email_recipients
   has_many :recipients, through: :recipient_rsvps, source: :user, source_type: 'User'
 
-  validates_presence_of :subject, :body
+  validates :subject, :body, presence: true
 end

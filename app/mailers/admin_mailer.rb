@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class AdminMailer < BaseMailer
   def test_group_mail(options)
     set_recipients([options[:to]])
 
     mail(
-      from: "info@bridgetroll.org",
+      from: 'info@bridgetroll.org',
       subject: '[Bridge Troll] Group Email Test'
     ) do |format|
       format.html { render html: mail_content('group') }
@@ -13,7 +15,7 @@ class AdminMailer < BaseMailer
   def test_individual_mail(options)
     mail(
       to: options[:to],
-      from: "info@bridgetroll.org",
+      from: 'info@bridgetroll.org',
       subject: '[Bridge Troll] Individual Email Test'
     ) do |format|
       format.html { render html: mail_content('individual') }

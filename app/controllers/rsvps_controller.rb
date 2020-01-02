@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class RsvpsController < ApplicationController
-  before_action :authenticate_user!, except: [:quick_destroy_confirm, :destroy]
+  before_action :authenticate_user!, except: %i[quick_destroy_confirm destroy]
   before_action :assign_event
-  before_action :load_rsvp, only: [:edit, :update]
-  before_action :redirect_if_rsvp_exists, only: [:volunteer, :learn]
+  before_action :load_rsvp, only: %i[edit update]
+  before_action :redirect_if_rsvp_exists, only: %i[volunteer learn]
   before_action :redirect_if_event_in_past
-  before_action :redirect_if_event_closed, only: [:volunteer, :learn, :create]
+  before_action :redirect_if_event_closed, only: %i[volunteer learn create]
   before_action :skip_authorization
 
   def volunteer
@@ -35,16 +37,20 @@ class RsvpsController < ApplicationController
       end
 
       if @event.volunteers_at_limit? && @rsvp.role_volunteer?
-        @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0 ) + 1
+        @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
       end
 
       if @rsvp.save
         apply_other_changes_from_params
 
         RsvpMailer.confirmation(@rsvp).deliver_now
-        RsvpMailer.childcare_notification(@rsvp).deliver_now if @rsvp.childcare_info?
+        if @rsvp.childcare_info?
+          RsvpMailer.childcare_notification(@rsvp).deliver_now
+        end
         notice_messages = ['Thanks for signing up!']
-        notice_messages << "We've added you to the waitlist." if @rsvp.waitlisted?
+        if @rsvp.waitlisted?
+          notice_messages << "We've added you to the waitlist."
+        end
 
         redirect_to @event, notice: notice_messages.join(' ')
       else
@@ -73,9 +79,7 @@ class RsvpsController < ApplicationController
 
   def quick_destroy_confirm
     @rsvp = Rsvp.find_by(token: params[:token]) if params[:token].present?
-    unless @rsvp
-      redirect_to event_path(@event), notice: 'Unable to find RSVP!'
-    end
+    redirect_to event_path(@event), notice: 'Unable to find RSVP!' unless @rsvp
   end
 
   def destroy
@@ -102,7 +106,7 @@ class RsvpsController < ApplicationController
 
   def redirect_if_event_closed
     unless @event.open?
-      flash[:error] = "Sorry. This event is closed!"
+      flash[:error] = 'Sorry. This event is closed!'
       redirect_to @event
     end
   end

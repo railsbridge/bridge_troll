@@ -1,13 +1,17 @@
-class EventSession < ActiveRecord::Base
+# frozen_string_literal: true
+
+class EventSession < ApplicationRecord
   include PresenceTrackingBoolean
 
   belongs_to :location, optional: true
 
-  validates_presence_of :starts_at, :ends_at, :name
-  validates_uniqueness_of :name, scope: [:event_id]
+  validates :starts_at, :ends_at, :name, presence: true
+  validates :name, uniqueness: { scope: [:event_id] }
   validate on: :create do
-    if starts_at && starts_at < Time.now
-      errors.add(:starts_at, 'must start in the future') unless event&.historical?
+    if starts_at && starts_at < Time.zone.now
+      unless event&.historical?
+        errors.add(:starts_at, 'must start in the future')
+      end
     end
   end
   validate do
@@ -17,7 +21,7 @@ class EventSession < ActiveRecord::Base
   end
   validate do
     if required_for_students && volunteers_only
-      errors.add(:base, "A session cannot be both Required for Students and Volunteers Only")
+      errors.add(:base, 'A session cannot be both Required for Students and Volunteers Only')
     end
   end
 
@@ -48,25 +52,25 @@ class EventSession < ActiveRecord::Base
     # initially creating an event and its session. Booo!
     event.reload
     event.update_columns(
-      starts_at: event.event_sessions.minimum("event_sessions.starts_at"),
-      ends_at: event.event_sessions.maximum("event_sessions.ends_at")
+      starts_at: event.event_sessions.minimum('event_sessions.starts_at'),
+      ends_at: event.event_sessions.maximum('event_sessions.ends_at')
     )
   end
 
   def starts_at
-    (event&.persisted?) ? date_in_time_zone(:starts_at) : read_attribute(:starts_at)
+    event&.persisted? ? date_in_time_zone(:starts_at) : self[:starts_at]
   end
 
   def ends_at
-    (event&.persisted?) ? date_in_time_zone(:ends_at) : read_attribute(:ends_at)
+    event&.persisted? ? date_in_time_zone(:ends_at) : self[:ends_at]
   end
 
   def session_date
-    (starts_at ? starts_at : Date.current).strftime('%Y-%m-%d')
+    (starts_at || Date.current).strftime('%Y-%m-%d')
   end
 
-  def date_in_time_zone start_or_end
-    read_attribute(start_or_end).in_time_zone(ActiveSupport::TimeZone.new(event.time_zone))
+  def date_in_time_zone(start_or_end)
+    self[start_or_end].in_time_zone(ActiveSupport::TimeZone.new(event.time_zone))
   end
 
   def has_rsvps?

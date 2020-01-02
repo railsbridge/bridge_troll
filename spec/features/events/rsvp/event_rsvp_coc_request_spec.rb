@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'code of conduct checkbox for RSVPs' do
@@ -15,7 +17,7 @@ describe 'code of conduct checkbox for RSVPs' do
       visit volunteer_new_event_rsvp_path(@event)
     end
 
-    it "requires code of conduct to be checked, and preserves checked-ness on error" do
+    it 'requires code of conduct to be checked, and preserves checked-ness on error' do
       expect(page).to have_content(coc_text)
 
       expect(page).to have_button 'Submit', disabled: true

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe "courses", js: true do
+describe 'courses', js: true do
   let(:admin) { create(:user, admin: true) }
 
   before do
@@ -41,7 +43,7 @@ describe "courses", js: true do
 
       expect(page).to have_css('.course-levels .fields', count: 3)
       within '.course-levels .fields', match: :first do
-        click_on "Remove Level"
+        click_on 'Remove Level'
       end
       expect(page).to have_css('.course-levels .fields', count: 2)
 
@@ -56,7 +58,7 @@ describe "courses", js: true do
     let!(:course) { create(:course, levels_count: 2) }
 
     it 'reorders course levels if you assign the position to an existing level' do
-      expect(course.levels.order(:num).to_a.map(&:color)).to eq(['blue', 'green'])
+      expect(course.levels.order(:num).to_a.map(&:color)).to eq(%w[blue green])
 
       visit "/courses/#{course.id}/edit"
 
@@ -67,7 +69,7 @@ describe "courses", js: true do
       click_on 'Update Course'
       expect(page).to have_content('Listing courses')
 
-      expect(course.levels.order(:num).to_a.map(&:color)).to eq(['green', 'blue'])
+      expect(course.levels.order(:num).to_a.map(&:color)).to eq(%w[green blue])
     end
   end
 end

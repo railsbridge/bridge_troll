@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 atom_feed do |feed|
-  feed.title("Bridge Troll Events")
+  feed.title('Bridge Troll Events')
   feed.link root_url
   feed.updated @events.last.try(:updated_at)
   feed.id root_url

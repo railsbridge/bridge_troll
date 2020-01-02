@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Regions
   class LeadersController < ApplicationController
     before_action :authenticate_user!
@@ -12,9 +14,9 @@ module Regions
       authorize @region, :modify_leadership?
       leader = RegionLeadership.new(region: @region, user_id: leader_id_param)
       if leader.save
-        redirect_to region_leaders_path(@region), notice: "Booyah!"
+        redirect_to region_leaders_path(@region), notice: 'Booyah!'
       else
-        redirect_to region_leaders_path(@region), error: "Whoops."
+        redirect_to region_leaders_path(@region), error: 'Whoops.'
       end
     end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ReminderSender do
@@ -7,9 +9,9 @@ describe ReminderSender do
       past_event = create(:event)
       past_event.event_sessions.first.update(starts_at: 2.days.ago, ends_at: 1.day.ago)
 
-      expect(ReminderSender).to receive(:remind_attendees_for_event).once.with(upcoming_event)
+      expect(described_class).to receive(:remind_attendees_for_event).once.with(upcoming_event)
 
-      ReminderSender.send_all_reminders
+      described_class.send_all_reminders
     end
   end
 
@@ -17,20 +19,20 @@ describe ReminderSender do
     let(:event) { create(:event, student_rsvp_limit: 1) }
     let!(:rsvp) { create(:volunteer_rsvp, event: event) }
     let!(:student_rsvp) { create(:student_rsvp, event: event) }
-    let!(:reminded_rsvp) { create(:volunteer_rsvp, reminded_at: Time.now, event: event) }
+    let!(:reminded_rsvp) { create(:volunteer_rsvp, reminded_at: Time.zone.now, event: event) }
     let!(:waitlisted_rsvp) { create(:student_rsvp, waitlist_position: 1, event: event) }
 
     it 'sends emails to all the students' do
       pending_reminder_count = event.rsvps.confirmed.where('reminded_at IS NULL').count
       expect(pending_reminder_count).to be >= 0
 
-      expect {
-        ReminderSender.remind_attendees_for_event(event)
-      }.to change(ActionMailer::Base.deliveries, :count).by(pending_reminder_count)
+      expect do
+        described_class.remind_attendees_for_event(event)
+      end.to change(ActionMailer::Base.deliveries, :count).by(pending_reminder_count)
 
-      expect {
-        ReminderSender.remind_attendees_for_event(event)
-      }.not_to change(ActionMailer::Base.deliveries, :count)
+      expect do
+        described_class.remind_attendees_for_event(event)
+      end.not_to change(ActionMailer::Base.deliveries, :count)
     end
 
     describe 'when there is a volunteer-only session occuring before the all-attendees session' do
@@ -46,22 +48,22 @@ describe ReminderSender do
       it 'sends volunteers a session reminder' do
         expect(RsvpMailer).to receive(:reminder_for_session).once.and_call_original
 
-        expect {
-          ReminderSender.remind_attendees_for_event(event)
-        }.to change(ActionMailer::Base.deliveries, :count).by(1)
+        expect do
+          described_class.remind_attendees_for_event(event)
+        end.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-        expect {
-          ReminderSender.remind_attendees_for_event(event)
-        }.not_to change(ActionMailer::Base.deliveries, :count)
+        expect do
+          described_class.remind_attendees_for_event(event)
+        end.not_to change(ActionMailer::Base.deliveries, :count)
       end
     end
   end
 end
 
-describe "querying for events and sessions" do
+describe 'querying for events and sessions' do
   before do
-    @event_tomorrow = create(:event, starts_at: Time.now + 1.day)
-    @event_four_days_away = create(:event, starts_at: Time.now + 4.days)
+    @event_tomorrow = create(:event, starts_at: Time.zone.now + 1.day)
+    @event_four_days_away = create(:event, starts_at: Time.zone.now + 4.days)
     @event_past = create(:event)
     @event_past.update(starts_at: 2.days.ago, ends_at: 1.day.ago)
   end
@@ -69,7 +71,7 @@ describe "querying for events and sessions" do
   describe UpcomingEventsQuery do
     let(:events) do
       [].tap do |found_events|
-        UpcomingEventsQuery.new.find_each { |e| found_events << e }
+        described_class.new.find_each { |e| found_events << e }
       end
     end
 

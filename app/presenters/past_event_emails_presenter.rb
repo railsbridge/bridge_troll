@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class PastEventEmailsPresenter
   attr_reader :event
 
-  def initialize event
+  def initialize(event)
     @event = event
   end
 
@@ -20,12 +22,8 @@ class PastEventEmailsPresenter
       }
 
       email.recipient_rsvps.each do |rsvp|
-        if rsvp.role_volunteer?
-          counts[email.id][:volunteers] += 1
-        end
-        if rsvp.role_student?
-          counts[email.id][:students] += 1
-        end
+        counts[email.id][:volunteers] += 1 if rsvp.role_volunteer?
+        counts[email.id][:students] += 1 if rsvp.role_student?
       end
     end
 

@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe EventMailer do
   let(:event) { create(:event) }
 
   describe '#new_event' do
-    let(:mail) { EventMailer.new_event(event) }
+    let(:mail) { described_class.new_event(event) }
 
-    it "includes both locations for a multi-location event" do
+    it 'includes both locations for a multi-location event' do
       event_session = create(:event_session, event: event, location: create(:location))
 
       expect(mail.body).to include(event_session.location.name)
@@ -29,7 +31,7 @@ describe EventMailer do
     end
 
     it 'sends an email to all potential approvers' do
-      mail = EventMailer.unpublished_event(event)
+      mail = described_class.unpublished_event(event)
 
       expected_emails = [
         admin.email,

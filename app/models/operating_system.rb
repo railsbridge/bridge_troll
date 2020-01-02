@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class OperatingSystem < ActiveHash::Base
   include ActiveHash::Enum
   self.data = [
     {
-      id: 15, 
+      id: 15,
       name: 'OSX_HIGH_SIERRA',
       type: :osx,
       title: 'Mac OS X - High Sierra (10.13)'

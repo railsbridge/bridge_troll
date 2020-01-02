@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe VolunteersController do
@@ -22,12 +24,12 @@ describe VolunteersController do
     sign_in @user_organizer
   end
 
-  context "a user that is logged in and is an organizer for the event" do
+  context 'a user that is logged in and is an organizer for the event' do
     describe 'index' do
       render_views
 
-      it "should be able to see list of volunteers" do
-        get :index, params: {event_id: @event.id}
+      it 'is able to see list of volunteers' do
+        get :index, params: { event_id: @event.id }
         expect(response).to be_successful
 
         expect(response.body).to have_content 'Vol1'

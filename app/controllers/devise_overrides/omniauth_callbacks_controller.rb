@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class DeviseOverrides::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def all
-    omniauth = request.env["omniauth.auth"]
+    omniauth = request.env['omniauth.auth']
     provider_name = OmniauthProviders.provider_data_for(omniauth['provider'])[:name]
     if current_user
-      auth_args = {provider: omniauth['provider'], uid: omniauth['uid'].to_s}
+      auth_args = { provider: omniauth['provider'], uid: omniauth['uid'].to_s }
       auth = current_user.authentications.create(auth_args)
 
       if auth.persisted?
@@ -15,7 +17,9 @@ class DeviseOverrides::OmniauthCallbacksController < Devise::OmniauthCallbacksCo
     end
 
     user = User.from_omniauth(omniauth)
-    store_location_for(user, request.env['omniauth.origin']) if request.env['omniauth.origin']
+    if request.env['omniauth.origin']
+      store_location_for(user, request.env['omniauth.origin'])
+    end
     if user.persisted?
       flash[:notice] = "#{provider_name} login successful."
       sign_in_and_redirect user
@@ -24,7 +28,7 @@ class DeviseOverrides::OmniauthCallbacksController < Devise::OmniauthCallbacksCo
       redirect_to new_user_registration_path
     end
   end
-  [:facebook, :twitter, :github, :meetup, :google_oauth2].each do |provider|
+  %i[facebook twitter github meetup google_oauth2].each do |provider|
     alias_method provider, :all
   end
 end

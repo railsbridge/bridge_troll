@@ -1,12 +1,14 @@
-shared_examples_for "an action that requires user log-in" do
-  it "does not allow access to anonymous users" do
+# frozen_string_literal: true
+
+shared_examples_for 'an action that requires user log-in' do
+  it 'does not allow access to anonymous users' do
     make_request
     expect(response).to redirect_to(new_user_session_path)
   end
 end
 
-shared_examples_for "an event action that requires an organizer" do
-  it "does not allow access to anonymous users" do
+shared_examples_for 'an event action that requires an organizer' do
+  it 'does not allow access to anonymous users' do
     make_request
     expect(response).to redirect_to(new_user_session_path)
   end

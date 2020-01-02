@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails'
 # Pick the frameworks you want:
-require "active_record/railtie"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "sprockets/railtie"
+require 'active_record/railtie'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'sprockets/railtie'
 
 Bundler.require(*Rails.groups)
 
@@ -23,7 +25,7 @@ module Bridgetroll
 
     # Devise emails use our layout
     config.to_prepare do
-      Devise::Mailer.layout "mailer"
+      Devise::Mailer.layout 'mailer'
     end
 
     # allow cross origin requests from BridgeFoundry

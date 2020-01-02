@@ -1,9 +1,11 @@
-class Course < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Course < ApplicationRecord
   has_many :levels, dependent: :destroy
   has_many :events
-  validates_presence_of :name
-  validates_presence_of :title
-  validates_presence_of :description
+  validates :name, presence: true
+  validates :title, presence: true
+  validates :description, presence: true
 
   accepts_nested_attributes_for :levels, allow_destroy: true
   validates :levels, length: { maximum: 5 }
@@ -11,11 +13,11 @@ class Course < ActiveRecord::Base
   validate :unique_level_colors
 
   def unique_level_positions
-    unique_level_values(:num, "position must be unique")
+    unique_level_values(:num, 'position must be unique')
   end
 
   def unique_level_colors
-    unique_level_values(:color, "color must be unique")
+    unique_level_values(:color, 'color must be unique')
   end
 
   private

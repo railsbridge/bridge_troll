@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WaitlistManager
   def initialize(event)
     @event = event
@@ -48,7 +50,7 @@ class WaitlistManager
       rsvp.update_column(:waitlist_position, index + 1)
     end
   end
-  
+
   def open_student_spots
     event.student_rsvp_limit - event.student_rsvps_count
   end

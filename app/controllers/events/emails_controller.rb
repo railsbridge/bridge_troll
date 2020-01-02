@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Events
   class EmailsController < ApplicationController
     before_action :authenticate_user!
@@ -26,7 +28,7 @@ module Events
 
       unless @email.valid?
         present_form_data
-        flash.now[:alert] = "We were unable to send your email."
+        flash.now[:alert] = 'We were unable to send your email.'
         return render :new
       end
 
@@ -66,7 +68,7 @@ module Events
       @past_emails = PastEventEmailsPresenter.new(@event)
       @recipient_options = [
         ['Volunteers', @email.volunteers_rsvps.map { |r| [r.user.full_name, r.user.id] }],
-        ['Accepted Students', @email.students_accepted_rsvps.map { |r| [r.user.full_name, r.user.id, ] }],
+        ['Accepted Students', @email.students_accepted_rsvps.map { |r| [r.user.full_name, r.user.id] }],
         ['Waitlisted Students', @email.students_waitlisted_rsvps.map { |r| [r.user.full_name, r.user.id] }]
       ]
     end
