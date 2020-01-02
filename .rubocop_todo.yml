@@ -122,14 +122,6 @@ Layout/EmptyLines:
     - 'spec/javascripts/support/jasmine_helper.rb'
     - 'spec/models/event_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: around, only_before
-Layout/EmptyLinesAroundAccessModifier:
-  Exclude:
-    - 'db/seeds/course_populator.rb'
-
 # Offense count: 10
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

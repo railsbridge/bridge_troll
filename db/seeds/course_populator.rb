@@ -1,5 +1,6 @@
 module CoursePopulator
   module_function
+
   def populate_courses
     DEFAULT_COURSE_DATA.each do |course|
       c = Course.where(
