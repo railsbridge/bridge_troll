@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# these reminders are sent by the heroku reminder addon
+
 desc 'Send reminders for upcoming events within the reminder window'
 task send_reminders: :environment do
   puts 'Sending reminder emails...'

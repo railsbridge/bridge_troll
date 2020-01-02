@@ -27,3 +27,10 @@ Rails/CreateTableWithTimestamps:
     - 'db/migrate/20151210035820_init_schema.rb'
     - 'db/migrate/20160211061631_add_chapter_leaderships_again.rb'
     - 'db/migrate/20160312224628_create_organization_leaderships.rb'
+
+
+# Include: app/**/*.rb, config/**/*.rb, db/**/*.rb, lib/**/*.rb
+Rails/Output:
+  Exclude:
+    - 'lib/tasks/**/*' # rake tasks need output
+    - 'app/jobs/**/*'  # heroku scheduler support output

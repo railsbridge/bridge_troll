@@ -220,14 +220,6 @@ Rails/InverseOf:
     - 'app/models/rsvp.rb'
     - 'app/models/user.rb'
 
-# Offense count: 4
-# Configuration parameters: Include.
-# Include: app/**/*.rb, config/**/*.rb, db/**/*.rb, lib/**/*.rb
-Rails/Output:
-  Exclude:
-    - 'app/jobs/reminder_sender.rb'
-    - 'lib/tasks/support/rspec_rerunner.rb'
-
 # Offense count: 57
 # Configuration parameters: Blacklist, Whitelist.
 # Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters
