@@ -80,6 +80,7 @@ group :test, :development do
   gem 'rspec-collection_matchers'
   gem 'sqlite3'
   gem 'rails-controller-testing', require: false
+  gem 'rake', require: false
 end
 
 group :test do

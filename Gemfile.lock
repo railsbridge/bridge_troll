@@ -435,6 +435,7 @@ DEPENDENCIES
   rack-timeout
   rails (~> 5.2.4.1)
   rails-controller-testing
+  rake
   rb-fsevent
   rspec-collection_matchers
   rspec-rails
