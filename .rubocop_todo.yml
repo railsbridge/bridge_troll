@@ -174,13 +174,6 @@ RSpec/SubjectStub:
   Exclude:
     - 'spec/models/event_spec.rb'
 
-# Offense count: 4
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: strict, flexible
-Rails/Date:
-  Exclude:
-    - 'app/controllers/organizations_controller.rb'
-
 # Offense count: 17
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: slashes, arguments

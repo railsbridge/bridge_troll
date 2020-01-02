@@ -42,7 +42,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:organization_id])
     authorize @organization, :manage_organization?
 
-    filename = "#{@organization.name.downcase.sub(' ', '_')}_subscribed_users_#{Date.today.strftime('%Y_%m_%d')}"
+    filename = "#{@organization.name.downcase.sub(' ', '_')}_subscribed_users_#{Time.zone.today.strftime('%Y_%m_%d')}"
 
     respond_to do |format|
       format.csv { send_data @organization.subscription_csv, filename: filename }
