@@ -228,12 +228,6 @@ Layout/LeadingCommentSpace:
     - 'spec/helpers/events_helper_spec.rb'
     - 'spec/javascripts/support/jasmine_helper.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Layout/LeadingEmptyLines:
-  Exclude:
-    - 'spec/support/mailers.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 Layout/MultilineBlockLayout:

@@ -1,4 +1,3 @@
-
 RSpec::Matchers.define :be_an_absolute_url do
   match do |actual|
     URI.parse(actual).host.present?
