@@ -178,11 +178,6 @@ RSpec/NamedSubject:
 RSpec/NestedGroups:
   Max: 6
 
-# Offense count: 3
-RSpec/ScatteredLet:
-  Exclude:
-    - 'spec/controllers/courses_controller_spec.rb'
-
 # Offense count: 6
 RSpec/SubjectStub:
   Exclude:
