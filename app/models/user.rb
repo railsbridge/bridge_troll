@@ -19,7 +19,7 @@ class User < ApplicationRecord
   has_many :regions_users, dependent: :destroy
   has_many :regions, through: :regions_users
 
-  has_many :organization_subscriptions
+  has_many :organization_subscriptions, dependent: :destroy
   has_many :subscribed_organizations, through: :organization_subscriptions, class_name: 'Organization'
 
   accepts_nested_attributes_for :profile, update_only: true

@@ -3,7 +3,7 @@
 class Region < ApplicationRecord
   has_many :locations, dependent: :nullify
   has_many :events, through: :locations
-  has_many :external_events
+  has_many :external_events, dependent: :nullify
   has_many :regions_users, dependent: :destroy
   has_many :users, through: :regions_users
   has_many :region_leaderships, dependent: :destroy

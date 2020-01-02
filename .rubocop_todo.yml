@@ -160,18 +160,6 @@ Rails/FilePath:
     - 'spec/mailers/mailer_previews_spec.rb'
     - 'spec/rails_helper.rb'
 
-# Offense count: 8
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/HasManyOrHasOneDependent:
-  Exclude:
-    - 'app/models/chapter.rb'
-    - 'app/models/course.rb'
-    - 'app/models/location.rb'
-    - 'app/models/organization.rb'
-    - 'app/models/region.rb'
-    - 'app/models/user.rb'
-
 # Offense count: 57
 # Configuration parameters: Blacklist, Whitelist.
 # Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters

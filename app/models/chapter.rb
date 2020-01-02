@@ -2,8 +2,8 @@
 
 class Chapter < ApplicationRecord
   belongs_to :organization, inverse_of: :chapters
-  has_many :events
-  has_many :external_events
+  has_many :events, dependent: :nullify
+  has_many :external_events, dependent: :nullify
   has_many :chapter_leaderships, dependent: :destroy
   has_many :leaders, through: :chapter_leaderships, source: :user
 

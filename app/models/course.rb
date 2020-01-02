@@ -2,7 +2,7 @@
 
 class Course < ApplicationRecord
   has_many :levels, dependent: :destroy
-  has_many :events
+  has_many :events, dependent: :nullify
   validates :name, presence: true
   validates :title, presence: true
   validates :description, presence: true
