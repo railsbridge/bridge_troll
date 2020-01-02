@@ -93,7 +93,8 @@ describe Regions::LeadersController do
       non_leader = create(:user, first_name: 'Steve')
       non_leader.regions << region
 
-      non_region = create(:user, first_name: 'Steve')
+      # create non_region user
+      create(:user, first_name: 'Steve')
 
       get :potential, params: { region_id: region.id, q: 'Steve' }, format: :json
 

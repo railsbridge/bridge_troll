@@ -74,7 +74,8 @@ describe 'the organizer dashboard' do
 
     session1 = @event.event_sessions.first
     session1.update_attribute(:name, 'Installfest')
-    session2 = create(:event_session, event: @event, name: 'Curriculum')
+    # un-checked-in-session
+    create(:event_session, event: @event, name: 'Curriculum')
 
     rsvp1 = create(:rsvp, user: user1, event: @event)
     rsvp2 = create(:rsvp, user: user2, event: @event)

@@ -23,14 +23,6 @@ Lint/AmbiguousBlockAssociation:
     - 'spec/services/section_arranger_spec.rb'
     - 'spec/services/waitlist_manager_spec.rb'
 
-# Offense count: 5
-Lint/UselessAssignment:
-  Exclude:
-    - 'db/seeds/seed_event.rb'
-    - 'spec/controllers/regions/leaders_controller_spec.rb'
-    - 'spec/features/events/organizer/event_organizer_dashboard_request_spec.rb'
-    - 'spec/jobs/survey_sender_spec.rb'
-
 # Offense count: 46
 Metrics/AbcSize:
   Max: 249
