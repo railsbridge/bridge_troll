@@ -6,14 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleAlignWith, AutoCorrect, Severity.
-# SupportedStylesAlignWith: keyword, variable, start_of_line
-Layout/EndAlignment:
-  Exclude:
-    - 'app/services/event_list.rb'
-
 # Offense count: 15
 Lint/AmbiguousBlockAssociation:
   Exclude:
@@ -62,7 +54,6 @@ Metrics/ClassLength:
     - 'app/controllers/rsvps_controller.rb'
     - 'app/models/event.rb'
     - 'app/models/rsvp.rb'
-    - 'app/services/event_list.rb'
     - 'db/migrate/20151210035820_init_schema.rb'
 
 # Offense count: 5
@@ -245,7 +236,6 @@ Rails/CreateTableWithTimestamps:
 Rails/Date:
   Exclude:
     - 'app/controllers/organizations_controller.rb'
-    - 'app/services/event_list.rb'
 
 # Offense count: 2
 # Configuration parameters: Include.

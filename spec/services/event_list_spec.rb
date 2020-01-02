@@ -16,7 +16,7 @@ describe EventList do
     let!(:org2_external_event) { create(:external_event, chapter: org2_chapter) }
 
     it 'returns only the events from a given organization' do
-      events = described_class.new('all', organization_id: org1.id).combined_events
+      events = described_class.new('all', organization_id: org1.id).send(:all_sorted_events)
       expect(events).to match_array([org1_event, org1_external_event])
     end
   end
