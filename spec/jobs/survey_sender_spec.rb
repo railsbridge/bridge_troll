@@ -57,7 +57,7 @@ describe SurveySender do
     it 'updates survey_sent_at to the current time' do
       expect do
         described_class.send_surveys(event)
-      end.to change { event.reload.survey_sent_at }
+      end.to(change { event.reload.survey_sent_at })
     end
   end
 end

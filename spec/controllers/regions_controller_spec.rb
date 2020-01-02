@@ -86,7 +86,7 @@ describe RegionsController do
 
           expect do
             put :update, params: { id: @region.id, region: { name: 'Sandwich Region' } }
-          end.to change { @region.reload.name }
+          end.to(change { @region.reload.name })
           expect(response).to redirect_to(region_path(@region))
         end
       end
@@ -99,7 +99,7 @@ describe RegionsController do
 
           expect do
             put :update, params: { id: @region.id, region: { name: 'Sandwich Region' } }
-          end.not_to change { @region.reload.name }
+          end.not_to(change { @region.reload.name })
           expect(response).to be_redirect
           expect(flash[:error]).to be_present
         end

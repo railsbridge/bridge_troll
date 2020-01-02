@@ -80,7 +80,7 @@ describe LocationsController do
         create(:event, location: @location)
         expect do
           perform_update_request
-        end.not_to change { @location.reload.name }
+        end.not_to(change { @location.reload.name })
       end
     end
 

@@ -32,7 +32,7 @@ describe User do
     }
     expect do
       @user.update(attributes)
-    end.not_to change { @user.profile.reload.id }
+    end.not_to(change { @user.profile.reload.id })
   end
 
   it 'must have a valid time zone' do

@@ -73,7 +73,7 @@ describe Events::AttendeesController do
     it 'does not allow updates to columns other than section_id' do
       expect do
         do_request
-      end.not_to change { @rsvp.reload.subject_experience }
+      end.not_to(change { @rsvp.reload.subject_experience })
     end
   end
 end

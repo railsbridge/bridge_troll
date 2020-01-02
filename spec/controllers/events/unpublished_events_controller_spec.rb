@@ -138,7 +138,7 @@ describe Events::UnpublishedEventsController do
       it 'disallows publishing of non-chapter events' do
         expect do
           post :publish, params: { unpublished_event_id: @event.id }
-        end.not_to change { @chapter_event.reload.current_state }
+        end.not_to(change { @chapter_event.reload.current_state })
         expect(response).to be_redirect
       end
     end

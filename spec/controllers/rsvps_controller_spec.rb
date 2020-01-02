@@ -609,7 +609,7 @@ describe RsvpsController do
     it 'cannot update rsvps owned by other users' do
       expect do
         put :update, params: { event_id: @event.id, id: @other_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' } }
-      end.not_to change { @other_rsvp.reload.subject_experience }
+      end.not_to(change { @other_rsvp.reload.subject_experience })
 
       expect(response).not_to be_successful
     end

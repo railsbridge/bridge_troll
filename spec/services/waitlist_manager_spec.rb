@@ -118,7 +118,7 @@ describe WaitlistManager do
 
       expect do
         described_class.new(@event).promote_from_waitlist!(@waitlisted)
-      end.not_to change { @waitlisted.reload.waitlist_position }
+      end.not_to(change { @waitlisted.reload.waitlist_position })
     end
   end
 end

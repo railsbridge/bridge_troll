@@ -25,7 +25,7 @@ describe CheckinersController do
         other_user_rsvp = create(:rsvp, event: @event)
         expect do
           post :create, params: { event_id: @event.id, event_checkiner: { rsvp_id: other_user_rsvp.id } }
-        end.to change { other_user_rsvp.reload.checkiner }
+        end.to(change { other_user_rsvp.reload.checkiner })
         expect(response).to redirect_to(event_checkiners_path(@event))
       end
 

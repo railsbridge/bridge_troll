@@ -77,7 +77,7 @@ describe ChaptersController do
     it 'changes chapter details' do
       expect do
         put :update, params: { id: chapter.id, chapter: { name: 'Sandwich Chapter' } }
-      end.to change { chapter.reload.name }
+      end.to(change { chapter.reload.name })
       expect(response).to redirect_to(chapter_path(chapter))
     end
   end

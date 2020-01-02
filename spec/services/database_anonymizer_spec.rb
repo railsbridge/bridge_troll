@@ -108,13 +108,13 @@ describe DatabaseAnonymizer do
     it 'does not replace data for a sample admin user' do
       user = create(:user)
       user.email = 'admin@example.com'
-      expect { described_class.new.anonymize_user(user) }.not_to change { user.attributes }
+      expect { described_class.new.anonymize_user(user) }.not_to(change { user.attributes })
     end
 
     it 'does not replace data for a sample organizer user' do
       user = create(:user)
       user.email = 'organizer@example.com'
-      expect { described_class.new.anonymize_user(user) }.not_to change { user.attributes }
+      expect { described_class.new.anonymize_user(user) }.not_to(change { user.attributes })
     end
   end
 
