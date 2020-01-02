@@ -20,32 +20,26 @@ if ENV['JS_DRIVER'] == 'selenium' || ENV['SELENIUM'].present?
   end
   Capybara.javascript_driver = :selenium
 else
-  # need to fix window size else tests aren't consistent
-  window_size = "window-size=1024,768"
-  # installs latest chromedriver
+  def default_opts
+    opts = ::Selenium::WebDriver::Chrome::Options.new
+    # Workaround https://bugs.chromium.org/p/chromedriver/issues/detail?id=2650&q=load&sort=-id&colspec=ID%20Status%20Pri%20Owner%20Summary
+    opts.args << '--disable-site-isolation-trials'
+    # need to fix window size else tests aren't consistent
+    opts.args << "--window-size=1024,768"
+    opts
+  end
 
   Capybara.register_driver :selenium_chrome_headless_with_resolution_for_travis do |app|
-
-    browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-      opts.args << '--headless'
-      opts.args << '--disable-gpu' if Gem.win_platform?
-      # Workaround https://bugs.chromium.org/p/chromedriver/issues/detail?id=2650&q=load&sort=-id&colspec=ID%20Status%20Pri%20Owner%20Summary
-      opts.args << '--disable-site-isolation-trials'
-      opts.args << "--#{window_size}"
-      opts.args << "--no-sandbox" # see https://docs.travis-ci.com/user/chrome#sandboxing, https://docs.travis-ci.com/user/chrome#capybara
-    end
+    browser_options = default_opts
+    browser_options.args << '--headless'
+    browser_options.args << '--disable-gpu' if Gem.win_platform?
+    browser_options.args << "--no-sandbox" # see https://docs.travis-ci.com/user/chrome#sandboxing, https://docs.travis-ci.com/user/chrome#capybara
 
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
   end
 
   Capybara.register_driver :selenium_chrome_with_resolution do |app|
-    browser_options = ::Selenium::WebDriver::Chrome::Options.new.tap do |opts|
-      # Workaround https://bugs.chromium.org/p/chromedriver/issues/detail?id=2650&q=load&sort=-id&colspec=ID%20Status%20Pri%20Owner%20Summary
-      opts.args << '--disable-site-isolation-trials'
-      opts.args << "--#{window_size}"
-    end
-
-    Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options: default_opts)
   end
 
   Selenium::WebDriver::Chrome::Service.driver_path = Rails.root.join("node_modules", ".bin", "chromedriver").to_s
