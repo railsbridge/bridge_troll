@@ -126,7 +126,7 @@ describe Event do
     end
 
     it 'reorders the waitlist' do
-      waitlist_manager = double(:waitlist_manager, reorder_waitlist!: true)
+      waitlist_manager = instance_double(WaitlistManager, reorder_waitlist!: true)
       allow(WaitlistManager).to receive(:new).and_return(waitlist_manager)
 
       event = create(:event, student_rsvp_limit: 10)

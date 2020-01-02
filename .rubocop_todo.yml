@@ -183,14 +183,6 @@ RSpec/SubjectStub:
   Exclude:
     - 'spec/models/event_spec.rb'
 
-# Offense count: 3
-# Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
-RSpec/VerifiedDoubles:
-  Exclude:
-    - 'spec/controllers/event_sessions_controller_spec.rb'
-    - 'spec/controllers/rsvps_controller_spec.rb'
-    - 'spec/models/event_spec.rb'
-
 # Offense count: 4
 # Configuration parameters: Include.
 # Include: db/migrate/*.rb
