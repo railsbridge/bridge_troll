@@ -23,10 +23,10 @@ describe DatabaseAnonymizer do
     end
 
     failure_message do |_actual|
-      <<~EOT
+      <<~FAILURE_MESSAGE
         Did not seem to scrub these #{record.class} attributes:
         #{@unscrubbed_attributes.join(', ')}
-      EOT
+      FAILURE_MESSAGE
     end
 
     def supports_block_expectations?
