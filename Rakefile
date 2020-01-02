@@ -5,7 +5,9 @@
 require File.expand_path('../config/application', __FILE__)
 
 require "rubocop/rake_task"
-RuboCop::RakeTask.new
+RuboCop::RakeTask.new.tap do |task|
+  task.options = %w[--parallel]
+end
 
 Rails.application.load_tasks
 
