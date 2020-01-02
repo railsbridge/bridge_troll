@@ -74,7 +74,7 @@ class EventSession < ApplicationRecord
   end
 
   def any_rsvps?
-    persisted? && rsvps.count > 0
+    persisted? && rsvps.any?
   end
 
   def update_counter_cache

@@ -2,7 +2,7 @@
 
 class LocationPolicy < ApplicationPolicy
   def destroy?
-    record.events.count == 0
+    record.events.empty?
   end
 
   def archive?
@@ -13,10 +13,8 @@ class LocationPolicy < ApplicationPolicy
   end
 
   def update?
-    return true if record.events_count == 0
-    return true if user.admin?
-
-    record.notable_events.map(&:organizers).flatten.map(&:id).include?(user.id)
+    record.events_count.zero? || user.admin? ||
+      record.notable_events.map(&:organizers).flatten.map(&:id).include?(user.id)
   end
 
   def edit_additional_details?

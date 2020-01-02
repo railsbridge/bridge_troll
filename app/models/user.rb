@@ -89,6 +89,6 @@ class User < ApplicationRecord
   end
 
   def org_leader?
-    organization_leaderships.count > 0
+    organization_leaderships.any?
   end
 end

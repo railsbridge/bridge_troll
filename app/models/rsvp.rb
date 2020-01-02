@@ -143,7 +143,7 @@ class Rsvp < ApplicationRecord
     return false if event.historical?
     return false if event.upcoming?
 
-    checkins_count == 0
+    checkins_count.zero?
   end
 
   def checked_in_session_ids

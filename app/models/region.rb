@@ -19,7 +19,7 @@ class Region < ApplicationRecord
   end
 
   def destroyable?
-    (locations_count + external_events_count) == 0
+    (locations_count + external_events_count).zero?
   end
 
   def as_json(_options = {})

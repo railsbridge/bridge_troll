@@ -163,23 +163,6 @@ Style/GuardClause:
 Style/IfUnlessModifier:
   Enabled: false
 
-# Offense count: 14
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle, IgnoredMethods.
-# SupportedStyles: predicate, comparison
-Style/NumericPredicate:
-  Exclude:
-    - 'spec/**/*'
-    - 'app/models/chapter.rb'
-    - 'app/models/event_session.rb'
-    - 'app/models/region.rb'
-    - 'app/models/rsvp.rb'
-    - 'app/models/user.rb'
-    - 'app/policies/course_policy.rb'
-    - 'app/policies/location_policy.rb'
-    - 'app/services/section_arranger.rb'
-    - 'db/seeds/seed_event.rb'
-
 # Offense count: 816
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
