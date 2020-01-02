@@ -406,11 +406,6 @@ Lint/AmbiguousBlockAssociation:
     - 'spec/services/section_arranger_spec.rb'
     - 'spec/services/waitlist_manager_spec.rb'
 
-# Offense count: 1
-Lint/BooleanSymbol:
-  Exclude:
-    - 'spec/features/admin/course_request_spec.rb'
-
 # Offense count: 4
 # Cop supports --auto-correct.
 Lint/NonDeterministicRequireOrder:

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "courses", js: :true do
+describe "courses", js: true do
   let(:admin) { create(:user, admin: true) }
 
   before do
