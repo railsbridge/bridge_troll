@@ -172,15 +172,6 @@ Rails/HasManyOrHasOneDependent:
     - 'app/models/region.rb'
     - 'app/models/user.rb'
 
-# Offense count: 6
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/InverseOf:
-  Exclude:
-    - 'app/models/organization_subscription.rb'
-    - 'app/models/rsvp.rb'
-    - 'app/models/user.rb'
-
 # Offense count: 57
 # Configuration parameters: Blacklist, Whitelist.
 # Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters

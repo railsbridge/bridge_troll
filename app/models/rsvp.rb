@@ -3,8 +3,8 @@
 class Rsvp < ApplicationRecord
   include PresenceTrackingBoolean
 
-  belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id, optional: true
-  belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id, optional: true
+  belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id, optional: true, inverse_of: :rsvps
+  belongs_to :meetup_user, class_name: 'MeetupUser', foreign_key: :user_id, optional: true, inverse_of: :rsvps
   belongs_to :user, polymorphic: true
   belongs_to :event, inverse_of: :rsvps
   belongs_to :section, optional: true
@@ -15,7 +15,7 @@ class Rsvp < ApplicationRecord
   has_many :rsvp_sessions, dependent: :destroy
   has_many :event_sessions, through: :rsvp_sessions
   has_many :dietary_restrictions, dependent: :destroy
-  has_many :event_email_recipients, foreign_key: :recipient_rsvp_id, dependent: :destroy
+  has_many :event_email_recipients, foreign_key: :recipient_rsvp_id, dependent: :destroy, inverse_of: :recipient_rsvp
 
   has_one  :survey, dependent: :destroy
 

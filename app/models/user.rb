@@ -8,12 +8,12 @@ class User < ApplicationRecord
          :confirmable, :timeoutable
 
   has_many :authentications, inverse_of: :user, dependent: :destroy
-  has_many :rsvps, -> { where user_type: 'User' }, dependent: :destroy
+  has_many :rsvps, -> { where user_type: 'User' }, dependent: :destroy, inverse_of: :bridgetroll_user
   has_many :events, -> { published }, through: :rsvps
   has_many :region_leaderships, dependent: :destroy, inverse_of: :user
   has_many :chapter_leaderships, dependent: :destroy, inverse_of: :user
   has_many :organization_leaderships, dependent: :destroy, inverse_of: :user
-  has_many :event_emails, foreign_key: :sender_id, dependent: :nullify
+  has_many :event_emails, foreign_key: :sender_id, dependent: :nullify, inverse_of: :recipients
 
   has_one :profile, dependent: :destroy, inverse_of: :user, validate: true
   has_many :regions_users, dependent: :destroy
