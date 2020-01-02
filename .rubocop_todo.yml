@@ -175,15 +175,6 @@ RSpec/SubjectStub:
     - 'spec/models/event_spec.rb'
 
 # Offense count: 4
-# Configuration parameters: Include.
-# Include: db/migrate/*.rb
-Rails/CreateTableWithTimestamps:
-  Exclude:
-    - 'db/migrate/20151210035820_init_schema.rb'
-    - 'db/migrate/20160211061631_add_chapter_leaderships_again.rb'
-    - 'db/migrate/20160312224628_create_organization_leaderships.rb'
-
-# Offense count: 4
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: strict, flexible
 Rails/Date:
