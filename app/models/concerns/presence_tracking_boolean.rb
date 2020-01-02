@@ -1,26 +1,25 @@
 module PresenceTrackingBoolean
   extend ActiveSupport::Concern
 
-  <<-EOT
-    Add a setter and getter for a non-database-backed field representing
-    whether some other field is present. Assigning something falsy
-    to the setter will unset the tracked value.
-
-    EXAMPLE:
-
-    Rsvp.add_presence_tracking_boolean(:needs_childcare, :childcare_info)
-
-    rsvp = Rsvp.first
-    rsvp.childcare_info   # 'Some String'
-    rsvp.needs_childcare? # true
-
-    # Rails forms will assign '0' or '1' (instead of `true` or `false`)
-    # to a non-database-backed checkbox field, usually
-
-    rsvp.assign_attributes(needs_childcare: '0')
-    rsvp.needs_childcare? # false
-    rsvp.childcare_info   # nil
-  EOT
+  # Add a setter and getter for a non-database-backed field representing
+  # whether some other field is present. Assigning something falsy
+  # to the setter will unset the tracked value.
+  #
+  #
+  # ```
+  # Rsvp.add_presence_tracking_boolean(:needs_childcare, :childcare_info)
+  #
+  # rsvp = Rsvp.first
+  # rsvp.childcare_info   # 'Some String'
+  # rsvp.needs_childcare? # true
+  #
+  # # Rails forms will assign '0' or '1' (instead of `true` or `false`)
+  # # to a non-database-backed checkbox field, usually
+  #
+  # rsvp.assign_attributes(needs_childcare: '0')
+  # rsvp.needs_childcare? # false
+  # rsvp.childcare_info   # nil
+  # ```
 
   included do
     def self.add_presence_tracking_boolean(boolean_attribute, tracked_attribute)

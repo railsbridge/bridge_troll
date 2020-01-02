@@ -458,12 +458,6 @@ Lint/UselessAssignment:
     - 'spec/features/events/organizer/event_organizer_dashboard_request_spec.rb'
     - 'spec/jobs/survey_sender_spec.rb'
 
-# Offense count: 1
-# Configuration parameters: CheckForMethodsWithNoSideEffects.
-Lint/Void:
-  Exclude:
-    - 'app/models/concerns/presence_tracking_boolean.rb'
-
 # Offense count: 45
 Metrics/AbcSize:
   Max: 249
