@@ -15,3 +15,8 @@ AllCops:
 Naming/MemoizedInstanceVariableName:
   Exclude:
     - app/controllers/**/*
+
+# we allow exiting from rake tasks
+Rails/Exit:
+  Exclude:
+    - lib/tasks/**/*

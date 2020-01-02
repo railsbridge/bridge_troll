@@ -219,14 +219,6 @@ Rails/Date:
   Exclude:
     - 'app/controllers/organizations_controller.rb'
 
-# Offense count: 2
-# Configuration parameters: Include.
-# Include: app/**/*.rb, config/**/*.rb, lib/**/*.rb
-Rails/Exit:
-  Exclude:
-    - 'lib/**/*.rake'
-    - 'lib/tasks/support/rspec_rerunner.rb'
-
 # Offense count: 17
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: slashes, arguments
