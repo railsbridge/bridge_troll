@@ -395,7 +395,7 @@ class Event < ApplicationRecord
 
   private
 
-  DEFAULT_DETAIL_FILES = Dir[Rails.root.join('app', 'models', 'event_details', '*.html')]
+  DEFAULT_DETAIL_FILES = Dir[Rails.root.join('app/models/event_details/*.html')]
   DEFAULT_DETAILS = DEFAULT_DETAIL_FILES.each_with_object({}) do |f, hsh|
     hsh[File.basename(f)] = File.read(f)
   end

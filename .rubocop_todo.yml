@@ -99,22 +99,6 @@ RSpec/SubjectStub:
   Exclude:
     - 'spec/models/event_spec.rb'
 
-# Offense count: 15
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: slashes, arguments
-Rails/FilePath:
-  Exclude:
-    - 'app/models/event.rb'
-    - 'config/environments/development.rb'
-    - 'db/seeds.rb'
-    - 'lib/tasks/db.rake'
-    - 'lib/tasks/populate_courses.rake'
-    - 'lib/tasks/support/rspec_rerunner.rb'
-    - 'spec/features/users/omniauth_request_spec.rb'
-    - 'spec/features/users/sign_in_menu_request_spec.rb'
-    - 'spec/mailers/mailer_previews_spec.rb'
-    - 'spec/rails_helper.rb'
-
 # Offense count: 57
 # Configuration parameters: Blacklist, Whitelist.
 # Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters

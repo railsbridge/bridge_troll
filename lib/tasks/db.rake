@@ -10,7 +10,7 @@ def db_dump_filename(args)
   if args[:filename]
     Rails.root.join(args[:filename])
   else
-    Rails.root.join('db', 'PRODUCTION.dump')
+    Rails.root.join('db/PRODUCTION.dump')
   end
 end
 

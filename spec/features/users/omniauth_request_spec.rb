@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require Rails.root.join('spec', 'services', 'omniauth_responses')
+require Rails.root.join('spec/services/omniauth_responses')
 
 describe 'signing in with omniauth' do
   # TODO: why is this needed, they load in the app just fine

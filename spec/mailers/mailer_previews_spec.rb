@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-require Rails.root.join('db', 'seeds', 'seed_event')
-Dir[Rails.root.join('app', 'mailers', '*.rb')].sort.each { |f| require f }
-Dir[Rails.root.join('spec', 'mailers', 'previews', '**', '*.rb')].sort.each { |f| require f }
+require Rails.root.join('db/seeds/seed_event')
+Dir[Rails.root.join('app/mailers/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/mailers/previews/**/*.rb')].sort.each { |f| require f }
 
 RSpec.describe 'mailer previews' do
   def find_preview_class(mailer_class)
@@ -25,7 +25,7 @@ RSpec.describe 'mailer previews' do
   end
 
   it 'has a preview for every devise mail' do
-    devise_templates = Dir[Rails.root.join('app', 'views', 'devise', 'mailer', '*')]
+    devise_templates = Dir[Rails.root.join('app/views/devise/mailer/*')]
     expect(devise_templates.length).to be >= 2
 
     devise_mailer_methods = devise_templates.map { |t| File.basename(t).split('.')[0] }

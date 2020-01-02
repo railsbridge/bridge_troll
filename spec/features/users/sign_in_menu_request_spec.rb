@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require Rails.root.join('spec', 'services', 'omniauth_responses')
+require Rails.root.join('spec/services/omniauth_responses')
 
 describe 'sign in functionality' do
   before do

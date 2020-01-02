@@ -46,7 +46,7 @@ else
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: default_opts)
   end
 
-  Selenium::WebDriver::Chrome::Service.driver_path = Rails.root.join('node_modules', '.bin', 'chromedriver').to_s
+  Selenium::WebDriver::Chrome::Service.driver_path = Rails.root.join('node_modules/.bin/chromedriver').to_s
   Capybara.javascript_driver = :selenium_chrome_headless_with_resolution_for_travis
   # Capybara.javascript_driver = :selenium_chrome_with_resolution
 end
@@ -54,7 +54,7 @@ end
 Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:host]}"
 Capybara.disable_animation = true
 
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
