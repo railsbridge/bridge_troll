@@ -10,7 +10,6 @@ AllCops:
     - db/schema.rb
     - vendor/**/*
 
-
-
-
-
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - app/controllers/**/*

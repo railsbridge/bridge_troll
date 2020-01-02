@@ -503,13 +503,6 @@ Naming/HeredocDelimiterNaming:
     - 'lib/tasks/db.rake'
     - 'spec/services/database_anonymizer_spec.rb'
 
-# Offense count: 1
-# Configuration parameters: EnforcedStyleForLeadingUnderscores.
-# SupportedStylesForLeadingUnderscores: disallowed, required, optional
-Naming/MemoizedInstanceVariableName:
-  Exclude:
-    - 'app/controllers/checkiners_controller.rb'
-
 # Offense count: 2
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
 # AllowedNames: io, id, to, by, on, in, at, ip, db, os
