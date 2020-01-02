@@ -414,12 +414,6 @@ Lint/NonDeterministicRequireOrder:
     - 'spec/mailers/mailer_previews_spec.rb'
     - 'spec/rails_helper.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/ScriptPermission:
-  Exclude:
-    - 'Rakefile'
-
 # Offense count: 2
 Lint/ShadowingOuterLocalVariable:
   Exclude:
