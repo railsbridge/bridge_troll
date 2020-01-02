@@ -50,14 +50,6 @@ Layout/ArrayAlignment:
     - 'app/services/event_list.rb'
     - 'spec/factories.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleAlignWith.
-# SupportedStylesAlignWith: either, start_of_block, start_of_line
-Layout/BlockAlignment:
-  Exclude:
-    - 'spec/models/level_spec.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Layout/BlockEndNewline:
