@@ -191,14 +191,6 @@ Rails/HasManyOrHasOneDependent:
     - 'app/models/region.rb'
     - 'app/models/user.rb'
 
-# Offense count: 4
-# Configuration parameters: Include.
-# Include: app/helpers/**/*.rb
-Rails/HelperInstanceVariable:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/events_helper.rb'
-
 # Offense count: 6
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb

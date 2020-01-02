@@ -15,8 +15,8 @@ module EventsHelper
     end
   end
 
-  def organizer_list
-    @event.organizers_with_legacy.empty? ? [] : @event.organizers_with_legacy
+  def organizer_list(event)
+    event.organizers_with_legacy.empty? ? [] : event.organizers_with_legacy
   end
 
   def locations_for_select

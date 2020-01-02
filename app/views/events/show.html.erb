@@ -116,11 +116,10 @@
     <div class="organizers">
       <h3>Organized By:</h3>
       <ul class="attendees">
-        <% if organizer_list.any? %>
-          <% organizer_list.each do |organizer| %>
-            <li class='attendee'><%= user_gravatar(organizer) %><%= link_to organizer.full_name, organizer.profile_path %></li>
-          <% end %>
-        <% else %>
+        <% organizer_list(@event).each do |organizer| %>
+          <li class='attendee'><%= user_gravatar(organizer) %><%= link_to organizer.full_name, organizer.profile_path %></li>
+        <% end %>
+        <% if organizer_list(@event).none? %>
           <li>No Organizer Assigned</li>
         <% end %>
       </ul>
