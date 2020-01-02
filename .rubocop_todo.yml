@@ -491,11 +491,6 @@ Metrics/ModuleLength:
 Metrics/PerceivedComplexity:
   Max: 12
 
-# Offense count: 1
-Naming/AccessorMethodName:
-  Exclude:
-    - 'app/services/account_merger.rb'
-
 # Offense count: 6
 # Configuration parameters: ForbiddenDelimiters.
 # ForbiddenDelimiters: (?-mix:(^|\s)(EO[A-Z]{1}|END)(\s|$))

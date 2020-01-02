@@ -21,7 +21,7 @@ class AccountMerger
       Is this cool? (y/n)
     EOT
 
-    return unless get_answer.casecmp('y')
+    return unless gets.chomp.casecmp('y')
 
     to_destroy.destroy_all
 
@@ -32,10 +32,6 @@ class AccountMerger
   end
 
   private
-
-  def get_answer
-    gets.chomp
-  end
 
   def user_desc(user)
     "#{user.full_name} (#{user.id})"
