@@ -13,6 +13,10 @@ Bundler.require(*Rails.groups)
 
 module Bridgetroll
   class Application < Rails::Application
+    def using_postgres?
+      @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == 'PostgreSQL')
+    end
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 

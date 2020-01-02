@@ -82,12 +82,8 @@ class UserList
     end
   end
 
-  def using_postgres
-    @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == 'PostgreSQL')
-  end
-
   def meetup_user_search_sql
-    if using_postgres
+    if Rails.application.using_postgres?
       "LOWER(UNACCENT(full_name)) LIKE CONCAT('%', LOWER(UNACCENT(?)), '%')"
     else
       "LOWER(full_name) LIKE '%' || LOWER(?) || '%'"
@@ -95,7 +91,7 @@ class UserList
   end
 
   def bridgetroll_user_search_sql
-    if using_postgres
+    if Rails.application.using_postgres?
       "LOWER(UNACCENT(CONCAT(first_name, ' ', last_name))) LIKE CONCAT('%', LOWER(UNACCENT(?)), '%')"
     else
       "LOWER(first_name || ' ' || last_name) LIKE '%' || LOWER(?) || '%'"
