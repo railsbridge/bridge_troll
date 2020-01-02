@@ -166,21 +166,6 @@ Rails/FilePath:
 Rails/SkipsModelValidations:
   Enabled: false
 
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: AutoCorrect, EnforcedStyle.
-# SupportedStyles: nested, compact
-Style/ClassAndModuleChildren:
-  Exclude:
-    - 'app/controllers/devise_overrides/omniauth_callbacks_controller.rb'
-    - 'app/controllers/devise_overrides/registrations_controller.rb'
-    - 'app/controllers/events/attendee_names_controller.rb'
-    - 'app/controllers/events/attendees_controller.rb'
-    - 'app/controllers/events/organizer_tools_controller.rb'
-    - 'app/controllers/events/surveys_controller.rb'
-    - 'app/controllers/events/unpublished_events_controller.rb'
-    - 'spec/mailers/previews/devise/mailer_preview.rb'
-
 # Offense count: 147
 Style/Documentation:
   Enabled: false
