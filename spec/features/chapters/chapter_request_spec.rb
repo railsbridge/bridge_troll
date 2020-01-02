@@ -66,10 +66,10 @@ describe 'chapter pages' do
 
   describe 'creating a new chapter' do
     let!(:org1) { create(:organization, name: 'Org1') }
-    let!(:org2) { create(:organization, name: 'Org2') }
     let(:org1_leader) { create(:user) }
 
     before do
+      create(:organization, name: 'Org2')
       org1_leader.organization_leaderships.create(organization: org1)
     end
 

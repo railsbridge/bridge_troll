@@ -48,7 +48,7 @@ describe Regions::LeadersController do
     end
 
     describe '#index' do
-      let!(:leadership) { RegionLeadership.create(user: leader, region: region) }
+      before { RegionLeadership.create(user: leader, region: region) }
 
       it 'grabs the right leaders' do
         get :index, params: { region_id: region }
@@ -71,7 +71,8 @@ describe Regions::LeadersController do
     end
 
     describe '#destroy' do
-      let!(:leadership) { RegionLeadership.create(user: leader, region: region) }
+      before { RegionLeadership.create(user: leader, region: region) }
+
       let(:params) { { region_id: region, id: leader } }
 
       it 'deletes the region leadership' do

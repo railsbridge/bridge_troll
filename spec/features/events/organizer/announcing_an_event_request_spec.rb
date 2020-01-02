@@ -7,9 +7,9 @@ describe 'Announcing an event', js: true do
   let(:admin) { create(:user, admin: true) }
   let(:event_location) { create(:location) }
   let(:send_email_text) { 'Send Announcement Email' }
-  let!(:chapter) { create(:chapter) }
 
   before do
+    create(:chapter)
     create(:course)
     sign_in_as(user_organizer)
     visit_new_events_form_and_expand_all_sections

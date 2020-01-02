@@ -35,7 +35,7 @@ describe CoursePolicy do
     end
 
     context 'when the location was used for a event' do
-      let!(:event) do
+      before do
         create(:event, course: course).tap { |_| course.reload }
       end
 

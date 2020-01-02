@@ -14,8 +14,11 @@ describe Events::UnpublishedEventsController do
       let!(:chapter) { create(:chapter) }
       let!(:pending_chapter_event) { create(:event, chapter: chapter, current_state: :pending_approval) }
       let!(:pending_other_event) { create(:event, current_state: :pending_approval) }
-      let!(:draft_event) { create(:event, current_state: :draft) }
-      let!(:published_event) { create(:event, current_state: :published) }
+
+      before do
+        create(:event, current_state: :draft)
+        create(:event, current_state: :published)
+      end
 
       context 'as an admin/publisher' do
         before do

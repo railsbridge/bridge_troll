@@ -67,10 +67,6 @@ RSpec/ExampleLength:
 RSpec/InstanceVariable:
   Enabled: false
 
-# Offense count: 23
-RSpec/LetSetup:
-  Enabled: false
-
 # Offense count: 266
 # Configuration parameters: AggregateFailuresByDefault.
 RSpec/MultipleExpectations:

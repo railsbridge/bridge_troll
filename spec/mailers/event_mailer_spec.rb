@@ -17,7 +17,6 @@ describe EventMailer do
   end
 
   describe '#unpublished_event' do
-    let!(:unrelated_user) { create(:user) }
     let!(:organizer) { create(:user) }
     let!(:admin) { create(:user, admin: true) }
     let!(:publisher) { create(:user, publisher: true) }
@@ -25,6 +24,8 @@ describe EventMailer do
     let!(:chapter_leader) { create(:user) }
 
     before do
+      create(:user) # unrelated user
+
       event.organizers << organizer
       event.chapter.leaders << chapter_leader
       event.chapter.organization.leaders << organization_leader

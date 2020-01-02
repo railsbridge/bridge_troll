@@ -9,7 +9,7 @@ describe EventSession do
   it { is_expected.to validate_presence_of(:ends_at) }
 
   describe 'uniqueness' do
-    let!(:event_session) { create(:event_session) }
+    before { create(:event_session) }
 
     it { is_expected.to validate_uniqueness_of(:name).scoped_to(:event_id) }
   end

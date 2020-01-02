@@ -99,7 +99,8 @@ describe 'Locations' do
   describe 'the location show page' do
     let(:event) { create(:event) }
     let(:session_location) { create(:location) }
-    let!(:event_session) { create(:event_session, event: event, location: session_location) }
+
+    before { create(:event_session, event: event, location: session_location) }
 
     it 'shows events for which the location was used as a session location' do
       visit location_path(session_location)

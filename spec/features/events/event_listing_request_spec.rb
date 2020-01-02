@@ -141,9 +141,8 @@ describe 'the event listing page' do
     end
 
     context 'when organizing an event', js: true do
-      let!(:chapter) { create(:chapter) }
-
       before do
+        create(:chapter)
         create(:course)
         create(:event, course: create(:course, name: 'FRONTEND',
                                                title: 'Front End',

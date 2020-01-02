@@ -17,10 +17,13 @@ describe ReminderSender do
 
   describe '.remind_attendees_for_event' do
     let(:event) { create(:event, student_rsvp_limit: 1) }
-    let!(:rsvp) { create(:volunteer_rsvp, event: event) }
-    let!(:student_rsvp) { create(:student_rsvp, event: event) }
-    let!(:reminded_rsvp) { create(:volunteer_rsvp, reminded_at: Time.zone.now, event: event) }
-    let!(:waitlisted_rsvp) { create(:student_rsvp, waitlist_position: 1, event: event) }
+
+    before do
+      create(:volunteer_rsvp, event: event)
+      create(:student_rsvp, event: event)
+      create(:volunteer_rsvp, reminded_at: Time.zone.now, event: event)
+      create(:student_rsvp, waitlist_position: 1, event: event)
+    end
 
     it 'sends emails to all the students' do
       pending_reminder_count = event.rsvps.confirmed.where('reminded_at IS NULL').count

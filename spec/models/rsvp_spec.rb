@@ -8,7 +8,7 @@ describe Rsvp do
 
   describe 'uniqueness' do
     # validate_uniqueness_of.scoped_to requires an existing valid object to be present
-    let!(:rsvp) { create(:rsvp) }
+    before { create(:rsvp) }
 
     it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:event_id, :user_type) }
   end

@@ -158,7 +158,8 @@ describe Event do
     let(:event) { create(:event, student_rsvp_limit: 1) }
     let!(:volunteer_rsvp) { create(:volunteer_rsvp, event: event) }
     let!(:student_rsvp) { create(:student_rsvp, event: event) }
-    let!(:waitlisted_rsvp) { create(:student_rsvp, event: event, waitlist_position: 1) }
+
+    before { create(:student_rsvp, event: event, waitlist_position: 1) }
 
     it 'includes all confirmed rsvps with childcare requested' do
       expect(event.rsvps.count).to eq(3)
