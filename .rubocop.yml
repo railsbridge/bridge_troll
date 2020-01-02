@@ -40,3 +40,6 @@ Style/DoubleNegation:
 
 RSpec/AnyInstance:
   Enabled: false
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive

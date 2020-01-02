@@ -71,12 +71,6 @@ RSpec/InstanceVariable:
 RSpec/LetSetup:
   Enabled: false
 
-# Offense count: 20
-# Configuration parameters: .
-# SupportedStyles: have_received, receive
-RSpec/MessageSpies:
-  EnforcedStyle: receive
-
 # Offense count: 266
 # Configuration parameters: AggregateFailuresByDefault.
 RSpec/MultipleExpectations:
