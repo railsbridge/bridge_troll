@@ -9,13 +9,13 @@ def assert_no_rows_present
     rows[sc.name] = sc.all.size
     total += sc.all.size
   end
-  if total > 0
-    puts 'Leaked the following rows: '
-    rows.each do |klass, count|
-      next unless count > 0
+  return unless total > 0
 
-      puts "#{klass}: #{count}"
-    end
-    expect(total).to eq(0)
+  puts 'Leaked the following rows: '
+  rows.each do |klass, count|
+    next unless count > 0
+
+    puts "#{klass}: #{count}"
   end
+  expect(total).to eq(0)
 end

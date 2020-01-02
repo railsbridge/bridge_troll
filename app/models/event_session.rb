@@ -79,8 +79,8 @@ class EventSession < ApplicationRecord
 
   def update_counter_cache
     location.try(:reset_events_count)
-    if saved_change_to_attribute?(:location_id) && saved_changes[:location_id].first
-      Location.find(saved_changes[:location_id].first).reset_events_count
-    end
+    return unless saved_change_to_attribute?(:location_id) && saved_changes[:location_id].first
+
+    Location.find(saved_changes[:location_id].first).reset_events_count
   end
 end

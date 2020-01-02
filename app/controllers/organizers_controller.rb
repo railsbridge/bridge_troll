@@ -59,9 +59,9 @@ class OrganizersController < ApplicationController
 
   def validate_published!
     @event ||= Event.find(params[:event_id])
-    unless @event.published?
-      flash[:error] = 'This feature is not available for unpublished events'
-      redirect_to @event
-    end
+    return if @event.published?
+
+    flash[:error] = 'This feature is not available for unpublished events'
+    redirect_to @event
   end
 end

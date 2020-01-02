@@ -127,9 +127,9 @@ class UserList
     end
 
     def meetup_link
-      if @meetup_id
-        "<a href='http://www.meetup.com/members/#{@meetup_id}'>#{user.meetup_id}</a>"
-      end
+      return unless @meetup_id
+
+      "<a href='http://www.meetup.com/members/#{@meetup_id}'>#{user.meetup_id}</a>"
     end
 
     def student_rsvp_count

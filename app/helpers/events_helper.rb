@@ -52,9 +52,9 @@ module EventsHelper
   end
 
   def imported_event_popover_trigger(event)
-    if event.imported_event_data
-      content_tag(:button, '?', class: 'imported-event-popover-trigger', data: { event_id: event.id })
-    end
+    return unless event.imported_event_data
+
+    content_tag(:button, '?', class: 'imported-event-popover-trigger', data: { event_id: event.id })
   end
 
   def pretty_print_session(session)
@@ -89,13 +89,9 @@ module EventsHelper
   end
 
   def event_special_permissions_text(event, user_event_role)
-    if current_user.admin?
-      return 'As an admin, you can view organizer tools for this event.'
-    elsif event.chapter.leader?(current_user)
-      return "As a chapter leader for #{event.chapter.name}, you can view organizer tools for this event."
-    elsif event.organization.leader?(current_user)
-      return "As an organization leader for #{event.organization.name}, you can view organizer tools for this event."
-    end
+    return 'As an admin, you can view organizer tools for this event.' if current_user.admin?
+    return "As a chapter leader for #{event.chapter.name}, you can view organizer tools for this event." if event.chapter.leader?(current_user)
+    return "As an organization leader for #{event.organization.name}, you can view organizer tools for this event." if event.organization.leader?(current_user)
 
     role_text = user_event_role == :editor ? 'an organizer of' : 'a checkiner for'
     "You are #{role_text} this event!"

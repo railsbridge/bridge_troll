@@ -91,9 +91,9 @@ class Rsvp < ApplicationRecord
     return unless user
 
     last_rsvp = find_last_relevant_rsvp(user, event)
-    if last_rsvp
-      assign_attributes(last_rsvp.carryover_attributes(event.course, role))
-    end
+    return unless last_rsvp
+
+    assign_attributes(last_rsvp.carryover_attributes(event.course, role))
   end
 
   def selectable_sessions

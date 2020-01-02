@@ -53,10 +53,10 @@ module DeviseOverrides
 
     def build_resource(*args)
       super
-      if session['devise.omniauth']
-        @user.apply_omniauth(session['devise.omniauth'])
-        @user.valid?
-      end
+      return unless session['devise.omniauth']
+
+      @user.apply_omniauth(session['devise.omniauth'])
+      @user.valid?
     end
   end
 end

@@ -105,23 +105,22 @@ class RsvpsController < ApplicationController
   protected
 
   def redirect_if_event_closed
-    unless @event.open?
-      flash[:error] = 'Sorry. This event is closed!'
-      redirect_to @event
-    end
+    return if @event.open?
+
+    flash[:error] = 'Sorry. This event is closed!'
+    redirect_to @event
   end
 
   def apply_other_changes_from_params
     @rsvp.user.update(gender: params[:user][:gender])
+    return unless @event.location
 
-    if @event.location
-      if params[:affiliate_with_region]
-        unless @rsvp.user.region_ids.include? @event.region.id
-          @rsvp.user.region_ids += [@event.region.id]
-        end
-      else
-        @rsvp.user.region_ids -= [@event.region.id]
+    if params[:affiliate_with_region]
+      unless @rsvp.user.region_ids.include? @event.region.id
+        @rsvp.user.region_ids += [@event.region.id]
       end
+    else
+      @rsvp.user.region_ids -= [@event.region.id]
     end
   end
 
@@ -141,9 +140,9 @@ class RsvpsController < ApplicationController
 
   def load_rsvp
     @rsvp = Rsvp.find_by(id: params[:id])
-    unless @rsvp && ((@rsvp.user == current_user) || @rsvp.event.organizer?(current_user))
-      redirect_to events_path, notice: 'You are not signed up for this event'
-    end
+    return if @rsvp && ((@rsvp.user == current_user) || @rsvp.event.organizer?(current_user))
+
+    redirect_to events_path, notice: 'You are not signed up for this event'
   end
 
   def redirect_if_rsvp_exists
@@ -156,9 +155,9 @@ class RsvpsController < ApplicationController
 
   def assign_event
     @event = Event.find_by(id: params[:event_id])
-    if @event.nil?
-      redirect_to events_path, notice: 'You are not signed up for this event'
-    end
+    return unless @event.nil?
+
+    redirect_to events_path, notice: 'You are not signed up for this event'
   end
 
   def signup_for_new_region?

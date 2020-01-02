@@ -165,20 +165,18 @@ class Event < ApplicationRecord
 
   def validate_student_rsvp_limit
     return unless persisted? && student_rsvp_limit
+    return unless student_rsvp_limit < student_rsvps_count
 
-    if student_rsvp_limit < student_rsvps_count
-      errors.add(:student_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
-      false
-    end
+    errors.add(:student_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
+    false
   end
 
   def validate_volunteer_rsvp_limit
     return unless persisted? && volunteer_rsvp_limit
+    return unless volunteer_rsvp_limit < volunteer_rsvps_count
 
-    if volunteer_rsvp_limit < volunteer_rsvps_count
-      errors.add(:volunteer_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{volunteer_rsvps.length})")
-      false
-    end
+    errors.add(:volunteer_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{volunteer_rsvps.length})")
+    false
   end
 
   def checked_in_rsvps(role)
@@ -401,13 +399,13 @@ class Event < ApplicationRecord
   end
 
   def set_defaults
-    if has_attribute?(:details)
-      self.details ||= Event::DEFAULT_DETAILS['default_details.html']
-      self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
-      self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
-      self.survey_greeting ||= Event::DEFAULT_DETAILS['default_survey_greeting.html']
-      self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
-    end
+    return unless has_attribute?(:details)
+
+    self.details ||= Event::DEFAULT_DETAILS['default_details.html']
+    self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
+    self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
+    self.survey_greeting ||= Event::DEFAULT_DETAILS['default_survey_greeting.html']
+    self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
   end
 
   def association_for_role(role, waitlisted: false)
@@ -423,17 +421,17 @@ class Event < ApplicationRecord
 
   def normalize_allowed_operating_system_ids
     self.allowed_operating_system_ids = nil unless restrict_operating_systems
-    if self.allowed_operating_system_ids.respond_to?(:each)
-      self.allowed_operating_system_ids.map! do |id|
-        id.try(:match, /\A\d+\z/) ? Integer(id) : id
-      end
+    return unless self.allowed_operating_system_ids.respond_to?(:each)
+
+    self.allowed_operating_system_ids.map! do |id|
+      id.try(:match, /\A\d+\z/) ? Integer(id) : id
     end
   end
 
   def update_location_counts
     location.try(:reset_events_count)
-    if saved_change_to_attribute?(:location_id) && saved_changes[:location_id].first
-      Location.find(saved_changes[:location_id].first).reset_events_count
-    end
+    return unless saved_change_to_attribute?(:location_id) && saved_changes[:location_id].first
+
+    Location.find(saved_changes[:location_id].first).reset_events_count
   end
 end

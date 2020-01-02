@@ -113,9 +113,10 @@ class EventsController < ApplicationController
   protected
 
   def set_time_zone
-    if params[:event] && params[:event][:time_zone].present?
-      Time.zone = params[:event][:time_zone]
-    end
+    tz_param = params.dig(:event, :time_zone)
+    return if tz_param.blank?
+
+    Time.zone = tz_param
   end
 
   def set_empty_location

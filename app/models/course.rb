@@ -23,8 +23,8 @@ class Course < ApplicationRecord
   private
 
   def unique_level_values(field, message)
-    unless levels.map(&field).length == levels.map(&field).uniq.length
-      errors.add(:level, message)
-    end
+    return if levels.map(&field).length == levels.map(&field).uniq.length
+
+    errors.add(:level, message)
   end
 end

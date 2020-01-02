@@ -87,11 +87,6 @@ Rails/SkipsModelValidations:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 26
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Enabled: false
-
 # Offense count: 41
 # Cop supports --auto-correct.
 Style/IfUnlessModifier:

@@ -8,11 +8,11 @@ class MeetupImporter
     end
 
     meetup_user = MeetupUser.where(meetup_id: meetup_id).first
-    if meetup_user.present?
-      Rsvp.where(user_type: 'MeetupUser', user_id: meetup_user.id).find_each do |rsvp|
-        rsvp.user = bridgetroll_user
-        rsvp.save!
-      end
+    return if meetup_user.blank?
+
+    Rsvp.where(user_type: 'MeetupUser', user_id: meetup_user.id).find_each do |rsvp|
+      rsvp.user = bridgetroll_user
+      rsvp.save!
     end
   end
 
