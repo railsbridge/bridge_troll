@@ -9,9 +9,6 @@
       <% end %>
     </title>
     <%= stylesheet_link_tag  "application", :media => "all" %>
-    <% if Rails.env.test? %>
-      <%= test_only_stylesheet %>
-    <% end %>
     <script>
       window.whenReady = function (fn) {
         if (document.readyState != 'loading'){
