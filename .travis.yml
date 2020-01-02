@@ -31,7 +31,5 @@ before_install:
   - 'gem install bundler'
 before_script:
   - 'bundle exec rake parallel:setup'
-script:
-  - 'bundle exec rake'
 
 sudo: false
