@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 # Reimplementation of task from activerecord-4.2.1/lib/active_record/railties/databases.rake
 # Goal: preserve postgres-only statements even when in SQLite mode.
 # Remove this if we ever drop SQLite support.
 
-Rake::Task["db:schema:dump"].clear
+Rake::Task['db:schema:dump'].clear
 
 def db_dump_filename(args)
   if args[:filename]
@@ -14,11 +16,11 @@ end
 
 db_namespace = namespace :db do
   namespace :schema do
-    ENABLE_EXTENSION_PATTERN = /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m
+    ENABLE_EXTENSION_PATTERN = /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m.freeze
     desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
-    task dump: [:environment, :load_config] do
-      raise_weird_schema_error = Proc.new do |specific_message|
-        raise StandardError.new(<<-EOT.strip_heredoc)
+    task dump: %i[environment load_config] do
+      raise_weird_schema_error = proc do |specific_message|
+        raise StandardError, <<-EOT.strip_heredoc
           #{specific_message}
           Try checking out an older version of the schema and running a full
             rake db:drop
@@ -32,7 +34,7 @@ db_namespace = namespace :db do
       needs_foreign_keys = !ActiveRecord::Base.connection.supports_foreign_keys?
       existing_schema_content = File.read(filename)
 
-      File.open(filename, "w:utf-8") do |file|
+      File.open(filename, 'w:utf-8') do |file|
         ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, file)
       end
 
@@ -84,7 +86,7 @@ db_namespace = namespace :db do
     end
   end
 
-  desc "anonymizes local database"
+  desc 'anonymizes local database'
   task anonymize: :environment do
     if Rails.env.production?
       puts "You can't run this on production!"
@@ -95,30 +97,30 @@ db_namespace = namespace :db do
     end
   end
 
-  desc "Dump current database to a file"
-  task :dump, [:filename] => [:environment] do |t, args|
+  desc 'Dump current database to a file'
+  task :dump, [:filename] => [:environment] do |_t, args|
     filename = db_dump_filename(args)
     cmd = nil
-    with_config do |app, host, db|
+    with_config do |_app, host, db|
       cmd = "pg_dump --host #{host} --no-owner --no-acl --format=c #{db} > #{filename}"
     end
     exec(cmd)
-    raise 'Error dumping database' if $?.exitstatus == 1
+    raise 'Error dumping database' if $CHILD_STATUS.exitstatus == 1
   end
 
   desc "Dump the database from a Heroku deployment of the app to 'latest.dump'"
-  task :dump_heroku, [:app_name] => [:environment] do |t, args|
+  task :dump_heroku, [:app_name] => [:environment] do |_t, args|
     app_name = args[:app_name] || 'bridgetroll'
     backup_url = print_and_run("heroku pg:backups public-url --app #{app_name}")
     puts backup_url.inspect
     print_and_run("curl -o latest.dump \"#{backup_url}\"")
   end
 
-  desc "Restores the database from a dump file"
-  task :restore, [:filename] => [:environment, 'db:drop', 'db:create'] do |t, args|
+  desc 'Restores the database from a dump file'
+  task :restore, [:filename] => [:environment, 'db:drop', 'db:create'] do |_t, args|
     filename = db_dump_filename(args)
     cmd = nil
-    with_config do |app, host, db|
+    with_config do |_app, host, db|
       cmd = "pg_restore --verbose --host #{host} --clean --no-owner --no-acl --dbname #{db} #{filename}"
     end
     exec(cmd)
@@ -139,5 +141,4 @@ db_namespace = namespace :db do
       ActiveRecord::Base.connection_config[:database],
       ActiveRecord::Base.connection_config[:username]
   end
-
 end

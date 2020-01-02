@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'faker'
 
 module Seeder
-  def self.find_or_create_user email
+  def self.find_or_create_user(email)
     existing_user = User.find_by(email: email)
     return existing_user if existing_user
 
@@ -11,13 +13,13 @@ module Seeder
       first_name: Faker::Name.first_name,
       last_name: Faker::Name.last_name,
       time_zone: 'Pacific Time (US & Canada)',
-      gender: %w(genderqueer male female trans*).sample
+      gender: %w[genderqueer male female trans*].sample
     )
     user.confirm
     user
   end
 
-  def self.create_volunteer_rsvp options
+  def self.create_volunteer_rsvp(options)
     rsvp_params = {
       role: Role::VOLUNTEER,
       subject_experience: Faker::Lorem.sentence,
@@ -32,7 +34,7 @@ module Seeder
     rsvp.save!
   end
 
-  def self.create_student_rsvp options
+  def self.create_student_rsvp(options)
     rsvp_params = {
       role: Role::STUDENT,
       operating_system: OperatingSystem.all.to_a.sample,
@@ -46,11 +48,9 @@ module Seeder
     rsvp.save!
   end
 
-  def self.destroy_event event
+  def self.destroy_event(event)
     event.rsvps.each do |rsvp|
-      if rsvp.user.rsvps.length == 1
-        rsvp.user.destroy
-      end
+      rsvp.user.destroy if rsvp.user.rsvps.length == 1
     end
     event.destroy
     if event.location.present?
@@ -68,7 +68,7 @@ module Seeder
     event.course.destroy if event.course && event.course.events.count == 0
   end
 
-  def self.seed_event(options={})
+  def self.seed_event(options = {})
     students_per_level_range = options[:students_per_level_range] || (3..15)
     old_event = Event.where(title: 'Seeded Test Event').first
     destroy_event(old_event) if old_event.present?
@@ -79,14 +79,15 @@ module Seeder
 
     location = Location.create!(
       region_id: region.id,
-      name: "Sutro Tower",
-      address_1: "Sutro Tower",
-      city: "San Francisco",
-      state: "CA",
-      zip: "94131",
+      name: 'Sutro Tower',
+      address_1: 'Sutro Tower',
+      city: 'San Francisco',
+      state: 'CA',
+      zip: '94131',
       latitude: 37.75519999999999,
       longitude: -122.4528,
-      gmaps: true)
+      gmaps: true
+    )
 
     event = Event.new(
       title: 'Seeded Test Event',
@@ -122,7 +123,7 @@ module Seeder
 
         The afterparty will be at the Fancy Goat at 7:09 PM.
 
-        DETAILS
+      DETAILS
     )
     event.event_sessions << EventSession.new(name: 'First Session', starts_at: 60.days.from_now, ends_at: 61.days.from_now)
     event.event_sessions << EventSession.new(name: 'Second Session', starts_at: 65.days.from_now, ends_at: 66.days.from_now)
@@ -152,7 +153,7 @@ module Seeder
     student_count = event.student_rsvps.count
     event.update_attribute(:student_rsvp_limit, student_count)
 
-    (1..student_count/3).each do |index|
+    (1..student_count / 3).each do |index|
       volunteer = find_or_create_user("volunteer#{index}@example.com")
       volunteer_class_preference = (0..5).to_a.sample
       create_volunteer_rsvp(event: event,
@@ -201,7 +202,7 @@ module Seeder
     event
   end
 
-  def self.seed_multiple_location_event(options={})
+  def self.seed_multiple_location_event(_options = {})
     old_event = Event.where(title: 'Seeded Multiple Location Event').first
     destroy_event(old_event) if old_event.present?
 
@@ -211,27 +212,29 @@ module Seeder
 
     location = Location.find_or_create_by(
       region_id: region.id,
-      name: "Sutro Tower",
-      address_1: "Sutro Tower",
-      city: "San Francisco",
-      state: "CA",
-      zip: "94131",
-      gmaps: true)
+      name: 'Sutro Tower',
+      address_1: 'Sutro Tower',
+      city: 'San Francisco',
+      state: 'CA',
+      zip: '94131',
+      gmaps: true
+    )
 
     session_location = Location.find_or_create_by(
       region_id: region.id,
-      name: "Ferry Building",
-      address_1: "Ferry Building",
-      city: "San Francisco",
-      state: "CA",
-      zip: "94111",
-      gmaps: true)
+      name: 'Ferry Building',
+      address_1: 'Ferry Building',
+      city: 'San Francisco',
+      state: 'CA',
+      zip: '94111',
+      gmaps: true
+    )
 
     event = Event.new(
       title: 'Seeded Multiple Location Event',
       student_rsvp_limit: 15,
       time_zone: 'Pacific Time (US & Canada)',
-      course: Course.find_by(name: "RAILS"),
+      course: Course.find_by(name: 'RAILS'),
       location: location,
       chapter: chapter,
       current_state: :published,
@@ -248,7 +251,7 @@ module Seeder
     organizer = find_or_create_user('organizer@example.com')
     event.organizers << organizer
 
-    volunteer = find_or_create_user("volunteer1@example.com")
+    volunteer = find_or_create_user('volunteer1@example.com')
     create_volunteer_rsvp(event: event,
                           user: volunteer,
                           volunteer_assignment: VolunteerAssignment::UNASSIGNED,
@@ -269,27 +272,29 @@ module Seeder
 
     location = Location.find_or_create_by(
       region_id: region.id,
-      name: "Sutro Tower",
-      address_1: "Sutro Tower",
-      city: "San Francisco",
-      state: "CA",
-      zip: "94131",
-      gmaps: true)
+      name: 'Sutro Tower',
+      address_1: 'Sutro Tower',
+      city: 'San Francisco',
+      state: 'CA',
+      zip: '94131',
+      gmaps: true
+    )
 
     session_location = Location.find_or_create_by(
       region_id: region.id,
-      name: "Ferry Building",
-      address_1: "Ferry Building",
-      city: "San Francisco",
-      state: "CA",
-      zip: "94111",
-      gmaps: true)
+      name: 'Ferry Building',
+      address_1: 'Ferry Building',
+      city: 'San Francisco',
+      state: 'CA',
+      zip: '94111',
+      gmaps: true
+    )
 
     event = Event.new(
       title: 'Seeded Past Event',
       student_rsvp_limit: 15,
       time_zone: 'Pacific Time (US & Canada)',
-      course: Course.find_by(name: "RAILS"),
+      course: Course.find_by(name: 'RAILS'),
       location: location,
       chapter: chapter,
       current_state: :published,
@@ -313,7 +318,7 @@ module Seeder
     organizer = find_or_create_user('organizer@example.com')
     event.organizers << organizer
 
-    volunteer = find_or_create_user("volunteer1@example.com")
+    volunteer = find_or_create_user('volunteer1@example.com')
     create_volunteer_rsvp(event: event,
                           user: volunteer,
                           volunteer_assignment: VolunteerAssignment::UNASSIGNED,

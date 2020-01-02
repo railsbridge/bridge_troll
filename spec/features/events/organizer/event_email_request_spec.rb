@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Sending an event email', js: true do
@@ -104,7 +106,7 @@ RSpec.describe 'Sending an event email', js: true do
   end
 
   it "shows an accurate count of the # of cc'd recipients when selecting cc checkboxes" do
-    expect(page).to_not have_content('1 event organizer')
+    expect(page).not_to have_content('1 event organizer')
 
     check 'CC Organizers'
     expect(page).to have_content('1 event organizer')

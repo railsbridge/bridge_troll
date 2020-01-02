@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class EventSessionsController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :destroy]
+  before_action :authenticate_user!, only: %i[index destroy]
   before_action :find_event
 
   def index

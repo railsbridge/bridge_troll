@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe MeetupImporter do
   let(:volunteer_event_id) { 1234 }
   let(:student_event_id) { 5678 }
 
-  let(:sven) { {name: 'Sven Volunteeren', id: 2599323} }
-  let(:sally) { {name: 'Sally Voluntally', id: 2604303} }
+  let(:sven) { { name: 'Sven Volunteeren', id: 2_599_323 } }
+  let(:sally) { { name: 'Sally Voluntally', id: 2_604_303 } }
 
   before do
-    @importer = MeetupImporter.new
+    @importer = described_class.new
   end
 
-  describe "association to meetup users" do
+  describe 'association to meetup users' do
     let(:bridgetroll_user) { create(:user) }
 
     before do
@@ -34,14 +36,14 @@ describe MeetupImporter do
       create(:rsvp, user: @sally_model, event: @event)
     end
 
-    it "can associate users who have no meetup RSVPs" do
+    it 'can associate users who have no meetup RSVPs' do
       bridgetroll_user.authentications.create(provider: 'meetup', uid: '123456789')
 
       expect(bridgetroll_user.reload.meetup_id).to eq('123456789')
       expect(bridgetroll_user.rsvps.length).to eq(0)
     end
 
-    it "claims existing RSVPs when associating" do
+    it 'claims existing RSVPs when associating' do
       expect(@event.volunteers_with_legacy).to match_array([@sven_model, @sally_model])
 
       bridgetroll_user.authentications.create(provider: 'meetup', uid: sven[:id].to_s)
@@ -49,12 +51,12 @@ describe MeetupImporter do
       expect(@event.reload.volunteers_with_legacy).to match_array([bridgetroll_user, @sally_model])
     end
 
-    context "when a bridgetroll user is already associated to a meetup user" do
+    context 'when a bridgetroll user is already associated to a meetup user' do
       before do
         bridgetroll_user.authentications.create(provider: 'meetup', uid: sven[:id].to_s)
       end
 
-      it "removes claim to RSVPs when disassociating" do
+      it 'removes claim to RSVPs when disassociating' do
         @importer.disassociate_user(bridgetroll_user)
 
         expect(@event.reload.volunteers_with_legacy).to match_array([@sven_model, @sally_model])

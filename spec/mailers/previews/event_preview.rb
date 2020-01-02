@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventPreview < ActionMailer::Preview
   def from_organizer
     event = Event.first

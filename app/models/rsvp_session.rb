@@ -1,8 +1,10 @@
-class RsvpSession < ActiveRecord::Base
+# frozen_string_literal: true
+
+class RsvpSession < ApplicationRecord
   belongs_to :rsvp
   belongs_to :event_session
 
-  validates_uniqueness_of :rsvp_id, scope: :event_session_id
+  validates :rsvp_id, uniqueness: { scope: :event_session_id }
 
   after_save :update_counter_cache
   after_destroy :update_counter_cache

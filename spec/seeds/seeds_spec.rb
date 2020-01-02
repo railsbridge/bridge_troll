@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require Rails.root.join('db', 'seeds', 'seed_event')
 require Rails.root.join('db', 'seeds', 'admin_user')
 
-describe "#seed_event" do
-  it "creates an event which can cleanly destroy itself" do
+describe '#seed_event' do
+  it 'creates an event which can cleanly destroy itself' do
     Seeder.seed_event(students_per_level_range: (1..1))
     event = Event.last
     expect(event.title).to eq('Seeded Test Event')
@@ -11,7 +13,7 @@ describe "#seed_event" do
     assert_no_rows_present
   end
 
-  it "can safely re-seed multiple times" do
+  it 'can safely re-seed multiple times' do
     Seeder.seed_event(students_per_level_range: (1..1))
     Seeder.seed_multiple_location_event
     Seeder.seed_past_event
@@ -37,9 +39,9 @@ end
 
 describe '#admin_user' do
   it 'creates an admin user' do
-    expect {
+    expect do
       Seeder.admin_user
-    }.to change(User, :count).by(1)
+    end.to change(User, :count).by(1)
     created_user = User.last
     expect(created_user).to be_admin
     expect(created_user).to be_confirmed

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe SectionArranger do
@@ -12,7 +14,7 @@ describe SectionArranger do
       'x'
     end
   end
-  
+
   def calculate_arrangement(event)
     arrangement = Hash.new { |hsh, key| hsh[key] = [] }
     event.sections.each do |section|
@@ -30,8 +32,8 @@ describe SectionArranger do
     end
   end
 
-  describe "#arrange" do
-    context "given a significantly large event" do
+  describe '#arrange' do
+    context 'given a significantly large event' do
       before do
         @event = create(:event)
         @student_rsvps = {
@@ -50,13 +52,13 @@ describe SectionArranger do
       end
 
       it 'arranges students into classes based on their level' do
-        SectionArranger.new(@event).arrange
+        described_class.new(@event).arrange
         expected_arrangement = {
-          1 => [{students: 1, volunteers: 2}],
-          2 => [{students: 5, volunteers: 2}, {students: 5, volunteers: 2}],
-          3 => [{students: 7, volunteers: 2}],
-          4 => [{students: 1, volunteers: 2}],
-          5 => [{students: 1, volunteers: 2}]
+          1 => [{ students: 1, volunteers: 2 }],
+          2 => [{ students: 5, volunteers: 2 }, { students: 5, volunteers: 2 }],
+          3 => [{ students: 7, volunteers: 2 }],
+          4 => [{ students: 1, volunteers: 2 }],
+          5 => [{ students: 1, volunteers: 2 }]
         }
 
         expect(calculate_arrangement(@event)).to eq(expected_arrangement)
@@ -69,24 +71,24 @@ describe SectionArranger do
       end
     end
 
-    context "when there are only students" do
+    context 'when there are only students' do
       before do
         @event = create(:event)
         create(:student_rsvp, event: @event, class_level: 1)
         create(:student_rsvp, event: @event, class_level: 2)
       end
 
-      it "assigns the students to sections without incident" do
-        SectionArranger.new(@event).arrange
+      it 'assigns the students to sections without incident' do
+        described_class.new(@event).arrange
         expected_arrangement = {
-          1 => [{students: 1, volunteers: 0}],
-          2 => [{students: 1, volunteers: 0}]
+          1 => [{ students: 1, volunteers: 0 }],
+          2 => [{ students: 1, volunteers: 0 }]
         }
         expect(calculate_arrangement(@event)).to eq(expected_arrangement)
       end
     end
 
-    context "when there are only volunteers" do
+    context 'when there are only volunteers' do
       before do
         @event = create(:event)
         create(:volunteer_rsvp, event: @event, class_level: 0)
@@ -94,19 +96,19 @@ describe SectionArranger do
       end
 
       it "doesn't do anything, successfully" do
-        SectionArranger.new(@event).arrange
+        described_class.new(@event).arrange
         expect(@event.rsvps.map(&:section_id).uniq).to eq([nil])
       end
     end
 
-    describe "limiting to checked-in attendees" do
-      let(:placed_attendee_ids) {
+    describe 'limiting to checked-in attendees' do
+      let(:placed_attendee_ids) do
         attendee_ids = []
         @event.sections.each do |section|
           attendee_ids += section.rsvps.pluck(:id)
         end
         attendee_ids
-      }
+      end
 
       before do
         @event = create(:event)
@@ -116,18 +118,18 @@ describe SectionArranger do
 
         @session1, @session2 = @event.event_sessions.to_a
 
-        @session1_rsvp = create(:student_rsvp, event: @event, session_checkins: {@session1.id => true, @session2.id => false})
+        @session1_rsvp = create(:student_rsvp, event: @event, session_checkins: { @session1.id => true, @session2.id => false })
 
-        @session2_rsvp = create(:student_rsvp, event: @event, session_checkins: {@session1.id => false, @session2.id => true})
+        @session2_rsvp = create(:student_rsvp, event: @event, session_checkins: { @session1.id => false, @session2.id => true })
 
-        @both_rsvp = create(:student_rsvp, event: @event, session_checkins: {@session1.id => true, @session2.id => true})
+        @both_rsvp = create(:student_rsvp, event: @event, session_checkins: { @session1.id => true, @session2.id => true })
 
-        @neither_attendee = create(:student_rsvp, event: @event, session_checkins: {@session1.id => false, @session2.id => false})
+        @neither_attendee = create(:student_rsvp, event: @event, session_checkins: { @session1.id => false, @session2.id => false })
       end
 
-      context "when asked to arrange for only the first session" do
+      context 'when asked to arrange for only the first session' do
         before do
-          SectionArranger.new(@event).arrange(@session1.id)
+          described_class.new(@event).arrange(@session1.id)
         end
 
         it 'arranges only those people' do
@@ -135,9 +137,9 @@ describe SectionArranger do
         end
       end
 
-      context "when asked to arrange for only the second session" do
+      context 'when asked to arrange for only the second session' do
         before do
-          SectionArranger.new(@event).arrange(@session2.id)
+          described_class.new(@event).arrange(@session2.id)
         end
 
         it 'arranges only those people' do
@@ -145,9 +147,9 @@ describe SectionArranger do
         end
       end
 
-      context "when asked to arrange for people who have checked in to any session" do
+      context 'when asked to arrange for people who have checked in to any session' do
         before do
-          SectionArranger.new(@event).arrange('any')
+          described_class.new(@event).arrange('any')
         end
 
         it 'arranges only those people' do

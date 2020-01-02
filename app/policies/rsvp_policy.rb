@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class RsvpPolicy < ApplicationPolicy
   def survey?
     record.user == user
   end
-  
+
   def permitted_attributes
     [
       :subject_experience,

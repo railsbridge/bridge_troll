@@ -1,13 +1,15 @@
-class EventList
-  UPCOMING = 'upcoming'.freeze,
-  PAST = 'past'.freeze,
-  ALL = 'all'.freeze,
-  def initialize(type = UPCOMING, options = {})
-    @type = type
-    @options = options
-  end
+# frozen_string_literal: true
 
-  def as_json(options = {})
+class EventList
+  UPCOMING = ['upcoming',
+              PAST = 'past',
+              ALL = 'all',
+              def initialize(type = UPCOMING, options = {})
+                @type = type
+                @options = options
+              end].freeze
+
+  def as_json(_options = {})
     if @options[:serialization_format] == 'dataTables'
       datatables_json
     else
@@ -42,19 +44,19 @@ class EventList
     query = @options[:search].try(:[], 'value')
     event_ids_and_dates =
       bt_search(bridgetroll_events.select(:id, :starts_at).joins(:location), query) +
-        external_search(external_events.select(:id, :starts_at), query)
+      external_search(external_events.select(:id, :starts_at), query)
     event_ids_by_type = event_ids_and_dates
-                          .sort_by { |e| e.starts_at.to_time }
-                          .reverse
-                          .slice(@options[:start].to_i, @options[:length].to_i)
-                          .each_with_object({}) do |event, hsh|
+                        .sort_by { |e| e.starts_at.to_time }
+                        .reverse
+                        .slice(@options[:start].to_i, @options[:length].to_i)
+                        .each_with_object({}) do |event, hsh|
       hsh[event.class.name] ||= []
       hsh[event.class.name] << event.id
     end
 
     all_events =
       Event.includes(:location).where(id: event_ids_by_type['Event']) +
-        ExternalEvent.where(id: event_ids_by_type['ExternalEvent'])
+      ExternalEvent.where(id: event_ids_by_type['ExternalEvent'])
     data = all_events.sort_by { |e| e.starts_at.to_time }.reverse.map do |event|
       {
         title: event.title,
@@ -76,16 +78,16 @@ class EventList
   end
 
   def default_bridgetroll_event_includes
-    [:location, :event_sessions, :organizers, :legacy_organizers]
+    %i[location event_sessions organizers legacy_organizers]
   end
 
   def bridgetroll_events
     relation = if @type == PAST
-      Event.past.published
-    elsif @type == ALL
-      Event.published
-    else
-      Event.upcoming.published
+                 Event.past.published
+               elsif @type == ALL
+                 Event.published
+               else
+                 Event.upcoming.published
     end
 
     apply_options(relation)
@@ -93,11 +95,11 @@ class EventList
 
   def external_events
     relation = if @type == PAST
-      ExternalEvent.past
-    elsif @type == ALL
-      ExternalEvent.all
-    else
-      ExternalEvent.upcoming
+                 ExternalEvent.past
+               elsif @type == ALL
+                 ExternalEvent.all
+               else
+                 ExternalEvent.upcoming
     end
 
     apply_options(relation)
@@ -106,7 +108,7 @@ class EventList
   def bt_search(relation, query)
     return relation unless query
 
-    clauses = ["title", "locations.name", "locations.city"].map do |f|
+    clauses = ['title', 'locations.name', 'locations.city'].map do |f|
       "(#{like_clause(f)})"
     end.join(' OR ')
     relation.where(clauses, query, query, query)
@@ -115,7 +117,7 @@ class EventList
   def external_search(relation, query)
     return relation unless query
 
-    clauses = ["name", "location"].map do |f|
+    clauses = %w[name location].map do |f|
       "(#{like_clause(f)})"
     end.join(' OR ')
     relation.where(clauses, query, query)
@@ -130,6 +132,6 @@ class EventList
   end
 
   def using_postgres
-    @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == "PostgreSQL")
+    @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == 'PostgreSQL')
   end
 end

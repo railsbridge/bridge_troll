@@ -1,4 +1,6 @@
-class Rsvp < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Rsvp < ApplicationRecord
   include PresenceTrackingBoolean
 
   belongs_to :bridgetroll_user, class_name: 'User', foreign_key: :user_id, optional: true
@@ -17,11 +19,11 @@ class Rsvp < ActiveRecord::Base
 
   has_one  :survey, dependent: :destroy
 
-  validates_uniqueness_of :user_id, scope: [:event_id, :user_type]
-  validates_presence_of :role
-  validates_presence_of :childcare_info, if: :needs_childcare?
+  validates :user_id, uniqueness: { scope: %i[event_id user_type] }
+  validates :role, presence: true
+  validates :childcare_info, presence: { if: :needs_childcare? }
 
-  scope :confirmed, -> { where("waitlist_position IS NULL") }
+  scope :confirmed, -> { where('waitlist_position IS NULL') }
   scope :checked_in, -> { where.not(checkins_count: 0) }
   scope :needs_childcare, -> { where("childcare_info <> ''") }
 
@@ -63,9 +65,7 @@ class Rsvp < ActiveRecord::Base
   add_presence_tracking_boolean(:needs_childcare, :childcare_info)
 
   def set_defaults
-    if has_attribute?(:token)
-      self.token ||= SecureRandom.uuid.delete('-')
-    end
+    self.token ||= SecureRandom.uuid.delete('-') if has_attribute?(:token)
   end
 
   # Dispatch to the two possible types of user, the modern kind (User) or imports
@@ -112,7 +112,7 @@ class Rsvp < ActiveRecord::Base
   end
 
   def level
-    event.levels.find {|level| level.num == class_level}
+    event.levels.find { |level| level.num == class_level }
   end
 
   def operating_system_title
@@ -168,6 +168,7 @@ class Rsvp < ActiveRecord::Base
 
   def requires_session_rsvp?
     return false if role == Role::ORGANIZER
+
     event.try(:upcoming?)
   end
 
@@ -177,13 +178,14 @@ class Rsvp < ActiveRecord::Base
     return VolunteerPreference::BOTH.id    if teaching && taing
     return VolunteerPreference::TEACHER.id if teaching
     return VolunteerPreference::TA.id      if taing
+
     VolunteerPreference::NEITHER.id
   end
 
   def carryover_attributes(course, role)
     fields = [:job_details]
     if role == Role::VOLUNTEER && event.course == course
-      fields += [:subject_experience, :teaching_experience]
+      fields += %i[subject_experience teaching_experience]
     end
 
     fields.each_with_object({}) do |field, hsh|
@@ -203,9 +205,9 @@ class Rsvp < ActiveRecord::Base
     event&.update_rsvp_counts
   end
 
-  def as_json(options={})
+  def as_json(options = {})
     options[:methods] ||= []
-    options[:methods] |= [:full_name, :operating_system_title, :operating_system_type, :level_title]
+    options[:methods] |= %i[full_name operating_system_title operating_system_type level_title]
     super(options)
   end
 

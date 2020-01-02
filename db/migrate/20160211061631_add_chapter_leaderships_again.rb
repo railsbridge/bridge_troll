@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddChapterLeadershipsAgain < ActiveRecord::Migration[4.2]
   def change
     create_table :chapter_leaderships do |t|

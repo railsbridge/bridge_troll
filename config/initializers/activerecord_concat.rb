@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 # https://gist.github.com/eric1234/5622690
 module ActiveRecord
   module ConnectionAdapters
     class AbstractAdapter
       def concat(*args)
-        args * " || "
+        args * ' || '
       end
     end
 

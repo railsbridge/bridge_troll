@@ -1,4 +1,6 @@
-class RegionLeadership < ActiveRecord::Base
+# frozen_string_literal: true
+
+class RegionLeadership < ApplicationRecord
   belongs_to :region
   belongs_to :user, inverse_of: :region_leaderships
 

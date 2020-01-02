@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Chapters
   class LeadersController < ApplicationController
     before_action :authenticate_user!
@@ -12,9 +14,9 @@ module Chapters
       authorize @chapter, :modify_leadership?
       leader = ChapterLeadership.new(chapter: @chapter, user_id: leader_id_param)
       if leader.save
-        redirect_to chapter_leaders_path(@chapter), notice: "Booyah!"
+        redirect_to chapter_leaders_path(@chapter), notice: 'Booyah!'
       else
-        redirect_to chapter_leaders_path(@chapter), error: "Whoops."
+        redirect_to chapter_leaders_path(@chapter), error: 'Whoops.'
       end
     end
 

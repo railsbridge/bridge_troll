@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrganizationPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
@@ -10,7 +12,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def create?
-    user && user.admin?
+    user&.admin?
   end
 
   def manage_organization?

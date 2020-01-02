@@ -1,9 +1,11 @@
-class ExternalEvent < ActiveRecord::Base
+# frozen_string_literal: true
+
+class ExternalEvent < ApplicationRecord
   belongs_to :region, counter_cache: true, optional: true
   belongs_to :chapter, counter_cache: true, optional: true
   has_one :organization, through: :chapter
 
-  validates_presence_of :name, :starts_at, :city
+  validates :name, :starts_at, :city, presence: true
 
   def self.past
     where('ends_at < ?', Time.now.utc)
@@ -29,13 +31,15 @@ class ExternalEvent < ActiveRecord::Base
     city
   end
 
-  def date_in_time_zone start_or_end
+  def date_in_time_zone(start_or_end)
     send(start_or_end.to_sym)
   end
 
-  def as_json(options = {})
-    fake_sessions =  [{starts_at: starts_at}]
-    fake_sessions << {starts_at: ends_at} if ends_at && starts_at.to_date != ends_at.to_date
+  def as_json(_options = {})
+    fake_sessions = [{ starts_at: starts_at }]
+    if ends_at && starts_at.to_date != ends_at.to_date
+      fake_sessions << { starts_at: ends_at }
+    end
 
     {
       url: url,

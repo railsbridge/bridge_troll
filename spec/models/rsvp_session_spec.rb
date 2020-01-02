@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe RsvpSession do
@@ -6,22 +8,22 @@ describe RsvpSession do
     let!(:session1) { rsvp.rsvp_sessions.first }
     let!(:session2) { create(:rsvp_session, rsvp: rsvp) }
 
-    it "counts the number of checkins" do
+    it 'counts the number of checkins' do
       expect(rsvp.checkins_count).to eq(0)
 
-      expect {
+      expect do
         session1.checked_in = true
         session1.save!
-      }.to change { rsvp.reload.checkins_count }.by(1)
+      end.to change { rsvp.reload.checkins_count }.by(1)
 
-      expect {
+      expect do
         session2.checked_in = true
         session2.save!
-      }.to change { rsvp.reload.checkins_count }.by(1)
+      end.to change { rsvp.reload.checkins_count }.by(1)
 
-      expect {
+      expect do
         session1.destroy
-      }.to change { rsvp.reload.checkins_count }.by(-1)
+      end.to change { rsvp.reload.checkins_count }.by(-1)
     end
   end
 end

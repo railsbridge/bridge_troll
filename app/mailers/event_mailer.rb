@@ -1,4 +1,6 @@
-class EventMailer < BaseMailer
+# frozen_string_literal: true
+
+class EventMailer < ApplicationMailer
   add_template_helper(EventsHelper)
   add_template_helper(LocationsHelper)
 
@@ -21,7 +23,7 @@ class EventMailer < BaseMailer
     approver_addresses = User.where('admin = ? OR publisher = ?', true, true).map(&:email)
     approver_addresses.concat(event.chapter.leaders.map(&:email))
     approver_addresses.concat(event.chapter.organization.leaders.map(&:email))
-    approver_addresses << 'info@bridgetroll.org' unless approver_addresses.present?
+    approver_addresses << 'info@bridgetroll.org' if approver_addresses.blank?
 
     mail(
       subject: "Bridge Troll event #{@event.published? ? 'created' : 'awaits approval'}: '#{@event.title}' by #{@event.organizers.first.full_name}",
@@ -47,12 +49,12 @@ class EventMailer < BaseMailer
     mail(
       subject: "Your Bridge Troll event has been approved: '#{@event.title}'"
     )
-
   end
 
   def new_event(event)
     @event = event
     return unless @event.location
+
     @region = @event.region
 
     set_recipients(User.joins(:regions).where('users.allow_event_email = ?', true).where('regions.id' => [@region.id]).map(&:email))
@@ -71,7 +73,5 @@ class EventMailer < BaseMailer
     mail(
       subject: "You have been added as an organizer to '#{@event.title}'"
     )
-
   end
-
 end

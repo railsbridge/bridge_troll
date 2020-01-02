@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class MeetupUserProfile
-  def method_missing(*args, &block)
+  def method_missing(*_args)
     false
   end
 end
 
-class MeetupUser < ActiveRecord::Base
+class MeetupUser < ApplicationRecord
   has_many :rsvps, -> { where user_type: 'MeetupUser' }, foreign_key: 'user_id'
   has_many :events, through: :rsvps
 

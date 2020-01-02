@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CheckinersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_event
@@ -9,7 +11,7 @@ class CheckinersController < ApplicationController
 
   def create
     authorize @event, :edit?
-    @rsvp  = @event.rsvps.find_by(id: params.fetch(:event_checkiner, {})[:rsvp_id])
+    @rsvp = @event.rsvps.find_by(id: params.fetch(:event_checkiner, {})[:rsvp_id])
     unless @rsvp
       @event.errors.add(:base, 'Please select a user!')
       return render_index

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class SurveysController < ApplicationController
   before_action :authenticate_user!
   before_action :find_event
-  before_action :find_rsvp, only: [:new, :create]
+  before_action :find_rsvp, only: %i[new create]
 
   def new
     authorize @rsvp, :survey?
@@ -18,7 +20,7 @@ class SurveysController < ApplicationController
     @survey.rsvp_id = @rsvp.id
 
     if @survey.save
-      flash[:notice] = "Thanks for taking the survey!"
+      flash[:notice] = 'Thanks for taking the survey!'
       redirect_to root_path
     else
       render :new

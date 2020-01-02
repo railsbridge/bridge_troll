@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe AdminPagesController do
   let(:admin) { create(:user, admin: true) }
 
-  describe "POST #send_test_email" do
+  describe 'POST #send_test_email' do
     before do
       sign_in admin
     end
@@ -13,9 +15,9 @@ describe AdminPagesController do
     end
 
     it 'sends two test emails' do
-      expect {
+      expect do
         make_request
-      }.to change(ActionMailer::Base.deliveries, :count).by(2)
+      end.to change(ActionMailer::Base.deliveries, :count).by(2)
 
       site_host = Rails.configuration.action_mailer.default_url_options[:host]
 
@@ -29,15 +31,15 @@ describe AdminPagesController do
     end
   end
 
-  describe "GET #raise_exception" do
+  describe 'GET #raise_exception' do
     before do
       sign_in admin
     end
 
     it 'raises an exception' do
-      expect {
+      expect do
         get :raise_exception
-      }.to raise_error(RuntimeError)
+      end.to raise_error(RuntimeError)
     end
   end
 end

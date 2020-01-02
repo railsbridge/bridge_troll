@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe IcsGenerator do
@@ -9,20 +11,21 @@ describe IcsGenerator do
     context 'when the session has no location set' do
       it 'generates a calendar event for the event location' do
         expect(IcsGenerator::Calendar).to receive(:new).and_call_original
-        ics_text = IcsGenerator.new.event_session_ics(event_session)
+        ics_text = described_class.new.event_session_ics(event_session)
         expect(ics_text).to include(event_location.name)
       end
     end
 
     context 'when the session has a location set' do
       let(:session_location) { create(:location) }
+
       before do
         event_session.update_attribute(:location, session_location)
       end
 
       it 'generates a calendar event for the session location' do
         expect(IcsGenerator::Calendar).to receive(:new).and_call_original
-        ics_text = IcsGenerator.new.event_session_ics(event_session)
+        ics_text = described_class.new.event_session_ics(event_session)
         expect(ics_text).to include(session_location.name)
       end
     end

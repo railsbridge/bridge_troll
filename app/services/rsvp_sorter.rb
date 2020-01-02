@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RsvpSorter
   def initialize(event, rsvps)
     @event = event

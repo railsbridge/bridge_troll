@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Seeder
   def self.seed_chapter
     org = Organization.find_or_create_by(name: 'RailsBridge')

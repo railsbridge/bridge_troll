@@ -1,24 +1,26 @@
+# frozen_string_literal: true
+
 module SignInHelper
-  def sign_in_as(user, options={})
+  def sign_in_as(user, options = {})
     if options[:slowly]
       visit new_user_session_path
-      within("#sign-in-page") do
-        fill_in "Email", with: user.email
-        fill_in "Password", with: user.password
-        click_button "Sign in"
+      within('#sign-in-page') do
+        fill_in 'Email', with: user.email
+        fill_in 'Password', with: user.password
+        click_button 'Sign in'
       end
-      expect(page).to have_content("Signed in successfully")
+      expect(page).to have_content('Signed in successfully')
     else
       login_as user, scope: :user
     end
   end
 
-  def sign_in_with_modal(user)
+  def sign_in_with_modal(_user)
     expect(page).to have_selector('#sign_in_dialog', visible: true)
-    within "#sign_in_dialog" do
-      fill_in "Email", with: @user.email
-      fill_in "Password", with: @user.password
-      click_button "Sign in"
+    within '#sign_in_dialog' do
+      fill_in 'Email', with: @user.email
+      fill_in 'Password', with: @user.password
+      click_button 'Sign in'
     end
   end
 end

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class ChapterPolicy < ApplicationPolicy
   def new?
-    user && (user.admin?|| user.organization_leaderships.present?)
+    user && (user.admin? || user.organization_leaderships.present?)
   end
 
   def update?
@@ -20,9 +22,9 @@ class ChapterPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [
-      :name,
-      :organization_id
+    %i[
+      name
+      organization_id
     ]
   end
 end

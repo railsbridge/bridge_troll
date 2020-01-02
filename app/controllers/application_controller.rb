@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
@@ -8,12 +10,10 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   before_action do
-    if current_user.try(:admin?)
-      Rack::MiniProfiler.authorize_request
-    end
+    Rack::MiniProfiler.authorize_request if current_user.try(:admin?)
   end
 
-  rescue_from(ActionView::MissingTemplate) do |e|
+  rescue_from(ActionView::MissingTemplate) do |_e|
     if request.format != :html
       head(:not_acceptable)
     else
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_not_authorized
-    flash[:error] = "You are not authorized to perform this action."
+    flash[:error] = 'You are not authorized to perform this action.'
     redirect_to(request.referer || root_path)
   end
 end

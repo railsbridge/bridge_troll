@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SectionArranger
   IDEAL_CLASS_SIZE = 6.0
 
@@ -42,9 +44,9 @@ class SectionArranger
 
     # Distribute volunteers to the smallest class until there are none left
     sorted_volunteer_rsvps.each do |rsvp|
-      least_volunteered_section = event.sections.sort_by { |section|
+      least_volunteered_section = event.sections.min_by do |section|
         section.rsvps.where(role_id: Role::VOLUNTEER.id).length
-      }.first
+      end
       rsvp.update_attribute(:section_id, least_volunteered_section.id)
     end
   end
@@ -53,16 +55,16 @@ class SectionArranger
 
   def rsvps_to_arrange(checked_in)
     if checked_in == 'any'
-      condition = proc { |relation| relation.where("checkins_count > 0") }
+      condition = proc { |relation| relation.where('checkins_count > 0') }
     elsif checked_in == 'indiscriminate'
       condition = proc { |relation| relation }
     else
       session_id = checked_in.to_i
       condition = proc do |relation|
-        relation.
-          joins(:rsvp_sessions).
-          where('rsvp_sessions.event_session_id' => session_id).
-          where("rsvp_sessions.checked_in = ?", true).readonly(false)
+        relation
+          .joins(:rsvp_sessions)
+          .where('rsvp_sessions.event_session_id' => session_id)
+          .where('rsvp_sessions.checked_in = ?', true).readonly(false)
       end
     end
 
@@ -70,9 +72,7 @@ class SectionArranger
   end
 
   def section_size_given_total_students(count)
-    if count <= IDEAL_CLASS_SIZE + 2
-      return count
-    end
+    return count if count <= IDEAL_CLASS_SIZE + 2
 
     number_of_sections = (count / IDEAL_CLASS_SIZE).round
     (count / number_of_sections.to_f).ceil
@@ -80,8 +80,8 @@ class SectionArranger
 
   def section_counts
     @section_counts ||= event.student_rsvps.select('event_id, class_level, count(class_level) count')
-      .group(:event_id, :class_level)
-      .each_with_object({}) do |rsvp_group, hsh|
+                             .group(:event_id, :class_level)
+                             .each_with_object({}) do |rsvp_group, hsh|
       hsh[rsvp_group.class_level] = section_size_given_total_students(rsvp_group.count.to_i)
     end
   end

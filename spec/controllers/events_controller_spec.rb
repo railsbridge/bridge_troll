@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe EventsController do
-  describe "GET index" do
+  describe 'GET index' do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
-    it "successfully assigns upcoming events" do
+    it 'successfully assigns upcoming events' do
       get :index
       expect(response).to be_successful
       expect(assigns(:events)).to eq([event])
     end
 
-    describe "when rendering views" do
+    describe 'when rendering views' do
       render_views
 
-      describe "#allow_student_rsvp?" do
+      describe '#allow_student_rsvp?' do
         let(:attend_text) { 'Attend' }
 
         it "shows an 'Attend' button when allowing student RSVP" do
@@ -31,7 +33,7 @@ describe EventsController do
     end
   end
 
-  describe "GET index (json)" do
+  describe 'GET index (json)' do
     before do
       @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska')
       @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 4.days.from_now)
@@ -43,46 +45,46 @@ describe EventsController do
 
     it 'can render published past events as json' do
       get :index, params: { type: 'past' }, format: 'json'
-      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles = JSON.parse(response.body).map { |e| e['title'] }
       expect(result_titles).to eq([@past_event, @past_external_event].map(&:title))
     end
 
     it 'can render all published events as json' do
       get :index, params: { type: 'all' }, format: 'json'
-      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles = JSON.parse(response.body).map { |e| e['title'] }
       expect(result_titles).to eq([@past_event, @past_external_event, @future_external_event, @future_event].map(&:title))
     end
 
     it 'can render only upcoming published events as json' do
       get :index, params: { type: 'upcoming' }, format: 'json'
-      result_titles = JSON.parse(response.body).map{ |e| e['title'] }
+      result_titles = JSON.parse(response.body).map { |e| e['title'] }
       expect(result_titles).to eq([@future_external_event, @future_event].map(&:title))
     end
   end
 
-  describe "GET show" do
+  describe 'GET show' do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
-    it "successfully assigns the event" do
+    it 'successfully assigns the event' do
       get :show, params: { id: event.id }
       expect(assigns(:event)).to eq(event)
       expect(response).to be_successful
     end
 
-    describe "when rendering views" do
+    describe 'when rendering views' do
       render_views
       before do
         event.location = create(:location, name: 'Carbon Nine')
         event.save!
       end
 
-      it "includes the location" do
+      it 'includes the location' do
         get :show, params: { id: event.id }
         expect(response.body).to include('Carbon Nine')
       end
 
-      describe "authorization message" do
-        it "can tell the user they are a chapter leader" do
+      describe 'authorization message' do
+        it 'can tell the user they are a chapter leader' do
           chapter_leader = create(:user)
           chapter_leader.chapter_leaderships.create(chapter: event.chapter)
 
@@ -92,7 +94,7 @@ describe EventsController do
           expect(response.body).to include('As a chapter leader')
         end
 
-        it "can tell the user they are an organization leader" do
+        it 'can tell the user they are an organization leader' do
           organization_leader = create(:user)
           organization_leader.organization_leaderships.create(organization: event.organization)
 
@@ -103,8 +105,9 @@ describe EventsController do
         end
       end
 
-      describe "#allow_student_rsvp?" do
+      describe '#allow_student_rsvp?' do
         let(:attend_text) { 'Attend' }
+
         before do
           sign_in create(:user)
         end
@@ -122,33 +125,33 @@ describe EventsController do
         end
       end
 
-      context "when no volunteers or students are attending" do
-        it "shows messages about the lack of volunteers and students" do
+      context 'when no volunteers or students are attending' do
+        it 'shows messages about the lack of volunteers and students' do
           get :show, params: { id: event.id }
           expect(response.body).to include('No volunteers')
           expect(response.body).to include('No students')
         end
       end
 
-      context "when volunteers are attending" do
+      context 'when volunteers are attending' do
         before do
           volunteer = create(:user, first_name: 'Ron', last_name: 'Swanson')
           create(:rsvp, event: event, user: volunteer, role: Role::VOLUNTEER)
         end
 
-        it "shows the volunteer somewhere on the page" do
+        it 'shows the volunteer somewhere on the page' do
           get :show, params: { id: event.id }
           expect(response.body).to include('Ron Swanson')
         end
       end
 
-      context "when students are attending" do
+      context 'when students are attending' do
         before do
           student = create(:user, first_name: 'Jane', last_name: 'Fontaine')
           create(:student_rsvp, event: event, user: student, role: Role::STUDENT)
         end
 
-        it "shows the student somewhere on the page" do
+        it 'shows the student somewhere on the page' do
           get :show, params: { id: event.id }
           expect(response.body).to include('Jane Fontaine')
         end
@@ -156,21 +159,21 @@ describe EventsController do
         describe 'waitlists' do
           let(:waitlist_label) { 'waitlist' }
 
-          context "when there is no waitlist" do
+          context 'when there is no waitlist' do
             it "doesn't have the waitlist header" do
               get :show, params: { id: event.id }
               expect(response.body).not_to include(waitlist_label)
             end
           end
 
-          context "when there is a waitlist" do
+          context 'when there is a waitlist' do
             before do
               event.update_attribute(:student_rsvp_limit, 1)
               student = create(:user, first_name: 'Sandy', last_name: 'Sontaine')
               create(:student_rsvp, event: event, user: student, role: Role::STUDENT, waitlist_position: 1)
             end
 
-            it "shows waitlisted students in a waitlist section" do
+            it 'shows waitlisted students in a waitlist section' do
               get :show, params: { id: event.id }
               expect(response.body).to include(waitlist_label)
               expect(response.body).to include('Sandy Sontaine')
@@ -181,20 +184,20 @@ describe EventsController do
     end
   end
 
-  describe "GET new" do
+  describe 'GET new' do
     def make_request
       get :new
     end
 
-    it_behaves_like "an action that requires user log-in"
+    it_behaves_like 'an action that requires user log-in'
 
-    context "when a user is logged in" do
+    context 'when a user is logged in' do
       before do
         @user = create(:user, time_zone: 'Alaska')
         sign_in @user
       end
 
-      it "successfully assigns an event" do
+      it 'successfully assigns an event' do
         get :new
         expect(assigns(:event)).to be_new_record
         expect(response).to be_successful
@@ -205,7 +208,7 @@ describe EventsController do
         expect(assigns(:event).time_zone).to eq('Alaska')
       end
 
-      it "assigns an empty location" do
+      it 'assigns an empty location' do
         get :new
         expect(assigns(:location)).to be_new_record
         expect(response).to be_successful
@@ -213,23 +216,23 @@ describe EventsController do
     end
   end
 
-  describe "GET edit" do
+  describe 'GET edit' do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     def make_request
       get :edit, params: { id: event.id }
     end
 
-    it_behaves_like "an event action that requires an organizer"
+    it_behaves_like 'an event action that requires an organizer'
 
-    context "organizer is logged in" do
+    context 'organizer is logged in' do
       before do
         user = create(:user)
         event.organizers << user
         sign_in user
       end
 
-      it "successfully assigns the event" do
+      it 'successfully assigns the event' do
         make_request
         expect(assigns(:event)).to eq(event)
         expect(response).to be_successful
@@ -237,66 +240,66 @@ describe EventsController do
     end
   end
 
-  describe "GET levels" do
+  describe 'GET levels' do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
-    it "succeeds without requiring any permissions" do
+    it 'succeeds without requiring any permissions' do
       get :levels, params: { id: event.id }
       expect(response).to be_successful
     end
   end
 
-  describe "POST create" do
+  describe 'POST create' do
     def make_request(params = {})
       post :create, params: params
     end
 
-    it_behaves_like "an action that requires user log-in"
+    it_behaves_like 'an action that requires user log-in'
 
-    context "when a user is logged in" do
+    context 'when a user is logged in' do
       before do
         @user = create(:user)
         sign_in @user
       end
 
-      describe "with valid params" do
+      describe 'with valid params' do
         let!(:chapter) { create(:chapter) }
         let!(:location) { create(:location) }
-        let(:create_params) {
+        let(:create_params) do
           next_year = Date.current.year + 1
           {
-            "event" => {
-              "title" => "Party Zone",
-              "target_audience" => "yaya",
-              "time_zone" => "Alaska",
-              "food_provided" => false,
-              "student_rsvp_limit" => 100,
-              "event_sessions_attributes" => {
-                "0" => {
-                  "name" => 'I am good at naming sessions',
-                  "starts_at(1i)" => next_year.to_s,
-                  "starts_at(2i)" => "1",
-                  "starts_at(3i)" => "12",
-                  "starts_at(4i)" => "12",
-                  "starts_at(5i)" => "30",
-                  "ends_at(1i)" => next_year.to_s,
-                  "ends_at(2i)" => "1",
-                  "ends_at(3i)" => "12",
-                  "ends_at(4i)" => "22",
-                  "ends_at(5i)" => "30"
+            'event' => {
+              'title' => 'Party Zone',
+              'target_audience' => 'yaya',
+              'time_zone' => 'Alaska',
+              'food_provided' => false,
+              'student_rsvp_limit' => 100,
+              'event_sessions_attributes' => {
+                '0' => {
+                  'name' => 'I am good at naming sessions',
+                  'starts_at(1i)' => next_year.to_s,
+                  'starts_at(2i)' => '1',
+                  'starts_at(3i)' => '12',
+                  'starts_at(4i)' => '12',
+                  'starts_at(5i)' => '30',
+                  'ends_at(1i)' => next_year.to_s,
+                  'ends_at(2i)' => '1',
+                  'ends_at(3i)' => '12',
+                  'ends_at(4i)' => '22',
+                  'ends_at(5i)' => '30'
                 }
               },
-              "location_id" => location.id,
-              "chapter_id" => chapter.id,
-              "details" => "sdfasdfasdf"
+              'location_id' => location.id,
+              'chapter_id' => chapter.id,
+              'details' => 'sdfasdfasdf'
             }
           }
-        }
+        end
 
-        it "creates a new event with the creator as an organizer" do
-          expect {
+        it 'creates a new event with the creator as an organizer' do
+          expect do
             make_request(create_params)
-          }.to change(Event, :count).by(1)
+          end.to change(Event, :count).by(1)
 
           expect(Event.last.organizers).to include(@user)
           expect(response).to redirect_to event_path(Event.last)
@@ -308,20 +311,20 @@ describe EventsController do
           expect(Event.last.event_sessions.last.starts_at.zone).to eq('AKST')
         end
 
-        context "but the user is flagged as a spammer" do
+        context 'but the user is flagged as a spammer' do
           before do
             @user.update_attribute(:spammer, true)
           end
 
-          it "sends no email and flags the event as spam after creation" do
-            expect {
+          it 'sends no email and flags the event as spam after creation' do
+            expect do
               make_request(create_params)
-            }.not_to change(ActionMailer::Base.deliveries, :count)
+            end.not_to change(ActionMailer::Base.deliveries, :count)
             expect(Event.last).to be_spam
           end
         end
 
-        describe "notifying publishers of events" do
+        describe 'notifying publishers of events' do
           before do
             @user.update(first_name: 'Nitro', last_name: 'Boost')
             @admin = create(:user, admin: true)
@@ -329,13 +332,13 @@ describe EventsController do
           end
 
           let(:mail) do
-            ActionMailer::Base.deliveries.select {|d| d.subject.include? 'awaits approval' }.last
+            ActionMailer::Base.deliveries.reverse.find { |d| d.subject.include? 'awaits approval' }
           end
 
-          it "sends an email to all admins/publishers on event creation" do
-            expect {
+          it 'sends an email to all admins/publishers on event creation' do
+            expect do
               make_request(create_params)
-            }.to change(ActionMailer::Base.deliveries, :count).by(2)
+            end.to change(ActionMailer::Base.deliveries, :count).by(2)
 
             expect(mail.subject).to include('Nitro Boost')
             expect(mail.subject).to include('Party Zone')
@@ -346,20 +349,20 @@ describe EventsController do
           end
         end
 
-        describe "notifying the user of pending approval" do
+        describe 'notifying the user of pending approval' do
           before do
             @user.update(first_name: 'Evel', last_name: 'Knievel')
           end
 
           let(:mail) do
-            ActionMailer::Base.deliveries.select {|d| d.subject.include? 'Your Bridge Troll event' }.last
+            ActionMailer::Base.deliveries.reverse.find { |d| d.subject.include? 'Your Bridge Troll event' }
           end
           let(:recipients) { JSON.parse(mail.header['X-SMTPAPI'].to_s)['to'] }
 
-          it "sends an email to the user" do
-            expect {
+          it 'sends an email to the user' do
+            expect do
               make_request(create_params)
-            }.to change(ActionMailer::Base.deliveries, :count).by(2)
+            end.to change(ActionMailer::Base.deliveries, :count).by(2)
 
             expect(mail.subject).to include('Party Zone')
             expect(mail.subject).to include('pending approval')
@@ -369,20 +372,19 @@ describe EventsController do
             expect(recipients).to match_array([@user.email])
           end
         end
-
       end
 
-      describe "with invalid params" do
-        let(:invalid_params) {
+      describe 'with invalid params' do
+        let(:invalid_params) do
           {
-            "event" => {
-              "title" => "Party Zone"
+            'event' => {
+              'title' => 'Party Zone'
             }
           }
-        }
+        end
 
-        it "renders :new without creating an event" do
-          expect { make_request(invalid_params) }.to_not change { Event.count }
+        it 'renders :new without creating an event' do
+          expect { make_request(invalid_params) }.not_to change(Event, :count)
 
           expect(assigns(:event)).to be_new_record
           expect(response).to be_successful
@@ -392,47 +394,47 @@ describe EventsController do
     end
   end
 
-  describe "PUT update" do
+  describe 'PUT update' do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     def make_request(params = {})
       put :update, params: { id: event.id, event: params, create_event: true }
     end
 
-    it_behaves_like "an event action that requires an organizer"
+    it_behaves_like 'an event action that requires an organizer'
 
-    context "organizer is logged in" do
+    context 'organizer is logged in' do
       before do
         user = create(:user)
         event.organizers << user
         sign_in user
       end
 
-      describe "with valid params" do
+      describe 'with valid params' do
         let(:caracas_zone) { 'Caracas' }
-        let(:update_params) {
+        let(:update_params) do
           {
-            "title" => "Updated event title",
-            "details" => "Updated event details",
-            "time_zone" => caracas_zone
+            'title' => 'Updated event title',
+            'details' => 'Updated event details',
+            'time_zone' => caracas_zone
           }
-        }
+        end
 
-        it "updates the event and redirects to the event page" do
+        it 'updates the event and redirects to the event page' do
           make_request(update_params)
           event.reload
-          expect(event.title).to eq("Updated event title")
-          expect(event.details).to eq("Updated event details")
+          expect(event.title).to eq('Updated event title')
+          expect(event.details).to eq('Updated event details')
           expect(response).to redirect_to event_path(event)
           expect(flash[:notice]).to be_present
         end
 
-        describe "when the event has been published" do
+        describe 'when the event has been published' do
           before do
             event.update_attribute(:current_state, :published)
           end
 
-          it "updates attributes while keeping the event in published state" do
+          it 'updates attributes while keeping the event in published state' do
             make_request(update_params)
             expect(event.reload.current_state).to eq('published')
           end
@@ -450,25 +452,25 @@ describe EventsController do
             event.update(current_state: :draft)
           end
 
-          it "sends an approval email to all admins/publishers on event creation" do
-            expect {
+          it 'sends an approval email to all admins/publishers on event creation' do
+            expect do
               make_request(update_params)
-            }.to change(ActionMailer::Base.deliveries, :count).by(2)
+            end.to change(ActionMailer::Base.deliveries, :count).by(2)
 
-            approval_mail = ActionMailer::Base.deliveries.select {|d| d.subject.include? 'awaits approval' }.last
+            approval_mail = ActionMailer::Base.deliveries.reverse.find { |d| d.subject.include? 'awaits approval' }
             expect(approval_mail).to be
           end
         end
       end
 
-      describe "with invalid params" do
-        let(:invalid_params) {
+      describe 'with invalid params' do
+        let(:invalid_params) do
           {
-            "title" => ""
+            'title' => ''
           }
-        }
+        end
 
-        it "re-renders the edit form" do
+        it 're-renders the edit form' do
           make_request(invalid_params)
           expect(assigns(:event)).to eq(event)
           expect(response).to be_unprocessable
@@ -478,23 +480,23 @@ describe EventsController do
     end
   end
 
-  describe "DELETE destroy" do
+  describe 'DELETE destroy' do
     let!(:event) { create(:event, title: 'DonutBridge') }
 
     def make_request
       delete :destroy, params: { id: event.id }
     end
 
-    it_behaves_like "an event action that requires an organizer"
+    it_behaves_like 'an event action that requires an organizer'
 
-    context "organizer is logged in" do
+    context 'organizer is logged in' do
       before do
         user = create(:user)
         event.organizers << user
         sign_in user
       end
 
-      it "destroys the event and redirects to the events page" do
+      it 'destroys the event and redirects to the events page' do
         make_request
         expect(Event.find_by(id: event.id)).to eq(nil)
         expect(response).to redirect_to events_path
@@ -502,7 +504,7 @@ describe EventsController do
     end
   end
 
-  describe "GET feed" do
+  describe 'GET feed' do
     render_views
     let(:rss_item_tag) { 'item' }
     let(:atom_item_tag) { 'entry' }
@@ -519,7 +521,7 @@ describe EventsController do
       end
     end
 
-    context "when format is RSS" do
+    context 'when format is RSS' do
       let!(:event) { create(:event, title: 'DonutBridge') }
       let!(:other_event) { create(:event, title: 'C5 Event!') }
       let(:item_tag) { rss_item_tag }
@@ -528,29 +530,29 @@ describe EventsController do
         get :feed, format: :rss
       end
 
-      it "successfully directs to xml rss feed" do
+      it 'successfully directs to xml rss feed' do
         expect(response).to be_successful
 
         expect(event).to be_in(assigns(:events))
         expect(other_event).to be_in(assigns(:events))
       end
 
-      it "has rss formatting" do
+      it 'has rss formatting' do
         expect(response.body).to include 'rss'
       end
 
-      it "includes the website title" do
+      it 'includes the website title' do
         expect(response.body).to include('Bridge Troll Events')
       end
 
-      it "includes all events" do
+      it 'includes all events' do
         expect(Nokogiri::XML.parse(response.body).css(item_tag).length).to eq(2)
         expect(response.body).to include('DonutBridge')
         expect(response.body).to include('C5 Event!')
       end
     end
 
-    context "when format is Atom" do
+    context 'when format is Atom' do
       let!(:event) { create(:event, title: 'DonutBridge') }
       let!(:other_event) { create(:event, title: 'C5 Event!') }
       let(:item_tag) { atom_item_tag }
@@ -559,22 +561,22 @@ describe EventsController do
         get :feed, format: :atom
       end
 
-      it "successfully directs to xml rss feed" do
+      it 'successfully directs to xml rss feed' do
         expect(response).to be_successful
 
         expect(event).to be_in(assigns(:events))
         expect(other_event).to be_in(assigns(:events))
       end
 
-      it "has atom formatting" do
+      it 'has atom formatting' do
         expect(response.body).to include 'feed'
       end
 
-      it "includes the website title" do
+      it 'includes the website title' do
         expect(response.body).to include('Bridge Troll Events')
       end
 
-      it "includes all events" do
+      it 'includes all events' do
         expect(Nokogiri::XML.parse(response.body).css(item_tag).length).to eq(2)
         expect(response.body).to include('DonutBridge')
         expect(response.body).to include('C5 Event!')
@@ -582,20 +584,20 @@ describe EventsController do
     end
   end
 
-  describe "GET past_events" do
+  describe 'GET past_events' do
     render_views
 
-    let(:past_events_table_id) { "table#past-events-table" }
+    let(:past_events_table_id) { 'table#past-events-table' }
 
     before do
       get :past_events
     end
 
-    it "allows non-signed in users to view page" do
+    it 'allows non-signed in users to view page' do
       expect(response).to be_successful
     end
 
-    it "displays the Past Events table" do
+    it 'displays the Past Events table' do
       expect(Nokogiri::XML.parse(response.body).css(past_events_table_id).length).to eq(1)
     end
   end

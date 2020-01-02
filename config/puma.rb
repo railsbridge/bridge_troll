@@ -1,11 +1,11 @@
+# frozen_string_literal: true
+
 worker_count = Integer(ENV['WEB_CONCURRENCY'] || 2)
 workers worker_count
 threads_count = Integer(ENV['MAX_THREADS'] || 5)
 threads threads_count, threads_count
 
-unless worker_count == 1
-  preload_app!
-end
+preload_app! unless worker_count == 1
 
 rackup      DefaultRackup
 port        ENV['PORT']     || 3000

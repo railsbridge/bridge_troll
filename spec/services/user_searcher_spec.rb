@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe UserSearcher do
@@ -5,7 +7,7 @@ describe UserSearcher do
   let!(:user2) { create(:user, first_name: 'Rochalle', last_name: 'Gorfdoor') }
 
   it 'returns the users matching a search query' do
-    searcher = UserSearcher.new(User, 'hat')
-    expect(searcher.as_json).to match_array([{id: user1.id, text: user1.full_name}])
+    searcher = described_class.new(User, 'hat')
+    expect(searcher.as_json).to match_array([{ id: user1.id, text: user1.full_name }])
   end
 end

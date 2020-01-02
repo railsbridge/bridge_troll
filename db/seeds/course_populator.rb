@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module CoursePopulator
   module_function
+
   def populate_courses
     DEFAULT_COURSE_DATA.each do |course|
       c = Course.where(
@@ -32,7 +35,7 @@ module CoursePopulator
           {
             level: 1,
             color: 'blue',
-            title: "Totally New to Programming",
+            title: 'Totally New to Programming',
             level_description: [
               'You have little to no experience with the terminal or a graphical IDE',
               'You might have done a little bit with HTML or CSS, but not necessarily',
@@ -41,7 +44,7 @@ module CoursePopulator
           }, {
             level: 2,
             color: 'green',
-            title: "Somewhat New to Programming",
+            title: 'Somewhat New to Programming',
             level_description: [
               'You may have used the terminal a little — to change directories, for instance',
               'You might have done an online programming tutorial or two',
@@ -52,17 +55,17 @@ module CoursePopulator
           }, {
             level: 3,
             color: 'gold',
-            title: "Some Rails Experience",
+            title: 'Some Rails Experience',
             level_description: [
               'You\'re comfortable using the terminal, but not necessarily a Power User',
               'You have a general understanding of a Rails app\'s structure, perhaps from a prior workshop or tutorial',
               'You know how to define a method in Ruby',
-              'You have a decent handle on Ruby arrays and hashes',
+              'You have a decent handle on Ruby arrays and hashes'
             ]
           }, {
             level: 4,
             color: 'orange',
-            title: "Other Programming Experience",
+            title: 'Other Programming Experience',
             level_description: [
               'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
               'You\'re new to Ruby and Rails',
@@ -71,7 +74,7 @@ module CoursePopulator
           }, {
             level: 5,
             color: 'purple',
-            title: "Ready for the Next Challenge",
+            title: 'Ready for the Next Challenge',
             level_description: [
               'You\'ve exhausted the fun of the Suggestotron/Intro Rails curriculum',
               'You\'re comfortable with the terminal',
@@ -89,16 +92,16 @@ module CoursePopulator
           {
             level: 1,
             color: 'blue',
-            title: "Totally new to HTML and CSS",
+            title: 'Totally new to HTML and CSS',
             level_description: [
               'Perhaps has seen it before, but not written much (if any)',
               'Not sure what tags, attributes, or selectors are',
-              '&lt;img&gt;, &lt;a&gt;, and &lt;p&gt; are exciting and new',
+              '&lt;img&gt;, &lt;a&gt;, and &lt;p&gt; are exciting and new'
             ]
           }, {
             level: 2,
             color: 'green',
-            title: "Some experience with HTML",
+            title: 'Some experience with HTML',
             level_description: [
               'New to CSS',
               'Perhaps has worked with a WYSIWIG editor but hasn\'t coded an HTML document from scratch',
@@ -108,7 +111,7 @@ module CoursePopulator
           }, {
             level: 3,
             color: 'gold',
-            title: "Some experience with HTML & CSS",
+            title: 'Some experience with HTML & CSS',
             level_description: [
               'Has possibly worked with the web inspector in Chrome or Firebug in Firefox before',
               'Could possibly write a link in HTML',
@@ -117,7 +120,7 @@ module CoursePopulator
           }, {
             level: 4,
             color: 'orange',
-            title: "Comfortable editing CSS & HTML",
+            title: 'Comfortable editing CSS & HTML',
             level_description: [
               'Knows about web development, but not a lot of front end experience',
               'Maybe knows a programming language',
@@ -126,7 +129,7 @@ module CoursePopulator
           }, {
             level: 5,
             color: 'purple',
-            title: "Ready to make a beautiful site",
+            title: 'Ready to make a beautiful site',
             level_description: [
               'Knows how to include a stylesheet in an HTML document',
               'Feels comfortable with terminology like tag and attribute',
@@ -143,25 +146,25 @@ module CoursePopulator
           {
             level: 1,
             color: 'blue',
-            title: "No Programming Experience",
+            title: 'No Programming Experience',
             level_description: [
               'Totally new to Javascript itself',
               'Made a webpage before, maybe at a RailsBridge Front End Workshop',
-              'No experience with programming languages other than HTML and CSS',
+              'No experience with programming languages other than HTML and CSS'
             ]
           }, {
             level: 2,
             color: 'orange',
-            title: "Programmer new to Javascript",
+            title: 'Programmer new to Javascript',
             level_description: [
               'Comfortable making a complex webpage',
               'Some experience in a programming language like ActionScript, C, Java, Ruby or Python',
-              'Has seen javascript, but didn\'t really understand how it worked',
+              'Has seen javascript, but didn\'t really understand how it worked'
             ]
           }, {
             level: 3,
             color: 'purple',
-            title: "Some experience with JavaScript",
+            title: 'Some experience with JavaScript',
             level_description: [
               'Feels comfortable writing functions and objects in JavaScript',
               'Used jQuery before and has seen an AJAX request, but doesn\'t understand all the moving parts',
@@ -179,49 +182,49 @@ module CoursePopulator
           {
             level: 1,
             color: 'blue',
-            title: "Totally New to Programming",
+            title: 'Totally New to Programming',
             level_description: [
               'You have little to no experience with the terminal or a graphical IDE',
-              'You might have done a little bit with HTML or CSS, but not necessarily',
+              'You might have done a little bit with HTML or CSS, but not necessarily'
             ]
           }, {
             level: 2,
             color: 'green',
-            title: "Somewhat New to Programming",
+            title: 'Somewhat New to Programming',
             level_description: [
               'You may have used the terminal a little — to change directories, for instance',
               'You might have done an online programming tutorial or two',
-              'You know what a method is',
+              'You know what a method is'
             ]
           }, {
             level: 3,
             color: 'gold',
-            title: "Some iOS App Development Experience",
+            title: 'Some iOS App Development Experience',
             level_description: [
               "You're comfortable using the terminal, but not necessarily a Power User",
               'You have a general understanding of XCode and of iOS app structure, perhaps from a prior workshop or tutorial',
-              'Some programming experience in another language like Ruby, Python, C, Java',
+              'Some programming experience in another language like Ruby, Python, C, Java'
             ]
           }, {
             level: 4,
             color: 'pink',
-            title: "Experienced Designer new to iOS programming",
+            title: 'Experienced Designer new to iOS programming',
             level_description: [
               "You're proficient in design tools (Adobe Creative Suite, etc)",
               "You're familiar with general UI design principles",
-              "You might be familiar with HTML and CSS.",
-              "You're new to the XCode environment and to iOS app development",
+              'You might be familiar with HTML and CSS.',
+              "You're new to the XCode environment and to iOS app development"
             ]
           }, {
             level: 5,
             color: 'orange',
-            title: "Experienced Programmer new to iOS programming",
+            title: 'Experienced Programmer new to iOS programming',
             level_description: [
               "You're proficient in another language and understand general programming concepts",
               "You're new to the XCode environment and to iOS app development",
-              'You might be familiar with version control',
+              'You might be familiar with version control'
             ]
-          },
+          }
         ]
       }, {
         id: 5,
@@ -232,19 +235,19 @@ module CoursePopulator
           {
             level: 2,
             color: 'orange',
-            title: "Javascript",
+            title: 'Javascript',
             level_description: [
               'Some experience writing JavaScript at a front-end workshop or personal project',
               'You have a basic understanding of the Browser DOM (Document Object Model)',
-              'You have built a website or other app on your own',
+              'You have built a website or other app on your own'
             ]
           }, {
             level: 3,
             color: 'purple',
-            title: "Ruby",
+            title: 'Ruby',
             level_description: [
               'Some experience writing Ruby at a prior workshop and/or personal project',
-              'You have built a website or other app on your own',
+              'You have built a website or other app on your own'
             ]
           }
         ]
@@ -257,7 +260,7 @@ module CoursePopulator
           {
             level: 1,
             color: 'blue',
-            title: "Totally New to Programming",
+            title: 'Totally New to Programming',
             level_description: [
               'You have little to no experience with the command line or a graphical IDE',
               'You might have done a little bit with HTML or CSS, but not necessarily',
@@ -266,7 +269,7 @@ module CoursePopulator
           }, {
             level: 2,
             color: 'green',
-            title: "Somewhat New to Programming",
+            title: 'Somewhat New to Programming',
             level_description: [
               'You may have used the command line a little — to change directories, for instance',
               'You might have done an online programming tutorial or two',
@@ -275,7 +278,7 @@ module CoursePopulator
           }, {
             level: 3,
             color: 'gold',
-            title: "Some Android App Development Experience",
+            title: 'Some Android App Development Experience',
             level_description: [
               'You\'re comfortable using the command line, but not necessarily a Power User',
               'You have a general understanding of an Android app\'s structure, perhaps from a prior workshop or tutorial',
@@ -284,7 +287,7 @@ module CoursePopulator
           }, {
             level: 4,
             color: 'pink',
-            title: "Experienced Non-Java Programmer new to Android app development",
+            title: 'Experienced Non-Java Programmer new to Android app development',
             level_description: [
               'You\'re proficient in non-Java programming language and understand general programming concepts, like collections and scope.',
               'You\'re new to the Android Studio environment and to Android app development',
@@ -293,7 +296,7 @@ module CoursePopulator
           }, {
             level: 5,
             color: 'orange',
-            title: "Experienced Java Programmer new to Android app development",
+            title: 'Experienced Java Programmer new to Android app development',
             level_description: [
               'You\'re proficient in Java and understand general programming concepts, like collections and scope.',
               'You\'re new to the Android Studio environment and to Android app development',
@@ -314,7 +317,7 @@ module CoursePopulator
           {
             level: 2,
             color: 'green',
-            title: "Somewhat New to Programming",
+            title: 'Somewhat New to Programming',
             level_description: [
               'You know what a function is',
               'You might have done an online programming tutorial or two',
@@ -323,7 +326,7 @@ module CoursePopulator
           }, {
             level: 3,
             color: 'gold',
-            title: "Some Go Experience",
+            title: 'Some Go Experience',
             level_description: [
               'You know how to define a function in Go',
               'You have a decent handle on Go slices and maps',
@@ -333,7 +336,7 @@ module CoursePopulator
           }, {
             level: 4,
             color: 'orange',
-            title: "Other Programming Experience",
+            title: 'Other Programming Experience',
             level_description: [
               'You\'re new to Go',
               'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
@@ -355,7 +358,7 @@ module CoursePopulator
           {
             level: 2,
             color: 'green',
-            title: "Mais ou Menos Novato(a) em Programação",
+            title: 'Mais ou Menos Novato(a) em Programação',
             level_description: [
               'Você sabe o que é uma função',
               'Talvez você já tenha feito um tutorial ou dois online',
@@ -364,7 +367,7 @@ module CoursePopulator
           }, {
             level: 3,
             color: 'gold',
-            title: "Alguma Experiência em Go",
+            title: 'Alguma Experiência em Go',
             level_description: [
               'Você sabe como definir uma função em Go',
               'Você entende bem como funciona slices e maps em Go',
@@ -374,7 +377,7 @@ module CoursePopulator
           }, {
             level: 4,
             color: 'orange',
-            title: "Outras Experiências em Programação",
+            title: 'Outras Experiências em Programação',
             level_description: [
               'Você não sabe Go',
               'Você é proficiente em outra linguagem e entende conceitos gerais de programação, como por exemplo coleções e escopo',
@@ -396,7 +399,7 @@ module CoursePopulator
           {
             level: 3,
             color: 'gold',
-            title: "Some Go Experience",
+            title: 'Some Go Experience',
             level_description: [
               'You know how to define a function in Go',
               'You have a decent handle on Go slices and maps',
@@ -406,7 +409,7 @@ module CoursePopulator
           }, {
             level: 4,
             color: 'orange',
-            title: "Other Programming Experience",
+            title: 'Other Programming Experience',
             level_description: [
               'You\'re new to Go',
               'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
@@ -431,35 +434,35 @@ module CoursePopulator
           {
             level: 1,
             color: 'blue',
-            title: "Totally New to Programming",
+            title: 'Totally New to Programming',
             level_description: [
               'You have little to no experience with the terminal or a graphical IDE',
               'You might have done a little bit with HTML or CSS, but not necessarily',
-              'You\'re unfamiliar with terms like functions, arrays, lists, hashes/maps, or dictionaries.',
+              'You\'re unfamiliar with terms like functions, arrays, lists, hashes/maps, or dictionaries.'
             ]
           }, {
             level: 2,
             color: 'green',
-            title: "Somewhat New to Programming",
+            title: 'Somewhat New to Programming',
             level_description: [
               'You know what a function is',
               'You might have done an online programming tutorial or two',
-              'You may have used the terminal a little — to change directories, for instance',
+              'You may have used the terminal a little — to change directories, for instance'
             ]
           }, {
             level: 3,
             color: 'gold',
-            title: "Some Go Experience",
+            title: 'Some Go Experience',
             level_description: [
               'You know how to define a function in Go',
               'You have a decent handle on Go slices and maps',
               'You have a general understanding of a Go app\'s structure, perhaps from a prior workshop or tutorial',
-              'You\'re comfortable using the terminal, but not necessarily a Power User',
+              'You\'re comfortable using the terminal, but not necessarily a Power User'
             ]
           }, {
             level: 4,
             color: 'orange',
-            title: "Other Programming Experience",
+            title: 'Other Programming Experience',
             level_description: [
               'You\'re new to Go',
               'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
@@ -470,24 +473,24 @@ module CoursePopulator
         ]
       }, {
         id: 11,
-        name: "CLOJURE",
+        name: 'CLOJURE',
         title: 'Clojure',
         description: 'This is a Clojure event. The focus will be on programming in Clojure.',
         levels: [
           {
             level: 1,
             color: 'green',
-            title: "New to Programming",
+            title: 'New to Programming',
             level_description: [
               'You have little to no experience with programming',
               'You might have done a little bit with HTML or CSS, but not necessarily',
-              'You\'re unfamiliar with terms like functions, lists, maps',
+              'You\'re unfamiliar with terms like functions, lists, maps'
             ]
           },
           {
             level: 2,
             color: 'blue',
-            title: "Somewhat New to Programming",
+            title: 'Somewhat New to Programming',
             level_description: [
               'You know what a function is',
               'You might have done an online programming tutorial or two',
@@ -516,7 +519,7 @@ concepts, like collections and scope.',
           {
             level: 3,
             color: 'gold',
-            title: "Some programming experience",
+            title: 'Some programming experience',
             level_description: [
               'You know how to define a function in some common programming language (Javascript, or Ruby, or Python, or similar)',
               'You have used lists or arrays in some common programming language',
@@ -538,7 +541,7 @@ concepts, like collections and scope.',
         ]
       }, {
         id: 13,
-        name: "RUST",
+        name: 'RUST',
         title: 'Rust for programmers',
         description: 'This is a Rust programming event. Some programming knowledge expected, but you don\'t yet know Rust.',
         levels: [
@@ -563,7 +566,7 @@ concepts, like collections and scope.',
           {
             level: 2,
             color: 'green',
-            title: "Somewhat New to Programming",
+            title: 'Somewhat New to Programming',
             level_description: [
               'You know what a function is',
               'You might have done an online programming tutorial or two',
@@ -572,7 +575,7 @@ concepts, like collections and scope.',
           }, {
             level: 3,
             color: 'gold',
-            title: "Some Go Experience",
+            title: 'Some Go Experience',
             level_description: [
               'You know how to define a function in Go',
               'You have a decent handle on Go slices and maps',
@@ -582,7 +585,7 @@ concepts, like collections and scope.',
           }, {
             level: 4,
             color: 'orange',
-            title: "Other Programming Experience",
+            title: 'Other Programming Experience',
             level_description: [
               'You\'re new to Go',
               'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
@@ -600,7 +603,7 @@ concepts, like collections and scope.',
           {
             level: 3,
             color: 'gold',
-            title: "Some Elixir/Phoenix Experience",
+            title: 'Some Elixir/Phoenix Experience',
             level_description: [
               'You\'re comfortable using the terminal, but not necessarily a Power User',
               'You have a general understanding of Elixir data types and the Phoenix framework structure, perhaps from a prior workshop or tutorial',
@@ -610,7 +613,7 @@ concepts, like collections and scope.',
           }, {
             level: 4,
             color: 'orange',
-            title: "Other Programming Experience",
+            title: 'Other Programming Experience',
             level_description: [
               'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
               'You\'re new to Elixir & Phoenix',
@@ -627,21 +630,21 @@ concepts, like collections and scope.',
           {
             level: 1,
             color: 'blue',
-            title: "No Programming Experience",
+            title: 'No Programming Experience',
             level_description: [
               'You\'re brand new! You haven\'t done any programming, and that\'s OK!'
             ]
           }, {
             level: 2,
             color: 'green',
-            title: "Dabbled, Maybe a Little HTML or PHP",
+            title: 'Dabbled, Maybe a Little HTML or PHP',
             level_description: [
               'You\'ve written some HTML, maybe some CSS, and maybe looked at PHP once or twice.'
             ]
           }, {
             level: 3,
             color: 'gold',
-            title: "Some Programming Experience, Nothing Formal",
+            title: 'Some Programming Experience, Nothing Formal',
             level_description: [
               'Maybe you\'re a front-end developer and written a little JavaScript, or you\'ve written a WordPress plugin.'
             ]
@@ -663,7 +666,7 @@ concepts, like collections and scope.',
           {
             level: 1,
             color: 'blue',
-            title: "New to Programming",
+            title: 'New to Programming',
             level_description: [
               'You are completely new to programming'
             ]
@@ -671,7 +674,7 @@ concepts, like collections and scope.',
           {
             level: 2,
             color: 'green',
-            title: "Somewhat New to Programming",
+            title: 'Somewhat New to Programming',
             level_description: [
               'You know what a function is',
               'You might have done an online programming tutorial or two',
@@ -680,7 +683,7 @@ concepts, like collections and scope.',
           }, {
             level: 3,
             color: 'gold',
-            title: "Some Go Experience",
+            title: 'Some Go Experience',
             level_description: [
               'You know how to define a function in Go',
               'You have a decent handle on Go slices and maps',
@@ -690,7 +693,7 @@ concepts, like collections and scope.',
           }, {
             level: 4,
             color: 'orange',
-            title: "Other Programming Experience",
+            title: 'Other Programming Experience',
             level_description: [
               'You\'re new to Go',
               'You\'re proficient in another language and understand general programming concepts, like collections and scope.',
@@ -701,7 +704,7 @@ concepts, like collections and scope.',
         ]
       }, {
         id: 18,
-        name: "Scala",
+        name: 'Scala',
         title: 'Scala for programmers',
         description: 'This is a Scala programming event. Some programming knowledge expected, but you don\'t yet know Scala.',
         levels: [
@@ -796,7 +799,7 @@ concepts, like collections and scope.',
           }
         ]
       }
-    ]
+    ].freeze
 
   private_constant :DEFAULT_COURSE_DATA
 end

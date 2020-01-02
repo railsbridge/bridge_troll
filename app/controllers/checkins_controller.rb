@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class CheckinsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_event_and_session
-  before_action :find_rsvp_session, only: [:create, :destroy]
+  before_action :find_rsvp_session, only: %i[create destroy]
 
   def index
     authorize @event, :checkin?

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Profile do
   it { is_expected.to belong_to(:user).required }
 
-  describe "uniqueness" do
+  describe 'uniqueness' do
     let!(:profile) { create(:user).profile }
 
     it { is_expected.to validate_uniqueness_of(:user_id) }
@@ -34,7 +36,7 @@ describe Profile do
   end
 
   it 'removes leading @ signs from twitter username' do
-    profile = Profile.new(twitter_username: '@banana')
+    profile = described_class.new(twitter_username: '@banana')
     expect(profile.twitter_username).to eq('banana')
   end
 end

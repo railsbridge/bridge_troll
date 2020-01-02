@@ -1,11 +1,9 @@
+# frozen_string_literal: true
+
 class StaticPagesController < ApplicationController
   before_action :skip_authorization
 
-  def style_guide
+  def style_guide; end
 
-  end
-
-  def about
-
-  end
+  def about; end
 end

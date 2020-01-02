@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Events::UnpublishedEventsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_event, except: [:index]
@@ -5,10 +7,10 @@ class Events::UnpublishedEventsController < ApplicationController
   def index
     authorize Event, :see_unpublished?
     @events = EventPolicy::Scope.new(current_user, Event)
-                .publishable
-                .upcoming
-                .pending_approval
-                .where(spam: false)
+                                .publishable
+                                .upcoming
+                                .pending_approval
+                                .where(spam: false)
   end
 
   def publish
@@ -20,7 +22,7 @@ class Events::UnpublishedEventsController < ApplicationController
     end
     EventMailer.event_has_been_approved(@event).deliver_now
 
-    redirect_to @event, notice: "This event has been published. Now everyone in the world can see it!"
+    redirect_to @event, notice: 'This event has been published. Now everyone in the world can see it!'
   end
 
   def flag

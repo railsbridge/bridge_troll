@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe AccountMerger do
   before do
-    allow_any_instance_of(AccountMerger).to receive(:get_answer).and_return('y')
+    allow_any_instance_of(described_class).to receive(:gets).and_return('y')
   end
 
   describe 'merging two users' do
@@ -17,25 +19,25 @@ describe AccountMerger do
     end
 
     it 'merges all the RSVPs from one account onto another' do
-      merger = AccountMerger.new(@user_to_keep, @user_to_merge)
-      expect {
+      merger = described_class.new(@user_to_keep, @user_to_merge)
+      expect do
         merger.merge!
-      }.to change(User, :count).by(-1)
+      end.to change(User, :count).by(-1)
 
       expect(@user_to_keep.reload.rsvps.length).to eq(3)
-      expect {
+      expect do
         User.find(@user_to_merge.id)
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      end.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
   it 'refuses to merge the same account onto itself' do
     user = create(:user)
 
-    expect {
-      expect {
-        AccountMerger.new(user, user).merge!
-      }.not_to change(User, :count)
-    }.to raise_error(RuntimeError)
+    expect do
+      expect do
+        described_class.new(user, user).merge!
+      end.not_to change(User, :count)
+    end.to raise_error(RuntimeError)
   end
 end

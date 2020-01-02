@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrganizersController < ApplicationController
   before_action :authenticate_user!
   before_action :validate_published!
@@ -58,7 +60,7 @@ class OrganizersController < ApplicationController
   def validate_published!
     @event ||= Event.find(params[:event_id])
     unless @event.published?
-      flash[:error] = "This feature is not available for unpublished events"
+      flash[:error] = 'This feature is not available for unpublished events'
       redirect_to @event
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExternalEventsController < ApplicationController
   before_action :authenticate_user!
 
@@ -9,7 +11,7 @@ class ExternalEventsController < ApplicationController
   def new
     authorize ExternalEvent, :edit?
     @external_event = ExternalEvent.new
-    @external_event.name = "Ruby on Rails Outreach Workshop for Women"
+    @external_event.name = 'Ruby on Rails Outreach Workshop for Women'
   end
 
   def edit

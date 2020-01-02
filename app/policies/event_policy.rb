@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EventPolicy < ApplicationPolicy
   class Scope < Scope
     def publishable
@@ -15,6 +17,7 @@ class EventPolicy < ApplicationPolicy
 
   def update?
     return false if record.historical?
+
     user.admin? || record.organizer?(user) || record.chapter.has_leader?(user) || record.organization.has_leader?(user)
   end
 
@@ -42,9 +45,7 @@ class EventPolicy < ApplicationPolicy
     user.publisher? || user.admin?
   end
 
-  def admin?
-    user.admin?
-  end
+  delegate :admin?, to: :user
 
   def permitted_attributes
     [

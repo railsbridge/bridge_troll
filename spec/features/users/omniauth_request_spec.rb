@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require Rails.root.join('spec', 'services', 'omniauth_responses')
 
-describe "signing in with omniauth" do
+describe 'signing in with omniauth' do
   # TODO: why is this needed, they load in the app just fine
   include Devise::Controllers::UrlHelpers
   include Devise::OmniAuth::UrlHelpers
@@ -12,7 +14,7 @@ describe "signing in with omniauth" do
 
   def sign_in_with(provider)
     visit '/'
-    click_on "Sign In"
+    click_on 'Sign In'
     click_on provider
   end
 
@@ -21,7 +23,7 @@ describe "signing in with omniauth" do
     click_on provider
   end
 
-  context "with a valid facebook auth" do
+  context 'with a valid facebook auth' do
     let(:facebook_response) { OmniauthResponses.facebook_response }
 
     before do
@@ -29,7 +31,7 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a user and authentication if the user does not exist' do
-      sign_in_with("Facebook")
+      sign_in_with('Facebook')
 
       within '#sign-up' do
         click_on 'Sign up'
@@ -50,7 +52,7 @@ describe "signing in with omniauth" do
       user = create(:user)
       sign_in_as user
 
-      associate_with("Facebook")
+      associate_with('Facebook')
 
       authentication = user.authentications.reload.first
       expect(authentication.provider).to eq('facebook')
@@ -58,7 +60,7 @@ describe "signing in with omniauth" do
     end
   end
 
-  context "with a valid google_oauth2 auth" do
+  context 'with a valid google_oauth2 auth' do
     let(:google_oauth2_response) { OmniauthResponses.google_oauth2_response }
 
     before do
@@ -66,7 +68,7 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a user and authentication if the user does not exist' do
-      sign_in_with("Google")
+      sign_in_with('Google')
 
       within '#sign-up' do
         click_on 'Sign up'
@@ -87,7 +89,7 @@ describe "signing in with omniauth" do
       user = create(:user)
       sign_in_as user
 
-      associate_with("Google")
+      associate_with('Google')
 
       authentication = user.authentications.reload.first
       expect(authentication.provider).to eq('google_oauth2')
@@ -95,7 +97,7 @@ describe "signing in with omniauth" do
     end
   end
 
-  context "with a valid twitter auth" do
+  context 'with a valid twitter auth' do
     let(:twitter_response) { OmniauthResponses.twitter_response }
 
     before do
@@ -103,7 +105,7 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a user and authentication after the user provides an email' do
-      sign_in_with("Twitter")
+      sign_in_with('Twitter')
 
       within '#sign-up' do
         fill_in 'Email', with: 'cool_tweeter@example.com'
@@ -112,9 +114,9 @@ describe "signing in with omniauth" do
 
       user = User.last
       expect(user).to be_valid
-      expect(user.first_name).to eq("John")
-      expect(user.last_name).to eq("Q Public")
-      expect(user.email).to eq("cool_tweeter@example.com")
+      expect(user.first_name).to eq('John')
+      expect(user.last_name).to eq('Q Public')
+      expect(user.email).to eq('cool_tweeter@example.com')
 
       authentication = user.authentications.first
       expect(authentication.provider).to eq('twitter')
@@ -122,7 +124,7 @@ describe "signing in with omniauth" do
     end
   end
 
-  context "with a valid meetup auth" do
+  context 'with a valid meetup auth' do
     let(:meetup_response) { OmniauthResponses.meetup_response }
 
     before do
@@ -130,7 +132,7 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a user and authentication after the user provides an email' do
-      sign_in_with("Meetup")
+      sign_in_with('Meetup')
 
       within '#sign-up' do
         fill_in 'Email', with: 'meetup_user@example.com'
@@ -139,9 +141,9 @@ describe "signing in with omniauth" do
 
       user = User.last
       expect(user).to be_valid
-      expect(user.first_name).to eq("Franz")
-      expect(user.last_name).to eq("Meetuper")
-      expect(user.email).to eq("meetup_user@example.com")
+      expect(user.first_name).to eq('Franz')
+      expect(user.last_name).to eq('Meetuper')
+      expect(user.email).to eq('meetup_user@example.com')
 
       authentication = user.authentications.first
       expect(authentication.provider).to eq('meetup')
@@ -149,7 +151,7 @@ describe "signing in with omniauth" do
     end
   end
 
-  context "with a valid github auth" do
+  context 'with a valid github auth' do
     let(:github_response) { OmniauthResponses.github_response }
 
     before do
@@ -157,7 +159,7 @@ describe "signing in with omniauth" do
     end
 
     it 'creates a user and authentication after the user provides an email' do
-      sign_in_with("GitHub")
+      sign_in_with('GitHub')
 
       within '#sign-up' do
         click_on 'Sign up'
@@ -165,9 +167,9 @@ describe "signing in with omniauth" do
 
       user = User.last
       expect(user).to be_valid
-      expect(user.first_name).to eq("Fancy")
-      expect(user.last_name).to eq("Fjords")
-      expect(user.email).to eq("ffjords@example.com")
+      expect(user.first_name).to eq('Fancy')
+      expect(user.last_name).to eq('Fjords')
+      expect(user.email).to eq('ffjords@example.com')
 
       authentication = user.authentications.first
       expect(authentication.provider).to eq('github')
@@ -175,24 +177,24 @@ describe "signing in with omniauth" do
     end
   end
 
-  describe "parsing the name attribute" do
-    it "assigns blank first name and last name if name is not present" do
+  describe 'parsing the name attribute' do
+    it 'assigns blank first name and last name if name is not present' do
       auth_response = OmniauthResponses.github_response
       auth_response[:info].delete(:name)
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(auth_response)
 
-      sign_in_with("GitHub")
+      sign_in_with('GitHub')
 
       expect(find_field('user[first_name]').value).to be_blank
       expect(find_field('user[last_name]').value).to be_blank
     end
 
-    it "assigns blank first name and last name if name is an empty string" do
+    it 'assigns blank first name and last name if name is an empty string' do
       auth_response = OmniauthResponses.github_response
       auth_response[:info][:name] = ''
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(auth_response)
 
-      sign_in_with("GitHub")
+      sign_in_with('GitHub')
 
       expect(find_field('user[first_name]').value).to be_blank
       expect(find_field('user[last_name]').value).to be_blank
@@ -203,7 +205,7 @@ describe "signing in with omniauth" do
       auth_response[:info][:name] = 'Enigma'
       OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(auth_response)
 
-      sign_in_with("GitHub")
+      sign_in_with('GitHub')
 
       expect(find_field('user[first_name]').value).to eq('Enigma')
       expect(find_field('user[last_name]').value).to be_blank

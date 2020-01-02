@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CoursePolicy < ApplicationPolicy
   def index?
     user.admin?
@@ -24,14 +26,14 @@ class CoursePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    return [] unless user && user.admin?
+    return [] unless user&.admin?
 
     [
       :name,
       :title,
       :description,
       {
-        levels_attributes: LevelPolicy.new(user, Level).permitted_attributes + [:id],
+        levels_attributes: LevelPolicy.new(user, Level).permitted_attributes + [:id]
       }
     ]
   end

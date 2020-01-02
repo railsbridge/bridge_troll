@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe "arranging sections for an event", js: true do
+describe 'arranging sections for an event', js: true do
   before do
     @event = create(:event, course: create(:course, levels_count: 5))
     create(:event_session, event: @event)
@@ -8,31 +10,31 @@ describe "arranging sections for an event", js: true do
 
     @session1, @session2 = @event.event_sessions.to_a
 
-    @session1_rsvp = create(:student_rsvp, event: @event, class_level: 1, session_checkins: {@session1.id => true, @session2.id => false})
+    @session1_rsvp = create(:student_rsvp, event: @event, class_level: 1, session_checkins: { @session1.id => true, @session2.id => false })
 
-    @session2_rsvp = create(:student_rsvp, event: @event, class_level: 2, session_checkins: {@session1.id => false, @session2.id => true})
+    @session2_rsvp = create(:student_rsvp, event: @event, class_level: 2, session_checkins: { @session1.id => false, @session2.id => true })
 
-    @both_rsvp = create(:student_rsvp, event: @event, class_level: 3, session_checkins: {@session1.id => true, @session2.id => true})
+    @both_rsvp = create(:student_rsvp, event: @event, class_level: 3, session_checkins: { @session1.id => true, @session2.id => true })
 
-    @neither_attendee = create(:student_rsvp, event: @event, class_level: 4, session_checkins: {@session1.id => false, @session2.id => false})
+    @neither_attendee = create(:student_rsvp, event: @event, class_level: 4, session_checkins: { @session1.id => false, @session2.id => false })
 
     @user_organizer = create(:user)
     @event.organizers << @user_organizer
     sign_in_as @user_organizer
   end
 
-  it "groups the attendees by their chosen level" do
+  it 'groups the attendees by their chosen level' do
     visit event_organize_sections_path(@event)
 
     expect(page).to have_css('.auto-assign-reminder')
 
     within '#section-organizer' do
-      click_on "Auto-Arrange"
+      click_on 'Auto-Arrange'
     end
 
     within '.modal.auto-arrange-choices' do
       page.find("[value='#{@session1.id}']").click
-      click_on "Auto-Arrange"
+      click_on 'Auto-Arrange'
     end
 
     expect(page).not_to have_css('.auto-assign-reminder')

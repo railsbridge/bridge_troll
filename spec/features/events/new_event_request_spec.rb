@@ -1,41 +1,43 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe "New Event", js: true do
+describe 'New Event', js: true do
   let(:fill_in_good_location_details) do
     find('#location_region_id').find(:xpath, 'option[2]').select_option
-    fill_in "Name", with: "UChicago"
-    fill_in "Address 1", with: "5801 South Ellis Avenue"
-    fill_in "City", with: "Chicago"
-    fill_in "State", with: "Illinois"
-    fill_in "Zip", with: "60637"
+    fill_in 'Name', with: 'UChicago'
+    fill_in 'Address 1', with: '5801 South Ellis Avenue'
+    fill_in 'City', with: 'Chicago'
+    fill_in 'State', with: 'Illinois'
+    fill_in 'Zip', with: '60637'
   end
 
   before do
     create(:course)
-    @user_organizer = create(:user, email: "organizer@mail.com", first_name: "Sam", last_name: "Spade")
+    @user_organizer = create(:user, email: 'organizer@mail.com', first_name: 'Sam', last_name: 'Spade')
     @chapter = create(:chapter)
 
     sign_in_as(@user_organizer)
   end
 
-  it "pre-fills the event details textarea" do
+  it 'pre-fills the event details textarea' do
     visit_new_events_form_and_expand_all_sections
 
     expect(page.find_field('event_details')[:value]).to match(/Workshop Description/)
   end
 
-  it "has a public organizer email field" do
+  it 'has a public organizer email field' do
     visit_new_events_form_and_expand_all_sections
 
-    label = "What email address should users contact you at with questions?"
+    label = 'What email address should users contact you at with questions?'
     expect(page).to have_field(label)
-    expect(page.find_field(label)[:value]).to eq("organizer@mail.com")
+    expect(page.find_field(label)[:value]).to eq('organizer@mail.com')
   end
 
-  it "has the code of conduct checkbox unchecked" do
+  it 'has the code of conduct checkbox unchecked' do
     visit_new_events_form_and_expand_all_sections
 
-    expect(page).to have_unchecked_field("coc")
+    expect(page).to have_unchecked_field('coc')
   end
 
   it 'changes the code of conduct URL if the chapter-org has a custom one' do
@@ -47,7 +49,7 @@ describe "New Event", js: true do
     visit_new_events_form_and_expand_all_sections
 
     expect(page.find('label[for=coc] a')['href']).to eq(Event::DEFAULT_CODE_OF_CONDUCT_URL)
-    check("coc")
+    check('coc')
 
     select 'CustomCocChapter', from: 'event_chapter_id'
     wait_for_condition do
@@ -56,7 +58,7 @@ describe "New Event", js: true do
     expect(page).to have_unchecked_field('coc')
   end
 
-  it "has appropriate locations available" do
+  it 'has appropriate locations available' do
     visit_new_events_form_and_expand_all_sections
 
     live_location = create(:location)
@@ -65,12 +67,12 @@ describe "New Event", js: true do
 
     visit_new_events_form_and_expand_all_sections
     expect(page).to have_select('event_location_id', options: [
-      "Please select",
-      live_location.name_with_region
-    ])
+                                  'Please select',
+                                  live_location.name_with_region
+                                ])
   end
 
-  it "has a food options toggle" do
+  it 'has a food options toggle' do
     visit_new_events_form_and_expand_all_sections
 
     expect(page).to have_checked_field('event_food_provided_true')
@@ -85,7 +87,7 @@ describe "New Event", js: true do
     uncheck('Linux - Other')
     uncheck('Linux - Ubuntu')
 
-    check("coc")
+    check('coc')
     click_on 'Submit Event For Approval'
 
     expect(page).to have_css('.alert-success')
@@ -101,41 +103,41 @@ describe "New Event", js: true do
     choose('event_email_on_approval_false')
   end
 
-  describe "the location form modal" do
-    it "shows errors if a location form is invalid" do
+  describe 'the location form modal' do
+    it 'shows errors if a location form is invalid' do
       visit_new_events_form_and_expand_all_sections
 
-      click_link "add it"
-      click_button "Create Location"
+      click_link 'add it'
+      click_button 'Create Location'
 
       expect(page).to have_css('#error_explanation')
     end
 
-    it "accepts and adds a valid location" do
+    it 'accepts and adds a valid location' do
       @region = create(:region)
       visit_new_events_form_and_expand_all_sections
 
-      click_link "add it"
+      click_link 'add it'
       fill_in_good_location_details
 
-      expect {
-        click_button "Create Location"
+      expect do
+        click_button 'Create Location'
         expect(page).to have_css('#new-location-modal', visible: :hidden)
-      }.to change(Location, :count).by(1)
+      end.to change(Location, :count).by(1)
 
       expect(page.all('select#event_location_id option').map(&:text)).to include("UChicago (#{@region.name})")
     end
   end
 
-  describe "autodetecting time zone based on location" do
+  describe 'autodetecting time zone based on location' do
     let!(:pacific_location) do
       create(
         :location,
-        name: "Ferry Building",
-        address_1: "Ferry Building",
-        city: "San Francisco",
-        state: "CA",
-        zip: "94111",
+        name: 'Ferry Building',
+        address_1: 'Ferry Building',
+        city: 'San Francisco',
+        state: 'CA',
+        zip: '94111',
         latitude: 37.7955458,
         longitude: -122.3934205
       )
@@ -143,11 +145,11 @@ describe "New Event", js: true do
     let!(:eastern_location) do
       create(
         :location,
-        name: "Statue of Liberty",
-        address_1: "Statue of Liberty",
-        city: "New York",
-        state: "NY",
-        zip: "10004",
+        name: 'Statue of Liberty',
+        address_1: 'Statue of Liberty',
+        city: 'New York',
+        state: 'NY',
+        zip: '10004',
         latitude: 40.6892494,
         longitude: -74.0445004
       )
@@ -156,10 +158,10 @@ describe "New Event", js: true do
     it 'changes the time zone dropdown when the location is changed' do
       visit_new_events_form_and_expand_all_sections
 
-      select pacific_location.name_with_region, from: "event_location_id"
+      select pacific_location.name_with_region, from: 'event_location_id'
       expect(find_field('event_time_zone').value).to match(/Pacific/)
 
-      select eastern_location.name_with_region, from: "event_location_id"
+      select eastern_location.name_with_region, from: 'event_location_id'
       expect(find_field('event_time_zone').value).to match(/Eastern/)
     end
   end
@@ -189,19 +191,19 @@ describe "New Event", js: true do
       visit_new_events_form_and_expand_all_sections
 
       fill_in_good_event_details
-      select event_location.name_with_region, from: "event_location_id"
+      select event_location.name_with_region, from: 'event_location_id'
       click_on 'Add another session'
 
       within all('.event-sessions > .fields').last do
-        fill_in "Session Name", with: 'The Second Session'
+        fill_in 'Session Name', with: 'The Second Session'
         fill_in_event_time(2.months.from_now)
 
-        check "This session takes place at a different location"
+        check 'This session takes place at a different location'
         session_location_select_id = page.find('.session-location-select')['id']
         select session_location.name_with_region, from: session_location_select_id
       end
 
-      check("coc")
+      check('coc')
       click_on 'Submit Event For Approval'
 
       expect(page).to have_css('.alert-success')
@@ -217,7 +219,7 @@ describe "New Event", js: true do
 
       expect(page).to have_button 'Submit Event For Approval', disabled: true
       expect(page).to have_unchecked_field('coc')
-      check("coc")
+      check('coc')
       expect(page).to have_button 'Submit Event For Approval', disabled: false
       click_on 'Submit Event For Approval'
 
@@ -235,7 +237,7 @@ describe "New Event", js: true do
 
       expand_all_event_sections
       expect(page).to have_content('Draft saved')
-      expect(page.current_path).to eq '/events'
+      expect(page).to have_current_path '/events'
       expect(page).to have_button 'Save Draft'
       expect(page.find('#event_email_on_approval_false')).to be_checked
 

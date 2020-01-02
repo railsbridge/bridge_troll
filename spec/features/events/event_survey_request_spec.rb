@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'the post-workshop survey' do
@@ -22,7 +24,7 @@ describe 'the post-workshop survey' do
     end
 
     it 'allows organizer to email RSVPs the survey' do
-      expect(page).to have_content("Send Survey")
+      expect(page).to have_content('Send Survey')
     end
   end
 
@@ -36,25 +38,25 @@ describe 'the post-workshop survey' do
       it 'has survey questions' do
         expect(page).to have_content "How was #{@event.title}"
 
-        within(".survey-form") do
-          expect(page).to have_content "What was great?"
+        within('.survey-form') do
+          expect(page).to have_content 'What was great?'
           expect(page).to have_button submit_button_text
         end
       end
 
       it 'redirects home on submit' do
-        within(".survey-form") do
-          fill_in 'What was great?', with: "Hotdogs"
+        within('.survey-form') do
+          fill_in 'What was great?', with: 'Hotdogs'
           click_button submit_button_text
         end
 
-        expect(page).to have_content "Thanks for taking the survey!"
+        expect(page).to have_content 'Thanks for taking the survey!'
       end
     end
 
     context 'with an already-taken survey' do
       before do
-        fill_in 'What was great?', with: "Hotdogs"
+        fill_in 'What was great?', with: 'Hotdogs'
         click_button submit_button_text
         visit new_event_rsvp_survey_path(@event, @rsvp)
       end
@@ -64,11 +66,11 @@ describe 'the post-workshop survey' do
       end
 
       it 'shows you your previous answers' do
-        expect(page).to have_content "Hotdogs"
+        expect(page).to have_content 'Hotdogs'
       end
 
       it 'does not have a submit button' do
-        expect(page).to_not have_button submit_button_text
+        expect(page).not_to have_button submit_button_text
       end
     end
   end
@@ -87,9 +89,8 @@ describe 'the post-workshop survey' do
       end
 
       it 'shows the feedback' do
-        expect(page).to have_content "Those dog stickers were great"
+        expect(page).to have_content 'Those dog stickers were great'
       end
     end
   end
 end
-

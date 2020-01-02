@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe OrganizersController do
@@ -6,45 +8,45 @@ describe OrganizersController do
     @user = create(:user)
   end
 
-  describe "permissions" do
-    context "a user that is not logged in" do
-      it "can not edit, create, or delete an event organizer" do
+  describe 'permissions' do
+    context 'a user that is not logged in' do
+      it 'can not edit, create, or delete an event organizer' do
         expect(
-          get :index, params: { event_id: @event.id }
+          get(:index, params: { event_id: @event.id })
         ).to redirect_to(new_user_session_path)
 
         expect(
-          post :create, params: {event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @user.id}}
+          post(:create, params: { event_id: @event.id, event_organizer: { event_id: @event.id, user_id: @user.id } })
         ).to redirect_to(new_user_session_path)
 
         expect(
-          delete :destroy, params: { event_id: @event.id, id: 12345 }
+          delete(:destroy, params: { event_id: @event.id, id: 12_345 })
         ).to redirect_to(new_user_session_path)
       end
     end
   end
 
-  context "a user that is not an organizer for the event" do
+  context 'a user that is not an organizer for the event' do
     before do
       sign_in @user
     end
 
-    it "can not edit, create, or delete an event organizer" do
+    it 'can not edit, create, or delete an event organizer' do
       expect(
-        get :index, params: { event_id: @event.id }
+        get(:index, params: { event_id: @event.id })
       ).to be_redirect
 
       expect(
-        post :create, params: {event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @user.id}}
+        post(:create, params: { event_id: @event.id, event_organizer: { event_id: @event.id, user_id: @user.id } })
       ).to be_redirect
 
       expect(
-        delete :destroy, params: { event_id: @event.id, id: 12345 }
+        delete(:destroy, params: { event_id: @event.id, id: 12_345 })
       ).to be_redirect
     end
   end
 
-  context "a user that is logged in and is an organizer for an unpublished event" do
+  context 'a user that is logged in and is an organizer for an unpublished event' do
     before do
       @event = create(:event, current_state: :pending_approval)
       @event.organizers << @user
@@ -52,22 +54,22 @@ describe OrganizersController do
       sign_in @user
     end
 
-    it "can not edit, create, or delete an event organizer" do
+    it 'can not edit, create, or delete an event organizer' do
       expect(
-        get :index, params: { event_id: @event.id }
+        get(:index, params: { event_id: @event.id })
       ).to redirect_to(@event)
 
       expect(
-        post :create, params: {event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @user.id}}
+        post(:create, params: { event_id: @event.id, event_organizer: { event_id: @event.id, user_id: @user.id } })
       ).to redirect_to(@event)
 
       expect(
-        delete :destroy, params: { event_id: @event.id, id: 12345 }
+        delete(:destroy, params: { event_id: @event.id, id: 12_345 })
       ).to redirect_to(@event)
     end
   end
 
-  context "a user that is logged in and is an organizer for a published event" do
+  context 'a user that is logged in and is an organizer for a published event' do
     before do
       @other_user = create(:user)
       @event.organizers << @user
@@ -75,66 +77,66 @@ describe OrganizersController do
       sign_in @user
     end
 
-    it "can see list of organizers" do
+    it 'can see list of organizers' do
       get :index, params: { event_id: @event.id }
       expect(response).to be_successful
     end
 
-    describe "assigning organizers" do
-      it "can create an organizer and redirect to the event organizer assignment page" do
-        expect {
-          post :create, params: {event_id: @event.id, event_organizer: {user_id: @other_user.id}}
-        }.to change(Rsvp, :count).by(1)
+    describe 'assigning organizers' do
+      it 'can create an organizer and redirect to the event organizer assignment page' do
+        expect do
+          post :create, params: { event_id: @event.id, event_organizer: { user_id: @other_user.id } }
+        end.to change(Rsvp, :count).by(1)
         expect(response).to redirect_to(event_organizers_path(@event))
       end
 
-      it "shows an error if no user is provided" do
-        expect {
+      it 'shows an error if no user is provided' do
+        expect do
           post :create, params: { event_id: @event.id }
-        }.not_to change(Rsvp, :count)
+        end.not_to change(Rsvp, :count)
         expect(assigns(:event).errors[:base].length).to be >= 1
       end
     end
 
-    it "can promote an existing volunteer to organizer" do
-      expect {
-        post :create, params: {event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @volunteer_rsvp.user.id}}
-      }.not_to change(Rsvp, :count)
+    it 'can promote an existing volunteer to organizer' do
+      expect do
+        post :create, params: { event_id: @event.id, event_organizer: { event_id: @event.id, user_id: @volunteer_rsvp.user.id } }
+      end.not_to change(Rsvp, :count)
       expect(@volunteer_rsvp.reload.role).to eq(Role::ORGANIZER)
     end
 
     it "emails the new organizer to let them know they've been added" do
-      expect {
-        post :create, params: {event_id: @event.id, event_organizer: {event_id: @event.id, user_id: @volunteer_rsvp.user.id}}
-      }.to change(ActionMailer::Base.deliveries, :count).by(1)
+      expect do
+        post :create, params: { event_id: @event.id, event_organizer: { event_id: @event.id, user_id: @volunteer_rsvp.user.id } }
+      end.to change(ActionMailer::Base.deliveries, :count).by(1)
       recipient = JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to']
       expect(recipient).to eq(@volunteer_rsvp.user.email)
     end
 
-    describe "#destroy" do
-      it "can delete an event organizer" do
+    describe '#destroy' do
+      it 'can delete an event organizer' do
         @event.organizers << @other_user
         organizer_rsvp = Rsvp.last
-        expect {
+        expect do
           delete :destroy, params: { event_id: @event.id, id: organizer_rsvp.id }
-        }.to change(Rsvp, :count).by(-1)
+        end.to change(Rsvp, :count).by(-1)
 
         expect(response).to redirect_to event_organizers_path(@event)
       end
 
-      it "redirects to the event instead of the tools if you delete yourself" do
+      it 'redirects to the event instead of the tools if you delete yourself' do
         @event.organizers << @other_user
-        expect {
+        expect do
           delete :destroy, params: { event_id: @event.id, id: @user.rsvps.where(event_id: @event.id).first }
-        }.to change(Rsvp, :count).by(-1)
+        end.to change(Rsvp, :count).by(-1)
 
         expect(response).to redirect_to event_path(@event)
       end
 
-      it "does not allow removing the last organizer" do
-        expect {
+      it 'does not allow removing the last organizer' do
+        expect do
           delete :destroy, params: { event_id: @event.id, id: @user.rsvps.where(event_id: @event.id).first }
-        }.not_to change(Rsvp, :count)
+        end.not_to change(Rsvp, :count)
       end
     end
   end

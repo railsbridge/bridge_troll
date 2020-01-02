@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Events::OrganizerToolsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_event
@@ -29,7 +31,7 @@ class Events::OrganizerToolsController < ApplicationController
   def send_survey_email
     authorize @event, :edit?
     SurveySender.send_surveys(@event)
-    flash[:notice] = "Follow up survey emails sent!"
+    flash[:notice] = 'Follow up survey emails sent!'
     redirect_to event_organizer_tools_path(@event)
   end
 
@@ -43,20 +45,20 @@ class Events::OrganizerToolsController < ApplicationController
     @rsvp = @event.rsvps.build(role: role)
     @rsvp.setup_for_role(role)
     @rsvp_preview_mode = true
-    render "rsvps/new"
+    render 'rsvps/new'
   end
 
   def close_rsvps
     authorize @event, :edit?
     @event.close_rsvps
-    flash[:notice] = "RSVPs closed successfully."
+    flash[:notice] = 'RSVPs closed successfully.'
     redirect_to event_organizer_tools_path(@event)
   end
 
   def reopen_rsvps
     authorize @event, :edit?
     @event.reopen_rsvps
-    flash[:notice] = "RSVPs reopened successfully."
+    flash[:notice] = 'RSVPs reopened successfully.'
     redirect_to event_organizer_tools_path(@event)
   end
 
@@ -66,7 +68,7 @@ class Events::OrganizerToolsController < ApplicationController
     if @event.can_send_announcement_email?
       EventMailer.new_event(@event).deliver_now
       @event.update_attribute(:announcement_email_sent_at, DateTime.now)
-      redirect_to event_organizer_tools_path(@event), notice: "Your announcement email was sent!"
+      redirect_to event_organizer_tools_path(@event), notice: 'Your announcement email was sent!'
     else
       redirect_to event_organizer_tools_path(@event), alert: "You can't do that."
     end

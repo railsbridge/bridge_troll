@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 require_relative 'failure_file_parser'
 
@@ -13,7 +15,7 @@ class RspecRerunner
 
   def run_tests
     Bundler.with_unbundled_env do
-      succeeded_initially = system("bundle exec rake parallel:spec")
+      succeeded_initially = system('bundle exec rake parallel:spec')
       return if succeeded_initially
     end
 

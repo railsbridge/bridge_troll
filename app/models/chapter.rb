@@ -1,12 +1,14 @@
-class Chapter < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Chapter < ApplicationRecord
   belongs_to :organization, inverse_of: :chapters
   has_many :events
   has_many :external_events
   has_many :chapter_leaderships, dependent: :destroy
   has_many :leaders, through: :chapter_leaderships, source: :user
 
-  validates_presence_of :name
-  validates_uniqueness_of :name
+  validates :name, presence: true
+  validates :name, uniqueness: true
 
   def has_leader?(user)
     return false unless user

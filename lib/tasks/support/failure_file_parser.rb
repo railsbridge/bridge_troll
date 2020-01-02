@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FailureFileParser
   def initialize(filename)
     @filename = filename

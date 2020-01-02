@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EventsHelper
   def get_volunteer_skills(volunteer_rsvp)
     profile = volunteer_rsvp.user.profile
@@ -17,9 +19,7 @@ module EventsHelper
 
   def field_classes(event, field)
     ['field'].tap do |classes|
-      if event.errors[field].present?
-        classes << 'has-error'
-      end
+      classes << 'has-error' if event.errors[field].present?
     end
   end
 
@@ -87,7 +87,7 @@ module EventsHelper
         :button,
         '?',
         class: 'imported-event-popover-trigger',
-        data: {event_id: event.id}
+        data: { event_id: event.id }
       )
     end
   end
@@ -121,7 +121,7 @@ module EventsHelper
   end
 
   def verb(role)
-    role == Role::STUDENT ? "attending" : "volunteering at"
+    role == Role::STUDENT ? 'attending' : 'volunteering at'
   end
 
   def student_attend_button_text(event)
@@ -134,24 +134,24 @@ module EventsHelper
 
   def state_display(event)
     if event.draft?
-      "DRAFT"
+      'DRAFT'
     elsif event.published?
-      "PUBLISHED"
+      'PUBLISHED'
     else
-      "PENDING APPR"
+      'PENDING APPR'
     end
   end
 
   def google_calendar_event_url(event, event_session)
     params = {}
-    params["action"] = "TEMPLATE"
-    params["text"] = "#{event.title}: #{event_session.name}"
-    params["dates"] = [event_session.starts_at, event_session.ends_at].map {|date| 
+    params['action'] = 'TEMPLATE'
+    params['text'] = "#{event.title}: #{event_session.name}"
+    params['dates'] = [event_session.starts_at, event_session.ends_at].map do |date|
       date.utc.strftime('%Y%m%dT%H%M00Z')
-    }.join('/')
-    params["details"] = "more details here: #{event_url(event)}"
+    end.join('/')
+    params['details'] = "more details here: #{event_url(event)}"
 
-    URI::HTTP.build(host: "www.google.com", path: "/calendar/event", query: params.to_query).to_s
+    URI::HTTP.build(host: 'www.google.com', path: '/calendar/event', query: params.to_query).to_s
   end
 
   def user_gravatar(user)
@@ -160,7 +160,7 @@ module EventsHelper
 
   def event_special_permissions_text(event, user_event_role)
     if current_user.admin?
-      return "As an admin, you can view organizer tools for this event."
+      return 'As an admin, you can view organizer tools for this event.'
     elsif event.chapter.has_leader?(current_user)
       return "As a chapter leader for #{event.chapter.name}, you can view organizer tools for this event."
     elsif event.organization.has_leader?(current_user)
@@ -184,7 +184,7 @@ module EventsHelper
       toggler_classes << 'collapsed'
     end
 
-    results << content_tag('a', class: toggler_classes, data: {toggle: 'collapse', target: "##{id}"}) do
+    results << content_tag('a', class: toggler_classes, data: { toggle: 'collapse', target: "##{id}" }) do
       label
     end
 

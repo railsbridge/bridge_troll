@@ -1,4 +1,6 @@
-Dir[Rails.root.join('db', 'seeds', '*.rb')].each do |seed_file|
+# frozen_string_literal: true
+
+Dir[Rails.root.join('db', 'seeds', '*.rb')].sort.each do |seed_file|
   require seed_file
 end
 

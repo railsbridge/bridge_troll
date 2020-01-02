@@ -1,38 +1,40 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require Rails.root.join('spec', 'services', 'omniauth_responses')
 
-describe "sign in lightbox" do
+describe 'sign in lightbox' do
   before do
     @user = create(:user)
   end
 
-  it "shows on home page on click" do
-    visit "/"
+  it 'shows on home page on click' do
+    visit '/'
     page.find('#sign_in_dialog', visible: false)
     click_link('Sign In')
     page.find('#sign_in_dialog', visible: true)
   end
 
-  it "does not show if signed in" do
+  it 'does not show if signed in' do
     sign_in_as(@user)
-    visit "/"
-    expect(page).to have_link("Sign Out")
-    expect(page).not_to have_link("Sign in")
+    visit '/'
+    expect(page).to have_link('Sign Out')
+    expect(page).not_to have_link('Sign in')
   end
 
-  describe "when the user visits an authenticated page, then leaves and goes to an unauthenticated one", js: true do
+  describe 'when the user visits an authenticated page, then leaves and goes to an unauthenticated one', js: true do
     before do
-      visit "/users"
+      visit '/users'
       within '.alert' do
         expect(page).to have_content('sign in')
       end
-      visit "/about"
+      visit '/about'
       expect(page).to have_content("Bridge Troll's Features for Organizers")
     end
 
-    context "with password auth" do
-      it "always returns the user to the current page, instead of the last path Devise remembers" do
-        within ".navbar" do
+    context 'with password auth' do
+      it 'always returns the user to the current page, instead of the last path Devise remembers' do
+        within '.navbar' do
           click_on 'Sign In'
         end
 
@@ -43,7 +45,7 @@ describe "sign in lightbox" do
       end
     end
 
-    context "with omniauth" do
+    context 'with omniauth' do
       let(:facebook_response) { OmniauthResponses.facebook_response }
 
       before do
@@ -52,12 +54,12 @@ describe "sign in lightbox" do
         @user.authentications.create(provider: :facebook, uid: facebook_response[:uid])
       end
 
-      it "always returns the user to the current page, instead of the last path Devise remembers" do
-        within ".navbar" do
+      it 'always returns the user to the current page, instead of the last path Devise remembers' do
+        within '.navbar' do
           click_on 'Sign In'
         end
 
-        within "#sign_in_dialog" do
+        within '#sign_in_dialog' do
           click_on 'Facebook'
         end
 
@@ -68,18 +70,18 @@ describe "sign in lightbox" do
   end
 end
 
-describe "user" do
+describe 'user' do
   before do
     @user = create(:user)
   end
 
-  it "can sign in from the home page" do
-    visit "/"
-    within("#sign_in_dialog") do
-      fill_in "Email", with: @user.email
-      fill_in "Password", with: @user.password
-      click_button "Sign in"
+  it 'can sign in from the home page' do
+    visit '/'
+    within('#sign_in_dialog') do
+      fill_in 'Email', with: @user.email
+      fill_in 'Password', with: @user.password
+      click_button 'Sign in'
     end
-    expect(page).to have_content("Signed in successfully")
+    expect(page).to have_content('Signed in successfully')
   end
 end

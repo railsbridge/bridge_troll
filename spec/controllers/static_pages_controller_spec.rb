@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe StaticPagesController do
-
-  describe "GET #style_guide" do
+  describe 'GET #style_guide' do
     before do
       get :style_guide
     end
@@ -16,7 +17,7 @@ describe StaticPagesController do
     end
   end
 
-  describe "GET #about" do
+  describe 'GET #about' do
     before do
       get :about
     end
@@ -30,4 +31,3 @@ describe StaticPagesController do
     end
   end
 end
-

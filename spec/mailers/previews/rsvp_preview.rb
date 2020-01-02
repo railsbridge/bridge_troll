@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RsvpPreview < ActionMailer::Preview
   def confirmation
     RsvpMailer.confirmation(Rsvp.first)

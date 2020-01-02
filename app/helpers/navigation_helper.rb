@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 module NavigationHelper
   def sign_in_modal_return_to_params
-    if request.path == new_user_registration_path
-      return {}
-    end
+    return {} if request.path == new_user_registration_path
 
-    {return_to: request.fullpath}
+    { return_to: request.fullpath }
   end
 
   def crud_object_nav_links(current_object, authenticated_link = nil)
@@ -31,9 +31,9 @@ module NavigationHelper
   def devise_link(link_symbol)
     case link_symbol
     when :sign_up
-      link_to "Sign up", new_registration_path(:user), class: 'sign_up_link'
+      link_to 'Sign up', new_registration_path(:user), class: 'sign_up_link'
     when :forgot_password
-      link_to "Forgot your password?", new_password_path(:user)
+      link_to 'Forgot your password?', new_password_path(:user)
     when :confirmation_instructions
       link_to "Didn't receive confirmation instructions?", new_confirmation_path(:user)
     end

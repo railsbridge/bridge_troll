@@ -1,4 +1,6 @@
-class RsvpMailer < BaseMailer
+# frozen_string_literal: true
+
+class RsvpMailer < ApplicationMailer
   add_template_helper(EventsHelper)
   add_template_helper(LocationsHelper)
 

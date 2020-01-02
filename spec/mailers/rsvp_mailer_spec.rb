@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe RsvpMailer do
@@ -5,23 +7,23 @@ describe RsvpMailer do
   let(:event) { rsvp.event }
 
   describe 'the confirmation email' do
-    let(:mail) { RsvpMailer.confirmation(rsvp) }
+    let(:mail) { described_class.confirmation(rsvp) }
 
-    describe "for a volunteer" do
+    describe 'for a volunteer' do
       let(:rsvp) { create(:volunteer_rsvp) }
 
-      it "is sent to the volunteer" do
+      it 'is sent to the volunteer' do
         expect(mail.to).to eq([user.email])
       end
 
-      it "includes information about the workshop" do
+      it 'includes information about the workshop' do
         expect(mail.subject).to eq "You've signed up for #{event.title}!"
         expect(mail.body).to include(ERB::Util.html_escape(user.first_name))
         expect(mail.body).to include(event.title)
         expect(mail.body).to include(event.location.name)
       end
 
-      it "includes both locations for a multi-location event" do
+      it 'includes both locations for a multi-location event' do
         event_session = create(:event_session, event: event, location: create(:location))
         create(:rsvp_session, rsvp: rsvp, event_session: event_session)
         rsvp.reload
@@ -33,14 +35,14 @@ describe RsvpMailer do
       it_behaves_like 'a mailer view'
     end
 
-    describe "for a student" do
+    describe 'for a student' do
       let(:rsvp) { create(:student_rsvp) }
 
-      it "is sent to the student" do
+      it 'is sent to the student' do
         expect(mail.to).to eq([rsvp.user.email])
       end
 
-      it "includes information about the workshop" do
+      it 'includes information about the workshop' do
         expect(mail.subject).to eq "You've signed up for #{event.title}!"
         expect(mail.body).to include(ERB::Util.html_escape(user.first_name))
         expect(mail.body).to include(event.title)
@@ -52,14 +54,14 @@ describe RsvpMailer do
       end
     end
 
-    describe "for a waitlisted student" do
+    describe 'for a waitlisted student' do
       let(:rsvp) { create(:student_rsvp, waitlist_position: 195) }
 
-      it "is sent to the student" do
+      it 'is sent to the student' do
         expect(mail.to).to eq([rsvp.user.email])
       end
 
-      it "includes information about the workshop" do
+      it 'includes information about the workshop' do
         expect(mail.subject).to include(event.title)
         expect(mail.body).to include(ERB::Util.html_escape(user.first_name))
         expect(mail.body).to include(event.title)
@@ -68,7 +70,7 @@ describe RsvpMailer do
 
       it "includes the waitlist position and the word 'waitlist'" do
         expect(mail.subject).to include('waitlist')
-        expect(mail.body).to include("195")
+        expect(mail.body).to include('195')
         expect(mail.body).to include('waitlist')
       end
     end
@@ -76,7 +78,7 @@ describe RsvpMailer do
 
   describe 'the reminder email' do
     let(:rsvp) { FactoryBot.create(:rsvp) }
-    let(:mail) { RsvpMailer.reminder(rsvp) }
+    let(:mail) { described_class.reminder(rsvp) }
 
     it 'is sent to the user' do
       expect(mail.to).to eq([user.email])
@@ -94,7 +96,7 @@ describe RsvpMailer do
 
   describe 'the email when someone gets off the waitlist' do
     let(:rsvp) { FactoryBot.create(:student_rsvp) }
-    let(:mail) { RsvpMailer.off_waitlist(rsvp) }
+    let(:mail) { described_class.off_waitlist(rsvp) }
 
     it 'is sent to the user' do
       expect(mail.to).to eq([user.email])

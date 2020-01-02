@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 RSpec::Matchers.define :be_an_absolute_url do
   match do |actual|
@@ -16,7 +17,7 @@ shared_examples_for 'a mailer view' do
     end
   end
 
-  it "uses absolute URLs" do
+  it 'uses absolute URLs' do
     body = extract_body(mail)
 
     urls = Capybara.string(body).all('a').map { |a| a[:href] }

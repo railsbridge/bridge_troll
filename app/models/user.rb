@@ -1,4 +1,6 @@
-class User < ActiveRecord::Base
+# frozen_string_literal: true
+
+class User < ApplicationRecord
   before_validation :build_profile, on: :create
 
   devise :database_authenticatable, :registerable, :omniauthable,
@@ -21,8 +23,8 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :profile, update_only: true
 
-  validates_presence_of :first_name, :last_name, :profile
-  validates_inclusion_of :time_zone, in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true
+  validates :first_name, :last_name, :profile, presence: true
+  validates :time_zone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name), allow_blank: true }
 
   def self.from_omniauth(omniauth)
     authentication = Authentication.find_by(provider: omniauth['provider'], uid: omniauth['uid'].to_s)
@@ -36,7 +38,7 @@ class User < ActiveRecord::Base
   end
 
   def password_required?
-    (authentications.empty? || !password.blank?) && super
+    (authentications.empty? || password.present?) && super
   end
 
   def apply_omniauth(omniauth)
