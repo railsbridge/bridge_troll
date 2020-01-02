@@ -37,3 +37,6 @@ Rails/Output:
 
 Style/DoubleNegation:
   Enabled: false
+
+RSpec/AnyInstance:
+  Enabled: false

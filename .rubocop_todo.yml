@@ -80,14 +80,6 @@ Naming/PredicateName:
     - 'app/models/region.rb'
     - 'app/services/event_csv_reporter.rb'
 
-# Offense count: 5
-RSpec/AnyInstance:
-  Exclude:
-    - 'spec/controllers/events/organizer_tools_controller_spec.rb'
-    - 'spec/controllers/rsvps_controller_spec.rb'
-    - 'spec/features/events/event_detail_request_spec.rb'
-    - 'spec/services/account_merger_spec.rb'
-
 # Offense count: 78
 # Configuration parameters: Prefixes.
 # Prefixes: when, with, without
