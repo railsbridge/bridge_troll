@@ -244,7 +244,7 @@ GEM
       parallel
     parser (2.7.0.1)
       ast (~> 2.4.0)
-    pg (1.2.0)
+    pg (1.2.1)
     phantomjs (2.1.1.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
