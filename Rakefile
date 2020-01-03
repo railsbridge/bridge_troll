@@ -6,14 +6,14 @@
 
 require File.expand_path('config/application', __dir__)
 
-require 'rubocop/rake_task'
-RuboCop::RakeTask.new.tap do |task|
-  task.options = %w[--parallel]
-end
-
 Rails.application.load_tasks
 
 if Rails.env.development? || Rails.env.test?
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new.tap do |task|
+    task.options = %w[--parallel]
+  end
+
   Rake::Task['default'].clear
   task default: [:rubocop, :rspec_with_retries, 'jasmine:ci']
 end
