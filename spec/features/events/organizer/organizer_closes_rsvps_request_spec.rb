@@ -3,11 +3,12 @@
 require 'rails_helper'
 
 describe 'Opening and closing an event for RSVP' do
+  let(:event) { create :event }
+
   context 'when RSVPs are open' do
     before do
-      @event = create(:event)
-      @event.open = true
-      @event.save
+      event.open = true
+      event.save
     end
 
     context 'when potential attendees view closed event' do
@@ -31,25 +32,24 @@ describe 'Opening and closing an event for RSVP' do
     context 'when organizer manages the event' do
       it 'allows the organizers to close RSVPs' do
         organizer = create(:user)
-        @event.organizers << organizer
+        event.organizers << organizer
         sign_in_as(organizer)
 
-        visit event_organizer_tools_path(@event)
+        visit event_organizer_tools_path(event)
         click_link('Close RSVPs')
 
         within('.alert-success') do
           expect(page).to have_content('RSVPs closed successfully.')
         end
-        expect(@event.reload).to be_closed
+        expect(event.reload).to be_closed
       end
     end
   end
 
   context 'when RSVPs are closed' do
     before do
-      @event = create(:event)
-      @event.open = false
-      @event.save
+      event.open = false
+      event.save
     end
 
     context 'when potential attendees view closed event' do
@@ -79,16 +79,16 @@ describe 'Opening and closing an event for RSVP' do
     context 'when organizer manages the event' do
       it 'allows organizers to reopen RSVPs' do
         organizer = create(:user)
-        @event.organizers << organizer
+        event.organizers << organizer
         sign_in_as(organizer)
 
-        visit event_organizer_tools_path(@event)
+        visit event_organizer_tools_path(event)
         click_link('Open RSVPs')
 
         within('.alert-success') do
           expect(page).to have_content('RSVPs reopened successfully.')
         end
-        expect(@event.reload).to be_open
+        expect(event.reload).to be_open
       end
     end
   end

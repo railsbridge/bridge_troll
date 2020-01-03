@@ -4,25 +4,23 @@ require 'rails_helper'
 
 describe 'Locations' do
   describe 'displays a sortable list of locations' do # without user sign-in
-    before do
-      @my_location = create(:location)
-    end
+    let!(:my_location) { create(:location) }
 
     it 'with a location name, address, city, state and zip' do
       visit locations_path
 
-      expect(page).to have_content(@my_location.name)
-      expect(page).to have_content(@my_location.address_1)
-      expect(page).to have_content(@my_location.city)
-      expect(page).to have_content(@my_location.state)
+      expect(page).to have_content(my_location.name)
+      expect(page).to have_content(my_location.address_1)
+      expect(page).to have_content(my_location.city)
+      expect(page).to have_content(my_location.state)
     end
 
     it 'with the most recent event date' do
       this_year = Date.current.year
       expected_date = DateTime.new(this_year + 4, 1, 5, 12)
       date_str = expected_date.strftime('%b %d, %Y')
-      @my_location.events << create(:event, starts_at: DateTime.new(this_year + 2, 1, 5))
-      @my_location.events << create(:event, starts_at: expected_date)
+      my_location.events << create(:event, starts_at: DateTime.new(this_year + 2, 1, 5))
+      my_location.events << create(:event, starts_at: expected_date)
 
       visit locations_path
 
@@ -31,10 +29,10 @@ describe 'Locations' do
   end
 
   it 'creates a new location' do
-    @user = create(:user)
+    user = create(:user)
     region = create(:region, name: 'Green Hill Zone')
 
-    sign_in_as(@user)
+    sign_in_as(user)
     visit locations_path
     click_link 'New Location'
 
@@ -91,8 +89,8 @@ describe 'Locations' do
   end
 
   it 'does not allow location editing if user is not signed in' do
-    @location = create(:location)
-    visit edit_location_path(@location.id)
+    location = create(:location)
+    visit edit_location_path(location.id)
     expect(page).to have_content('You need to sign in or sign up before continuing')
   end
 

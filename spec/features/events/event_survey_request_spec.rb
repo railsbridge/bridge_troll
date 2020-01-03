@@ -5,18 +5,16 @@ require 'rails_helper'
 describe 'the post-workshop survey' do
   let(:submit_button_text) { 'Submit' }
 
-  before do
-    @event = create(:event)
-    @user = create(:user)
-    @rsvp = create(:rsvp, user: @user, event: @event)
-  end
+  let(:event) { create(:event) }
+  let(:user) { create(:user) }
+  let(:rsvp) { create(:rsvp, user: user, event: event) }
 
   describe 'previewing survey' do
     before do
-      @organizer = create(:user)
-      @event.organizers << @organizer
-      sign_in_as @organizer
-      visit preview_event_surveys_path(@event)
+      organizer = create(:user)
+      event.organizers << organizer
+      sign_in_as organizer
+      visit preview_event_surveys_path(event)
     end
 
     it 'does not allow organizer to submit survey' do
@@ -30,13 +28,13 @@ describe 'the post-workshop survey' do
 
   describe 'taking a survey' do
     before do
-      sign_in_as @user
-      visit new_event_rsvp_survey_path(@event, @rsvp)
+      sign_in_as user
+      visit new_event_rsvp_survey_path(event, rsvp)
     end
 
     context 'with a new survey' do
       it 'has survey questions' do
-        expect(page).to have_content "How was #{@event.title}"
+        expect(page).to have_content "How was #{event.title}"
 
         within('.survey-form') do
           expect(page).to have_content 'What was great?'
@@ -58,7 +56,7 @@ describe 'the post-workshop survey' do
       before do
         fill_in 'What was great?', with: 'Hotdogs'
         click_button submit_button_text
-        visit new_event_rsvp_survey_path(@event, @rsvp)
+        visit new_event_rsvp_survey_path(event, rsvp)
       end
 
       it 'has a flash warning' do
@@ -77,15 +75,15 @@ describe 'the post-workshop survey' do
 
   describe 'viewing the survey results' do
     before do
-      create(:survey, rsvp: @rsvp)
+      create(:survey, rsvp: rsvp)
     end
 
     context 'as an organizer' do
       before do
-        @organizer = create(:user)
-        @event.organizers << @organizer
-        sign_in_as @organizer
-        visit event_surveys_path(@event)
+        organizer = create(:user)
+        event.organizers << organizer
+        sign_in_as organizer
+        visit event_surveys_path(event)
       end
 
       it 'shows the feedback' do

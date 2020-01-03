@@ -41,10 +41,10 @@ describe ReminderSender do
     describe 'when there is a volunteer-only session occuring before the all-attendees session' do
       before do
         event.event_sessions.first.update(starts_at: 4.days.from_now, ends_at: 5.days.from_now)
-        @volunteer_session = create(:event_session, event: event, starts_at: 2.days.from_now, ends_at: 3.days.from_now, required_for_students: false, volunteers_only: true)
+        volunteer_session = create(:event_session, event: event, starts_at: 2.days.from_now, ends_at: 3.days.from_now, required_for_students: false, volunteers_only: true)
 
-        @volunteer_rsvp = create(:volunteer_rsvp, event: event).tap do |rsvp|
-          rsvp.rsvp_sessions.create(event_session: @volunteer_session)
+        create(:volunteer_rsvp, event: event).tap do |rsvp|
+          rsvp.rsvp_sessions.create(event_session: volunteer_session)
         end
       end
 
@@ -63,11 +63,13 @@ describe ReminderSender do
   end
 
   describe 'querying for events and sessions' do
+    let!(:event_tomorrow) { create(:event, starts_at: Time.zone.now + 1.day) }
+
     before do
-      @event_tomorrow = create(:event, starts_at: Time.zone.now + 1.day)
-      @event_four_days_away = create(:event, starts_at: Time.zone.now + 4.days)
-      @event_past = create(:event)
-      @event_past.update(starts_at: 2.days.ago, ends_at: 1.day.ago)
+      # future
+      create(:event, starts_at: Time.zone.now + 4.days)
+      # yesterday
+      create(:event).update(starts_at: 2.days.ago, ends_at: 1.day.ago)
     end
 
     describe UpcomingEventsQuery do
@@ -78,7 +80,7 @@ describe ReminderSender do
       end
 
       it 'includes only events in the next three days' do
-        expect(events).to eq([@event_tomorrow])
+        expect(events).to eq([event_tomorrow])
       end
     end
   end

@@ -39,8 +39,8 @@ describe 'visiting the home page' do
 
   describe 'as an authenticated user' do
     before do
-      @user = create(:user)
-      sign_in_as(@user)
+      user = create(:user)
+      sign_in_as(user)
     end
 
     it 'has a link to email notification preferences' do
@@ -60,14 +60,15 @@ describe 'visiting the home page' do
     end
 
     describe 'as an authenticated user' do
+      let(:user) { create(:user) }
+
       before do
-        @user = create(:user)
-        sign_in_as(@user)
+        sign_in_as(user)
       end
 
       it 'allows the user to log out or view/edit their account details' do
         visit '/'
-        expect(page.all('.navbar li a').map(&:text)).to eq([@user.full_name, 'Sign Out'])
+        expect(page.all('.navbar li a').map(&:text)).to eq([user.full_name, 'Sign Out'])
       end
     end
   end
