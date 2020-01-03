@@ -73,7 +73,7 @@ end
 group :test, :development do
   gem 'awesome_print'
   gem 'byebug'
-  gem 'chrome_remote'
+  gem 'chrome_remote', require: false
   gem 'jasmine'
   gem 'jasmine-jquery-rails'
   gem 'parallel_tests'
