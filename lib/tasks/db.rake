@@ -78,9 +78,7 @@ db_namespace = namespace :db do
         end
       end
 
-      if needs_extensions || needs_foreign_keys
-        File.write(filename, new_schema_content)
-      end
+      File.write(filename, new_schema_content) if needs_extensions || needs_foreign_keys
 
       db_namespace['schema:dump'].reenable
     end

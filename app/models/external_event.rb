@@ -37,9 +37,7 @@ class ExternalEvent < ApplicationRecord
 
   def as_json(_options = {})
     fake_sessions = [{ starts_at: starts_at }]
-    if ends_at && starts_at.to_date != ends_at.to_date
-      fake_sessions << { starts_at: ends_at }
-    end
+    fake_sessions << { starts_at: ends_at } if ends_at && starts_at.to_date != ends_at.to_date
 
     {
       url: url,

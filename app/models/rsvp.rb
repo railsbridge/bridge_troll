@@ -184,9 +184,7 @@ class Rsvp < ApplicationRecord
 
   def carryover_attributes(course, role)
     fields = [:job_details]
-    if role == Role::VOLUNTEER && event.course == course
-      fields += %i[subject_experience teaching_experience]
-    end
+    fields += %i[subject_experience teaching_experience] if role == Role::VOLUNTEER && event.course == course
 
     fields.each_with_object({}) do |field, hsh|
       hsh[field] = send(field)

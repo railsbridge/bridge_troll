@@ -7,9 +7,7 @@ class AccountMerger
   end
 
   def merge!
-    if @user_to_merge.id == @user_to_keep.id
-      raise "Can't merge the same user onto itself!"
-    end
+    raise "Can't merge the same user onto itself!" if @user_to_merge.id == @user_to_keep.id
 
     to_destroy = Rsvp.where(event_id: (
         @user_to_merge.rsvps.pluck('event_id') & @user_to_keep.rsvps.pluck('event_id')

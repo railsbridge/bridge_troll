@@ -6,9 +6,7 @@ describe DatabaseAnonymizer do
   RSpec::Matchers.define :scrub_fields do |record, fields|
     match do |actual|
       original_attributes = record.attributes.slice(*fields.map(&:to_s))
-      if original_attributes.blank?
-        raise 'Could not determine original attributes'
-      end
+      raise 'Could not determine original attributes' if original_attributes.blank?
 
       actual.call
 

@@ -27,30 +27,20 @@ class RsvpsController < ApplicationController
     @rsvp = Rsvp.new(rsvp_params)
     @rsvp.event = @event
     @rsvp.user = current_user
-    if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
-      @rsvp.role = Role.find(params[:rsvp][:role_id])
-    end
+    @rsvp.role = Role.find(params[:rsvp][:role_id]) if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
 
     Rsvp.transaction do
-      if @event.students_at_limit? && @rsvp.role_student?
-        @rsvp.waitlist_position = (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
-      end
+      @rsvp.waitlist_position = (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1 if @event.students_at_limit? && @rsvp.role_student?
 
-      if @event.volunteers_at_limit? && @rsvp.role_volunteer?
-        @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
-      end
+      @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1 if @event.volunteers_at_limit? && @rsvp.role_volunteer?
 
       if @rsvp.save
         apply_other_changes_from_params
 
         RsvpMailer.confirmation(@rsvp).deliver_now
-        if @rsvp.childcare_info?
-          RsvpMailer.childcare_notification(@rsvp).deliver_now
-        end
+        RsvpMailer.childcare_notification(@rsvp).deliver_now if @rsvp.childcare_info?
         notice_messages = ['Thanks for signing up!']
-        if @rsvp.waitlisted?
-          notice_messages << "We've added you to the waitlist."
-        end
+        notice_messages << "We've added you to the waitlist." if @rsvp.waitlisted?
 
         redirect_to @event, notice: notice_messages.join(' ')
       else
@@ -116,9 +106,7 @@ class RsvpsController < ApplicationController
     return unless @event.location
 
     if params[:affiliate_with_region]
-      unless @rsvp.user.region_ids.include? @event.region.id
-        @rsvp.user.region_ids += [@event.region.id]
-      end
+      @rsvp.user.region_ids += [@event.region.id] unless @rsvp.user.region_ids.include? @event.region.id
     else
       @rsvp.user.region_ids -= [@event.region.id]
     end
@@ -132,9 +120,7 @@ class RsvpsController < ApplicationController
         required_sessions = @event.event_sessions.where(required_for_students: true).pluck(:id)
         params[:event_session_ids] = user_choices | required_sessions
       end
-      if @event.event_sessions.length == 1
-        params[:event_session_ids] = [@event.event_sessions.first.id]
-      end
+      params[:event_session_ids] = [@event.event_sessions.first.id] if @event.event_sessions.length == 1
     end
   end
 

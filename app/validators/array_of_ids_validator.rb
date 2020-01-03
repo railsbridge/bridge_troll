@@ -15,9 +15,7 @@ class ArrayOfIdsValidator < ActiveModel::EachValidator
     end
 
     value.each do |id|
-      unless options[:in].include?(id)
-        record.errors.add(attribute, 'must be in the list')
-      end
+      record.errors.add(attribute, 'must be in the list') unless options[:in].include?(id)
     end
   end
 end
