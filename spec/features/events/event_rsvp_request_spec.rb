@@ -4,24 +4,24 @@ require 'rails_helper'
 
 describe 'creating or editing an rsvp' do
   context 'for a teaching event' do
-    def fill_in_valid_volunteer_details
+    def fill_in_valid_volunteer_details(course)
       fill_in 'rsvp_subject_experience', with: 'I have some subject experience'
       fill_in 'rsvp_teaching_experience', with: 'I have some teaching experience'
-      choose @course.levels[0][:title]
+      choose course.levels[0][:title]
     end
 
     let(:chapter) { create(:chapter) }
+    let(:event) { create(:event, chapter: chapter) }
+    let(:user) { create(:user) }
+    let(:course) { event.course }
 
     before do
-      @event = create(:event, chapter: chapter)
-      @user = create(:user)
-      @course = @event.course
-      sign_in_as @user
+      sign_in_as user
     end
 
     context 'with a new volunteer rsvp' do
       before do
-        visit volunteer_new_event_rsvp_path(@event)
+        visit volunteer_new_event_rsvp_path(event)
       end
 
       it 'allows user to toggle childcare info with the needs_childcare button', js: true do
@@ -39,11 +39,11 @@ describe 'creating or editing an rsvp' do
 
       context 'with a valid RSVP' do
         before do
-          fill_in_valid_volunteer_details
+          fill_in_valid_volunteer_details(course)
         end
 
         it 'allows the user to update their gender' do
-          expect(page.find('#user_gender').value).to eq(@user.gender)
+          expect(page.find('#user_gender').value).to eq(user.gender)
           fill_in 'user_gender', with: 'human'
           click_on 'Submit'
           visit edit_user_registration_path
@@ -54,8 +54,8 @@ describe 'creating or editing an rsvp' do
           check 'affiliate_with_region'
           expect do
             click_on 'Submit'
-          end.to change { @user.regions.count }.by(1)
-          visit edit_event_rsvp_path(@event, Rsvp.last)
+          end.to change { user.regions.count }.by(1)
+          visit edit_event_rsvp_path(event, Rsvp.last)
           expect(page.find('#affiliate_with_region').value).to eq('1')
         end
       end
@@ -72,21 +72,18 @@ describe 'creating or editing an rsvp' do
     end
 
     context 'with an rsvp with childcare info' do
-      before do
-        @rsvp = create(:rsvp, user: @user, childcare_info: 'Bobbie: 17, Susie: 20000007')
-        visit edit_event_rsvp_path @rsvp.event, @rsvp
-      end
-
       it 'allows user to toggle childcare info with the needs_childcare button', js: true do
+        rsvp = create(:rsvp, user: user, childcare_info: 'Bobbie: 17, Susie: 20000007')
+        visit edit_event_rsvp_path rsvp.event, rsvp
         expect(page.find('#rsvp_needs_childcare')).to be_checked
-        expect(page.find('#rsvp_childcare_info')).to have_text(@rsvp.childcare_info)
+        expect(page.find('#rsvp_childcare_info')).to have_text(rsvp.childcare_info)
 
         page.uncheck 'rsvp_needs_childcare'
         expect(page).to have_field('rsvp_childcare_info', visible: false)
 
         page.check 'rsvp_needs_childcare'
 
-        expect(page.find('#rsvp_childcare_info')).to have_text(@rsvp.childcare_info)
+        expect(page.find('#rsvp_childcare_info')).to have_text(rsvp.childcare_info)
       end
     end
 
@@ -94,15 +91,15 @@ describe 'creating or editing an rsvp' do
       let(:food_text) { "The food's on us. Let us know if you have any dietary restrictions." }
 
       it 'has food options when enabled' do
-        expect(@event.food_provided).to eq true
-        visit volunteer_new_event_rsvp_path(@event)
+        expect(event.food_provided).to eq true
+        visit volunteer_new_event_rsvp_path(event)
         expect(page).to have_content(food_text)
       end
 
       it 'does not have food options when disabled' do
-        @event.update(food_provided: false)
-        expect(@event.food_provided?).to eq(false)
-        visit volunteer_new_event_rsvp_path(@event)
+        event.update(food_provided: false)
+        expect(event.food_provided?).to eq(false)
+        visit volunteer_new_event_rsvp_path(event)
         expect(page).not_to have_content(food_text)
       end
     end
@@ -110,7 +107,7 @@ describe 'creating or editing an rsvp' do
     context 'with an rsvp with dietary restrictions' do
       let(:rsvp) do
         create(:rsvp,
-               user: @user,
+               user: user,
                dietary_restrictions: [build(:dietary_restriction, restriction: 'vegetarian')])
       end
       let(:form_url) { edit_event_rsvp_path(rsvp.event, rsvp) }
@@ -133,18 +130,18 @@ describe 'creating or editing an rsvp' do
 
         context 'when enabled' do
           it "asks for the name of the person's host (if they are a plus-one)" do
-            visit learn_new_event_rsvp_path(@event)
+            visit learn_new_event_rsvp_path(event)
             expect(page).to have_content plus_one_host_text
           end
         end
 
         context 'when disabled' do
           before do
-            @event.update_attribute(:plus_one_host_toggle, false)
+            event.update_attribute(:plus_one_host_toggle, false)
           end
 
           it 'does not show the plus-one host form' do
-            visit learn_new_event_rsvp_path(@event)
+            visit learn_new_event_rsvp_path(event)
             expect(page).not_to have_content plus_one_host_text
           end
         end
@@ -153,15 +150,15 @@ describe 'creating or editing an rsvp' do
 
     describe 'displaying custom question field' do
       before do
-        @event.update(custom_question: custom_question)
-        visit volunteer_new_event_rsvp_path(@event)
+        event.update(custom_question: custom_question)
+        visit volunteer_new_event_rsvp_path(event)
       end
 
       context 'when event asks a custom question' do
         let(:custom_question) { 'What is your t-shirt size?' }
 
         it 'allows the user to answer the custom question' do
-          fill_in_valid_volunteer_details
+          fill_in_valid_volunteer_details(course)
           fill_in custom_question, with: 'Medium'
 
           click_on 'Submit'
@@ -181,11 +178,12 @@ describe 'creating or editing an rsvp' do
   end
 
   context 'for a non-teaching event' do
+    let(:event) { create(:event, course_id: nil) }
+    let(:user) { create(:user) }
+
     before do
-      @event = create(:event, course_id: nil)
-      @user = create(:user)
-      sign_in_as @user
-      visit volunteer_new_event_rsvp_path(@event)
+      sign_in_as user
+      visit volunteer_new_event_rsvp_path(event)
     end
 
     it 'requires subject experience' do

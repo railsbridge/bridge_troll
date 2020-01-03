@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-require Rails.root.join('db', 'seeds', 'seed_event')
-Dir[Rails.root.join('app', 'mailers', '*.rb')].sort.each { |f| require f }
-Dir[Rails.root.join('spec', 'mailers', 'previews', '**', '*.rb')].sort.each { |f| require f }
+require Rails.root.join('db/seeds/seed_event')
+Dir[Rails.root.join('app/mailers/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/mailers/previews/**/*.rb')].sort.each { |f| require f }
 
-RSpec.describe 'mailer previews' do
+RSpec.describe Devise::MailerPreview do
   def find_preview_class(mailer_class)
     mailer_name = mailer_class.to_s.sub('Mailer', '')
     "#{mailer_name}Preview".constantize
@@ -16,7 +16,7 @@ RSpec.describe 'mailer previews' do
     subclasses = klass.subclasses
     return klass if subclasses.empty?
 
-    subclasses.map { |klass| find_leaves(klass) }.flatten
+    subclasses.map { |subclass| find_leaves(subclass) }.flatten
   end
 
   before do
@@ -25,7 +25,7 @@ RSpec.describe 'mailer previews' do
   end
 
   it 'has a preview for every devise mail' do
-    devise_templates = Dir[Rails.root.join('app', 'views', 'devise', 'mailer', '*')]
+    devise_templates = Dir[Rails.root.join('app/views/devise/mailer/*')]
     expect(devise_templates.length).to be >= 2
 
     devise_mailer_methods = devise_templates.map { |t| File.basename(t).split('.')[0] }
@@ -33,21 +33,18 @@ RSpec.describe 'mailer previews' do
       expect(Devise::Mailer).to receive(mailer_method)
     end
 
-    Devise::MailerPreview.instance_methods(false).each do |preview_method|
-      Devise::MailerPreview.new.send(preview_method)
+    described_class.instance_methods(false).each do |preview_method|
+      described_class.new.send(preview_method)
     end
   end
 
   describe 'for non-devise mailer classes' do
-    before do
-      @mailer_classes = find_leaves(ActionMailer::Base) - [Devise::Mailer]
-
-      # Sanity check that these subclass shenanigans are still working
-      expect(@mailer_classes.length).to be > 2
-    end
-
     it 'has a preview for every normal mail' do
-      missing_previews = @mailer_classes.reject do |mailer_class|
+      mailer_classes = find_leaves(ActionMailer::Base) - [Devise::Mailer]
+      # Sanity check that these subclass shenanigans are still working
+      expect(mailer_classes.length).to be > 2
+
+      missing_previews = mailer_classes.reject do |mailer_class|
         preview_class = find_preview_class(mailer_class)
 
         mailer_class.instance_methods(false).each do |mailer_method|

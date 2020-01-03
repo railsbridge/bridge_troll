@@ -3,9 +3,7 @@
 require 'rails_helper'
 
 describe LocationsController do
-  before do
-    @location = create(:location)
-  end
+  let!(:location) { create(:location) }
 
   describe 'permissions' do
     context 'a user that is not logged in' do
@@ -15,11 +13,11 @@ describe LocationsController do
         ).to redirect_to(new_user_session_path)
 
         expect(
-          get(:edit, params: { id: @location.id })
+          get(:edit, params: { id: location.id })
         ).to redirect_to(new_user_session_path)
 
         expect(
-          delete(:destroy, params: { id: @location.id })
+          delete(:destroy, params: { id: location.id })
         ).to redirect_to(new_user_session_path)
       end
     end
@@ -27,8 +25,8 @@ describe LocationsController do
 
   context 'a user that is logged in' do
     before do
-      @user = create(:user)
-      sign_in @user
+      user = create(:user)
+      sign_in user
     end
 
     context 'when rendering views' do
@@ -60,27 +58,27 @@ describe LocationsController do
     end
 
     it 'is able to edit an location' do
-      get :edit, params: { id: @location.id }
+      get :edit, params: { id: location.id }
       expect(response).to be_successful
     end
 
     describe 'updating a location' do
       let(:new_name) { 'Cowabunga' }
       let(:perform_update_request) do
-        put :update, params: { id: @location.id, location: { name: new_name } }
+        put :update, params: { id: location.id, location: { name: new_name } }
       end
 
       it 'is allowed when the location has no been used' do
         expect do
           perform_update_request
-        end.to change { @location.reload.name }.to(new_name)
+        end.to change { location.reload.name }.to(new_name)
       end
 
       it 'is disallowed otherwise' do
-        create(:event, location: @location)
+        create(:event, location: location)
         expect do
           perform_update_request
-        end.not_to change { @location.reload.name }
+        end.not_to(change { location.reload.name })
       end
     end
 
@@ -102,14 +100,14 @@ describe LocationsController do
     describe '#destroy' do
       it 'can delete a location that belongs to no events' do
         expect do
-          delete :destroy, params: { id: @location.id }
+          delete :destroy, params: { id: location.id }
         end.to change(Location, :count).by(-1)
       end
 
       it 'cannot delete a location that belongs to an event' do
-        create(:event, location: @location)
+        create(:event, location: location)
         expect do
-          delete :destroy, params: { id: @location.id }
+          delete :destroy, params: { id: location.id }
         end.not_to change(Location, :count)
       end
     end

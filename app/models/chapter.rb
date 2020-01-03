@@ -2,24 +2,22 @@
 
 class Chapter < ApplicationRecord
   belongs_to :organization, inverse_of: :chapters
-  has_many :events
-  has_many :external_events
+  has_many :events, dependent: :nullify
+  has_many :external_events, dependent: :nullify
   has_many :chapter_leaderships, dependent: :destroy
   has_many :leaders, through: :chapter_leaderships, source: :user
 
   validates :name, presence: true
   validates :name, uniqueness: true
 
-  def has_leader?(user)
+  def leader?(user)
     return false unless user
 
-    return true if user.admin?
-
-    user.chapter_leaderships.map(&:chapter_id).include?(id)
+    user.admin? || user.chapter_leaderships.map(&:chapter_id).include?(id)
   end
 
   def destroyable?
-    (events_count + external_events_count) == 0
+    (events_count + external_events_count).zero?
   end
 
   def code_of_conduct_url

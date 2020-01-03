@@ -10,9 +10,7 @@ class Event < ApplicationRecord
   after_initialize :set_defaults
   before_validation :normalize_allowed_operating_system_ids
   after_save do |event|
-    if saved_change_to_attribute?(:student_rsvp_limit) || saved_change_to_attribute?(:volunteer_rsvp_limit)
-      WaitlistManager.new(event).reorder_waitlist!
-    end
+    WaitlistManager.new(event).reorder_waitlist! if saved_change_to_attribute?(:student_rsvp_limit) || saved_change_to_attribute?(:volunteer_rsvp_limit)
   end
 
   after_create :update_location_counts
@@ -95,7 +93,7 @@ class Event < ApplicationRecord
       validates :target_audience, presence: true
     end
 
-    with_options(if: :has_volunteer_limit?) do
+    with_options(if: :volunteer_limit?) do
       validates :volunteer_rsvp_limit, numericality: { greater_than: 0 }
       validate :validate_volunteer_rsvp_limit
     end
@@ -117,7 +115,7 @@ class Event < ApplicationRecord
     @all_locations ||= ([location] + event_sessions.map(&:location)).compact
   end
 
-  def has_multiple_locations?
+  def multiple_locations?
     all_locations.length > 1
   end
 
@@ -125,7 +123,7 @@ class Event < ApplicationRecord
     rsvps.confirmed.needs_childcare
   end
 
-  def has_volunteer_limit?
+  def volunteer_limit?
     volunteer_rsvp_limit != nil
   end
 
@@ -165,20 +163,18 @@ class Event < ApplicationRecord
 
   def validate_student_rsvp_limit
     return unless persisted? && student_rsvp_limit
+    return unless student_rsvp_limit < student_rsvps_count
 
-    if student_rsvp_limit < student_rsvps_count
-      errors.add(:student_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
-      false
-    end
+    errors.add(:student_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
+    false
   end
 
   def validate_volunteer_rsvp_limit
     return unless persisted? && volunteer_rsvp_limit
+    return unless volunteer_rsvp_limit < volunteer_rsvps_count
 
-    if volunteer_rsvp_limit < volunteer_rsvps_count
-      errors.add(:volunteer_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{volunteer_rsvps.length})")
-      false
-    end
+    errors.add(:volunteer_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{volunteer_rsvps.length})")
+    false
   end
 
   def checked_in_rsvps(role)
@@ -395,19 +391,19 @@ class Event < ApplicationRecord
 
   private
 
-  DEFAULT_DETAIL_FILES = Dir[Rails.root.join('app', 'models', 'event_details', '*.html')]
+  DEFAULT_DETAIL_FILES = Dir[Rails.root.join('app/models/event_details/*.html')]
   DEFAULT_DETAILS = DEFAULT_DETAIL_FILES.each_with_object({}) do |f, hsh|
     hsh[File.basename(f)] = File.read(f)
   end
 
   def set_defaults
-    if has_attribute?(:details)
-      self.details ||= Event::DEFAULT_DETAILS['default_details.html']
-      self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
-      self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
-      self.survey_greeting ||= Event::DEFAULT_DETAILS['default_survey_greeting.html']
-      self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
-    end
+    return unless has_attribute?(:details)
+
+    self.details ||= Event::DEFAULT_DETAILS['default_details.html']
+    self.student_details ||= Event::DEFAULT_DETAILS['default_student_details.html']
+    self.volunteer_details ||= Event::DEFAULT_DETAILS['default_volunteer_details.html']
+    self.survey_greeting ||= Event::DEFAULT_DETAILS['default_survey_greeting.html']
+    self.allowed_operating_system_ids ||= OperatingSystem.all.map(&:id)
   end
 
   def association_for_role(role, waitlisted: false)
@@ -423,17 +419,17 @@ class Event < ApplicationRecord
 
   def normalize_allowed_operating_system_ids
     self.allowed_operating_system_ids = nil unless restrict_operating_systems
-    if self.allowed_operating_system_ids.respond_to?(:each)
-      self.allowed_operating_system_ids.map! do |id|
-        id.try(:match, /\A\d+\z/) ? Integer(id) : id
-      end
+    return unless self.allowed_operating_system_ids.respond_to?(:each)
+
+    self.allowed_operating_system_ids.map! do |id|
+      id.try(:match, /\A\d+\z/) ? Integer(id) : id
     end
   end
 
   def update_location_counts
     location.try(:reset_events_count)
-    if saved_change_to_attribute?(:location_id) && saved_changes[:location_id].first
-      Location.find(saved_changes[:location_id].first).reset_events_count
-    end
+    return unless saved_change_to_attribute?(:location_id) && saved_changes[:location_id].first
+
+    Location.find(saved_changes[:location_id].first).reset_events_count
   end
 end

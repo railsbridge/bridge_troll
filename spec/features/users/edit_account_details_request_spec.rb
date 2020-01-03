@@ -38,7 +38,7 @@ describe 'Profile' do
       click_button 'Update'
 
       expect(page).to have_content("Email can't be blank")
-    end.not_to change { user.reload.profile.id }
+    end.not_to(change { user.reload.profile.id })
   end
 
   describe 'when a user has only oauth set up (no password)' do

@@ -11,7 +11,7 @@ class SectionArranger
 
   def arrange(checked_in = 'indiscriminate')
     event.sections.destroy_all
-    return if event.student_rsvps_count == 0
+    return if event.student_rsvps_count.zero?
 
     student_rsvps, volunteer_rsvps = rsvps_to_arrange(checked_in)
 

@@ -7,9 +7,9 @@ describe 'Announcing an event', js: true do
   let(:admin) { create(:user, admin: true) }
   let(:event_location) { create(:location) }
   let(:send_email_text) { 'Send Announcement Email' }
-  let!(:chapter) { create(:chapter) }
 
   before do
+    create(:chapter)
     create(:course)
     sign_in_as(user_organizer)
     visit_new_events_form_and_expand_all_sections
@@ -74,12 +74,13 @@ describe 'Announcing an event', js: true do
         accept_confirm do
           click_on 'Publish'
         end
-        expect(page).to have_content('This event has been published')
-
-        sign_in_as(user_organizer)
       end
 
       it 'will allow an organizer to send an announcement email' do
+        expect(page).to have_content('This event has been published')
+
+        sign_in_as(user_organizer)
+
         visit '/'
         click_on good_event_title
         click_on 'Organizer Console'

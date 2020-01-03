@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
-class Events::SurveysController < ApplicationController
-  before_action :authenticate_user!
-  before_action :find_event
+module Events
+  class SurveysController < ApplicationController
+    before_action :authenticate_user!
+    before_action :find_event
 
-  def edit
-    authorize @event, :edit?
-  end
+    def edit
+      authorize @event, :edit?
+    end
 
-  private
+    private
 
-  def find_event
-    @event = Event.find(params[:event_id])
+    def find_event
+      @event = Event.find(params[:event_id])
+    end
   end
 end

@@ -9,20 +9,14 @@ class EventSession < ApplicationRecord
   validates :name, uniqueness: { scope: [:event_id] }
   validate on: :create do
     if starts_at && starts_at < Time.zone.now
-      unless event&.historical?
-        errors.add(:starts_at, 'must start in the future')
-      end
+      errors.add(:starts_at, 'must start in the future') unless event&.historical?
     end
   end
   validate do
-    if starts_at && ends_at && ends_at < starts_at
-      errors.add(:ends_at, 'must be after session start time')
-    end
+    errors.add(:ends_at, 'must be after session start time') if starts_at && ends_at && ends_at < starts_at
   end
   validate do
-    if required_for_students && volunteers_only
-      errors.add(:base, 'A session cannot be both Required for Students and Volunteers Only')
-    end
+    errors.add(:base, 'A session cannot be both Required for Students and Volunteers Only') if required_for_students && volunteers_only
   end
 
   belongs_to :event, inverse_of: :event_sessions, optional: true
@@ -73,14 +67,14 @@ class EventSession < ApplicationRecord
     self[start_or_end].in_time_zone(ActiveSupport::TimeZone.new(event.time_zone))
   end
 
-  def has_rsvps?
-    persisted? && rsvps.count > 0
+  def any_rsvps?
+    persisted? && rsvps.any?
   end
 
   def update_counter_cache
     location.try(:reset_events_count)
-    if saved_change_to_attribute?(:location_id) && saved_changes[:location_id].first
-      Location.find(saved_changes[:location_id].first).reset_events_count
-    end
+    return unless saved_change_to_attribute?(:location_id) && saved_changes[:location_id].first
+
+    Location.find(saved_changes[:location_id].first).reset_events_count
   end
 end

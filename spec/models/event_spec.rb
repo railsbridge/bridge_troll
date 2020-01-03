@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe Event do
+  subject(:event) { described_class.new }
+
   before do
     @user = create(:user)
   end
@@ -16,22 +18,20 @@ describe Event do
 
   describe 'validations' do
     describe 'target_audience' do
-      subject { described_class.new }
-
-      before { allow(subject).to receive(:allow_student_rsvp?).and_return(true) }
+      before { allow(event).to receive(:allow_student_rsvp?).and_return(true) }
 
       it { is_expected.to validate_presence_of(:target_audience) }
 
       context 'when event is not a workshop' do
-        before { allow(subject).to receive(:allow_student_rsvp?).and_return(false) }
+        before { allow(event).to receive(:allow_student_rsvp?).and_return(false) }
 
         it { is_expected.not_to validate_presence_of(:target_audience) }
       end
 
       context 'when event is not a new event and never had target_audience set' do
         before do
-          allow(subject).to receive(:new_record?).and_return(false)
-          allow(subject).to receive(:target_audience_was).and_return(false)
+          allow(event).to receive(:new_record?).and_return(false)
+          allow(event).to receive(:target_audience_was).and_return(false)
         end
 
         it { is_expected.not_to validate_presence_of(:target_audience) }
@@ -126,7 +126,7 @@ describe Event do
     end
 
     it 'reorders the waitlist' do
-      waitlist_manager = double(:waitlist_manager, reorder_waitlist!: true)
+      waitlist_manager = instance_double(WaitlistManager, reorder_waitlist!: true)
       allow(WaitlistManager).to receive(:new).and_return(waitlist_manager)
 
       event = create(:event, student_rsvp_limit: 10)
@@ -158,7 +158,8 @@ describe Event do
     let(:event) { create(:event, student_rsvp_limit: 1) }
     let!(:volunteer_rsvp) { create(:volunteer_rsvp, event: event) }
     let!(:student_rsvp) { create(:student_rsvp, event: event) }
-    let!(:waitlisted_rsvp) { create(:student_rsvp, event: event, waitlist_position: 1) }
+
+    before { create(:student_rsvp, event: event, waitlist_position: 1) }
 
     it 'includes all confirmed rsvps with childcare requested' do
       expect(event.rsvps.count).to eq(3)
@@ -610,21 +611,21 @@ describe Event do
   describe '#asks_custom_question?' do
     context 'when event asks a custom question' do
       before do
-        allow(subject).to receive(:custom_question).and_return('What is your t-shirt size?')
+        allow(event).to receive(:custom_question).and_return('What is your t-shirt size?')
       end
 
       it 'returns true' do
-        expect(subject.asks_custom_question?).to be true
+        expect(event.asks_custom_question?).to be true
       end
     end
 
     context 'when event does not ask a custom question' do
       before do
-        allow(subject).to receive(:custom_question).and_return('')
+        allow(event).to receive(:custom_question).and_return('')
       end
 
       it 'returns false' do
-        expect(subject.asks_custom_question?).to be false
+        expect(event.asks_custom_question?).to be false
       end
     end
   end

@@ -5,7 +5,8 @@ require 'rails_helper'
 describe Users::EventsController do
   let(:user) { FactoryBot.create(:user) }
   let(:event) { FactoryBot.create(:event) }
-  let!(:rsvp) { FactoryBot.create(:rsvp, user: user, event: event, checked_in: true) }
+
+  before { FactoryBot.create(:rsvp, user: user, event: event, checked_in: true) }
 
   describe '#index' do
     it 'responds successfully with json' do

@@ -7,7 +7,7 @@ describe Level do
   it { is_expected.to validate_presence_of(:num) }
 
   it {
-    expect(subject).to validate_inclusion_of(:num)
+    expect(described_class.new).to validate_inclusion_of(:num)
       .in_array((1..5).to_a)
       .with_message('Must be between 1 and 5')
   }

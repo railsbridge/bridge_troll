@@ -29,7 +29,7 @@
 
 <div class="row">
   <div class="col-md-8">
-    <% unless @event.has_multiple_locations? %>
+    <% unless @event.multiple_locations? %>
       <div class="location-text">
         <% if @event.location %>
           <%= link_to pretty_print_address(@event.location), location_map_link(@event.location) %>
@@ -44,7 +44,7 @@
         <div class='event-session'>
           <h2 class='name'><%= event_session.name %></h2>
 
-          <div class='date'><%= formatted_session_date(event_session) %></div>
+          <div class='date'><%= formatted_date(event_session) %></div>
           <div class='time'>Start time: <%= formatted_session_time(event_session, :starts_at) %></div>
           <div class='time'>End time: <%= formatted_session_time(event_session, :ends_at) %></div>
           <div class='ical'>
@@ -57,7 +57,7 @@
               <i class="fa fa-calendar-plus-o"></i> Export to Google Calendar
             <% end %>
           </div>
-          <% if @event.has_multiple_locations? %>
+          <% if @event.multiple_locations? %>
             <div class='location-text' style="margin-top: 10px;">
               <%= link_to pretty_print_address(event_session.true_location), location_map_link(event_session.true_location) %>
             </div>
@@ -116,11 +116,10 @@
     <div class="organizers">
       <h3>Organized By:</h3>
       <ul class="attendees">
-        <% if organizer_list.any? %>
-          <% organizer_list.each do |organizer| %>
-            <li class='attendee'><%= user_gravatar(organizer) %><%= link_to organizer.full_name, organizer.profile_path %></li>
-          <% end %>
-        <% else %>
+        <% organizer_list(@event).each do |organizer| %>
+          <li class='attendee'><%= user_gravatar(organizer) %><%= link_to organizer.full_name, organizer.profile_path %></li>
+        <% end %>
+        <% if organizer_list(@event).none? %>
           <li>No Organizer Assigned</li>
         <% end %>
       </ul>

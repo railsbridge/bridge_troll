@@ -9,7 +9,7 @@ describe EventSession do
   it { is_expected.to validate_presence_of(:ends_at) }
 
   describe 'uniqueness' do
-    let!(:event_session) { create(:event_session) }
+    before { create(:event_session) }
 
     it { is_expected.to validate_uniqueness_of(:name).scoped_to(:event_id) }
   end
@@ -74,22 +74,20 @@ describe EventSession do
   end
 
   describe '#date_in_time_zone' do
-    before do
-      @event = create(:event)
-      @session = create(:event_session,
-                        event: @event,
-                        starts_at: DateTime.parse('Sun, 01 Dec 2053 21:38:00 UTC +00:00'),
-                        ends_at: DateTime.parse('Sun, 01 Dec 2053 23:38:00 UTC +00:00'))
-    end
-
     it "returns the date of the event, respecting the event's time zone" do
-      @event.time_zone = 'Pacific Time (US & Canada)'
-      expect(@session.date_in_time_zone(:starts_at).zone).to eq('PST')
-      expect(@session.date_in_time_zone(:starts_at)).to eq(DateTime.parse('1/12/2053 1:38 pm PST'))
+      event = create(:event)
+      session = create(:event_session,
+                       event: event,
+                       starts_at: DateTime.parse('Sun, 01 Dec 2053 21:38:00 UTC +00:00'),
+                       ends_at: DateTime.parse('Sun, 01 Dec 2053 23:38:00 UTC +00:00'))
 
-      @event.time_zone = 'Eastern Time (US & Canada)'
-      expect(@session.date_in_time_zone(:starts_at).zone).to eq('EST')
-      expect(@session.date_in_time_zone(:starts_at)).to eq(DateTime.parse('1/12/2053 4:38 pm EST'))
+      event.time_zone = 'Pacific Time (US & Canada)'
+      expect(session.date_in_time_zone(:starts_at).zone).to eq('PST')
+      expect(session.date_in_time_zone(:starts_at)).to eq(DateTime.parse('1/12/2053 1:38 pm PST'))
+
+      event.time_zone = 'Eastern Time (US & Canada)'
+      expect(session.date_in_time_zone(:starts_at).zone).to eq('EST')
+      expect(session.date_in_time_zone(:starts_at)).to eq(DateTime.parse('1/12/2053 4:38 pm EST'))
     end
   end
 end

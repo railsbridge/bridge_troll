@@ -18,7 +18,7 @@ class EventPolicy < ApplicationPolicy
   def update?
     return false if record.historical?
 
-    user.admin? || record.organizer?(user) || record.chapter.has_leader?(user) || record.organization.has_leader?(user)
+    user.admin? || record.organizer?(user) || record.chapter.leader?(user) || record.organization.leader?(user)
   end
 
   def edit?
@@ -30,7 +30,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def checkin?
-    record.checkiner?(user) || record.chapter.has_leader?(user)
+    record.checkiner?(user) || record.chapter.leader?(user)
   end
 
   def see_unpublished?
@@ -38,7 +38,7 @@ class EventPolicy < ApplicationPolicy
   end
 
   def publish?
-    user.publisher? || user.admin? || record.chapter.has_leader?(user) || record.chapter.organization.has_leader?(user)
+    user.publisher? || user.admin? || record.chapter.leader?(user) || record.chapter.organization.leader?(user)
   end
 
   def flag?

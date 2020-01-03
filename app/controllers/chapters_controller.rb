@@ -16,14 +16,14 @@ class ChaptersController < ApplicationController
     ).sort_by(&:ends_at)
     @show_organizers = true
 
-    if @chapter.has_leader?(current_user)
-      @organizer_rsvps = Rsvp
-                         .group(:user_id, :user_type)
-                         .joins([event: :chapter])
-                         .includes(:user)
-                         .select('user_id, user_type, count(*) as events_count')
-                         .where('chapters.id' => @chapter.id, role_id: Role::ORGANIZER.id, user_type: 'User')
-    end
+    return unless @chapter.leader?(current_user)
+
+    @organizer_rsvps = Rsvp
+                       .group(:user_id, :user_type)
+                       .joins([event: :chapter])
+                       .includes(:user)
+                       .select('user_id, user_type, count(*) as events_count')
+                       .where('chapters.id' => @chapter.id, role_id: Role::ORGANIZER.id, user_type: 'User')
   end
 
   def new
@@ -57,9 +57,7 @@ class ChaptersController < ApplicationController
 
   def destroy
     authorize @chapter
-    unless @chapter.destroyable?
-      return redirect_to root_url, alert: "Can't delete a chapter that's still assigned to an event or external event."
-    end
+    return redirect_to root_url, alert: "Can't delete a chapter that's still assigned to an event or external event." unless @chapter.destroyable?
 
     @chapter.destroy
 

@@ -14,11 +14,9 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from(ActionView::MissingTemplate) do |_e|
-    if request.format != :html
-      head(:not_acceptable)
-    else
-      raise
-    end
+    raise if request.format == :html
+
+    head(:not_acceptable)
   end
 
   def after_sign_in_path_for(resource)

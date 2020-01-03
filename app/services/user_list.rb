@@ -17,9 +17,10 @@ class UserList
 
     attendances = { User: user_attendances, MeetupUser: meetup_user_attendances }
 
-    users = (meetup_users + bridgetroll_users).map do |u|
-      IndexPageUser.new(u, meetup_ids_for_users, attendances)
-    end.sort_by { |u| u.send(@sort_field) }
+    users =
+      (meetup_users + bridgetroll_users)
+      .map { |u| IndexPageUser.new(u, meetup_ids_for_users, attendances) }
+      .sort_by { |u| u.send(@sort_field) }
 
     {
       draw: @draw,
@@ -82,12 +83,8 @@ class UserList
     end
   end
 
-  def using_postgres
-    @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == 'PostgreSQL')
-  end
-
   def meetup_user_search_sql
-    if using_postgres
+    if Rails.application.using_postgres?
       "LOWER(UNACCENT(full_name)) LIKE CONCAT('%', LOWER(UNACCENT(?)), '%')"
     else
       "LOWER(full_name) LIKE '%' || LOWER(?) || '%'"
@@ -95,7 +92,7 @@ class UserList
   end
 
   def bridgetroll_user_search_sql
-    if using_postgres
+    if Rails.application.using_postgres?
       "LOWER(UNACCENT(CONCAT(first_name, ' ', last_name))) LIKE CONCAT('%', LOWER(UNACCENT(?)), '%')"
     else
       "LOWER(first_name || ' ' || last_name) LIKE '%' || LOWER(?) || '%'"
@@ -130,9 +127,9 @@ class UserList
     end
 
     def meetup_link
-      if @meetup_id
-        "<a href='http://www.meetup.com/members/#{@meetup_id}'>#{user.meetup_id}</a>"
-      end
+      return unless @meetup_id
+
+      "<a href='http://www.meetup.com/members/#{@meetup_id}'>#{user.meetup_id}</a>"
     end
 
     def student_rsvp_count

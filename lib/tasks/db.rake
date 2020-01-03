@@ -10,7 +10,7 @@ def db_dump_filename(args)
   if args[:filename]
     Rails.root.join(args[:filename])
   else
-    Rails.root.join('db', 'PRODUCTION.dump')
+    Rails.root.join('db/PRODUCTION.dump')
   end
 end
 
@@ -20,13 +20,13 @@ db_namespace = namespace :db do
     desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
     task dump: %i[environment load_config] do
       raise_weird_schema_error = proc do |specific_message|
-        raise StandardError, <<-EOT.strip_heredoc
+        raise StandardError, <<-ERROR_MESSAGE.strip_heredoc
           #{specific_message}
           Try checking out an older version of the schema and running a full
             rake db:drop
             rake db:create
             rake db:migrate
-        EOT
+        ERROR_MESSAGE
       end
 
       require 'active_record/schema_dumper'
@@ -78,9 +78,7 @@ db_namespace = namespace :db do
         end
       end
 
-      if needs_extensions || needs_foreign_keys
-        File.write(filename, new_schema_content)
-      end
+      File.write(filename, new_schema_content) if needs_extensions || needs_foreign_keys
 
       db_namespace['schema:dump'].reenable
     end

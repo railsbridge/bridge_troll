@@ -3,16 +3,16 @@
 require 'rails_helper'
 
 describe 'the approval page' do
+  let(:event) { create(:event, title: 'Exciting event', current_state: :pending_approval) }
+  let(:spammer) { create(:user) }
+  let(:spam_event) { create(:event, title: 'Spammy Event', current_state: :pending_approval) }
+
   before do
-    @event = create(:event, title: 'Exciting event', current_state: :pending_approval)
-    @event.organizers << create(:user)
+    event.organizers << create(:user)
+    spam_event.organizers << spammer
 
-    @spammer = create(:user)
-    @spam_event = create(:event, title: 'Spammy Event', current_state: :pending_approval)
-    @spam_event.organizers << @spammer
-
-    @admin = create(:user, admin: true)
-    sign_in_as(@admin)
+    admin = create(:user, admin: true)
+    sign_in_as(admin)
   end
 
   describe 'publishing an event' do
@@ -21,12 +21,12 @@ describe 'the approval page' do
 
       expect(page).to have_css('.event-card', count: 2)
 
-      within ".event-#{@event.id}" do
+      within ".event-#{event.id}" do
         click_on 'Publish'
       end
 
       within '.header-container' do
-        expect(page).to have_content(@event.title)
+        expect(page).to have_content(event.title)
       end
 
       visit unpublished_events_path
@@ -40,14 +40,14 @@ describe 'the approval page' do
 
       expect(page).to have_css('.event-card', count: 2)
 
-      within ".event-#{@spam_event.id}" do
+      within ".event-#{spam_event.id}" do
         click_on 'Flag as Spam'
       end
 
       expect(page).to have_css('.event-card', count: 1)
 
-      expect(@spam_event.reload).to be_spam
-      expect(@spammer.reload).to be_spammer
+      expect(spam_event.reload).to be_spam
+      expect(spammer.reload).to be_spammer
     end
   end
 end

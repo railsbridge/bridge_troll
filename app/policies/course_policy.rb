@@ -6,7 +6,7 @@ class CoursePolicy < ApplicationPolicy
   end
 
   def destroy?
-    record.events.count == 0 && user.admin?
+    record.events.empty? && user.admin?
   end
 
   def edit?

@@ -109,10 +109,6 @@ describe 'the event listing page' do
   end
 
   context 'as a non-logged in user', js: true do
-    before do
-      @user = create(:user)
-    end
-
     it 'redirects to event detail page when non-logged in user volunteers' do
       event = create(:event, time_zone: 'Pacific Time (US & Canada)')
       event.event_sessions.first.update(
@@ -127,7 +123,7 @@ describe 'the event listing page' do
       expect(page).to have_link('Volunteer')
       click_link 'Attend as a student'
 
-      sign_in_with_modal(@user)
+      sign_in_with_modal(create(:user))
 
       expect(page.find('div.header-container > h1')).to have_content(event.title)
       expect(page).to have_current_path(event_path(event), ignore_query: true)
@@ -135,15 +131,15 @@ describe 'the event listing page' do
   end
 
   context 'as a logged in user' do
+    let(:user) { create(:user) }
+
     before do
-      @user = create(:user)
-      sign_in_as(@user)
+      sign_in_as(user)
     end
 
     context 'when organizing an event', js: true do
-      let!(:chapter) { create(:chapter) }
-
       before do
+        create(:chapter)
         create(:course)
         create(:event, course: create(:course, name: 'FRONTEND',
                                                title: 'Front End',
@@ -237,22 +233,31 @@ describe 'the event listing page' do
     end
 
     context 'given an event' do
-      before do
-        @event = create(:event)
-        @session1 = @event.event_sessions.first
-        @session1.update!(
-          name: 'Installfest',
-          starts_at: 10.days.from_now,
-          ends_at: 11.days.from_now
-        )
-        @session2 = create(
+      let(:event) { create(:event) }
+      let(:session1) do
+        event.event_sessions.first.tap do |session|
+          session.update!(
+            name: 'Installfest',
+            starts_at: 10.days.from_now,
+            ends_at: 11.days.from_now
+          )
+        end
+      end
+
+      let(:session2) do
+        create(
           :event_session,
-          event: @event,
+          event: event,
           name: 'Curriculum',
           starts_at: 12.days.from_now,
           ends_at: 13.days.from_now
         )
-        @event.reload
+      end
+
+      before do
+        session1
+        session2
+        event.reload
       end
 
       context 'when volunteering' do
@@ -268,8 +273,8 @@ describe 'the event listing page' do
           check 'Teaching'
           choose('rsvp_class_level_0')
 
-          expect(page.first("input[name='rsvp[event_session_ids][]'][type='checkbox'][value='#{@session1.id}']")).to be_checked
-          expect(page.first("input[name='rsvp[event_session_ids][]'][type='checkbox'][value='#{@session2.id}']")).to be_checked
+          expect(page.first("input[name='rsvp[event_session_ids][]'][type='checkbox'][value='#{session1.id}']")).to be_checked
+          expect(page.first("input[name='rsvp[event_session_ids][]'][type='checkbox'][value='#{session2.id}']")).to be_checked
 
           uncheck 'Curriculum'
 
@@ -279,11 +284,11 @@ describe 'the event listing page' do
           rsvp = Rsvp.last
           expect(rsvp).to be_teaching
           expect(rsvp).not_to be_taing
-          expect(rsvp.user_id).to eq(@user.id)
-          expect(rsvp.event_id).to eq(@event.id)
+          expect(rsvp.user_id).to eq(user.id)
+          expect(rsvp.event_id).to eq(event .id)
 
           expect(rsvp.rsvp_sessions.length).to eq(1)
-          expect(rsvp.rsvp_sessions.first.event_session).to eq(@session1)
+          expect(rsvp.rsvp_sessions.first.event_session).to eq(session1)
         end
 
         it 'allows registration without course level for non-teaching roles' do
@@ -295,8 +300,8 @@ describe 'the event listing page' do
           rsvp = Rsvp.last
           expect(rsvp).not_to be_teaching
           expect(rsvp).not_to be_taing
-          expect(rsvp.user_id).to eq(@user.id)
-          expect(rsvp.event_id).to eq(@event.id)
+          expect(rsvp.user_id).to eq(user.id)
+          expect(rsvp.event_id).to eq(event .id)
         end
       end
 
@@ -313,22 +318,23 @@ describe 'the event listing page' do
         expect(page).to have_content('signed up')
 
         rsvp = Rsvp.last
-        expect(rsvp.user_id).to eq(@user.id)
-        expect(rsvp.event_id).to eq(@event.id)
+        expect(rsvp.user_id).to eq(user.id)
+        expect(rsvp.event_id).to eq(event .id)
         expect(rsvp.operating_system).to eq(OperatingSystem::WINDOWS_8)
 
         expect(rsvp.rsvp_sessions.length).to eq(2)
       end
 
       context 'given a volunteered user' do
+        let!(:rsvp) { create(:teacher_rsvp, event: event, user: user) }
+
         before do
-          @rsvp = create(:teacher_rsvp, event: @event, user: @user)
           visit events_path
         end
 
         it 'allows user to cancel their event RSVP' do
           click_link('Cancel RSVP')
-          expect(Rsvp.find_by(id: @rsvp.id)).to be_nil
+          expect(Rsvp.find_by(id: rsvp.id)).to be_nil
         end
 
         it 'allows user to edit volunteer responsibilities' do
@@ -341,12 +347,12 @@ describe 'the event listing page' do
 
           click_button 'Submit'
 
-          @rsvp.reload
-          expect(@rsvp).to be_taing
-          expect(@rsvp).not_to be_teaching
+          rsvp.reload
+          expect(rsvp).to be_taing
+          expect(rsvp).not_to be_teaching
 
-          expect(@rsvp.rsvp_sessions.length).to eq(1)
-          expect(@rsvp.rsvp_sessions.first.event_session).to eq(@session2)
+          expect(rsvp.rsvp_sessions.length).to eq(1)
+          expect(rsvp.rsvp_sessions.first.event_session).to eq(session2)
         end
       end
     end

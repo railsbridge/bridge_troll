@@ -6,9 +6,7 @@ describe DatabaseAnonymizer do
   RSpec::Matchers.define :scrub_fields do |record, fields|
     match do |actual|
       original_attributes = record.attributes.slice(*fields.map(&:to_s))
-      if original_attributes.blank?
-        raise 'Could not determine original attributes'
-      end
+      raise 'Could not determine original attributes' if original_attributes.blank?
 
       actual.call
 
@@ -23,10 +21,10 @@ describe DatabaseAnonymizer do
     end
 
     failure_message do |_actual|
-      <<~EOT
+      <<~FAILURE_MESSAGE
         Did not seem to scrub these #{record.class} attributes:
         #{@unscrubbed_attributes.join(', ')}
-      EOT
+      FAILURE_MESSAGE
     end
 
     def supports_block_expectations?
@@ -108,13 +106,13 @@ describe DatabaseAnonymizer do
     it 'does not replace data for a sample admin user' do
       user = create(:user)
       user.email = 'admin@example.com'
-      expect { described_class.new.anonymize_user(user) }.not_to change { user.attributes }
+      expect { described_class.new.anonymize_user(user) }.not_to(change { user.attributes })
     end
 
     it 'does not replace data for a sample organizer user' do
       user = create(:user)
       user.email = 'organizer@example.com'
-      expect { described_class.new.anonymize_user(user) }.not_to change { user.attributes }
+      expect { described_class.new.anonymize_user(user) }.not_to(change { user.attributes })
     end
   end
 

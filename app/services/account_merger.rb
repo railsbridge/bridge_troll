@@ -7,15 +7,13 @@ class AccountMerger
   end
 
   def merge!
-    if @user_to_merge.id == @user_to_keep.id
-      raise "Can't merge the same user onto itself!"
-    end
+    raise "Can't merge the same user onto itself!" if @user_to_merge.id == @user_to_keep.id
 
     to_destroy = Rsvp.where(event_id: (
         @user_to_merge.rsvps.pluck('event_id') & @user_to_keep.rsvps.pluck('event_id')
       ), user_id: @user_to_merge.id, user_type: 'User')
 
-    Rails.logger.info(<<-EOT.strip_heredoc)
+    Rails.logger.info(<<-USER_PROMPT.strip_heredoc)
 
       Ready to merge #{user_desc(@user_to_merge)}'s data onto #{user_desc(@user_to_keep)}!
 
@@ -23,7 +21,7 @@ class AccountMerger
       #{@user_to_merge.rsvps.count - to_destroy.count} RSVP(s) will be adopted by #{user_desc(@user_to_keep)}
 
       Is this cool? (y/n)
-    EOT
+    USER_PROMPT
 
     return unless gets.chomp.casecmp('y')
 

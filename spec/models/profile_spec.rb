@@ -6,7 +6,8 @@ describe Profile do
   it { is_expected.to belong_to(:user).required }
 
   describe 'uniqueness' do
-    let!(:profile) { create(:user).profile }
+    # when we don't create a profile, we get a PG foreign key error
+    before { create(:user).profile }
 
     it { is_expected.to validate_uniqueness_of(:user_id) }
   end

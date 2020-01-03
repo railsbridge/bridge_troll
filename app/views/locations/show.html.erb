@@ -16,13 +16,13 @@
         This location is archived, and can no longer be used for events.
       </div>
     <% end %>
-    <% if @location.region.has_leader?(current_user) %>
+    <% if @location.region.leader?(current_user) %>
       <div class="pull-right">Last Updated: <%= @location.updated_at.to_formatted_s(:long) %></div>
     <% end %>
     <h2>Address:</h2>
     <%= link_to pretty_print_address(@location), location_map_link(@location) %>
 
-    <% if @location.region.has_leader?(current_user) %>
+    <% if @location.region.leader?(current_user) %>
       <h2>Contact info:</h2>
       <%= @location.contact_info %>
       <h2>Notes:</h2>

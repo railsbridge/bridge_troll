@@ -5,10 +5,6 @@ require 'rails_helper'
 describe CoursesController, type: :controller do
   let(:user) { create(:user, admin: true) }
 
-  before do
-    sign_in user
-  end
-
   let(:valid_attributes) do
     {
       name: 'RAILS',
@@ -26,6 +22,10 @@ describe CoursesController, type: :controller do
   end
 
   let(:valid_session) { {} }
+
+  before do
+    sign_in user
+  end
 
   describe 'GET #new' do
     it 'assigns a new course as @course' do

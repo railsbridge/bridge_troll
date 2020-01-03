@@ -9,7 +9,7 @@ class RspecRerunner
 
   def initialize
     @failure_file_parser = FailureFileParser.new(
-      Rails.root.join('tmp', 'rspec_examples.txt')
+      Rails.root.join('tmp/rspec_examples.txt')
     )
   end
 

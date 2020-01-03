@@ -16,7 +16,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def manage_organization?
-    user && (user.admin? || record.has_leader?(user))
+    user && (user.admin? || record.leader?(user))
   end
 
   def permitted_attributes

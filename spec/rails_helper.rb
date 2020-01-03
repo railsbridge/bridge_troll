@@ -4,9 +4,7 @@ ENV['RAILS_ENV'] ||= 'test'
 
 require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
-if Rails.env.production?
-  abort('The Rails environment is running in production mode!')
-end
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 
 require 'spec_helper'
 require 'rspec/rails'
@@ -46,7 +44,7 @@ else
     Capybara::Selenium::Driver.new(app, browser: :chrome, options: default_opts)
   end
 
-  Selenium::WebDriver::Chrome::Service.driver_path = Rails.root.join('node_modules', '.bin', 'chromedriver').to_s
+  Selenium::WebDriver::Chrome::Service.driver_path = Rails.root.join('node_modules/.bin/chromedriver').to_s
   Capybara.javascript_driver = :selenium_chrome_headless_with_resolution_for_travis
   # Capybara.javascript_driver = :selenium_chrome_with_resolution
 end
@@ -54,7 +52,7 @@ end
 Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:host]}"
 Capybara.disable_animation = true
 
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|

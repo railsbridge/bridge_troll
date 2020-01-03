@@ -5,16 +5,16 @@ require 'rails_helper'
 describe 'code of conduct checkbox for RSVPs' do
   let(:coc_text) { 'I accept the Code of Conduct' }
   let(:chapter) { create(:chapter) }
+  let(:event) { create(:event, chapter: chapter) }
+  let(:user) { create(:user) }
 
   before do
-    @event = create(:event, chapter: chapter)
-    @user = create(:user)
-    sign_in_as @user
+    sign_in_as user
   end
 
   context 'for new records', js: true do
     before do
-      visit volunteer_new_event_rsvp_path(@event)
+      visit volunteer_new_event_rsvp_path(event)
     end
 
     it 'requires code of conduct to be checked, and preserves checked-ness on error' do
@@ -33,7 +33,7 @@ describe 'code of conduct checkbox for RSVPs' do
   end
 
   context 'for existing records' do
-    let(:rsvp) { create(:rsvp, user: @user) }
+    let(:rsvp) { create(:rsvp, user: user) }
 
     it 'is not shown' do
       visit edit_event_rsvp_path rsvp.event, rsvp
@@ -48,7 +48,7 @@ describe 'code of conduct checkbox for RSVPs' do
     let(:chapter) { create(:chapter, organization: organization) }
 
     it 'shows a custom code of conduct URL' do
-      visit volunteer_new_event_rsvp_path(@event)
+      visit volunteer_new_event_rsvp_path(event)
       expect(page.find('label[for=coc] a')['href']).to eq('http://example.com/coc')
     end
   end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ModuleLength
 module OmniauthResponses
   def self.meetup_response(meetup_id = 123_456)
     meetup_name = 'Franz Meetuper'
@@ -220,3 +221,4 @@ module OmniauthResponses
     }
   end
 end
+# rubocop:enable Metrics/ModuleLength

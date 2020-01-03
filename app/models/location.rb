@@ -2,9 +2,9 @@
 
 class Location < ApplicationRecord
   scope :available, -> { where(archived_at: nil) }
-  has_many :events
+  has_many :events, dependent: :nullify
   belongs_to :region, counter_cache: true
-  has_many :event_sessions
+  has_many :event_sessions, dependent: :nullify
 
   validates :name, :address_1, :city, presence: true
   unless Rails.env.test?

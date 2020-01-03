@@ -43,9 +43,7 @@ module Events
 
       @email.save!
 
-      redirect_to event_organizer_tools_path(@event), notice: <<-EOT
-        Your email has been sent. Woo!
-      EOT
+      redirect_to event_organizer_tools_path(@event), notice: 'Your email has been sent. Woo!'
     end
 
     def show

@@ -36,9 +36,9 @@ module OmniauthProviders
   end
 
   def self.finish_auth_for(authentication)
-    if authentication.provider == 'meetup'
-      MeetupImporter.new.associate_user(authentication.user, authentication.uid)
-    end
+    return unless authentication.provider == 'meetup'
+
+    MeetupImporter.new.associate_user(authentication.user, authentication.uid)
   end
 
   def self.provider_data_for(provider)

@@ -6,7 +6,7 @@ class ChapterPolicy < ApplicationPolicy
   end
 
   def update?
-    record.has_leader?(user) || record.organization.has_leader?(user)
+    record.leader?(user) || record.organization.leader?(user)
   end
 
   def create?

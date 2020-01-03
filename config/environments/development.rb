@@ -18,7 +18,7 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+  if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
 
     config.cache_store = :memory_store
@@ -71,7 +71,7 @@ Rails.application.configure do
   # Send to local mailserver for viewing mail with mailcatcher
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
-  config.action_mailer.preview_path = Rails.root.join('spec', 'mailers', 'previews')
+  config.action_mailer.preview_path = Rails.root.join('spec/mailers/previews')
 
   # Setup default url options for your specific environment.
   config.action_mailer.default_url_options = { host: 'localhost:3000' }

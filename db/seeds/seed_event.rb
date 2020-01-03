@@ -2,6 +2,7 @@
 
 require 'faker'
 
+# rubocop:disable Metrics/ModuleLength
 module Seeder
   def self.find_or_create_user(email)
     existing_user = User.find_by(email: email)
@@ -54,40 +55,24 @@ module Seeder
     end
     event.destroy
     if event.location.present?
-      event.location.destroy if event.location.events.count == 0
+      event.location.destroy if event.location.events.empty?
       region = event.location.region
-      region.destroy if region.events.count == 0
+      region.destroy if region.events.empty?
     end
 
     if event.chapter.present?
       organization = event.chapter.organization
-      event.chapter.destroy if event.chapter.events.count == 0
-      organization.destroy if organization.chapters.count == 0
+      event.chapter.destroy if event.chapter.events.empty?
+      organization.destroy if organization.chapters.empty?
     end
 
-    event.course.destroy if event.course && event.course.events.count == 0
+    event.course.destroy if event.course&.events&.empty?
   end
 
   def self.seed_event(options = {})
     students_per_level_range = options[:students_per_level_range] || (3..15)
     old_event = Event.where(title: 'Seeded Test Event').first
     destroy_event(old_event) if old_event.present?
-
-    organization = Organization.find_or_create_by(name: 'RailsBridge')
-    region = Region.find_or_create_by(name: 'San Francisco')
-    chapter = Chapter.find_or_create_by(name: 'RailsBridge San Francisco', organization: organization)
-
-    location = Location.create!(
-      region_id: region.id,
-      name: 'Sutro Tower',
-      address_1: 'Sutro Tower',
-      city: 'San Francisco',
-      state: 'CA',
-      zip: '94131',
-      latitude: 37.75519999999999,
-      longitude: -122.4528,
-      gmaps: true
-    )
 
     event = Event.new(
       title: 'Seeded Test Event',
@@ -130,17 +115,12 @@ module Seeder
 
     event.save!
 
-    organizer = find_or_create_user('organizer@example.com')
     event.organizers << organizer
-
     coorganizer = find_or_create_user('coorganizer@example.com')
     event.organizers << coorganizer
 
-    teacher = find_or_create_user('teacher@example.com')
-    create_volunteer_rsvp(event: event, user: teacher, volunteer_assignment: VolunteerAssignment::TEACHER, class_level: 0)
-
-    ta = find_or_create_user('ta@example.com')
-    create_volunteer_rsvp(event: event, user: ta, volunteer_assignment: VolunteerAssignment::TA, class_level: 3)
+    create_volunteer_rsvp(event: event, user: find_or_create_user('teacher@example.com'), volunteer_assignment: VolunteerAssignment::TEACHER, class_level: 0)
+    create_volunteer_rsvp(event: event, user: find_or_create_user('ta@example.com'), volunteer_assignment: VolunteerAssignment::TA, class_level: 3)
 
     (1..5).each do |level|
       students_in_level = rand(students_per_level_range)
@@ -202,25 +182,12 @@ module Seeder
     event
   end
 
-  def self.seed_multiple_location_event(_options = {})
-    old_event = Event.where(title: 'Seeded Multiple Location Event').first
-    destroy_event(old_event) if old_event.present?
+  def self.region
+    Region.find_or_create_by(name: 'San Francisco')
+  end
 
-    organization = Organization.find_or_create_by(name: 'RailsBridge')
-    region = Region.find_or_create_by(name: 'San Francisco')
-    chapter = Chapter.find_or_create_by(name: 'RailsBridge San Francisco', organization: organization)
-
-    location = Location.find_or_create_by(
-      region_id: region.id,
-      name: 'Sutro Tower',
-      address_1: 'Sutro Tower',
-      city: 'San Francisco',
-      state: 'CA',
-      zip: '94131',
-      gmaps: true
-    )
-
-    session_location = Location.find_or_create_by(
+  def self.session_location
+    Location.find_or_create_by(
       region_id: region.id,
       name: 'Ferry Building',
       address_1: 'Ferry Building',
@@ -229,6 +196,35 @@ module Seeder
       zip: '94111',
       gmaps: true
     )
+  end
+
+  def self.location
+    Location.find_or_create_by(
+      region_id: region.id,
+      name: 'Sutro Tower',
+      address_1: 'Sutro Tower',
+      city: 'San Francisco',
+      state: 'CA',
+      zip: '94131',
+      gmaps: true
+    )
+  end
+
+  def self.organizer
+    find_or_create_user('organizer@example.com')
+  end
+
+  def self.organization
+    Organization.find_or_create_by(name: 'RailsBridge')
+  end
+
+  def self.chapter
+    Chapter.find_or_create_by(name: 'RailsBridge San Francisco', organization: organization)
+  end
+
+  def self.seed_multiple_location_event(_options = {})
+    old_event = Event.where(title: 'Seeded Multiple Location Event').first
+    destroy_event(old_event) if old_event.present?
 
     event = Event.new(
       title: 'Seeded Multiple Location Event',
@@ -248,7 +244,6 @@ module Seeder
 
     event.save!
 
-    organizer = find_or_create_user('organizer@example.com')
     event.organizers << organizer
 
     volunteer = find_or_create_user('volunteer1@example.com')
@@ -265,30 +260,6 @@ module Seeder
   def self.seed_past_event
     old_event = Event.where(title: 'Seeded Past Event').first
     destroy_event(old_event) if old_event.present?
-
-    organization = Organization.find_or_create_by(name: 'RailsBridge')
-    region = Region.find_or_create_by(name: 'San Francisco')
-    chapter = Chapter.find_or_create_by(name: 'RailsBridge San Francisco', organization: organization)
-
-    location = Location.find_or_create_by(
-      region_id: region.id,
-      name: 'Sutro Tower',
-      address_1: 'Sutro Tower',
-      city: 'San Francisco',
-      state: 'CA',
-      zip: '94131',
-      gmaps: true
-    )
-
-    session_location = Location.find_or_create_by(
-      region_id: region.id,
-      name: 'Ferry Building',
-      address_1: 'Ferry Building',
-      city: 'San Francisco',
-      state: 'CA',
-      zip: '94111',
-      gmaps: true
-    )
 
     event = Event.new(
       title: 'Seeded Past Event',
@@ -315,7 +286,6 @@ module Seeder
     installfest.update(starts_at: 61.days.ago, ends_at: 60.days.ago)
     workshop.update(starts_at: 60.days.ago, ends_at: 59.days.ago)
 
-    organizer = find_or_create_user('organizer@example.com')
     event.organizers << organizer
 
     volunteer = find_or_create_user('volunteer1@example.com')
@@ -329,3 +299,4 @@ module Seeder
     event
   end
 end
+# rubocop:enable Metrics/ModuleLength

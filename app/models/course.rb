@@ -2,7 +2,7 @@
 
 class Course < ApplicationRecord
   has_many :levels, dependent: :destroy
-  has_many :events
+  has_many :events, dependent: :nullify
   validates :name, presence: true
   validates :title, presence: true
   validates :description, presence: true
@@ -23,8 +23,8 @@ class Course < ApplicationRecord
   private
 
   def unique_level_values(field, message)
-    unless levels.map(&field).length == levels.map(&field).uniq.length
-      errors.add(:level, message)
-    end
+    return if levels.map(&field).length == levels.map(&field).uniq.length
+
+    errors.add(:level, message)
   end
 end

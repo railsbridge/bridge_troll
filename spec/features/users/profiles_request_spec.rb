@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 describe 'Profile' do
+  let(:user) { create(:user) }
+
   before do
-    @user = create(:user)
     profile_attributes = {
       childcaring: true,
       writing: true,
@@ -18,18 +19,18 @@ describe 'Profile' do
       bio: 'This is a Bio',
       github_username: 'sally33'
     }
-    @user.profile.update(profile_attributes)
+    user.profile.update(profile_attributes)
 
-    sign_in_as(@user)
+    sign_in_as(user)
   end
 
   it 'when user visits the profile show page should see' do
-    visit user_profile_path(@user)
+    visit user_profile_path(user)
 
-    expect(page).to have_content(@user.full_name)
-    expect(page).to have_content(@user.profile.other)
-    expect(page).to have_content(@user.profile.bio)
-    expect(page).to have_content(@user.profile.github_username)
+    expect(page).to have_content(user.full_name)
+    expect(page).to have_content(user.profile.other)
+    expect(page).to have_content(user.profile.bio)
+    expect(page).to have_content(user.profile.github_username)
     expect(page).to have_content('Childcare')
     expect(page).to have_content('Writer')
     expect(page).to have_content('Designer')
@@ -54,7 +55,7 @@ describe 'Profile' do
 
     visit '/'
     within '.navbar' do
-      click_link @user.full_name
+      click_link user.full_name
     end
     expect(page).to have_content('Edit User')
 
@@ -72,7 +73,7 @@ describe 'Profile' do
 
     expect(page).to have_content('You updated your account successfully')
 
-    visit user_profile_path(@user)
+    visit user_profile_path(user)
 
     skill_settings.each do |label, value|
       if value
@@ -90,11 +91,11 @@ describe 'Profile' do
   context 'when the user has attended some workshops' do
     before do
       event = create(:event, title: 'BridgeBridge')
-      event.rsvps << create(:rsvp, user: @user, event: event)
+      event.rsvps << create(:rsvp, user: user, event: event)
     end
 
     it 'is able to see workshop history' do
-      visit user_profile_path(@user)
+      visit user_profile_path(user)
       expect(page).to have_content('Workshop History')
       expect(page).to have_content('BridgeBridge')
     end
@@ -103,11 +104,11 @@ describe 'Profile' do
   context 'when the user is an organization leader' do
     before do
       org = create(:organization, name: 'FooBridge')
-      org.leaders << @user
+      org.leaders << user
     end
 
     it 'is able to see which organizations they lead' do
-      visit user_profile_path(@user)
+      visit user_profile_path(user)
       expect(page).to have_content('Leadership')
       expect(page).to have_content('FooBridge')
     end

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Chapter do
   it { is_expected.to validate_presence_of(:name) }
 
-  describe '#has_leader?' do
+  describe '#leader?' do
     let(:chapter) { create :chapter }
     let(:user) { create :user }
 
@@ -13,13 +13,13 @@ describe Chapter do
       before { ChapterLeadership.create(user: user, chapter: chapter) }
 
       it 'is true' do
-        expect(chapter).to have_leader(user)
+        expect(chapter).to be_leader(user)
       end
     end
 
     context 'with a user that is not a leader' do
       it 'is false' do
-        expect(chapter).not_to have_leader(user)
+        expect(chapter).not_to be_leader(user)
       end
     end
   end

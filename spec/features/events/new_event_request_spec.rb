@@ -14,10 +14,10 @@ describe 'New Event', js: true do
 
   before do
     create(:course)
-    @user_organizer = create(:user, email: 'organizer@mail.com', first_name: 'Sam', last_name: 'Spade')
-    @chapter = create(:chapter)
+    user_organizer = create(:user, email: 'organizer@mail.com', first_name: 'Sam', last_name: 'Spade')
+    create(:chapter)
 
-    sign_in_as(@user_organizer)
+    sign_in_as(user_organizer)
   end
 
   it 'pre-fills the event details textarea' do
@@ -114,7 +114,7 @@ describe 'New Event', js: true do
     end
 
     it 'accepts and adds a valid location' do
-      @region = create(:region)
+      region = create(:region)
       visit_new_events_form_and_expand_all_sections
 
       click_link 'add it'
@@ -125,7 +125,7 @@ describe 'New Event', js: true do
         expect(page).to have_css('#new-location-modal', visible: :hidden)
       end.to change(Location, :count).by(1)
 
-      expect(page.all('select#event_location_id option').map(&:text)).to include("UChicago (#{@region.name})")
+      expect(page.all('select#event_location_id option').map(&:text)).to include("UChicago (#{region.name})")
     end
   end
 

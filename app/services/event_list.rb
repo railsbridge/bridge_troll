@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 class EventList
-  UPCOMING = ['upcoming',
-              PAST = 'past',
-              ALL = 'all',
-              def initialize(type = UPCOMING, options = {})
-                @type = type
-                @options = options
-              end].freeze
+  UPCOMING = 'upcoming'
+  PAST = 'past'
+  ALL = 'all'
+
+  def initialize(type = UPCOMING, options = {})
+    @type = type
+    @options = options
+  end
 
   def as_json(_options = {})
     if @options[:serialization_format] == 'dataTables'
@@ -21,13 +22,11 @@ class EventList
     EventCsvReporter.new(all_sorted_events).to_csv
   end
 
-  def all_sorted_events
-    all_events = bridgetroll_events.includes(*default_bridgetroll_event_includes).includes(:organization) + external_events.includes(:organization)
-    all_events.sort_by { |e| e.starts_at.to_time }
-  end
+  private
 
-  def combined_events
-    bridgetroll_events.includes(*default_bridgetroll_event_includes) + external_events
+  def all_sorted_events
+    (bridgetroll_events.includes(:location, :event_sessions, :organizers, :legacy_organizers, :organization) + external_events.includes(:organization))
+      .sort_by(&:starts_at)
   end
 
   def apply_options(scope)
@@ -38,16 +37,13 @@ class EventList
     end
   end
 
-  private
-
   def datatables_json
     query = @options[:search].try(:[], 'value')
     event_ids_and_dates =
-      bt_search(bridgetroll_events.select(:id, :starts_at).joins(:location), query) +
-      external_search(external_events.select(:id, :starts_at), query)
+      query_cols(BRIDGE_TROLL_COLS, bridgetroll_events.select(:id, :starts_at).joins(:location), query) +
+      query_cols(EXTERNAL_COLS, external_events.select(:id, :starts_at), query)
     event_ids_by_type = event_ids_and_dates
-                        .sort_by { |e| e.starts_at.to_time }
-                        .reverse
+                        .sort_by(&:starts_at).reverse
                         .slice(@options[:start].to_i, @options[:length].to_i)
                         .each_with_object({}) do |event, hsh|
       hsh[event.class.name] ||= []
@@ -57,7 +53,7 @@ class EventList
     all_events =
       Event.includes(:location).where(id: event_ids_by_type['Event']) +
       ExternalEvent.where(id: event_ids_by_type['ExternalEvent'])
-    data = all_events.sort_by { |e| e.starts_at.to_time }.reverse.map do |event|
+    data = all_events.sort_by(&:starts_at).reverse.map do |event|
       {
         title: event.title,
         global_id: event.to_global_id.to_s,
@@ -77,61 +73,44 @@ class EventList
     }
   end
 
-  def default_bridgetroll_event_includes
-    %i[location event_sessions organizers legacy_organizers]
-  end
-
   def bridgetroll_events
-    relation = if @type == PAST
-                 Event.past.published
-               elsif @type == ALL
-                 Event.published
-               else
-                 Event.upcoming.published
-    end
-
-    apply_options(relation)
+    apply_options(
+      case @type
+      when PAST
+        Event.past.published
+      when ALL
+        Event.published
+      else
+        Event.upcoming.published
+      end
+    )
   end
 
   def external_events
-    relation = if @type == PAST
-                 ExternalEvent.past
-               elsif @type == ALL
-                 ExternalEvent.all
-               else
-                 ExternalEvent.upcoming
-    end
-
-    apply_options(relation)
+    apply_options(
+      case @type
+      when PAST
+        ExternalEvent.past
+      when ALL
+        ExternalEvent.all
+      else
+        ExternalEvent.upcoming
+      end
+    )
   end
 
-  def bt_search(relation, query)
+  BRIDGE_TROLL_COLS = %w[title locations.name locations.city].freeze
+  EXTERNAL_COLS = %w[name location].freeze
+
+  def query_cols(columns, relation, query)
     return relation unless query
 
-    clauses = ['title', 'locations.name', 'locations.city'].map do |f|
-      "(#{like_clause(f)})"
-    end.join(' OR ')
-    relation.where(clauses, query, query, query)
+    clauses = columns.map { |f| "(LOWER(#{f}) LIKE #{like_clause})" }.join(' OR ')
+    args = [clauses] + Array.new(columns.length) { query }
+    relation.where(*args)
   end
 
-  def external_search(relation, query)
-    return relation unless query
-
-    clauses = %w[name location].map do |f|
-      "(#{like_clause(f)})"
-    end.join(' OR ')
-    relation.where(clauses, query, query)
-  end
-
-  def like_clause(field)
-    if using_postgres
-      "LOWER(#{field}) LIKE CONCAT('%', LOWER(?), '%')"
-    else
-      "LOWER(#{field}) LIKE '%' || LOWER(?) || '%'"
-    end
-  end
-
-  def using_postgres
-    @using_postgres ||= (ActiveRecord::Base.connection.adapter_name == 'PostgreSQL')
+  def like_clause
+    Rails.application.using_postgres? ? "CONCAT('%', LOWER(?), '%')" : "'%' || LOWER(?) || '%'"
   end
 end

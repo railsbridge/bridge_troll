@@ -4,18 +4,18 @@ require 'rails_helper'
 
 describe SurveySender do
   describe '.send_all_surveys' do
-    def create_event_for_date(d)
+    def create_event_for_date(date)
       create(:event).tap do |e|
-        e.event_sessions.first.update(starts_at: d, ends_at: d + 10.seconds)
+        e.event_sessions.first.update(starts_at: date, ends_at: date + 10.seconds)
       end
     end
 
     it 'sends surveys for all past events' do
-      very_old_event = create_event_for_date(SurveySender::FIRST_AUTO_SEND_DATE - 5.days)
+      create_event_for_date(SurveySender::FIRST_AUTO_SEND_DATE - 5.days) # very_old_event
       already_sent_event = create_event_for_date(2.days.ago)
       already_sent_event.update_attribute(:survey_sent_at, 1.day.ago)
       recent_event = create_event_for_date(3.days.ago)
-      upcoming_event = create_event_for_date(25.days.from_now)
+      create_event_for_date(25.days.from_now) # upcoming_event
 
       sent_survey_events = []
       expect(described_class).to receive(:send_surveys) do |event|
@@ -57,7 +57,7 @@ describe SurveySender do
     it 'updates survey_sent_at to the current time' do
       expect do
         described_class.send_surveys(event)
-      end.to change { event.reload.survey_sent_at }
+      end.to(change { event.reload.survey_sent_at })
     end
   end
 end

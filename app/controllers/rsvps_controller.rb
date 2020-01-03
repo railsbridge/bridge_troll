@@ -27,30 +27,20 @@ class RsvpsController < ApplicationController
     @rsvp = Rsvp.new(rsvp_params)
     @rsvp.event = @event
     @rsvp.user = current_user
-    if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
-      @rsvp.role = Role.find(params[:rsvp][:role_id])
-    end
+    @rsvp.role = Role.find(params[:rsvp][:role_id]) if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
 
     Rsvp.transaction do
-      if @event.students_at_limit? && @rsvp.role_student?
-        @rsvp.waitlist_position = (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
-      end
+      @rsvp.waitlist_position = (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1 if @event.students_at_limit? && @rsvp.role_student?
 
-      if @event.volunteers_at_limit? && @rsvp.role_volunteer?
-        @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
-      end
+      @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1 if @event.volunteers_at_limit? && @rsvp.role_volunteer?
 
       if @rsvp.save
         apply_other_changes_from_params
 
         RsvpMailer.confirmation(@rsvp).deliver_now
-        if @rsvp.childcare_info?
-          RsvpMailer.childcare_notification(@rsvp).deliver_now
-        end
+        RsvpMailer.childcare_notification(@rsvp).deliver_now if @rsvp.childcare_info?
         notice_messages = ['Thanks for signing up!']
-        if @rsvp.waitlisted?
-          notice_messages << "We've added you to the waitlist."
-        end
+        notice_messages << "We've added you to the waitlist." if @rsvp.waitlisted?
 
         redirect_to @event, notice: notice_messages.join(' ')
       else
@@ -105,23 +95,20 @@ class RsvpsController < ApplicationController
   protected
 
   def redirect_if_event_closed
-    unless @event.open?
-      flash[:error] = 'Sorry. This event is closed!'
-      redirect_to @event
-    end
+    return if @event.open?
+
+    flash[:error] = 'Sorry. This event is closed!'
+    redirect_to @event
   end
 
   def apply_other_changes_from_params
     @rsvp.user.update(gender: params[:user][:gender])
+    return unless @event.location
 
-    if @event.location
-      if params[:affiliate_with_region]
-        unless @rsvp.user.region_ids.include? @event.region.id
-          @rsvp.user.region_ids += [@event.region.id]
-        end
-      else
-        @rsvp.user.region_ids -= [@event.region.id]
-      end
+    if params[:affiliate_with_region]
+      @rsvp.user.region_ids += [@event.region.id] unless @rsvp.user.region_ids.include? @event.region.id
+    else
+      @rsvp.user.region_ids -= [@event.region.id]
     end
   end
 
@@ -133,17 +120,15 @@ class RsvpsController < ApplicationController
         required_sessions = @event.event_sessions.where(required_for_students: true).pluck(:id)
         params[:event_session_ids] = user_choices | required_sessions
       end
-      if @event.event_sessions.length == 1
-        params[:event_session_ids] = [@event.event_sessions.first.id]
-      end
+      params[:event_session_ids] = [@event.event_sessions.first.id] if @event.event_sessions.length == 1
     end
   end
 
   def load_rsvp
     @rsvp = Rsvp.find_by(id: params[:id])
-    unless @rsvp && ((@rsvp.user == current_user) || @rsvp.event.organizer?(current_user))
-      redirect_to events_path, notice: 'You are not signed up for this event'
-    end
+    return if @rsvp && ((@rsvp.user == current_user) || @rsvp.event.organizer?(current_user))
+
+    redirect_to events_path, notice: 'You are not signed up for this event'
   end
 
   def redirect_if_rsvp_exists
@@ -156,9 +141,9 @@ class RsvpsController < ApplicationController
 
   def assign_event
     @event = Event.find_by(id: params[:event_id])
-    if @event.nil?
-      redirect_to events_path, notice: 'You are not signed up for this event'
-    end
+    return unless @event.nil?
+
+    redirect_to events_path, notice: 'You are not signed up for this event'
   end
 
   def signup_for_new_region?

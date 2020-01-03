@@ -6,15 +6,10 @@ class FailureFileParser
   end
 
   def failures_from_persistence_file
-    File.readlines(@filename)[2..-1].map do |l|
-      l.split('|').map(&:strip)
-    end.select do |file_ref|
-      file_ref[1] == 'failed'
-    end.map do |file_ref|
-      example_name = file_ref[0]
-      {
-        example_id: example_name
-      }
-    end
+    File
+      .readlines(@filename)[2..-1]
+      .map { |l| l.split('|').map(&:strip) }
+      .select { |file_ref| file_ref[1] == 'failed' }
+      .map { |file_ref| { example_id: file_ref[0] } }
   end
 end
