@@ -34,31 +34,32 @@ describe EventsController do
   end
 
   describe 'GET index (json)' do
+    let!(:future_event) { create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska') }
+    let!(:future_external_event) { create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 4.days.from_now) }
+    let!(:past_event) { create(:event, title: 'PastBridge', time_zone: 'Alaska').tap { |e| e.update(starts_at: 5.days.ago, ends_at: 4.days.ago) } }
+    let!(:past_external_event) { create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago) }
+
     before do
-      @future_event = create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska')
-      @future_external_event = create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 4.days.from_now)
-      @past_event = create(:event, title: 'PastBridge', time_zone: 'Alaska')
-      @past_event.update(starts_at: 5.days.ago, ends_at: 4.days.ago)
-      @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
-      @unpublished_event = create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, current_state: :pending_approval)
+      # unpublished
+      create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, current_state: :pending_approval)
     end
 
     it 'can render published past events as json' do
       get :index, params: { type: 'past' }, format: 'json'
       result_titles = JSON.parse(response.body).map { |e| e['title'] }
-      expect(result_titles).to eq([@past_event, @past_external_event].map(&:title))
+      expect(result_titles).to eq([past_event, past_external_event].map(&:title))
     end
 
     it 'can render all published events as json' do
       get :index, params: { type: 'all' }, format: 'json'
       result_titles = JSON.parse(response.body).map { |e| e['title'] }
-      expect(result_titles).to eq([@past_event, @past_external_event, @future_external_event, @future_event].map(&:title))
+      expect(result_titles).to eq([past_event, past_external_event, future_external_event, future_event].map(&:title))
     end
 
     it 'can render only upcoming published events as json' do
       get :index, params: { type: 'upcoming' }, format: 'json'
       result_titles = JSON.parse(response.body).map { |e| e['title'] }
-      expect(result_titles).to eq([@future_external_event, @future_event].map(&:title))
+      expect(result_titles).to eq([future_external_event, future_event].map(&:title))
     end
   end
 
@@ -193,8 +194,8 @@ describe EventsController do
 
     context 'when a user is logged in' do
       before do
-        @user = create(:user, time_zone: 'Alaska')
-        sign_in @user
+        user = create(:user, time_zone: 'Alaska')
+        sign_in user
       end
 
       it 'successfully assigns an event' do
@@ -257,9 +258,10 @@ describe EventsController do
     it_behaves_like 'an action that requires user log-in'
 
     context 'when a user is logged in' do
+      let(:user) { create(:user) }
+
       before do
-        @user = create(:user)
-        sign_in @user
+        sign_in user
       end
 
       describe 'with valid params' do
@@ -301,7 +303,7 @@ describe EventsController do
             make_request(create_params)
           end.to change(Event, :count).by(1)
 
-          expect(Event.last.organizers).to include(@user)
+          expect(Event.last.organizers).to include(user)
           expect(response).to redirect_to event_path(Event.last)
           expect(flash[:notice]).to be_present
         end
@@ -313,7 +315,7 @@ describe EventsController do
 
         context 'but the user is flagged as a spammer' do
           before do
-            @user.update_attribute(:spammer, true)
+            user.update_attribute(:spammer, true)
           end
 
           it 'sends no email and flags the event as spam after creation' do
@@ -325,14 +327,15 @@ describe EventsController do
         end
 
         describe 'notifying publishers of events' do
-          before do
-            @user.update(first_name: 'Nitro', last_name: 'Boost')
-            @admin = create(:user, admin: true)
-            @publisher = create(:user, publisher: true)
-          end
+          let!(:admin) { create(:user, admin: true) }
+          let!(:publisher) { create(:user, publisher: true) }
 
           let(:mail) do
             ActionMailer::Base.deliveries.reverse.find { |d| d.subject.include? 'awaits approval' }
+          end
+
+          before do
+            user.update(first_name: 'Nitro', last_name: 'Boost')
           end
 
           it 'sends an email to all admins/publishers on event creation' do
@@ -345,13 +348,13 @@ describe EventsController do
             expect(mail.body).to include('Party Zone')
             expect(mail.body).to include('Nitro Boost')
 
-            expect(mail.to).to match_array([@admin.email, @publisher.email])
+            expect(mail.to).to match_array([admin.email, publisher.email])
           end
         end
 
         describe 'notifying the user of pending approval' do
           before do
-            @user.update(first_name: 'Evel', last_name: 'Knievel')
+            user.update(first_name: 'Evel', last_name: 'Knievel')
           end
 
           let(:mail) do
@@ -369,7 +372,7 @@ describe EventsController do
             expect(mail.body).to include('Evel')
             expect(mail.body).to include('event needs to be approved')
 
-            expect(recipients).to match_array([@user.email])
+            expect(recipients).to match_array([user.email])
           end
         end
       end

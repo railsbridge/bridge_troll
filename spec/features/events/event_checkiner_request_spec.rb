@@ -3,22 +3,23 @@
 require 'rails_helper'
 
 describe 'checking in attendees' do
+  let(:event) { create(:event) }
+
   before do
-    @event = create(:event)
-    @event.event_sessions.first.update(name: 'Unique Session Name')
+    event.event_sessions.first.update(name: 'Unique Session Name')
   end
 
   describe 'as an organizer' do
-    let!(:attendee_rsvp) { create(:volunteer_rsvp, event: @event) }
+    let!(:attendee_rsvp) { create(:volunteer_rsvp, event: event) }
 
     before do
       organizer = create(:user)
-      @event.organizers << organizer
+      event.organizers << organizer
       sign_in_as(organizer)
     end
 
     it 'can assign another user as a checkiner', js: true do
-      visit event_checkiners_path(@event)
+      visit event_checkiners_path(event)
 
       select(attendee_rsvp.user.full_name, from: 'event_checkiner_rsvp_id')
 
@@ -35,7 +36,7 @@ describe 'checking in attendees' do
       end
 
       it 'can remove checkiner status from the user' do
-        visit event_checkiners_path(@event)
+        visit event_checkiners_path(event)
 
         expect(page).to have_content(attendee_rsvp.user.email)
         expect(page).to have_selector('input[value="Remove"]')
@@ -50,22 +51,22 @@ describe 'checking in attendees' do
 
   describe 'as a checkiner' do
     before do
-      rsvp = create(:volunteer_rsvp, event: @event, checkiner: true)
-
-      @student_rsvp = create(:student_rsvp, event: @event)
-      @student = @student_rsvp.user
-      @student_rsvp_session = @student_rsvp.rsvp_sessions.first
+      rsvp = create(:volunteer_rsvp, event: event, checkiner: true)
       sign_in_as(rsvp.user)
     end
 
+    let!(:student_rsvp_session) do
+      create(:student_rsvp, event: event).rsvp_sessions.first
+    end
+
     it 'lets the user check in attendees', js: true do
-      visit event_event_sessions_path(@event)
+      visit event_event_sessions_path(event)
 
       click_link 'Check in for Unique Session Name'
 
       expect(page).to have_content('Check-ins for Unique Session Name')
 
-      within "#rsvp_session_#{@student_rsvp_session.id}" do
+      within "#rsvp_session_#{student_rsvp_session.id}" do
         within '.create' do
           click_on 'Check In'
         end

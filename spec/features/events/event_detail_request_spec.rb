@@ -4,34 +4,31 @@ require 'rails_helper'
 
 describe 'the event detail page' do
   let(:rsvp_actions_selector) { '.rsvp-actions' }
-
-  before do
-    @event = create(:event, public_email: 'public_email@example.org')
-  end
+  let!(:event) { create(:event, public_email: 'public_email@example.org') }
 
   context 'user is not logged in' do
     it 'shows a list of volunteers for the event' do
       user1 = create(:user)
       user2 = create(:user)
-      create(:rsvp, user: user1, event: @event)
-      visit event_path(@event)
+      create(:rsvp, user: user1, event: event)
+      visit event_path(event)
 
       expect(page).to have_content(user1.full_name)
       expect(page).not_to have_content(user2.full_name)
     end
 
     it 'shows who is organizing the event' do
-      visit event_path(@event)
+      visit event_path(event)
       within('.organizers') do
         expect(page).to have_content('No Organizer Assigned')
       end
 
       user1 = create(:user)
       user2 = create(:user)
-      @event.organizers << user1
-      @event.organizers << user2
+      event.organizers << user1
+      event.organizers << user2
 
-      visit event_path(@event)
+      visit event_path(event)
       within('.organizers') do
         expect(page).to have_content(user1.full_name)
         expect(page).to have_content(user2.full_name)
@@ -39,19 +36,19 @@ describe 'the event detail page' do
     end
 
     it 'does not display the Edit link, public email, volunteer or student details' do
-      visit event_path(@event)
+      visit event_path(event)
       expect(page).not_to have_content('Edit')
-      expect(page).not_to have_content(@event.public_email)
-      expect(page).not_to have_content(@event.volunteer_details)
-      expect(page).not_to have_content(@event.student_details)
+      expect(page).not_to have_content(event.public_email)
+      expect(page).not_to have_content(event.volunteer_details)
+      expect(page).not_to have_content(event.student_details)
     end
 
     it 'shows both locations for multiple-location events' do
       session_location = create(:location)
-      create(:event_session, event: @event, location: session_location)
+      create(:event_session, event: event, location: session_location)
 
-      visit event_path(@event)
-      expect(page).to have_content(@event.location.name)
+      visit event_path(event)
+      expect(page).to have_content(event.location.name)
       expect(page).to have_content(session_location.name)
     end
 
@@ -60,7 +57,7 @@ describe 'the event detail page' do
 
       context 'when a course is chosen' do
         it 'displays a course and has a link to get the course level descriptions' do
-          visit event_path(@event)
+          visit event_path(event)
           expect(page).to have_content(chosen_course_text)
 
           click_link 'Click here for more information about class levels in this course!'
@@ -70,11 +67,11 @@ describe 'the event detail page' do
 
       context 'when a course is not chosen' do
         before do
-          @event.update(course_id: nil)
+          event.update(course_id: nil)
         end
 
         it 'does not display a course' do
-          visit event_path(@event)
+          visit event_path(event)
           expect(page).not_to have_content(chosen_course_text)
         end
       end
@@ -82,21 +79,21 @@ describe 'the event detail page' do
 
     describe 'RSVPing', js: true do
       it 'shows links to RSVP and allows the user to sign in through a modal after clicking them' do
-        @user = create(:user)
+        user = create(:user)
 
-        visit event_path(@event)
+        visit event_path(event)
 
         expect(page).to have_selector(rsvp_actions_selector)
         click_link 'Volunteer'
 
-        sign_in_with_modal(@user)
+        sign_in_with_modal(user)
 
         expect(page).to have_content('RSVP')
-        expect(page).to have_current_path(volunteer_new_event_rsvp_path(@event), ignore_query: true)
+        expect(page).to have_current_path(volunteer_new_event_rsvp_path(event), ignore_query: true)
       end
 
       it 'redirects the user back to the event show page if they sign up using the modal' do
-        visit event_path(@event)
+        visit event_path(event)
         click_link 'Attend as a student'
 
         expect(page).to have_selector('#sign_in_dialog', visible: true)
@@ -114,7 +111,7 @@ describe 'the event detail page' do
         end
 
         expect(page).to have_content('A message with a confirmation link has been sent to your email address. Please open the link to activate your account.')
-        expect(page).to have_current_path(event_path(@event), ignore_query: true)
+        expect(page).to have_current_path(event_path(event), ignore_query: true)
       end
     end
   end
@@ -124,21 +121,21 @@ describe 'the event detail page' do
     let(:join_student_waitlist_text) { 'Join the student waitlist' }
     let(:attend_as_volunteer_text) { 'Volunteer' }
     let(:join_volunteer_waitlist_text) { 'Join the volunteer waitlist' }
+    let(:user) { create(:user) }
 
     before do
-      @user = create(:user)
-      sign_in_as(@user)
+      sign_in_as(user)
     end
 
     it 'displays the event public email but not the Edit link' do
-      visit event_path(@event)
+      visit event_path(event)
       expect(page).to have_content('public_email@example.org')
       expect(page).not_to have_content('Edit')
     end
 
     context "when user has not rsvp'd to event" do
       it 'allows user to rsvp as a volunteer or student' do
-        visit event_path(@event)
+        visit event_path(event)
         expect(page).to have_link('Volunteer')
         expect(page).to have_link(attend_as_student_text)
         expect(page).not_to have_link(join_student_waitlist_text)
@@ -151,13 +148,13 @@ describe 'the event detail page' do
         end
 
         it 'allows the user to join the student waitlist' do
-          visit event_path(@event)
+          visit event_path(event)
           expect(page).not_to have_link(attend_as_student_text)
           expect(page).to have_link(join_student_waitlist_text)
         end
 
         it 'allows the user to join the volunteer waitlist' do
-          visit event_path(@event)
+          visit event_path(event)
           expect(page).not_to have_link(attend_as_volunteer_text)
           expect(page).to have_link(join_volunteer_waitlist_text)
         end
@@ -166,12 +163,12 @@ describe 'the event detail page' do
 
     context "when a volunteer has rsvp'd to event" do
       before do
-        create(:rsvp, event: @event, user: @user)
-        visit event_path(@event)
+        create(:rsvp, event: event, user: user)
+        visit event_path(event)
       end
 
       it 'allows user to see volunteer details and lets them cancel their RSVP' do
-        expect(page).to have_content(@event.volunteer_details)
+        expect(page).to have_content(event.volunteer_details)
 
         expect(page).to have_link('Cancel RSVP')
       end
@@ -179,12 +176,12 @@ describe 'the event detail page' do
 
     context "when a student has rsvp'd to an event" do
       before do
-        create(:student_rsvp, event: @event, user: @user)
-        visit event_path(@event)
+        create(:student_rsvp, event: event, user: user)
+        visit event_path(event)
       end
 
       it 'allows user to see student details and lets them cancel their RSVP' do
-        expect(page).to have_content(@event.student_details)
+        expect(page).to have_content(event.student_details)
 
         expect(page).to have_link('Cancel RSVP')
       end
@@ -194,36 +191,36 @@ describe 'the event detail page' do
   context 'user is logged in and is an organizer of the event' do
     before do
       user = create(:user)
-      @event.organizers << user
+      event.organizers << user
       sign_in_as(user)
     end
 
     it 'lets the user edit the event' do
-      visit event_path(@event)
+      visit event_path(event)
       click_link 'Edit'
       fill_in 'Title', with: 'New totally awesome event'
       click_button 'Update Event'
 
-      visit event_path(@event)
+      visit event_path(event)
       expect(page).to have_content 'New totally awesome event'
     end
 
     context 'when an event has some sessions with no RSVPs' do
       before do
-        create(:event_session, event: @event)
+        create(:event_session, event: event)
       end
 
       it 'can remove those sessions', js: true do
-        expect(@event.event_sessions.count).to eq(2)
+        expect(event.event_sessions.count).to eq(2)
 
-        visit edit_event_path(@event)
+        visit edit_event_path(event)
 
         expect(page).to have_css('.remove-session')
         accept_alert { page.all('.remove-session').last.click }
 
         expect(page).to have_css('.event-sessions .fields', count: 1)
 
-        expect(@event.event_sessions.count).to eq(1)
+        expect(event.event_sessions.count).to eq(1)
       end
     end
   end
@@ -240,22 +237,22 @@ describe 'the event detail page' do
           url: 'http://example.com/901'
         }
       }
-      @event.update(student_rsvp_limit: nil, imported_event_data: imported_event_data)
+      event.update(student_rsvp_limit: nil, imported_event_data: imported_event_data)
     end
 
     it 'does not render rsvp actions' do
-      visit event_path(@event)
+      visit event_path(event)
       expect(page).not_to have_selector(rsvp_actions_selector)
     end
   end
 
   context 'past events' do
     before do
-      @event.update(ends_at: 1.day.ago)
+      event.update(ends_at: 1.day.ago)
     end
 
     it 'does not render rsvp actions' do
-      visit event_path(@event)
+      visit event_path(event)
       expect(page).not_to have_selector(rsvp_actions_selector)
     end
   end

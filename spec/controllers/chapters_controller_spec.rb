@@ -21,18 +21,15 @@ describe ChaptersController do
 
   describe '#show' do
     let!(:chapter) { create(:chapter) }
-
-    before do
-      @draft_event = create(:event, current_state: :draft, chapter: chapter)
-      @pending_event = create(:event, current_state: :pending_approval, chapter: chapter)
-      @published_event = create(:event, chapter: chapter)
-    end
+    let!(:draft_event) { create(:event, current_state: :draft, chapter: chapter) }
+    let!(:pending_event) { create(:event, current_state: :pending_approval, chapter: chapter) }
+    let!(:published_event) { create(:event, chapter: chapter) }
 
     describe 'as an admin' do
       it 'shows all events' do
-        expect(chapter.events).to match_array([@draft_event, @pending_event, @published_event])
+        expect(chapter.events).to match_array([draft_event, pending_event, published_event])
         get :show, params: { id: chapter.id }
-        expect(assigns(:chapter_events)).to match_array([@draft_event, @pending_event, @published_event])
+        expect(assigns(:chapter_events)).to match_array([draft_event, pending_event, published_event])
       end
     end
 
@@ -41,7 +38,7 @@ describe ChaptersController do
 
       it 'shows a list of published events' do
         get :show, params: { id: chapter.id }
-        expect(assigns(:chapter_events)).to match_array([@published_event])
+        expect(assigns(:chapter_events)).to match_array([published_event])
       end
     end
   end
