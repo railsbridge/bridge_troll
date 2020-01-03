@@ -9,6 +9,9 @@ cache:
     - node_modules
     - tmp
 
+node_js:
+  - "13"
+
 addons:
   chrome: stable
 
