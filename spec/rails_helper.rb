@@ -16,7 +16,6 @@ require 'capybara-screenshot/rspec'
 require 'webmock/rspec'
 require 'capybara/apparition'
 
-
 Capybara.register_driver :apparition_visible do |app|
   Capybara::Apparition::Driver.new(app, headless: false)
 end
