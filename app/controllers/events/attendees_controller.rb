@@ -31,20 +31,22 @@ module Events
       @event = Event.find_by(id: params[:event_id])
     end
 
+    HEADER = [
+      'Name',
+      'Attending As',
+      'Custom Question Answer',
+      'Dietary Info',
+      'Childcare Info',
+      'Job Details',
+      'Gender',
+      'Plus-One Host',
+      'Waitlisted',
+      'Waitlist Position'
+    ].freeze
+
     def attendee_csv_data(rsvps)
       CSV.generate do |csv|
-        csv << [
-          'Name',
-          'Attending As',
-          'Custom Question Answer',
-          'Dietary Info',
-          'Childcare Info',
-          'Job Details',
-          'Gender',
-          'Plus-One Host',
-          'Waitlisted',
-          'Waitlist Position'
-        ]
+        csv << HEADER
 
         rsvps.includes(:user).joins(:bridgetroll_user).order('users.first_name ASC, users.last_name ASC').each do |rsvp|
           csv << [

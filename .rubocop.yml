@@ -48,3 +48,10 @@ RSpec/DescribeClass:
   Exclude:
     - spec/features/**/*
     - spec/models/factory_spec.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+    - config/**/*
+    - db/migrate/*
+    - lib/tasks/**/*
