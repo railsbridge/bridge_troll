@@ -73,16 +73,6 @@ RSpec/MultipleExpectations:
 RSpec/NestedGroups:
   Max: 6
 
-# Offense count: 2
-RSpec/RepeatedExampleGroupBody:
-  Exclude:
-    - 'spec/models/event_spec.rb'
-
-# Offense count: 2
-RSpec/RepeatedExampleGroupDescription:
-  Exclude:
-    - 'spec/models/event_spec.rb'
-
 # Offense count: 6
 RSpec/SubjectStub:
   Exclude:

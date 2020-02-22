@@ -391,28 +391,6 @@ describe Event do
     end
   end
 
-  describe '#volunteers_at_limit?' do
-    context 'when the event has a volunteer limit' do
-      let(:event) { create(:event, volunteer_rsvp_limit: 2) }
-
-      it 'is true when the limit is exceeded' do
-        expect do
-          create_list(:volunteer_rsvp, 3, event: event)
-        end.to change { event.reload.volunteers_at_limit? }.from(false).to(true)
-      end
-    end
-
-    context 'when the event has no limit (historical events)' do
-      let(:event) do
-        create(:event, :imported, volunteer_rsvp_limit: nil)
-      end
-
-      it 'is false' do
-        expect(event).not_to be_volunteers_at_limit
-      end
-    end
-  end
-
   describe '#students' do
     before do
       @event = create(:event)
