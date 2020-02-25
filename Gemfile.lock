@@ -143,7 +143,7 @@ GEM
       activesupport (>= 4.2.0)
     gmaps4rails (2.1.2)
     gravatar_image_tag (1.2.0)
-    handlebars_assets (0.23.7)
+    handlebars_assets (0.23.8)
       execjs (~> 2.0)
       sprockets (>= 2.0.0)
       tilt (>= 1.2)
