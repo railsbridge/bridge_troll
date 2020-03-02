@@ -435,7 +435,6 @@ DEPENDENCIES
   jasmine-jquery-rails
   jquery-rails
   jquery-ui-rails
-  launchy
   listen
   multi_json
   nearest_time_zone
