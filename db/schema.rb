@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_02_135517) do
+ActiveRecord::Schema.define(version: 2020_03_29_093106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "unaccent"
@@ -21,11 +21,13 @@ ActiveRecord::Schema.define(version: 2020_01_02_135517) do
     t.string "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["uid", "provider"], name: "index_authentications_on_uid_and_provider", unique: true
   end
 
   create_table "chapter_leaderships", force: :cascade do |t|
     t.integer "user_id"
     t.integer "chapter_id"
+    t.index ["chapter_id", "user_id"], name: "index_chapter_leaderships_on_chapter_id_and_user_id", unique: true
   end
 
   create_table "chapters", force: :cascade do |t|
@@ -35,6 +37,7 @@ ActiveRecord::Schema.define(version: 2020_01_02_135517) do
     t.integer "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_chapters_on_name", unique: true
   end
 
   create_table "courses", force: :cascade do |t|
@@ -50,6 +53,7 @@ ActiveRecord::Schema.define(version: 2020_01_02_135517) do
     t.integer "rsvp_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["rsvp_id", "restriction"], name: "index_dietary_restrictions_on_rsvp_id_and_restriction", unique: true
   end
 
   create_table "event_email_recipients", force: :cascade do |t|
@@ -180,7 +184,7 @@ ActiveRecord::Schema.define(version: 2020_01_02_135517) do
   create_table "organization_leaderships", force: :cascade do |t|
     t.integer "user_id"
     t.integer "organization_id"
-    t.index ["organization_id"], name: "index_organization_leaderships_on_organization_id"
+    t.index ["organization_id", "user_id"], name: "index_organization_leaderships_on_organization_id_and_user_id", unique: true
     t.index ["user_id"], name: "index_organization_leaderships_on_user_id"
   end
 
@@ -214,11 +218,13 @@ ActiveRecord::Schema.define(version: 2020_01_02_135517) do
     t.boolean "outreach"
     t.string "github_username"
     t.string "twitter_username"
+    t.index ["user_id"], name: "index_profiles_on_user_id", unique: true
   end
 
   create_table "region_leaderships", force: :cascade do |t|
     t.integer "user_id"
     t.integer "region_id"
+    t.index ["region_id", "user_id"], name: "index_region_leaderships_on_region_id_and_user_id", unique: true
   end
 
   create_table "regions", force: :cascade do |t|
@@ -227,6 +233,7 @@ ActiveRecord::Schema.define(version: 2020_01_02_135517) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "external_events_count", default: 0
+    t.index ["name"], name: "index_regions_on_name", unique: true
   end
 
   create_table "regions_users", force: :cascade do |t|
@@ -242,6 +249,7 @@ ActiveRecord::Schema.define(version: 2020_01_02_135517) do
     t.datetime "updated_at", null: false
     t.boolean "checked_in", default: false
     t.datetime "reminded_at"
+    t.index ["event_session_id", "rsvp_id"], name: "index_rsvp_sessions_on_event_session_id_and_rsvp_id", unique: true
   end
 
   create_table "rsvps", force: :cascade do |t|
@@ -291,6 +299,7 @@ ActiveRecord::Schema.define(version: 2020_01_02_135517) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "appropriate_for_skill"
+    t.index ["rsvp_id"], name: "index_surveys_on_rsvp_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

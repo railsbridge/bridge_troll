@@ -79,22 +79,6 @@ RSpec/NestedGroups:
 Rails/SkipsModelValidations:
   Enabled: false
 
-# Offense count: 10
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/UniqueValidationWithoutIndex:
-  Exclude:
-    - 'app/models/authentication.rb'
-    - 'app/models/chapter.rb'
-    - 'app/models/chapter_leadership.rb'
-    - 'app/models/dietary_restriction.rb'
-    - 'app/models/organization_leadership.rb'
-    - 'app/models/profile.rb'
-    - 'app/models/region.rb'
-    - 'app/models/region_leadership.rb'
-    - 'app/models/rsvp_session.rb'
-    - 'app/models/survey.rb'
-
 # Offense count: 147
 Style/Documentation:
   Enabled: false
