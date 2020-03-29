@@ -41,8 +41,8 @@ describe UsersController do
 
     it 'calculates attendances' do
       get :index, format: :json
-      users = JSON.parse(response.body)['data'].each_with_object({}) do |u, hsh|
-        hsh[u['global_id']] = u
+      users = JSON.parse(response.body)['data'].index_by do |u|
+        u['global_id']
       end
 
       expect(users[user1.to_global_id.to_s]['volunteer_rsvp_count']).to eq(2)
