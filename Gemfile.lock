@@ -472,12 +472,12 @@ DEPENDENCIES
   rack-cors
   rack-mini-profiler
   rack-timeout
-  rails (~> 6.0.2.2)
+  rails
   rails-controller-testing
   rake
   rb-fsevent
   rspec-collection_matchers
-  rspec-rails
+  rspec-rails (= 4.0.0.beta3)
   rubocop
   rubocop-performance
   rubocop-rails
