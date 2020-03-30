@@ -4,7 +4,8 @@ module CoursePopulator
   module_function
 
   def populate_courses
-    YAML.safe_load(File.expand_path('courses.yaml', __DIR__)).each do |course|
+    file = YAML.safe_load(File.expand_path('courses.yaml', __dir__))
+    YAML.load_file(file).each do |course|
       c = Course.where(
         id: course[:id]
       ).first_or_create!(
