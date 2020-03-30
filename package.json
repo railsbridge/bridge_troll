@@ -4,9 +4,9 @@
   "dependencies": {
     "datatables.net": "1.10.13",
     "datatables.net-bs": "1.10.13",
-    "select2": "4.0.3",
     "markerclustererplus": "2.1.4",
-    "masonry-layout": "4.1.1"
+    "masonry-layout": "4.1.1",
+    "select2": "4.0.3"
   },
   "devDependencies": {
     "chromedriver": "^79.0.0",
