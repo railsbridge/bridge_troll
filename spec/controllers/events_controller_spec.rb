@@ -40,7 +40,7 @@ describe EventsController do
     let!(:past_external_event) { create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago) }
 
     before do
-      # unpublished
+      # unpublished, not included in results below
       create(:event, starts_at: 5.days.from_now, ends_at: 6.days.from_now, current_state: :pending_approval)
     end
 
@@ -60,6 +60,16 @@ describe EventsController do
       get :index, params: { type: 'upcoming' }, format: 'json'
       result_titles = JSON.parse(response.body).map { |e| e['title'] }
       expect(result_titles).to eq([future_external_event, future_event].map(&:title))
+    end
+  end
+
+  describe 'GET index (csv)' do
+    let!(:event) { create(:event, :without_location) }
+
+    it 'can render without an event without a location' do
+      get :index, format: :csv
+      result_titles = CSV.parse(response.body, headers: true).map(&:to_h).map { |e| e['title'] }
+      expect(result_titles).to eq [event].map(&:title)
     end
   end
 

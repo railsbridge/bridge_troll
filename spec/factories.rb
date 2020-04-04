@@ -60,6 +60,10 @@ FactoryBot.define do
         end
       end
 
+      trait :without_location do
+        location { nil }
+      end
+
       after(:build) do |event, _evaluator|
         event.event_sessions << build(:event_session, event: event, starts_at: event.starts_at, ends_at: event.ends_at)
       end
