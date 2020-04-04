@@ -54,11 +54,11 @@ class EventCsvReporter
     end
 
     def city
-      event_json[:location][:city]
+      event_json.dig(:location, :city)
     end
 
     def location
-      event_json[:location][:name]
+      event_json.dig(:location, :name)
     end
 
     def title
