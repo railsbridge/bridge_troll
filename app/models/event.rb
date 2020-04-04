@@ -365,7 +365,7 @@ class Event < ApplicationRecord
   def as_json(options = {})
     options = {
       only: %i[id title student_rsvp_limit imported_event_data],
-      methods: [:location]
+      includes: [:location]
     }.merge(options)
     super(options).merge(
       workshop: !!(allow_student_rsvp || historical?),
