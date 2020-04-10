@@ -1,7 +1,7 @@
 language: ruby
 rvm:
   - 2.6.6
-bundler_args: "--without development production --deployment"
+bundler_args: --without development production --deployment
 cache:
   bundler: true
   yarn: true
@@ -14,7 +14,7 @@ addons:
 
 env:
   global:
-    - "PATH=$PWD/node_modules/.bin:$PATH"
+    - PATH=$PWD/node_modules/.bin:$PATH
 
 matrix:
   include:
@@ -24,12 +24,13 @@ matrix:
   - env: DO_NOT_FORCE_POSTGRES=true
 
 before_install:
-  - 'env'
-  - 'yarn install'
+  - env
+  - nvm install 12
+  - yarn install
   - 'echo ''gem: --no-document'' > ~/.gemrc'
-  - 'gem update --system'
-  - 'gem install bundler'
+  - gem update --system
+  - gem install bundler
 before_script:
-  - 'bundle exec rake parallel:setup'
+  - bundle exec rake parallel:setup
 
 sudo: false
