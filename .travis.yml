@@ -25,6 +25,7 @@ matrix:
 
 before_install:
   - 'env'
+  - nvm install 12
   - 'yarn install'
   - 'echo ''gem: --no-document'' > ~/.gemrc'
   - 'gem update --system'
