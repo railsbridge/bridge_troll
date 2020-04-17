@@ -255,7 +255,7 @@ GEM
     pundit (2.1.0)
       activesupport (>= 3.0.0)
     rack (2.2.2)
-    rack-canonical-host (0.2.3)
+    rack-canonical-host (1.0.0)
       addressable (> 0, < 3)
       rack (>= 1.0.0, < 3)
     rack-cors (1.1.1)
