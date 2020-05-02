@@ -285,7 +285,7 @@ describe 'the event listing page' do
           expect(rsvp).to be_teaching
           expect(rsvp).not_to be_taing
           expect(rsvp.user_id).to eq(user.id)
-          expect(rsvp.event_id).to eq(event .id)
+          expect(rsvp.event_id).to eq(event.id)
 
           expect(rsvp.rsvp_sessions.length).to eq(1)
           expect(rsvp.rsvp_sessions.first.event_session).to eq(session1)
@@ -301,7 +301,7 @@ describe 'the event listing page' do
           expect(rsvp).not_to be_teaching
           expect(rsvp).not_to be_taing
           expect(rsvp.user_id).to eq(user.id)
-          expect(rsvp.event_id).to eq(event .id)
+          expect(rsvp.event_id).to eq(event.id)
         end
       end
 
@@ -319,7 +319,7 @@ describe 'the event listing page' do
 
         rsvp = Rsvp.last
         expect(rsvp.user_id).to eq(user.id)
-        expect(rsvp.event_id).to eq(event .id)
+        expect(rsvp.event_id).to eq(event.id)
         expect(rsvp.operating_system).to eq(OperatingSystem::WINDOWS_8)
 
         expect(rsvp.rsvp_sessions.length).to eq(2)

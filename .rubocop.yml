@@ -71,3 +71,9 @@ Lint/RaiseException:
 
 Lint/StructNewOverride:
   Enabled: True
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: True
+
+Style/ExponentialNotation:
+  Enabled: True
