@@ -176,7 +176,7 @@ describe 'the event listing page' do
         # note the closed <h1> and missing script tags
         expect(page.body).to include("This is a note in the detail text box\n<br> With a new line! and a (missing) javascript injection, as well as an unclosed </p><h1> tag</h1>")
         expect(page).to have_css('.details p', text: 'With a new line!')
-        expect(page).to have_css('.details br', visible: false)
+        expect(page).to have_css('.details br', visible: :hidden)
         expect(page).not_to have_css '.details script'
       end
 

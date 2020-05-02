@@ -10,9 +10,9 @@ describe 'sign in functionality' do
 
   it 'shows on home page on click' do
     visit '/'
-    page.find('#sign_in_dialog', visible: false)
+    page.find('#sign_in_dialog', visible: :hidden)
     click_link('Sign In')
-    page.find('#sign_in_dialog', visible: true)
+    page.find('#sign_in_dialog', visible: :visible)
   end
 
   it 'does not show if signed in' do

@@ -6,13 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 3
-Capybara/VisibilityMatcher:
-  Exclude:
-    - 'spec/features/events/event_detail_request_spec.rb'
-    - 'spec/features/events/new_event_request_spec.rb'
-    - 'spec/support/sign_in_helper.rb'
-
 # Offense count: 44
 # Configuration parameters: IgnoredMethods.
 Metrics/AbcSize:

@@ -122,7 +122,7 @@ describe 'New Event', js: true do
 
       expect do
         click_button 'Create Location'
-        expect(page).to have_css('#new-location-modal', visible: :hidden)
+        expect(page).to have_css('#new-location-modal', visible: :visible)
       end.to change(Location, :count).by(1)
 
       expect(page.all('select#event_location_id option').map(&:text)).to include("UChicago (#{region.name})")
@@ -176,10 +176,10 @@ describe 'New Event', js: true do
 
       expect(page).to have_selector('.event-sessions > .fields', count: 2)
 
-      find(:link, 'Remove Session', visible: true).click
+      find(:link, 'Remove Session', visible: :visible).click
       expect(page).to have_selector('.event-sessions > .fields', count: 1)
 
-      expect(page).to have_selector(:link, 'Remove Session', visible: false)
+      expect(page).to have_selector(:link, 'Remove Session', visible: :hidden)
     end
   end
 
