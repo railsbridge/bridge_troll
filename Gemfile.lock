@@ -154,7 +154,6 @@ GEM
     icalendar (2.6.1)
       ice_cube (~> 0.16)
     ice_cube (0.16.3)
-    jaro_winkler (1.5.4)
     jasmine (3.5.1)
       jasmine-core (~> 3.5.0)
       phantomjs
@@ -242,7 +241,7 @@ GEM
     parallel (1.19.1)
     parallel_tests (2.32.0)
       parallel
-    parser (2.7.1.1)
+    parser (2.7.1.2)
       ast (~> 2.4.0)
     pg (1.2.3)
     phantomjs (2.1.1.0)
@@ -323,8 +322,7 @@ GEM
       rspec-mocks (~> 3.9)
       rspec-support (~> 3.9)
     rspec-support (3.9.2)
-    rubocop (0.82.0)
-      jaro_winkler (~> 1.5.1)
+    rubocop (0.83.0)
       parallel (~> 1.10)
       parser (>= 2.7.0.1)
       rainbow (>= 2.2.2, < 4.0)
