@@ -8,9 +8,9 @@ describe 'sign in functionality' do
     @user = create(:user)
   end
 
-  it 'shows on home page on click' do
+  it 'shows on home page on click', js: true do
     visit '/'
-    page.find('#sign_in_dialog')
+    page.find('#sign_in_dialog', visible: :hidden)
     click_link('Sign In')
     page.find('#sign_in_dialog')
   end
