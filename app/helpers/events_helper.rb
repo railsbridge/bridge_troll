@@ -90,8 +90,12 @@ module EventsHelper
 
   def event_special_permissions_text(event, user_event_role)
     return 'As an admin, you can view organizer tools for this event.' if current_user.admin?
-    return "As a chapter leader for #{event.chapter.name}, you can view organizer tools for this event." if event.chapter.leader?(current_user)
-    return "As an organization leader for #{event.organization.name}, you can view organizer tools for this event." if event.organization.leader?(current_user)
+    if event.chapter.leader?(current_user)
+      return "As a chapter leader for #{event.chapter.name}, you can view organizer tools for this event."
+    end
+    if event.organization.leader?(current_user)
+      return "As an organization leader for #{event.organization.name}, you can view organizer tools for this event."
+    end
 
     role_text = user_event_role == :editor ? 'an organizer of' : 'a checkiner for'
     "You are #{role_text} this event!"

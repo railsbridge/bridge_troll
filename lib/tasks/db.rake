@@ -66,7 +66,7 @@ db_namespace = namespace :db do
 
       if needs_foreign_keys
         begin
-          fk_rows = existing_schema_content.match(/.*?([ ]+add_foreign.+\nend\n$)/m).try(:[], 1)
+          fk_rows = existing_schema_content.match(/.*?( +add_foreign.+\nend\n$)/m).try(:[], 1)
           if fk_rows
             new_schema_content.sub!(/end\n\Z/m, fk_rows)
           else

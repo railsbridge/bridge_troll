@@ -28,7 +28,9 @@ module PresenceTrackingBoolean
       ivar_symbol = :"@#{boolean_attribute}"
 
       define_method :"#{boolean_attribute}?" do
-        instance_variable_set(ivar_symbol, send(tracked_attribute).present?) unless instance_variable_defined?(ivar_symbol)
+        unless instance_variable_defined?(ivar_symbol)
+          instance_variable_set(ivar_symbol, send(tracked_attribute).present?)
+        end
         instance_variable_get(ivar_symbol)
       end
 

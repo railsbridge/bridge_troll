@@ -10,7 +10,9 @@ class Event < ApplicationRecord
   after_initialize :set_defaults
   before_validation :normalize_allowed_operating_system_ids
   after_save do |event|
-    WaitlistManager.new(event).reorder_waitlist! if saved_change_to_attribute?(:student_rsvp_limit) || saved_change_to_attribute?(:volunteer_rsvp_limit)
+    if saved_change_to_attribute?(:student_rsvp_limit) || saved_change_to_attribute?(:volunteer_rsvp_limit)
+      WaitlistManager.new(event).reorder_waitlist!
+    end
   end
 
   after_create :update_location_counts

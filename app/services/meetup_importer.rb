@@ -3,7 +3,9 @@
 class MeetupImporter
   def associate_user(bridgetroll_user, meetup_id)
     authentication_meetup_id = bridgetroll_user.reload.meetup_id
-    raise "User has no registered authentication with meetup UID #{meetup_id}" if authentication_meetup_id.to_s != meetup_id.to_s
+    if authentication_meetup_id.to_s != meetup_id.to_s
+      raise "User has no registered authentication with meetup UID #{meetup_id}"
+    end
 
     meetup_user = MeetupUser.where(meetup_id: meetup_id).first
     return if meetup_user.blank?

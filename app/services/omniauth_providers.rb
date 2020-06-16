@@ -108,7 +108,7 @@ module OmniauthProviders
       components = full_name.split(' ')
       {
         first_name: components[0],
-        last_name: components[1..-1].join(' ')
+        last_name: components[1..].join(' ')
       }
     end
   end

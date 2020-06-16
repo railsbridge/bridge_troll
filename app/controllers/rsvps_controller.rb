@@ -30,9 +30,13 @@ class RsvpsController < ApplicationController
     @rsvp.role = Role.find(params[:rsvp][:role_id]) if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
 
     Rsvp.transaction do
-      @rsvp.waitlist_position = (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1 if @event.students_at_limit? && @rsvp.role_student?
+      if @event.students_at_limit? && @rsvp.role_student?
+        @rsvp.waitlist_position = (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
+      end
 
-      @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1 if @event.volunteers_at_limit? && @rsvp.role_volunteer?
+      if @event.volunteers_at_limit? && @rsvp.role_volunteer?
+        @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
+      end
 
       if @rsvp.save
         apply_other_changes_from_params
