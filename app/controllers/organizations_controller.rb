@@ -57,6 +57,7 @@ class OrganizationsController < ApplicationController
 
   class ChapterEventLocation
     attr_reader :event, :location, :chapter
+
     def initialize(event)
       @event = event
       @location = event.location

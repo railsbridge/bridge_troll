@@ -156,6 +156,7 @@ class UserList
     end
 
     attr_reader :user, :meetup_id
+
     delegate :id, :full_name, :profile_path, :to_global_id, to: :user
   end
 end

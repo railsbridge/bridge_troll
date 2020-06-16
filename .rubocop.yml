@@ -77,3 +77,21 @@ Layout/SpaceAroundMethodCallOperator:
 
 Style/ExponentialNotation:
   Enabled: True
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: True
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: True
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: True
+
+Style/RedundantRegexpCharacterClass:
+  Enabled: True
+
+Style/RedundantRegexpEscape:
+  Enabled: True
+
+Style/SlicingWithRange:
+  Enabled: True

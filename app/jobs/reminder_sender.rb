@@ -26,7 +26,9 @@ class ReminderSender
 
   def self.remind_attendees_for_session(event_session)
     due_reminders = event_session.rsvp_sessions.where(reminded_at: nil)
-    puts "Sending #{due_reminders.count} reminders for #{event_session.event.title} - #{event_session.name}..." unless Rails.env.test?
+    unless Rails.env.test?
+      puts "Sending #{due_reminders.count} reminders for #{event_session.event.title} - #{event_session.name}..."
+    end
     due_reminders.find_each do |rsvp_session|
       RsvpMailer.reminder_for_session(rsvp_session).deliver_now
       rsvp_session.update!(reminded_at: Time.zone.now)
