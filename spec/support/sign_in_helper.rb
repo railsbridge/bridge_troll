@@ -16,7 +16,7 @@ module SignInHelper
   end
 
   def sign_in_with_modal(user)
-    expect(page).to have_selector('#sign_in_dialog', visible: :visible)
+    expect(page).to have_selector('#sign_in_dialog')
     within '#sign_in_dialog' do
       fill_in 'Email', with: user.email
       fill_in 'Password', with: user.password

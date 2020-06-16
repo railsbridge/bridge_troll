@@ -96,7 +96,7 @@ describe 'the event detail page' do
         visit event_path(event)
         click_link 'Attend as a student'
 
-        expect(page).to have_selector('#sign_in_dialog', visible: :visible)
+        expect(page).to have_selector('#sign_in_dialog')
         within '#sign_in_dialog' do
           page.find('.sign_up_link').click
         end

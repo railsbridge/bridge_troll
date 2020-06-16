@@ -30,7 +30,7 @@ describe 'creating or editing an rsvp' do
 
         page.check 'rsvp_needs_childcare'
 
-        expect(page).to have_field('rsvp_childcare_info', visible: :visible)
+        expect(page).to have_field('rsvp_childcare_info')
 
         page.uncheck 'rsvp_needs_childcare'
 
