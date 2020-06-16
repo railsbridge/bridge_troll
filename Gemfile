@@ -33,7 +33,7 @@ gem 'pundit'
 gem 'rack-canonical-host'
 gem 'rack-cors'
 gem 'rack-mini-profiler', require: false
-gem 'rails', '~> 5.2.4.2'
+gem 'rails', '~> 5.2.4.3'
 gem 'sanitize'
 gem 'sassc-rails'
 gem 'simple_form'
