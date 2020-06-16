@@ -122,7 +122,7 @@ describe 'New Event', js: true do
 
       expect do
         click_button 'Create Location'
-        expect(page).to have_css('#new-location-modal')
+        expect(page).to have_css('#new-location-modal', visible: :hidden)
       end.to change(Location, :count).by(1)
 
       expect(page.all('select#event_location_id option').map(&:text)).to include("UChicago (#{region.name})")

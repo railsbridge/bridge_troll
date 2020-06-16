@@ -29,7 +29,7 @@ class LocationsController < ApplicationController
     respond_to do |format|
       if @location.save
         format.html { redirect_to @location, notice: 'Location was successfully created.' }
-        format.js   {}
+        format.js   { render "create.coffee.erb" }
       else
         format.html { render :new }
         format.js   { render action: 'create_failed' }
