@@ -26,15 +26,15 @@ describe 'creating or editing an rsvp' do
 
       it 'allows user to toggle childcare info with the needs_childcare button', js: true do
         expect(page.find('#rsvp_needs_childcare')).not_to be_checked
-        expect(page).to have_field('rsvp_childcare_info', visible: false)
+        expect(page).to have_field('rsvp_childcare_info', visible: :hidden)
 
         page.check 'rsvp_needs_childcare'
 
-        expect(page).to have_field('rsvp_childcare_info', visible: true)
+        expect(page).to have_field('rsvp_childcare_info')
 
         page.uncheck 'rsvp_needs_childcare'
 
-        expect(page).to have_field('rsvp_childcare_info', visible: false)
+        expect(page).to have_field('rsvp_childcare_info', visible: :hidden)
       end
 
       context 'with a valid RSVP' do
@@ -79,7 +79,7 @@ describe 'creating or editing an rsvp' do
         expect(page.find('#rsvp_childcare_info')).to have_text(rsvp.childcare_info)
 
         page.uncheck 'rsvp_needs_childcare'
-        expect(page).to have_field('rsvp_childcare_info', visible: false)
+        expect(page).to have_field('rsvp_childcare_info', visible: :hidden)
 
         page.check 'rsvp_needs_childcare'
 

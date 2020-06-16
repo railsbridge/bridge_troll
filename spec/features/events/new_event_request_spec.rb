@@ -176,10 +176,10 @@ describe 'New Event', js: true do
 
       expect(page).to have_selector('.event-sessions > .fields', count: 2)
 
-      find(:link, 'Remove Session', visible: true).click
+      find(:link, 'Remove Session').click
       expect(page).to have_selector('.event-sessions > .fields', count: 1)
 
-      expect(page).to have_selector(:link, 'Remove Session', visible: false)
+      expect(page).to have_selector(:link, 'Remove Session', visible: :hidden)
     end
   end
 
