@@ -2,7 +2,7 @@
 
 module LocationsHelper
   def pretty_print_address(location)
-    safe_join(location_array(location).map { |line| content_tag(:div, line) }, '')
+    safe_join(location_array(location).map { |line| tag.div(line) }, '')
   end
 
   def location_map_link(location)
