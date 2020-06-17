@@ -335,10 +335,10 @@ GEM
       parser (>= 2.7.0.1)
     rubocop-performance (1.6.1)
       rubocop (>= 0.71.0)
-    rubocop-rails (2.5.2)
-      activesupport
+    rubocop-rails (2.6.0)
+      activesupport (>= 4.2.0)
       rack (>= 1.1)
-      rubocop (>= 0.72.0)
+      rubocop (>= 0.82.0)
     rubocop-rspec (1.40.0)
       rubocop (>= 0.68.1)
     rubocop-thread_safety (0.3.4)

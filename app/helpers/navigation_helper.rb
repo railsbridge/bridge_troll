@@ -19,7 +19,7 @@ module NavigationHelper
 
   def devise_links(*links_to_show)
     link_divs = links_to_show.map do |link_symbol|
-      content_tag :div do
+      tag.div do
         devise_link(link_symbol)
       end
     end

@@ -54,7 +54,7 @@ module EventsHelper
   def imported_event_popover_trigger(event)
     return unless event.imported_event_data
 
-    content_tag(:button, '?', class: 'imported-event-popover-trigger', data: { event_id: event.id })
+    tag.button('?', class: 'imported-event-popover-trigger', data: { event_id: event.id })
   end
 
   def pretty_print_session(session)
@@ -112,8 +112,8 @@ module EventsHelper
 
     id = "section-#{label}".parameterize
     results = []
-    results << content_tag('a', class: toggler_classes, data: { toggle: 'collapse', target: "##{id}" }) { label }
-    results << content_tag('section', id: id, class: section_classes.join(' ')) { yield }
+    results << tag.a(class: toggler_classes, data: { toggle: 'collapse', target: "##{id}" }) { label }
+    results << tag.section(id: id, class: section_classes.join(' ')) { yield }
 
     safe_join(results, "\n")
   end
