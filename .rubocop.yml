@@ -95,3 +95,6 @@ Style/RedundantRegexpEscape:
 
 Style/SlicingWithRange:
   Enabled: True
+
+Style/RedundantFetchBlock:
+  Enabled: True
