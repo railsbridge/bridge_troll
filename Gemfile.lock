@@ -88,10 +88,10 @@ GEM
     childprocess (3.0.0)
     chrome_remote (0.3.0)
       websocket-driver (~> 0.6)
-    codecov (0.1.17)
+    codecov (0.1.19)
+      colorize
       json
       simplecov
-      url
     coderay (1.1.2)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
@@ -100,6 +100,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    colorize (0.8.1)
     concurrent-ruby (1.1.6)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -167,7 +168,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (2.3.0)
+    json (2.3.1)
     jwt (2.2.1)
     kdtree (0.4)
     launchy (2.5.0)
@@ -392,7 +393,6 @@ GEM
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.7.0)
     uniform_notifier (1.13.0)
-    url (0.3.2)
     warden (1.2.8)
       rack (>= 2.0.6)
     webmock (3.8.3)
