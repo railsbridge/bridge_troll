@@ -341,7 +341,7 @@ GEM
       rubocop (>= 0.82.0)
     rubocop-rspec (1.41.0)
       rubocop (>= 0.68.1)
-    rubocop-thread_safety (0.4.0)
+    rubocop-thread_safety (0.4.1)
       rubocop (>= 0.51.0)
     ruby-progressbar (1.10.1)
     rubyzip (2.3.0)
