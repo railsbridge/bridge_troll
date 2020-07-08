@@ -98,3 +98,36 @@ Style/SlicingWithRange:
 
 Style/RedundantFetchBlock:
   Enabled: True
+
+Style/AccessorGrouping:
+  Enabled: True
+
+Style/BisectedAttrAccessor:
+  Enabled: True
+
+Style/RedundantAssignment:
+  Enabled: True
+
+Performance/AncestorsInclude:
+  Enabled: True
+
+Performance/BigDecimalWithNumericArgument:
+  Enabled: True
+
+Performance/RedundantSortBlock:
+  Enabled: True
+
+Performance/RedundantStringChars:
+  Enabled: True
+
+Performance/ReverseFirst:
+  Enabled: True
+
+Performance/SortReverse:
+  Enabled: True
+
+Performance/Squeeze:
+  Enabled: True
+
+Performance/StringInclude:
+  Enabled: True
