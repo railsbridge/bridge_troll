@@ -67,7 +67,16 @@ Pro-tip: Confirming Users Locally
 
 ### Running tests
 
-This project has many tests that you should run before submitting a pull request, even if it's just a simple text change. You will need to [install yarn](https://yarnpkg.com/lang/en/docs/install) to run the tests.
+After running `bin/setup` to get your system setup, to run all tests:
+
+```
+$ bin/rake
+```
+
+to run a specific test:
+
+```
+$ bin/rspec 
 
 ### Seed Data
 

@@ -82,9 +82,10 @@ class Rsvp < ApplicationRecord
 
   def setup_for_role(role)
     self.role = role
-    if role == Role::VOLUNTEER
+    case role
+    when Role::VOLUNTEER
       self.event_session_ids = event.event_sessions.pluck(:id)
-    elsif role == Role::STUDENT
+    when Role::STUDENT
       self.event_session_ids = event.event_sessions.where(required_for_students: true).pluck(:id)
     end
 
@@ -98,9 +99,10 @@ class Rsvp < ApplicationRecord
 
   def selectable_sessions
     sessions = event.event_sessions.order('starts_at ASC')
-    if role == Role::VOLUNTEER
+    case role
+    when Role::VOLUNTEER
       sessions
-    elsif role == Role::STUDENT
+    when Role::STUDENT
       sessions.where(volunteers_only: false)
     else
       raise "No selectable_sessions for Role::#{role.name}"
