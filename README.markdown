@@ -76,7 +76,15 @@ $ bin/rake
 to run a specific test:
 
 ```
-$ bin/rspec 
+# bin/rspec path/to/spec/file_spec.rb:line_number
+$ bin/rspec spec/helpers/events_helper_spec.rb:26
+```
+
+By default, tests will run using sqlite. If you want to use postgres, set the `FORCE_POSTGRES` environmental variable
+
+```
+$ FORCE_POSTGRES=true bin/rake
+```
 
 ### Seed Data
 
