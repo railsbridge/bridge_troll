@@ -22,7 +22,7 @@ module EventsHelper
   def locations_for_select
     Location.includes(:region).available.map do |loc|
       time_zone = ActiveSupport::TimeZone::MAPPING.key(loc.inferred_time_zone)
-      [loc.name_with_region, loc.id, prompt: true, 'data-inferred-time-zone' => time_zone]
+      [loc.name_with_region, loc.id, { prompt: true, 'data-inferred-time-zone' => time_zone }]
     end
   end
 

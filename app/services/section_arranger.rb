@@ -54,9 +54,10 @@ class SectionArranger
   private
 
   def rsvps_to_arrange(checked_in)
-    if checked_in == 'any'
+    case checked_in
+    when 'any'
       condition = proc { |relation| relation.where('checkins_count > 0') }
-    elsif checked_in == 'indiscriminate'
+    when 'indiscriminate'
       condition = proc { |relation| relation }
     else
       session_id = checked_in.to_i

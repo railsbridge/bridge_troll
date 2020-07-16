@@ -20,7 +20,7 @@ class ChaptersController < ApplicationController
 
     @organizer_rsvps = Rsvp
                        .group(:user_id, :user_type)
-                       .joins([event: :chapter])
+                       .joins([{ event: :chapter }])
                        .includes(:user)
                        .select('user_id, user_type, count(*) as events_count')
                        .where('chapters.id' => @chapter.id, role_id: Role::ORGANIZER.id, user_type: 'User')

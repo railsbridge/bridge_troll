@@ -131,3 +131,21 @@ Performance/Squeeze:
 
 Performance/StringInclude:
   Enabled: True
+
+Lint/DuplicateElsifCondition:
+  Enabled: True
+
+Style/ArrayCoercion:
+  Enabled: True
+
+Style/CaseLikeIf:
+  Enabled: True
+
+Style/HashAsLastArrayItem:
+  Enabled: True
+
+Style/HashLikeCase:
+  Enabled: True
+
+Style/RedundantFileExtensionInRequire:
+  Enabled: True
