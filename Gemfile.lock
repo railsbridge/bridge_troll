@@ -155,12 +155,12 @@ GEM
     icalendar (2.6.1)
       ice_cube (~> 0.16)
     ice_cube (0.16.3)
-    jasmine (3.5.1)
-      jasmine-core (~> 3.5.0)
+    jasmine (3.6.0)
+      jasmine-core (~> 3.6.0)
       phantomjs
       rack (>= 1.2.1)
       rake
-    jasmine-core (3.5.0)
+    jasmine-core (3.6.0)
     jasmine-jquery-rails (2.0.3)
     jquery-rails (4.4.0)
       rails-dom-testing (>= 1, < 3)
