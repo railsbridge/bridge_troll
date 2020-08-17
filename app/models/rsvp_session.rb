@@ -6,8 +6,8 @@ class RsvpSession < ApplicationRecord
 
   validates :rsvp_id, uniqueness: { scope: :event_session_id }
 
-  after_save :update_counter_cache
   after_destroy :update_counter_cache
+  after_save :update_counter_cache
 
   def user_full_name
     rsvp.user.full_name

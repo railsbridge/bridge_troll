@@ -5,7 +5,7 @@ class DatabaseAnonymizer
   def initialize(logger = nil)
     require 'faker'
 
-    @logger = logger || Logger.new(STDOUT)
+    @logger = logger || Logger.new($stdout)
     @logger.formatter = proc do |_severity, _datetime, _progname, msg|
       "#{msg}\n"
     end

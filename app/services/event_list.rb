@@ -61,7 +61,7 @@ class EventList
         location_name: event.location_name,
         location_city_and_state: event.location_city_and_state,
         imported_event_data: event.imported_event_data,
-        date: I18n.localize(event.date_in_time_zone(:starts_at), format: :date_as_day_mdy)
+        date: I18n.l(event.date_in_time_zone(:starts_at), format: :date_as_day_mdy)
       }
     end
 

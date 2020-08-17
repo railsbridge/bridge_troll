@@ -20,7 +20,7 @@ shared_examples_for 'a mailer view' do
   it 'uses absolute URLs' do
     body = extract_body(mail)
 
-    urls = Capybara.string(body).all('a').map { |a| a[:href] }
+    urls = Capybara.string(body).all('a').pluck(:href)
 
     expect(urls).to all(be_an_absolute_url)
   end

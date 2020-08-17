@@ -33,7 +33,7 @@ describe DatabaseAnonymizer do
   end
 
   describe '#anonymize_database' do
-    let(:logger) { Logger.new(STDOUT) }
+    let(:logger) { Logger.new($stdout) }
     let(:anonymizer) { described_class.new(logger) }
     let(:anonymize) { anonymizer.anonymize_database }
 
