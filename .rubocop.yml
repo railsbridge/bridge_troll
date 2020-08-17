@@ -22,6 +22,31 @@ Rails/Exit:
   Exclude:
     - lib/tasks/**/*
 
+Rails/ActiveRecordCallbacksOrder:
+  Enabled: True
+Rails/FindById:
+  Enabled: True
+Rails/Inquiry:
+  Enabled: True
+Rails/MailerName:
+  Enabled: True
+Rails/MatchRoute:
+  Enabled: True
+Rails/NegateInclude:
+  Enabled: True
+Rails/Pluck:
+  Enabled: True
+Rails/PluckInWhere:
+  Enabled: True
+Rails/RenderInline:
+  Enabled: True
+Rails/RenderPlainText:
+  Enabled: True
+Rails/ShortI18n:
+  Enabled: True
+Rails/WhereExists:
+  Enabled: True
+
 # Include: db/migrate/*.rb
 Rails/CreateTableWithTimestamps:
   Exclude:
@@ -70,6 +95,24 @@ Lint/RaiseException:
   Enabled: True
 
 Lint/StructNewOverride:
+  Enabled: True
+Lint/BinaryOperatorWithIdenticalOperands:
+  Enabled: True
+Lint/DuplicateRescueException:
+  Enabled: True
+Lint/EmptyConditionalBody:
+  Enabled: True
+Lint/FloatComparison:
+  Enabled: True
+Lint/MissingSuper:
+  Enabled: True
+Lint/OutOfRangeRegexpRef:
+  Enabled: True
+Lint/SelfAssignment:
+  Enabled: True
+Lint/TopLevelReturnWithArgument:
+  Enabled: True
+Lint/UnreachableLoop:
   Enabled: True
 
 Layout/SpaceAroundMethodCallOperator:
@@ -148,4 +191,16 @@ Style/HashLikeCase:
   Enabled: True
 
 Style/RedundantFileExtensionInRequire:
+  Enabled: True
+
+
+Style/ExplicitBlockArgument:
+  Enabled: True
+Style/GlobalStdStream:
+  Enabled: True
+Style/OptionalBooleanParameter:
+  Enabled: True
+Style/SingleArgumentDig:
+  Enabled: True
+Style/StringConcatenation:
   Enabled: True
