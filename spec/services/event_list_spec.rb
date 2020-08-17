@@ -28,7 +28,7 @@ describe EventList do
     describe 'searching' do
       search_result_ids = proc do |query|
         json = described_class.new('past', serialization_format: 'dataTables', start: 0, length: 10, search: { 'value' => query }).as_json
-        json[:data].map { |e| e[:global_id] }
+        json[:data].pluck(:global_id)
       end
 
       before do

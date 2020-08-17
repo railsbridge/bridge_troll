@@ -155,7 +155,7 @@ class RsvpsController < ApplicationController
     if regions.empty?
       false
     else
-      !regions.include?(@event.region)
+      regions.exclude?(@event.region)
     end
   end
 end

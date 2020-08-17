@@ -25,14 +25,14 @@ class EventSession < ApplicationRecord
   has_many :rsvp_sessions, dependent: :destroy
   has_many :rsvps, through: :rsvp_sessions
 
-  after_save :update_event_times
-  after_destroy :update_event_times
-
   after_create :update_counter_cache
+  after_destroy :update_counter_cache
+  after_destroy :update_event_times
+  after_save :update_event_times
+
   after_save do
     update_counter_cache if saved_change_to_attribute?(:location_id)
   end
-  after_destroy :update_counter_cache
 
   add_presence_tracking_boolean(:location_overridden, :location_id)
 

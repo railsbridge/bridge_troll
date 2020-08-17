@@ -28,9 +28,9 @@ class Rsvp < ApplicationRecord
   scope :needs_childcare, -> { where("childcare_info <> ''") }
 
   after_initialize :set_defaults
+  after_destroy :update_counter_cache
 
   after_save :update_counter_cache
-  after_destroy :update_counter_cache
 
   MAX_EXPERIENCE_LENGTH = 250
   with_options(unless: :historical?) do |normal_event|
