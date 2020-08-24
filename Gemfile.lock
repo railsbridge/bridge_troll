@@ -89,8 +89,7 @@ GEM
     childprocess (3.0.0)
     chrome_remote (0.3.0)
       websocket-driver (~> 0.6)
-    codecov (0.2.6)
-      colorize
+    codecov (0.2.8)
       json
       simplecov
     coderay (1.1.2)
@@ -101,7 +100,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    colorize (0.8.1)
     concurrent-ruby (1.1.6)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
