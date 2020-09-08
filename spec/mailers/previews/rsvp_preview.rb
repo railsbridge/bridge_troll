@@ -10,7 +10,7 @@ class RsvpPreview < ActionMailer::Preview
   end
 
   def multiple_location_event_reminder
-    rsvp = EventSession.where('location_id IS NOT NULL').all.map do |event_session|
+    rsvp = EventSession.where.not(location_id: nil).all.map do |event_session|
       event_session.rsvps.where(role_id: Role::VOLUNTEER.id).first
     end.compact.first
     RsvpMailer.reminder(rsvp)

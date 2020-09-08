@@ -90,18 +90,14 @@ module EventsHelper
 
   def event_special_permissions_text(event, user_event_role)
     return 'As an admin, you can view organizer tools for this event.' if current_user.admin?
-    if event.chapter.leader?(current_user)
-      return "As a chapter leader for #{event.chapter.name}, you can view organizer tools for this event."
-    end
-    if event.organization.leader?(current_user)
-      return "As an organization leader for #{event.organization.name}, you can view organizer tools for this event."
-    end
+    return "As a chapter leader for #{event.chapter.name}, you can view organizer tools for this event." if event.chapter.leader?(current_user)
+    return "As an organization leader for #{event.organization.name}, you can view organizer tools for this event." if event.organization.leader?(current_user)
 
     role_text = user_event_role == :editor ? 'an organizer of' : 'a checkiner for'
     "You are #{role_text} this event!"
   end
 
-  def event_form_section(label:, form:, force_expanded: false)
+  def event_form_section(label:, form:, force_expanded: false, &contents)
     toggler_classes = ['form-section-header']
     section_classes = ['collapse']
     if form.object.published? || force_expanded
@@ -113,7 +109,7 @@ module EventsHelper
     id = "section-#{label}".parameterize
     results = []
     results << tag.a(class: toggler_classes, data: { toggle: 'collapse', target: "##{id}" }) { label }
-    results << tag.section(id: id, class: section_classes.join(' ')) { yield }
+    results << tag.section(id: id, class: section_classes.join(' '), &contents)
 
     safe_join(results, "\n")
   end

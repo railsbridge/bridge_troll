@@ -49,7 +49,7 @@ class AdminPagesController < ApplicationController
     end
 
     def region_user_counts
-      regions_users_count = <<~SQL
+      regions_users_count = <<~SQL.squish
         SELECT COUNT(*)
         FROM regions_users
         WHERE region_id = regions.id

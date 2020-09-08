@@ -61,7 +61,7 @@ class UserList
   end
 
   def meetup_users
-    query = <<-SQL.strip_heredoc
+    query = <<-SQL.squish.strip_heredoc
       meetup_id NOT IN (
         SELECT DISTINCT CAST(uid AS INT) FROM authentications WHERE provider = 'meetup'
       )

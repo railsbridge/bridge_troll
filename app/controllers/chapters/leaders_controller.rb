@@ -35,7 +35,7 @@ module Chapters
       authorize @chapter, :modify_leadership?
       respond_to do |format|
         format.json do
-          users_not_assigned = User.where(<<-SQL, @chapter.id)
+          users_not_assigned = User.where(<<-SQL.squish, @chapter.id)
             users.id NOT IN (
               SELECT user_id FROM chapter_leaderships WHERE chapter_id = ?
             )

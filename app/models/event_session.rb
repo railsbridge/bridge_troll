@@ -16,9 +16,7 @@ class EventSession < ApplicationRecord
     errors.add(:ends_at, 'must be after session start time') if starts_at && ends_at && ends_at < starts_at
   end
   validate do
-    if required_for_students && volunteers_only
-      errors.add(:base, 'A session cannot be both Required for Students and Volunteers Only')
-    end
+    errors.add(:base, 'A session cannot be both Required for Students and Volunteers Only') if required_for_students && volunteers_only
   end
 
   belongs_to :event, inverse_of: :event_sessions, optional: true

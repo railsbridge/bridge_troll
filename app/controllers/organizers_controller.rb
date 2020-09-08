@@ -36,9 +36,7 @@ class OrganizersController < ApplicationController
 
   def destroy
     authorize @event, :edit?
-    if @event.organizers.count == 1
-      return redirect_to event_organizers_path(@event), alert: "Can't remove the sole organizer!"
-    end
+    return redirect_to event_organizers_path(@event), alert: "Can't remove the sole organizer!" if @event.organizers.count == 1
 
     rsvp = @event.rsvps.find(params[:id])
 
