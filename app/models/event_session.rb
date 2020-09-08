@@ -8,9 +8,7 @@ class EventSession < ApplicationRecord
   validates :starts_at, :ends_at, :name, presence: true
   validates :name, uniqueness: { scope: [:event_id] }
   validate on: :create do
-    if starts_at && starts_at < Time.zone.now
-      errors.add(:starts_at, 'must start in the future') unless event&.historical?
-    end
+    errors.add(:starts_at, 'must start in the future') if starts_at && starts_at < Time.zone.now && !event&.historical?
   end
   validate do
     errors.add(:ends_at, 'must be after session start time') if starts_at && ends_at && ends_at < starts_at

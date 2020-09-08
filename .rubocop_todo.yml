@@ -103,12 +103,6 @@ Rails/SkipsModelValidations:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 1
-# Configuration parameters: AllowModifier.
-Style/SoleNestedConditional:
-  Exclude:
-    - 'app/models/event_session.rb'
-
 # Offense count: 4
 ThreadSafety/InstanceVariableInClassMethod:
   Exclude:
