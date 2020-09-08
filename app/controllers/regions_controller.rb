@@ -65,7 +65,9 @@ class RegionsController < ApplicationController
 
   def destroy
     skip_authorization
-    return redirect_to root_url, alert: "Can't delete a region that's still assigned to a location or external event." unless @region.destroyable?
+    unless @region.destroyable?
+      return redirect_to root_url, alert: "Can't delete a region that's still assigned to a location or external event."
+    end
 
     @region.destroy
 

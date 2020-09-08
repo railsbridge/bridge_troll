@@ -57,7 +57,9 @@ class ChaptersController < ApplicationController
 
   def destroy
     authorize @chapter
-    return redirect_to root_url, alert: "Can't delete a chapter that's still assigned to an event or external event." unless @chapter.destroyable?
+    unless @chapter.destroyable?
+      return redirect_to root_url, alert: "Can't delete a chapter that's still assigned to an event or external event."
+    end
 
     @chapter.destroy
 
