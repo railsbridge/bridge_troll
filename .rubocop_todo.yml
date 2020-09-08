@@ -44,12 +44,6 @@ Metrics/PerceivedComplexity:
     - 'app/services/section_arranger.rb'
     - 'db/seeds/seed_event.rb'
 
-# Offense count: 2
-# Configuration parameters: MinSize.
-Performance/CollectionLiteralInLoop:
-  Exclude:
-    - 'db/seeds/seed_event.rb'
-
 # Offense count: 78
 # Configuration parameters: Prefixes.
 # Prefixes: when, with, without
