@@ -35,7 +35,7 @@ module Regions
       authorize @region, :modify_leadership?
       respond_to do |format|
         format.json do
-          users_not_assigned = @region.users.where(<<-SQL, @region.id)
+          users_not_assigned = @region.users.where(<<-SQL.squish, @region.id)
             users.id NOT IN (
               SELECT user_id FROM region_leaderships WHERE region_id = ?
             )

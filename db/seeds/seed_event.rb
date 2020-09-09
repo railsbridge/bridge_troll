@@ -133,6 +133,7 @@ module Seeder
     student_count = event.student_rsvps.count
     event.update_attribute(:student_rsvp_limit, student_count)
 
+    boolean = [true, false].freeze
     (1..student_count / 3).each do |index|
       volunteer = find_or_create_user("volunteer#{index}@example.com")
       volunteer_class_preference = (0..5).to_a.sample
@@ -140,8 +141,8 @@ module Seeder
                             user: volunteer,
                             volunteer_assignment: VolunteerAssignment::UNASSIGNED,
                             class_level: volunteer_class_preference,
-                            teaching: [true, false].sample,
-                            taing: [true, false].sample)
+                            teaching: boolean.sample,
+                            taing: boolean.sample)
     end
 
     rand(3..6).times do |n|

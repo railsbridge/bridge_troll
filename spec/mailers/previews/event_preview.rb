@@ -34,6 +34,6 @@ class EventPreview < ActionMailer::Preview
   end
 
   def multiple_location_event
-    EventMailer.new_event(EventSession.where('location_id IS NOT NULL').first.event)
+    EventMailer.new_event(EventSession.where.not(location_id: nil).first.event)
   end
 end
