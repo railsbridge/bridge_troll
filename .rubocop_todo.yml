@@ -102,8 +102,3 @@ Rails/SkipsModelValidations:
 # Offense count: 148
 Style/Documentation:
   Enabled: false
-
-# Offense count: 4
-ThreadSafety/InstanceVariableInClassMethod:
-  Exclude:
-    - 'app/models/concerns/presence_tracking_boolean.rb'
