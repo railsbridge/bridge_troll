@@ -14,9 +14,9 @@ def db_dump_filename(args)
   end
 end
 
+ENABLE_EXTENSION_PATTERN = /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m.freeze
 db_namespace = namespace :db do
   namespace :schema do
-    ENABLE_EXTENSION_PATTERN = /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m.freeze
     desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
     task dump: %i[environment load_config] do
       raise_weird_schema_error = proc do |specific_message|
