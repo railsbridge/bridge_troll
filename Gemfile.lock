@@ -195,7 +195,7 @@ GEM
       kdtree
       require_all
     nested_form (0.3.2)
-    newrelic_rpm (6.13.0)
+    newrelic_rpm (6.13.1)
     nio4r (2.5.4)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
