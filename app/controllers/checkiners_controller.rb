@@ -31,6 +31,10 @@ class CheckinersController < ApplicationController
   private
 
   def find_event
+    event
+  end
+
+  def event
     @event ||= Event.find(params[:event_id])
   end
 
