@@ -121,12 +121,6 @@ Metrics/PerceivedComplexity:
     - 'app/services/section_arranger.rb'
     - 'db/seeds/seed_event.rb'
 
-# Offense count: 1
-# Configuration parameters: EnforcedStyleForLeadingUnderscores.
-# SupportedStylesForLeadingUnderscores: disallowed, required, optional
-Naming/MemoizedInstanceVariableName:
-  Exclude:
-    - 'app/controllers/checkiners_controller.rb'
 
 # Offense count: 5
 RSpec/AnyInstance:
