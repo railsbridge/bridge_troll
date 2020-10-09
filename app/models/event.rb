@@ -370,7 +370,7 @@ class Event < ApplicationRecord
       includes: [:location]
     }.merge(options)
     super(options).merge(
-      workshop: !!(allow_student_rsvp || historical?),
+      workshop: (allow_student_rsvp? || historical?),
       organizers: organizer_names,
       sessions: session_details,
       volunteer_rsvp_count: volunteer_rsvps_count,

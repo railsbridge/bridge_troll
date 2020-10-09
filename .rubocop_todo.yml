@@ -580,13 +580,6 @@ Style/Documentation:
     - 'lib/tasks/support/failure_file_parser.rb'
     - 'lib/tasks/support/rspec_rerunner.rb'
 
-# Offense count: 1
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: allowed_in_returns, forbidden
-Style/DoubleNegation:
-  Exclude:
-    - 'app/models/event.rb'
-
 # Offense count: 79
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, Max, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
