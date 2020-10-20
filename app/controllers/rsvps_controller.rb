@@ -145,7 +145,7 @@ class RsvpsController < ApplicationController
 
   def assign_event
     @event = Event.find_by(id: params[:event_id])
-    return unless @event.nil?
+    return if @event.present?
 
     redirect_to events_path, notice: 'You are not signed up for this event'
   end

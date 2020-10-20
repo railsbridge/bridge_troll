@@ -143,8 +143,9 @@ describe 'the event detail page' do
 
       context 'when the event is full' do
         before do
-          allow_any_instance_of(Event).to receive(:students_at_limit?).and_return(true)
-          allow_any_instance_of(Event).to receive(:volunteers_at_limit?).and_return(true)
+          allow(Event).to receive(:includes).and_return(instance_double('Event::ActiveRecord_Relation', find: event))
+          allow(event).to receive(:students_at_limit?).and_return(true)
+          allow(event).to receive(:volunteers_at_limit?).and_return(true)
         end
 
         it 'allows the user to join the student waitlist' do

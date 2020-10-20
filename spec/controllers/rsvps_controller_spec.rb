@@ -424,7 +424,11 @@ describe RsvpsController do
 
       context 'when the event is full of volunteers' do
         before do
-          allow_any_instance_of(Event).to receive(:volunteers_at_limit?).and_return(true)
+          allow(Event).to receive(:find_by) { |params|
+            event = Event.where(params).first
+            allow(event).to receive(:volunteers_at_limit?).and_return(true)
+            event
+          }
         end
 
         describe 'and a volunteer rsvps' do

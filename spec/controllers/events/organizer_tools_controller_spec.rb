@@ -32,9 +32,12 @@ describe Events::OrganizerToolsController do
           rsvps_with_childcare: [create(:rsvp)],
           checkin_counts: { 1 => { foo: 'bar' } }
         }
-        stub_data.each do |method, value|
-          allow_any_instance_of(Event).to receive(method).and_return(value)
-        end
+
+        allow(Event).to receive(:find_by) { |param|
+          event = Event.where(param).first
+          stub_data.each { |method, value| allow(event).to receive(method).and_return(value) }
+          event
+        }
 
         make_request
         expect(response).to be_successful

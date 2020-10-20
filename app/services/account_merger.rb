@@ -23,7 +23,7 @@ class AccountMerger
       Is this cool? (y/n)
     USER_PROMPT
 
-    return unless gets.chomp.casecmp('y')
+    return unless $stdin.gets.chomp.casecmp('y')
 
     to_destroy.destroy_all
 
