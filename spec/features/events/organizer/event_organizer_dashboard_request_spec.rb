@@ -131,9 +131,8 @@ describe 'the organizer dashboard' do
 
     within "#rsvp_session_#{rsvp_session1.id}" do
       within '.destroy' do
-        click_on 'Un-Check In'
+        accept_confirm { click_on 'Un-Check In' }
       end
-      accept_alert
       expect(page).not_to have_content 'Saving'
     end
 
