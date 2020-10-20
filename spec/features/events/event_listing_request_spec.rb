@@ -73,8 +73,6 @@ describe 'the event listing page' do
     end
 
     it 'renders a combination of internal and external events' do
-      accept_alert { visit events_path } # There's some weird caching issue that's breaking the ajax request.
-      # reloading fixes it
       visit events_path
 
       within '#past-events-table' do
@@ -178,7 +176,7 @@ describe 'the event listing page' do
         # note the closed <h1> and missing script tags
         expect(page.body).to include("This is a note in the detail text box\n<br> With a new line! and a (missing) javascript injection, as well as an unclosed </p><h1> tag</h1>")
         expect(page).to have_css('.details p', text: 'With a new line!')
-        expect(page).to have_css('.details br', visible: :hidden)
+        expect(page).to have_css('.details br')
         expect(page).not_to have_css '.details script'
       end
 

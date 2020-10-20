@@ -216,7 +216,7 @@ describe 'the event detail page' do
         visit edit_event_path(event)
 
         expect(page).to have_css('.remove-session')
-        accept_alert { page.all('.remove-session').last.click }
+        page.all('.remove-session').last.click
 
         expect(page).to have_css('.event-sessions .fields', count: 1)
 
