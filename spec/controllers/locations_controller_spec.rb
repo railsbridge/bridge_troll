@@ -93,7 +93,7 @@ describe LocationsController do
 
       it 'respond successfully with an HTTP 200 status code' do
         post_req
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
     end
 
