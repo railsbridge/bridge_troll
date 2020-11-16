@@ -173,7 +173,7 @@ describe 'the event listing page' do
         check('coc')
         click_button submit_for_approval_button
 
-        # note the closed <h1> and missing script tags
+        # NOTE: the closed <h1> and missing script tags
         expect(page.body).to include("This is a note in the detail text box\n<br> With a new line! and a (missing) javascript injection, as well as an unclosed </p><h1> tag</h1>")
         expect(page).to have_css('.details p', text: 'With a new line!')
         expect(page).to have_css('.details br')
