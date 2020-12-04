@@ -39,6 +39,14 @@ Metrics/BlockLength:
 Metrics/PerceivedComplexity:
   Enabled: false
 
+# we will never change existing migrations, but we want rubocop
+# to fail for old migrations. So this isn't in the .todo file but thel
+Rails/CreateTableWithTimestamps:
+  Exclude:
+    - 'db/migrate/20151210035820_init_schema.rb'
+    - 'db/migrate/20160211061631_add_chapter_leaderships_again.rb'
+    - 'db/migrate/20160312224628_create_organization_leaderships.rb'
+
 # explicit arguments are easier to understand / read without needing to read the docs
 Style/RedundantArgument:
   Enabled: false

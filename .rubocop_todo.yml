@@ -393,15 +393,6 @@ RSpec/NestedGroups:
     - 'spec/services/section_arranger_spec.rb'
     - 'spec/services/waitlist_manager_spec.rb'
 
-# Offense count: 4
-# Configuration parameters: Include.
-# Include: db/migrate/*.rb
-Rails/CreateTableWithTimestamps:
-  Exclude:
-    - 'db/migrate/20151210035820_init_schema.rb'
-    - 'db/migrate/20160211061631_add_chapter_leaderships_again.rb'
-    - 'db/migrate/20160312224628_create_organization_leaderships.rb'
-
 # Offense count: 57
 # Configuration parameters: ForbiddenMethods, AllowedMethods.
 # ForbiddenMethods: decrement!, decrement_counter, increment!, increment_counter, insert, insert!, insert_all, insert_all!, toggle!, touch, touch_all, update_all, update_attribute, update_column, update_columns, update_counters, upsert, upsert_all
