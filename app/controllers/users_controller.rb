@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def index
     skip_authorization
     respond_to do |format|
-      format.html {}
+      format.html
       format.json do
         render json: UserList.new(params)
       end

@@ -13,7 +13,7 @@ module Events
       @students = @event.student_rsvps
       respond_to do |format|
         format.csv { send_data student_csv_data(@students), type: :csv }
-        format.html {}
+        format.html
       end
     end
 

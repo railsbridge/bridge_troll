@@ -51,7 +51,8 @@ describe EventSessionsController do
 
       it 'delegates to IcsGenerator' do
         generator = instance_double(IcsGenerator, event_session_ics: 'CALENDAR STUFF')
-        expect(IcsGenerator).to receive(:new).and_return(generator)
+        allow(IcsGenerator).to receive(:new).and_return(generator)
+        expect(IcsGenerator).to receive(:new)
 
         get :show, params: { event_id: event.id, id: event_session.id }, format: 'ics'
       end

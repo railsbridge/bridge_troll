@@ -28,28 +28,30 @@ class RsvpsController < ApplicationController
     @rsvp.event = @event
     @rsvp.user = current_user
     @rsvp.role = Role.find(params[:rsvp][:role_id]) if Role.attendee_role_ids.include?(params[:rsvp][:role_id].to_i)
-
-    Rsvp.transaction do
+    @rsvp.waitlist_position =
       if @event.students_at_limit? && @rsvp.role_student?
-        @rsvp.waitlist_position = (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
+        (@event.student_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
+      elsif @event.volunteers_at_limit? && @rsvp.role_volunteer?
+        (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
       end
 
-      if @event.volunteers_at_limit? && @rsvp.role_volunteer?
-        @rsvp.waitlist_position = (@event.volunteer_waitlist_rsvps.maximum(:waitlist_position) || 0) + 1
-      end
-
-      if @rsvp.save
+    saved = false
+    Rsvp.transaction do
+      saved = @rsvp.save
+      if saved
         apply_other_changes_from_params
-
         RsvpMailer.confirmation(@rsvp).deliver_now
         RsvpMailer.childcare_notification(@rsvp).deliver_now if @rsvp.childcare_info?
-        notice_messages = ['Thanks for signing up!']
-        notice_messages << "We've added you to the waitlist." if @rsvp.waitlisted?
-
-        redirect_to @event, notice: notice_messages.join(' ')
-      else
-        render :new
       end
+    end
+
+    if saved
+      notice_messages = ['Thanks for signing up!']
+      notice_messages << "We've added you to the waitlist." if @rsvp.waitlisted?
+
+      redirect_to @event, notice: notice_messages.join(' ')
+    else
+      render :new
     end
   end
 
