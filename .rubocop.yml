@@ -34,6 +34,11 @@ Metrics/BlockLength:
     - db/migrate/*
     - lib/tasks/**/*
 
+# perceived complexity forces us to avoid inlining code, even though
+# inlining code makes code easier to reason with and less error prone
+Metrics/PerceivedComplexity:
+  Enabled: false
+
 # explicit arguments are easier to understand / read without needing to read the docs
 Style/RedundantArgument:
   Enabled: false

@@ -113,14 +113,6 @@ Metrics/MethodLength:
     - 'spec/support/row_counting.rb'
     - 'spec/support/sign_in_helper.rb'
 
-# Offense count: 3
-# Configuration parameters: IgnoredMethods, Max.
-Metrics/PerceivedComplexity:
-  Exclude:
-    - 'app/controllers/rsvps_controller.rb'
-    - 'app/services/section_arranger.rb'
-    - 'db/seeds/seed_event.rb'
-
 # Offense count: 12
 # Configuration parameters: EnforcedStyle, CheckMethodNames, CheckSymbols, AllowedIdentifiers.
 # SupportedStyles: snake_case, normalcase, non_integer
