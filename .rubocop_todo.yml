@@ -553,6 +553,15 @@ Style/Documentation:
     - 'db/seeds/seed_region.rb'
     - 'lib/tasks/support/failure_file_parser.rb'
     - 'lib/tasks/support/rspec_rerunner.rb'
+    - 'spec/mailers/previews/admin_preview.rb'
+    - 'spec/mailers/previews/devise/mailer_preview.rb'
+    - 'spec/mailers/previews/event_preview.rb'
+    - 'spec/mailers/previews/rsvp_preview.rb'
+    - 'spec/mailers/previews/survey_preview.rb'
+    - 'spec/services/omniauth_responses.rb'
+    - 'spec/support/event_form_helper.rb'
+    - 'spec/support/form_helper.rb'
+    - 'spec/support/sign_in_helper.rb'
 
 # Offense count: 79
 # Cop supports --auto-correct.
