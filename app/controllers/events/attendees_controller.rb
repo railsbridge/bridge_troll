@@ -10,7 +10,7 @@ module Events
       @rsvps = @event.rsvps.where(role_id: Role.attendee_role_ids_with_organizers).includes(:dietary_restrictions)
       respond_to do |format|
         format.csv { send_data attendee_csv_data(@rsvps), type: :csv }
-        format.html {}
+        format.html
       end
     end
 
