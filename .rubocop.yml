@@ -3,6 +3,7 @@ require:
   - rubocop-thread_safety
   - rubocop-rspec
   - rubocop-rails
+  - rubocop-rake
   - rubocop-performance
 
 AllCops:
