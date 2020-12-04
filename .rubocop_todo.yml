@@ -50,16 +50,6 @@ Metrics/ClassLength:
     - 'app/models/rsvp.rb'
     - 'db/migrate/20151210035820_init_schema.rb'
 
-# Offense count: 5
-# Configuration parameters: IgnoredMethods, Max.
-Metrics/CyclomaticComplexity:
-  Exclude:
-    - 'app/controllers/events/emails_controller.rb'
-    - 'app/controllers/rsvps_controller.rb'
-    - 'app/models/event.rb'
-    - 'app/services/section_arranger.rb'
-    - 'db/seeds/seed_event.rb'
-
 # Offense count: 66
 # Configuration parameters: CountComments, Max, CountAsOne, ExcludedMethods, IgnoredMethods.
 Metrics/MethodLength:

@@ -34,9 +34,14 @@ Metrics/BlockLength:
     - db/migrate/*
     - lib/tasks/**/*
 
-# perceived complexity forces us to avoid inlining code, even though
+# perceived complexity cop forces us to avoid inlining code, even though
 # inlining code makes code easier to reason with and less error prone
 Metrics/PerceivedComplexity:
+  Enabled: false
+
+# cyclomatic complexity cop forces us to avoid inlining code, even though
+# inlining code makes code easier to reason with and less error prone
+Metrics/CyclomaticComplexity:
   Enabled: false
 
 # we will never change existing migrations, but we want rubocop
