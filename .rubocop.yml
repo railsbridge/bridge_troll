@@ -33,3 +33,7 @@ Metrics/BlockLength:
     - config/**/*
     - db/migrate/*
     - lib/tasks/**/*
+
+# explicit arguments are easier to understand / read without needing to read the docs
+Style/RedundantArgument:
+  Enabled: false
