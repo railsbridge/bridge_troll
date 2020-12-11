@@ -65,7 +65,7 @@ class SectionArranger
         relation
           .joins(:rsvp_sessions)
           .where('rsvp_sessions.event_session_id' => session_id)
-          .where('rsvp_sessions.checked_in = ?', true).readonly(false)
+          .where('rsvp_sessions.checked_in' => true).readonly(false)
       end
     end
 

@@ -26,7 +26,7 @@ describe ReminderSender do
     end
 
     it 'sends emails to all the students' do
-      pending_reminder_count = event.rsvps.confirmed.where('reminded_at IS NULL').count
+      pending_reminder_count = event.rsvps.confirmed.where(reminded_at: nil).count
       expect(pending_reminder_count).to be >= 0
 
       expect do

@@ -23,7 +23,7 @@ class Rsvp < ApplicationRecord
   validates :role, presence: true
   validates :childcare_info, presence: { if: :needs_childcare? }
 
-  scope :confirmed, -> { where('waitlist_position IS NULL') }
+  scope :confirmed, -> { where(waitlist_position: nil) }
   scope :checked_in, -> { where.not(checkins_count: 0) }
   scope :needs_childcare, -> { where("childcare_info <> ''") }
 
@@ -216,7 +216,7 @@ class Rsvp < ApplicationRecord
   def find_last_relevant_rsvp(user, event)
     prior_rsvps = user.rsvps.includes(:event).order('events.ends_at')
     if event.course
-      prior_rsvps.where('events.course_id = ?', event.course.id).last || prior_rsvps.last
+      prior_rsvps.where('events.course_id' => event.course.id).last || prior_rsvps.last
     else
       prior_rsvps.last
     end

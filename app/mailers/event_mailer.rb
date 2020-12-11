@@ -57,7 +57,7 @@ class EventMailer < ApplicationMailer
 
     @region = @event.region
 
-    set_recipients(User.joins(:regions).where('users.allow_event_email = ?', true).where('regions.id' => [@region.id]).map(&:email))
+    set_recipients(User.joins(:regions).where('users.allow_event_email' => true).where('regions.id' => [@region.id]).map(&:email))
 
     mail(
       subject: "[#{@region.name}] New event posted: '#{@event.title}'"

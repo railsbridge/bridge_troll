@@ -153,7 +153,7 @@ class RsvpsController < ApplicationController
   end
 
   def signup_for_new_region?
-    regions = Region.joins(locations: :events).where('events.id IN (?)', current_user.events.pluck(:id)).distinct
+    regions = Region.joins(locations: :events).where('events.id' => current_user.events.pluck(:id)).distinct
     if regions.empty?
       false
     else

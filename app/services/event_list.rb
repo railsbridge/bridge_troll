@@ -31,7 +31,7 @@ class EventList
 
   def apply_options(scope)
     if @options[:organization_id]
-      scope.joins(chapter: :organization).where('organizations.id = ?', @options[:organization_id])
+      scope.joins(chapter: :organization).where('organizations.id' => @options[:organization_id])
     else
       scope
     end

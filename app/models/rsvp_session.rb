@@ -14,7 +14,7 @@ class RsvpSession < ApplicationRecord
   end
 
   def update_counter_cache
-    rsvp.checkins_count = rsvp.rsvp_sessions.where('rsvp_sessions.checked_in = ?', true).count
+    rsvp.checkins_count = rsvp.rsvp_sessions.where('rsvp_sessions.checked_in' => true).count
     rsvp.save
   end
 
