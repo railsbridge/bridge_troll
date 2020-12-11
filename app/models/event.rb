@@ -167,7 +167,8 @@ class Event < ApplicationRecord
     return unless persisted? && student_rsvp_limit
     return unless student_rsvp_limit < student_rsvps_count
 
-    errors.add(:student_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
+    errors.add(:student_rsvp_limit,
+               "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
     false
   end
 
@@ -175,7 +176,8 @@ class Event < ApplicationRecord
     return unless persisted? && volunteer_rsvp_limit
     return unless volunteer_rsvp_limit < volunteer_rsvps_count
 
-    errors.add(:volunteer_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{volunteer_rsvps.length})")
+    errors.add(:volunteer_rsvp_limit,
+               "can't be decreased lower than the number of existing RSVPs (#{volunteer_rsvps.length})")
     false
   end
 

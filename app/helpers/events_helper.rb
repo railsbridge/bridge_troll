@@ -77,7 +77,9 @@ module EventsHelper
     params = {
       'action' => 'TEMPLATE',
       'text' => "#{event.title}: #{event_session.name}",
-      'dates' => [event_session.starts_at, event_session.ends_at].map { |date| date.utc.strftime('%Y%m%dT%H%M00Z') }.join('/'),
+      'dates' => [event_session.starts_at, event_session.ends_at].map do |date|
+                   date.utc.strftime('%Y%m%dT%H%M00Z')
+                 end.join('/'),
       'details' => "more details here: #{event_url(event)}"
     }
 

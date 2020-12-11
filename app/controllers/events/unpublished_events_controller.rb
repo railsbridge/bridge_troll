@@ -30,7 +30,8 @@ module Events
       authorize @event, :flag?
       @event.update_attribute(:spam, true)
       @event.organizers.first.update_attribute(:spammer, true)
-      redirect_to unpublished_events_path, notice: "#{@event.title} has been flagged as spam, and #{@event.organizers.first.full_name} has been flagged as a spammer so any other events they create will immediately be flagged as spam."
+      redirect_to unpublished_events_path,
+                  notice: "#{@event.title} has been flagged as spam, and #{@event.organizers.first.full_name} has been flagged as a spammer so any other events they create will immediately be flagged as spam."
     end
 
     private

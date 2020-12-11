@@ -15,7 +15,9 @@ class EventsController < ApplicationController
         @event_regions = @events.map(&:region).compact.uniq
       end
       format.json do
-        render json: EventList.new(params[:type], params.slice(:organization_id, :serialization_format, :start, :length, :draw, :search))
+        render json: EventList.new(params[:type],
+                                   params.slice(:organization_id, :serialization_format, :start, :length, :draw,
+                                                :search))
       end
       format.csv do
         send_data EventList.new(EventList::ALL).to_csv, type: :csv

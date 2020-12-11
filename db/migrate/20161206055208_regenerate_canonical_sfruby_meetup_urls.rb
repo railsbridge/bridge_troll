@@ -15,8 +15,10 @@ class RegenerateCanonicalSfrubyMeetupUrls < ActiveRecord::Migration[4.2]
                          .select { |e| e.imported_event_data['student_event']['url'].include?('sfruby') }
     meetup_events.each do |e|
       imported_event_data = e.imported_event_data
-      imported_event_data['volunteer_event']['url'] = "https://www.meetup.com/sfruby/events/#{imported_event_data['volunteer_event']['id']}/"
-      imported_event_data['student_event']['url'] = "https://www.meetup.com/sfruby/events/#{imported_event_data['student_event']['id']}/"
+      imported_event_data['volunteer_event']['url'] =
+        "https://www.meetup.com/sfruby/events/#{imported_event_data['volunteer_event']['id']}/"
+      imported_event_data['student_event']['url'] =
+        "https://www.meetup.com/sfruby/events/#{imported_event_data['student_event']['id']}/"
       e.update_attribute(:imported_event_data, imported_event_data)
     end
   end

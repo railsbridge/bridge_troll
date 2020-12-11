@@ -10,7 +10,8 @@ class SurveysController < ApplicationController
     @survey = Survey.where(rsvp_id: @rsvp.id).first_or_initialize
     return unless @survey.persisted?
 
-    flash[:error] = "It looks like you've already taken this survey! Email your workshop organizer with any other feedback you have."
+    flash[:error] =
+      "It looks like you've already taken this survey! Email your workshop organizer with any other feedback you have."
   end
 
   def create
@@ -52,7 +53,8 @@ class SurveysController < ApplicationController
     @rsvp = current_user.rsvps.find_by(event_id: @event.id)
     return if @rsvp
 
-    flash[:error] = "It looks like you're trying to take the survey for an event you didn't attend. Maybe you're signed in with the wrong account?"
+    flash[:error] =
+      "It looks like you're trying to take the survey for an event you didn't attend. Maybe you're signed in with the wrong account?"
     redirect_to event_path(@event)
   end
 end

@@ -14,7 +14,8 @@ module DeviseOverrides
             redirect_to edit_user_registration_path, notice: "#{provider_name} authentication added."
           else
             existing_auth = Authentication.find_by(auth_args)
-            redirect_to edit_user_registration_path, alert: "That #{provider_name} authentication is already in use by #{existing_auth.user.email}!."
+            redirect_to edit_user_registration_path,
+                        alert: "That #{provider_name} authentication is already in use by #{existing_auth.user.email}!."
           end
         )
       end

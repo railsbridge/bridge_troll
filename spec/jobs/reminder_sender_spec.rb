@@ -41,7 +41,8 @@ describe ReminderSender do
     describe 'when there is a volunteer-only session occuring before the all-attendees session' do
       before do
         event.event_sessions.first.update(starts_at: 4.days.from_now, ends_at: 5.days.from_now)
-        volunteer_session = create(:event_session, event: event, starts_at: 2.days.from_now, ends_at: 3.days.from_now, required_for_students: false, volunteers_only: true)
+        volunteer_session = create(:event_session, event: event, starts_at: 2.days.from_now, ends_at: 3.days.from_now,
+                                                   required_for_students: false, volunteers_only: true)
 
         create(:volunteer_rsvp, event: event).tap do |rsvp|
           rsvp.rsvp_sessions.create(event_session: volunteer_session)

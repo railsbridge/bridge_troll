@@ -120,9 +120,15 @@ describe SectionArranger do
       end
       let(:session1) { event.event_sessions.first }
       let(:session2) { event.event_sessions.last }
-      let(:session1_rsvp)    { create(:student_rsvp, event: event, session_checkins: { session1.id => true,  session2.id => false }) }
-      let(:session2_rsvp)    { create(:student_rsvp, event: event, session_checkins: { session1.id => false, session2.id => true }) }
-      let(:both_rsvp)        { create(:student_rsvp, event: event, session_checkins: { session1.id => true,  session2.id => true }) }
+      let(:session1_rsvp) do
+        create(:student_rsvp, event: event, session_checkins: { session1.id => true,  session2.id => false })
+      end
+      let(:session2_rsvp) do
+        create(:student_rsvp, event: event, session_checkins: { session1.id => false, session2.id => true })
+      end
+      let(:both_rsvp) do
+        create(:student_rsvp, event: event, session_checkins: { session1.id => true,  session2.id => true })
+      end
 
       context 'when asked to arrange for only the first session' do
         before do

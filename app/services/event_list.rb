@@ -25,7 +25,8 @@ class EventList
   private
 
   def all_sorted_events
-    (bridgetroll_events.includes(:location, :event_sessions, :organizers, :legacy_organizers, :organization) + external_events.includes(:organization))
+    (bridgetroll_events.includes(:location, :event_sessions, :organizers, :legacy_organizers,
+                                 :organization) + external_events.includes(:organization))
       .sort_by(&:starts_at)
   end
 

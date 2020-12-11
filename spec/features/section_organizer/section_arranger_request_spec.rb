@@ -6,8 +6,12 @@ describe 'arranging sections for an event', js: true do
   let(:event) { create(:event, course: create(:course, levels_count: 5)) }
   let(:session1) { event.event_sessions.first }
   let(:session2) { event.event_sessions.last }
-  let(:session1_rsvp) { create(:student_rsvp, event: event, class_level: 1, session_checkins: { session1.id => true, session2.id => false }) }
-  let(:both_rsvp) { create(:student_rsvp, event: event, class_level: 3, session_checkins: { session1.id => true, session2.id => true }) }
+  let(:session1_rsvp) do
+    create(:student_rsvp, event: event, class_level: 1, session_checkins: { session1.id => true, session2.id => false })
+  end
+  let(:both_rsvp) do
+    create(:student_rsvp, event: event, class_level: 3, session_checkins: { session1.id => true, session2.id => true })
+  end
 
   before do
     event
@@ -18,7 +22,8 @@ describe 'arranging sections for an event', js: true do
     create(:student_rsvp, event: event, class_level: 2, session_checkins: { session1.id => false, session2.id => true })
     both_rsvp
     # neither attendee
-    create(:student_rsvp, event: event, class_level: 4, session_checkins: { session1.id => false, session2.id => false })
+    create(:student_rsvp, event: event, class_level: 4,
+                          session_checkins: { session1.id => false, session2.id => false })
 
     user_organizer = create(:user)
     event.organizers << user_organizer

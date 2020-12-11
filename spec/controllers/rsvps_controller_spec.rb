@@ -243,7 +243,8 @@ describe RsvpsController do
         expect(user.regions).to match_array([])
 
         expect do
-          post :create, params: { event_id: event.id, rsvp: rsvp_params, user: { gender: 'human' }, affiliate_with_region: true }
+          post :create,
+               params: { event_id: event.id, rsvp: rsvp_params, user: { gender: 'human' }, affiliate_with_region: true }
         end.to change(Rsvp, :count).by(1)
         expect(user.reload.regions).to match_array([event.region])
       end
@@ -262,7 +263,9 @@ describe RsvpsController do
 
         it 'does nothing when trying to set the region' do
           expect do
-            post :create, params: { event_id: event.id, rsvp: rsvp_params, user: { gender: 'human' }, affiliate_with_region: true }
+            post :create,
+                 params: { event_id: event.id, rsvp: rsvp_params, user: { gender: 'human' },
+                           affiliate_with_region: true }
           end.to change(Rsvp, :count).by(1)
           expect(user.reload.regions).to match_array([event.region])
         end
@@ -593,11 +596,15 @@ describe RsvpsController do
     it 'can update region affiliation' do
       expect(user.regions).to match_array([])
 
-      put :update, params: { event_id: event.id, id: my_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' }, affiliate_with_region: true }
+      put :update,
+          params: { event_id: event.id, id: my_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' },
+                    affiliate_with_region: true }
       expect(user.reload.regions).to match_array([event.region])
 
       # doing it again to make sure we don't try to set it twice
-      put :update, params: { event_id: event.id, id: my_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' }, affiliate_with_region: true }
+      put :update,
+          params: { event_id: event.id, id: my_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' },
+                    affiliate_with_region: true }
       expect(user.reload.regions).to match_array([event.region])
 
       put :update, params: { event_id: event.id, id: my_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' } }
