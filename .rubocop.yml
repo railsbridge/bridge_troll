@@ -1,4 +1,9 @@
 inherit_from: .rubocop_todo.yml
+
+inherit_mode:
+  merge:
+    - Exclude
+
 require:
   - rubocop-thread_safety
   - rubocop-rspec
@@ -56,3 +61,7 @@ Rails/CreateTableWithTimestamps:
 # explicit arguments are easier to understand / read without needing to read the docs
 Style/RedundantArgument:
   Enabled: false
+
+Style/Documentation:
+  Exclude:
+    - spec/**/*
