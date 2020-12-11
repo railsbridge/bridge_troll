@@ -34,10 +34,20 @@ describe EventsController do
   end
 
   describe 'GET index (json)' do
-    let!(:future_event) { create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska') }
-    let!(:future_external_event) { create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 4.days.from_now) }
-    let!(:past_event) { create(:event, title: 'PastBridge', time_zone: 'Alaska').tap { |e| e.update(starts_at: 5.days.ago, ends_at: 4.days.ago) } }
-    let!(:past_external_event) { create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago) }
+    let!(:future_event) do
+      create(:event, title: 'FutureBridge', starts_at: 5.days.from_now, ends_at: 6.days.from_now, time_zone: 'Alaska')
+    end
+    let!(:future_external_event) do
+      create(:external_event, name: 'FutureExternalBridge', starts_at: 3.days.from_now, ends_at: 4.days.from_now)
+    end
+    let!(:past_event) do
+      create(:event, title: 'PastBridge', time_zone: 'Alaska').tap do |e|
+        e.update(starts_at: 5.days.ago, ends_at: 4.days.ago)
+      end
+    end
+    let!(:past_external_event) do
+      create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago)
+    end
 
     before do
       # unpublished, not included in results below

@@ -73,7 +73,9 @@ FactoryBot.define do
   factory :course do
     name { 'RAILS' }
     title { 'Ruby on Rails' }
-    description { 'This is a Ruby on Rails event. The focus will be on developing functional web apps and programming in Ruby.  You can find all the curriculum materials at <a href="http://docs.railsbridge.org">docs.railsbridge.org</a>.' }
+    description do
+      'This is a Ruby on Rails event. The focus will be on developing functional web apps and programming in Ruby.  You can find all the curriculum materials at <a href="http://docs.railsbridge.org">docs.railsbridge.org</a>.'
+    end
     transient do
       levels_count { 3 }
     end
@@ -93,7 +95,10 @@ FactoryBot.define do
     num { 1 }
     color { 'blue' }
     title { 'Totally New to Programming' }
-    level_description { ['You have little to no experience with the terminal or a graphical IDE', 'You might have done a little bit with HTML or CSS, but not necessarily', "You're unfamiliar with terms like methods, arrays, lists, hashes, or dictionaries."] }
+    level_description do
+      ['You have little to no experience with the terminal or a graphical IDE',
+       'You might have done a little bit with HTML or CSS, but not necessarily', "You're unfamiliar with terms like methods, arrays, lists, hashes, or dictionaries."]
+    end
   end
 
   factory :location do
@@ -165,11 +170,13 @@ FactoryBot.define do
     after(:build) do |rsvp, evaluator|
       if evaluator.session_checkins
         evaluator.session_checkins.each do |event_session_id, checked_in|
-          rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session_id: event_session_id, checked_in: checked_in)
+          rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session_id: event_session_id,
+                                                     checked_in: checked_in)
         end
         rsvp.checkins_count = evaluator.session_checkins.values.count { |v| v }
       elsif rsvp.rsvp_sessions.empty?
-        rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session: rsvp.event.event_sessions.first, checked_in: evaluator.checked_in)
+        rsvp.rsvp_sessions << build(:rsvp_session, rsvp: rsvp, event_session: rsvp.event.event_sessions.first,
+                                                   checked_in: evaluator.checked_in)
       end
     end
   end

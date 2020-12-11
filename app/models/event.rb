@@ -71,8 +71,8 @@ class Event < ApplicationRecord
 
   with_options(through: :rsvps, source: :survey) do
     has_many :surveys
-    has_many :student_surveys, -> { where('rsvps.role_id = ?', Role::STUDENT.id) }
-    has_many :volunteer_surveys, -> { where('rsvps.role_id = ?', Role::VOLUNTEER.id) }
+    has_many :student_surveys, -> { where('rsvps.role_id' => Role::STUDENT.id) }
+    has_many :volunteer_surveys, -> { where('rsvps.role_id' => Role::VOLUNTEER.id) }
   end
 
   validates :title, presence: true
@@ -167,7 +167,8 @@ class Event < ApplicationRecord
     return unless persisted? && student_rsvp_limit
     return unless student_rsvp_limit < student_rsvps_count
 
-    errors.add(:student_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
+    errors.add(:student_rsvp_limit,
+               "can't be decreased lower than the number of existing RSVPs (#{student_rsvps.length})")
     false
   end
 
@@ -175,7 +176,8 @@ class Event < ApplicationRecord
     return unless persisted? && volunteer_rsvp_limit
     return unless volunteer_rsvp_limit < volunteer_rsvps_count
 
-    errors.add(:volunteer_rsvp_limit, "can't be decreased lower than the number of existing RSVPs (#{volunteer_rsvps.length})")
+    errors.add(:volunteer_rsvp_limit,
+               "can't be decreased lower than the number of existing RSVPs (#{volunteer_rsvps.length})")
     false
   end
 
@@ -200,9 +202,9 @@ class Event < ApplicationRecord
     end
 
     event_sessions.each do |session|
-      non_waitlisted_rsvps = session.rsvp_sessions.includes(:rsvp).where('rsvps.waitlist_position IS NULL').references(:rsvps)
+      non_waitlisted_rsvps = session.rsvp_sessions.includes(:rsvp).where('rsvps.waitlist_position' => nil).references(:rsvps)
       Role.attendee_role_ids.each do |role_id|
-        role_rsvps = non_waitlisted_rsvps.where('rsvps.role_id = ?', role_id)
+        role_rsvps = non_waitlisted_rsvps.where('rsvps.role_id' => role_id)
         counts[role_id][:rsvp][session.id] = role_rsvps.count
         counts[role_id][:checkin][session.id] = role_rsvps.where(checked_in: true).count
       end

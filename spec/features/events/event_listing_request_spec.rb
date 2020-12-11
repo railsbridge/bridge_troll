@@ -169,7 +169,8 @@ describe 'the event listing page' do
       it 'sanitizes user input' do
         fill_in_good_event_details
 
-        fill_in 'event_details', with: "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
+        fill_in 'event_details',
+                with: "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
         check('coc')
         click_button submit_for_approval_button
 
@@ -195,7 +196,8 @@ describe 'the event listing page' do
         end
 
         select '(GMT-09:00) Alaska', from: 'event_time_zone'
-        fill_in 'event_details', with: "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
+        fill_in 'event_details',
+                with: "This is a note in the detail text box\n With a new line!<script>alert('hi')</script> and a (missing) javascript injection, as well as an unclosed <h1> tag"
         check('coc')
         click_button submit_for_approval_button
 

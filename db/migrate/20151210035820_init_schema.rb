@@ -225,7 +225,8 @@ class InitSchema < ActiveRecord::Migration[4.2]
     end
 
     add_index 'rsvps', ['token'], name: 'index_rsvps_on_token', unique: true
-    add_index 'rsvps', %w[user_id event_id user_type], name: 'index_rsvps_on_user_id_and_event_id_and_event_type', unique: true
+    add_index 'rsvps', %w[user_id event_id user_type], name: 'index_rsvps_on_user_id_and_event_id_and_event_type',
+                                                       unique: true
 
     create_table 'sections', force: :cascade do |t|
       t.integer  'event_id'

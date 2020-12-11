@@ -25,13 +25,14 @@ class EventList
   private
 
   def all_sorted_events
-    (bridgetroll_events.includes(:location, :event_sessions, :organizers, :legacy_organizers, :organization) + external_events.includes(:organization))
+    (bridgetroll_events.includes(:location, :event_sessions, :organizers, :legacy_organizers,
+                                 :organization) + external_events.includes(:organization))
       .sort_by(&:starts_at)
   end
 
   def apply_options(scope)
     if @options[:organization_id]
-      scope.joins(chapter: :organization).where('organizations.id = ?', @options[:organization_id])
+      scope.joins(chapter: :organization).where('organizations.id' => @options[:organization_id])
     else
       scope
     end

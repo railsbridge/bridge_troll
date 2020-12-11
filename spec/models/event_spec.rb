@@ -320,7 +320,8 @@ describe Event do
       end
 
       it 'returns all events' do
-        expect(described_class.published_or_visible_to(@admin)).to match_array([@published_event, @unpublished_event, @organized_event])
+        expect(described_class.published_or_visible_to(@admin)).to match_array([@published_event, @unpublished_event,
+                                                                                @organized_event])
       end
     end
   end
@@ -425,11 +426,14 @@ describe Event do
 
       @last_session = create(:event_session, event: @event, ends_at: 1.year.from_now)
 
-      @rsvp1 = create(:student_rsvp, event: @event, session_checkins: { @first_session.id => true, @last_session.id => false })
+      @rsvp1 = create(:student_rsvp, event: @event,
+                                     session_checkins: { @first_session.id => true, @last_session.id => false })
 
-      @rsvp2 = create(:student_rsvp, event: @event, session_checkins: { @first_session.id => false, @last_session.id => false })
+      @rsvp2 = create(:student_rsvp, event: @event,
+                                     session_checkins: { @first_session.id => false, @last_session.id => false })
 
-      @rsvp3 = create(:student_rsvp, event: @event, session_checkins: { @first_session.id => false, @last_session.id => true })
+      @rsvp3 = create(:student_rsvp, event: @event,
+                                     session_checkins: { @first_session.id => false, @last_session.id => true })
 
       @event.reload
     end

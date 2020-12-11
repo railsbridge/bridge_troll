@@ -27,7 +27,8 @@ describe EventList do
   describe 'when returning datatables json' do
     describe 'searching' do
       search_result_ids = proc do |query|
-        json = described_class.new('past', serialization_format: 'dataTables', start: 0, length: 10, search: { 'value' => query }).as_json
+        json = described_class.new('past', serialization_format: 'dataTables', start: 0, length: 10,
+                                           search: { 'value' => query }).as_json
         json[:data].pluck(:global_id)
       end
 
@@ -36,7 +37,8 @@ describe EventList do
         @past_bt_event = create(:event, title: 'PastBridge', location: @past_bt_event_location)
         @past_bt_event.update(starts_at: 5.days.ago, ends_at: 4.days.ago)
 
-        @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago, ends_at: 2.days.ago, location: 'PEBPlace')
+        @past_external_event = create(:external_event, name: 'PastExternalBridge', starts_at: 3.days.ago,
+                                                       ends_at: 2.days.ago, location: 'PEBPlace')
       end
 
       it 'can search by event name' do

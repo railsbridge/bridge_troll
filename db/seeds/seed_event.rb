@@ -110,8 +110,10 @@ module Seeder
 
       DETAILS
     )
-    event.event_sessions << EventSession.new(name: 'First Session', starts_at: 60.days.from_now, ends_at: 61.days.from_now)
-    event.event_sessions << EventSession.new(name: 'Second Session', starts_at: 65.days.from_now, ends_at: 66.days.from_now)
+    event.event_sessions << EventSession.new(name: 'First Session', starts_at: 60.days.from_now,
+                                             ends_at: 61.days.from_now)
+    event.event_sessions << EventSession.new(name: 'Second Session', starts_at: 65.days.from_now,
+                                             ends_at: 66.days.from_now)
 
     event.save!
 
@@ -119,8 +121,10 @@ module Seeder
     coorganizer = find_or_create_user('coorganizer@example.com')
     event.organizers << coorganizer
 
-    create_volunteer_rsvp(event: event, user: find_or_create_user('teacher@example.com'), volunteer_assignment: VolunteerAssignment::TEACHER, class_level: 0)
-    create_volunteer_rsvp(event: event, user: find_or_create_user('ta@example.com'), volunteer_assignment: VolunteerAssignment::TA, class_level: 3)
+    create_volunteer_rsvp(event: event, user: find_or_create_user('teacher@example.com'),
+                          volunteer_assignment: VolunteerAssignment::TEACHER, class_level: 0)
+    create_volunteer_rsvp(event: event, user: find_or_create_user('ta@example.com'),
+                          volunteer_assignment: VolunteerAssignment::TA, class_level: 3)
 
     (1..5).each do |level|
       students_in_level = rand(students_per_level_range)
@@ -240,7 +244,8 @@ module Seeder
         This is an example of an event that takes place in multiple locations!
       DETAILS
     )
-    event.event_sessions << EventSession.new(name: 'Teacher Training', starts_at: 60.days.from_now, ends_at: 61.days.from_now, location: session_location)
+    event.event_sessions << EventSession.new(name: 'Teacher Training', starts_at: 60.days.from_now,
+                                             ends_at: 61.days.from_now, location: session_location)
     event.event_sessions << EventSession.new(name: 'Workshop', starts_at: 65.days.from_now, ends_at: 66.days.from_now)
 
     event.save!

@@ -92,7 +92,8 @@ class RsvpsController < ApplicationController
     end
 
     if current_user && @event.organizer?(current_user)
-      redirect_to event_attendees_path(@event), notice: "#{@rsvp.user.first_name} is no longer signed up for #{@event.title}"
+      redirect_to event_attendees_path(@event),
+                  notice: "#{@rsvp.user.first_name} is no longer signed up for #{@event.title}"
     else
       redirect_to events_path, notice: "You are now no longer signed up for #{@event.title}"
     end
@@ -153,7 +154,7 @@ class RsvpsController < ApplicationController
   end
 
   def signup_for_new_region?
-    regions = Region.joins(locations: :events).where('events.id IN (?)', current_user.events.pluck(:id)).distinct
+    regions = Region.joins(locations: :events).where('events.id' => current_user.events.pluck(:id)).distinct
     if regions.empty?
       false
     else

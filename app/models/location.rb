@@ -25,7 +25,9 @@ class Location < ApplicationRecord
   end
 
   def notable_events
-    events.published.presence || Event.where(location_id: id).where(current_state: Event.current_states.values_at(:draft, :pending_approval))
+    events.published.presence || Event.where(location_id: id).where(current_state: Event.current_states.values_at(
+      :draft, :pending_approval
+    ))
   end
 
   def archive!

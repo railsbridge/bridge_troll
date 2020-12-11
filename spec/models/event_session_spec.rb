@@ -48,7 +48,8 @@ describe EventSession do
       expect(event.starts_at.to_i).to eq(session1.starts_at.to_i)
       expect(event.ends_at.to_i).to eq(session1.ends_at.to_i)
 
-      session2 = create(:event_session, event: event, starts_at: 2.days.since(session1.starts_at), ends_at: 3.days.since(session1.ends_at))
+      session2 = create(:event_session, event: event, starts_at: 2.days.since(session1.starts_at),
+                                        ends_at: 3.days.since(session1.ends_at))
 
       event.reload
       expect(event.starts_at.to_i).to eq(session1.starts_at.to_i)
