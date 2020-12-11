@@ -3,7 +3,7 @@
 module ApplicationHelper
   def gravatar_image_tag(email, size:, **opts)
     hash = Digest::MD5.hexdigest(email)
-    tag('img', opts.merge(src: "https://secure.gravatar.com/avatar/#{hash}.png?height=#{size}&width=#{size}"))
+    tag('img', opts.merge(src: "https://secure.gravatar.com/avatar/#{hash}.png?s=#{size}"))
   end
 
   def resource_name
