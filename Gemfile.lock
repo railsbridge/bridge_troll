@@ -143,7 +143,6 @@ GEM
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     gmaps4rails (2.1.2)
-    gravatar_image_tag (1.2.0)
     handlebars_assets (0.23.8)
       execjs (~> 2.0)
       sprockets (>= 2.0.0)
@@ -434,7 +433,6 @@ DEPENDENCIES
   font-awesome-rails
   geocoder
   gmaps4rails
-  gravatar_image_tag
   handlebars_assets
   icalendar
   jasmine
@@ -488,7 +486,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 2.6.6p146
+   ruby 2.7.2p137
 
 BUNDLED WITH
    2.1.4
