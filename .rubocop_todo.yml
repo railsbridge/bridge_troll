@@ -586,7 +586,6 @@ Layout/LineLength:
     - 'app/services/event_list.rb'
     - 'app/services/user_list.rb'
     - 'config/initializers/devise.rb'
-    - 'config/initializers/gravatar_image_tag.rb'
     - 'db/migrate/20151210035820_init_schema.rb'
     - 'db/migrate/20161206055208_regenerate_canonical_sfruby_meetup_urls.rb'
     - 'db/seeds/seed_event.rb'

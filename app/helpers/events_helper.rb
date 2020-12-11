@@ -85,7 +85,7 @@ module EventsHelper
   end
 
   def user_gravatar(user)
-    gravatar_image_tag(user.email, alt: '', gravatar: { size: 38 })
+    gravatar_image_tag(user.email, size: 38)
   end
 
   def event_special_permissions_text(event, user_event_role)

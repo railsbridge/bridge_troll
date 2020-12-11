@@ -9,7 +9,7 @@
     <% if user_signed_in? %>
       <li>
         <%= link_to edit_user_registration_path do %>
-          <%= gravatar_image_tag(current_user.email, gravatar: {size: 30}, style: 'margin-right: 8px;') %>
+          <%= gravatar_image_tag(current_user.email, size: 30, style: 'margin-right: 8px;') %>
           <%= current_user.full_name %>
         <% end %>
       </li>
