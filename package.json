@@ -2,7 +2,7 @@
   "name": "bridge_troll",
   "version": "0.0.0",
   "dependencies": {
-    "datatables.net": "1.10.13",
+    "datatables.net": "1.10.22",
     "datatables.net-bs": "1.10.13",
     "markerclustererplus": "2.1.4",
     "masonry-layout": "4.1.1",
