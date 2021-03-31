@@ -136,7 +136,7 @@ GEM
     faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
-    ffi (1.13.1)
+    ffi (1.15.0)
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
     geocoder (1.6.4)
@@ -172,7 +172,7 @@ GEM
     kdtree (0.4)
     launchy (2.5.0)
       addressable (~> 2.7)
-    listen (3.3.3)
+    listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.8.0)
@@ -183,7 +183,9 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
-    mimemagic (0.3.5)
+    mimemagic (0.3.10)
+      nokogiri (~> 1)
+      rake
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.2)
