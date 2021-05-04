@@ -6,6 +6,8 @@ in pkgs.mkShell {
     # for nokogiri
     pkgs.zlib
     pkgs.libiconv
+    # for pg
+    pkgs.postgresql
     #
     pkgs.ruby_2_7
   ];
