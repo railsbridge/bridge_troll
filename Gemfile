@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.2'
+ruby '2.7.1'
 
 gem 'active_hash'
 # OPTIMIZE: and cache expensive computations for faster boot times. It's
