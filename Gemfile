@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.2'
+ruby '2.7.1'
 
 gem 'active_hash'
 # OPTIMIZE: and cache expensive computations for faster boot times. It's
@@ -32,7 +32,7 @@ gem 'pundit'
 gem 'rack-canonical-host'
 gem 'rack-cors'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
-gem 'rails', '~> 5.2.4.3'
+gem 'rails', '~> 5.2.5'
 gem 'sanitize'
 gem 'sassc-rails'
 gem 'simple_form'

@@ -12,7 +12,7 @@ class EventsController < ApplicationController
       format.html do
         @events = Event.upcoming.published_or_visible_to(current_user)
                        .includes(:location, :region, :chapter, :organization, event_sessions: :location)
-        @event_regions = @events.map(&:region).compact.uniq
+        @event_regions = @events.filter_map(&:region).uniq
       end
       format.json do
         render json: EventList.new(params[:type],

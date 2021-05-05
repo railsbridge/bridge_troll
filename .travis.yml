@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.7.2
+  - 2.7.1
 cache:
   bundler: true
   yarn: true
@@ -17,17 +17,17 @@ env:
 
 matrix:
   include:
-  - env: FORCE_POSTGRES=true
-    services:
-    - postgresql
-  - env: DO_NOT_FORCE_POSTGRES=true
+    - env: FORCE_POSTGRES=true
+      services:
+        - postgresql
+    - env: DO_NOT_FORCE_POSTGRES=true
 
 before_install:
   - env
   - nvm install 12
   - yarn install
   - google-chrome-stable --version
-  - 'echo ''gem: --no-document'' > ~/.gemrc'
+  - "echo 'gem: --no-document' > ~/.gemrc"
   - gem update --system
   - gem install bundler
   - bundle config set --local deployment 'true'

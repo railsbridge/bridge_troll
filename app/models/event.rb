@@ -334,7 +334,7 @@ class Event < ApplicationRecord
   end
 
   def other_dietary_restrictions_for(rsvps)
-    rsvps.map { |rsvp| rsvp.dietary_info.presence }.compact
+    rsvps.filter_map { |rsvp| rsvp.dietary_info.presence }
   end
 
   def organizer_names
