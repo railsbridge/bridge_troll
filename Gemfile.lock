@@ -200,7 +200,7 @@ GEM
     nested_form (0.3.2)
     newrelic_rpm (6.14.0)
     nio4r (2.5.7)
-    nokogiri (1.11.3)
+    nokogiri (1.11.4)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     nokogumbo (2.0.4)
