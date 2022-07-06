@@ -239,10 +239,10 @@ samsam@~1.1:
   resolved "https://registry.yarnpkg.com/samsam/-/samsam-1.1.3.tgz#9f5087419b4d091f232571e7fa52e90b0f552621"
   integrity sha1-n1CHQZtNCR8jJXHn+lLpCw9VJiE=
 
-select2@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.3.tgz#207733fe91eacb9cb1a13f12463401f472449e0f"
-  integrity sha1-IHcz/pHqy5yxoT8SRjQB9HJEng8=
+select2@4.0.6:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/select2/-/select2-4.0.6.tgz#88697c96e08b65a5963c2806c1d5eefbceec0a7e"
+  integrity sha512-P5NqUcH+FFBwHAbC2mEWMDS446YdIGvXRM9tSGFLuNIFRP/ng0IOtjJ4zkzVyCl43RM/NyXJa6SAPT9MGg634A==
   dependencies:
     almond "~0.3.1"
     jquery-mousewheel "~3.1.13"
