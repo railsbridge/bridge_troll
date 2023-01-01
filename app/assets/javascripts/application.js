@@ -16,8 +16,6 @@
 //= require handlebars.runtime
 //= require underscore
 //= require gmaps/google
-//= require backbone
-//= require backbone-super
 //= require bridgetroll
 //= require_tree ../templates
 //= require_tree ./enums
