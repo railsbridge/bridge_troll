@@ -1,0 +1,50 @@
+{
+  "name": "masonry",
+  "description": "Cascading grid layout library",
+  "main": "masonry.js",
+  "dependencies": {
+    "get-size": "^2.0.2",
+    "outlayer": "^2.1.0"
+  },
+  "devDependencies": {
+    "jquery-bridget": "~2.0.0",
+    "qunit": "^1.12",
+    "jquery": ">=1.4.3 <4"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "sandbox/",
+    "gulpfile.js",
+    "package.json",
+    "composer.json"
+  ],
+  "homepage": "http://masonry.desandro.com",
+  "authors": [
+    "David DeSandro"
+  ],
+  "keywords": [
+    "masonry",
+    "layout",
+    "outlayer"
+  ],
+  "license": "MIT",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "version": "4.1.1",
+  "_release": "4.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v4.1.1",
+    "commit": "92c9263acceb130aa4033ad9dbed665e1dad7b0a"
+  },
+  "_source": "https://github.com/desandro/masonry.git",
+  "_target": "4.1.1",
+  "_originalSource": "masonry"
+}
