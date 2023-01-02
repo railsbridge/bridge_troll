@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     strategy:
       matrix:
         include:
@@ -14,7 +16,8 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
