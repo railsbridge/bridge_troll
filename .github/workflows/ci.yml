@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Force postgres
       if: ${{ matrix.force_postgres }}
-      run: export FORCE_POSTGRES=1
+      run: echo "FORCE_POSTGRES=1" >> $GITHUB_ENV
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1.133.0
       with:
