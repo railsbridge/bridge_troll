@@ -2,12 +2,11 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.1'
+ruby '2.7.7'
 
 gem 'active_hash'
 # OPTIMIZE: and cache expensive computations for faster boot times. It's
 # `require`d in a specific way in config/boot.rb
-gem 'backbone-on-rails'
 gem 'bootsnap', require: false
 gem 'bootstrap-sass'
 gem 'coffee-rails'
@@ -33,6 +32,7 @@ gem 'rack-canonical-host'
 gem 'rack-cors'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
 gem 'rails', '~> 5.2.5'
+gem 'rails-backbone'
 gem 'sanitize'
 gem 'sassc-rails'
 gem 'simple_form'
