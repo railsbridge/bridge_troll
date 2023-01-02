@@ -6,7 +6,7 @@
     "datatables.net-bs": "1.10.13",
     "markerclustererplus": "2.1.4",
     "masonry-layout": "4.1.1",
-    "select2": "4.0.3"
+    "select2": "4.0.6"
   },
   "devDependencies": {
     "sinon": "1.17.1"
