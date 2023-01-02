@@ -8,6 +8,7 @@ jobs:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     strategy:
+      fail-fast: false
       matrix:
         database: [sqlite, postgres]
     services:
