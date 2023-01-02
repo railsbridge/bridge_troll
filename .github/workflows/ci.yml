@@ -33,7 +33,7 @@ jobs:
       uses: ruby/setup-ruby@v1.133.0
       with:
         bundler-cache: true
-        cache-version: ${{ format('force-postgres-{0}', matrix.force_postgres) }}
+        cache-version: ${{ matrix.database }}
     - name: Set up Node
       uses: actions/setup-node@v3
       with:
