@@ -4,7 +4,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      BUNDLE_WITHOUT: 'development:production'
+      RAILS_ENV: test
     strategy:
       matrix:
         include:
@@ -41,5 +41,6 @@ jobs:
       with:
         chrome-version: stable
     - run: chrome --version
+    - run: bin/rails db:setup
     - run: bundle exec rake parallel:setup
     - run: bin/rake
