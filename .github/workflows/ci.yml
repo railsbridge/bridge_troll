@@ -7,7 +7,9 @@ jobs:
       BUNDLE_WITHOUT: 'development:production'
     strategy:
       matrix:
-        force_postgres: [true, false]
+        include:
+          - force_postgres: true
+          - force_postgres: false
     services:
       postgres:
         image: postgres
