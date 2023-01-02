@@ -1,0 +1,40 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITHOUT: 'development:production'
+    strategy:
+      matrix:
+        force_postgres: [true, false]
+    services:
+      postgres:
+        image: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - uses: actions/checkout@v3
+    - name: Force postgres
+      if: ${{ matrix.force_postgres }}
+      run: export FORCE_POSTGRES=1
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1.133.0
+      with:
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '12'
+        cache: 'yarn'
+    - run: yarn install --frozen-lockfile # optional, --immutable
+    - name: Set up Google Chrome
+      uses: browser-actions/setup-chrome@latest
+      with:
+        chrome-version: stable
+    - run: chrome --version
+    - run: bundle exec rake parallel:setup
+    - run: bin/rake
