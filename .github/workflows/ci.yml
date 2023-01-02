@@ -4,27 +4,36 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      BUNDLE_WITHOUT: 'development:production'
+      RAILS_ENV: test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     strategy:
+      fail-fast: false
       matrix:
-        force_postgres: [true, false]
+        database: [sqlite, postgres]
     services:
       postgres:
         image: postgres
+        env:
+          POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        ports:
+          - 5432:5432
     steps:
     - uses: actions/checkout@v3
-    - name: Force postgres
-      if: ${{ matrix.force_postgres }}
-      run: export FORCE_POSTGRES=1
+    - name: Use postgres?
+      if: ${{ matrix.database == 'postgres' }}
+      run: echo "FORCE_POSTGRES=1" >> $GITHUB_ENV
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1.133.0
       with:
-        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+        bundler-cache: true
+        cache-version: ${{ matrix.database }}
     - name: Set up Node
       uses: actions/setup-node@v3
       with:
@@ -36,5 +45,6 @@ jobs:
       with:
         chrome-version: stable
     - run: chrome --version
-    - run: bundle exec rake parallel:setup
+    - run: bin/rails db:setup
+    - run: bin/rake parallel:setup
     - run: bin/rake

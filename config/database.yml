@@ -30,6 +30,8 @@ test:
   adapter: postgresql
   database: bridgetroll_test<%= ENV['TEST_ENV_NUMBER'] %>
   host: localhost
+  user: <%= ENV["POSTGRES_USER"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
 <% end %>
 
 staging:
