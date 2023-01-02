@@ -45,5 +45,5 @@ jobs:
         chrome-version: stable
     - run: chrome --version
     - run: bin/rails db:setup
-    - run: bundle exec rake parallel:setup
+    - run: bin/rake parallel:setup
     - run: bin/rake
