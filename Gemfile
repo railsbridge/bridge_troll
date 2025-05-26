@@ -32,7 +32,7 @@ gem 'pundit'
 gem 'rack-canonical-host'
 gem 'rack-cors'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
-gem 'rails', '~> 6.0.6.1'
+gem 'rails', '~> 6.1.7.10'
 gem 'rails-backbone'
 gem 'sanitize'
 gem 'sassc-rails'
