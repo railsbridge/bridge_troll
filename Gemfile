@@ -2,9 +2,8 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.7'
-
 gem 'active_hash'
+gem 'benchmark'
 gem 'rake', require: false
 # OPTIMIZE: and cache expensive computations for faster boot times. It's
 # `require`d in a specific way in config/boot.rb
@@ -40,7 +39,7 @@ gem 'simple_form'
 gem 'sprockets'
 gem 'uglifier'
 # faster interoperable json
-gem 'ffi', '1.16.3'
+gem 'ffi'
 gem 'multi_json'
 gem 'oj'
 gem 'pg'
@@ -78,15 +77,17 @@ group :test, :development do
   gem 'rubocop-rspec', require: false
   gem 'rubocop-thread_safety', require: false
   # in production, we use postgres. For a simpler dev experience you can also use sqlite3
-  gem 'sqlite3', '1.6.9' # last version to support ruby 2.7
+  gem 'sqlite3', '~> 1.4' # latest version supported by rails 6.1
 end
 
 group :test do
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'database_cleaner'
+  gem 'drb'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'mutex_m'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false

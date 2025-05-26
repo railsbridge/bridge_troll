@@ -32,7 +32,7 @@
   languages.ruby = {
     enable = true;
     versionFile = ./.ruby-version;
-    bundler.enable = false;
+    bundler.enable = true;
   };
 
   languages.javascript = {

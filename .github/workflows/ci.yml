@@ -28,7 +28,6 @@ jobs:
       - uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: stable
-      - run: echo "NIXPKGS_ALLOW_INSECURE=1" >> $GITHUB_ENV # only necessary because of old ruby
       - run: chrome --version
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v26
@@ -40,9 +39,9 @@ jobs:
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
       # -i only necessary because of old ruby
-      - run: devenv shell -i bin/rails db:setup
-      - run: devenv shell -i bin/rake parallel:setup
-      - run: devenv shell -i bin/rake
+      - run: devenv shell bin/rails db:setup
+      - run: devenv shell bin/rake parallel:setup
+      - run: devenv shell bin/rake
       - name: Archive capybara failure screenshots
         uses: actions/upload-artifact@v4
         if: failure()
