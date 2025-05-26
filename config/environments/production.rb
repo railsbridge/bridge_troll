@@ -109,7 +109,7 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: ENV.fetch('HOST_URL', nil) }
   if ENV['RAILS_LOG_TO_STDOUT'].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger           = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end

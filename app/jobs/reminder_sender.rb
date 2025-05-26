@@ -44,7 +44,7 @@ class UpcomingEventsQuery
   def find_each(&block)
     @relation
       .where('events.starts_at > ?', Time.zone.now)
-      .where('events.starts_at < ?', 3.days.from_now)
+      .where(events: { starts_at: ...3.days.from_now })
       .find_each(&block)
   end
 end

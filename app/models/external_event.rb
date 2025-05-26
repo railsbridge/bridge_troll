@@ -8,11 +8,11 @@ class ExternalEvent < ApplicationRecord
   validates :name, :starts_at, :city, presence: true
 
   def self.past
-    where('ends_at < ?', Time.now.utc)
+    where(ends_at: ...Time.now.utc)
   end
 
   def self.upcoming
-    where('ends_at >= ?', Time.now.utc)
+    where(ends_at: Time.now.utc..)
   end
 
   def title

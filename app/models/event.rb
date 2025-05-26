@@ -194,8 +194,8 @@ class Event < ApplicationRecord
   end
 
   def checkin_counts
-    counts = Role.attendee_role_ids.each_with_object({}) do |role_id, hsh|
-      hsh[role_id] = {
+    counts = Role.attendee_role_ids.index_with do |_role_id|
+      {
         rsvp: {},
         checkin: {}
       }
@@ -249,7 +249,7 @@ class Event < ApplicationRecord
   end
 
   def self.past
-    where('events.ends_at < ?', Time.now.utc)
+    where(events: { ends_at: ...Time.now.utc })
   end
 
   def date_in_time_zone(start_or_end)
