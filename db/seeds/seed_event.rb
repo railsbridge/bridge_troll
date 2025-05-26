@@ -55,19 +55,19 @@ module Seeder
     end
     event.destroy
     if event.location.present?
-      event.location.destroy if event.location.events.count == 0
+      event.location.destroy if event.location.events.count.zero?
       region = event.location.region
-      region.destroy if region.events.count == 0
+      region.destroy if region.events.count.zero?
     end
 
     if event.chapter.present?
       organization = event.chapter.organization
-      event.chapter.destroy if event.chapter.events.count == 0
-      organization.reload.destroy if organization.chapters.count == 0
+      event.chapter.destroy if event.chapter.events.count.zero?
+      organization.reload.destroy if organization.chapters.count.zero?
     end
 
     num_course_events = event.course&.events&.count
-    event.course.destroy if num_course_events.present? && num_course_events == 0
+    event.course.destroy if num_course_events.present? && num_course_events.zero?
   end
 
   def self.seed_event(options = {})

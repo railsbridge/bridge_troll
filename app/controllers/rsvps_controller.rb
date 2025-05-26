@@ -123,7 +123,7 @@ class RsvpsController < ApplicationController
     role_id = params[:rsvp][:role_id].to_i
     permitted_attributes(Rsvp).tap do |params|
       if role_id == Role::STUDENT.id
-        user_choices = Array(params[:event_session_ids]).select(&:present?).map(&:to_i)
+        user_choices = Array(params[:event_session_ids]).compact_blank.map(&:to_i)
         required_sessions = @event.event_sessions.where(required_for_students: true).pluck(:id)
         params[:event_session_ids] = user_choices | required_sessions
       end
