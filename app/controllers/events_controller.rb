@@ -34,8 +34,8 @@ class EventsController < ApplicationController
     @events = Event.upcoming.published_or_visible_to(current_user).includes(:event_sessions, :location, :region)
 
     respond_to do |format|
-      format.rss { render 'events/feed.rss.builder', layout: false }
-      format.atom { render 'events/feed.atom.builder', layout: false }
+      format.rss { render 'events/feed', layout: false }
+      format.atom { render 'events/feed', layout: false }
     end
   end
 
