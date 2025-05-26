@@ -14,6 +14,7 @@
     openssl.dev
     openldap
     krb5
+    libyaml.dev # needed by psych / needed by rails
   ];
 
   env.LD_LIBRARY_PATH = lib.makeLibraryPath [

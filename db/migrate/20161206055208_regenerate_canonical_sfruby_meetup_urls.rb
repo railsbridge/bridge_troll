@@ -2,7 +2,7 @@
 
 class RegenerateCanonicalSfrubyMeetupUrls < ActiveRecord::Migration[4.2]
   class Event < ApplicationRecord
-    serialize :imported_event_data, JSON
+    serialize :imported_event_data, coder: JSON
   end
 
   def change
