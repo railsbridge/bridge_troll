@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  def gravatar_image_tag(email, size:, **opts)
+  def gravatar_image_tag(email, size:, **)
     hash = Digest::MD5.hexdigest(email)
-    tag.img(opts.merge(src: "https://secure.gravatar.com/avatar/#{hash}.png?s=#{size}"))
+    tag.img(**, src: "https://secure.gravatar.com/avatar/#{hash}.png?s=#{size}")
   end
 
   def resource_name

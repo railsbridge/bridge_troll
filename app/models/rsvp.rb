@@ -188,8 +188,8 @@ class Rsvp < ApplicationRecord
     fields = [:job_details]
     fields += %i[subject_experience teaching_experience] if role == Role::VOLUNTEER && event.course == course
 
-    fields.each_with_object({}) do |field, hsh|
-      hsh[field] = send(field)
+    fields.index_with do |field|
+      send(field)
     end
   end
 

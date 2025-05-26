@@ -5,7 +5,7 @@ class SurveySender
 
   def self.send_all_surveys
     Event.where('ends_at > ?', FIRST_AUTO_SEND_DATE)
-         .where('ends_at < ?', 1.day.ago)
+         .where(ends_at: ...1.day.ago)
          .where(survey_sent_at: nil).each do |event|
       send_surveys(event)
     end

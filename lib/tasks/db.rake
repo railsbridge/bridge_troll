@@ -10,7 +10,7 @@ def db_dump_filename(args)
   Rails.root.join(args[:filename] || 'db/PRODUCTION.dump')
 end
 
-ENABLE_EXTENSION_PATTERN = /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m.freeze
+ENABLE_EXTENSION_PATTERN = /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m
 db_namespace = namespace :db do
   namespace :schema do
     desc 'Create a db/schema.rb file that is portable against any DB supported by AR'

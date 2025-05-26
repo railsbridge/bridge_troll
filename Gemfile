@@ -2,7 +2,9 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.7'
+# benchmark gem is a default gem in ruby <= 3.4 and is deprecated in 3.4, will be removed in 3.5.
+# When upgrading rails, test if this gem is still needed
+gem 'benchmark'
 
 gem 'active_hash'
 gem 'rake', require: false
@@ -32,7 +34,7 @@ gem 'pundit'
 gem 'rack-canonical-host'
 gem 'rack-cors'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
-gem 'rails', '~> 5.2.5'
+gem 'rails', '~> 6.1.7.10'
 gem 'rails-backbone'
 gem 'sanitize'
 gem 'sassc-rails'
@@ -40,7 +42,7 @@ gem 'simple_form'
 gem 'sprockets'
 gem 'uglifier'
 # faster interoperable json
-gem 'ffi', '1.16.3'
+gem 'ffi'
 gem 'multi_json'
 gem 'oj'
 gem 'pg'
@@ -78,10 +80,15 @@ group :test, :development do
   gem 'rubocop-rspec', require: false
   gem 'rubocop-thread_safety', require: false
   # in production, we use postgres. For a simpler dev experience you can also use sqlite3
-  gem 'sqlite3', '1.6.9' # last version to support ruby 2.7
+  gem 'sqlite3', '~> 1.4' # latest version supported by rails 6.1
 end
 
 group :test do
+  # these two gems are installed by default in ruby < 3.4 but removed in ruby 3.4
+  # they are used by rails 6's test infrastructure. Perhaps they are no longer necessary in later versions of rails
+  gem 'drb'
+  gem 'mutex_m'
+
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'database_cleaner'
