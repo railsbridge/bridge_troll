@@ -57,7 +57,7 @@ RSpec.describe Devise::MailerPreview do
           expect(mail.message.subject.length).to be > 1
         end
       end
-      expect(missing_previews).to match_array([])
+      expect(missing_previews).to be_empty
     end
   end
 end

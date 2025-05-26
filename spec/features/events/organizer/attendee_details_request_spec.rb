@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'the attendee details modal', js: true do
+describe 'the attendee details modal', :js do
   let(:event) { create(:event) }
   let!(:student_rsvp) { create(:student_rsvp, user: create(:user), event: event) }
 

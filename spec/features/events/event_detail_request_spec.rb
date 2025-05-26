@@ -77,7 +77,7 @@ describe 'the event detail page' do
       end
     end
 
-    describe 'RSVPing', js: true do
+    describe 'RSVPing', :js do
       it 'shows links to RSVP and allows the user to sign in through a modal after clicking them' do
         user = create(:user)
 
@@ -211,7 +211,7 @@ describe 'the event detail page' do
         create(:event_session, event: event)
       end
 
-      it 'can remove those sessions', js: true do
+      it 'can remove those sessions', :js do
         expect(event.event_sessions.count).to eq(2)
 
         visit edit_event_path(event)

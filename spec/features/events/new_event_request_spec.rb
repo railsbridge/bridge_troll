@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'New Event', js: true do
+describe 'New Event', :js do
   let(:fill_in_good_location_details) do
     find('#location_region_id').find(:xpath, 'option[2]').select_option
     fill_in 'Name', with: 'UChicago'

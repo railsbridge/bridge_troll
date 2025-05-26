@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Announcing an event', js: true do
+describe 'Announcing an event', :js do
   let(:user_organizer) { create(:user, email: 'organizer@mail.com', first_name: 'Sam', last_name: 'Spade') }
   let(:admin) { create(:user, admin: true) }
   let(:event_location) { create(:location) }
@@ -22,12 +22,12 @@ describe 'Announcing an event', js: true do
     before do
       choose('event_email_on_approval_true')
       click_on submit_for_approval_button
-      expect(page).to have_content("Your event is awaiting approval")
-      expect(Event.last).to_not be_nil
+      expect(page).to have_content('Your event is awaiting approval')
+      expect(Event.last).not_to be_nil
     end
 
     context 'before approval' do
-      it 'will not allow the announcement email to be sent by an organizer' do
+      it 'does not allow the announcement email to be sent by an organizer' do
         click_on 'Organizer Console'
         expect(page).to have_no_content(send_email_text)
       end
@@ -44,7 +44,7 @@ describe 'Announcing an event', js: true do
         sign_in_as(user_organizer)
       end
 
-      it 'will not allow the announcement to be resent by an organizer' do
+      it 'does not allow the announcement to be resent by an organizer' do
         visit '/'
         click_on good_event_title
         click_on 'Organizer Console'
@@ -57,12 +57,12 @@ describe 'Announcing an event', js: true do
     before do
       choose('event_email_on_approval_false')
       click_on submit_for_approval_button
-      expect(page).to have_content("Your event is awaiting approval")
-      expect(Event.last).to_not be_nil
+      expect(page).to have_content('Your event is awaiting approval')
+      expect(Event.last).not_to be_nil
     end
 
     context 'before approval' do
-      it 'will not allow the announcement email to be sent by an organizer' do
+      it 'does not allow the announcement email to be sent by an organizer' do
         click_on 'Organizer Console'
         expect(page).to have_no_content(send_email_text)
       end
@@ -79,7 +79,7 @@ describe 'Announcing an event', js: true do
         end
       end
 
-      it 'will allow an organizer to send an announcement email' do
+      it 'allows an organizer to send an announcement email' do
         expect(page).to have_content('This event has been published')
 
         sign_in_as(user_organizer)

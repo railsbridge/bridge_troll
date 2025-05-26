@@ -34,25 +34,25 @@ class Rsvp < ApplicationRecord
 
   MAX_EXPERIENCE_LENGTH = 250
   with_options(unless: :historical?) do |normal_event|
-    normal_event.with_options(if: :role_volunteer?) do |for_volunteers|
-      for_volunteers.validates_presence_of :subject_experience
-      for_volunteers.validates_length_of :subject_experience, in: 10..MAX_EXPERIENCE_LENGTH
+    normal_event.with_options(if: :role_volunteer?) do
+      validates :subject_experience, presence: true
+      validates :subject_experience, length: { in: 10..MAX_EXPERIENCE_LENGTH }
     end
 
-    normal_event.with_options(if: :teaching_or_taing?) do |for_teachers|
-      for_teachers.validates_presence_of :class_level
-      for_teachers.validates_inclusion_of :class_level, in: (0..5), allow_blank: true
-      for_teachers.validates_presence_of :teaching_experience
-      for_teachers.validates_length_of :teaching_experience, in: 10..MAX_EXPERIENCE_LENGTH
+    normal_event.with_options(if: :teaching_or_taing?) do
+      validates :class_level, presence: true
+      validates :class_level, inclusion: { in: (0..5), allow_blank: true }
+      validates :teaching_experience, presence: true
+      validates :teaching_experience, length: { in: 10..MAX_EXPERIENCE_LENGTH }
     end
 
-    normal_event.with_options(if: :role_student?) do |for_students|
-      for_students.validates_presence_of :operating_system_id, :class_level
-      for_students.validates_inclusion_of :class_level, in: (1..5), allow_blank: true
+    normal_event.with_options(if: :role_student?) do
+      validates :operating_system_id, :class_level, presence: true
+      validates :class_level, inclusion: { in: (1..5), allow_blank: true }
     end
 
-    normal_event.with_options(if: :requires_session_rsvp?) do |attendee_rsvp|
-      attendee_rsvp.validates :rsvp_sessions, length: { minimum: 1, message: 'must be selected' }
+    normal_event.with_options(if: :requires_session_rsvp?) do
+      validates :rsvp_sessions, length: { minimum: 1, message: 'must be selected' }
     end
   end
 
@@ -208,7 +208,7 @@ class Rsvp < ApplicationRecord
   def as_json(options = {})
     options[:methods] ||= []
     options[:methods] |= %i[full_name operating_system_title operating_system_type level_title]
-    super(options)
+    super
   end
 
   private

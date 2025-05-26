@@ -14,7 +14,7 @@ class ReminderSender
 
     first_everybody_session = event.event_sessions.find_by(volunteers_only: false)
     return unless first_everybody_session
-    return unless first_everybody_session.starts_at < Time.zone.now + 3.days
+    return unless first_everybody_session.starts_at < 3.days.from_now
 
     due_reminders = event.rsvps.confirmed.where(reminded_at: nil)
     puts "Sending #{due_reminders.count} reminders for #{event.title}..." unless Rails.env.test?
@@ -44,7 +44,7 @@ class UpcomingEventsQuery
   def find_each(&block)
     @relation
       .where('events.starts_at > ?', Time.zone.now)
-      .where('events.starts_at < ?', Time.zone.now + 3.days)
+      .where('events.starts_at < ?', 3.days.from_now)
       .find_each(&block)
   end
 end

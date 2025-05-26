@@ -16,7 +16,7 @@ class EventSessionsController < ApplicationController
 
     respond_to do |format|
       format.ics { render body: ics, layout: false }
-      format.all { head 404 }
+      format.all { head :not_found }
     end
   end
 

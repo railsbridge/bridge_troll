@@ -15,7 +15,7 @@ describe ChaptersController do
 
     it 'shows all the chapters' do
       get :index
-      expect(assigns(:chapters)).to match_array([chapter])
+      expect(assigns(:chapters)).to contain_exactly(chapter)
     end
   end
 
@@ -27,9 +27,9 @@ describe ChaptersController do
 
     describe 'as an admin' do
       it 'shows all events' do
-        expect(chapter.events).to match_array([draft_event, pending_event, published_event])
+        expect(chapter.events).to contain_exactly(draft_event, pending_event, published_event)
         get :show, params: { id: chapter.id }
-        expect(assigns(:chapter_events)).to match_array([draft_event, pending_event, published_event])
+        expect(assigns(:chapter_events)).to contain_exactly(draft_event, pending_event, published_event)
       end
     end
 
@@ -38,7 +38,7 @@ describe ChaptersController do
 
       it 'shows a list of published events' do
         get :show, params: { id: chapter.id }
-        expect(assigns(:chapter_events)).to match_array([published_event])
+        expect(assigns(:chapter_events)).to contain_exactly(published_event)
       end
     end
   end

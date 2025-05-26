@@ -8,7 +8,7 @@ describe 'sign in functionality' do
     @user = create(:user)
   end
 
-  it 'shows on home page on click', js: true do
+  it 'shows on home page on click', :js do
     visit '/'
     page.find('#sign_in_dialog', visible: :hidden)
     click_link('Sign In')
@@ -22,7 +22,7 @@ describe 'sign in functionality' do
     expect(page).not_to have_link('Sign in')
   end
 
-  describe 'when the user visits an authenticated page, then leaves and goes to an unauthenticated one', js: true do
+  describe 'when the user visits an authenticated page, then leaves and goes to an unauthenticated one', :js do
     context 'with password auth' do
       it 'always returns the user to the current page, instead of the last path Devise remembers' do
         visit '/users'

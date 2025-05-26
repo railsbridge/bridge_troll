@@ -147,10 +147,7 @@ describe RegionsController do
           organizer_rsvps = assigns(:organizer_rsvps)
           expect(organizer_rsvps.map do |rsvp|
             [rsvp.user.full_name, rsvp.events_count]
-          end).to match_array([
-                                [org1.full_name, 2],
-                                [org2.full_name, 1]
-                              ])
+          end).to contain_exactly([org1.full_name, 2], [org2.full_name, 1])
         end
       end
     end

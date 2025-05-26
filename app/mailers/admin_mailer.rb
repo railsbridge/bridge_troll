@@ -25,7 +25,7 @@ class AdminMailer < ApplicationMailer
   private
 
   def mail_content(type)
-    <<-MAIL_CONTENT.strip_heredoc
+    <<~MAIL_CONTENT
       Hey there!
 
       This is a test message from bridgetroll.org!

@@ -153,8 +153,8 @@ describe Rsvp do
       let(:rsvp) { create(:student_rsvp, event: event) }
 
       it 'returns only those sessions which are not marked as volunteer only' do
-        expect(rsvp.selectable_sessions.pluck(:id)).to match_array([@session_no_options.id,
-                                                                    @session_required_for_students.id])
+        expect(rsvp.selectable_sessions.pluck(:id)).to contain_exactly(@session_no_options.id,
+                                                                       @session_required_for_students.id)
       end
     end
 
@@ -162,8 +162,8 @@ describe Rsvp do
       let(:rsvp) { create(:volunteer_rsvp, event: event) }
 
       it 'returns all sessions' do
-        expect(rsvp.selectable_sessions.pluck(:id)).to match_array([@session_no_options.id,
-                                                                    @session_required_for_students.id, @session_volunteers_only.id])
+        expect(rsvp.selectable_sessions.pluck(:id)).to contain_exactly(@session_no_options.id,
+                                                                       @session_required_for_students.id, @session_volunteers_only.id)
       end
     end
 

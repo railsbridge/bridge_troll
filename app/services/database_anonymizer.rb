@@ -40,7 +40,7 @@ class DatabaseAnonymizer
   end
 
   def anonymize_user(user)
-    return if user.email == 'admin@example.com' || user.email == 'organizer@example.com'
+    return if ['admin@example.com', 'organizer@example.com'].include?(user.email)
 
     user.email = "email_#{user.id}@example.com"
     user.first_name = Faker::Name.first_name

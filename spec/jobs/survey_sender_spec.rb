@@ -23,7 +23,7 @@ describe SurveySender do
       end
 
       described_class.send_all_surveys
-      expect(sent_survey_events).to match_array([recent_event])
+      expect(sent_survey_events).to contain_exactly(recent_event)
     end
   end
 

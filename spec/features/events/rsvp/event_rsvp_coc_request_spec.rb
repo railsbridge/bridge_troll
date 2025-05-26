@@ -12,7 +12,7 @@ describe 'code of conduct checkbox for RSVPs' do
     sign_in_as user
   end
 
-  context 'for new records', js: true do
+  context 'for new records', :js do
     before do
       visit volunteer_new_event_rsvp_path(event)
     end

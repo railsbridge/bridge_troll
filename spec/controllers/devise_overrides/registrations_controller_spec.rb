@@ -27,7 +27,7 @@ describe DeviseOverrides::RegistrationsController do
           post :create,
                params: { user: { first_name: 'Beep', last_name: 'Boop', region_ids: [], email: 'boop2@example.com',
                                  password: 'abc123', password_confirmation: 'abc123' } }
-        end.to change(region.users, :count).by(0)
+        end.not_to change(region.users, :count)
 
         expect(response).to be_redirect
         expect(User.last.regions).to be_empty

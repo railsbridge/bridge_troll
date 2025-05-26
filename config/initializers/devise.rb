@@ -232,11 +232,12 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
-  config.omniauth :facebook, ENV['FACEBOOK_OAUTH_KEY'], ENV['FACEBOOK_OAUTH_SECRET'], scope: 'email'
-  config.omniauth :twitter, ENV['TWITTER_OAUTH_KEY'], ENV['TWITTER_OAUTH_SECRET']
-  config.omniauth :github, ENV['GITHUB_OAUTH_KEY'], ENV['GITHUB_OAUTH_SECRET']
-  config.omniauth :meetup, ENV['MEETUP_OAUTH_KEY'], ENV['MEETUP_OAUTH_SECRET']
-  config.omniauth :google_oauth2, ENV['GOOGLE_OAUTH_KEY'], ENV['GOOGLE_OAUTH_SECRET']
+  config.omniauth :facebook, ENV.fetch('FACEBOOK_OAUTH_KEY', nil), ENV.fetch('FACEBOOK_OAUTH_SECRET', nil),
+                  scope: 'email'
+  config.omniauth :twitter, ENV.fetch('TWITTER_OAUTH_KEY', nil), ENV.fetch('TWITTER_OAUTH_SECRET', nil)
+  config.omniauth :github, ENV.fetch('GITHUB_OAUTH_KEY', nil), ENV.fetch('GITHUB_OAUTH_SECRET', nil)
+  config.omniauth :meetup, ENV.fetch('MEETUP_OAUTH_KEY', nil), ENV.fetch('MEETUP_OAUTH_SECRET', nil)
+  config.omniauth :google_oauth2, ENV.fetch('GOOGLE_OAUTH_KEY', nil), ENV.fetch('GOOGLE_OAUTH_SECRET', nil)
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

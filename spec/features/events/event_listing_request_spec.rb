@@ -65,7 +65,7 @@ describe 'the event listing page' do
     end
   end
 
-  describe 'the past events table', js: true do
+  describe 'the past events table', :js do
     before do
       event = create(:event, title: 'InternalPastBridge', time_zone: 'Alaska')
       event.update(starts_at: 5.days.ago, ends_at: 4.days.ago)
@@ -108,7 +108,7 @@ describe 'the event listing page' do
     end
   end
 
-  context 'as a non-logged in user', js: true do
+  context 'as a non-logged in user', :js do
     it 'redirects to event detail page when non-logged in user volunteers' do
       event = create(:event, time_zone: 'Pacific Time (US & Canada)')
       event.event_sessions.first.update(
@@ -137,7 +137,7 @@ describe 'the event listing page' do
       sign_in_as(user)
     end
 
-    context 'when organizing an event', js: true do
+    context 'when organizing an event', :js do
       before do
         create(:chapter)
         create(:course)

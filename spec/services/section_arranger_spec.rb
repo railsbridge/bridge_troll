@@ -137,7 +137,7 @@ describe SectionArranger do
 
         it 'arranges only those people' do
           expect(event.event_sessions.count).to eq(2)
-          expect(placed_attendee_ids).to match_array([session1_rsvp.id, both_rsvp.id])
+          expect(placed_attendee_ids).to contain_exactly(session1_rsvp.id, both_rsvp.id)
         end
       end
 
@@ -147,7 +147,7 @@ describe SectionArranger do
         end
 
         it 'arranges only those people' do
-          expect(placed_attendee_ids).to match_array([session2_rsvp.id, both_rsvp.id])
+          expect(placed_attendee_ids).to contain_exactly(session2_rsvp.id, both_rsvp.id)
         end
       end
 
@@ -157,7 +157,7 @@ describe SectionArranger do
         end
 
         it 'arranges only those people' do
-          expect(placed_attendee_ids).to match_array([session1_rsvp.id, session2_rsvp.id, both_rsvp.id])
+          expect(placed_attendee_ids).to contain_exactly(session1_rsvp.id, session2_rsvp.id, both_rsvp.id)
         end
       end
     end

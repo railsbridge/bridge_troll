@@ -24,7 +24,7 @@ describe 'creating or editing an rsvp' do
         visit volunteer_new_event_rsvp_path(event)
       end
 
-      it 'allows user to toggle childcare info with the needs_childcare button', js: true do
+      it 'allows user to toggle childcare info with the needs_childcare button', :js do
         expect(page.find('#rsvp_needs_childcare')).not_to be_checked
         expect(page).to have_field('rsvp_childcare_info', visible: :hidden)
 
@@ -72,7 +72,7 @@ describe 'creating or editing an rsvp' do
     end
 
     context 'with an rsvp with childcare info' do
-      it 'allows user to toggle childcare info with the needs_childcare button', js: true do
+      it 'allows user to toggle childcare info with the needs_childcare button', :js do
         rsvp = create(:rsvp, user: user, childcare_info: 'Bobbie: 17, Susie: 20000007')
         visit edit_event_rsvp_path rsvp.event, rsvp
         expect(page.find('#rsvp_needs_childcare')).to be_checked

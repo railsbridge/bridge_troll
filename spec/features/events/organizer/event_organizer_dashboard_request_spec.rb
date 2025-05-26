@@ -69,7 +69,7 @@ describe 'the organizer dashboard' do
     expect(csv_contents).to include('Occupation')
   end
 
-  it 'lets the user check in attendees', js: true do
+  it 'lets the user check in attendees', :js do
     user1 = create(:user, first_name: 'Anthony')
     user2 = create(:user, first_name: 'Bapp')
 

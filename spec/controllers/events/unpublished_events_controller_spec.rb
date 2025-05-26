@@ -29,7 +29,7 @@ describe Events::UnpublishedEventsController do
         it 'displays all events that are publishable' do
           get :index
 
-          expect(assigns(:events)).to match_array([pending_chapter_event, pending_other_event])
+          expect(assigns(:events)).to contain_exactly(pending_chapter_event, pending_other_event)
         end
       end
 
@@ -43,7 +43,7 @@ describe Events::UnpublishedEventsController do
         it 'displays events that are publishable for that chapter' do
           get :index
 
-          expect(assigns(:events)).to match_array([pending_chapter_event])
+          expect(assigns(:events)).to contain_exactly(pending_chapter_event)
         end
       end
     end
@@ -97,7 +97,7 @@ describe Events::UnpublishedEventsController do
 
       mail = ActionMailer::Base.deliveries.find { |m| m.subject.match('New event posted') }
 
-      expect(recipients(mail)).to match_array([user_this_region.email, user_both_regions.email])
+      expect(recipients(mail)).to contain_exactly(user_this_region.email, user_both_regions.email)
 
       expect(mail.subject).to include(event.region.name)
       expect(mail.body).to include(event.title)
@@ -113,7 +113,7 @@ describe Events::UnpublishedEventsController do
 
         mail = ActionMailer::Base.deliveries.find { |m| m.subject.match('has been approved') }
 
-        expect(recipients(mail)).to match_array([organizer.email, user_no_email.email])
+        expect(recipients(mail)).to contain_exactly(organizer.email, user_no_email.email)
 
         expect(mail.subject).to include('Your Bridge Troll event has been approved')
         expect(mail.body).to include(event.title)

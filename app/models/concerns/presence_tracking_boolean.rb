@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # we see false positives for this rubocop here, so disabling it
-# rubocop:disable ThreadSafety/InstanceVariableInClassMethod
 module PresenceTrackingBoolean
   extend ActiveSupport::Concern
 
@@ -54,5 +53,3 @@ module PresenceTrackingBoolean
     end
   end
 end
-
-# rubocop:enable ThreadSafety/InstanceVariableInClassMethod

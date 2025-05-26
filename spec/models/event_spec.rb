@@ -163,7 +163,7 @@ describe Event do
 
     it 'includes all confirmed rsvps with childcare requested' do
       expect(event.rsvps.count).to eq(3)
-      expect(event.rsvps_with_childcare).to match_array([student_rsvp, volunteer_rsvp])
+      expect(event.rsvps_with_childcare).to contain_exactly(student_rsvp, volunteer_rsvp)
     end
   end
 
@@ -273,7 +273,7 @@ describe Event do
     end
 
     it 'returns only the event in draft, unpublished, state' do
-      expect(described_class.drafted_by(@user)).to match_array([@drafted_event])
+      expect(described_class.drafted_by(@user)).to contain_exactly(@drafted_event)
     end
   end
 
@@ -286,7 +286,7 @@ describe Event do
 
     context 'when a user is not provided' do
       it 'returns only published events' do
-        expect(described_class.published_or_visible_to).to match_array([@published_event])
+        expect(described_class.published_or_visible_to).to contain_exactly(@published_event)
       end
     end
 
@@ -297,7 +297,8 @@ describe Event do
       end
 
       it "returns published events and the organizer's event" do
-        expect(described_class.published_or_visible_to(@organizer)).to match_array([@published_event, @organized_event])
+        expect(described_class.published_or_visible_to(@organizer)).to contain_exactly(@published_event,
+                                                                                       @organized_event)
       end
     end
 
@@ -310,7 +311,7 @@ describe Event do
       end
 
       it 'returns published events and unpublished events for that chapter' do
-        expect(described_class.published_or_visible_to(@leader)).to match_array([@published_event, @chapter_event])
+        expect(described_class.published_or_visible_to(@leader)).to contain_exactly(@published_event, @chapter_event)
       end
     end
 
@@ -320,8 +321,8 @@ describe Event do
       end
 
       it 'returns all events' do
-        expect(described_class.published_or_visible_to(@admin)).to match_array([@published_event, @unpublished_event,
-                                                                                @organized_event])
+        expect(described_class.published_or_visible_to(@admin)).to contain_exactly(@published_event,
+                                                                                   @unpublished_event, @organized_event)
       end
     end
   end
@@ -443,11 +444,8 @@ describe Event do
       expect(attendee_rsvp_data.length).to eq(3)
 
       workshop_attendees = attendee_rsvp_data.map { |rsvp| [rsvp['id'], rsvp['checked_in_session_ids']] }
-      expect(workshop_attendees).to match_array([
-                                                  [@rsvp1.id, [@first_session.id]],
-                                                  [@rsvp2.id, []],
-                                                  [@rsvp3.id, [@last_session.id]]
-                                                ])
+      expect(workshop_attendees).to contain_exactly([@rsvp1.id, [@first_session.id]], [@rsvp2.id, []],
+                                                    [@rsvp3.id, [@last_session.id]])
     end
 
     it 'includes RSVPs that are waitlisted but checked in' do
@@ -573,7 +571,7 @@ describe Event do
 
     describe '#other_dietary_restrictions' do
       it 'returns an array of dietary restrictions' do
-        expect(@event.other_dietary_restrictions).to match_array(['Paleo', 'No sea urchins'])
+        expect(@event.other_dietary_restrictions).to contain_exactly('Paleo', 'No sea urchins')
       end
     end
 

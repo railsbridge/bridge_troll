@@ -17,7 +17,7 @@ describe EventPolicy do
       publisher = create(:user, publisher: true)
 
       scope_policy = EventPolicy::Scope.new(publisher, Event)
-      expect(scope_policy.publishable).to match_array([notable_chapter_event, other_event])
+      expect(scope_policy.publishable).to contain_exactly(notable_chapter_event, other_event)
 
       policy = described_class.new(publisher, Event)
       expect(policy).to be_see_unpublished
@@ -27,7 +27,7 @@ describe EventPolicy do
       admin = create(:user, admin: true)
 
       scope_policy = EventPolicy::Scope.new(admin, Event)
-      expect(scope_policy.publishable).to match_array([notable_chapter_event, other_event])
+      expect(scope_policy.publishable).to contain_exactly(notable_chapter_event, other_event)
 
       policy = described_class.new(admin, Event)
       expect(policy).to be_see_unpublished
@@ -38,7 +38,7 @@ describe EventPolicy do
       notable_chapter.chapter_leaderships.create(user: chapter_leader)
 
       scope_policy = EventPolicy::Scope.new(chapter_leader, Event)
-      expect(scope_policy.publishable).to match_array([notable_chapter_event])
+      expect(scope_policy.publishable).to contain_exactly(notable_chapter_event)
 
       policy = described_class.new(chapter_leader, Event)
       expect(policy).to be_see_unpublished
@@ -49,7 +49,7 @@ describe EventPolicy do
       notable_chapter.organization.organization_leaderships.create(user: organization_leader)
 
       scope_policy = EventPolicy::Scope.new(organization_leader, Event)
-      expect(scope_policy.publishable).to match_array([notable_chapter_event])
+      expect(scope_policy.publishable).to contain_exactly(notable_chapter_event)
 
       policy = described_class.new(organization_leader, Event)
       expect(policy).to be_see_unpublished

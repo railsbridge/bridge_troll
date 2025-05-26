@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'the users page', js: true do
+describe 'the users page', :js do
   before do
     sign_in_as(create(:user, first_name: 'Some', last_name: 'LoggedInUser'))
     create(:user, first_name: 'Some', last_name: 'OtherUser')
