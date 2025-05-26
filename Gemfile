@@ -41,10 +41,10 @@ gem 'uglifier'
 # faster interoperable json
 gem 'multi_json'
 gem 'oj'
+gem 'pg'
 
 group :production do
   gem 'newrelic_rpm'
-  gem 'pg'
   gem 'rack-timeout'
   gem 'sentry-raven'
 end
@@ -78,13 +78,8 @@ group :test, :development do
   gem 'rubocop-rake', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-thread_safety', require: false
-  gem 'sqlite3'
-end
-
-if ENV['FORCE_POSTGRES']
-  group :development, :test do
-    gem 'pg' # rubocop:disable Bundler/DuplicatedGem
-  end
+  # in production, we use postgres. For a simpler dev experience you can also use sqlite3
+  gem 'sqlite3', '1.6.9' # last version to support ruby 2.7
 end
 
 group :test do
