@@ -91,7 +91,6 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'capybara-screenshot'
-  gem 'codecov', require: false
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
