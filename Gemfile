@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 ruby '2.7.7'
 
+gem 'rake', require: false
 gem 'active_hash'
 # OPTIMIZE: and cache expensive computations for faster boot times. It's
 # `require`d in a specific way in config/boot.rb
@@ -70,7 +71,6 @@ group :test, :development do
   gem 'parallel_tests'
   gem 'pry'
   gem 'rails-controller-testing', require: false
-  gem 'rake', require: false
   gem 'rspec-collection_matchers'
   gem 'rspec-rails'
   gem 'rubocop', require: false
