@@ -43,3 +43,10 @@ jobs:
       - run: devenv shell -i bin/rails db:setup
       - run: devenv shell -i bin/rake parallel:setup
       - run: devenv shell -i bin/rake
+      - name: Archive capybara failure screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: capybara-${{ matrix.database }}
+          path: tmp/capybara/*
+          if-no-files-found: ignore
