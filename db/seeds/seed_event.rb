@@ -83,7 +83,7 @@ module Seeder
       chapter: chapter,
       current_state: :published,
       target_audience: 'women',
-      details: <<-DETAILS.strip_heredoc
+      details: <<~DETAILS
         <h2>Workshop Description</h2>
 
         This workshop is created by seeds.rb. It is to help you see what it looks like to have an event with multiple people RSVPed.
@@ -240,7 +240,7 @@ module Seeder
       chapter: chapter,
       current_state: :published,
       target_audience: 'women',
-      details: <<-DETAILS.strip_heredoc
+      details: <<~DETAILS
         This is an example of an event that takes place in multiple locations!
       DETAILS
     )
@@ -276,7 +276,7 @@ module Seeder
       chapter: chapter,
       current_state: :published,
       target_audience: 'women',
-      details: <<-DETAILS.strip_heredoc
+      details: <<~DETAILS
         This is an example of an event that takes place in multiple locations!
       DETAILS
     )

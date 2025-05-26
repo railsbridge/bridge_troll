@@ -7,11 +7,7 @@
 Rake::Task['db:schema:dump'].clear
 
 def db_dump_filename(args)
-  if args[:filename]
-    Rails.root.join(args[:filename])
-  else
-    Rails.root.join('db/PRODUCTION.dump')
-  end
+  Rails.root.join(args[:filename] || 'db/PRODUCTION.dump')
 end
 
 ENABLE_EXTENSION_PATTERN = /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m.freeze
@@ -20,7 +16,7 @@ db_namespace = namespace :db do
     desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
     task dump: %i[environment load_config] do
       raise_weird_schema_error = proc do |specific_message|
-        raise StandardError, <<-ERROR_MESSAGE.strip_heredoc
+        raise StandardError, <<~ERROR_MESSAGE
           #{specific_message}
           Try checking out an older version of the schema and running a full
             rake db:drop

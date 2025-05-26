@@ -22,7 +22,7 @@ describe 'Event Organizers page' do
     expect(page).to have_content('Sam Spade')
   end
 
-  it 'allows an organizer to assign another user as an organizer', js: true do
+  it 'allows an organizer to assign another user as an organizer', :js do
     visit "/events/#{event.id}/organizers"
 
     expect(page).to have_select('event_organizer[user_id]')

@@ -18,7 +18,7 @@ describe 'checking in attendees' do
       sign_in_as(organizer)
     end
 
-    it 'can assign another user as a checkiner', js: true do
+    it 'can assign another user as a checkiner', :js do
       visit event_checkiners_path(event)
 
       select(attendee_rsvp.user.full_name, from: 'event_checkiner_rsvp_id')
@@ -59,7 +59,7 @@ describe 'checking in attendees' do
       create(:student_rsvp, event: event).rsvp_sessions.first
     end
 
-    it 'lets the user check in attendees', js: true do
+    it 'lets the user check in attendees', :js do
       visit event_event_sessions_path(event)
 
       click_link 'Check in for Unique Session Name'

@@ -6,7 +6,7 @@ class ApplicationMailer < ActionMailer::Base
 
   private
 
-  def set_recipients(recipients, cc = nil) # rubocop:disable Naming/MethodParameterName
+  def set_recipients(recipients, cc = nil)
     # Sendgrid API allows a single SMTP request to send multiple
     # email messages. Change this to something else if we move
     # away from Sendgrid.

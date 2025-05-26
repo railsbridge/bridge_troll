@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'the section organizer tool', js: true do
+describe 'the section organizer tool', :js do
   let(:student) { create(:user) }
   let(:volunteer) { create(:user) }
   let(:waitlisted) { create(:user) }

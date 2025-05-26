@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Sending an event email', js: true do
+RSpec.describe 'Sending an event email', :js do
   let(:recipients) do
     JSON.parse(ActionMailer::Base.deliveries.last.header['X-SMTPAPI'].to_s)['to']
   end

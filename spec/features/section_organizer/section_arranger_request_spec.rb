@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'arranging sections for an event', js: true do
+describe 'arranging sections for an event', :js do
   let(:event) { create(:event, course: create(:course, levels_count: 5)) }
   let(:session1) { event.event_sessions.first }
   let(:session2) { event.event_sessions.last }

@@ -45,7 +45,7 @@ describe Events::EmailsController do
                  }
           end.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-          expect(recipients).to match_array([student.email, organizer.email, another_organizer.email])
+          expect(recipients).to contain_exactly(student.email, organizer.email, another_organizer.email)
         end
       end
 
@@ -62,7 +62,7 @@ describe Events::EmailsController do
                  }
           end.to change(ActionMailer::Base.deliveries, :count).by(1)
 
-          expect(recipients).to match_array([student.email, organizer.email])
+          expect(recipients).to contain_exactly(student.email, organizer.email)
         end
       end
     end
@@ -83,7 +83,7 @@ describe Events::EmailsController do
       expect(email.sender).to eq(organizer)
       expect(email.subject).to eq(mail_params[:subject])
       expect(email.body).to eq(mail_params[:body])
-      expect(email.recipients.map(&:email)).to match_array([volunteer.email, student.email])
+      expect(email.recipients.map(&:email)).to contain_exactly(volunteer.email, student.email)
     end
 
     describe 'time text' do

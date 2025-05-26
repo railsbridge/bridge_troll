@@ -240,13 +240,13 @@ describe RsvpsController do
       end
 
       it 'can set region affiliation' do
-        expect(user.regions).to match_array([])
+        expect(user.regions).to be_empty
 
         expect do
           post :create,
                params: { event_id: event.id, rsvp: rsvp_params, user: { gender: 'human' }, affiliate_with_region: true }
         end.to change(Rsvp, :count).by(1)
-        expect(user.reload.regions).to match_array([event.region])
+        expect(user.reload.regions).to contain_exactly(event.region)
       end
 
       context 'when the user is already part of the region' do
@@ -258,7 +258,7 @@ describe RsvpsController do
           expect do
             post :create, params: { event_id: event.id, rsvp: rsvp_params, user: { gender: 'human' } }
           end.to change(Rsvp, :count).by(1)
-          expect(user.reload.regions).to match_array([])
+          expect(user.reload.regions).to be_empty
         end
 
         it 'does nothing when trying to set the region' do
@@ -267,7 +267,7 @@ describe RsvpsController do
                  params: { event_id: event.id, rsvp: rsvp_params, user: { gender: 'human' },
                            affiliate_with_region: true }
           end.to change(Rsvp, :count).by(1)
-          expect(user.reload.regions).to match_array([event.region])
+          expect(user.reload.regions).to contain_exactly(event.region)
         end
       end
 
@@ -594,21 +594,21 @@ describe RsvpsController do
     end
 
     it 'can update region affiliation' do
-      expect(user.regions).to match_array([])
+      expect(user.regions).to be_empty
 
       put :update,
           params: { event_id: event.id, id: my_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' },
                     affiliate_with_region: true }
-      expect(user.reload.regions).to match_array([event.region])
+      expect(user.reload.regions).to contain_exactly(event.region)
 
       # doing it again to make sure we don't try to set it twice
       put :update,
           params: { event_id: event.id, id: my_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' },
                     affiliate_with_region: true }
-      expect(user.reload.regions).to match_array([event.region])
+      expect(user.reload.regions).to contain_exactly(event.region)
 
       put :update, params: { event_id: event.id, id: my_rsvp.id, rsvp: rsvp_params, user: { gender: 'human' } }
-      expect(user.reload.regions).to match_array([])
+      expect(user.reload.regions).to be_empty
     end
 
     it 'cannot update rsvps owned by other users' do
@@ -745,7 +745,7 @@ describe RsvpsController do
       it 'notifies the user s/he has not signed up to volunteer for the event' do
         expect do
           delete :destroy, params: { event_id: 3_298_423, id: 29_101 }
-        end.to change(Rsvp, :count).by(0)
+        end.not_to change(Rsvp, :count)
         expect(flash[:notice]).to match(/You are not signed up/i)
       end
     end

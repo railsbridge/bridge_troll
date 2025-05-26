@@ -59,10 +59,10 @@ describe UsersController do
 
       it 'filters by search query' do
         get :index, params: { search: { value: 'major meetup' } }, format: :json
-        expect(ids_from_json.call(response)).to match_array([user1.to_global_id.to_s])
+        expect(ids_from_json.call(response)).to contain_exactly(user1.to_global_id.to_s)
 
         get :index, params: { search: { value: 'baroque bridgetroll' } }, format: :json
-        expect(ids_from_json.call(response)).to match_array([bridgetroll_user.to_global_id.to_s])
+        expect(ids_from_json.call(response)).to contain_exactly(bridgetroll_user.to_global_id.to_s)
       end
     end
   end

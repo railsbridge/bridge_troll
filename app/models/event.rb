@@ -371,8 +371,8 @@ class Event < ApplicationRecord
       only: %i[id title student_rsvp_limit imported_event_data],
       includes: [:location]
     }.merge(options)
-    super(options).merge(
-      workshop: (allow_student_rsvp? || historical?),
+    super.merge(
+      workshop: allow_student_rsvp? || historical?,
       organizers: organizer_names,
       sessions: session_details,
       volunteer_rsvp_count: volunteer_rsvps_count,

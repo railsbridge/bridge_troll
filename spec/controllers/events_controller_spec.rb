@@ -368,7 +368,7 @@ describe EventsController do
             expect(mail.body).to include('Party Zone')
             expect(mail.body).to include('Nitro Boost')
 
-            expect(mail.to).to match_array([admin.email, publisher.email])
+            expect(mail.to).to contain_exactly(admin.email, publisher.email)
           end
         end
 
@@ -392,7 +392,7 @@ describe EventsController do
             expect(mail.body).to include('Evel')
             expect(mail.body).to include('event needs to be approved')
 
-            expect(recipients).to match_array([user.email])
+            expect(recipients).to contain_exactly(user.email)
           end
         end
       end

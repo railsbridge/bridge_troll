@@ -95,19 +95,19 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   config.action_mailer.smtp_settings = {
     address: 'smtp.sendgrid.net',
     port: '587',
     authentication: :plain,
-    user_name: ENV['SENDGRID_USERNAME'],
-    password: ENV['SENDGRID_PASSWORD'],
+    user_name: ENV.fetch('SENDGRID_USERNAME', nil),
+    password: ENV.fetch('SENDGRID_PASSWORD', nil),
     domain: 'heroku.com'
   }
   config.action_mailer.delivery_method ||= :smtp
 
-  config.action_mailer.default_url_options = { host: ENV['HOST_URL'] }
+  config.action_mailer.default_url_options = { host: ENV.fetch('HOST_URL', nil) }
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
@@ -118,6 +118,6 @@ end
 Rails.application.middleware.insert_after(
   ActionDispatch::SSL,
   Rack::CanonicalHost,
-  ENV['CANONICAL_HOST'],
+  ENV.fetch('CANONICAL_HOST', nil),
   cache_control: 'max-age=3600'
 )

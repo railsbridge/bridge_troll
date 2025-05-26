@@ -5,6 +5,10 @@ class SurveysController < ApplicationController
   before_action :find_event
   before_action :find_rsvp, only: %i[new create]
 
+  def index
+    authorize @event, :edit?
+  end
+
   def new
     authorize @rsvp, :survey?
     @survey = Survey.where(rsvp_id: @rsvp.id).first_or_initialize
@@ -25,10 +29,6 @@ class SurveysController < ApplicationController
     else
       render :new
     end
-  end
-
-  def index
-    authorize @event, :edit?
   end
 
   def preview

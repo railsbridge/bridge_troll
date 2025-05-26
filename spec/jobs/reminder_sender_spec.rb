@@ -64,11 +64,11 @@ describe ReminderSender do
   end
 
   describe 'querying for events and sessions' do
-    let!(:event_tomorrow) { create(:event, starts_at: Time.zone.now + 1.day) }
+    let!(:event_tomorrow) { create(:event, starts_at: 1.day.from_now) }
 
     before do
       # future
-      create(:event, starts_at: Time.zone.now + 4.days)
+      create(:event, starts_at: 4.days.from_now)
       # yesterday
       create(:event).update(starts_at: 2.days.ago, ends_at: 1.day.ago)
     end

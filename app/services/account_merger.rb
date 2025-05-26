@@ -13,7 +13,7 @@ class AccountMerger
         @user_to_merge.rsvps.pluck('event_id') & @user_to_keep.rsvps.pluck('event_id')
       ), user_id: @user_to_merge.id, user_type: 'User')
 
-    Rails.logger.info(<<-USER_PROMPT.strip_heredoc)
+    Rails.logger.info(<<~USER_PROMPT)
 
       Ready to merge #{user_desc(@user_to_merge)}'s data onto #{user_desc(@user_to_keep)}!
 

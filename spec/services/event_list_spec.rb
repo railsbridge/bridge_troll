@@ -20,7 +20,7 @@ describe EventList do
 
     it 'returns only the events from a given organization' do
       events = described_class.new('all', organization_id: org1.id).send(:all_sorted_events)
-      expect(events).to match_array([org1_event, org1_external_event])
+      expect(events).to contain_exactly(org1_event, org1_external_event)
     end
   end
 
@@ -42,14 +42,14 @@ describe EventList do
       end
 
       it 'can search by event name' do
-        expect(search_result_ids.call('PastBridge')).to match_array([@past_bt_event.to_global_id.to_s])
-        expect(search_result_ids.call('PastExternalBridge')).to match_array([@past_external_event.to_global_id.to_s])
+        expect(search_result_ids.call('PastBridge')).to contain_exactly(@past_bt_event.to_global_id.to_s)
+        expect(search_result_ids.call('PastExternalBridge')).to contain_exactly(@past_external_event.to_global_id.to_s)
       end
 
       it 'can search by event location' do
-        expect(search_result_ids.call('PBPlace')).to match_array([@past_bt_event.to_global_id.to_s])
-        expect(search_result_ids.call('PBCity')).to match_array([@past_bt_event.to_global_id.to_s])
-        expect(search_result_ids.call('PEBPlace')).to match_array([@past_external_event.to_global_id.to_s])
+        expect(search_result_ids.call('PBPlace')).to contain_exactly(@past_bt_event.to_global_id.to_s)
+        expect(search_result_ids.call('PBCity')).to contain_exactly(@past_bt_event.to_global_id.to_s)
+        expect(search_result_ids.call('PEBPlace')).to contain_exactly(@past_external_event.to_global_id.to_s)
       end
     end
   end

@@ -9,6 +9,9 @@
     "select2": "4.0.3"
   },
   "devDependencies": {
+    "jasmine-browser-runner": "^3.0.0",
+    "jasmine-core": "^5.7.1",
+    "jasmine-jquery": "^2.1.1",
     "sinon": "1.17.1"
   }
 }

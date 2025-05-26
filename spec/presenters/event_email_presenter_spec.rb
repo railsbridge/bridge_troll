@@ -14,25 +14,25 @@ RSpec.describe EventEmailPresenter do
 
   describe '#rsvps' do
     it 'presents the rsvps for the event' do
-      expect(presenter.rsvps).to match_array([volunteer_rsvp, student_accepted_rsvp, student_waitlisted_rsvp])
+      expect(presenter.rsvps).to contain_exactly(volunteer_rsvp, student_accepted_rsvp, student_waitlisted_rsvp)
     end
   end
 
   describe '#volunteers_rsvps' do
     it 'presents the rsvps for the event volunteers' do
-      expect(presenter.volunteers_rsvps).to match_array([volunteer_rsvp])
+      expect(presenter.volunteers_rsvps).to contain_exactly(volunteer_rsvp)
     end
   end
 
   describe '#students_accepted_rsvps' do
     it 'presents the rsvps for the event students who were accepted' do
-      expect(presenter.students_accepted_rsvps).to match_array([student_accepted_rsvp])
+      expect(presenter.students_accepted_rsvps).to contain_exactly(student_accepted_rsvp)
     end
   end
 
   describe '#students_waitlisted_rsvps' do
     it 'presents the rsvps for the event students who were waitlisted' do
-      expect(presenter.students_waitlisted_rsvps).to match_array([student_waitlisted_rsvp])
+      expect(presenter.students_waitlisted_rsvps).to contain_exactly(student_waitlisted_rsvp)
     end
   end
 end

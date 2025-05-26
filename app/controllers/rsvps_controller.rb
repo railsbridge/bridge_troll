@@ -23,6 +23,14 @@ class RsvpsController < ApplicationController
     render :new
   end
 
+  def edit
+    if @rsvp.role == Role::ORGANIZER
+      redirect_to @event
+    else
+      render :edit
+    end
+  end
+
   def create
     @rsvp = Rsvp.new(rsvp_params)
     @rsvp.event = @event
@@ -52,14 +60,6 @@ class RsvpsController < ApplicationController
       redirect_to @event, notice: notice_messages.join(' ')
     else
       render :new
-    end
-  end
-
-  def edit
-    if @rsvp.role == Role::ORGANIZER
-      redirect_to @event
-    else
-      render :edit
     end
   end
 

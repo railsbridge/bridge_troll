@@ -5,6 +5,11 @@ module Events
     before_action :authenticate_user!
     before_action :find_event
 
+    def show
+      authorize @event, :edit?
+      @email = @event.event_emails.find(params[:id])
+    end
+
     def new
       authorize @event, :edit?
       @email = @event.event_emails.build(attendee_group: 'All')
@@ -44,11 +49,6 @@ module Events
       @email.save!
 
       redirect_to event_organizer_tools_path(@event), notice: 'Your email has been sent. Woo!'
-    end
-
-    def show
-      authorize @event, :edit?
-      @email = @event.event_emails.find(params[:id])
     end
 
     private

@@ -4,8 +4,8 @@ source 'https://rubygems.org'
 
 ruby '2.7.7'
 
-gem 'rake', require: false
 gem 'active_hash'
+gem 'rake', require: false
 # OPTIMIZE: and cache expensive computations for faster boot times. It's
 # `require`d in a specific way in config/boot.rb
 gem 'bootsnap', require: false
@@ -40,10 +40,10 @@ gem 'simple_form'
 gem 'sprockets'
 gem 'uglifier'
 # faster interoperable json
+gem 'ffi', '1.16.3'
 gem 'multi_json'
 gem 'oj'
 gem 'pg'
-gem 'ffi', '1.16.3'
 
 group :production do
   gem 'newrelic_rpm'
@@ -66,8 +66,6 @@ group :test, :development do
   gem 'byebug'
   gem 'chrome_remote', require: false
   gem 'dotenv-rails'
-  gem 'jasmine'
-  gem 'jasmine-jquery-rails'
   gem 'parallel_tests'
   gem 'pry'
   gem 'rails-controller-testing', require: false
@@ -85,11 +83,11 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'selenium-webdriver'
   gem 'capybara-screenshot'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
   gem 'webmock'

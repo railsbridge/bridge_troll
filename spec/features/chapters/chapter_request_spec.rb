@@ -14,7 +14,7 @@ describe 'chapter pages' do
     end
   end
 
-  it 'allows authorized users to create chapter leaders', js: true do
+  it 'allows authorized users to create chapter leaders', :js do
     potential_leader = create(:user)
 
     sign_in_as(admin)
@@ -32,7 +32,7 @@ describe 'chapter pages' do
     end
   end
 
-  it 'allows authorized users to delete chapter leaders', js: true do
+  it 'allows authorized users to delete chapter leaders', :js do
     leader = create(:user)
     chapter.leaders << leader
 
@@ -77,7 +77,7 @@ describe 'chapter pages' do
       sign_in_as(org1_leader)
 
       visit new_chapter_path
-      expect(page.all('#chapter_organization_id option').map(&:value)).to match_array(['', org1.id.to_s])
+      expect(page.all('#chapter_organization_id option').map(&:value)).to contain_exactly('', org1.id.to_s)
 
       select 'Org1', from: 'Organization'
       fill_in 'Name', with: 'Cantaloupe Chapter'

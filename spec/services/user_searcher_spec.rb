@@ -9,6 +9,6 @@ describe UserSearcher do
 
   it 'returns the users matching a search query' do
     searcher = described_class.new(User, 'hat')
-    expect(searcher.as_json).to match_array([{ id: user1.id, text: user1.full_name }])
+    expect(searcher.as_json).to contain_exactly({ id: user1.id, text: user1.full_name })
   end
 end

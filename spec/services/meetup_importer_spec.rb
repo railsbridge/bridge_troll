@@ -44,11 +44,11 @@ describe MeetupImporter do
     end
 
     it 'claims existing RSVPs when associating' do
-      expect(@event.volunteers_with_legacy).to match_array([@sven_model, @sally_model])
+      expect(@event.volunteers_with_legacy).to contain_exactly(@sven_model, @sally_model)
 
       bridgetroll_user.authentications.create(provider: 'meetup', uid: sven[:id].to_s)
 
-      expect(@event.reload.volunteers_with_legacy).to match_array([bridgetroll_user, @sally_model])
+      expect(@event.reload.volunteers_with_legacy).to contain_exactly(bridgetroll_user, @sally_model)
     end
 
     context 'when a bridgetroll user is already associated to a meetup user' do
@@ -59,7 +59,7 @@ describe MeetupImporter do
       it 'removes claim to RSVPs when disassociating' do
         @importer.disassociate_user(bridgetroll_user)
 
-        expect(@event.reload.volunteers_with_legacy).to match_array([@sven_model, @sally_model])
+        expect(@event.reload.volunteers_with_legacy).to contain_exactly(@sven_model, @sally_model)
       end
     end
   end
