@@ -235,8 +235,8 @@ describe 'New Event', js: true do
       expect(page).to have_button 'Save Draft'
       click_on 'Save Draft'
 
-      expand_all_event_sections
       expect(page).to have_content('Draft saved')
+      expand_all_event_sections
       expect(page).to have_current_path '/events'
       expect(page).to have_button 'Save Draft'
       expect(page.find('#event_email_on_approval_false')).to be_checked

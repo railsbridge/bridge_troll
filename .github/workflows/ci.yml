@@ -25,26 +25,28 @@ jobs:
         ports:
           - 5432:5432
     steps:
-    - uses: actions/checkout@v3
-    - name: Use postgres?
-      if: ${{ matrix.database == 'postgres' }}
-      run: echo "FORCE_POSTGRES=1" >> $GITHUB_ENV
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1.133.0
-      with:
-        bundler-cache: true
-        cache-version: ${{ matrix.database }}
-    - name: Set up Node
-      uses: actions/setup-node@v3
-      with:
-        node-version: '12'
-        cache: 'yarn'
-    - run: yarn install --frozen-lockfile # optional, --immutable
-    - name: Set up Google Chrome
-      uses: browser-actions/setup-chrome@latest
-      with:
-        chrome-version: stable
-    - run: chrome --version
-    - run: bin/rails db:setup
-    - run: bin/rake parallel:setup
-    - run: bin/rake
+      - uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable
+      - run: echo "NIXPKGS_ALLOW_INSECURE=1" >> $GITHUB_ENV # only necessary because of old ruby
+      - run: chrome --version
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v26
+      - uses: cachix/cachix-action@v14
+        with:
+          name: bridgetroll
+          extraPullNames: devenv
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - name: Install devenv.sh
+        run: nix profile install nixpkgs#devenv
+      # -i only necessary because of old ruby
+      - run: devenv shell -i bin/rails db:setup
+      - run: devenv shell -i bin/rake parallel:setup
+      - run: devenv shell -i bin/rake
+      - name: Archive capybara failure screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: capybara-${{ matrix.database }}
+          path: tmp/capybara/*
+          if-no-files-found: ignore

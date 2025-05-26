@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 ruby '2.7.7'
 
+gem 'rake', require: false
 gem 'active_hash'
 # OPTIMIZE: and cache expensive computations for faster boot times. It's
 # `require`d in a specific way in config/boot.rb
@@ -41,10 +42,11 @@ gem 'uglifier'
 # faster interoperable json
 gem 'multi_json'
 gem 'oj'
+gem 'pg'
+gem 'ffi', '1.16.3'
 
 group :production do
   gem 'newrelic_rpm'
-  gem 'pg'
   gem 'rack-timeout'
   gem 'sentry-raven'
 end
@@ -69,7 +71,6 @@ group :test, :development do
   gem 'parallel_tests'
   gem 'pry'
   gem 'rails-controller-testing', require: false
-  gem 'rake', require: false
   gem 'rspec-collection_matchers'
   gem 'rspec-rails'
   gem 'rubocop', require: false
@@ -78,20 +79,14 @@ group :test, :development do
   gem 'rubocop-rake', require: false
   gem 'rubocop-rspec', require: false
   gem 'rubocop-thread_safety', require: false
-  gem 'sqlite3'
-end
-
-if ENV['FORCE_POSTGRES']
-  group :development, :test do
-    gem 'pg' # rubocop:disable Bundler/DuplicatedGem
-  end
+  # in production, we use postgres. For a simpler dev experience you can also use sqlite3
+  gem 'sqlite3', '1.6.9' # last version to support ruby 2.7
 end
 
 group :test do
-  gem 'apparition'
   gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'capybara-screenshot'
-  gem 'codecov', require: false
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'

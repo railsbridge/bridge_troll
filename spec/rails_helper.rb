@@ -14,14 +14,31 @@ require 'rails-controller-testing'
 require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 require 'webmock/rspec'
-require 'capybara/apparition'
 
-Capybara.register_driver :apparition_visible do |app|
-  Capybara::Apparition::Driver.new(app, headless: false)
+# this is copied from https://github.com/teamcapybara/capybara/blob/0480f90168a40780d1398c75031a255c1819dce8/lib/capybara/registrations/drivers.rb#L31-L42
+# it's a modified version of the original chrome headless driver with a wider window.
+# it resolves a flake in ./spec/features/admin/course_request_spec.rb:41 where the "Remove Level" button isn't clickable
+# I don't understand why the flake exists though, because the screenshot of the page makes the button seem clickable...
+Capybara.register_driver :selenium_chrome_headless_wide do |app|
+  version = Capybara::Selenium::Driver.load_selenium
+  options_key = Capybara::Selenium::Driver::CAPS_VERSION.satisfied_by?(version) ? :capabilities : :options
+  browser_options = Selenium::WebDriver::Chrome::Options.new.tap do |opts|
+    opts.add_argument('--headless=new')
+    opts.add_argument('--disable-gpu') if Gem.win_platform?
+    # Workaround https://bugs.chromium.org/p/chromedriver/issues/detail?id=2650&q=load&sort=-id&colspec=ID%20Status%20Pri%20Owner%20Summary
+    opts.add_argument('--disable-site-isolation-trials')
+    opts.add_argument('--window-size=1920,1080') # Set the window size to 1080p
+  end
+
+  Capybara::Selenium::Driver.new(app, **{ :browser => :chrome, options_key => browser_options })
 end
 
-# Capybara.javascript_driver = :apparition_visible
-Capybara.javascript_driver = :apparition
+Capybara::Screenshot.register_driver(:selenium_chrome_headless_wide) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
+
+Capybara.javascript_driver = :selenium_chrome_headless_wide
+# Capybara.javascript_driver = :selenium_chrome
 
 Capybara.asset_host = "http://#{Rails.application.routes.default_url_options[:host]}"
 Capybara.disable_animation = true
@@ -53,7 +70,7 @@ RSpec.configure do |config|
   end
 
   config.before do |example|
-    WebMock.disable_net_connect!(allow_localhost: true)
+    WebMock.disable_net_connect!(allow_localhost: true, net_http_connect_on_start: true)
     Time.zone = 'UTC'
     ActionMailer::Base.deliveries.clear
     DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction

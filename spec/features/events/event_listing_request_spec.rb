@@ -175,10 +175,11 @@ describe 'the event listing page' do
         click_button submit_for_approval_button
 
         # NOTE: the closed <h1> and missing script tags
-        expect(page.body).to include("This is a note in the detail text box\n<br> With a new line! and a (missing) javascript injection, as well as an unclosed </p><h1> tag</h1>")
         expect(page).to have_css('.details p', text: 'With a new line!')
-        expect(page).to have_css('.details br')
+        expect(page).to have_css('.details br', visible: :all)
         expect(page).not_to have_css '.details script'
+        # the following assertion must be after previous assertions to ensure capybara waits for the page to load
+        expect(page.body).to include("This is a note in the detail text box\n<br> With a new line! and a (missing) javascript injection, as well as an unclosed </p><h1> tag</h1>")
       end
 
       it 'can create a non-teaching event' do
