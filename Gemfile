@@ -42,6 +42,7 @@ gem 'uglifier'
 gem 'multi_json'
 gem 'oj'
 gem 'pg'
+gem 'ffi', '1.16.3'
 
 group :production do
   gem 'newrelic_rpm'
