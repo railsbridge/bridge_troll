@@ -66,8 +66,6 @@ group :test, :development do
   gem 'byebug'
   gem 'chrome_remote', require: false
   gem 'dotenv-rails'
-  gem 'jasmine'
-  gem 'jasmine-jquery-rails'
   gem 'parallel_tests'
   gem 'pry'
   gem 'rails-controller-testing', require: false

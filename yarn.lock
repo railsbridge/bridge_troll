@@ -636,6 +636,11 @@ jasmine-core@^5.7.1:
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-5.7.1.tgz#c347ede2dbf1b6b3b3c3362a5b6651414ada4745"
   integrity sha512-QnurrtpKsPoixxG2R3d1xP0St/2kcX5oTZyDyQJMY+Vzi/HUlu1kGm+2V8Tz+9lV991leB1l0xcsyz40s9xOOw==
 
+jasmine-jquery@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/jasmine-jquery/-/jasmine-jquery-2.1.1.tgz#d4095e646944a26763235769ab018d9f30f0d47b"
+  integrity sha512-13d18zXTGeiNAjd4sAhoUGQbCEXTMbUyjrnQ9JFQM/atyyFubHejL5RCE5iyW7jOh1cwjoqVefAAsSA4SFtooQ==
+
 jquery-mousewheel@~3.1.13:
   version "3.1.13"
   resolved "https://registry.yarnpkg.com/jquery-mousewheel/-/jquery-mousewheel-3.1.13.tgz#06f0335f16e353a695e7206bf50503cb523a6ee5"
