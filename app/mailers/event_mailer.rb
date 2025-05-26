@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class EventMailer < ApplicationMailer
-  add_template_helper(EventsHelper)
-  add_template_helper(LocationsHelper)
+  helper(EventsHelper)
+  helper(LocationsHelper)
 
   def from_organizer(options)
     @event = options[:event]

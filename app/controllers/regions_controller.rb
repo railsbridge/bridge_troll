@@ -22,7 +22,7 @@ class RegionsController < ApplicationController
           @organizer_rsvps = Rsvp
                              .group(:user_id, :user_type)
                              .joins([{ event: [{ location: :region }] }])
-                             .includes(:user)
+                             .preload(:user)
                              .select('user_id, user_type, count(*) as events_count')
                              .where('regions.id' => @region.id, role_id: Role::ORGANIZER.id, user_type: 'User')
         end

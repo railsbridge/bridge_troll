@@ -51,22 +51,23 @@ module Seeder
 
   def self.destroy_event(event)
     event.rsvps.each do |rsvp|
-      rsvp.user.destroy if rsvp.user.rsvps.length == 1
+      rsvp.user.destroy if rsvp.user.rsvps.count == 1
     end
     event.destroy
     if event.location.present?
-      event.location.destroy if event.location.events.empty?
+      event.location.destroy if event.location.events.count == 0
       region = event.location.region
-      region.destroy if region.events.empty?
+      region.destroy if region.events.count == 0
     end
 
     if event.chapter.present?
       organization = event.chapter.organization
-      event.chapter.destroy if event.chapter.events.empty?
-      organization.destroy if organization.chapters.empty?
+      event.chapter.destroy if event.chapter.events.count == 0
+      organization.reload.destroy if organization.chapters.count == 0
     end
 
-    event.course.destroy if event.course&.events&.empty?
+    num_course_events = event.course&.events&.count
+    event.course.destroy if num_course_events.present? && num_course_events == 0
   end
 
   def self.seed_event(options = {})
