@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 require Rails.root.join('db/seeds/seed_event')
-Dir[Rails.root.join('app/mailers/*.rb')].sort.each { |f| require f }
-Dir[Rails.root.join('spec/mailers/previews/**/*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('app/mailers/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/mailers/previews/**/*.rb')].each { |f| require f }
 
 RSpec.describe Devise::MailerPreview do
   def find_preview_class(mailer_class)

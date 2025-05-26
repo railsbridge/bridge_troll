@@ -6,13 +6,13 @@ require Rails.root.join('db/seeds/admin_user')
 
 describe Seeder do
   describe '#seed_event' do
-    subject(:seed_event) { Seeder.seed_event(students_per_level_range: (1..1)) }
+    subject(:seed_event) { described_class.seed_event(students_per_level_range: (1..1)) }
 
     it 'creates an event which can cleanly destroy itself' do
       seed_event
       event = Event.last
       expect(event.title).to eq('Seeded Test Event')
-      Seeder.destroy_event(event)
+      described_class.destroy_event(event)
       assert_no_rows_present
     end
 
