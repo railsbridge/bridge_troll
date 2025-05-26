@@ -39,12 +39,12 @@ describe 'checking in attendees' do
         visit event_checkiners_path(event)
 
         expect(page).to have_content(attendee_rsvp.user.email)
-        expect(page).to have_selector('input[value="Remove"]')
+        expect(page).to have_button('Remove')
 
         click_button 'Remove'
 
         expect(page).not_to have_content(attendee_rsvp.user.email)
-        expect(page).not_to have_selector('input[value="Remove"]')
+        expect(page).not_to have_button('Remove')
       end
     end
   end
