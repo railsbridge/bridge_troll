@@ -44,3 +44,14 @@ node_modules
 
 coverage
 db/*sqlite3-journal
+.devenv
+
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
