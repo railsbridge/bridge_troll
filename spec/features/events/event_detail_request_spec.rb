@@ -218,6 +218,7 @@ describe 'the event detail page' do
 
         expect(page).to have_css('.remove-session')
         page.all('.remove-session').last.click
+        accept_alert
 
         expect(page).to have_css('.event-sessions .fields', count: 1)
 

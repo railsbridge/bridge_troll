@@ -70,6 +70,7 @@ describe 'sign in functionality' do
 
   it 'allows a user to sign in from the home page' do
     visit '/'
+    click_on 'Sign In'
     within('#sign_in_dialog') do
       fill_in 'Email', with: @user.email
       fill_in 'Password', with: @user.password

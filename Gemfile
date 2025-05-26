@@ -88,8 +88,8 @@ if ENV['FORCE_POSTGRES']
 end
 
 group :test do
-  gem 'apparition'
   gem 'capybara'
+  gem 'selenium-webdriver'
   gem 'capybara-screenshot'
   gem 'codecov', require: false
   gem 'database_cleaner'

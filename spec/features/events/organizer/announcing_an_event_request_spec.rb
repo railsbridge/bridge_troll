@@ -22,6 +22,8 @@ describe 'Announcing an event', js: true do
     before do
       choose('event_email_on_approval_true')
       click_on submit_for_approval_button
+      expect(page).to have_content("Your event is awaiting approval")
+      expect(Event.last).to_not be_nil
     end
 
     context 'before approval' do
@@ -55,6 +57,8 @@ describe 'Announcing an event', js: true do
     before do
       choose('event_email_on_approval_false')
       click_on submit_for_approval_button
+      expect(page).to have_content("Your event is awaiting approval")
+      expect(Event.last).to_not be_nil
     end
 
     context 'before approval' do
