@@ -5,7 +5,7 @@ class Event < ApplicationRecord
 
   serialize :allowed_operating_system_ids, coder: JSON
   serialize :imported_event_data, coder: JSON
-  enum current_state: { draft: 0, pending_approval: 1, published: 2 }
+  enum :current_state, { draft: 0, pending_approval: 1, published: 2 }
 
   after_initialize :set_defaults
   before_validation :normalize_allowed_operating_system_ids

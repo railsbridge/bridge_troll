@@ -18,7 +18,7 @@ class Level < ApplicationRecord
                     }
   validates :title, presence: true
   validates :level_description, presence: true
-  serialize :level_description, type: Array
+  serialize :level_description, type: Array, coder: YAML
   alias_attribute :description, :level_description
 
   def level_description_bullets
