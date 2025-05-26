@@ -7,7 +7,6 @@ threads threads_count, threads_count
 
 preload_app! unless worker_count == 1
 
-rackup      DefaultRackup
 port        ENV['PORT']     || 3000
 environment ENV['RACK_ENV'] || 'development'
 
