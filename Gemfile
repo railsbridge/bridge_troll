@@ -2,9 +2,10 @@
 
 source 'https://rubygems.org'
 
-# benchmark gem is a default gem in ruby <= 3.4 and is deprecated in 3.4, will be removed in 3.5.
-# When upgrading rails, test if this gem is still needed
+# these two gems are installed by default in ruby <= 3.4 but will be removed in ruby 3.5
+# When upgrading rails, test if explicitly installing these gems is still necessary
 gem 'benchmark'
+gem 'reline'
 
 gem 'active_hash'
 gem 'rake', require: false
@@ -34,7 +35,7 @@ gem 'pundit'
 gem 'rack-canonical-host'
 gem 'rack-cors'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
-gem 'rails', '~> 6.1.7.10'
+gem 'rails', '~> 7.1.0'
 gem 'rails-backbone'
 gem 'sanitize'
 gem 'sassc-rails'
@@ -84,7 +85,7 @@ group :test, :development do
 end
 
 group :test do
-  # these two gems are installed by default in ruby < 3.4 but removed in ruby 3.4
+  # these two gems are installed by default in ruby <= 3.3 but removed in ruby 3.4
   # they are used by rails 6's test infrastructure. Perhaps they are no longer necessary in later versions of rails
   gem 'drb'
   gem 'mutex_m'

@@ -3,9 +3,9 @@
 class Event < ApplicationRecord
   DEFAULT_CODE_OF_CONDUCT_URL = 'http://bridgefoundry.org/code-of-conduct/'
 
-  serialize :allowed_operating_system_ids, JSON
-  serialize :imported_event_data, JSON
-  enum current_state: { draft: 0, pending_approval: 1, published: 2 }
+  serialize :allowed_operating_system_ids, coder: JSON
+  serialize :imported_event_data, coder: JSON
+  enum :current_state, { draft: 0, pending_approval: 1, published: 2 }
 
   after_initialize :set_defaults
   before_validation :normalize_allowed_operating_system_ids
