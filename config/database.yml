@@ -34,10 +34,8 @@ test:
   password: <%= ENV["POSTGRES_PASSWORD"] %>
 <% end %>
 
-staging:
-  url:  <%= ENV["DATABASE_URL"] %>
-  pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>
-
 production:
+  adapter: postgresql
+  encoding: unicode
   url:  <%= ENV["DATABASE_URL"] %>
-  pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>
+  pool: <%= ENV["DB_POOL"] || ENV['RAILS_MAX_THREADS'] || 5 %>
