@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+ruby File.read('.ruby-version').chomp
+
 # these two gems are installed by default in ruby <= 3.4 but will be removed in ruby 3.5
 # When upgrading rails, test if explicitly installing these gems is still necessary
 gem 'benchmark'
