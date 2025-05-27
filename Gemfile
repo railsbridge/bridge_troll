@@ -35,7 +35,7 @@ gem 'pundit'
 gem 'rack-canonical-host'
 gem 'rack-cors'
 gem 'rack-mini-profiler', require: ['prepend_net_http_patch']
-gem 'rails', '~> 7.1.0'
+gem 'rails', '~> 8.0.0'
 gem 'rails-backbone'
 gem 'sanitize'
 gem 'sassc-rails'
@@ -81,7 +81,7 @@ group :test, :development do
   gem 'rubocop-rspec', require: false
   gem 'rubocop-thread_safety', require: false
   # in production, we use postgres. For a simpler dev experience you can also use sqlite3
-  gem 'sqlite3', '~> 1.4' # latest version supported by rails 6.1
+  gem 'sqlite3'
 end
 
 group :test do
