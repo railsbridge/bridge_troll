@@ -53,16 +53,23 @@ cd bridge_troll
 
 Make sure you have the correct version of ruby before installing the gems for this repo. Or, if you want you can use [devenv](https://devenv.sh/) and [direnv](https://direnv.net/) to ensure all the right dependencies are installed. (if you have trouble installing any of the older dependencies, devenv should help!)
 
-Finish setting up your environment
+install nix
+```
+curl -fsSL https://install.determinate.systems/nix | sh -s -- install
+```
+
+then open a new shell to have access to nix. Then install devenv & direnv
+```
+nix profile install nixpkgs#devenv
+nix profile install nixpkgs#direnv
+```
+
+then [configure direnv](https://direnv.net/docs/hook.html), restart your shell, enter the bridge-troll directory, and run `direnv allow`.
+
+Finish setting up your environment:
 
 ```
 bin/setup
-```
-
-To verify your environment is set up correctly, run the server
-
-```
-rails s
 ```
 
 Go to http://localhost:3000/ and verify your success! You can play with the app locally to become more familiar with it.
