@@ -56,7 +56,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-
       # -i (impure) is necessary to pass CI env var into devenv shell
-      - run: devenv shell -i  bin/rails db:setup
+      # I'm not sure why bundle install / yarn install are necessary, devenv shell should do this
+      - run: devenv shell -i bundle install
+      - run: devenv shell -i yarn install
+      - run: devenv shell -i bin/rails db:setup
       - run: devenv shell -i bin/rake parallel:setup
       - run: devenv shell -i bin/rake
       - name: Archive capybara failure screenshots
