@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-if defined?(Raven)
-  Raven.configure do |config|
-    config.excluded_exceptions = Raven::Configuration::IGNORE_DEFAULT + ['ActionController::UnknownFormat']
-  end
-end
+# TODO: reconfigure sentry
+# if defined?(Sentry)
+#   Sentry.configure do |config|
+#     config.excluded_exceptions = Raven::Configuration::IGNORE_DEFAULT + ['ActionController::UnknownFormat']
+#   end
+# end

@@ -51,7 +51,8 @@ gem 'pg'
 group :production do
   gem 'newrelic_rpm'
   gem 'rack-timeout'
-  gem 'sentry-raven'
+  gem 'sentry-rails'
+  gem 'sentry-ruby'
 end
 
 group :development do

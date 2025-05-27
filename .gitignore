@@ -57,3 +57,5 @@ devenv.local.nix
 .pre-commit-config.yaml
 public/assets
 log/
+
+/config/master.key
