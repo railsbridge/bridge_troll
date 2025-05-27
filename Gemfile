@@ -60,7 +60,6 @@ group :development do
   gem 'binding_of_caller'
   gem 'bullet'
   gem 'listen'
-  gem 'rb-fsevent'
   gem 'spring'
   gem 'spring-commands-rspec'
 end
@@ -68,7 +67,6 @@ end
 group :test, :development do
   gem 'awesome_print'
   gem 'byebug'
-  gem 'chrome_remote', require: false
   gem 'dotenv-rails'
   gem 'parallel_tests'
   gem 'pry'

@@ -38,7 +38,23 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
-      # -i only necessary because of old ruby
+      # devenv cache includes bundle
+      - name: Cache .devenv directory
+        uses: actions/cache@v4
+        id: devenv-cache
+        with:
+          path: .devenv
+          key: ${{ runner.os }}-devenv-${{ hashFiles('devenv.nix', 'devenv.lock', 'devenv.yaml', 'Gemfile.lock', 'yarn.lock', 'ruby-version', 'ruby-version', 'ruby-version', 'ruby-version', 'ruby-version', 'ruby-version', 'ruby-version', 'ruby-version') }}
+          restore-keys: |
+            ${{ runner.os }}-devenv-
+      - name: Cache node_modules directory
+        uses: actions/cache@v4
+        id: node_modules-cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
       - run: devenv shell bin/rails db:setup
       - run: devenv shell bin/rake parallel:setup
       - run: devenv shell bin/rake

@@ -8,12 +8,7 @@
   # https://devenv.sh/packages/
   packages = with pkgs; [
     git
-    chromedriver
-    postgresql.dev
-    libffi
-    openssl.dev
-    openldap
-    krb5
+    chromedriver # used by tests
     libyaml.dev # needed by psych / needed by rails
   ];
 
