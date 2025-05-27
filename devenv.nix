@@ -12,6 +12,7 @@
     libyaml.dev # needed by psych / needed by rails
   ];
 
+  # this is required by the pg gem
   env.LD_LIBRARY_PATH = lib.makeLibraryPath [
     pkgs.krb5
     pkgs.openldap
