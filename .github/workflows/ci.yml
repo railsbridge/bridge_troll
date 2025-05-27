@@ -55,9 +55,10 @@ jobs:
           key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node_modules-
-      - run: devenv shell bin/rails db:setup
-      - run: devenv shell bin/rake parallel:setup
-      - run: devenv shell bin/rake
+      # -i (impure) is necessary to pass CI env var into devenv shell
+      - run: devenv shell -i  bin/rails db:setup
+      - run: devenv shell -i bin/rake parallel:setup
+      - run: devenv shell -i bin/rake
       - name: Archive capybara failure screenshots
         uses: actions/upload-artifact@v4
         if: failure()
