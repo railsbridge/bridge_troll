@@ -18,12 +18,6 @@
     pkgs.openldap
   ];
 
-  enterShell = ''
-    git --version
-    ruby --version
-    bundle
-  '';
-
   services.postgres.enable = true;
 
   languages.ruby = {
