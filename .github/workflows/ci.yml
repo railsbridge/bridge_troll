@@ -69,7 +69,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: railsbridge/bridge-troll
+          slug: railsbridge/bridge_troll
           directory: ./coverage
       - name: Archive capybara failure screenshots
         uses: actions/upload-artifact@v4
