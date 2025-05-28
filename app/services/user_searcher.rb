@@ -7,7 +7,13 @@ class UserSearcher
   end
 
   def as_json(_options = {})
-    search_field = @relation.connection.concat('lower(first_name)', "' '", 'lower(last_name)')
+    args = 'lower(first_name)', "' '", 'lower(last_name)'
+    search_field = if Rails.application.using_postgres?
+                     "CONCAT(#{args * ', '})"
+                   else
+                     args * ' || '
+                   end
+
     @relation
       .select(:id, :first_name, :last_name)
       .where("#{search_field} like ?", "%#{@query.downcase}%")
