@@ -67,8 +67,8 @@ jobs:
       - run: devenv shell -i bin/rake
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           slug: railsbridge/bridge-troll
           directory: ./coverage
       - name: Archive capybara failure screenshots
