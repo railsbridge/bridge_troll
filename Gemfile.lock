@@ -504,9 +504,6 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    sqlite3 (2.6.0)
-      mini_portile2 (~> 2.8.0)
-    sqlite3 (2.6.0-arm64-darwin)
     stringio (3.1.7)
     thor (1.3.2)
     tilt (2.6.0)
@@ -615,9 +612,11 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   sprockets
-  sqlite3
   uglifier
   webmock
+
+RUBY VERSION
+   ruby 3.4.4p34
 
 BUNDLED WITH
    2.6.6

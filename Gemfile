@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+ruby File.read('.ruby-version').chomp
+
 # these two gems are installed by default in ruby <= 3.4 but will be removed in ruby 3.5
 # When upgrading rails, test if explicitly installing these gems is still necessary
 gem 'benchmark'
@@ -80,7 +82,7 @@ group :test, :development do
   gem 'rubocop-rspec', require: false
   gem 'rubocop-thread_safety', require: false
   # in production, we use postgres. For a simpler dev experience you can also use sqlite3
-  gem 'sqlite3'
+  # gem 'sqlite3'
 end
 
 group :test do
