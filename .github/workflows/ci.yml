@@ -30,6 +30,9 @@ jobs:
           chrome-version: stable
       - run: chrome --version
       - uses: actions/checkout@v4
+      - name: Use postgres?
+        if: ${{ matrix.database == 'postgres' }}
+        run: echo "FORCE_POSTGRES=1" >> $GITHUB_ENV
       - uses: cachix/install-nix-action@v26
       - uses: cachix/cachix-action@v14
         with:
@@ -55,7 +58,7 @@ jobs:
           key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node_modules-
-      # -i (impure) is necessary to pass CI env var into devenv shell
+      # -i (impure) is necessary to pass CI env vars into devenv shell
       # I'm not sure why bundle install / yarn install are necessary, devenv shell should do this
       - run: devenv shell -i bundle install
       - run: devenv shell -i yarn install
