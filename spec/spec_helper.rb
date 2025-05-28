@@ -2,9 +2,11 @@
 
 # BEGIN: SimpleCov
 require 'simplecov'
-SimpleCov.start :rails
-require 'simplecov-cobertura'
-SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+SimpleCov.start 'rails'
+if ENV['CI']
+  require 'simplecov-cobertura'
+  SimpleCov.formatter = SimpleCov::Formatter::CoberturaFormatter
+end
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
