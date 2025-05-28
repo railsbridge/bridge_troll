@@ -22,7 +22,10 @@ in
     ];
   };
 
-  services.postgres.enable = true;
+  services.postgres = {
+    enable = true;
+    listen_addresses = "localhost";
+  };
 
   languages.ruby = {
     enable = true;
