@@ -70,6 +70,7 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
           slug: railsbridge/bridge-troll
+          directory: ./coverage
       - name: Archive capybara failure screenshots
         uses: actions/upload-artifact@v4
         if: failure()
