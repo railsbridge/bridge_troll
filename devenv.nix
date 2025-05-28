@@ -10,7 +10,6 @@ in
 {
   packages = with pkgs; [
     git
-    chromedriver # used by tests
     libyaml.dev # needed by psych / needed by rails
   ];
 

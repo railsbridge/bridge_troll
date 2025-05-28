@@ -28,6 +28,7 @@ jobs:
       - uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: stable
+          install-chromedriver: true
       - run: chrome --version
       - uses: actions/checkout@v4
       - name: Use postgres?
