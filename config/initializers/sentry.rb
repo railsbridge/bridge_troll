@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-# TODO: reconfigure sentry
-# if defined?(Sentry)
-#   Sentry.configure do |config|
-#     config.excluded_exceptions = Raven::Configuration::IGNORE_DEFAULT + ['ActionController::UnknownFormat']
-#   end
-# end
+Sentry.init do |config|
+  # get breadcrumbs from logs
+  config.breadcrumbs_logger = %i[active_support_logger http_logger]
+  # Add data like request headers and IP for users, if applicable;
+  # see https://docs.sentry.io/platforms/ruby/data-management/data-collected/ for more info
+  config.send_default_pii = true
+end
