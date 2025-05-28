@@ -25,11 +25,6 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - uses: browser-actions/setup-chrome@latest
-        with:
-          chrome-version: stable
-          install-chromedriver: true
-      - run: chrome --version
       - uses: actions/checkout@v4
       - name: Use postgres?
         if: ${{ matrix.database == 'postgres' }}
