@@ -15,7 +15,7 @@ New? Keep reading this, and then read the [contributor guidelines](CONTRIBUTING.
 
 ### Where is it?
 
-- The real live production application lives at [bridgetroll.herokuapp.com](http://bridgetroll.herokuapp.com/) or [www.bridgetroll.org](http://www.bridgetroll.org/)
+- The real live production application lives at [bridgetroll.herokuapp.com](http://bridgetroll.herokuapp.com/) or [events.bridgefoundry.org](http://events.bridgefoundry.org/)
 - The staging server lives at [bridgetroll-staging.herokuapp.com](http://bridgetroll-staging.herokuapp.com/)
 - The continuous integration server is at [travis-ci.org/railsbridge/bridge_troll](http://travis-ci.org/railsbridge/bridge_troll)
 
