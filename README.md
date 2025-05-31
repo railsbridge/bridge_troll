@@ -7,7 +7,7 @@ Bridge Troll is a Rails app that helps workshop organizers plan their events.
 
 Bridge Troll aims to provide a single site for students and volunteers to RSVP for workshops, so that organizers have as much information as possible in one place to help them plan their workshop. Organizers can easily contact attendees before a workshop, sort students and volunteers into classes on the workshop day, and provide follow-up surveys afterward.
 
-Prospective organizers and attendees can sign up right now at [www.bridgetroll.org](http://www.bridgetroll.org). If you would really like roll your own, Bridge Troll is open source and you are free to fork, hack to your heart's content and deploy it to your favorite server or PaaS.
+Prospective organizers and attendees can sign up right now at [events.bridgefoundry.org](http://events.bridgefoundry.org). If you would really like roll your own, Bridge Troll is open source and you are free to fork, hack to your heart's content and deploy it to your favorite server or PaaS.
 
 # Contributing
 
@@ -15,7 +15,7 @@ New? Keep reading this, and then read the [contributor guidelines](CONTRIBUTING.
 
 ### Where is it?
 
-- The real live production application lives at [bridgetroll.herokuapp.com](http://bridgetroll.herokuapp.com/) or [www.bridgetroll.org](http://www.bridgetroll.org/)
+- The real live production application lives at [bridgetroll.herokuapp.com](http://bridgetroll.herokuapp.com/) or [events.bridgefoundry.org](http://events.bridgefoundry.org/)
 - The staging server lives at [bridgetroll-staging.herokuapp.com](http://bridgetroll-staging.herokuapp.com/)
 - The continuous integration server is at [travis-ci.org/railsbridge/bridge_troll](http://travis-ci.org/railsbridge/bridge_troll)
 
@@ -182,13 +182,13 @@ Bridge Troll uses [Omniauth](https://github.com/intridea/omniauth) to allow exte
 
 To set up external authentication, create an oauth consumer on the site you want to authenticate with, then add [PROVIDER]\_OAUTH_KEY and [PROVIDER]\_OAUTH_SECRET value to the app environment.
 
-When developing locally, it is often helpful to set up **local.bridgetroll.org** to point at your localhost server via your [hosts file](https://en.wikipedia.org/wiki/Hosts_%28file%29). You can then tell the OAuth provider to use the url local.bridgetroll.org. Often, a separate OAuth consumer needs to be set up for each environment (localhost/staging/production), but some providers (like Facebook) allow a consumer set up as "www.bridgetroll.org" to function for any subdomain (like "local.bridgetroll.org").
+When developing locally, it is often helpful to set up **local.bridgefoundry.org** to point at your localhost server via your [hosts file](https://en.wikipedia.org/wiki/Hosts_%28file%29). You can then tell the OAuth provider to use the url local.bridgefoundry.org. Often, a separate OAuth consumer needs to be set up for each environment (localhost/staging/production), but some providers (like Facebook) allow a consumer set up as "events.bridgefoundry.org" to function for any subdomain (like "local.bridgefoundry.org").
 
 #### OAuth Example
 
 To test authenticating with Meetup using your localhost server, you need to [register a new OAuth Consumer at Meetup](http://www.meetup.com/meetup_api/oauth_consumers/).
 
-When you add a new OAuth consumer, set the _Website_ as `http://www.bridgetroll.org`, the _Redirect URI_ as `http://localhost:3000/users/auth/meetup/callback`.
+When you add a new OAuth consumer, set the _Website_ as `http://events.bridgefoundry.org`, the _Redirect URI_ as `http://localhost:3000/users/auth/meetup/callback`.
 
 The values for _key_ and _secret_ on the OAuth consumers page should be added to your local environment as MEETUP_OAUTH_KEY and MEETUP_OAUTH_SECRET, respectively.
 
