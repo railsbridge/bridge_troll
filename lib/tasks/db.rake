@@ -10,7 +10,8 @@ def db_dump_filename(args)
   Rails.root.join(args[:filename] || 'db/PRODUCTION.dump')
 end
 
-ENABLE_EXTENSION_PATTERN = /.*?ActiveRecord::Schema\.define\(version: [^)]+\) do\n(.*enable_extension "\w+"\n)/m
+AR_DEFINE_PATTERN = /.*?(ActiveRecord::Schema\[\d+\.\d+\]\.define\(version: [^)]+\) do\n)/m
+ENABLE_EXTENSION_PATTERN = /#{AR_DEFINE_PATTERN.source}(.*enable_extension "\w+"\n)/m
 db_namespace = namespace :db do
   namespace :schema do
     desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
@@ -31,7 +32,7 @@ db_namespace = namespace :db do
       existing_schema_content = File.read(filename)
 
       File.open(filename, 'w:utf-8') do |file|
-        ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, file)
+        ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection_pool, file)
       end
 
       new_schema_content = File.read(filename)
@@ -44,11 +45,11 @@ db_namespace = namespace :db do
             ENABLE_EXTENSION_PATTERN
           )
           new_schema_define_match = new_schema_content.match(
-            /.*?(ActiveRecord::Schema\.define\(version: [^)]+\) do\n)/m
+            AR_DEFINE_PATTERN
           )
           if enable_extension_match && new_schema_define_match
             new_schema_def_line = new_schema_define_match[1]
-            enable_extension_rows = enable_extension_match[1]
+            enable_extension_rows = enable_extension_match[2]
             insert_index = new_schema_content.index(new_schema_def_line) + new_schema_def_line.length
             new_schema_content.insert(insert_index, enable_extension_rows)
           else
