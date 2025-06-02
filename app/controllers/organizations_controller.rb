@@ -14,6 +14,7 @@ class OrganizationsController < ApplicationController
     @chapter_locations = Event
                          .includes(:location, :chapter)
                          .where(id: chapter_last_event_ids)
+                         .select { |e| e.location.present? }
                          .map { |e| ChapterEventLocation.new(e) }
   end
 
