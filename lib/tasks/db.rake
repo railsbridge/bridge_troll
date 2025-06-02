@@ -11,7 +11,7 @@ def db_dump_filename(args)
 end
 
 AR_DEFINE_PATTERN = /.*?(ActiveRecord::Schema\[\d+\.\d+\]\.define\(version: [^)]+\) do\n)/m
-ENABLE_EXTENSION_PATTERN = /#{AR_DEFINE_PATTERN.source}(.*enable_extension "\w+"\n)/m
+ENABLE_EXTENSION_PATTERN = /#{AR_DEFINE_PATTERN.source}(.*enable_extension "\w+"\n\n)/m
 db_namespace = namespace :db do
   namespace :schema do
     desc 'Create a db/schema.rb file that is portable against any DB supported by AR'
