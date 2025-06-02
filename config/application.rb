@@ -28,7 +28,7 @@ module Bridgetroll
     # the framework and any gems in your application.
 
     # set default from address across
-    ActionMailer::Base.default from: 'Bridge Troll <troll@railsbridge.org>'
+    ActionMailer::Base.default from: 'Bridge Troll <events@bridgefoundry.org>'
 
     # Devise emails use our layout
     config.to_prepare do
