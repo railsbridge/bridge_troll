@@ -17,6 +17,6 @@ class ApplicationMailer < ActionMailer::Base
     headers['X-SMTPAPI'] = {
       to: recipients
     }.to_json
-    headers[:to] = 'infoevents@bridgefoundry.org' # supposedly required even with X-SMTPAPI
+    headers[:to] = 'events@bridgefoundry.org' # supposedly required even with X-SMTPAPI
   end
 end

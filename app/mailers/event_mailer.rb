@@ -23,7 +23,7 @@ class EventMailer < ApplicationMailer
     approver_addresses = User.where('admin = ? OR publisher = ?', true, true).map(&:email)
     approver_addresses.concat(event.chapter.leaders.map(&:email))
     approver_addresses.concat(event.chapter.organization.leaders.map(&:email))
-    approver_addresses << 'infoevents@bridgefoundry.org' if approver_addresses.blank?
+    approver_addresses << 'events@bridgefoundry.org' if approver_addresses.blank?
 
     mail(
       subject: "Bridge Troll event #{@event.published? ? 'created' : 'awaits approval'}: '#{@event.title}' by #{@event.organizers.first.full_name}",

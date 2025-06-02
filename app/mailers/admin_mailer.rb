@@ -5,7 +5,7 @@ class AdminMailer < ApplicationMailer
     set_recipients([options[:to]])
 
     mail(
-      from: 'infoevents@bridgefoundry.org',
+      from: 'events@bridgefoundry.org',
       subject: '[Bridge Troll] Group Email Test'
     ) do |format|
       format.html { render html: mail_content('group') }
@@ -15,7 +15,7 @@ class AdminMailer < ApplicationMailer
   def test_individual_mail(options)
     mail(
       to: options[:to],
-      from: 'infoevents@bridgefoundry.org',
+      from: 'events@bridgefoundry.org',
       subject: '[Bridge Troll] Individual Email Test'
     ) do |format|
       format.html { render html: mail_content('individual') }
