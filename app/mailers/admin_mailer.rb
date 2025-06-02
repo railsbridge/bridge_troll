@@ -5,7 +5,7 @@ class AdminMailer < ApplicationMailer
     set_recipients([options[:to]])
 
     mail(
-      from: 'info@bridgetroll.org',
+      from: 'infoevents@bridgefoundry.org',
       subject: '[Bridge Troll] Group Email Test'
     ) do |format|
       format.html { render html: mail_content('group') }
@@ -15,7 +15,7 @@ class AdminMailer < ApplicationMailer
   def test_individual_mail(options)
     mail(
       to: options[:to],
-      from: 'info@bridgetroll.org',
+      from: 'infoevents@bridgefoundry.org',
       subject: '[Bridge Troll] Individual Email Test'
     ) do |format|
       format.html { render html: mail_content('individual') }
@@ -28,7 +28,7 @@ class AdminMailer < ApplicationMailer
     <<~MAIL_CONTENT
       Hey there!
 
-      This is a test message from bridgetroll.org!
+      This is a test message from events.bridgefoundry.org!
 
       If you received it, it means that #{type} emails can probably be sent successfully from #{Rails.configuration.action_mailer.default_url_options[:host]}
     MAIL_CONTENT

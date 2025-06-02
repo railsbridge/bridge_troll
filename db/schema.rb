@@ -2,25 +2,25 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
+ActiveRecord::Schema[8.0].define(version: 2020_03_29_093106) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
 
   create_table "authentications", force: :cascade do |t|
     t.integer "user_id"
     t.string "provider"
     t.string "uid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["uid", "provider"], name: "index_authentications_on_uid_and_provider", unique: true
   end
 
@@ -35,8 +35,8 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.integer "events_count", default: 0
     t.integer "external_events_count", default: 0
     t.integer "organization_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["name"], name: "index_chapters_on_name", unique: true
   end
 
@@ -44,23 +44,23 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.string "name"
     t.string "title"
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "dietary_restrictions", force: :cascade do |t|
     t.string "restriction"
     t.integer "rsvp_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["rsvp_id", "restriction"], name: "index_dietary_restrictions_on_rsvp_id_and_restriction", unique: true
   end
 
   create_table "event_email_recipients", force: :cascade do |t|
     t.integer "event_email_id"
     t.integer "recipient_rsvp_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["event_email_id"], name: "index_event_email_recipients_on_event_email_id"
     t.index ["recipient_rsvp_id"], name: "index_event_email_recipients_on_recipient_rsvp_id"
   end
@@ -70,17 +70,17 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.integer "sender_id"
     t.string "subject"
     t.text "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["event_id"], name: "index_event_emails_on_event_id"
   end
 
   create_table "event_sessions", force: :cascade do |t|
-    t.datetime "starts_at"
-    t.datetime "ends_at"
+    t.datetime "starts_at", precision: nil
+    t.datetime "ends_at", precision: nil
     t.integer "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "name", null: false
     t.boolean "required_for_students", default: true
     t.boolean "volunteers_only", default: false
@@ -91,15 +91,15 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
 
   create_table "events", force: :cascade do |t|
     t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "location_id"
     t.text "details"
     t.string "time_zone"
     t.text "volunteer_details"
     t.string "public_email"
-    t.datetime "starts_at"
-    t.datetime "ends_at"
+    t.datetime "starts_at", precision: nil
+    t.datetime "ends_at", precision: nil
     t.integer "student_rsvp_limit"
     t.integer "course_id"
     t.boolean "allow_student_rsvp", default: true
@@ -110,7 +110,7 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.integer "student_rsvps_count", default: 0
     t.integer "student_waitlist_rsvps_count", default: 0
     t.integer "volunteer_rsvps_count", default: 0
-    t.datetime "survey_sent_at"
+    t.datetime "survey_sent_at", precision: nil
     t.boolean "has_childcare", default: true
     t.boolean "restrict_operating_systems", default: false
     t.string "allowed_operating_system_ids"
@@ -119,7 +119,7 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.string "target_audience"
     t.boolean "open", default: true
     t.text "survey_greeting"
-    t.datetime "announcement_email_sent_at"
+    t.datetime "announcement_email_sent_at", precision: nil
     t.integer "current_state", default: 0
     t.string "imported_event_data"
     t.integer "chapter_id", null: false
@@ -136,8 +136,8 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.string "city"
     t.string "location"
     t.string "organizers"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "region_id"
     t.integer "chapter_id"
     t.index ["chapter_id"], name: "index_external_events_on_chapter_id"
@@ -150,16 +150,16 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.string "color"
     t.string "title"
     t.text "level_description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["course_id"], name: "index_levels_on_course_id"
   end
 
   create_table "locations", force: :cascade do |t|
     t.string "name"
     t.string "address_1"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "address_2"
     t.string "city"
     t.string "state"
@@ -171,14 +171,14 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.integer "region_id"
     t.text "contact_info"
     t.text "notes"
-    t.datetime "archived_at"
+    t.datetime "archived_at", precision: nil
   end
 
   create_table "meetup_users", force: :cascade do |t|
     t.string "full_name"
     t.integer "meetup_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "organization_leaderships", force: :cascade do |t|
@@ -191,14 +191,14 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
   create_table "organization_subscriptions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "organization_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "organizations", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "code_of_conduct_url"
   end
 
@@ -212,8 +212,8 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.boolean "windows"
     t.boolean "linux"
     t.text "other"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "bio"
     t.boolean "outreach"
     t.string "github_username"
@@ -230,8 +230,8 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
   create_table "regions", force: :cascade do |t|
     t.string "name"
     t.integer "locations_count", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "external_events_count", default: 0
     t.index ["name"], name: "index_regions_on_name", unique: true
   end
@@ -245,18 +245,18 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
   create_table "rsvp_sessions", force: :cascade do |t|
     t.integer "rsvp_id"
     t.integer "event_session_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "checked_in", default: false
-    t.datetime "reminded_at"
+    t.datetime "reminded_at", precision: nil
     t.index ["event_session_id", "rsvp_id"], name: "index_rsvp_sessions_on_event_session_id_and_rsvp_id", unique: true
   end
 
   create_table "rsvps", force: :cascade do |t|
     t.integer "user_id"
     t.integer "event_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "role_id"
     t.string "subject_experience", limit: 250
     t.boolean "teaching", default: false, null: false
@@ -269,7 +269,7 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.text "job_details"
     t.integer "class_level"
     t.integer "checkins_count", default: 0
-    t.datetime "reminded_at"
+    t.datetime "reminded_at", precision: nil
     t.integer "waitlist_position"
     t.string "dietary_info"
     t.integer "section_id"
@@ -284,8 +284,8 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
   create_table "sections", force: :cascade do |t|
     t.integer "event_id"
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "class_level"
     t.index ["event_id"], name: "index_sections_on_event_id"
   end
@@ -296,8 +296,8 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.text "bad_things"
     t.text "other_comments"
     t.integer "recommendation_likelihood"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "appropriate_for_skill"
     t.index ["rsvp_id"], name: "index_surveys_on_rsvp_id", unique: true
   end
@@ -306,18 +306,18 @@ ActiveRecord::Schema[6.1].define(version: 2020_03_29_093106) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
     t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "admin", default: false
     t.string "first_name"
     t.string "last_name"
