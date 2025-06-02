@@ -12,8 +12,9 @@
 
 ActiveRecord::Schema[8.0].define(version: 2020_03_29_093106) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "unaccent"
+
   create_table "authentications", force: :cascade do |t|
     t.integer "user_id"
     t.string "provider"
