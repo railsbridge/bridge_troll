@@ -24,6 +24,7 @@ in
   services.postgres = {
     enable = true;
     listen_addresses = "localhost";
+    package = pkgs.postgresql_17; # this aligns with heroku
   };
 
   languages.ruby = {
