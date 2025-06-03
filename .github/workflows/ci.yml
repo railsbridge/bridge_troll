@@ -5,30 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
     strategy:
       fail-fast: false
       matrix:
         database: [sqlite, postgres]
-    services:
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
     steps:
       - uses: actions/checkout@v4
-      - name: Use postgres?
-        if: ${{ matrix.database == 'postgres' }}
-        run: echo "FORCE_POSTGRES=1" >> $GITHUB_ENV
       - uses: cachix/install-nix-action@v26
       - uses: cachix/cachix-action@v14
         with:
@@ -58,6 +40,11 @@ jobs:
       # I'm not sure why bundle install / yarn install are necessary, devenv shell should do this
       - run: devenv shell -i bundle install
       - run: devenv shell -i yarn install
+      - name: start postgres and set env to have rails use postgres
+        if: ${{ matrix.database == 'postgres' }}
+        run: |
+          echo "FORCE_POSTGRES=1" >> $GITHUB_ENV;
+          devenv up --detach;
       - run: devenv shell -i bin/rails db:setup
       - run: devenv shell -i bin/rake parallel:setup
       - run: devenv shell -i bin/rake
