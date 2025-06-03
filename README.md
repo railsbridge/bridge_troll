@@ -97,9 +97,12 @@ $ bin/rspec spec/helpers/events_helper_spec.rb:26
 By default, tests will run using sqlite. If you want to use postgres, set the `FORCE_POSTGRES` environmental variable
 
 ```
-$ FORCE_POSTGRES=1 bundle install
+$ devenv up # start postgres
+$ FORCE_POSTGRES=1 bin/setup --skip-server # ensure postgres database is setup
 $ FORCE_POSTGRES=1 bin/rake
 ```
+
+
 
 ### Seed Data
 
