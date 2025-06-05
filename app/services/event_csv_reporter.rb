@@ -93,15 +93,15 @@ class EventCsvReporter
       event_json[:organizers].try(:join, ', ')
     end
 
-    def is_workshop # rubocop:disable Naming/PredicateName
+    def is_workshop
       event_json[:workshop]
     end
 
-    def is_imported # rubocop:disable Naming/PredicateName
+    def is_imported
       event.is_a?(Event) && event.historical?
     end
 
-    def is_external # rubocop:disable Naming/PredicateName
+    def is_external
       event.is_a?(ExternalEvent)
     end
 
