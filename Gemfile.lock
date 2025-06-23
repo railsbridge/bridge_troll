@@ -186,7 +186,7 @@ GEM
     hashie (5.0.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
-    icalendar (2.11.1)
+    icalendar (2.11.2)
       base64
       ice_cube (~> 0.16)
       logger
@@ -306,7 +306,7 @@ GEM
       omniauth-oauth (~> 1.1)
       rack
     orm_adapter (0.5.0)
-    ostruct (0.6.1)
+    ostruct (0.6.2)
     parallel (1.27.0)
     parallel_tests (5.3.0)
       parallel
