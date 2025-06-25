@@ -10,9 +10,9 @@ jobs:
       matrix:
         database: [sqlite, postgres]
     steps:
-      - uses: actions/checkout@v4
-      - uses: cachix/install-nix-action@v26
-      - uses: cachix/cachix-action@v14
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 #v4.2.2
+      - uses: cachix/install-nix-action@17fe5fb4a23ad6cbbe47d6b3f359611ad276644c #v31.4.0
+      - uses: cachix/cachix-action@0fc020193b5a1fa3ac4575aa3a7d3aa6a35435ad # v16
         with:
           name: bridgetroll
           extraPullNames: devenv
@@ -21,7 +21,7 @@ jobs:
         run: nix profile install nixpkgs#devenv
       # devenv cache includes bundle
       - name: Cache .devenv directory
-        uses: actions/cache@v4
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         id: devenv-cache
         with:
           path: .devenv
@@ -29,7 +29,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-devenv-
       - name: Cache node_modules directory
-        uses: actions/cache@v4
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
         id: node_modules-cache
         with:
           path: node_modules
@@ -49,13 +49,13 @@ jobs:
       - run: devenv shell -i bin/rake parallel:setup
       - run: devenv shell -i bin/rake
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # 5.4.3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: railsbridge/bridge_troll
           directory: ./coverage
       - name: Archive capybara failure screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # 4.6.2
         if: failure()
         with:
           name: capybara-${{ matrix.database }}
