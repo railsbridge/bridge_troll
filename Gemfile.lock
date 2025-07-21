@@ -192,7 +192,7 @@ GEM
       logger
       ostruct
     ice_cube (0.17.0)
-    io-console (0.8.0)
+    io-console (0.8.1)
     irb (1.15.2)
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
@@ -393,7 +393,7 @@ GEM
       erb
       psych (>= 4.0.0)
     regexp_parser (2.10.0)
-    reline (0.6.1)
+    reline (0.6.2)
       io-console (~> 0.5)
     require_all (3.0.0)
     responders (3.1.1)
