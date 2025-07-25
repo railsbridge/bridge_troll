@@ -9,7 +9,7 @@ module DeviseOverrides
         auth_args = { provider: omniauth['provider'], uid: omniauth['uid'].to_s }
         auth = current_user.authentications.create(auth_args)
 
-        return(
+        return (
           if auth.persisted?
             redirect_to edit_user_registration_path, notice: "#{provider_name} authentication added."
           else

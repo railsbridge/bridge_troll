@@ -2,6 +2,7 @@
 
 class VolunteerPreference < ActiveHash::Base
   include ActiveHash::Enum
+
   self.data = [
     { id: 1, name: 'NEITHER', title: 'Non-teaching volunteer' },
     { id: 2, name: 'TEACHER', title: 'Teacher' },
