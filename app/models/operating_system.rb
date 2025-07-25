@@ -2,6 +2,7 @@
 
 class OperatingSystem < ActiveHash::Base
   include ActiveHash::Enum
+
   self.data = [
     {
       id: 15,

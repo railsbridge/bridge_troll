@@ -57,6 +57,7 @@ class Rsvp < ApplicationRecord
   end
 
   extend ActiveHash::Associations::ActiveRecordExtensions
+
   belongs_to_active_hash :role
   belongs_to_active_hash :volunteer_assignment
   belongs_to_active_hash :operating_system
