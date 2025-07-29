@@ -18,7 +18,7 @@ jobs:
           extraPullNames: devenv
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - name: Install devenv.sh
-        run: nix profile install nixpkgs#devenv
+        run: nix profile add nixpkgs#devenv
       # devenv cache includes bundle
       - name: Cache .devenv directory
         uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
@@ -38,13 +38,33 @@ jobs:
             ${{ runner.os }}-node_modules-
       # -i (impure) is necessary to pass CI env vars into devenv shell
       # I'm not sure why bundle install / yarn install are necessary, devenv shell should do this
-      - run: devenv shell -i bundle install
-      - run: devenv shell -i yarn install
-      - name: start postgres and set env to have rails use postgres
+      - name: Start and wait for postgres
         if: ${{ matrix.database == 'postgres' }}
+        timeout-minutes: 10
         run: |
           echo "FORCE_POSTGRES=1" >> $GITHUB_ENV;
-          devenv up --detach;
+          try_start_postgres() {
+            devenv up --detach || exit 1
+            for i in $(seq 1 5); do
+              pg_isready -h localhost -p 5432 -U postgres -q && return 0
+              echo "Waiting for postgres... ${i}s"
+              sleep 1
+            done
+            return 1
+          }
+
+          try_start_postgres && exit 0
+
+          echo "Postgres did not become ready. Retrying after cleanup..."
+          rm -rf .devenv
+
+          try_start_postgres && exit 0
+
+          echo "Postgres failed to start after retry."
+          cat .devenv/processes.log || echo "No process log found."
+          exit 1
+      - run: devenv shell -i bundle install
+      - run: devenv shell -i yarn install
       - run: devenv shell -i bin/rails db:setup
       - run: devenv shell -i bin/rake parallel:setup
       - run: devenv shell -i bin/rake
