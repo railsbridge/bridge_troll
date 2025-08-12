@@ -5,13 +5,13 @@
     "datatables.net": "1.10.22",
     "datatables.net-bs": "1.10.13",
     "markerclustererplus": "2.1.4",
-    "masonry-layout": "4.1.1",
-    "select2": "4.0.3"
+    "masonry-layout": "4.2.2",
+    "select2": "4.1.0-rc.0"
   },
   "devDependencies": {
     "jasmine-browser-runner": "^3.0.0",
     "jasmine-core": "^5.7.1",
     "jasmine-jquery": "^2.1.1",
-    "sinon": "1.17.1"
+    "sinon": "19.0.0"
   }
 }
