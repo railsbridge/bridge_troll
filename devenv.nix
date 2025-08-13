@@ -4,9 +4,6 @@
   ...
 }:
 
-let
-  isCI = builtins.getEnv "CI" != "";
-in
 {
   packages = with pkgs; [
     git
@@ -45,7 +42,7 @@ in
   # it's ok because hooks are broken in CI anyways.
   #
   # If we have a dev that can't use hooks on linux we should change this conditional
-  git-hooks.hooks = lib.mkIf (!isCI) {
+  git-hooks.hooks = {
     shellcheck.enable = true;
     nixfmt-rfc-style.enable = true;
   };
