@@ -4,20 +4,18 @@
   ...
 }:
 
-let
-  isCI = builtins.getEnv "CI" != "";
-in
 {
   packages = with pkgs; [
     git
-    libyaml.dev # needed by psych / needed by rails
+    libyaml # required by psych
   ];
 
   # this is required by the pg gem on linux
-  env = lib.mkIf (isCI) {
+  env = lib.mkIf (pkgs.stdenv.isLinux) {
     LD_LIBRARY_PATH = lib.makeLibraryPath [
       pkgs.krb5
       pkgs.openldap
+      pkgs.libyaml # required by psych
     ];
   };
 
@@ -44,7 +42,7 @@ in
   # it's ok because hooks are broken in CI anyways.
   #
   # If we have a dev that can't use hooks on linux we should change this conditional
-  git-hooks.hooks = lib.mkIf (!isCI) {
+  git-hooks.hooks = {
     shellcheck.enable = true;
     nixfmt-rfc-style.enable = true;
   };

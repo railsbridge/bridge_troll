@@ -57,7 +57,7 @@ class AdminPagesController < ApplicationController
       SQL
       @region_user_counts ||= Region
                               .select("name, (#{regions_users_count}) as count")
-                              .order('count')
+                              .order(:count)
     end
 
     def spammers

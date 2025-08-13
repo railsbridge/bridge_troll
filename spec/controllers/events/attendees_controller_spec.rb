@@ -53,7 +53,7 @@ describe Events::AttendeesController do
         'Snake Snakeson',
         'Xylophone Xyson'
       ]
-      expect(csv_rows.map { |c| c['Name'] }).to eq(expected)
+      expect(csv_rows.pluck('Name')).to eq(expected)
     end
   end
 

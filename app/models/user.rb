@@ -51,7 +51,7 @@ class User < ApplicationRecord
 
   def self.not_assigned_as_organizer(event)
     where.not(id: event.organizers.pluck(:id))
-         .order('last_name asc, first_name asc, email asc')
+         .order(:last_name, :first_name, :email)
   end
 
   def full_name

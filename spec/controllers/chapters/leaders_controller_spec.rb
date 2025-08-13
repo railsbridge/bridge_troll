@@ -19,7 +19,7 @@ describe Chapters::LeadersController do
 
       get :potential, params: { chapter_id: chapter.id, q: 'Steve' }, format: :json
 
-      expect(JSON.parse(response.body).map { |u| u['id'] }).to eq([non_leader.id])
+      expect(JSON.parse(response.body).pluck('id')).to eq([non_leader.id])
     end
   end
 

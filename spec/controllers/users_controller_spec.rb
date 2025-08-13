@@ -32,7 +32,7 @@ describe UsersController do
       get :index, format: :json
       users = JSON.parse(response.body)['data']
       all_users = [user1, user2, user_no_rsvps, bridgetroll_user, logged_in_user]
-      expect(users.map { |u| u['global_id'] }).to match_array(all_users.map(&:to_global_id).map(&:to_s))
+      expect(users.pluck('global_id')).to match_array(all_users.map(&:to_global_id).map(&:to_s))
 
       all_users.each do |user|
         expect(response.body).to include(user.full_name)
@@ -53,7 +53,7 @@ describe UsersController do
     describe 'searching' do
       let(:ids_from_json) do
         proc do |response|
-          JSON.parse(response.body)['data'].map { |u| u['global_id'] }
+          JSON.parse(response.body)['data'].pluck('global_id')
         end
       end
 

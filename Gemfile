@@ -68,6 +68,7 @@ end
 
 group :test, :development do
   gem 'awesome_print'
+  gem 'brakeman', require: false
   gem 'byebug'
   gem 'dotenv-rails'
   gem 'parallel_tests'
