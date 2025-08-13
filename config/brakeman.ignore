@@ -1,0 +1,72 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "909c95a87814a8c5f0dc67b4ca3ab2760de3bff8bfd189db897a8fbe6835f6e2",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/controllers/events_controller.rb",
+      "line": 91,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => EventEditor.new(current_user, params).create.render, {})",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "EventsController",
+        "method": "create"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": "initial todos"
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "d7145e199b75428154b3e9f6227873e995ff14e5b8b21f8ab675d8fd98d50206",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/events/_form.html.erb",
+      "line": 369,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"Code of Conduct\", Event.find(params[:id]).code_of_conduct_url, :target => :blank, :id => \"coc_url\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "EventsController",
+          "method": "edit",
+          "line": 82,
+          "file": "app/controllers/events_controller.rb",
+          "rendered": {
+            "name": "events/edit",
+            "file": "app/views/events/edit.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "events/edit",
+          "line": 7,
+          "file": "app/views/events/edit.html.erb",
+          "rendered": {
+            "name": "events/_form",
+            "file": "app/views/events/_form.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "events/_form"
+      },
+      "user_input": "Event.find(params[:id]).code_of_conduct_url",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": "initial todos"
+    }
+  ],
+  "brakeman_version": "7.1.0"
+}

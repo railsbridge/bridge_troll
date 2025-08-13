@@ -104,6 +104,8 @@ GEM
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
+    brakeman (7.1.0)
+      racc
     builder (3.3.0)
     bullet (8.0.8)
       activesupport (>= 3.0.0)
@@ -600,6 +602,7 @@ DEPENDENCIES
   binding_of_caller
   bootsnap
   bootstrap-sass
+  brakeman
   bullet
   byebug
   capybara
