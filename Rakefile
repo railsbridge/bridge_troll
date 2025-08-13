@@ -19,7 +19,10 @@ if Rails.env.local?
     sh('bundle exec brakeman')
   end
 
-  multitask faster_default: %w[rubocop rspec_with_retries jasmine:ci brakeman]
+  # these two tasks cannot be run in parallel because there's contention over sprockets cache
+  task all_tests: %w[jasmine:ci rspec_with_retries]
+
+  multitask faster_default: %w[rubocop brakeman all_tests]
 
   # need to clear because the default task is already defined as a Task not a MultiTask
   task(:default).clear.enhance([:faster_default])
