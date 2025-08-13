@@ -36,8 +36,8 @@ jobs:
           key: ${{ runner.os }}-node_modules-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node_modules-
-      # -i (impure) is necessary to pass CI env vars into devenv shell
-      # I'm not sure why bundle install / yarn install are necessary, devenv shell should do this
+      - name: prime devenv
+        run: devenv shell -i echo 'hi'
       - name: Start and wait for postgres
         if: ${{ matrix.database == 'postgres' }}
         timeout-minutes: 10
@@ -63,6 +63,8 @@ jobs:
           echo "Postgres failed to start after retry."
           cat .devenv/processes.log || echo "No process log found."
           exit 1
+      # -i (impure) is necessary to pass CI env vars into devenv shell
+      # I'm not sure why bundle install / yarn install are necessary, devenv shell should do this
       - run: devenv shell -i bundle install
       - run: devenv shell -i yarn install
       - run: devenv shell -i bin/rails db:setup
