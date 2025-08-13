@@ -16,4 +16,8 @@ if Rails.env.local?
 
   Rake::Task['default'].clear
   task default: [:rubocop, :rspec_with_retries, 'jasmine:ci']
+  desc 'Run Brakeman'
+  task :brakeman do
+    sh('bundle exec brakeman')
+  end
 end
