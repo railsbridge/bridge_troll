@@ -454,7 +454,7 @@ describe Event do
       @checked_in.rsvp_sessions.find { |rs| rs.event_session_id = @last_session.id }.update_attribute(:checked_in, true)
       @not_checked_in = create(:student_rsvp, event: @event, waitlist_position: 2)
 
-      rsvp_ids = @event.rsvps_with_checkins.map { |r| r['id'] }
+      rsvp_ids = @event.rsvps_with_checkins.pluck('id')
       expect(rsvp_ids).to match_array([@rsvp1, @rsvp2, @rsvp3, @checked_in].map(&:id))
     end
   end

@@ -99,7 +99,7 @@ class Rsvp < ApplicationRecord
   end
 
   def selectable_sessions
-    sessions = event.event_sessions.order('starts_at ASC')
+    sessions = event.event_sessions.order(:starts_at)
     case role
     when Role::VOLUNTEER
       sessions

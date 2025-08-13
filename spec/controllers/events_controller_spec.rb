@@ -56,19 +56,19 @@ describe EventsController do
 
     it 'can render published past events as json' do
       get :index, params: { type: 'past' }, format: 'json'
-      result_titles = JSON.parse(response.body).map { |e| e['title'] }
+      result_titles = JSON.parse(response.body).pluck('title')
       expect(result_titles).to eq([past_event, past_external_event].map(&:title))
     end
 
     it 'can render all published events as json' do
       get :index, params: { type: 'all' }, format: 'json'
-      result_titles = JSON.parse(response.body).map { |e| e['title'] }
+      result_titles = JSON.parse(response.body).pluck('title')
       expect(result_titles).to eq([past_event, past_external_event, future_external_event, future_event].map(&:title))
     end
 
     it 'can render only upcoming published events as json' do
       get :index, params: { type: 'upcoming' }, format: 'json'
-      result_titles = JSON.parse(response.body).map { |e| e['title'] }
+      result_titles = JSON.parse(response.body).pluck('title')
       expect(result_titles).to eq([future_external_event, future_event].map(&:title))
     end
   end
@@ -78,7 +78,7 @@ describe EventsController do
 
     it 'can render without an event without a location' do
       get :index, format: :csv
-      result_titles = CSV.parse(response.body, headers: true).map(&:to_h).map { |e| e['title'] }
+      result_titles = CSV.parse(response.body, headers: true).map(&:to_h).pluck('title')
       expect(result_titles).to eq [event].map(&:title)
     end
   end

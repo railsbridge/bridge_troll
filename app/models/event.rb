@@ -66,7 +66,7 @@ class Event < ApplicationRecord
     has_many :legacy_organizers, through: :organizer_rsvps
   end
 
-  has_many :event_sessions, -> { order('ends_at ASC') }, dependent: :destroy, inverse_of: :event
+  has_many :event_sessions, -> { order(:ends_at) }, dependent: :destroy, inverse_of: :event
   accepts_nested_attributes_for :event_sessions, allow_destroy: true
 
   with_options(through: :rsvps, source: :survey) do
