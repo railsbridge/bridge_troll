@@ -8,17 +8,19 @@ let
   isCI = builtins.getEnv "CI" != "";
 in
 {
-  packages =
-    with pkgs;
-    [
-      git
-      libyaml
-    ]
-    # this is required by the pg gem on linux
-    ++ lib.optionals pkgs.stdenv.isLinux [
-      krb5
-      openldap
+  packages = with pkgs; [
+    git
+    libyaml # required by psych
+  ];
+
+  # this is required by the pg gem on linux
+  env = lib.mkIf (pkgs.stdenv.isLinux) {
+    LD_LIBRARY_PATH = lib.makeLibraryPath [
+      pkgs.krb5
+      pkgs.openldap
+      pkgs.libyaml # required by psych
     ];
+  };
 
   services.postgres = {
     enable = true;
