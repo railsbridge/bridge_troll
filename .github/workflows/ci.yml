@@ -25,7 +25,7 @@ jobs:
         id: devenv-cache
         with:
           path: .devenv
-          key: ${{ runner.os }}-devenv-${{ hashFiles('devenv.nix', 'devenv.lock', 'devenv.yaml', 'Gemfile.lock', 'yarn.lock', 'ruby-version', 'ruby-version', 'ruby-version', 'ruby-version', 'ruby-version', 'ruby-version', 'ruby-version', 'ruby-version') }}
+          key: ${{ runner.os }}-devenv-${{ hashFiles('devenv.nix', 'devenv.lock', 'devenv.yaml', 'Gemfile.lock', 'yarn.lock', '.ruby-version') }}
           restore-keys: |
             ${{ runner.os }}-devenv-
       - name: Cache node_modules directory
