@@ -188,7 +188,7 @@ GEM
     ffi (1.17.2-x86_64-linux-musl)
     font-awesome-rails (4.7.0.9)
       railties (>= 3.2, < 9.0)
-    geocoder (1.8.5)
+    geocoder (1.8.6)
       base64 (>= 0.1.0)
       csv (>= 3.0.0)
     globalid (1.2.1)
