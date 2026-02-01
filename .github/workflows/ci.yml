@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 #v5.0.0
       - uses: cachix/install-nix-action@456688f15bc354bef6d396e4a35f4f89d40bf2b7 #v31.8.2
-      - uses: cachix/cachix-action@0fc020193b5a1fa3ac4575aa3a7d3aa6a35435ad # v16
+      - uses: cachix/cachix-action@3ba601ff5bbb07c7220846facfa2cd81eeee15a1 # v16
         with:
           name: bridgetroll
           extraPullNames: devenv
